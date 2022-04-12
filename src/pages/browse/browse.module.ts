@@ -8,11 +8,13 @@ import { BrowseOrganizationComponent } from './browse-organization/browse-organi
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 @NgModule({
   declarations: [
     BrowseHomeComponent,
     BrowseWebServicesComponent,
-    BrowseOrganizationComponent
+    BrowseOrganizationComponent,
+    BrowseOrganizationItemComponent
   ],
   imports: [
     CommonModule,

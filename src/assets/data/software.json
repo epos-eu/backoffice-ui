@@ -1,0 +1,1689 @@
+[
+  {
+    "uid": "anthropogenic_hazards/software/CompletenessLevelApp",
+    "category": [
+      "epos:CollectivePropertiesOfSeismicityAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "To evaluate the magnitude of completeness Mc, defined as the lowest magnitude at which all seismic events in a selected space-time volume are recorded by a network. Mc is an essential prerequisite for most seismicity analyses.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A18"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Completeness Magnitude Estimation",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GDFTDSH",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "To estimate time-dependent values of seismic hazard parameters: the activity rate, the Gutenberg-Richter b-value, the return period and the exceedance probability for a prescribed area. The parameter values for the time moment t are estimated optionally either from events that occurred in dt time units preceding t, where dt is kept constant, or from n last events before t, where n is kept constant. Four magnitude distribution estimation methods are supported: maximum likelihood using the unbounded Gutenberg-Richter relation based model, maximum likelihood using the upper-bounded Gutenberg-Richter relation based model, unbounded non-parametric kernel estimation, upper-bounded non-parametric kernel estimation. The upper limit of magnitude distribution is evaluated using the Kijko-Sellevol generic formula.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A19"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Estimation of Source Parameters in Time-varying Production Parameters Geometry",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MultipletIdentification",
+    "category": [
+      "epos:EventDetectionAlgorithms"
+    ],
+    "contactPoint": [],
+    "description": "Detection of events by template matching. Template datasets (picked events) are correlated with the continuous seismic records to identify new events.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A48"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Template-matching based detection algorithm",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GeoresourceLengthAnalysisApp",
+    "category": [
+      "epos:EarthquakeInteractionsAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Anthropogenic seismicity rate and magnitude are analyzed using superposed epoch to extract mean field patterns that are more robust than a single serie. This application analyse aftershocks sequence in the 1-3L near field distances from the “reservoir”. L is a proxy for georesource dimension, being mine gallery width, reservoir length , etc... Input data are time series from seismicity catalogue. This application is important to quantify the mean field pattern of several aftershocks to be compared with regional tectonic patterns",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A42"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Earthquake interactions: Georesource scale",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/StressMaps",
+    "category": [
+      "epos:Visualizations"
+    ],
+    "contactPoint": [],
+    "description": "Interactively plot stress patterns associated with the hydraulic fracturing of a shale gas well.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A29"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Fracture Network Models – Mechanical Stresses",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/SignalDownload",
+    "category": [
+      "epos:SeismogramAnalysisTools"
+    ],
+    "contactPoint": [],
+    "description": "Application that downloads signals for a selected events",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A12"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Signal Download Tool",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MmaxEstimate",
+    "category": [
+      "epos:Visualizations"
+    ],
+    "contactPoint": [],
+    "description": "This application estimates an occurrence probability for an event of a given maximum magnitude over a period of time. It also estimates maximum possible magnitude from the size of the geo-resource reservoir, represented by the reservoir length (Grasso et al.2018), using M(Lr) relationship for earthquake (e.g. Wells Coppersmith 1994).",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A38"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Estimate of Maximum Possible Magnitude from Induced Deformation",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/FrontAdvanceVis",
+    "category": [
+      "epos:Visualizations"
+    ],
+    "contactPoint": [],
+    "description": "Application allowing for visualization of the activity changes in time relatively to the front location",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A04"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Seismic Activity with Front Advance",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MomentTensorInversion",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "The program performs inversion of amplitudes of longitudinal (P) and transversal (S) seismic waves as 3-component vectors into the mechanism of the seismic source in the description of unconstrained moment tensor (MT). As such, it allows describe general dipole sources including isotropic components: e.g., it is suitable to retrieve the parameters of both a shear dislocation common at foci of tectonic earthquakes (described as a double-couple, DC) and volumetric sources as tensile cracks or cavity implosions. It provides the MT error estimate: evaluates the data covariance matrix based on standard deviations of individual components of P and S motion. The application is designed preferentially for processing of seismic events induced by industrial activity (mining, hydro-fracture test in geothermal and oil wells etc.).",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A51"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Mechanism: Full Moment Tensor",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/Trmloc",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "Performs localization/re-localization of seismic events hypocenters",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A28"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Localization",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GMPEResidualsAnalysis",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "This step analyzes the residuals of the model (observed minus estimated values). Normality of residuals are investigated and suitable plots are shown. The outliers were shown and chosen one can be removed.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A49"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Ground Motion Prediction Equations: Residuals analysis",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/StationarityTestingApp",
+    "category": [
+      "epos:CollectivePropertiesOfSeismicityAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Performs the Anderson-Darling test to study the null hypothesis that the inter-event times of a given series of events are drawn from an exponential distribution, alternatively that they are drawn from a Weibull distribution.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A17"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Anderson-Darling test for exponentiality of inter-event time",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/BasicSSHApplication",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Estimates PDF and CDF of magnitudes assuming different models",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A25"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Source Size Distribution Functions / Stationary Hazard",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GMPEFinalModel",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "The final Model of the Ground Motion Prediction Equation is summarized with additional plots.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A13"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Ground Motion Prediction Equations: Final model analysis",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GMPEEqsCalc",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "To estimate ground motion prediction equation (GMPE). The GMPE relates ground motion parameters, usually amplitude parameters, to sets of independent variables representing the cause of the motion. The following independent variables could be taken into account: characteristic of the path, source and site. Moreover, the non-linearity of ground vibration propagation on short distances from the epicenter is supported by using 'h' as the common/fix depth so that the standard error of estimation is minimised. The final model is estimated using ordinary one-stage regression method in three steps, including the statistical and physical consistency of the model, estimation of the fixed depth (if it's chosen as a parameter) and residuals analysis.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A39"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Ground Motion Prediction Equations: GMPE calculation",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/SpectralAnalysis",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "P and S waves spectral levels and corner frequencies using Snoke alghorithm.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A26"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Spectral Analysis",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/BackProjection",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "This application implements a location procedure which allows imaging the distribution of seismic sources in both time and space. First, a characteristic function (CF; in this case, the STA/LTA ratio) is calculated at all the vertical-component seismograms from the selected stations. The user then define a volume likely containing the source(s), and a number of grid nodes along the two horizontal (NS-EW) and vertical coordinates for discretising this volume. For each grid node located at the arbitrary location (x,y,z), the predicted arrival times are calculated at all the stations, and the different CFs are time-shifted consequently. By stacking these time-shifted CFs one obtains a time-dependent Brightness function associated with that particular grid node. The procedure is iterated over all the grid nodes of the source volume; at the end of the process, the maximum (maxima) of the Brightness function will provide an estimate of the source location and origin time. The main advantage of this procedure is that it exploits waveform information (both arrival times and relative amplitudes) without the need of pre-assembled phase-picking data. The method, therefore, is particularly well-suited for emergent signals and/or for real-time applications. The technique has been largely inspired by the previous works from Kao and Shan (2004), Grigoli et al. (2013, 2014), Langet et al., (2014), to which the reader is referred for a more comprehensive description of the methodology.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A40"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Waveform-based seismic event location",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/ShearTensileCrackInversion",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "The program performs inversion of amplitudes of longitudinal (P) and transversal (S) seismic waves as 3-component vectors into the mechanism of the seismic source in the description of shear-tensile crack (STC).",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A52"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Mechanism: Shear-Tensile crack",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/TimeSeriesBuilder",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Allows to choose stationary time series based on given time vector",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A14"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Time Series Builder",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/StationaryTDSHFull",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "To estimate time-dependent values of seismic hazard parameters: the activity rate, the Gutenberg-Richter b-value, the return period and the exceedance probability for a prescribed area. The parameter values for the time moment t are estimated optionally either from events that occurred in dt time units preceding t, where dt is kept constant, or from n last events before t, where n is kept constant. Four magnitude distribution estimation methods are supported: maximum likelihood using the unbounded Gutenberg-Richter relation based model, maximum likelihood using the upper-bounded Gutenberg-Richter relation based model, unbounded non-parametric kernel estimation, upper-bounded non-parametric kernel estimation. The upper limit of magnitude distribution is evaluated using the Kijko-Sellevol generic formula.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A21"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Time Dependent Hazard in Selected Area",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/Merger",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "MERGER, a simulator for multi-hazard risk assessment in ExploRation/exploitation of GeoResources, is a tool for performing dynamic risk analyses using a bow-tie approach. The tool has been designed for solving fault trees (FT) and event trees (ET) linked in a bow-tie structure and using a Monte Carlo approach.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A41"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "MERGER: Dynamic risk analysis using a bow-tie approach",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/EffDropApp",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "Estimate of the scaling between total seismic moment and areal extent of earthquake cluster, which depends on the average stress drop released during the seismic sequence.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A36"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Effective Stress Drop Estimate",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GDFToVector",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Tool for converting a GDF file into a series of vectors that can be further used in other applications (e.g. Time Series Builder).",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A08"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "GDF to Vectors converter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MatsumuraTest",
+    "category": [
+      "epos:CollectivePropertiesOfSeismicityAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "A statistical test to express changes in seismicity patterns by means of an objective criterion. The Matsumura Test provides the parameter of Matsumura, value of the parameter in 5% and 95% percentile and the patterns classification as regular, completely random, and clustered.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A32"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Coefficient of Randomness",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MaxCredMag",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "This application uses the magnitude distribution and activity rate from calculated a seismic catalog to estimate the Maximum Credible Magnitude (MCM). The MCM for the time period of length T is the magnitude value whose mean return period is T. The MCM values are calculated for a series of periods of length values. Note: “Source size distribution functions/Stationary Hazard” application must be run before.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A23"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Stationary Hazard: Maximum Credible Magnitude",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/DoubleCoupleMomentTensorInversion",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "The program performs inversion of amplitudes of longitudinal (P) and transversal (S) seismic waves as 3-component vectors into the mechanism of the seismic source in the description of a double couple using a grid search across the full or a priori specified range of the fault-plane solution angles.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A45"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Mechanism: Shear slip",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MeanRetPeriod",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "This application uses the magnitude distribution and activity rate calculated from a seismic catalog to estimate the Mean Return Period (MRP). The MRP of magnitude M is the average elapsed time between the consecutive earthquakes of magnitude M. The MRPs are calculated for a series of magnitude values. Note: “Source size distribution functions/Stationary Hazard” application must be run before.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A24"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Stationary Hazard: Mean Return Period",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MsatsiPlot",
+    "category": [
+      "epos:StressFieldModeling"
+    ],
+    "contactPoint": [],
+    "description": "Evaluates stress axis orientation and relative stress magnitude by inverting focal mechanisms",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A30"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Stress Inversion",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/CatalogFilter",
+    "category": [
+      "epos:FilteringTools"
+    ],
+    "contactPoint": [],
+    "description": "This application performs selection of catalog data by filtering fields specified by the user. This can be by selecting a particular range/list of values from diverse catalog attributes, or interactively by the mapped events epicenters",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A06"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Catalog Filter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/TimeVaryingFullTDSH",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "To estimate time-dependent values of seismic hazard parameters: the activity rate, the Gutenberg-Richter b-value, the return period and the exceedance probability for a space window surrounding an advancing mining front. The parameter values for the time moment t are estimated optionally either from events that occurred in dt time units preceding t, where dt is kept constant, or from n last events before t, where n is kept constant, or from a time period during which the front advanced by a constant length dx. Four magnitude distribution estimation methods are supported: maximum likelihood using the unbounded Gutenberg-Richter relation based model, maximum likelihood using the upper- bounded Gutenberg-Richter relation based model, unbounded non-parametric kernel estimation, upper-bounded non-parametric kernel estimation. The upper limit of magnitude distribution is evaluated using the Kijko-Sellevol generic formula.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A20"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Time Dependent Hazard in Mining Front Surroundings",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MagnitudeConversionApp",
+    "category": [
+      "epos:CollectivePropertiesOfSeismicityAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Establishes empirical scaling relationships between different magnitude scales",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A16"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Magnitude conversion",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/PSRTest",
+    "category": [
+      "epos:CollectivePropertiesOfSeismicityAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Test for a time series stationarity testing",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A34"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Priestley-Subba Rao (PRS) Test",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/SeiscompOrder",
+    "category": [
+      "epos:SeismogramAnalysisTools"
+    ],
+    "contactPoint": [],
+    "description": "Application that allows for requesting parts of continuous waveforms for specific dates and stations. The preparation of the waveform is executed by Arclink-fetch.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A15"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Waveform Download Tool",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/EPISODE_BASIC_GMAPS_Visualization",
+    "category": [
+      "epos:Visualizations"
+    ],
+    "contactPoint": [],
+    "description": "Application allowing visualization of miscellaneous data related to episode",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A05"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Integrated Google Maps data visualization",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/FrontHistogramsVis",
+    "category": [
+      "epos:Visualizations"
+    ],
+    "contactPoint": [],
+    "description": "Application for drawing histograms and cumulative histograms of events count and seismic energy for selected bins, the width of which corresponds to a constant value of the mining front advance. Calculations are performed from the beginning of the excavation along the axis of the excavation",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A03"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Front Advance Histograms",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/CatalogToVector",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Tool for converting a Catalog into a series of vectors that can be further used in other applications (e.g. Time Series Builder).",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A07"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Catalog to Vectors converter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/FOCI_APP",
+    "category": [
+      "epos:SourceParameterEstimation"
+    ],
+    "contactPoint": [],
+    "description": "This application makes use the P-wave first arrivals from the waveforms recorded by the seismic stations and resolves seismic moment tensors using various decomposition schemes. Three moment tensors are calculated: unconstrained (full) moment tensor solution, deviatoric moment tensor solution (no volumetric change in the source), and double-couple moment tensor solution (no volumetric change in the source, no linear dipole). In addition to the moment tensor components various source parameters are calculated as well (fault plane solutions, P/T/B axes orientation, scalar seismic moment etc).",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A27"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "FOCI application",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/Crosscorrelation",
+    "category": [
+      "epos:CorrelationAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Cross-correlation of two time series",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A33"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Cross Correlation",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/SeedConverter",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Converts SEED volume (either fullSEED or miniSEED) to either SAC or ASCII",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A10"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Seed converter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/CatalogToAscii",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Application that transforms a seismic or ground motion catalog to ASCII format",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A50"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Catalog to ASCII converter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/CsvToCatalog",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Tool for conversion of a CSV file into a Catalog in EPISODES Platform format. The csv file should use ';' as delimiter, and should include header line with names of the columns.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A35"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "CSV to Catalog converter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/BasicVectorOperations",
+    "category": [
+      "epos:Dataprocessingapplications"
+    ],
+    "contactPoint": [],
+    "description": "Tool for performing simple predefined operations on a given double vector",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A37"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Basic Vector Operations",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/ExcProbMag",
+    "category": [
+      "epos:ProbabilisticSeismicHazardAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "This application uses the magnitude distribution and activity rate calculated from a seismic catalog to estimate the Exceedance Probability (EP). The EP of magnitude M in the time period of length T is the probability of an earthquake of magnitude M or greater to occur in T. The EP values are calculated optionally either for a fixed time period T and a series of magnitude values or for a fixed magnitude M and a series of period length values. Note: “Source size distribution functions/Stationary Hazard” application must be run before.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A22"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Stationary Hazard: Exceedance Probability",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GdfToCsv",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Exports a GDF MATLAB file as a CSV (comma-separated value) file",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A02"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "GDF to CSV converter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/GMParametersBuilder",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Joins a Seismic Catalog and a GM Catalog into a joined catalog",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A09"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Ground Motion Parameters Catalog builder",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/Autocorrelation",
+    "category": [
+      "epos:CorrelationAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Autocorrelation of a time series",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A31"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Autocorrelation",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/SeismogramPicks",
+    "category": [
+      "epos:SeismogramAnalysisTools"
+    ],
+    "contactPoint": [],
+    "description": "Performs selection of phases and picks on seismograms",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A11"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Seismogram Picking Tool",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/EarthquakeReshufflingAnalysisApp",
+    "category": [
+      "epos:EarthquakeInteractionsAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Anthropogenic seismicity rate and magnitude are tested against non correlated series with the same number of data. It is achieved by 'reshuffling' the data. It is a robust way to check how significant is the variability over time of anthropogenic seismicity. Input data are time series from seismicity catalogue. This application is important to quantify the robustness of observed seismicity pattern against random fluctuations of the same size system Outputs are observed and reshuffled time series.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A44"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Earthquake interactions: Earthquake swarm / reshuffling analysis",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/MagnitudinalLengthAnalysisApp",
+    "category": [
+      "epos:EarthquakeInteractionsAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Anthropogenic seismicity rate and magnitude are analyzed using superposed epochs to extract mean field patterns that are more robust than a single serie. This application analyse aftershocks sequence in the 1-3L near field distances, L being the Fault length for the earthquake mainshocks. Input data are time series from seismicity catalogue. This application is important to quantify the mean field pattern of aftershock production to be compared with regional tectonic patterns",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A43"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Earthquake interactions: Mainshock scale",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/CatalogToXls",
+    "category": [
+      "epos:Converters"
+    ],
+    "contactPoint": [],
+    "description": "Exports a Catalog MATLAB file as a spreadsheet file (in XLSX format)",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A01"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Catalog to XLS converter",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/SeasonalTrendApp",
+    "category": [
+      "epos:EarthquakeInteractionsAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Test of of Number, space, and Magnitude pattern against reshuffled distribution in time e.g daily patterns for mine induced seismicity or monthly pattern for reservoir induced seismicity. The test aims to quantify how “seasonal” patterns remain uniform over time and to accept or to reject the uniform pattern under a given confidence level. Allows to capture anthropogenic trends in time pattern that correspond to geo-resource production type. It allows to extract time relationship to production patterns and departure from uniform tectonic seismicity background. Input data are time series from seismicity catalogue. Outputs are time series tested against reshuffled series .",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A46"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Earthquake interactions: Time correlated earthquakes (Seasonal trends)",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "anthropogenic_hazards/software/StressChanges",
+    "category": [
+      "epos:CollectivePropertiesOfSeismicityAnalysis"
+    ],
+    "contactPoint": [],
+    "description": "Prediction of the temperature and Coulomb stress changes in a deep reservoir with hydro-thermal circulation and thermo-poro-elastic effects. Methodology: 2D THM model (code_Aster, open source), gmsh, gnuplot, python.",
+    "downloadURL": null,
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP14-DDSS-A47"
+      }
+    ],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntityOfPage": null,
+    "name": "Stress and strain changes induced by fluid injection and temperature change driven by geothermal injection",
+    "parameter": [],
+    "relation": [],
+    "requirements": null,
+    "softwareVersion": "1.0",
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/AHEpisodes",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "anthropogenic_hazards/webservice/is-epos_platform/episodes"
+    ],
+    "requirements": "Java-Reflection;ah-episodes-plugin/target/;WP14_Episode-0.0.1-jar-with-dependencies.jar;org.epos.ahepisodes.core.AHEpisodesInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "AHEpisodesPlugin.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/AHListOfApplications",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.table.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "anthropogenic_hazards/webservice/is-epos_platform/apps"
+    ],
+    "requirements": "Java-Reflection;ah-list-of-applications-plugin/target/;WP14_List_of_applications-0.0.1-jar-with-dependencies.jar;org.epos.ahapplications.core.AHApplicationsInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "AHListOfApplicationsPlugin.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/AHEpisodeElements",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/THORESBY_COLLIERY",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/GAZLI",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/THE_GEYSERS",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/THE_GEYSERS_Prati_9_and_Prati_29_cluster",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/GRONINGEN_FIELD",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/LUBOCINO",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/MONTEYNARD",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/GISOS-CERVILLE",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/OK",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/USCB",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/WYSIN",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/GS",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/LGF",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/PREESE_HALL",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/SSFS2003",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/SSFS2000",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/SSFS1993",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/SSFS2004",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/SSFS2005",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/VDF",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/LGCD",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/NORTHWICH",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/PYHASALMI_MINE",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/BOBREK",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/CZORSZTYN",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/COTTON_VALLEY",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/SG",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/SONG_TRANH",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/STARFISH",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/VOUGLANS",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/VD",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/ASFORDBY",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/COOPER_BASIN",
+      "anthropogenic_hazards/webservice/is-epos_platform/episode-elements/PREESALL_MINE"
+    ],
+    "requirements": "Java-Reflection;ah-episodes-elements-plugin/target/;WP14_Episode_elements-0.0.1-jar-with-dependencies.jar;org.epos.ahepisodes.core.AHEpisodesInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "AHEpisodesElementsPlugin.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/SATDoverlay",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/WRAPPED_INTERFEROGRAM/Operation/Search",
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/MAP_OF_LOS_VECTOR/Operation/Search",
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/SPATIAL_COHERENCE/Operation/Search",
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/DEM_RADAR_GEOMETRY/Operation/Search",
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/UNWRAPPED_INTERFEROGRAM/Operation/Search",
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/INTERFEROGRAM_APS_GLOBAL_MODEL/Operation/Search",
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/LOOKUP_TABLE_RADAR2GROUD_COORDINATES/Operation/Search",
+      "https://catalog.terradue.com/gep-epos/SatelliteObservations/WebService/LOS_DISPLACEMENT_TIMESERIES/Operation/Search"
+    ],
+    "requirements": "Java-Reflection;satd-plugin/target/;SATDPlugin-0.0.1-jar-with-dependencies.jar;org.epos.satellite.core.SATDInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "SATDPlugin.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/MSLTable",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      },
+      {
+        "encodingFormat": "application/epos.table.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      }
+    ],
+    "relation": [
+      "https://www.epos-eu.org/multi-scale-laboratories/WebService/003/Operation/003",
+      "https://www.epos-eu.org/multi-scale-laboratories/WebService/006/Operation/006",
+      "https://www.epos-eu.org/multi-scale-laboratories/WebService/002/Operation/002"
+    ],
+    "requirements": "Java-Reflection;msl-plugin/target/;WP16_MSLPlugin-0.0.1-jar-with-dependencies.jar;org.epos.msl.core.MSLInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "MSLPlugin.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/StationXML",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/xml",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/KOERI/SEISMIC_STATION/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/CRL/geophysics/WebService/002/Operation/002/RESIF",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/008/Operation/008/FEDERATOR",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/TABOO/SEISMIC_STATION/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/LMU",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/NIEP/INFRASOUND_STATION/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/CRL/WebService/002/Operation/002/RESIF",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/NOA",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/ICGC",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/ODC",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/CRL/WebService/002/Operation/002/NOA",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/RESIF",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/INGV",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/KOERI",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/UIB",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/irpinia/station/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/SED",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/NIEP/SEISMIC_STATION/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/BGR",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/GFZ",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/002/Operation/002/NIEP",
+      "https://radon.infp.ro/epos-dcat-ap/NearFaultObjservatory/NIEP/RADON_STATIONS/Webservice/001/Operation/001"
+    ],
+    "requirements": "Java-Reflection;stationxml-plugin/target/;StationXML-0.0.1-jar-with-dependencies.jar;org.epos.stationxml.core.StationXMLInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "StationXMLPlugin.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/QuakeML",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/xml",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/AHEAD/restful/fdsnws-event/Operation",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/irpinia/event/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/NIEP/HistEQ/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/CRL/HistEQ/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/TABOO/Event/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/WebService/AHEAD/restful/macroseismic/Operation",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/CRL/event/Webservice/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/irpinia/HistEQ/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/Dataset/003/EMSC/operation",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/TABOO/HistEQ/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/IMO/HistEQ/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/SED/HistEQ/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/KOERI/HistEQ/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/NearFaultObservatory/NIEP/Event/WebService/001/Operation/001",
+      "https://www.epos-eu.org/epos-dcat-ap/Seismology/Dataset/001/EMSC/operation"
+    ],
+    "requirements": "Java-Reflection;quakeml-plugin/target/;QuakeML-0.0.1-jar-with-dependencies.jar;org.epos.quakeml.core.QuakeMLInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "QuakeMLPlugin.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/VOLInterferogram",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "INTERFEROGRAMS/INGV/DDSS-050/operation"
+    ],
+    "requirements": "Java-Reflection;vol-interferograms-plugin/target/;VOLInterferogram-0.0.1-jar-with-dependencies.jar;org.epos.volinterferogram.core.VOLInterferogramInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "VOLInterferogram.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/VOLProjects",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/epos.table.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      },
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      }
+    ],
+    "relation": [
+      "Software/operation"
+    ],
+    "requirements": "Java-Reflection;vol-projects-plugin/target/;VOLProjects-0.0.1-jar-with-dependencies.jar;org.epos.volprojects.core.VOLProjectsInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "VOLProjects.ttl"
+  },
+  {
+    "uid": "Plugin/SoftwareApplication/VOLReports",
+    "category": [],
+    "contactPoint": [],
+    "description": null,
+    "downloadURL": null,
+    "identifier": [],
+    "installURL": null,
+    "keywords": null,
+    "licenseURL": null,
+    "mainEntityOfPage": null,
+    "name": null,
+    "parameter": [
+      {
+        "encodingFormat": "application/json",
+        "conformsTo": null,
+        "action": "OBJECT"
+      },
+      {
+        "encodingFormat": "application/epos.table.geo+json",
+        "conformsTo": null,
+        "action": "RESULT"
+      }
+    ],
+    "relation": [
+      "REPORTS/INGV/DDSS-031/operation"
+    ],
+    "requirements": "Java-Reflection;vol-weekly-reports-plugin/target/;VOLReports-0.0.1-jar-with-dependencies.jar;org.epos.volreports.core.VOLReportsInvoker",
+    "softwareVersion": null,
+    "fileProvenance": "VOLReports.ttl"
+  }
+]

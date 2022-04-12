@@ -1,0 +1,2566 @@
+[
+  {
+    "uid": "https://www.researchgate.net/profile/Konstantinos_Boukouras/contactPoint",
+    "email": [
+      "kbouk@noa.gr"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "https://www.researchgate.net/profile/Konstantinos_Boukouras",
+    "telephone": [],
+    "fileProvenance": "WP08-NOA.ttl"
+  },
+  {
+    "uid": "https://www.epos-eu.org/epos-dcat-ap/Seismology/Facility/AHEAD/contactPoint",
+    "email": [
+      "mario.locati@ingv.it"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "http://orcid.org/0000-0003-2185-3267",
+    "telephone": [],
+    "fileProvenance": "WP08-AHEAD_historical_earthquakes.ttl"
+  },
+  {
+    "uid": "PIC:999472675/financialContact",
+    "email": [
+      "segreteria.presidenza@ingv.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "https://orcid.org/0000-0002-8651-6387",
+    "telephone": [],
+    "fileProvenance": "WP08-AHEAD_historical_earthquakes.ttl"
+  },
+  {
+    "uid": "https://www.epos-eu.org/epos-dcat-ap/Seismology/Facility/AHEAD/scientificContact",
+    "email": [
+      "andrea.rovida@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-6147-9981",
+    "telephone": [],
+    "fileProvenance": "WP08-AHEAD_historical_earthquakes.ttl"
+  },
+  {
+    "uid": "PIC:999472675/legalContact",
+    "email": [
+      "segreteria.presidenza@ingv.it"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0002-8651-6387",
+    "telephone": [],
+    "fileProvenance": "WP08-AHEAD_historical_earthquakes.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3597-7615/legalContact",
+    "email": [
+      "president@noa.gr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0003-3597-7615",
+    "telephone": [],
+    "fileProvenance": "WP08-NOA.ttl"
+  },
+  {
+    "uid": "mailto:klaus.stammler@bgr.de/scientificContact",
+    "email": [
+      "klaus.stammler@bgr.de"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "mailto:klaus.stammler@bgr.de",
+    "telephone": [],
+    "fileProvenance": "WP08-BGR.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0001-6501-6853/contactPoint",
+    "email": [
+      "erichodon.muhire@bgr.de"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0001-6501-6853",
+    "telephone": [],
+    "fileProvenance": "WP08-BGR.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8733-8984/scientificContact",
+    "email": [
+      "cevan@noa.gr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-8733-8984",
+    "telephone": [],
+    "fileProvenance": "WP08-NOA.ttl"
+  },
+  {
+    "uid": "mailto:mathias.hoffmann@bgr.de/scientificContact",
+    "email": [
+      "mathias.hoffmann@bgr.de"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "mailto:mathias.hoffmann@bgr.de",
+    "telephone": [],
+    "fileProvenance": "WP08-BGR.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-1213-0828/scientificContact",
+    "email": [
+      "roberto.basili@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0002-1213-0828",
+    "telephone": [],
+    "fileProvenance": "WP08-EDSF.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-8651-6387/legalContact",
+    "email": [
+      "segreteria.presidenza@ingv.it"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0002-8651-6387",
+    "telephone": [],
+    "fileProvenance": "WP08-EDSF.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1208-9412/contactPoint",
+    "email": [
+      "roberto.vallone@ingv.it"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "https://orcid.org/0000-0003-1208-9412",
+    "telephone": [],
+    "fileProvenance": "WP08-EDSF.ttl"
+  },
+  {
+    "uid": "PIC:999844476/financialContact",
+    "email": [
+      "info@eucentre.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0001-7726-4619",
+    "telephone": [],
+    "fileProvenance": "WP08-EFEHR_exposure.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4011-0971/contactPoint",
+    "email": [
+      "triantafyl@noa.gr"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "http://orcid.org/0000-0002-4011-0971",
+    "telephone": [],
+    "fileProvenance": "WP08-NOA.ttl"
+  },
+  {
+    "uid": "https://www.epos-eu.org/epos-dcat-ap/Seismology/Facility/EFEHR/scientificContact",
+    "email": [
+      "helen.crowley@eucentre.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-1216-1245",
+    "telephone": [],
+    "fileProvenance": "WP08-EFEHR_exposure.ttl"
+  },
+  {
+    "uid": "https://www.epos-eu.org/epos-dcat-ap/Seismology/Facility/EFEHR/contactPoint",
+    "email": [
+      "helen.crowley@eucentre.it"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP08-EFEHR_exposure.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-1928-5056/contactPoint",
+    "email": [
+      "reinoud.sleeman@knmi.nl"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP08-ODC.ttl"
+  },
+  {
+    "uid": "PIC:999844476/legalContact",
+    "email": [
+      "info@eucentre.it"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0001-7726-4619",
+    "telephone": [],
+    "fileProvenance": "WP08-EFEHR_exposure.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-4312-580X/scientificContact",
+    "email": [
+      "lucia.luzi@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-4312-580X",
+    "telephone": [],
+    "fileProvenance": "WP08-ESM-flatfile-2018.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-7947-4281/scientificContact",
+    "email": [
+      "giovanni.lanzano@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-7947-4281",
+    "telephone": [],
+    "fileProvenance": "WP08-ESM-flatfile-2018.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2480-1999/scientificContact",
+    "email": [
+      "rodolfo.puglia@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-2480-1999",
+    "telephone": [],
+    "fileProvenance": "WP08-ESM-shakemap.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-1399-0379/scientificContact",
+    "email": [
+      "massimo.fares@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-1399-0379",
+    "telephone": [],
+    "fileProvenance": "WP08-INGV_Dataselect_station_ws_last.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8651-6387/legalContact",
+    "email": [
+      "segreteria.presidenza@ingv.it"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-8651-6387",
+    "telephone": [],
+    "fileProvenance": "WP08-INGV_Dataselect_station_ws_last.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-1928-5056/legalContact",
+    "email": [
+      "reinoud.sleeman@knmi.nl"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP08-ODC.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-1399-0379/contactPoint",
+    "email": [
+      "massimo.fares@ingv.it"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "http://orcid.org/0000-0002-1399-0379",
+    "telephone": [],
+    "fileProvenance": "WP08-INGV_Dataselect_station_ws_last.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-1399-0379/financialContact",
+    "email": [
+      "massimo.fares@ingv.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-1399-0379",
+    "telephone": [],
+    "fileProvenance": "WP08-INGV_Dataselect_station_ws_last.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3597-7615/financialContact",
+    "email": [
+      "president@noa.gr"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0003-3597-7615",
+    "telephone": [],
+    "fileProvenance": "WP08-NOA.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-1928-5056/scientificContact",
+    "email": [
+      "reinoud.sleeman@knmi.nl"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP08-ODC.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-1928-5056/financialContact",
+    "email": [
+      "reinoud.sleeman@knmi.nl"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP08-ODC.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4460-6325/legalContact",
+    "email": [
+      "contact@emsc-csem.org"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0002-4460-6325",
+    "telephone": [],
+    "fileProvenance": "WP8-EMSC-WebServices.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4460-6325/scientificContact",
+    "email": [
+      "contact@emsc-csem.org"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0002-4460-6325",
+    "telephone": [],
+    "fileProvenance": "WP8-EMSC-WebServices.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4460-6325/financialContact",
+    "email": [
+      "contact@emsc-csem.org"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "https://orcid.org/0000-0002-4460-6325",
+    "telephone": [],
+    "fileProvenance": "WP8-EMSC-WebServices.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0001-9993-4003/scientificContact",
+    "email": [],
+    "language": null,
+    "role": null,
+    "person": null,
+    "telephone": [],
+    "fileProvenance": null
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4460-6325/contactPoint",
+    "email": [
+      "contact@emsc-csem.org"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "https://orcid.org/0000-0002-4460-6325",
+    "telephone": [],
+    "fileProvenance": "WP8-EMSC-WebServices.ttl"
+  },
+  {
+    "uid": "mailto:marko.blau@gfz-potsdam.de/legalContact",
+    "email": [
+      "rechtsabteilung@gfz-potsdam.de"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "mailto:marko.blau@gfz-potsdam.de",
+    "telephone": [],
+    "fileProvenance": "WP8-GFZ-20180911.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-9993-4003/contactPoint",
+    "email": [
+      "javier@gfz-potsdam.de"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "http://orcid.org/0000-0001-9993-4003",
+    "telephone": [],
+    "fileProvenance": "WP8-GFZ-20180911.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-3580-651X/scientificContact",
+    "email": [
+      "lau@gfz-potsdam.de"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-3580-651X",
+    "telephone": [],
+    "fileProvenance": "WP8-GFZ-20180911.ttl"
+  },
+  {
+    "uid": "mailto:stephan.ott@gfz-potsdam.de/financialContact",
+    "email": [
+      "stephan.ott@gfz-potsdam.de"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "mailto:stephan.ott@gfz-potsdam.de",
+    "telephone": [],
+    "fileProvenance": "WP8-GFZ-20180911.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4088-1792/contactPoint",
+    "email": [],
+    "language": null,
+    "role": null,
+    "person": null,
+    "telephone": [],
+    "fileProvenance": null
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4088-1792/financialContact",
+    "email": [
+      "j.wassermann@lmu.de"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-4088-1792",
+    "telephone": [],
+    "fileProvenance": "WP8-LMU-20180914.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4088-1792/legalContact",
+    "email": [
+      "j.wassermann@lmu.de"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-4088-1792",
+    "telephone": [],
+    "fileProvenance": "WP8-LMU-20180914.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4088-1792/scientificContact",
+    "email": [],
+    "language": null,
+    "role": null,
+    "person": null,
+    "telephone": [],
+    "fileProvenance": null
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4088-1792/scientificContact",
+    "email": [
+      "j.wassermann@lmu.de"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-4088-1792",
+    "telephone": [],
+    "fileProvenance": "WP8-LMU-20180914.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-6247-0687/legalContact",
+    "email": [
+      "cristian.neagoe@infp.ro"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0002-6247-0687",
+    "telephone": [],
+    "fileProvenance": "WP8-NIEP-20180913.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-6247-0687/contactPoint",
+    "email": [
+      "cristian.neagoe@infp.ro"
+    ],
+    "language": "en",
+    "role": null,
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP8-NIEP-20180913.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-2936-8047/scientificContact",
+    "email": [
+      "Helle.Pedersen@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0003-2936-8047",
+    "telephone": [],
+    "fileProvenance": "WP8-RESIF-20180913.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-2447-7394/contactPoint",
+    "email": [
+      "datacenter@resif.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0002-2447-7394",
+    "telephone": [],
+    "fileProvenance": "WP8-RESIF-20180913.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1777-9172/legalContact",
+    "email": [
+      "Andrea.Walpersdorf@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0003-1777-9172",
+    "telephone": [],
+    "fileProvenance": "WP8-RESIF-20180913.ttl"
+  },
+  {
+    "uid": "orcid.org/0000-0001-8667-8549/contactPoint",
+    "email": [
+      "kaestli@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0001-8667-8549",
+    "telephone": [],
+    "fileProvenance": "WP8-hazardmaps.ttl"
+  },
+  {
+    "uid": "orcid.org/0000-0003-4086-8755/scientificContact",
+    "email": [
+      "laurentiu.danciu@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "orcid.org/0000-0003-4086-8755",
+    "telephone": [],
+    "fileProvenance": "WP8-hazardmaps.ttl"
+  },
+  {
+    "uid": "orcid.org/0000-0001-8667-8549/legalContact",
+    "email": [
+      "kaestli@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0001-8667-8549",
+    "telephone": [],
+    "fileProvenance": "WP8-hazardmaps.ttl"
+  },
+  {
+    "uid": "orcid.org/0000-0003-4086-8755/financialContact",
+    "email": [
+      "laurentiu.danciu@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "orcid.org/0000-0003-4086-8755",
+    "telephone": [],
+    "fileProvenance": "WP8-hazardmaps.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-3170-1048/scientificContact",
+    "email": [
+      "lars.ottemoller@uib.no"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-3170-1048",
+    "telephone": [],
+    "fileProvenance": "WP08-UIB-NORSAR.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-8057-7541/contactPoint",
+    "email": [
+      "jan.michalek@uib.no"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "https://orcid.org/0000-0002-8057-7541",
+    "telephone": [],
+    "fileProvenance": "WP08-UIB-NORSAR.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8667-8549/contactPoint",
+    "email": [
+      "kaestli@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "FEDERATOR-SED.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8667-8549/financialContact",
+    "email": [
+      "kaestli@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0001-8667-8549",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP08_SED_eida.ttl"
+  },
+  {
+    "uid": "ResearcherID:E-7067-2017/legalContact",
+    "email": [
+      "chaussidon@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "ResearcherID:E-7067-2017",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_STRAINMETERS_GEOPHYSICAL.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8626-2703/scientificContact",
+    "email": [
+      "john.clinton@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-8626-2703",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP08_SED_eida.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8667-8549/legalContact",
+    "email": [
+      "kaestli@sed.ethz.ch"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0001-8667-8549",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP08_SED_eida.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0001-5395-2388/scientificContact",
+    "email": [
+      "didem.samut@boun.edu.tr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0001-5395-2388",
+    "telephone": [],
+    "fileProvenance": "KOERI_19092020_full.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4888-3311/legalContact",
+    "email": [
+      "kalafato@boun.edu.tr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-4888-3311",
+    "telephone": [],
+    "fileProvenance": "KOERI_19092020_full.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-1721-7324/contactPoint",
+    "email": [
+      "gunesy@boun.edu.tr"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "https://orcid.org/0000-0002-1721-7324",
+    "telephone": [],
+    "fileProvenance": "KOERI_19092020_full.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0001-5435-462X/contactPoint",
+    "email": [
+      "mehmet.ozer@boun.edu.tr"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "https://orcid.org/0000-0001-5435-462X",
+    "telephone": [],
+    "fileProvenance": "KOERI_19092020_full.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1366-2479/contactPoint",
+    "email": [
+      "afacan@boun.edu.tr"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "https://orcid.org/0000-0003-1366-2479",
+    "telephone": [],
+    "fileProvenance": "KOERI_19092020_full.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0001-6900-4833/contactPoint",
+    "email": [
+      "joseantonio.jara@icgc.cat"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "https://orcid.org/0000-0001-6900-4833",
+    "telephone": [],
+    "fileProvenance": "WP08-ICGC.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0001-6900-4833/scientificContact",
+    "email": [
+      "joseantonio.jara@icgc.cat"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP08-ICGC.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1078-3419/scientificContact",
+    "email": [
+      "sophie.lambotte@unistra.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0003-1078-3419",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_EVENT.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-7080-183X/contactPoint",
+    "email": [
+      "semih.ergintav@boun.edu.tr"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "http://orcid.org/0000-0001-7080-183X",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_KOERI_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "mailto:binta.mesmacque@unistra.fr/financialContact",
+    "email": [
+      "binta.mesmacque@unistra.fr"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "mailto:binta.mesmacque@unistra.fr",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_EVENT.ttl"
+  },
+  {
+    "uid": "ResearcherID:E-7067-2017/scientificContact",
+    "email": [
+      "chaussidon@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "ResearcherID:E-7067-2017",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_STRAINMETERS_GEOPHYSICAL.ttl"
+  },
+  {
+    "uid": "mailto:marc.grunberg@unistra.fr/technicalContact",
+    "email": [
+      "marc.grunberg@unistra.fr"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "mailto:marc.grunberg@unistra.fr",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_EVENT.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-0186-7138/legalContact",
+    "email": [
+      "frederic.masson@unistra.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0002-0186-7138",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_EVENT.ttl"
+  },
+  {
+    "uid": "mailto:fabien.engels@unistra.fr/technicalContact",
+    "email": [
+      "fabien.engels@unistra.fr"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "mailto:fabien.engels@unistra.fr",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_EVENT.ttl"
+  },
+  {
+    "uid": "mailto:courgey@ipgp.fr/financialContact",
+    "email": [
+      "courgey@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "mailto:courgey@ipgp.fr",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_STRAINMETERS_GEOPHYSICAL.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-0186-7138/scientificContact",
+    "email": [
+      "frederic.masson@unistra.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0002-0186-7138",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_EVENT.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1078-3419/legalContact",
+    "email": [
+      "sophie.lambotte@unistra.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2185-3267/contactPoint",
+    "email": [
+      ""
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9697-6504/scientificContact",
+    "email": [
+      ""
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-9956-9971/contactPoint",
+    "email": [
+      "Catherine.Pequegnat@@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "https://orcid.org/0000-0002-9956-9971",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_STRAINMETERS_GEOPHYSICAL.ttl"
+  },
+  {
+    "uid": "ResearcherID:B-4828-2015/scientificContact",
+    "email": [
+      "bernard@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "ResearcherID:B-4828-2015",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_CRL_STRAINMETERS_GEOPHYSICAL.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-2588-8160/legalContact",
+    "email": [
+      "gaetano.festa@unina.it"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0002-2588-8160",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_IRPINIA_DATASELECT.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2431-1383/contactPoint",
+    "email": [
+      "mlmarius@yahoo.com"
+    ],
+    "language": "en",
+    "role": null,
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_NIEP_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-2588-8160/scientificContact",
+    "email": [
+      "gaetano.festa@unina.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0002-2588-8160",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_IRPINIA_DATASELECT.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2431-1383/legalContact",
+    "email": [
+      "mlmarius@yahoo.com"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_NIEP_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-2588-8160/financialContact",
+    "email": [
+      "gaetano.festa@unina.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "https://orcid.org/0000-0002-2588-8160",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_IRPINIA_DATASELECT.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2431-1383/scientificContact",
+    "email": [
+      "mlmarius@yahoo.com"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_NIEP_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4553-2380/technicalContact",
+    "email": [
+      "luca.elia@unina.it"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "https://orcid.org/0000-0002-4553-2380",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_IRPINIA_DATASELECT.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2431-1383/financialContact",
+    "email": [
+      "mlmarius@yahoo.com"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_NIEP_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-7080-183X/scientificContact",
+    "email": [
+      "semih.ergintav@boun.edu.tr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-7080-183X",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_KOERI_DATASELECT_STATIONS.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-2181-4471/contactPoint",
+    "email": [
+      "marmura@infp.ro"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0002-2181-4471",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_NIEP_RADON.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2658-1838/contactPoint",
+    "email": [
+      "vogfjord@vedur.is"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0003-2658-1838",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_SISZ_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2658-1838/scientificContact",
+    "email": [
+      "vogfjord@vedur.is"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-2658-1838",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_SISZ_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8608-4289/contactPoint",
+    "email": [
+      "ivano.carluccio@ingv.it"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "http://orcid.org/0000-0002-8608-4289",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_TABOO_CO2.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8651-6387/financialContact",
+    "email": [
+      "segreteria.presidenza@ingv.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-8651-6387",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_TABOO_CO2.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4130-5498/scientificContact",
+    "email": [
+      "antonio.caracausi@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-4130-5498",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_TABOO_CO2.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3489-7453/scientificContact",
+    "email": [
+      "raffaele.distefano@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-3489-7453",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_TABOO_DATASELECT_STATIONS.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2185-3267/scientificContact",
+    "email": [
+      "mario.locati@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_TABOO_HISTORICALEQ.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-6711-2264/scientificContact",
+    "email": [
+      "valentina.cannelli@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP09_TABOO_RADON.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-6492-3945/contactPoint",
+    "email": [
+      "c.bruyninx@oma.be"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0001-6492-3945",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0444-6240/contactPoint",
+    "email": [
+      "nicola.dagostino@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-0444-6240",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0444-6240/scientificContact",
+    "email": [
+      "nicola.dagostino@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-0444-6240",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2714-6555/financialContact",
+    "email": [
+      "ambrus.kenyeres@sgo-penc.hu"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0003-2714-6555",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-6492-3945/financialContact",
+    "email": [
+      "c.bruyninx@oma.be"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0001-6492-3945",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-3989-4625/financialContact",
+    "email": [
+      "tomasz.liwosz@pw.edu.pl"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-3989-4625",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9733-284X/financialContact",
+    "email": [
+      "rui@segal.ubi.pt"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-9733-284X",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2714-6555/contactPoint",
+    "email": [
+      "ambrus.kenyeres@sgo-penc.hu"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0003-2714-6555",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8803-6504/legalContact",
+    "email": [
+      "ageyertraver@gmail.com"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "CSIC-DDSS-056_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9733-284X/contactPoint",
+    "email": [
+      "rui@segal.ubi.pt"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-9733-284X",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9733-284X/scientificContact",
+    "email": [
+      "rui@segal.ubi.pt"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-9733-284X",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-04444-6240/scientificContact",
+    "email": [],
+    "language": null,
+    "role": null,
+    "person": null,
+    "telephone": [],
+    "fileProvenance": null
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9208-7136/financialContact",
+    "email": [
+      "anne.socquet@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-9208-7136",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-3989-4625/legalContact",
+    "email": [
+      "tomasz.liwosz@pw.edu.pl"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-3989-4625",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-3989-4625/contactPoint",
+    "email": [
+      "tomasz.liwosz@pw.edu.pl"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-3989-4625",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-6367-2168/contactPoint",
+    "email": [],
+    "language": null,
+    "role": null,
+    "person": null,
+    "telephone": [],
+    "fileProvenance": null
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-6492-3945/legalContact",
+    "email": [
+      "c.bruyninx@oma.be"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0001-6492-3945",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9733-284X/legalContact",
+    "email": [
+      "rui@segal.ubi.pt"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-9733-284X",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-3989-4625/scientificContact",
+    "email": [
+      "tomasz.liwosz@pw.edu.pl"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-3989-4625",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0444-6240/financialContact",
+    "email": [
+      "nicola.dagostino@ingv.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-0444-6240",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2714-6555/scientificContact",
+    "email": [
+      "ambrus.kenyeres@sgo-penc.hu"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-2714-6555",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2714-6555/legalContact",
+    "email": [
+      "ambrus.kenyeres@sgo-penc.hu"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0003-2714-6555",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0444-6240/legalContact",
+    "email": [
+      "nicola.dagostino@ingv.it"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-0444-6240",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9208-7136/scientificContact",
+    "email": [
+      "anne.socquet@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-9208-7136",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8887-2580/scientificContact",
+    "email": [
+      "cinzia.federico@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-036_update.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-6492-3945/scientificContact",
+    "email": [
+      "c.bruyninx@oma.be"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-6492-3945",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8803-6504/contactPoint",
+    "email": [
+      "ageyertraver@gmail.com"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-8803-6504",
+    "telephone": [],
+    "fileProvenance": "CSIC-DDSS-056_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9208-7136/contactPoint",
+    "email": [
+      "anne.socquet@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-9208-7136",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9208-7136/legalContact",
+    "email": [
+      "anne.socquet@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-9208-7136",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8803-6504/financialContact",
+    "email": [
+      "ageyertraver@gmail.com"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "CSIC-DDSS-056_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-6367-2168/scientificContact",
+    "email": [
+      "mathilde.vergnolle@geoazur.unice.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-6367-2168",
+    "telephone": [],
+    "fileProvenance": "WP10_2020-06-02.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8803-6504/scientificContact",
+    "email": [
+      "ageyertraver@gmail.com"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "CSIC-DDSS-056_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-5750-0872/scientificContact",
+    "email": [
+      "sara@vedur.is"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-5750-0872",
+    "telephone": [],
+    "fileProvenance": "IMO_WP11-DDSS-022_radar.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-5750-0872/contactPoint",
+    "email": [
+      "sara@vedur.is"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0001-5750-0872",
+    "telephone": [],
+    "fileProvenance": "IMO_WP11-DDSS-022_radar.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-8651-6387/financialContact",
+    "email": [
+      "segreteria.presidenza@ingv.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-031_092019.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0915-3711/contactPoint",
+    "email": [
+      "danilo.reitano@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0002-0915-3711",
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-036_update.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1732-870X/contactPoint",
+    "email": [
+      "lucia.cacciola@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0003-1732-870X",
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-031_092019.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-6663-5311/scientificContact",
+    "email": [
+      "tomaso.espostiongaro@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-070_092019.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-2744-0578/contactPoint",
+    "email": [
+      "salvatore.mangiagli@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0003-2744-0578",
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-031_092019.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-0435-7763/scientificContact",
+    "email": [
+      "rosanna.corsaro@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-031_092019.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-0915-3711/contactPoint",
+    "email": [
+      "danilo.reitano@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0002-0915-3711",
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-031_092019.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-6137-8806/scientificContact",
+    "email": [
+      "rosanna.corsaro@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0001-6137-8806",
+    "telephone": [],
+    "fileProvenance": "INGV_WP11-DDSS-036_update.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4518-3328/scientificContact",
+    "email": [
+      "p.labazuy@opgc.fr"
+    ],
+    "language": "fr",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-4518-3328",
+    "telephone": [],
+    "fileProvenance": "OPGC-WP11-DDSS-036_GAZVOLC_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-7635-1283/scientificContact",
+    "email": [
+      "dimuro@ipgp.fr"
+    ],
+    "language": "fr",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-7635-1283",
+    "telephone": [],
+    "fileProvenance": "OPGC-WP11-DDSS-036_GAZVOLC_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0108-5486/financialContact",
+    "email": [
+      "n.huret@opgc.fr"
+    ],
+    "language": "fr",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-0108-5486",
+    "telephone": [],
+    "fileProvenance": "OPGC-WP11-DDSS-036_GAZVOLC_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-8485-0154/contactPoint",
+    "email": [
+      "s.moune@uca.fr"
+    ],
+    "language": "fr",
+    "role": "manager",
+    "person": "http://orcid.org/0000-0002-8485-0154",
+    "telephone": [],
+    "fileProvenance": "OPGC-WP11-DDSS-036_GAZVOLC_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0108-5486/legalContact",
+    "email": [
+      "n.huret@opgc.fr"
+    ],
+    "language": "fr",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-0108-5486",
+    "telephone": [],
+    "fileProvenance": "OPGC-WP11-DDSS-036_GAZVOLC_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8720-7300/contactPoint",
+    "email": [
+      "m.gouhier@opgc.fr"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "http://orcid.org/0000-0001-8720-7300",
+    "telephone": [],
+    "fileProvenance": "OPGC-WP11-DDSS-047_HOTVOLC_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8293-1340/contactPoint",
+    "email": [
+      "f.donnadieu@opgc.fr"
+    ],
+    "language": "fr",
+    "role": "manager",
+    "person": "http://orcid.org/0000-0001-8293-1340",
+    "telephone": [],
+    "fileProvenance": "OPGC_WP11-DDSS-024_VOLDORAD_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-5066-5153/contactPoint",
+    "email": [
+      "lucia.gurioli@uca.fr"
+    ],
+    "language": "fr",
+    "role": "manager",
+    "person": "http://orcid.org/0000-0002-5066-5153",
+    "telephone": [],
+    "fileProvenance": "OPGC_WP11-DDSS-026_collection_rocks_new.ttl"
+  },
+  {
+    "uid": "http://www.researcherid.com/rid/O-8042-2014/contactPoint",
+    "email": [
+      "j.l.froger@opgc.fr"
+    ],
+    "language": "fr",
+    "role": "manager",
+    "person": "http://www.researcherid.com/rid/O-8042-2014",
+    "telephone": [],
+    "fileProvenance": "OPGC_WP11-DDSS-050_OI2_new.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0069-9144/contactPoint",
+    "email": [
+      "bgo@vedur.is"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-0069-9144",
+    "telephone": [],
+    "fileProvenance": "WP11_GNSS_stations_corrected_DDSS067.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0069-9144/scientificContact",
+    "email": [
+      "bgo@vedur.is"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-0069-9144",
+    "telephone": [],
+    "fileProvenance": "WP11_GNSS_stations_corrected_DDSS067.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-1090-900X/scientificContact",
+    "email": [
+      "ostanciaux@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-1090-900X",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-4011-0971/contactPoint",
+    "email": [
+      "triantafyl@noa.gr"
+    ],
+    "language": "en",
+    "role": null,
+    "person": "http://orcid.org/0000-0002-4011-0971",
+    "telephone": [],
+    "fileProvenance": "WP_11_NOA_DDSS001-2.ttl"
+  },
+  {
+    "uid": "researcherID:E-7067-2017/legalContact",
+    "email": [
+      "chaussidon@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "ResearcherID:E-7067-2017",
+    "telephone": [],
+    "fileProvenance": "WP11_IPGP_DDSS001-002.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-6874-786X/scientificContact",
+    "email": [
+      "jeanchristophe.komorowski@gmail.com"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0002-6874-786X",
+    "telephone": [],
+    "fileProvenance": "WP11_IPGP_DDSS001-002.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1458-4193/contactPoint",
+    "email": [
+      "saurel@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0003-1458-4193",
+    "telephone": [],
+    "fileProvenance": "WP11_IPGP_DDSS001-002.ttl"
+  },
+  {
+    "uid": "researcherID:E-7067-2017/scientificContact",
+    "email": [
+      "chaussidon@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "ResearcherID:E-7067-2017",
+    "telephone": [],
+    "fileProvenance": "WP11_IPGP_DDSS001-002.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-3039-2530/legalContact",
+    "email": [
+      "satriano@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "https://orcid.org/0000-0002-3039-2530",
+    "telephone": [],
+    "fileProvenance": "WP11_IPGP_DDSS005.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-1601-8718/contactPoint",
+    "email": [
+      "pardo@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0003-1601-8718",
+    "telephone": [],
+    "fileProvenance": "WP11_IPGP_DDSS005.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-3258-9975/scientificContact",
+    "email": [
+      "francesco.guglielmino@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0003-3258-9975",
+    "telephone": [],
+    "fileProvenance": "INGV_WP11_DDSS-050.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-7677-5158/financialContact",
+    "email": [
+      "awpt@bgs.ac.uk"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-7677-5158",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-003.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-2099-2241/scientificContact",
+    "email": [
+      "diament@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-2099-2241",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-2407-0076/legalContact",
+    "email": [
+      "vicyt@mat.ucm.es"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-2407-0076",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8338-5935/scientificContact",
+    "email": [
+      "t.j.wright@leeds.ac.uk"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-8338-5935",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-2099-2241/financialContact",
+    "email": [
+      "diament@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-2099-2241",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-7245-1551/financialContact",
+    "email": [
+      "manunta.m@irea.cnr.it"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-7245-1551",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-2407-0076/financialContact",
+    "email": [
+      "vicyt@mat.ucm.es"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-2407-0076",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9237-5218/scientificContact",
+    "email": [
+      "antonio_camacho@mat.ucm.es"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-9237-5218",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8338-5935/legalContact",
+    "email": [
+      "t.j.wright@leeds.ac.uk"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0001-8338-5935",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-7245-1551/legalContact",
+    "email": [
+      "manunta.m@irea.cnr.it"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-7245-1551",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8179-5949/scientificContact",
+    "email": [
+      "M.Lazecky@leeds.ac.uk"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0001-8179-5949",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-5600-5375/scientificContact",
+    "email": [
+      "maxim.smirnov@ltu.se"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-5600-5375",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8338-5935/financialContact",
+    "email": [
+      "t.j.wright@leeds.ac.uk"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0001-8338-5935",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-2099-2241/legalContact",
+    "email": [
+      "diament@ipgp.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-2099-2241",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-4244-6652/scientificContact",
+    "email": [
+      "a.hooper@leeds.ac.uk"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0003-4244-6652",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "mailto:petes@bgs.ac.uk/contactPoint",
+    "email": [
+      "petes@bgs.ac.uk"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:petes@bgs.ac.uk",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-003.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8555-6494/scientificContact",
+    "email": [
+      "casu.f@irea.cnr.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-8555-6494",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8793-1315/legalContact",
+    "email": [
+      "aude.chambodut@unistra.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0001-8793-1315",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-006.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-5745-3527/scientificContact",
+    "email": [
+      "jft@mat.ucm.es"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-5745-3527",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP12_v1.ttl"
+  },
+  {
+    "uid": "mailto:ari.viljanen@fmi.fi/legalContact",
+    "email": [
+      "ari.viljanen@fmi.fi"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "mailto:ari.viljanen@fmi.fi",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-002.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-7677-5158/scientificContact",
+    "email": [
+      "awpt@bgs.ac.uk"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0002-7677-5158",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-003.ttl"
+  },
+  {
+    "uid": "mailto:ari.viljanen@fmi.fi/contactPoint",
+    "email": [
+      "ari.viljanen@fmi.fi"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:ari.viljanen@fmi.fi",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-002.ttl"
+  },
+  {
+    "uid": "mailto:lasse.hakkinen@fmi.fi/contactPoint",
+    "email": [
+      "lasse.hakkinen@fmi.fi"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:lasse.hakkinen@fmi.fi",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-002.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-5600-5375/contactPoint",
+    "email": [
+      "maxim.smirnov@ltu.se"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-5600-5375",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl"
+  },
+  {
+    "uid": "mailto:ari.viljanen@fmi.fi/financialContact",
+    "email": [
+      "ari.viljanen@fmi.fi"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "mailto:ari.viljanen@fmi.fi",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-002.ttl"
+  },
+  {
+    "uid": "mailto:ari.viljanen@fmi.fi/scientificContact",
+    "email": [
+      "ari.viljanen@fmi.fi"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "mailto:ari.viljanen@fmi.fi",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-002.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-7677-5158/legalContact",
+    "email": [
+      "awpt@bgs.ac.uk"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-7677-5158",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-003.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-5600-5375/financialContact",
+    "email": [
+      "maxim.smirnov@ltu.se"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "http://orcid.org/0000-0002-5600-5375",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-5600-5375/legalContact",
+    "email": [
+      "maxim.smirnov@ltu.se"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "http://orcid.org/0000-0002-5600-5375",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8793-1315/scientificContact",
+    "email": [
+      "aude.chambodut@unistra.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "http://orcid.org/0000-0001-8793-1315",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-006.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8793-1315/contactPoint",
+    "email": [
+      "aude.chambodut@unistra.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0001-8793-1315",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-006.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-7677-5158/contactPoint",
+    "email": [
+      "awpt@bgs.ac.uk"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-7677-5158",
+    "telephone": [],
+    "fileProvenance": "EPOS-DCAT-AP_WP13_DDSS-012_IGRF.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-1076-615X/contactPoint",
+    "email": [
+      "kwiatek@gfz-potsdam.de"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0003-1076-615X",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-7153-5115/contactPoint",
+    "email": [
+      "E.N.Ruigrok@uu.nl"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0001-7153-5115",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-9824-7962/contactPoint",
+    "email": [
+      "j.kocot@cyfronet.pl"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0002-9824-7962",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-2915-1446/contactPoint",
+    "email": [
+      "gilberto.saccorotti@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "mailto:jouni.nevalainen@oulu.fi/contactPoint",
+    "email": [
+      "jouni.nevalainen@oulu.fi"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:jouni.nevalainen@oulu.fi",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-4017-4673/contactPoint",
+    "email": [
+      "Marc.Schaming@unistra.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0003-4017-4673",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-1831-8960/contactPoint",
+    "email": [
+      "baisch@q-con.de"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-1831-8960",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-8181-0758/contactPoint",
+    "email": [
+      "gmutke@gig.eu"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0001-8181-0758",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-5036-0958/contactPoint",
+    "email": [
+      "Andreas.Wuestefeld@norsar.no"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-5036-0958",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-0769-5277/contactPoint",
+    "email": [
+      "g.m.jones@keele.ac.uk"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-0769-5277",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "mailto:abror.karimov@univ-grenoble-alpes.fr/contactPoint",
+    "email": [
+      "abror.karimov@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:abror.karimov@univ-grenoble-alpes.fr",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0001-9196-8452/contactPoint",
+    "email": [
+      "alexander.garcia@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0001-9196-8452",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "contactGeologicUnitIndex/legalContact",
+    "email": [
+      "info@geo-zs.si"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "contactGeologicUnitIndex",
+    "telephone": [],
+    "fileProvenance": "GeologicalFeatureIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-4801-4888/contactPoint",
+    "email": [
+      "lizurek@igf.edu.pl"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-4801-4888",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "mailto:jannes-l.kinscher@ineris.fr/contactPoint",
+    "email": [
+      "jannes-l.kinscher@ineris.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:jannes-l.kinscher@ineris.fr",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "mailto:a_blanke@gfz-potsdam.de/contactPoint",
+    "email": [
+      "a_blanke@gfz-potsdam.de"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "contactGeologicUnitIndex/scientificContact",
+    "email": [
+      "info@geo-zs.si"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "contactGeologicUnitIndex",
+    "telephone": [],
+    "fileProvenance": "GeologicalFeatureIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "mailto:giangnv@igp-vast.vn/contactPoint",
+    "email": [
+      "giangnv@igp-vast.vn"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:giangnv@igp-vast.vn",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3844-5059/contactPoint",
+    "email": [
+      "pamela.roselli@ingv.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0003-3844-5059",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "mailto:Egill.Arni.Gudnason@isor.is/contactPoint",
+    "email": [
+      "Egill.Arni.Gudnason@isor.is"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:Egill.Arni.Gudnason@isor.is",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3560-988X/contactPoint",
+    "email": [
+      "o.a.lange@uu.nl"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "WP16-DDSS-002.ttl"
+  },
+  {
+    "uid": "mailto:m.sterzel@cyfronet.pl/contactPoint",
+    "email": [
+      "m.sterzel@cyfronet.pl"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:m.sterzel@cyfronet.pl",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9580-7864/contactPoint",
+    "email": [
+      "jean-robert.grasso@univ-grenoble-alpes.fr"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "http://orcid.org/0000-0002-9580-7864",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0001-8078-9416/contactPoint",
+    "email": [
+      "matteo.picozzi@unina.it"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "https://orcid.org/0000-0001-8078-9416",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0002-9205-190X/technicalContact",
+    "email": [
+      "l.samshuijzen@uu.nl"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "ORCID:0000-0002-9205-190X",
+    "telephone": [],
+    "fileProvenance": "WP16-DDSS-002.ttl"
+  },
+  {
+    "uid": "mailto:thomas.bloch@sgsw.ch/contactPoint",
+    "email": [
+      "thomas.bloch@sgsw.ch"
+    ],
+    "language": "en",
+    "role": "contactPoint",
+    "person": "mailto:thomas.bloch@sgsw.ch",
+    "telephone": [],
+    "fileProvenance": "WP14-metadata.ttl"
+  },
+  {
+    "uid": "mailto:contact-brgm@brgm.fr/financialContact",
+    "email": [
+      "contact-brgm@brgm.fr"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "mailto:contact-brgm@brgm.fr",
+    "telephone": [],
+    "fileProvenance": "3D_4D_ModelIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "mailto:contact-brgm@brgm.fr/scientificContact",
+    "email": [
+      "contact-brgm@brgm.fr"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "mailto:contact-brgm@brgm.fr",
+    "telephone": [],
+    "fileProvenance": "3D_4D_ModelIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "mailto:contact-brgm@brgm.fr/manager",
+    "email": [
+      "contact-brgm@brgm.fr"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "mailto:contact-brgm@brgm.fr",
+    "telephone": [],
+    "fileProvenance": "3D_4D_ModelIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "mailto:contact-brgm@brgm.fr/legalContact",
+    "email": [
+      "contact-brgm@brgm.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "mailto:contact-brgm@brgm.fr",
+    "telephone": [],
+    "fileProvenance": "3D_4D_ModelIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "contactBoreholeIndex/manager",
+    "email": [
+      "contact-brgm@brgm.fr"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "contactBoreholeIndex",
+    "telephone": [],
+    "fileProvenance": "BoreholeIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "contactBoreholeIndex/legalContact",
+    "email": [
+      "contact-brgm@brgm.fr"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "contactBoreholeIndex",
+    "telephone": [],
+    "fileProvenance": "BoreholeIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "contactBoreholeIndex/financialContact",
+    "email": [
+      "contact-brgm@brgm.fr"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "contactBoreholeIndex",
+    "telephone": [],
+    "fileProvenance": "BoreholeIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "contactGeologicUnitIndex/financialContact",
+    "email": [
+      "info@geo-zs.si"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "contactGeologicUnitIndex",
+    "telephone": [],
+    "fileProvenance": "GeologicalFeatureIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "contactGeologicUnitIndex/manager",
+    "email": [
+      "info@geo-zs.si"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": "contactGeologicUnitIndex",
+    "telephone": [],
+    "fileProvenance": "GeologicalFeatureIndex_WFS_WMS.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3560-988X/scientificContact",
+    "email": [
+      "o.a.lange@uu.nl"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "ORCID:0000-0003-3560-988X",
+    "telephone": [],
+    "fileProvenance": "WP16-DDSS-002.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3560-988X/legalContact",
+    "email": [
+      "o.a.lange@uu.nl"
+    ],
+    "language": "en",
+    "role": "legalContact",
+    "person": "ORCID:0000-0003-3560-988X",
+    "telephone": [],
+    "fileProvenance": "WP16-DDSS-002.ttl"
+  },
+  {
+    "uid": "http://orcid.org/0000-0003-3560-988X/financialContact",
+    "email": [
+      "o.a.lange@uu.nl"
+    ],
+    "language": "en",
+    "role": "financialContact",
+    "person": "ORCID:0000-0003-3560-988X",
+    "telephone": [],
+    "fileProvenance": "WP16-DDSS-002.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0003-4551-3339/scientificContact",
+    "email": [
+      "manuela.volpe@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0003-4551-3339",
+    "telephone": [],
+    "fileProvenance": "NEAMTHM18.ttl"
+  },
+  {
+    "uid": "https://orcid.org/0000-0002-1458-2131/scientificContact",
+    "email": [
+      "stefano.lorito@ingv.it"
+    ],
+    "language": "en",
+    "role": "scientificContact",
+    "person": "https://orcid.org/0000-0002-1458-2131",
+    "telephone": [],
+    "fileProvenance": "NEAMTHM18.ttl"
+  },
+  {
+    "uid": "sealevels-contact",
+    "email": [
+      "info@ioc-sealevelmonitoring.org"
+    ],
+    "language": "en",
+    "role": "manager",
+    "person": null,
+    "telephone": [],
+    "fileProvenance": "SLSMF.ttl"
+  }
+]
