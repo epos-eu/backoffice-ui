@@ -7,48 +7,48 @@
             <h4>Identifier</h4>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="20">
               <mat-label>Type</mat-label>
-              <input matInput placeholder="PIC">
+              <input matInput placeholder="PIC" [(ngModel)]="organization.identifier[0].type" name="type" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
 
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="75" class="mat-form-margin">
               <mat-label>Identifier</mat-label>
-              <input matInput placeholder="PIC:XXXXXXXXX">
+              <input matInput placeholder="PIC:XXXXXXXXX" [(ngModel)]="organization.identifier[0].identifier" name="identifier" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
 
             <h4>Properties</h4>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Legal Name</mat-label>
-              <input matInput>
+              <input matInput [(ngModel)]="organization.legalName" name="legalName" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Logo</mat-label>
-              <input matInput>
+              <input matInput [(ngModel)]="organization.logo" type="url" name="logo" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>E-mail</mat-label>
-              <input matInput>
+              <input matInput [(ngModel)]="organization.email" type="email" name="email" [ngModelOptions]="{standalone: true}"t>
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Telephone</mat-label>
-              <input matInput>
+              <input matInput [(ngModel)]="organization.telephone" type="tel" name="telephone" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
 
             <h4>Address</h4>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Street</mat-label>
-              <input matInput>
+              <input matInput [(ngModel)]="organization.address.street" name="street" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Locality</mat-label>
-              <input matInput>
+              <input matInput matInput [(ngModel)]="organization.address.locality" name="locality" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="20">
               <mat-label>Postal Code</mat-label>
-              <input matInput>
+              <input matInput matInput [(ngModel)]="organization.address.postalCode" name="postalCode" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="75" class="mat-form-margin">
               <mat-label>Country</mat-label>
-              <input matInput>
+              <input matInput matInput [(ngModel)]="organization.address.country" name="country" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
           </form>
         </mat-tab>

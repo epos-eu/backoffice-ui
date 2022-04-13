@@ -1,8 +1,12 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 import { lastValueFrom, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { RequestMethod } from "./requestMethod.enum";
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ApiCaller {
   private headers = new HttpHeaders();
 
@@ -44,12 +48,12 @@ export class ApiCaller {
         break;
     }
 
-    if (response != null) {
-      return lastValueFrom(response);
-    } else {
-      return this.getMockData(urlSegments ,queryParams);
-    }
+    response.subscribe({
+      next: () => { return lastValueFrom(response);;},
+      error: () => { return this.getMockData(urlSegments ,queryParams); }
+    })
 
+    return this.getMockData(urlSegments ,queryParams);
   }
 
   private getUrl(segments: string | Array<string>, baseUrl: string): string {
@@ -60,7 +64,7 @@ export class ApiCaller {
   }
 
   private getMockData(urlSegments: string | Array<string>, options: any): Promise<unknown> {
-    const url = this.getUrl(urlSegments, this.mockUrl);
+    const url = this.getUrl(urlSegments, this.mockUrl) + ".json";
     return lastValueFrom(this.http.get(url, options));
   }
 }

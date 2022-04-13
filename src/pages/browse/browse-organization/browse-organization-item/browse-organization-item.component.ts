@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Organization } from '../../../../api/models/entities/organization.model';
 
 @Component({
@@ -16,14 +17,16 @@ export class BrowseOrganizationItemComponent implements OnInit {
 
   organization!: Organization;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private router: Router) {
     this.options = fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
     });
+   this.organization = this.router.getCurrentNavigation()?.extras.state as Organization;
   }
 
   ngOnInit(): void {
+    console.log(this.organization);
   }
 
 }
