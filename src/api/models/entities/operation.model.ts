@@ -1,4 +1,4 @@
-import { Mapping } from "../types/mapping.type";
+import { Mapping } from '../types/mapping.type';
 
 export class Operation {
   constructor(
@@ -7,6 +7,6 @@ export class Operation {
     public method: string,
     public returns: string[],
     public template: string,
-    public uid: string
+    public uid: string,
   ) {}
 }

@@ -1,4 +1,4 @@
 export type Identifier = {
-  "identifier": string,
-  "type": string
-}
+  identifier: string;
+  type: string;
+};

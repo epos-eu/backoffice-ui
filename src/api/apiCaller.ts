@@ -1,16 +1,16 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { lastValueFrom, Observable } from "rxjs";
-import { environment } from "src/environments/environment";
-import { RequestMethod } from "./requestMethod.enum";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { lastValueFrom, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { RequestMethod } from './requestMethod.enum';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiCaller {
   private headers = new HttpHeaders();
 
-  private apiUrl: string = 'http://ics-c.epos-ip.org/demo/k8s-epos-deploy/operational-testing/api/backoffice-service/v1';
+  private apiUrl = 'http://ics-c.epos-ip.org/demo/k8s-epos-deploy/operational-testing/api/backoffice-service/v1';
   private mockUrl: string = environment.server + '/assets/data';
 
   constructor(private http: HttpClient) {}
@@ -22,7 +22,6 @@ export class ApiCaller {
     bodyData: Record<string, unknown | FormData | Array<unknown>> = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
-
     const url = this.getUrl(urlSegments, this.apiUrl);
     const options = {
       headers: null != headerFilter ? headerFilter(this.headers) : this.headers,
@@ -49,11 +48,15 @@ export class ApiCaller {
     }
 
     response.subscribe({
-      next: () => { return lastValueFrom(response);;},
-      error: () => { return this.getMockData(urlSegments ,queryParams); }
-    })
+      next: () => {
+        return lastValueFrom(response);
+      },
+      error: () => {
+        return this.getMockData(urlSegments, queryParams);
+      },
+    });
 
-    return this.getMockData(urlSegments ,queryParams);
+    return this.getMockData(urlSegments, queryParams);
   }
 
   private getUrl(segments: string | Array<string>, baseUrl: string): string {
@@ -63,8 +66,9 @@ export class ApiCaller {
     return url;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getMockData(urlSegments: string | Array<string>, options: any): Promise<unknown> {
-    const url = this.getUrl(urlSegments, this.mockUrl) + ".json";
+    const url = this.getUrl(urlSegments, this.mockUrl) + '.json';
     return lastValueFrom(this.http.get(url, options));
   }
 }

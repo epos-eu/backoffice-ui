@@ -1,16 +1,15 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Organization } from '../../../../api/models/entities/organization.model';
 
 @Component({
   selector: 'app-browse-organization-item',
   templateUrl: './browse-organization-item.component.html',
   styleUrls: ['./browse-organization-item.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class BrowseOrganizationItemComponent implements OnInit {
-
   options: FormGroup;
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
@@ -22,11 +21,10 @@ export class BrowseOrganizationItemComponent implements OnInit {
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
     });
-   this.organization = this.router.getCurrentNavigation()?.extras.state as Organization;
+    this.organization = this.router.getCurrentNavigation()?.extras.state as Organization;
   }
 
   ngOnInit(): void {
     console.log(this.organization);
   }
-
 }

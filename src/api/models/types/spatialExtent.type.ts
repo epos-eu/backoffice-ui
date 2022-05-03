@@ -1,3 +1,3 @@
 export type SpatialExtent = {
-  "location": string,
-}
+  location: string;
+};

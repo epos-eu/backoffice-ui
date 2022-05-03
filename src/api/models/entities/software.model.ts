@@ -1,5 +1,5 @@
-import { Identifier } from "../types/identifier.type";
-import { Paramter } from "../types/paramter.type";
+import { Identifier } from '../types/identifier.type';
+import { Paramter } from '../types/paramter.type';
 
 export class Software {
   constructor(
@@ -18,6 +18,6 @@ export class Software {
     public relation: string[],
     public requirements: string,
     public softwareVersion: string,
-    public uid: string
+    public uid: string,
   ) {}
 }

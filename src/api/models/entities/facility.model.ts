@@ -1,5 +1,5 @@
-import { Address } from "../types/address.type";
-import { SpatialExtent } from "../types/spatialExtent.type";
+import { Address } from '../types/address.type';
+import { SpatialExtent } from '../types/spatialExtent.type';
 
 export class Facility {
   constructor(
@@ -14,6 +14,6 @@ export class Facility {
     public spatialExtent: SpatialExtent[],
     public title: string,
     public type: string,
-    public uid: string
+    public uid: string,
   ) {}
 }

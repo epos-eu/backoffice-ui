@@ -1,5 +1,5 @@
-import { SpatialExtent } from "../types/spatialExtent.type";
-import { TemporalExtent } from "../types/temporalExtent.type";
+import { SpatialExtent } from '../types/spatialExtent.type';
+import { TemporalExtent } from '../types/temporalExtent.type';
 
 export class Equipment {
   constructor(
@@ -21,6 +21,6 @@ export class Equipment {
     public spatialExtent: SpatialExtent[],
     public temporalExtent: TemporalExtent[],
     public type: string,
-    public uid: string
+    public uid: string,
   ) {}
 }

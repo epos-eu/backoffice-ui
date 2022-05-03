@@ -1,5 +1,5 @@
-import { Address } from "../types/address.type";
-import { Identifier } from "../types/identifier.type";
+import { Address } from '../types/address.type';
+import { Identifier } from '../types/identifier.type';
 
 export class Person {
   constructor(

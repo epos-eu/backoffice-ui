@@ -1,5 +1,6 @@
 export type Paramter = {
-  "action": Object,
-  "conformsTo": string,
-  "encodingFormat": string
-}
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  action: Object;
+  conformsTo: string;
+  encodingFormat: string;
+};

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  server: '/epos-back-office/'
+  server: '/epos-back-office/',
 };

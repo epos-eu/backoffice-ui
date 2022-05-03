@@ -1,5 +1,4 @@
 export class ContactPoint {
-
   constructor(
     public email: string[],
     public fileProvenance: string,
@@ -7,7 +6,6 @@ export class ContactPoint {
     public person: string,
     public role: string,
     public telephone: string[],
-    public uid: string
+    public uid: string,
   ) {}
-
 }

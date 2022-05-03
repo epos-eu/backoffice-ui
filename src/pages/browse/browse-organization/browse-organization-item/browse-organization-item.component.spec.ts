@@ -8,9 +8,8 @@ describe('BrowseOrganizationItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BrowseOrganizationItemComponent ]
-    })
-    .compileComponents();
+      declarations: [BrowseOrganizationItemComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
