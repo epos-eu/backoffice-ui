@@ -1,10 +1,10 @@
-## IDE Setup
-
-Install ESLint and Prettier
-
 # EposBackOffice
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.3.
+
+## IDE Setup
+
+Install ESLint and Prettier
 
 ## Development server
 
