@@ -7,21 +7,9 @@ import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { ImportNavigationComponent } from './import-navigation/import-navigation.component';
 
-
 @NgModule({
-  declarations: [
-    BrowseNavigationComponent,
-    ImportNavigationComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatIconModule,
-    MatListModule
-  ],
-  exports: [
-    BrowseNavigationComponent,
-    ImportNavigationComponent
-  ]
+  declarations: [BrowseNavigationComponent, ImportNavigationComponent],
+  imports: [CommonModule, RouterModule, MatIconModule, MatListModule],
+  exports: [BrowseNavigationComponent, ImportNavigationComponent],
 })
-export class SideNavigationModule { }
+export class SideNavigationModule {}

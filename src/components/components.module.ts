@@ -5,17 +5,14 @@ import { LayoutComponent } from './layout/layout.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { SideNavigationModule } from './side-navigation/side-navigation.module';
 
-
 @NgModule({
-  declarations: [
-    LayoutComponent,
-  ],
+  declarations: [LayoutComponent],
   imports: [
     RouterModule,
     CommonModule,
@@ -26,8 +23,6 @@ import { SideNavigationModule } from './side-navigation/side-navigation.module';
     MatToolbarModule,
     SideNavigationModule,
   ],
-  exports: [
-    LayoutComponent,
-  ]
+  exports: [LayoutComponent],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

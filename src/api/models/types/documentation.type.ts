@@ -1,5 +1,5 @@
 export type Documentation = {
-  "description": string,
-  "title": string,
-  "uri": string
-}
+  description: string;
+  title: string;
+  uri: string;
+};

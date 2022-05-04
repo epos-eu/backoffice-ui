@@ -1,5 +1,4 @@
 export class Distribution {
-
   constructor(
     public accessService: string,
     public accessURL: string[],
@@ -12,7 +11,6 @@ export class Distribution {
     public modified: string,
     public title: string[],
     public type: string,
-    public uid: string
+    public uid: string,
   ) {}
-
 }

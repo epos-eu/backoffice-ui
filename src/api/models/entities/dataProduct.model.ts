@@ -1,10 +1,8 @@
-import { Identifier } from "../types/identifier.type";
-import { SpatialExtent } from "../types/spatialExtent.type";
-import { TemporalExtent } from "../types/temporalExtent.type";
-
+import { Identifier } from '../types/identifier.type';
+import { SpatialExtent } from '../types/spatialExtent.type';
+import { TemporalExtent } from '../types/temporalExtent.type';
 
 export class DataProduct {
-
   constructor(
     public accessRight: string,
     public accrualPeriodicity: string,
@@ -28,6 +26,6 @@ export class DataProduct {
     public title: string[],
     public type: string,
     public versionInfo: string,
-    public uid: string
+    public uid: string,
   ) {}
 }

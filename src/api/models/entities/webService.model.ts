@@ -1,6 +1,6 @@
-import { Documentation } from "../types/documentation.type";
-import { SpatialExtent } from "../types/spatialExtent.type";
-import { TemporalExtent } from "../types/temporalExtent.type";
+import { Documentation } from '../types/documentation.type';
+import { SpatialExtent } from '../types/spatialExtent.type';
+import { TemporalExtent } from '../types/temporalExtent.type';
 
 export class WebService {
   constructor(
@@ -19,6 +19,6 @@ export class WebService {
     public spatialExtent: SpatialExtent[],
     public supportedOperation: string[],
     public temporalExtent: TemporalExtent[],
-    public uid: string
+    public uid: string,
   ) {}
 }
