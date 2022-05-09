@@ -4,6 +4,7 @@ import { LayoutComponent } from 'src/components/layout/layout.component';
 import { BrowseHomeComponent } from './browse-home/browse-home.component';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
+import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 
 const routes: Routes = [
@@ -15,7 +16,10 @@ const routes: Routes = [
   {
     path: 'web-services',
     component: LayoutComponent,
-    children: [{ path: '', component: BrowseWebServicesComponent }],
+    children: [
+      { path: '', component: BrowseWebServicesComponent },
+      { path: 'details/:id', component: BrowseWebServicesItemComponent },
+    ],
   },
   {
     path: 'organization',

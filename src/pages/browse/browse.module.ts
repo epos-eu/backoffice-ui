@@ -12,13 +12,20 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
+import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
+import { DialogComponent } from 'src/components/dialog/dialog.component';
 @NgModule({
   declarations: [
     BrowseHomeComponent,
     BrowseWebServicesComponent,
     BrowseOrganizationComponent,
     BrowseOrganizationItemComponent,
+    BrowseWebServicesItemComponent,
+    DialogComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +38,9 @@ import { BrowseOrganizationItemComponent } from './browse-organization/browse-or
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatDialogModule,
   ],
   exports: [],
   providers: [],

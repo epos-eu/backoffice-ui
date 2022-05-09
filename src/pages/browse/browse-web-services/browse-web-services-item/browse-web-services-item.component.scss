@@ -1,0 +1,25 @@
+h1 {
+  margin: 32px 0 32px 0;
+  font-weight: 500;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  margin-right: 30px;
+
+  .actions {
+    button {
+      margin-left: 1rem;
+    }
+  }
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 16px 0 0 0;
+}
