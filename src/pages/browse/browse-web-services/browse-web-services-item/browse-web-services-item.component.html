@@ -74,3 +74,22 @@
     </p>
   </ng-container>
 </div>
+
+<ng-template #actionDialog>
+  <h1 mat-dialog-title>
+    You are about to delete an item
+  </h1>
+  <div mat-dialog-content>
+    <p class="body-1">
+      Are you sure you want to continue?
+    </p>
+  </div>
+  <div mat-dialog-actions [align]="'end'">
+    <button mat-button>
+      Cancel
+    </button>
+    <button mat-flat-button color="warn">
+      Delete
+    </button>
+  </div>
+</ng-template>

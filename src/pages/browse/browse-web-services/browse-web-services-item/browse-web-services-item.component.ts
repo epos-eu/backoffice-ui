@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -19,6 +19,8 @@ export class BrowseWebServicesItemComponent implements OnInit {
   public floatLabelControl = new FormControl('auto');
   public webservice!: WebService;
   public editModeEnabled = false;
+
+  @ViewChild('actionDialog', { read: TemplateRef }) actionDialog!: TemplateRef<Element>;
 
   constructor(
     private fb: FormBuilder,
@@ -45,7 +47,7 @@ export class BrowseWebServicesItemComponent implements OnInit {
     // TODO: add Save method for DB operation
     // If successful
     this.snackBar.openFromComponent(SnackbarComponent, {
-      duration: 7000,
+      duration: 5000,
       data: {
         title: 'Item saved successfully',
         action: 'Close',
@@ -60,10 +62,7 @@ export class BrowseWebServicesItemComponent implements OnInit {
       height: '250px',
       width: '400px',
       data: {
-        title: "You're about to delete an item",
-        content: 'Are you sure you want to continue?',
-        actionConfirm: 'Delete',
-        actionCancel: 'Cancel',
+        content: this.actionDialog,
       },
       panelClass: 'custom-dialog',
     });

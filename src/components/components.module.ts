@@ -10,6 +10,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { SideNavigationModule } from './side-navigation/side-navigation.module';
+import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
   declarations: [LayoutComponent],
   imports: [
@@ -21,6 +23,7 @@ import { SideNavigationModule } from './side-navigation/side-navigation.module';
     MatSidenavModule,
     MatToolbarModule,
     SideNavigationModule,
+    MatDialogModule,
   ],
   exports: [LayoutComponent],
 })

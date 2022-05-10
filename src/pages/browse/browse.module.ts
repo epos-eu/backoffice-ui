@@ -20,6 +20,9 @@ import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web
 import { DialogComponent } from 'src/components/dialog/dialog.component';
 import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowseSoftwareComponent } from './browse-software/browse-software.component';
+import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowseWebServicesItemComponent,
     DialogComponent,
     SnackbarComponent,
+    BrowseSoftwareComponent,
+    BrowseDataProductsComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +51,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSlideToggleModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatIconModule,
   ],
   exports: [],
   providers: [],

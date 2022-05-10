@@ -4,10 +4,32 @@
 @import './styles/typography';
 @import './styles/dialog';
 @import './styles/snackbar';
+@import './styles/table';
 
 .container {
   margin-top: 10px;
   margin-left: 30px;
+
+  h1 {
+    &.mat-display-1 {
+      margin: 32px 0 32px 0;
+      font-weight: 500;
+    }
+  }
+
+  .top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    margin-right: 30px;
+
+    .actions {
+      button {
+        margin-left: 1rem;
+      }
+    }
+  }
 }
 
 .mat-toolbar.mat-primary {
