@@ -7,7 +7,7 @@
           [checked]="editModeEnabled">
           Edit mode
         </mat-slide-toggle>
-        <button mat-flat-button color="primary" [disabled]="!editModeEnabled">Save</button>
+        <button mat-flat-button color="primary" [disabled]="!editModeEnabled" (click)="handleSave()">Save</button>
         <button mat-stroked-button color="warn" [disabled]="!editModeEnabled" (click)="handleDelete()">Delete</button>
       </div>
     </div>
@@ -17,12 +17,13 @@
         <form>
           <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="47">
             <mat-label>Identifier</mat-label>
-            <input matInput placeholder="PIC" name="type" [value]="'Lorem ipsum'" [disabled]="!editModeEnabled">
+            <input matInput placeholder="PIC" name="type" [(ngModel)]="webservice.uid"
+              [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
           </mat-form-field>
           <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="47">
             <mat-label>Description</mat-label>
-            <textarea matInput [value]="webservice.description" name="description"
-              [disabled]="!editModeEnabled" [ngStyle]="{ 'line-height': '1.4' }"></textarea>
+            <textarea matInput [value]="webservice.description" name="description" [disabled]="!editModeEnabled"
+              [ngStyle]="{ 'line-height': '1.4' }"></textarea>
           </mat-form-field>
           <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="47">
             <mat-label>Title</mat-label>
@@ -59,10 +60,10 @@
         </form>
       </mat-tab>
       <mat-tab label="Webservice">
-        Web
+        Webservice
       </mat-tab>
       <mat-tab label="Operation">
-        Op
+        Operation
       </mat-tab>
     </mat-tab-group>
   </ng-container>

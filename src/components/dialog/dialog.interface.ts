@@ -1,5 +1,6 @@
 export interface IDialog {
   title: string;
   content: string;
-  actions: Array<string>;
+  actionConfirm: string;
+  actionCancel: string;
 }

@@ -1,7 +1,10 @@
 <h1 mat-dialog-title>{{ data['title'] }}</h1>
-<div mat-dialog-content>{{ data['content'] }}</div>
+<div mat-dialog-content>
+  <p class="body-1">{{ data['content'] }}</p>
+</div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close *ngFor="let action of data['actions']">
-    {{ action }}
+  <button mat-button (click)="handleCancel()">{{ data['actionCancel'] }}</button>
+  <button mat-flat-button color="warn" (click)="handleConfirm()">
+    {{ data['actionConfirm'] }}
   </button>
 </div>

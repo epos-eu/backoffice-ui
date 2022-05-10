@@ -18,6 +18,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { DialogComponent } from 'src/components/dialog/dialog.component';
+import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [
     BrowseHomeComponent,
@@ -26,6 +29,7 @@ import { DialogComponent } from 'src/components/dialog/dialog.component';
     BrowseOrganizationItemComponent,
     BrowseWebServicesItemComponent,
     DialogComponent,
+    SnackbarComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +45,7 @@ import { DialogComponent } from 'src/components/dialog/dialog.component';
     MatButtonModule,
     MatSlideToggleModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
   exports: [],
   providers: [],

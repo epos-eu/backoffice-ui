@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { WebService } from 'src/api/models/entities/webService.model';
 import { DialogComponent } from 'src/components/dialog/dialog.component';
+import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -18,7 +20,12 @@ export class BrowseWebServicesItemComponent implements OnInit {
   public webservice!: WebService;
   public editModeEnabled = false;
 
-  constructor(private fb: FormBuilder, private router: Router, public dialog: MatDialog) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+  ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
@@ -34,14 +41,36 @@ export class BrowseWebServicesItemComponent implements OnInit {
     this.editModeEnabled = event.checked;
   }
 
-  public handleDelete(): void {
-    console.log('Hit!');
-    this.dialog.open(DialogComponent, {
+  public handleSave() {
+    // TODO: add Save method for DB operation
+    // If successful
+    this.snackBar.openFromComponent(SnackbarComponent, {
+      duration: 7000,
       data: {
-        title: 'Confirm delete',
-        content: 'Are you sure you want to delete this item?',
-        actions: ['Confirm', 'Cancel'],
+        title: 'Item saved successfully',
+        action: 'Close',
+        success: true,
       },
+      panelClass: ['snackbar', 'mat-toolbar', 'snackbar-primary'],
+    });
+  }
+
+  public handleDelete(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      height: '250px',
+      width: '400px',
+      data: {
+        title: "You're about to delete an item",
+        content: 'Are you sure you want to continue?',
+        actionConfirm: 'Delete',
+        actionCancel: 'Cancel',
+      },
+      panelClass: 'custom-dialog',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirm') {
+        // TODO: add Delete method for DB operation
+      }
     });
   }
 

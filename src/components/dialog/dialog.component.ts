@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDialog } from './dialog.interface';
 
 @Component({
@@ -8,5 +8,17 @@ import { IDialog } from './dialog.interface';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: IDialog) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: IDialog, public dialogRef: MatDialogRef<DialogComponent>) {}
+
+  public handleCancel() {
+    this.handleClose('cancel');
+  }
+
+  public handleConfirm() {
+    this.handleClose('confirm');
+  }
+
+  public handleClose(button: 'cancel' | 'confirm') {
+    this.dialogRef.close(button);
+  }
 }
