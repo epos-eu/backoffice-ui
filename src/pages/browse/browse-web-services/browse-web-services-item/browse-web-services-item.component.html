@@ -84,11 +84,11 @@
       Are you sure you want to continue?
     </p>
   </div>
-  <div mat-dialog-actions [align]="'end'">
-    <button mat-button>
+  <div mat-dialog-actions>
+    <button mat-button (click)="handleCancel()">
       Cancel
     </button>
-    <button mat-flat-button color="warn">
+    <button mat-flat-button color="warn" (click)="handleConfirm()">
       Delete
     </button>
   </div>

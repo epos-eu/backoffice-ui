@@ -17,13 +17,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
-import { DialogComponent } from 'src/components/dialog/dialog.component';
 import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowseSoftwareComponent } from './browse-software/browse-software.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatDialogRef } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     BrowseHomeComponent,
@@ -31,7 +30,6 @@ import { MatIconModule } from '@angular/material/icon';
     BrowseOrganizationComponent,
     BrowseOrganizationItemComponent,
     BrowseWebServicesItemComponent,
-    DialogComponent,
     SnackbarComponent,
     BrowseSoftwareComponent,
     BrowseDataProductsComponent,
@@ -54,6 +52,11 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
   ],
   exports: [],
-  providers: [],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+  ],
 })
 export class BrowseModule {}

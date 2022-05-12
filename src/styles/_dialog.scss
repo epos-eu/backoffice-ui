@@ -3,26 +3,32 @@
     padding: 0;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    height: 100%;
 
-    h1 {
-      padding: 0 2rem;
-    }
+    app-dialog {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      height: 100%;
+      width: 100%;
 
-    .mat-dialog-content {
-      padding: 0 3.5rem;
-
-      p {
-        color: #515151;
-        font-family: 'Roboto Flex', sans-serif;
+      h1 {
+        padding: 0 2rem;
       }
-    }
 
-    .mat-dialog-actions {
-      padding: 1rem 2rem;
-      background: #EFEFEF;
+      .mat-dialog-content {
+        padding: 0 3.5rem;
+
+        p {
+          color: #515151;
+          font-family: 'Roboto Flex', sans-serif;
+        }
+      }
+
+      .mat-dialog-actions {
+        padding: 1rem 2rem;
+        background: #EFEFEF;
+        justify-content: flex-end;
+      }
     }
   }
 }

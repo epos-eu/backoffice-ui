@@ -1,11 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { DialogComponent } from 'src/components/dialog/dialog.component';
-import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
+import { Person } from 'src/api/models/entities/person.model';
+import { DialogService } from 'src/services/dialog.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { Organization } from '../../../../api/models/entities/organization.model';
 
 @Component({
@@ -20,10 +19,36 @@ export class BrowseOrganizationItemComponent implements OnInit {
   public floatLabelControl = new FormControl('auto');
   public editModeEnabled = false;
   public organization!: Organization;
+  public formData: Person = new Person(
+    {
+      country: 'France',
+      locality: '---',
+      postalCode: '90150',
+      street: '---',
+    },
+    ['NA'],
+    'NA',
+    ['test@example.com'],
+    'Smith',
+    'NA',
+    'John',
+    [
+      {
+        identifier: 'NA',
+        type: 'NA',
+      },
+    ],
+    ['Seismologist'],
+    ['00000 000 000'],
+    '001',
+  );
 
-  @ViewChild('addContactPoint', { read: TemplateRef }) addContactPoint!: TemplateRef<Element>;
-
-  constructor(fb: FormBuilder, private router: Router, public dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(
+    fb: FormBuilder,
+    private router: Router,
+    private dialogService: DialogService,
+    private snackbarService: SnackbarService,
+  ) {
     this.options = fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
@@ -39,45 +64,44 @@ export class BrowseOrganizationItemComponent implements OnInit {
     this.editModeEnabled = event.checked;
   }
 
-  public handleSave() {
+  public handleSave(): void {
     // TODO: add Save method for DB operation
-    this.snackBar.openFromComponent(SnackbarComponent, {
-      duration: 7000,
-      data: {
-        title: 'Item saved successfully',
-        action: 'Close',
-        success: true,
-      },
-      panelClass: ['snackbar', 'mat-toolbar', 'snackbar-primary'],
-    });
+    this.snackbarService.openSnackbar('Item saved successfully', 'Close', true, 4000, [
+      'snackbar',
+      'mat-toolbar',
+      'snackbar-primary',
+    ]);
   }
 
   public handleDelete(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      height: '250px',
-      width: '400px',
-      data: {
-        title: "You're about to delete an item",
-        content: 'Are you sure you want to continue?',
-        actionConfirm: 'Delete',
-        actionCancel: 'Cancel',
-      },
-      panelClass: 'custom-dialog',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'confirm') {
-        // TODO: add Delete method for DB operation
-      }
+    this.dialogService.openDialog('delete', 'custom-dialog');
+    this.dialogService.dialogStateObservable.subscribe((result) => {
+      console.log(result);
     });
   }
 
   public handleAdd(): void {
-    this.dialog.open(DialogComponent, {
-      height: '250px',
-      width: '400px',
-      data: {
-        content: this.addContactPoint,
+    this.dialogService.openDialog(
+      'form-add',
+      'custom-dialog',
+      {
+        width: '700px',
+        height: '800px',
       },
+      this.formData,
+    );
+    this.dialogService.dialogStateObservable.subscribe((result) => {
+      // TODO: save form data into DB
+      if (result) {
+        const person = result as unknown as Person;
+        this.snackbarService.openSnackbar(
+          `Added new person '${person.givenName} ${person.familyName}'`,
+          'Close',
+          true,
+          4000,
+          ['snackbar', 'mat-toolbar', 'snackbar-primary'],
+        );
+      }
     });
   }
 }

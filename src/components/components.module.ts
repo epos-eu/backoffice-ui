@@ -11,6 +11,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { SideNavigationModule } from './side-navigation/side-navigation.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [LayoutComponent],
@@ -24,6 +26,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatToolbarModule,
     SideNavigationModule,
     MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
   ],
   exports: [LayoutComponent],
 })

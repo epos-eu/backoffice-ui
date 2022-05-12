@@ -84,7 +84,14 @@
           <mat-label>Contact</mat-label>
           <input matInput [value]="organization['contactPoint'][i]" name="contactPoint" [disabled]="!editModeEnabled">
         </mat-form-field>
-        <button mat-raised-button color="primary" class="contact-add" (click)="handleAdd()">Add</button>
+        <button mat-raised-button color="primary" class="contact-add" (click)="handleAdd()"
+          [disabled]="!editModeEnabled">Add</button>
+
+        <h4 class="mat-subheading-2">
+          People
+        </h4>
+        <button mat-raised-button color="primary" class="person-add" (click)="handleAdd()"
+          [disabled]="!editModeEnabled">Add</button>
       </mat-tab>
     </mat-tab-group>
   </ng-container>
@@ -95,7 +102,3 @@
     </p>
   </ng-container>
 </div>
-
-<ng-template #addContactPoint>
-  <h1>Hello world!</h1>
-</ng-template>

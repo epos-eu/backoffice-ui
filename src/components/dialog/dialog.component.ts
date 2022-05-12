@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, Inject, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDialog } from './dialog.interface';
 
@@ -8,13 +8,11 @@ import { IDialog } from './dialog.interface';
   styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent implements AfterViewInit {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: IDialog,
-    public dialogRef: MatDialogRef<DialogComponent>,
-    private vref: ViewContainerRef,
-  ) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: IDialog, public dialogRef: MatDialogRef<DialogComponent>) {}
 
-  @ViewChild('htmlContent', { read: ViewContainerRef }) viewContainerRef!: ViewContainerRef;
+  @ViewChild('dialogContent', { read: ViewContainerRef }) dialogContent!: ViewContainerRef;
+  @ViewChild('deleteAction', { read: TemplateRef }) deleteAction!: TemplateRef<Element>;
+  @ViewChild('formAddAction', { read: TemplateRef }) formAddAction!: TemplateRef<any>;
 
   public handleCancel() {
     this.handleClose('cancel');
@@ -29,6 +27,15 @@ export class DialogComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.vref.createEmbeddedView(this.data.content);
+    switch (true) {
+      case this.data.type === 'delete':
+        this.dialogContent.createEmbeddedView(this.deleteAction);
+        break;
+      case this.data.type === 'form-add':
+        this.dialogContent.createEmbeddedView(this.formAddAction, {
+          person: this.data.content,
+        });
+        break;
+    }
   }
 }

@@ -1,12 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { WebService } from 'src/api/models/entities/webService.model';
-import { DialogComponent } from 'src/components/dialog/dialog.component';
-import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
+import { DialogService } from 'src/services/dialog.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -20,13 +18,11 @@ export class BrowseWebServicesItemComponent implements OnInit {
   public webservice!: WebService;
   public editModeEnabled = false;
 
-  @ViewChild('actionDialog', { read: TemplateRef }) actionDialog!: TemplateRef<Element>;
-
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar,
+    private dialogService: DialogService,
+    private snackbarService: SnackbarService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -36,6 +32,7 @@ export class BrowseWebServicesItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(typeof this.webservice);
     console.log(this.webservice);
   }
 
@@ -45,32 +42,28 @@ export class BrowseWebServicesItemComponent implements OnInit {
 
   public handleSave() {
     // TODO: add Save method for DB operation
-    // If successful
-    this.snackBar.openFromComponent(SnackbarComponent, {
-      duration: 5000,
-      data: {
-        title: 'Item saved successfully',
-        action: 'Close',
-        success: true,
-      },
-      panelClass: ['snackbar', 'mat-toolbar', 'snackbar-primary'],
-    });
+    this.snackbarService.openSnackbar('Item saved successfully', 'Close', true, 4000, [
+      'snackbar',
+      'mat-toolbar',
+      'snackbar-primary',
+    ]);
   }
 
   public handleDelete(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      height: '250px',
-      width: '400px',
-      data: {
-        content: this.actionDialog,
-      },
-      panelClass: 'custom-dialog',
-    });
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogService.openDialog('delete', 'custom-dialog');
+    this.dialogService.dialogStateObservable.subscribe((result) => {
       if (result === 'confirm') {
         // TODO: add Delete method for DB operation
       }
     });
+  }
+
+  public handleCancel(): void {
+    this.dialogService.handleCancel();
+  }
+
+  public handleConfirm(): void {
+    this.dialogService.handleConfirm();
   }
 
   public formatDate = (dateStr: string): string => {

@@ -1,0 +1,88 @@
+<ng-container #dialogContent></ng-container>
+
+<ng-template #deleteAction>
+  <h1 mat-dialog-title>
+    You're about to delete an item
+  </h1>
+  <div mat-dialog-content>
+    <p>Are you sure you want to continue?</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="handleCancel()">
+      Cancel
+    </button>
+    <button mat-flat-button color="warn" cdkFocusInitial (click)="handleConfirm()">
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #formAddAction let-person="person">
+  <h1 mat-dialog-title>
+    Add new person
+  </h1>
+  <div mat-dialog-content class="nice-scrollbar">
+    <form #newPersonForm>
+      <h4 class="mat-subheading-2">Identifier</h4>
+      <div class="inline-fields">
+        <mat-form-field appearance="outline" [style.width.%]="30">
+          <mat-label>Property ID</mat-label>
+          <input matInput [(ngModel)]="person.identifier[0].type" name="type" [ngModelOptions]="{ standalone: true }">
+        </mat-form-field>
+        <mat-form-field appearance="outline" [style.width.%]="60">
+          <mat-label>Value</mat-label>
+          <input matInput [(ngModel)]="person.identifier[0].identifier" name="identifier"
+            [ngModelOptions]="{ standalone: true }">
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Given name</mat-label>
+        <input matInput [(ngModel)]="person.givenName" name="givenName" [ngModelOptions]="{ standalone: true }">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Family name</mat-label>
+        <input matInput [(ngModel)]="person.familyName" name="familyName" [ngModelOptions]="{ standalone: true }">
+      </mat-form-field>
+
+      <h4 class="mat-subheading-2">Address</h4>
+      <mat-form-field appearance="outline">
+        <mat-label>Street</mat-label>
+        <input matInput [(ngModel)]="person.address.street" name="street" [ngModelOptions]="{ standalone: true }">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Locality</mat-label>
+        <input matInput [(ngModel)]="person.address.locality" name="locality" [ngModelOptions]="{ standalone: true }">
+      </mat-form-field>
+      <div class="inline-fields">
+        <mat-form-field appearance="outline" [style.width.%]="30">
+          <mat-label>Postal code</mat-label>
+          <input matInput [(ngModel)]="person.address.postalCode" name="postalCode"
+            [ngModelOptions]="{ standalone: true }">
+        </mat-form-field>
+        <mat-form-field appearance="outline" [style.width.%]="60">
+          <mat-label>Country</mat-label>
+          <input matInput [(ngModel)]="person.address.country" name="country" [ngModelOptions]="{ standalone: true }">
+        </mat-form-field>
+      </div>
+
+      <h4 class="mat-subheading-2">Info</h4>
+      <mat-form-field appearance="outline" *ngFor="let email of person.email; let i = index;">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="person.email[i]" name="email" [ngModelOptions]="{ standalone: true }">
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngFor="let qualification of person.qualifications; let i = index;">
+        <mat-label>Qualification</mat-label>
+        <input matInput [(ngModel)]="person.qualifications[i]" name="qualification"
+          [ngModelOptions]="{ standalone: true }">
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>
+      Cancel
+    </button>
+    <button mat-flat-button color="primary" cdkFocusInitial [mat-dialog-close]="person">
+      Add
+    </button>
+  </div>
+</ng-template>

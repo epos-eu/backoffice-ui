@@ -10,5 +10,10 @@
 button {
   &.contact-add {
     display: block;
+    margin-bottom: 1rem;
+  }
+
+  &.person-add {
+    margin-bottom: 1rem;
   }
 }
