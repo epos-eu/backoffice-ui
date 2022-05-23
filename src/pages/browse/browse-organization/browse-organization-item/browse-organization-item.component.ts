@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { Person } from 'src/api/models/entities/person.model';
+import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
+import { DialogFormComponent } from 'src/components/dialogs/dialog-form/dialog-form.component';
+import { initEmptyPersonObj } from 'src/helpers/person';
 import { DialogService } from 'src/services/dialog.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Organization } from '../../../../api/models/entities/organization.model';
@@ -13,35 +15,12 @@ import { Organization } from '../../../../api/models/entities/organization.model
   styleUrls: ['./browse-organization-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BrowseOrganizationItemComponent implements OnInit {
+export class BrowseOrganizationItemComponent {
   public options: FormGroup;
   public hideRequiredControl = new FormControl(false);
   public floatLabelControl = new FormControl('auto');
   public editModeEnabled = false;
   public organization!: Organization;
-  public formData: Person = new Person(
-    {
-      country: 'France',
-      locality: '---',
-      postalCode: '90150',
-      street: '---',
-    },
-    ['NA'],
-    'NA',
-    ['test@example.com'],
-    'Smith',
-    'NA',
-    'John',
-    [
-      {
-        identifier: 'NA',
-        type: 'NA',
-      },
-    ],
-    ['Seismologist'],
-    ['00000 000 000'],
-    '001',
-  );
 
   constructor(
     fb: FormBuilder,
@@ -54,10 +33,6 @@ export class BrowseOrganizationItemComponent implements OnInit {
       floatLabel: this.floatLabelControl,
     });
     this.organization = this.router.getCurrentNavigation()?.extras.state as Organization;
-  }
-
-  ngOnInit(): void {
-    console.log(this.organization);
   }
 
   public handleChange(event: MatSlideToggleChange): void {
@@ -74,33 +49,31 @@ export class BrowseOrganizationItemComponent implements OnInit {
   }
 
   public handleDelete(): void {
-    this.dialogService.openDialog('delete', 'custom-dialog');
+    this.dialogService.openDialog(DialogDeleteComponent, {}, 'custom-dialog');
     this.dialogService.dialogStateObservable.subscribe((result) => {
-      console.log(result);
+      // TODO: add delete method for DB operation
     });
   }
 
   public handleAdd(): void {
     this.dialogService.openDialog(
-      'form-add',
-      'custom-dialog',
+      DialogFormComponent,
       {
         width: '700px',
-        height: '800px',
+        height: '700px',
       },
-      this.formData,
+      'custom-dialog',
+      initEmptyPersonObj(),
     );
     this.dialogService.dialogStateObservable.subscribe((result) => {
       // TODO: save form data into DB
       if (result) {
-        const person = result as unknown as Person;
-        this.snackbarService.openSnackbar(
-          `Added new person '${person.givenName} ${person.familyName}'`,
-          'Close',
-          true,
-          4000,
-          ['snackbar', 'mat-toolbar', 'snackbar-primary'],
-        );
+        console.log(result);
+        // this.snackbarService.openSnackbar('Item saved successfully', 'Close', true, 4000, [
+        //   'snackbar',
+        //   'mat-toolbar',
+        //   'snackbar-primary',
+        // ]);
       }
     });
   }

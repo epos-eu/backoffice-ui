@@ -1,9 +1,9 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { DialogComponent } from 'src/components/dialog/dialog.component';
-import { IDialog } from 'src/components/dialog/dialog.interface';
-
+import { DialogComponent } from 'src/components/dialogs/dialog/dialog.component';
+import { DialogTypes, IDialog } from 'src/components/dialogs/dialog/dialog.model';
 interface ISize {
   width: string;
   height: string;
@@ -19,17 +19,21 @@ export class DialogService {
   private dialogState = new BehaviorSubject<string>('');
   public dialogStateObservable = this.dialogState.asObservable();
 
-  public openDialog(type: IDialog['type'], panelClass?: string, size?: ISize, content?: any): void {
-    this.dialogRef = this.dialog.open(DialogComponent, {
+  public openDialog(
+    component: ComponentType<DialogTypes>,
+    size?: ISize | Record<string, never>,
+    panelClass?: string,
+    content?: IDialog['content'],
+  ): void {
+    this.dialog.open(DialogComponent, {
       height: size?.height ? size?.height : '250px',
       width: size?.width ? size?.width : '450px',
       data: {
-        type,
         content,
+        component,
       },
       panelClass,
     });
-    this.dialogRef.afterClosed().subscribe((result) => this.dialogState.next(result));
   }
 
   public handleCancel(): void {

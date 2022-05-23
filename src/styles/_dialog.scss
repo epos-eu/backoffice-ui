@@ -1,10 +1,25 @@
+app-dialog {
+  width: 100%;
+  padding: 2rem;
+}
+
 .custom-dialog {
   .mat-dialog-container {
     padding: 0;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     display: flex;
 
-    app-dialog {
+    app-dialog-form {
+      display: flex;
+      flex-direction: column;
+
+      .mat-dialog-actions {
+        align-self: flex-end;
+      }
+    }
+
+    app-dialog-delete {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;

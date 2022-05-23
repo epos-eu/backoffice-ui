@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { WebService } from 'src/api/models/entities/webService.model';
+import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { DialogService } from 'src/services/dialog.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 
@@ -11,7 +12,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
   templateUrl: './browse-web-services-item.component.html',
   styleUrls: ['./browse-web-services-item.component.scss'],
 })
-export class BrowseWebServicesItemComponent implements OnInit {
+export class BrowseWebServicesItemComponent {
   public options: FormGroup;
   private hideRequiredControl = new FormControl(false);
   public floatLabelControl = new FormControl('auto');
@@ -31,11 +32,6 @@ export class BrowseWebServicesItemComponent implements OnInit {
     this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
   }
 
-  ngOnInit(): void {
-    console.log(typeof this.webservice);
-    console.log(this.webservice);
-  }
-
   public handleChange(event: MatSlideToggleChange): void {
     this.editModeEnabled = event.checked;
   }
@@ -50,10 +46,10 @@ export class BrowseWebServicesItemComponent implements OnInit {
   }
 
   public handleDelete(): void {
-    this.dialogService.openDialog('delete', 'custom-dialog');
+    this.dialogService.openDialog(DialogDeleteComponent, {}, 'custom-dialog');
     this.dialogService.dialogStateObservable.subscribe((result) => {
-      if (result === 'confirm') {
-        // TODO: add Delete method for DB operation
+      if (Boolean(result) && result === 'delete') {
+        // TODO: add delete method to remove from DB
       }
     });
   }

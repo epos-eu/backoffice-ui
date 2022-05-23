@@ -13,9 +13,12 @@ import { SideNavigationModule } from './side-navigation/side-navigation.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { DialogDeleteComponent } from './dialogs/dialog-delete/dialog-delete.component';
+import { DialogFormComponent } from './dialogs/dialog-form/dialog-form.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [LayoutComponent, DialogDeleteComponent, DialogFormComponent],
   imports: [
     RouterModule,
     CommonModule,
@@ -29,6 +32,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    MatInputModule,
   ],
   exports: [LayoutComponent],
 })
