@@ -14,11 +14,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogDeleteComponent } from './dialogs/dialog-delete/dialog-delete.component';
-import { DialogFormComponent } from './dialogs/dialog-form/dialog-form.component';
+import { DialogAddPersonComponent } from './dialogs/dialog-add-person/dialog-add-person.component';
 import { MatInputModule } from '@angular/material/input';
+import { DialogAddContactComponent } from './dialogs/dialog-add-contact/dialog-add-contact.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [LayoutComponent, DialogDeleteComponent, DialogFormComponent],
+  declarations: [LayoutComponent, DialogDeleteComponent, DialogAddPersonComponent, DialogAddContactComponent],
   imports: [
     RouterModule,
     CommonModule,
@@ -33,6 +35,7 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
   ],
   exports: [LayoutComponent],
 })

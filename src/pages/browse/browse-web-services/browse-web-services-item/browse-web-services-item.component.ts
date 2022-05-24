@@ -46,7 +46,14 @@ export class BrowseWebServicesItemComponent {
   }
 
   public handleDelete(): void {
-    this.dialogService.openDialog(DialogDeleteComponent, {}, 'custom-dialog');
+    this.dialogService.openDialog(
+      DialogDeleteComponent,
+      {
+        width: '450px',
+        height: '275px',
+      },
+      'custom-dialog',
+    );
     this.dialogService.dialogStateObservable.subscribe((result) => {
       if (Boolean(result) && result === 'delete') {
         // TODO: add delete method to remove from DB

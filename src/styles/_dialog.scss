@@ -1,28 +1,64 @@
+@import '~@angular/material/theming';
+
 app-dialog {
   width: 100%;
   padding: 2rem;
+
+  app-dialog-add-person,
+  app-dialog-add-contact {
+    display: flex;
+    flex-direction: column;
+
+    .mat-dialog-actions {
+      align-self: flex-end;
+    }
+  }
+}
+
+.mat-dialog-container {
+  border-left: 5px solid #004926;
+  scrollbar-color: #e8e8e8 transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #e8e8e8;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb {
+    &:hover {
+      background: #b8b8b8;
+    }
+  }
 }
 
 .custom-dialog {
+  app-dialog {
+    padding: 0 !important;
+  }
+
   .mat-dialog-container {
-    padding: 0;
+    border-left: none !important;
+    padding-left: 0;
+    padding-right: 0;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     display: flex;
-
-    app-dialog-form {
-      display: flex;
-      flex-direction: column;
-
-      .mat-dialog-actions {
-        align-self: flex-end;
-      }
-    }
 
     app-dialog-delete {
       display: flex;
       flex-direction: column;
-      justify-content: space-evenly;
+      justify-content: space-between;
       height: 100%;
       width: 100%;
 
@@ -41,7 +77,7 @@ app-dialog {
 
       .mat-dialog-actions {
         padding: 1rem 2rem;
-        background: #EFEFEF;
+        background: #efefef;
         justify-content: flex-end;
       }
     }

@@ -41,6 +41,26 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [{ path: '', component: BrowseDataProductsComponent }],
   },
+  {
+    path: 'services',
+    component: LayoutComponent,
+  },
+  {
+    path: 'people',
+    component: LayoutComponent,
+  },
+  {
+    path: 'publications',
+    component: LayoutComponent,
+  },
+  {
+    path: 'facilities',
+    component: LayoutComponent,
+  },
+  {
+    path: 'equipment',
+    component: LayoutComponent,
+  },
 ];
 
 @NgModule({
