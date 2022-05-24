@@ -86,3 +86,13 @@ a.mat-list-item.active {
   position: absolute;
   bottom: 0;
 }
+
+button {
+  &[mat-icon-button] {
+    mat-icon {
+      &.active {
+        color: #f39c12;
+      }
+    }
+  }
+}
