@@ -1,6 +1,6 @@
 export type Paramter = {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  action: Object;
+  action: object;
   conformsTo: string;
   encodingFormat: string;
 };
