@@ -16,7 +16,7 @@ export class GetOrganisations extends CacheableEndpoint<
   protected callLive(params: GetOrganisationDataSourcesParams): Promise<Array<OrganisationDataSource>> {
     const callResponsePromise = this.apiCaller
       .doCall('organization', RequestMethod.GET)
-      .then((data: any) => this.processResponseData(data, params));
+      .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(OrganisationDataSource, callResponsePromise);
   }
 
@@ -33,11 +33,14 @@ export class GetOrganisations extends CacheableEndpoint<
   }
 
   private processResponseData(
-    data: Array<Record<string, unknown>>,
+    data: Array<Record<string, unknown>> | unknown,
     params: GetOrganisationDataSourcesParams,
   ): Array<Record<string, unknown>> {
-    data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
-    return params.singleOptionOnly === true ? data.slice(0, 1) : data;
+    if (Array.isArray(data)) {
+      data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
+      return params.singleOptionOnly === true ? data.slice(0, 1) : data;
+    }
+    return [{}];
   }
 }
 

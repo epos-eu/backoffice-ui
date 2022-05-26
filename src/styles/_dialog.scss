@@ -6,6 +6,7 @@ app-dialog {
 
   app-dialog-add-person,
   app-dialog-add-contact {
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
 
@@ -13,6 +14,12 @@ app-dialog {
       align-self: flex-end;
     }
   }
+}
+
+.mat-dialog-container {
+  border-left: 5px solid #004926;
+  overflow: hidden !important;
+  padding: 24px 0 !important;
 }
 
 .custom-dialog {
@@ -24,8 +31,7 @@ app-dialog {
     border-left: none !important;
     padding-left: 0;
     padding-right: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden !important;
     display: flex;
 
     app-dialog-delete {

@@ -16,7 +16,7 @@ export class GetWebservices extends CacheableEndpoint<
   protected callLive(params: GetWebserviceDataSourcesParams): Promise<WebserviceDataSource[]> {
     const callResponsePromise = this.apiCaller
       .doCall('webservice', RequestMethod.GET)
-      .then((data: any) => this.processResponseData(data, params));
+      .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(WebserviceDataSource, callResponsePromise);
   }
 
@@ -33,11 +33,14 @@ export class GetWebservices extends CacheableEndpoint<
   }
 
   private processResponseData(
-    data: Array<Record<string, unknown>>,
+    data: Array<Record<string, unknown>> | unknown,
     params: GetWebserviceDataSourcesParams,
   ): Array<Record<string, unknown>> {
-    data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
-    return params.singleOptionOnly === true ? data.slice(0, 1) : data;
+    if (Array.isArray(data)) {
+      data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
+      return params.singleOptionOnly === true ? data.slice(0, 1) : data;
+    }
+    return [{}];
   }
 }
 

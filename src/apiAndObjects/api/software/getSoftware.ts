@@ -16,7 +16,7 @@ export class GetSoftware extends CacheableEndpoint<
   protected callLive(params: GetSoftwareDataSourcesParams): Promise<SoftwareDataSource[]> {
     const callResponsePromise = this.apiCaller
       .doCall('software', RequestMethod.GET)
-      .then((data: any) => this.processResponseData(data, params));
+      .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(SoftwareDataSource, callResponsePromise);
   }
 
@@ -33,11 +33,14 @@ export class GetSoftware extends CacheableEndpoint<
   }
 
   private processResponseData(
-    data: Array<Record<string, unknown>>,
+    data: Array<Record<string, unknown>> | unknown,
     params: GetSoftwareDataSourcesParams,
   ): Array<Record<string, unknown>> {
-    data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
-    return params.singleOptionOnly === true ? data.slice(0, 1) : data;
+    if (Array.isArray(data)) {
+      data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
+      return params.singleOptionOnly === true ? data.slice(0, 1) : data;
+    }
+    return [{}];
   }
 }
 

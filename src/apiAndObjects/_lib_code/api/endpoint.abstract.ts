@@ -28,7 +28,6 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
    * @returns Promise of call data (once it's been initialised)
    */
   public call(params?: PARAMS_TYPE): Promise<RETURN_TYPE> {
-    // console.debug('call', this, params, this.defaultParams, this.mergeParams(params));
     return new Promise((resolve) => {
       const resolveFunc = () => {
         const mergedParams = this.validateAndMergeParams(params);
@@ -125,7 +124,6 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
     this.injector = injector;
     this.apiCaller = apiCaller;
     this.initialised.next(true);
-    // console.debug('endpoint init', this);
   }
 
   /**
@@ -165,16 +163,7 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
     object: typeof BaseObject,
     dataProm: Promise<unknown>,
   ): Promise<Array<OBJECT_TYPE>> {
-    // return dataProm.then((data: Record<string, unknown> | Array<Record<string, unknown>>) => {
-    //   // console.debug('buildObjectsFromResponse', data);
-    //   // if not an array convert to an array
-    //   const dataArray = Array.isArray(data) ? data : [data];
-    //   return ObjectBuilder.instance.then((builder: ObjectBuilder) =>
-    //     builder.buildArray<OBJECT_TYPE>(object, dataArray),
-    //   );
-    // });
-    return dataProm.then((data: any) => {
-      // console.debug('buildObjectsFromResponse', data);
+    return dataProm.then((data: unknown) => {
       // if not an array convert to an array
       const dataArray = Array.isArray(data) ? data : [data];
       return ObjectBuilder.instance.then((builder: ObjectBuilder) =>
@@ -201,7 +190,6 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
    * @returns a corresponding FormData object
    */
   protected createBodyFormData(bodyData: Record<string, unknown>): FormData {
-    // console.debug('createBodyFormData', bodyData);
     const formData = new FormData();
     Object.keys(bodyData).forEach((key: string) => {
       this.formDataAppend(formData, bodyData[key], key);

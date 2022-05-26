@@ -14,6 +14,7 @@ export class DialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: IDialog) {}
 
   ngOnInit(): void {
+    console.log(this.data.component);
     this.portal = new ComponentPortal(this.data.component);
   }
 
@@ -22,5 +23,9 @@ export class DialogComponent implements OnInit {
       ref = ref as ComponentRef<IDialog>;
       ref.instance['data'] = [this.data.content];
     }
+  }
+
+  public isDeleteDialog(): boolean {
+    return this.data.component.name === 'DialogDeleteComponent';
   }
 }
