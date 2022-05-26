@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
 import { DataProductsService } from 'src/services/data-products.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { DataProductsService } from 'src/services/data-products.service';
 })
 export class BrowseDataProductsComponent implements OnInit {
   public displayedColumns: string[] = ['uid', 'name'];
-  public dataSource!: MatTableDataSource<DataProduct>;
+  public dataSource!: MatTableDataSource<DataProductDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -22,13 +22,10 @@ export class BrowseDataProductsComponent implements OnInit {
   constructor(private dataProductsService: DataProductsService, private router: Router) {}
 
   ngOnInit(): void {
-    this.dataProductsService
-      .getWebservices()
-      .then((response) => {
-        this.dataSource = new MatTableDataSource(response as DataProduct[]);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-      .catch((err) => console.error(err));
+    this.dataProductsService.getDataProducts().then((response: DataProductDataSource[]) => {
+      this.dataSource = new MatTableDataSource(response as DataProductDataSource[]);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 }

@@ -3,8 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OrganisationDataSource } from 'src/apiAndObjects/objects/organisationDataSource';
+import { OrganizationService } from 'src/services/organization.service';
 
 @Component({
   selector: 'app-browse-organization',
@@ -18,17 +18,14 @@ export class BrowseOrganizationComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private organisationService: OrganizationService, private router: Router) {}
 
   ngOnInit(): void {
-    this.apiService.endpoints.organisation.getOrganisations
-      .call()
-      .then((response: OrganisationDataSource[]) => {
-        this.dataSource = new MatTableDataSource(response as OrganisationDataSource[]);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-      .catch((err) => console.error(err));
+    this.organisationService.getOrganizations().then((response: OrganisationDataSource[]) => {
+      this.dataSource = new MatTableDataSource(response as OrganisationDataSource[]);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   // TODO: add type for row

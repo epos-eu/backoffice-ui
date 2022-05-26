@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Software } from 'src/apiAndObjects/objects/entities/software.model';
+import { SoftwareDataSource } from 'src/apiAndObjects/objects/softwareDataSource';
 import { SoftwareService } from 'src/services/software.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { SoftwareService } from 'src/services/software.service';
 })
 export class BrowseSoftwareComponent implements OnInit {
   public displayedColumns: string[] = ['uid', 'name'];
-  public dataSource!: MatTableDataSource<Software>;
+  public dataSource!: MatTableDataSource<SoftwareDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -22,13 +22,10 @@ export class BrowseSoftwareComponent implements OnInit {
   constructor(private softwareService: SoftwareService, private router: Router) {}
 
   ngOnInit(): void {
-    this.softwareService
-      .getSoftware()
-      .then((response) => {
-        this.dataSource = new MatTableDataSource(response as Software[]);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-      .catch((err) => console.error(err));
+    this.softwareService.getSoftware().then((response: SoftwareDataSource[]) => {
+      this.dataSource = new MatTableDataSource(response as SoftwareDataSource[]);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 }

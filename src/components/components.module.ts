@@ -18,6 +18,7 @@ import { DialogAddPersonComponent } from './dialogs/dialog-add-person/dialog-add
 import { MatInputModule } from '@angular/material/input';
 import { DialogAddContactComponent } from './dialogs/dialog-add-contact/dialog-add-contact.component';
 import { MatSelectModule } from '@angular/material/select';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   declarations: [LayoutComponent, DialogDeleteComponent, DialogAddPersonComponent, DialogAddContactComponent],
@@ -36,6 +37,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    NgScrollbarModule,
   ],
   exports: [LayoutComponent],
 })

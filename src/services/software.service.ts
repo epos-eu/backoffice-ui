@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ApiCaller } from 'src/apiAndObjects/_lib_code/api/apiCaller';
-import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { SoftwareDataSource } from 'src/apiAndObjects/objects/softwareDataSource';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SoftwareService {
-  constructor(private apiCaller: ApiCaller) {}
+  constructor(private apiService: ApiService) {}
 
-  getSoftware() {
-    return this.apiCaller.doCall('software', RequestMethod.GET);
+  getSoftware(): Promise<SoftwareDataSource[]> {
+    return this.apiService.endpoints.software.getSoftware.call();
   }
 }

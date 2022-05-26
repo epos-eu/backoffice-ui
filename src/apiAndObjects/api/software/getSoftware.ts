@@ -1,32 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { OrganisationDataSource } from 'src/apiAndObjects/objects/organisationDataSource';
+import { SoftwareDataSource } from 'src/apiAndObjects/objects/softwareDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 
-export class GetOrganisations extends CacheableEndpoint<
-  Array<OrganisationDataSource>,
-  GetOrganisationDataSourcesParams,
-  OrganisationDataSource
+export class GetSoftware extends CacheableEndpoint<
+  Array<SoftwareDataSource>,
+  GetSoftwareDataSourcesParams,
+  SoftwareDataSource
 > {
-  protected getCacheKey(params: GetOrganisationDataSourcesParams): string {
+  protected getCacheKey(params: GetSoftwareDataSourcesParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetOrganisationDataSourcesParams): Promise<Array<OrganisationDataSource>> {
+  protected callLive(params: GetSoftwareDataSourcesParams): Promise<SoftwareDataSource[]> {
     const callResponsePromise = this.apiCaller
-      .doCall('organization', RequestMethod.GET)
+      .doCall('software', RequestMethod.GET)
       .then((data: any) => this.processResponseData(data, params));
-    return this.buildObjectsFromResponse(OrganisationDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(SoftwareDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<OrganisationDataSource[]> {
+  protected callMock(): Promise<SoftwareDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
-      OrganisationDataSource,
+      SoftwareDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/assets/data/organization.json')));
+          resolve(lastValueFrom(httpClient.get('/assets/data/software.json')));
         }, 100);
       }),
     );
@@ -34,14 +34,14 @@ export class GetOrganisations extends CacheableEndpoint<
 
   private processResponseData(
     data: Array<Record<string, unknown>>,
-    params: GetOrganisationDataSourcesParams,
+    params: GetSoftwareDataSourcesParams,
   ): Array<Record<string, unknown>> {
     data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
     return params.singleOptionOnly === true ? data.slice(0, 1) : data;
   }
 }
 
-export interface GetOrganisationDataSourcesParams {
+export interface GetSoftwareDataSourcesParams {
   singleOptionOnly?: boolean;
-  dataSource: OrganisationDataSource;
+  dataSource: SoftwareDataSource;
 }

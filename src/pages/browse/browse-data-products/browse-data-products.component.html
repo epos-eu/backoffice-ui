@@ -8,7 +8,7 @@
           Uid
         </th>
         <td mat-cell *matCellDef="let row">
-          {{ row.uid }}
+          {{ row._sourceObject.uid }}
         </td>
       </ng-container>
 
@@ -18,7 +18,7 @@
           Name
         </th>
         <td mat-cell *matCellDef="let row">
-          {{ row.title }}
+          {{ row._sourceObject.title }}
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

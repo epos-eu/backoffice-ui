@@ -8,7 +8,7 @@ import { OrganisationDataSource } from 'src/apiAndObjects/objects/organisationDa
 export class OrganizationService {
   constructor(private apiService: ApiService) {}
 
-  getOrganizations(): Promise<OrganisationDataSource[]> {
+  public getOrganizations(): Promise<OrganisationDataSource[]> {
     return this.apiService.endpoints.organisation.getOrganisations.call();
   }
 }

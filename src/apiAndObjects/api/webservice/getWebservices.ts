@@ -1,32 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { OrganisationDataSource } from 'src/apiAndObjects/objects/organisationDataSource';
+import { WebserviceDataSource } from 'src/apiAndObjects/objects/webserviceDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 
-export class GetOrganisations extends CacheableEndpoint<
-  Array<OrganisationDataSource>,
-  GetOrganisationDataSourcesParams,
-  OrganisationDataSource
+export class GetWebservices extends CacheableEndpoint<
+  Array<WebserviceDataSource>,
+  GetWebserviceDataSourcesParams,
+  WebserviceDataSource
 > {
-  protected getCacheKey(params: GetOrganisationDataSourcesParams): string {
+  protected getCacheKey(params: GetWebserviceDataSourcesParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetOrganisationDataSourcesParams): Promise<Array<OrganisationDataSource>> {
+  protected callLive(params: GetWebserviceDataSourcesParams): Promise<WebserviceDataSource[]> {
     const callResponsePromise = this.apiCaller
-      .doCall('organization', RequestMethod.GET)
+      .doCall('webservice', RequestMethod.GET)
       .then((data: any) => this.processResponseData(data, params));
-    return this.buildObjectsFromResponse(OrganisationDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(WebserviceDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<OrganisationDataSource[]> {
+  protected callMock(): Promise<WebserviceDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
-      OrganisationDataSource,
+      WebserviceDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/assets/data/organization.json')));
+          resolve(lastValueFrom(httpClient.get('/assets/data/webservice.json')));
         }, 100);
       }),
     );
@@ -34,14 +34,14 @@ export class GetOrganisations extends CacheableEndpoint<
 
   private processResponseData(
     data: Array<Record<string, unknown>>,
-    params: GetOrganisationDataSourcesParams,
+    params: GetWebserviceDataSourcesParams,
   ): Array<Record<string, unknown>> {
     data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
     return params.singleOptionOnly === true ? data.slice(0, 1) : data;
   }
 }
 
-export interface GetOrganisationDataSourcesParams {
+export interface GetWebserviceDataSourcesParams {
   singleOptionOnly?: boolean;
-  dataSource: OrganisationDataSource;
+  dataSource: WebserviceDataSource;
 }

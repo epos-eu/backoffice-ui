@@ -15,33 +15,6 @@ app-dialog {
   }
 }
 
-.mat-dialog-container {
-  border-left: 5px solid #004926;
-  scrollbar-color: #e8e8e8 transparent;
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #e8e8e8;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb {
-    &:hover {
-      background: #b8b8b8;
-    }
-  }
-}
-
 .custom-dialog {
   app-dialog {
     padding: 0 !important;

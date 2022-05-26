@@ -23,7 +23,8 @@ import { BrowseSoftwareComponent } from './browse-software/browse-software.compo
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+
 @NgModule({
   declarations: [
     BrowseHomeComponent,
@@ -51,6 +52,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
     MatDialogModule,
     MatSnackBarModule,
     MatIconModule,
+    NgScrollbarModule,
   ],
   exports: [],
   providers: [
@@ -58,7 +60,6 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
       provide: MatDialogRef,
       useValue: {},
     },
-    ApiService,
   ],
 })
 export class BrowseModule {}

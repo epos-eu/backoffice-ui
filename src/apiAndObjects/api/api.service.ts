@@ -4,6 +4,9 @@ import { environment } from 'src/environments/environment';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { MapsHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
 import { GetOrganisations } from './organisation/getOrganisations';
+import { GetWebservices } from './webservice/getWebservices';
+import { GetDataProducts } from './dataProduct/getDataProducts';
+import { GetSoftware } from './software/getSoftware';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -13,6 +16,15 @@ export class ApiService extends BaseApi {
   public readonly endpoints = {
     organisation: {
       getOrganisations: new GetOrganisations(ApiService.USE_LIVE_API),
+    },
+    webservice: {
+      getWebservices: new GetWebservices(ApiService.USE_LIVE_API),
+    },
+    dataProduct: {
+      getDataProducts: new GetDataProducts(ApiService.USE_LIVE_API),
+    },
+    software: {
+      getSoftware: new GetSoftware(ApiService.USE_LIVE_API),
     },
   };
 

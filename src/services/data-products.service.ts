@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ApiCaller } from 'src/apiAndObjects/_lib_code/api/apiCaller';
-import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataProductsService {
-  constructor(private apiCaller: ApiCaller) {}
+  constructor(private apiService: ApiService) {}
 
-  getWebservices() {
-    return this.apiCaller.doCall('dataProduct', RequestMethod.GET);
+  public getDataProducts(): Promise<DataProductDataSource[]> {
+    return this.apiService.endpoints.dataProduct.getDataProducts.call();
   }
 }

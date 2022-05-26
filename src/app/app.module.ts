@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DialogComponent } from 'src/components/dialogs/dialog/dialog.component';
 import { PortalModule } from '@angular/cdk/portal';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   declarations: [AppComponent, DialogComponent],
@@ -32,6 +34,7 @@ import { PortalModule } from '@angular/cdk/portal';
     MatFormFieldModule,
     MatInputModule,
     PortalModule,
+    NgScrollbarModule,
   ],
   providers: [
     {
@@ -42,6 +45,7 @@ import { PortalModule } from '@angular/cdk/portal';
       provide: MatSnackBarRef,
       useValue: {},
     },
+    ApiService,
     DialogService,
     SnackbarService,
   ],
