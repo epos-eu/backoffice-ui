@@ -10,7 +10,7 @@ export class BaseObject {
    * @param otherArgs Offer the possibility of passing in further arguments in extending classes.
    */
   protected constructor(
-    protected readonly _sourceObject?: Record<string, unknown>,
+    protected readonly _sourceObject?: Record<string, unknown> | undefined,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ...otherArgs: Array<unknown>
   ) {
@@ -24,7 +24,7 @@ export class BaseObject {
    * @param dictionaries An Array of dictionaries that are required to build this object
    * @returns A Promise for the object that will be resolved when it has been fully built
    */
-  public static constructObject(source?: Record<string, unknown>): Promise<BaseObject> {
+  public static constructObject(source?: Record<string, unknown>): Promise<BaseObject | null> {
     return Promise.resolve(this.validateObject(source) ? new this(source) : null);
   }
 
@@ -35,7 +35,7 @@ export class BaseObject {
    * @returns Whether valid or not.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static validateObject(source: Record<string, unknown>): boolean {
+  public static validateObject(source: Record<string, unknown> | undefined): boolean {
     return true;
   }
 
@@ -77,7 +77,7 @@ export class BaseObject {
   /**
    * Same as _getValue but returns a boolean
    */
-  protected _getBoolean(keys: string | Array<string>, source?: Record<string, unknown>): boolean {
+  protected _getBoolean(keys: string | Array<string>, source?: Record<string, unknown> | undefined): boolean {
     return ObjectAccessor.getBoolean(keys, this._getSource(source));
   }
   /**
@@ -110,7 +110,7 @@ export class BaseObject {
    * @param source raw data object
    * @returns The whole source object. Defaults to _sourceObject if not provided.
    */
-  private _getSource(source?: Record<string, unknown>): Record<string, unknown> {
+  private _getSource(source?: Record<string, unknown> | undefined): Record<string, unknown> | undefined {
     return null == source ? this._sourceObject : source;
   }
 }

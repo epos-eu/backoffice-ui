@@ -6,6 +6,7 @@ import { Endpoint } from './endpoint.abstract';
 import { Dictionary } from '../objects/dictionary';
 import { Injector } from '@angular/core';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
+import { map } from 'rxjs';
 
 /**
  * Extend this class to create your API service.
@@ -38,7 +39,7 @@ export abstract class BaseApi {
    * @param type Normally an enumerator value that is used to identifies a specific GetDictionary instance
    * @returns The matching GetDictionary instance
    */
-  public getDictionaryEndpoint(type: unknown): GetDictionary {
+  public getDictionaryEndpoint(type: unknown): GetDictionary | undefined {
     return this.dictionaries.get(type);
   }
 
@@ -46,7 +47,7 @@ export abstract class BaseApi {
    * @param type Normally an Array of enumerator values that are used to identify specific GetDictionary instances
    * @returns An Array of matching GetDictionary instances
    */
-  public getDictionaryEndpoints(types: Array<unknown>): Array<GetDictionary> {
+  public getDictionaryEndpoints(types: Array<unknown>): Array<GetDictionary | undefined> {
     return types.map((type: unknown) => this.dictionaries.get(type));
   }
 
@@ -57,16 +58,25 @@ export abstract class BaseApi {
    */
   public getDictionary(type: unknown, useCache?: boolean): Promise<Dictionary> {
     const endpoint = this.getDictionaryEndpoint(type);
-    return null == endpoint ? Promise.reject() : endpoint.call(null, useCache);
+    return null == endpoint ? Promise.reject() : endpoint.call(undefined, useCache);
   }
   /**
    * @param type Normally an Array of enumerator values that are used to identify specific GetDictionary instances
    * @param useCache Whether to cache the dictionary or not (defaults to true)
    * @returns A Promise for the Array of matching Dictionary objects
    */
-  public getDictionaries(types: Array<unknown>, useCache?: boolean): Promise<Array<Dictionary>> {
+  public getDictionaries(types: Array<unknown>, useCache?: boolean): Promise<Array<Dictionary | null>> {
+    // const endpoints = this.getDictionaryEndpoints(types);
+    // return Promise.all(endpoints.map((endpoint: GetDictionary) => endpoint.call(null, useCache)));
     const endpoints = this.getDictionaryEndpoints(types);
-    return Promise.all(endpoints.map((endpoint: GetDictionary) => endpoint.call(null, useCache)));
+    return Promise.all(
+      endpoints.map((endpoint: GetDictionary | undefined) => {
+        if (endpoint) {
+          return endpoint.call(undefined, useCache);
+        }
+        return null;
+      }),
+    );
   }
   /**
    * Adds a default header for when calling out with a registered Endpoint

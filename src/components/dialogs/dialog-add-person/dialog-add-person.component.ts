@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Person } from 'src/api/models/entities/person.model';
+import { Person } from 'src/apiAndObjects/objects/entities/person.model';
 import { initEmptyPersonObj } from 'src/helpers/person';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Person } from 'src/api/models/entities/person.model';
+import { Person } from 'src/apiAndObjects/objects/entities/person.model';
 
 export function initEmptyPersonObj(): Person {
   return new Person(

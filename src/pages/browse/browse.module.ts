@@ -23,6 +23,7 @@ import { BrowseSoftwareComponent } from './browse-software/browse-software.compo
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
 @NgModule({
   declarations: [
     BrowseHomeComponent,
@@ -57,6 +58,7 @@ import { MatDialogRef } from '@angular/material/dialog';
       provide: MatDialogRef,
       useValue: {},
     },
+    ApiService,
   ],
 })
 export class BrowseModule {}

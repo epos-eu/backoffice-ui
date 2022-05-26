@@ -12,9 +12,9 @@ type RETURN_TYPE = Dictionary;
  * The Endpoint implementation for a dictionary endpoint
  */
 export class GetDictionary extends CacheableEndpoint<RETURN_TYPE, GetDictionaryItemsParams, OBJECT_TYPE> {
-  public mockObjectsCreatorFunc: (injector: Injector) => Promise<Array<Record<string, unknown>>>;
+  public mockObjectsCreatorFunc!: (injector: Injector) => Promise<Array<Record<string, unknown>>>;
   protected mockItemsCount = 20;
-  protected mockObjects: Array<Record<string, unknown>>;
+  protected mockObjects: Array<Record<string, unknown>> = [];
 
   /**
    * @param type An identifier for the dictionary (normally an enum value)

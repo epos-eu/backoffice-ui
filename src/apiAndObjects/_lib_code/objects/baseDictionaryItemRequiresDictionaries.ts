@@ -23,7 +23,7 @@ export class BaseDictionaryItemRequiresDictionaries extends BaseObjectRequiresDi
    * @param dictionaries An Array of dictionaries that are required to build this object
    */
   protected constructor(
-    sourceObject: Record<string, unknown>,
+    sourceObject: Record<string, unknown> | undefined,
     public readonly id: string,
     public readonly name: string,
     public readonly description: string,
@@ -39,10 +39,10 @@ export class BaseDictionaryItemRequiresDictionaries extends BaseObjectRequiresDi
    * @param dictionaries An Array of dictionaries that are required to build this object
    * @returns A Promise for the object that will be resolved when it has been fully built
    */
-  public static constructObject(
-    source?: Record<string, unknown>,
+  public static override constructObject(
+    source?: Record<string, unknown> | undefined,
     dictionaries?: Array<Dictionary>,
-  ): Promise<BaseDictionaryItemRequiresDictionaries> {
+  ): Promise<BaseDictionaryItemRequiresDictionaries | null> {
     return Promise.resolve(
       !RequiredDictionaries.validateDictionaries(this.requiredDictionaryTypes, dictionaries) ||
         !this.validateObject(source)

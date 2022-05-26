@@ -3,8 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Organization } from 'src/api/models/entities/organization.model';
-import { OrganizationService } from 'src/services/organization.service';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { OrganisationDataSource } from 'src/apiAndObjects/objects/organisationDataSource';
 
 @Component({
   selector: 'app-browse-organization',
@@ -13,30 +13,29 @@ import { OrganizationService } from 'src/services/organization.service';
 })
 export class BrowseOrganizationComponent implements OnInit {
   displayedColumns: string[] = ['uid', 'legalName'];
-  dataSource!: MatTableDataSource<Organization>;
+  dataSource!: MatTableDataSource<OrganisationDataSource>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private orgService: OrganizationService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
-    this.orgService
-      .getOrganizations()
-      .then((response) => {
-        console.log(response);
-        this.dataSource = new MatTableDataSource(response as Organization[]);
+    this.apiService.endpoints.organisation.getOrganisations
+      .call()
+      .then((response: OrganisationDataSource[]) => {
+        this.dataSource = new MatTableDataSource(response as OrganisationDataSource[]);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.error(err));
   }
 
   // TODO: add type for row
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rowClicked(row: any) {
-    this.router.navigate(['/browse/organization/details', row.identifier[0].identifier], { state: row });
+    this.router.navigate(['/browse/organization/details', row._sourceObject.identifier[0].identifier], {
+      state: row._sourceObject,
+    });
   }
 }

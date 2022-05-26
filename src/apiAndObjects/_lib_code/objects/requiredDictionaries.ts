@@ -12,7 +12,10 @@ export class RequiredDictionaries {
    * @param dictionaries Array of dictionaries
    * @returns whether all of the dictionariesTypes exist in dictionaries
    */
-  public static validateDictionaries(dictionariesTypes: Array<unknown>, dictionaries: Array<Dictionary>): boolean {
+  public static validateDictionaries(
+    dictionariesTypes: Array<unknown>,
+    dictionaries: Array<Dictionary | null> | undefined,
+  ): boolean {
     // console.debug('validateDictionaries', dictionariesTypes, dictionaries);
     return (
       null != dictionariesTypes &&
@@ -20,7 +23,11 @@ export class RequiredDictionaries {
       null != dictionaries &&
       Array.isArray(dictionaries) &&
       dictionariesTypes.every((expectedType) => {
-        const dict = dictionaries.find((thisDict) => thisDict.type === expectedType);
+        const dict = dictionaries.find((thisDict) => {
+          if (thisDict) {
+            thisDict.type === expectedType;
+          }
+        });
         if (null == dict) {
           console.warn('Unable to create object as dictionary not available:', expectedType, dictionaries);
         }
@@ -34,7 +41,7 @@ export class RequiredDictionaries {
    *
    * @param dictionaries Array of Dictionaries to add.
    */
-  public addDictionaries(dictionaries: Array<Dictionary>): void {
+  public addDictionaries(dictionaries: Array<Dictionary | null> | undefined): void {
     dictionaries = null == dictionaries ? [] : dictionaries;
     dictionaries = Array.isArray(dictionaries) ? dictionaries : [dictionaries];
     this.concatDictionaries(dictionaries);
@@ -47,7 +54,7 @@ export class RequiredDictionaries {
   public getDictionary<DICTIONARY_TYPE = Dictionary>(dictionaryType: unknown): DICTIONARY_TYPE {
     const requiredDict = this.dictionaries.get(dictionaryType);
     if (null == requiredDict) {
-      console.warn('Can\'t get dictionary', dictionaryType);
+      console.warn("Can't get dictionary", dictionaryType);
     }
     return requiredDict as unknown as DICTIONARY_TYPE;
   }
@@ -57,7 +64,7 @@ export class RequiredDictionaries {
    * @param dictionaryItemId Identifier that references the required DictionaryItem, on the referenced Dictionary
    * @returns The matching DictionaryItem, or null if Dictionary or item does not exists (Generics for convenience.)
    */
-  public getDictionaryItem<ITEM_TYPE = DictionaryItem>(
+  public getDictionaryItem<ITEM_TYPE = DictionaryItem | null>(
     dictionaryType: unknown,
     dictionaryItemId: string,
   ): null | ITEM_TYPE {
@@ -76,9 +83,13 @@ export class RequiredDictionaries {
     return item;
   }
 
-  private concatDictionaries(dictionaries: Array<Dictionary>): void {
+  private concatDictionaries(dictionaries: Array<Dictionary | null>): void {
     dictionaries
       .filter((dict) => null != dict) // remove nulls
-      .forEach((dict) => this.dictionaries.set(dict.type, dict)); // add in new ones
+      .forEach((dict) => {
+        if (dict) {
+          this.dictionaries.set(dict.type, dict);
+        }
+      }); // add in new ones
   }
 }

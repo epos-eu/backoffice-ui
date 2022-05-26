@@ -68,7 +68,7 @@ export class ApiCaller {
           return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
         });
     }
-    return null;
+    return Promise.resolve(null);
   }
 
   /**

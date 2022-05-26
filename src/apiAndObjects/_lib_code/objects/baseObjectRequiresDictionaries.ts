@@ -17,7 +17,7 @@ export class BaseObjectRequiresDictionaries extends BaseObject {
    * @param sourceObject raw data object
    * @param dictionaries An Array of dictionaries that are required to build this object
    */
-  protected constructor(sourceObject?: Record<string, unknown>, dictionaries?: Array<Dictionary>) {
+  protected constructor(sourceObject?: Record<string, unknown>, dictionaries?: Array<Dictionary | null>) {
     super(sourceObject);
     this._requiredDictionaries.addDictionaries(dictionaries);
   }
@@ -29,10 +29,10 @@ export class BaseObjectRequiresDictionaries extends BaseObject {
    * @param dictionaries An Array of dictionaries that are required to build this object
    * @returns A Promise for the object that will be resolved when it has been fully built
    */
-  public static constructObject(
+  public static override constructObject(
     source?: Record<string, unknown>,
-    dictionaries?: Array<Dictionary>,
-  ): Promise<BaseObjectRequiresDictionaries> {
+    dictionaries?: Array<Dictionary | null>,
+  ): Promise<BaseObjectRequiresDictionaries | null> {
     return Promise.resolve(
       RequiredDictionaries.validateDictionaries(this.requiredDictionaryTypes, dictionaries) &&
         this.validateObject(source)
@@ -56,11 +56,11 @@ export class BaseObjectRequiresDictionaries extends BaseObject {
    * if not provided.
    * @returns The sourceKeys identified DictionaryItem from the dictionaryType identified Dictionary
    */
-  protected _getDictionaryItem<ITEM_TYPE = DictionaryItem>(
+  protected _getDictionaryItem<ITEM_TYPE = DictionaryItem | null>(
     dictionaryType: unknown,
     sourceKeys: string | Array<string>,
     source?: Record<string, unknown>,
-  ): ITEM_TYPE {
+  ): ITEM_TYPE | null {
     const dictionaryItemId = this._getString(sourceKeys, source);
     return this._requiredDictionaries.getDictionaryItem<ITEM_TYPE>(dictionaryType, dictionaryItemId);
   }

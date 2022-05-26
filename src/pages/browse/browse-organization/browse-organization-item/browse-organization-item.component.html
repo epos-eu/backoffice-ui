@@ -19,7 +19,7 @@
           <div class="inline-fields">
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="20">
               <mat-label>Type</mat-label>
-              <input matInput placeholder="PIC" [(ngModel)]="organization.identifier[0].type" name="type"
+              <input matInput placeholder="PIC" [(ngModel)]="organization['identifier'][0].type" name="type"
                 [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
             </mat-form-field>
 

@@ -12,7 +12,7 @@ import { BaseObjectRequiresDictionaries } from './baseObjectRequiresDictionaries
  * BaseObject or BaseObjectRequiresDictionaries.
  */
 export class ObjectBuilder {
-  private static instanceSource = new BehaviorSubject<ObjectBuilder>(null);
+  private static instanceSource = new BehaviorSubject<any>(null);
 
   private constructor(private apiService: BaseApi) {}
 
@@ -57,7 +57,7 @@ export class ObjectBuilder {
       : this.apiService
           .getDictionaries(requiredDictTypes)
           .then(
-            (dicts: Array<Dictionary>) =>
+            (dicts: Array<Dictionary | null>) =>
               (typeObject as typeof BaseObjectRequiresDictionaries).constructObject(data, dicts) as unknown as T,
           );
   }

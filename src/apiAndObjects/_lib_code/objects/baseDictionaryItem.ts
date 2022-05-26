@@ -33,7 +33,7 @@ export class BaseDictionaryItem extends BaseObject implements DictionaryItem {
    * @param source raw data object
    * @returns A Promise for the object that will be resolved when it has been fully built
    */
-  public static constructObject(source: Record<string, unknown>): Promise<BaseDictionaryItem> {
+  public static override constructObject(source: Record<string, unknown>): Promise<BaseDictionaryItem | null> {
     return Promise.resolve(
       !this.validateObject(source)
         ? null

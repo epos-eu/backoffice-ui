@@ -11,7 +11,7 @@ export abstract class CacheableEndpoint<RETURN_TYPE, PARAMS_TYPE, OBJECT_TYPE = 
   protected useCacheByDefault = true;
 
   protected cachedValues = new Map<string, RETURN_TYPE>();
-  protected currentCallPromise: Promise<RETURN_TYPE>;
+  protected currentCallPromise!: Promise<RETURN_TYPE> | null;
 
   /**
    * Looks for a previously cached value or a current ongoing call that can be returned as a promise.
@@ -22,7 +22,7 @@ export abstract class CacheableEndpoint<RETURN_TYPE, PARAMS_TYPE, OBJECT_TYPE = 
    * @param useCache Overrides whether to use cache or not (defaults to [useCacheByDefault]{@link #useCacheByDefault})
    * @returns Promise of call data
    */
-  public call(params?: PARAMS_TYPE, useCache?: boolean): Promise<RETURN_TYPE> {
+  public override call(params?: PARAMS_TYPE | undefined, useCache?: boolean): Promise<RETURN_TYPE> {
     const cacheKey = this.getCacheKey(this.validateAndMergeParams(params));
     const cacheValue = this.getCacheValue(cacheKey);
     useCache = null == useCache ? this.useCacheByDefault : useCache;
@@ -60,7 +60,7 @@ export abstract class CacheableEndpoint<RETURN_TYPE, PARAMS_TYPE, OBJECT_TYPE = 
    * @param key identifier for the data required
    * @returns cached data from a previous callout if exists
    */
-  protected getCacheValue(key: string): RETURN_TYPE {
+  protected getCacheValue(key: string): RETURN_TYPE | undefined {
     return this.cachedValues.get(key);
   }
   /**

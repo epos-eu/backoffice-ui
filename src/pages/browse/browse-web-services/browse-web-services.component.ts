@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { WebService } from 'src/api/models/entities/webService.model';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { WebservicesService } from 'src/services/webservices.service';
 
 @Component({

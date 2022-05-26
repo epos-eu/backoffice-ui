@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { WebService } from 'src/api/models/entities/webService.model';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { DialogService } from 'src/services/dialog.service';
 import { SnackbarService } from 'src/services/snackbar.service';

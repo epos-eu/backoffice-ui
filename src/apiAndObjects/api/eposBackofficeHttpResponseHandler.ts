@@ -1,13 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injector } from '@angular/core';
-import { NotificationsService } from 'src/app/components/notifications/notification.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { ApiResponse } from './apiResponse.interface';
 
 export class MapsHttpResponseHandler {
-  private readonly notificationsService: NotificationsService;
-  constructor(private injector: Injector) {
-    this.notificationsService = injector.get<NotificationsService>(NotificationsService);
-  }
+  // private readonly notificationsService: NotificationsService;
+  // constructor(private injector: Injector) {
+  //   this.notificationsService = injector.get<NotificationsService>(NotificationsService);
+  // }
 
   public static createMockResponseObject(dataIn: unknown, success = true): Promise<ApiResponse> {
     return new Promise((resolve, reject) => {
@@ -74,10 +74,11 @@ export class MapsHttpResponseHandler {
 
     if (errorMessage) {
       console.error('API access error - ', errorMessage);
-      this.notificationsService.sendNegative('API Error - ', 'A call to retrieve data failed');
+      // this.notificationsService.sendNegative('API Error - ', 'A call to retrieve data failed');
       return Promise.reject(errorMessage);
     } else {
-      return Promise.resolve(returnValue);
+      // return Promise.resolve(returnValue);
+      return Promise.resolve(null);
     }
   }
 }

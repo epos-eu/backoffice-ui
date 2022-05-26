@@ -7,9 +7,9 @@ import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-pers
 import { initEmptyPersonObj } from 'src/helpers/person';
 import { DialogService } from 'src/services/dialog.service';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { Organization } from '../../../../api/models/entities/organization.model';
 import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-contact/dialog-add-contact.component';
 import { initEmptyContactObj } from 'src/helpers/contact';
+import { Organization } from 'src/apiAndObjects/objects/entities/organization.model';
 
 @Component({
   selector: 'app-browse-organization-item',
@@ -58,7 +58,6 @@ export class BrowseOrganizationItemComponent {
   }
 
   public handleAddPerson(): void {
-    console.log(initEmptyPersonObj());
     this.dialogService.openDialog(
       DialogAddPersonComponent,
       {
@@ -71,12 +70,7 @@ export class BrowseOrganizationItemComponent {
     this.dialogService.dialogStateObservable.subscribe((result) => {
       // TODO: save form data into DB
       if (result) {
-        console.log(result);
-        // this.snackbarService.openSnackbar('Item saved successfully', 'Close', true, 4000, [
-        //   'snackbar',
-        //   'mat-toolbar',
-        //   'snackbar-primary',
-        // ]);
+        // do stuff
       }
     });
   }
@@ -94,7 +88,6 @@ export class BrowseOrganizationItemComponent {
     this.dialogService.dialogStateObservable.subscribe((result) => {
       // TODO: save form data into DB
       if (result) {
-        console.log(result);
         // do stuff
       }
     });

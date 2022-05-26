@@ -9,10 +9,10 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
   protected onFailFuncs = new Array<(error: unknown) => void>();
   protected onCompleteFuncs = new Array<() => void>();
 
-  protected injector: Injector;
-  protected apiCaller: ApiCaller;
+  protected injector!: Injector;
+  protected apiCaller!: ApiCaller;
   // TODO: should this use "Partial" functionality to allow only part of an object to be defined?
-  protected defaultParams: PARAMS_TYPE;
+  protected defaultParams!: PARAMS_TYPE;
 
   private initialised = new BehaviorSubject<boolean>(false);
 
@@ -134,7 +134,7 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
    * @param params override params
    * @returns merged params
    */
-  protected validateAndMergeParams(params: PARAMS_TYPE): PARAMS_TYPE {
+  protected validateAndMergeParams(params: PARAMS_TYPE | undefined): PARAMS_TYPE {
     const defaultParams = (null == this.defaultParams ? {} : this.defaultParams) as PARAMS_TYPE;
     const overrideParams = (null == params ? {} : params) as PARAMS_TYPE;
     // merge them
@@ -165,7 +165,15 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
     object: typeof BaseObject,
     dataProm: Promise<unknown>,
   ): Promise<Array<OBJECT_TYPE>> {
-    return dataProm.then((data: Record<string, unknown> | Array<Record<string, unknown>>) => {
+    // return dataProm.then((data: Record<string, unknown> | Array<Record<string, unknown>>) => {
+    //   // console.debug('buildObjectsFromResponse', data);
+    //   // if not an array convert to an array
+    //   const dataArray = Array.isArray(data) ? data : [data];
+    //   return ObjectBuilder.instance.then((builder: ObjectBuilder) =>
+    //     builder.buildArray<OBJECT_TYPE>(object, dataArray),
+    //   );
+    // });
+    return dataProm.then((data: any) => {
       // console.debug('buildObjectsFromResponse', data);
       // if not an array convert to an array
       const dataArray = Array.isArray(data) ? data : [data];
@@ -208,9 +216,10 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
    * @param key key (name) to set the data to in the FormData
    */
   protected formDataAppend(formData: FormData, data: unknown, key: string): void {
+    const obj: typeof data = {};
     if ((typeof data === 'object' && data !== null) || Array.isArray(data)) {
       Object.keys(data).forEach((i: string) => {
-        this.formDataGroupAppend(formData, key, i, data[i]);
+        this.formDataGroupAppend(formData, key, i, data[i as keyof typeof obj]);
       });
     } else {
       formData.append(key, data as string);
