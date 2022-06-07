@@ -24,7 +24,6 @@ export class EposBackOfficeHttpResponseHandler {
   }
 
   public handleSuccess(res: ApiResponse, fullResponse = false): Promise<unknown> {
-    // console.debug(res);
     return new Promise((resolve, reject) => {
       // validate that it has a data attribute
       if (undefined === res) {

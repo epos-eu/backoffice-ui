@@ -9,6 +9,8 @@ import { GetDataProducts } from './dataProduct/getDataProducts';
 import { GetSoftware } from './software/getSoftware';
 import { GetPeople } from './people/getPeople';
 import { GetServices } from './services/getServices';
+import { GetEquipments } from './equipment/getEquipment';
+import { GetFacilities } from './facilities/getFacilities';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -33,6 +35,12 @@ export class ApiService extends BaseApi {
     },
     services: {
       getServices: new GetServices(ApiService.USE_LIVE_API),
+    },
+    facilities: {
+      getFacilities: new GetFacilities(ApiService.USE_LIVE_API),
+    },
+    equipment: {
+      getEquipments: new GetEquipments(ApiService.USE_LIVE_API),
     },
   };
 

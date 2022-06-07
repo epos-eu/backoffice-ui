@@ -26,6 +26,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { BrowsePeopleComponent } from './browse-people/browse-people.component';
 import { BrowseServicesComponent } from './browse-services/browse-services.component';
+import { BrowseFacilitiesComponent } from './browse-facilities/browse-facilities.component';
+import { BrowseEquipmentComponent } from './browse-equipment/browse-equipment.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { BrowseServicesComponent } from './browse-services/browse-services.compo
     BrowseDataProductsComponent,
     BrowsePeopleComponent,
     BrowseServicesComponent,
+    BrowseFacilitiesComponent,
+    BrowseEquipmentComponent,
   ],
   imports: [
     CommonModule,
