@@ -24,6 +24,7 @@ import { BrowseDataProductsComponent } from './browse-data-products/browse-data-
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { BrowsePeopleComponent } from './browse-people/browse-people.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
     SnackbarComponent,
     BrowseSoftwareComponent,
     BrowseDataProductsComponent,
+    BrowsePeopleComponent,
   ],
   imports: [
     CommonModule,

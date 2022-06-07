@@ -7,6 +7,7 @@ import { GetOrganisations } from './organisation/getOrganisations';
 import { GetWebservices } from './webservice/getWebservices';
 import { GetDataProducts } from './dataProduct/getDataProducts';
 import { GetSoftware } from './software/getSoftware';
+import { GetPeople } from './people/getPeople';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -25,6 +26,9 @@ export class ApiService extends BaseApi {
     },
     software: {
       getSoftware: new GetSoftware(ApiService.USE_LIVE_API),
+    },
+    people: {
+      getPeople: new GetPeople(ApiService.USE_LIVE_API),
     },
   };
 
