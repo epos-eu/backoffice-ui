@@ -6,6 +6,7 @@ import { BrowseHomeComponent } from './browse-home/browse-home.component';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
 import { BrowsePeopleComponent } from './browse-people/browse-people.component';
+import { BrowseServicesComponent } from './browse-services/browse-services.component';
 import { BrowseSoftwareComponent } from './browse-software/browse-software.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
@@ -45,6 +46,7 @@ const routes: Routes = [
   {
     path: 'services',
     component: LayoutComponent,
+    children: [{ path: '', component: BrowseServicesComponent }],
   },
   {
     path: 'people',
