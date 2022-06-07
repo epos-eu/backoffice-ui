@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { PeopleDataSource } from 'src/apiAndObjects/objects/peopleDataSource';
 
@@ -8,11 +11,20 @@ import { PeopleDataSource } from 'src/apiAndObjects/objects/peopleDataSource';
   styleUrls: ['./browse-people.component.scss'],
 })
 export class BrowsePeopleComponent implements OnInit {
+  public displayedColumns: string[] = ['uid', 'name'];
+  public dataSource!: MatTableDataSource<PeopleDataSource>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.apiService.endpoints.people.getPeople.call().then((data: Array<PeopleDataSource>) => {
       console.debug(data);
+      this.dataSource = new MatTableDataSource(data as PeopleDataSource[]);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 }
