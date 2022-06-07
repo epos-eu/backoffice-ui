@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
-import { MapsHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
+import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
 import { GetOrganisations } from './organisation/getOrganisations';
 import { GetWebservices } from './webservice/getWebservices';
 import { GetDataProducts } from './dataProduct/getDataProducts';
@@ -29,7 +29,7 @@ export class ApiService extends BaseApi {
   };
 
   constructor(httpClient: HttpClient, injector: Injector) {
-    super(injector, httpClient, new MapsHttpResponseHandler(), environment.apiMockUrl);
+    super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector), environment.apiBaseUrl);
 
     // Add endpoints
     Object.values(this.endpoints).forEach((group: any) => {

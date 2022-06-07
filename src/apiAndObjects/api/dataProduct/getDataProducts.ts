@@ -15,7 +15,7 @@ export class GetDataProducts extends CacheableEndpoint<
 
   protected callLive(params: GetDataProductSourcesParams): Promise<DataProductDataSource[]> {
     const callResponsePromise = this.apiCaller
-      .doCall('dataProduct', RequestMethod.GET)
+      .doCall('dataproduct', RequestMethod.GET)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(DataProductDataSource, callResponsePromise);
   }

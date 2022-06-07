@@ -3,11 +3,11 @@ import { Injector } from '@angular/core';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ApiResponse } from './apiResponse.interface';
 
-export class MapsHttpResponseHandler {
-  // private readonly notificationsService: NotificationsService;
-  // constructor(private injector: Injector) {
-  //   this.notificationsService = injector.get<NotificationsService>(NotificationsService);
-  // }
+export class EposBackOfficeHttpResponseHandler {
+  private readonly notificationsService: SnackbarService;
+  constructor(private injector: Injector) {
+    this.notificationsService = injector.get<SnackbarService>(SnackbarService);
+  }
 
   public static createMockResponseObject(dataIn: unknown, success = true): Promise<ApiResponse> {
     return new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ export class MapsHttpResponseHandler {
     // console.debug(res);
     return new Promise((resolve, reject) => {
       // validate that it has a data attribute
-      if (undefined === res.data) {
+      if (undefined === res) {
         // add a message to be handled by the handleError method
         reject({
           message: 'Internally generated error: No data attribute in api response',
@@ -39,7 +39,7 @@ export class MapsHttpResponseHandler {
           resolve(res);
         } else {
           // return the data element
-          resolve(res.data);
+          resolve(res);
         }
       }
     });
@@ -51,7 +51,6 @@ export class MapsHttpResponseHandler {
   public handleError(res: HttpErrorResponse): Promise<unknown> {
     // TODO: Check response meta
     // TODO: Output to console?
-    // console.debug(res);
     const body = res.error; // .error is the body of the response?
     let returnValue: ApiResponse;
     let errorMessage = '';
@@ -64,7 +63,7 @@ export class MapsHttpResponseHandler {
         returnValue = body;
         break; // just an empty dataset
       case typeof body !== 'string':
-        errorMessage = body.msg;
+        errorMessage = 'body.msg';
         break;
       default:
         errorMessage = res.message;

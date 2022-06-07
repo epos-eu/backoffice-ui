@@ -15,7 +15,7 @@ export class GetSoftware extends CacheableEndpoint<
 
   protected callLive(params: GetSoftwareDataSourcesParams): Promise<SoftwareDataSource[]> {
     const callResponsePromise = this.apiCaller
-      .doCall('software', RequestMethod.GET)
+      .doCall('softwareApplication', RequestMethod.GET)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(SoftwareDataSource, callResponsePromise);
   }

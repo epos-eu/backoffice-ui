@@ -8,4 +8,5 @@ export interface ApiResponse {
   readonly props: Array<object>;
   readonly data: any;
   readonly meta: any;
+  readonly response: any;
 }
