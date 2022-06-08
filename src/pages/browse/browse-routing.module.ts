@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/components/layout/layout.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
+import { BrowseEquipmentComponent } from './browse-equipment/browse-equipment.component';
+import { BrowseFacilitiesComponent } from './browse-facilities/browse-facilities.component';
 import { BrowseHomeComponent } from './browse-home/browse-home.component';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
@@ -60,10 +62,12 @@ const routes: Routes = [
   {
     path: 'facilities',
     component: LayoutComponent,
+    children: [{ path: '', component: BrowseFacilitiesComponent }],
   },
   {
     path: 'equipment',
     component: LayoutComponent,
+    children: [{ path: '', component: BrowseEquipmentComponent }],
   },
 ];
 

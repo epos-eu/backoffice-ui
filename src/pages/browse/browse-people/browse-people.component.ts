@@ -21,7 +21,7 @@ export class BrowsePeopleComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.endpoints.people.getPeople.call().then((data: Array<PeopleDataSource>) => {
-      this.dataSource = new MatTableDataSource(data as PeopleDataSource[]);
+      this.dataSource = new MatTableDataSource(data as Array<PeopleDataSource>);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
