@@ -15,6 +15,7 @@ import { BrowseServicesComponent } from './browse-services/browse-services.compo
 import { BrowseFacilitiesComponent } from './browse-facilities/browse-facilities.component';
 import { BrowseEquipmentComponent } from './browse-equipment/browse-equipment.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
+import { BrowsePublicationsComponent } from './browse-publications/browse-publications.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
     BrowseServicesComponent,
     BrowseFacilitiesComponent,
     BrowseEquipmentComponent,
+    BrowsePublicationsComponent,
   ],
   imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule],
   exports: [],
