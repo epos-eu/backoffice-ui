@@ -15,9 +15,8 @@ export class GetEquipments extends CacheableEndpoint<
 
   protected callLive(params: GetEquipmentDataSourcesParams): Promise<Array<EquipmentDataSource>> {
     const callResponsePromise = this.apiCaller
-      .doCall('organization', RequestMethod.GET)
+      .doCall('equipment', RequestMethod.GET)
       .then((data: unknown) => this.processResponseData(data, params));
-    console.debug(callResponsePromise);
     return this.buildObjectsFromResponse(EquipmentDataSource, callResponsePromise);
   }
 

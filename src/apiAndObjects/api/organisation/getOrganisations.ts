@@ -17,7 +17,6 @@ export class GetOrganisations extends CacheableEndpoint<
     const callResponsePromise = this.apiCaller
       .doCall('organization', RequestMethod.GET)
       .then((data: unknown) => this.processResponseData(data, params));
-    console.debug(callResponsePromise);
     return this.buildObjectsFromResponse(OrganisationDataSource, callResponsePromise);
   }
 

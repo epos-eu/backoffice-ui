@@ -6,7 +6,6 @@ import { Endpoint } from './endpoint.abstract';
 import { Dictionary } from '../objects/dictionary';
 import { Injector } from '@angular/core';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
-import { map } from 'rxjs';
 
 /**
  * Extend this class to create your API service.

@@ -15,9 +15,8 @@ export class GetFacilities extends CacheableEndpoint<
 
   protected callLive(params: GetFacilityDataSourcesParams): Promise<Array<FacilitiesDataSource>> {
     const callResponsePromise = this.apiCaller
-      .doCall('organization', RequestMethod.GET)
+      .doCall('facility', RequestMethod.GET)
       .then((data: unknown) => this.processResponseData(data, params));
-    console.debug(callResponsePromise);
     return this.buildObjectsFromResponse(FacilitiesDataSource, callResponsePromise);
   }
 
