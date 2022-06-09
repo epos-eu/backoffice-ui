@@ -7,8 +7,6 @@ import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-pers
 import { initEmptyPersonObj } from 'src/helpers/person';
 import { DialogService } from 'src/services/dialog.service';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-contact/dialog-add-contact.component';
-import { initEmptyContactObj } from 'src/helpers/contact';
 import { Organization } from 'src/apiAndObjects/objects/entities/organization.model';
 
 @Component({
@@ -51,45 +49,14 @@ export class BrowseOrganizationItemComponent {
   }
 
   public handleDelete(): void {
-    this.dialogService.openDialog(DialogDeleteComponent, {}, 'custom-dialog');
-    this.dialogService.dialogStateObservable.subscribe((result) => {
-      // TODO: add delete method for DB operation
-    });
+    this.dialogService.handleDelete();
   }
 
   public handleAddPerson(): void {
-    this.dialogService.openDialog(
-      DialogAddPersonComponent,
-      {
-        width: '700px',
-        height: '700px',
-      },
-      '',
-      initEmptyPersonObj(),
-    );
-    this.dialogService.dialogStateObservable.subscribe((result) => {
-      // TODO: save form data into DB
-      if (result) {
-        // do stuff
-      }
-    });
+    this.dialogService.handleAddPerson();
   }
 
   public handleAddContact(): void {
-    this.dialogService.openDialog(
-      DialogAddContactComponent,
-      {
-        width: '700px',
-        height: '650px',
-      },
-      '',
-      initEmptyContactObj(),
-    );
-    this.dialogService.dialogStateObservable.subscribe((result) => {
-      // TODO: save form data into DB
-      if (result) {
-        // do stuff
-      }
-    });
+    this.dialogService.handleAddContact();
   }
 }

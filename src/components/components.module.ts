@@ -7,9 +7,10 @@ import { DialogAddPersonComponent } from './dialogs/dialog-add-person/dialog-add
 import { DialogAddContactComponent } from './dialogs/dialog-add-contact/dialog-add-contact.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { SideNavigationModule } from './side-navigation/side-navigation.module';
+import { MetadataFileViewComponent } from './dialogs/metadata-file-view/metadata-file-view.component';
 
 @NgModule({
-  declarations: [LayoutComponent, DialogDeleteComponent, DialogAddPersonComponent, DialogAddContactComponent],
+  declarations: [LayoutComponent, DialogDeleteComponent, DialogAddPersonComponent, DialogAddContactComponent, MetadataFileViewComponent],
   imports: [RouterModule, CommonModule, AngularMaterialModule, SideNavigationModule],
   exports: [LayoutComponent],
 })

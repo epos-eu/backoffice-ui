@@ -21,7 +21,7 @@
     <p mat-line>Software</p>
   </a>
 
-  <a mat-list-item [routerLink]="['/browse/services']" routerLinkActive="active">
+  <a [disabled]="true" mat-list-item [routerLink]="['/browse/services']" routerLinkActive="active">
     <mat-icon mat-list-icon>device_hub</mat-icon>
     <p mat-line>Services</p>
   </a>
@@ -52,13 +52,13 @@
   <mat-divider></mat-divider>
 
   <h3 mat-subheader>Infrastructure</h3>
-  <a mat-list-item [routerLink]="['/browse/facilities']" routerLinkActive="active">
+  <a [disabled]="true" mat-list-item [routerLink]="['/browse/facilities']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       account_balance
     </mat-icon>
     <p mat-line>Facilities</p>
   </a>
-  <a mat-list-item [routerLink]="['/browse/equipment']" routerLinkActive="active">
+  <a [disabled]="true" mat-list-item [routerLink]="['/browse/equipment']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       build
     </mat-icon>

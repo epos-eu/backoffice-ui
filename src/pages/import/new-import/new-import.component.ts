@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { DialogService } from 'src/services/dialog.service';
 
 export interface PeriodicElement {
   name: string;
@@ -7,8 +8,13 @@ export interface PeriodicElement {
 }
 export interface UploadElement {
   name: string;
-  field1: number;
   verified: boolean;
+}
+export interface ImportElement {
+  name: string;
+  verified: boolean;
+  approval: boolean;
+  importDate: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -18,23 +24,24 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { name: 'Metadata File', size: 9.0122 },
   { name: 'Metadata File', size: 10.811 },
   { name: 'Metadata File', size: 12.0107 },
-  { name: 'Metadata File', size: 14.0067 },
-  { name: 'Metadata File', size: 15.9994 },
-  { name: 'Metadata File', size: 18.9984 },
-  { name: 'Metadata File', size: 20.1797 },
 ];
 
 const UPLOADED_DATA: UploadElement[] = [
-  { name: 'Metadata File', field1: 1, verified: true },
-  { name: 'Metadata File', field1: 26, verified: true },
-  { name: 'Metadata File', field1: 1, verified: true },
-  { name: 'Metadata File', field1: 9, verified: false },
-  { name: 'Metadata File', field1: 10, verified: false },
-  { name: 'Metadata File', field1: 12, verified: false },
-  { name: 'Metadata File', field1: 14, verified: false },
-  { name: 'Metadata File', field1: 15, verified: false },
-  { name: 'Metadata File', field1: 18, verified: false },
-  { name: 'Metadata File', field1: 20, verified: false },
+  { name: 'Metadata File', verified: true },
+  { name: 'Metadata File', verified: true },
+  { name: 'Metadata File', verified: true },
+  { name: 'Metadata File', verified: false },
+  { name: 'Metadata File', verified: false },
+  { name: 'Metadata File', verified: false },
+];
+
+const IMPORTED_DATA: ImportElement[] = [
+  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
+  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
+  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
+  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
+  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
+  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
 ];
 @Component({
   selector: 'app-new-import',
@@ -45,13 +52,20 @@ export class NewImportComponent {
   displayedColumns: string[] = ['name', 'size'];
   dataSource = new MatTableDataSource<PeriodicElement>();
 
-  uploadDisplayedColumns: string[] = ['name', 'size', 'verifying'];
+  uploadDisplayedColumns: string[] = ['name', 'verifying'];
   uploadDataSource = [...UPLOADED_DATA];
+
+  importDisplayedColumns: string[] = ['name', 'verified', 'approval', 'importDate'];
+  importDataSource = [...IMPORTED_DATA];
+
   @ViewChild(MatTable) table!: MatTable<UploadElement>;
   public selectedItems = false;
   public uploading = false;
   public uploaded = false;
   public importEnabled = false;
+  public integrityChecked = false;
+
+  constructor(private dialogService: DialogService) {}
 
   public fileSelectionToggle(): void {
     this.selectedItems = !this.selectedItems;
@@ -77,5 +91,16 @@ export class NewImportComponent {
         this.importEnabled = true;
       }, 3000);
     }, 3000);
+  }
+
+  public showImport() {
+    this.integrityChecked = true;
+    this.uploading = false;
+    this.uploaded = false;
+    UPLOADED_DATA.slice(3, 6).map((item: UploadElement) => (item.verified = false));
+  }
+
+  public openDataPopup() {
+    this.dialogService.openMetadateViewDialog();
   }
 }
