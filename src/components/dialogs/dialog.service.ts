@@ -10,6 +10,7 @@ import { DialogTypes, IDialog } from 'src/components/dialogs/dialog/dialog.model
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
 import { initEmptyContactObj } from 'src/helpers/contact';
 import { initEmptyPersonObj } from 'src/helpers/person';
+import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 interface ISize {
   width: string;
   height: string;
@@ -18,27 +19,23 @@ interface ISize {
 @Injectable({
   providedIn: 'root',
 })
-export class DialogService {
-  constructor(public dialog: MatDialog) {}
-
+export class DialogService extends BaseDialogService {
   private dialogRef!: MatDialogRef<DialogComponent>;
   private dialogState = new BehaviorSubject<string>('');
   public dialogStateObservable = this.dialogState.asObservable();
+  constructor(public override dialog: MatDialog) {
+    super(dialog);
+  }
 
-  private openDialog(
-    component: ComponentType<DialogTypes>,
-    size?: ISize | Record<string, never>,
-    panelClass?: string,
-    content?: IDialog['content'],
-  ): void {
-    this.dialog.open(DialogComponent, {
-      height: size?.height ? size?.height : '250px',
-      width: size?.width ? size?.width : '450px',
-      data: {
-        content,
-        component,
-      },
-      panelClass,
+  public openDialogForComponent<T = unknown>(
+    contentComponent: ComponentType<unknown>,
+    data?: T,
+    width = '80vw',
+    height = '80vh',
+  ): Promise<DialogData<T>> {
+    return this.openDialog('anyDialog', contentComponent, true, data, {
+      width,
+      height,
     });
   }
 
@@ -54,22 +51,15 @@ export class DialogService {
     this.dialogRef.close(button);
   }
 
-  public openMetadateViewDialog(): void {
-    this.openDialog(MetadataFileViewComponent, {
-      width: '100%',
-      height: '100%',
-    });
+  public openMetadataViewDialog(): Promise<DialogData> {
+    return this.openDialog('metadataView', MetadataFileViewComponent);
   }
 
   public handleDelete(): void {
-    this.openDialog(
-      DialogDeleteComponent,
-      {
-        width: '450px',
-        height: '275px',
-      },
-      'custom-dialog',
-    );
+    this.openDialog('delete', DialogDeleteComponent, false, {
+      width: '450px',
+      height: '275px',
+    });
     this.dialogStateObservable.subscribe((result) => {
       if (Boolean(result) && result === 'delete') {
         // TODO: add delete method to remove from DB
@@ -79,13 +69,14 @@ export class DialogService {
 
   public handleAddContact(): void {
     this.openDialog(
+      'addContact',
       DialogAddContactComponent,
+      true,
       {
         width: '700px',
         height: '650px',
       },
-      '',
-      initEmptyContactObj(),
+      // initEmptyContactObj(),
     );
     this.dialogStateObservable.subscribe((result) => {
       // TODO: save form data into DB
@@ -97,13 +88,14 @@ export class DialogService {
 
   public handleAddPerson(): void {
     this.openDialog(
+      'addPerson',
       DialogAddPersonComponent,
+      true,
       {
         width: '700px',
         height: '700px',
       },
-      '',
-      initEmptyPersonObj(),
+      // initEmptyPersonObj(),
     );
     this.dialogStateObservable.subscribe((result) => {
       // TODO: save form data into DB

@@ -2,12 +2,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
-import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-person/dialog-add-person.component';
-import { initEmptyPersonObj } from 'src/helpers/person';
-import { DialogService } from 'src/services/dialog.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Organization } from 'src/apiAndObjects/objects/entities/organization.model';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-browse-organization-item',

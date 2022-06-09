@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { DialogService } from 'src/services/dialog.service';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 
 export interface PeriodicElement {
   name: string;
@@ -101,6 +101,6 @@ export class NewImportComponent {
   }
 
   public openDataPopup() {
-    this.dialogService.openMetadateViewDialog();
+    this.dialogService.openMetadataViewDialog();
   }
 }

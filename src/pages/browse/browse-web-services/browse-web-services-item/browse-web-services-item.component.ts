@@ -3,8 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
-import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
-import { DialogService } from 'src/services/dialog.service';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
