@@ -23,11 +23,15 @@ export class SoftwareDataSource extends BaseObject implements Named {
 
   public readonly id: string;
   public readonly name: string;
+  public readonly description: string;
+  public readonly downloadURL: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.id = this._getString(SoftwareDataSource.KEYS.UID);
     this.name = this._getString(SoftwareDataSource.KEYS.NAME);
+    this.description = this._getString(SoftwareDataSource.KEYS.DESCRIPTION);
+    this.downloadURL = this._getString(SoftwareDataSource.KEYS.DOWNLOAD_URL);
   }
 }

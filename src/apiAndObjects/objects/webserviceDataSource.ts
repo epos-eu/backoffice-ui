@@ -23,11 +23,13 @@ export class WebserviceDataSource extends BaseObject implements Named {
 
   public readonly id: string;
   public readonly name: string;
+  public readonly datePublished: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.id = this._getString(WebserviceDataSource.KEYS.UID);
     this.name = this._getString(WebserviceDataSource.KEYS.NAME);
+    this.datePublished = this._getString(WebserviceDataSource.KEYS.DATE_PUBLISHED);
   }
 }

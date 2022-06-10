@@ -30,11 +30,15 @@ export class DataProductDataSource extends BaseObject implements Named {
 
   public readonly id: string;
   public readonly name: string;
+  public readonly description: string;
+  public readonly type: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.id = this._getString(DataProductDataSource.KEYS.UID);
     this.name = this._getString(DataProductDataSource.KEYS.TITLE);
+    this.description = this._getString(DataProductDataSource.KEYS.DESCRIPTION);
+    this.type = this._getString(DataProductDataSource.KEYS.TYPE);
   }
 }

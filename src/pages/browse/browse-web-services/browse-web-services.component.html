@@ -22,6 +22,16 @@
             {{ row._sourceObject.name }}
           </td>
         </ng-container>
+
+        <!-- Issued (datePublished) column -->
+        <ng-container matColumnDef="datePublished">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Issued
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row._sourceObject.datePublished }}
+          </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="rowClicked(row)"></tr>
 

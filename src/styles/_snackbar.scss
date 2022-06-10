@@ -1,5 +1,5 @@
-::ng-deep.snackbar {
-  padding: 0.5rem 1rem;
+.snackbar {
+  padding: 0.5rem 1rem !important;
 
   &.snackbar-primary {
     background: #004926;

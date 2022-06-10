@@ -12,7 +12,7 @@ import { DataProductsService } from 'src/services/data-products.service';
   styleUrls: ['./browse-data-products.component.scss'],
 })
 export class BrowseDataProductsComponent implements OnInit {
-  public displayedColumns: string[] = ['uid', 'name'];
+  public displayedColumns: string[] = ['uid', 'name', 'description', 'type'];
   public dataSource!: MatTableDataSource<DataProductDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
 

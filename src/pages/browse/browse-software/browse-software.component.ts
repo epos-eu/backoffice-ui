@@ -12,7 +12,7 @@ import { SoftwareService } from 'src/services/software.service';
   styleUrls: ['./browse-software.component.scss'],
 })
 export class BrowseSoftwareComponent implements OnInit {
-  public displayedColumns: string[] = ['uid', 'name'];
+  public displayedColumns: string[] = ['uid', 'name', 'description'];
   public dataSource!: MatTableDataSource<SoftwareDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
 

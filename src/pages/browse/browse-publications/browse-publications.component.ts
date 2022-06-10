@@ -11,7 +11,7 @@ import { DistributionDataSource } from 'src/apiAndObjects/objects/distributionDa
   styleUrls: ['./browse-publications.component.scss'],
 })
 export class BrowsePublicationsComponent implements OnInit {
-  public displayedColumns: string[] = ['uid', 'name'];
+  public displayedColumns: string[] = ['uid', 'name', 'issued'];
   public dataSource!: MatTableDataSource<DistributionDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
 

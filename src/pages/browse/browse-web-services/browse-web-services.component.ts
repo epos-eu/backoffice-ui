@@ -12,7 +12,7 @@ import { WebservicesService } from 'src/services/webservices.service';
   styleUrls: ['./browse-web-services.component.scss'],
 })
 export class BrowseWebServicesComponent implements OnInit {
-  public displayedColumns: string[] = ['uid', 'name'];
+  public displayedColumns: string[] = ['uid', 'name', 'datePublished'];
   public dataSource!: MatTableDataSource<WebserviceDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
 

@@ -20,11 +20,13 @@ export class OrganisationDataSource extends BaseObject implements Named {
 
   public readonly id: string;
   public readonly name: string;
+  public readonly url: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.id = this._getString(OrganisationDataSource.KEYS.UID);
     this.name = this._getString(OrganisationDataSource.KEYS.LEGAL_NAME);
+    this.url = this._getString(OrganisationDataSource.KEYS.URL);
   }
 }

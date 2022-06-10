@@ -11,7 +11,7 @@ import { PeopleDataSource } from 'src/apiAndObjects/objects/peopleDataSource';
   styleUrls: ['./browse-people.component.scss'],
 })
 export class BrowsePeopleComponent implements OnInit {
-  public displayedColumns: string[] = ['uid', 'name'];
+  public displayedColumns: string[] = ['uid', 'name', 'givenName', 'email'];
   public dataSource!: MatTableDataSource<PeopleDataSource>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

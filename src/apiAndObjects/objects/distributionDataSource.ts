@@ -19,11 +19,13 @@ export class DistributionDataSource extends BaseObject implements Named {
 
   public readonly id: string;
   public readonly name: string;
+  public readonly issued: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
     this.id = this._getString(DistributionDataSource.KEYS.UID);
     this.name = this._getString(DistributionDataSource.KEYS.TITLE);
+    this.issued = this._getString(DistributionDataSource.KEYS.ISSUED);
   }
 }
