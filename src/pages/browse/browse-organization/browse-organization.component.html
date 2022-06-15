@@ -2,6 +2,7 @@
   <div class="container" fxLayout="row" fxLayoutAlign="center none">
     <h1 class="mat-display-1">Organisations</h1>
     <div class="mat-elevation-z8 mat-table-margin">
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- ID Column -->
         <ng-container matColumnDef="uid">

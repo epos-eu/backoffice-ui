@@ -14,6 +14,7 @@ export class BrowsePublicationsComponent implements OnInit {
   public displayedColumns: string[] = ['uid', 'name', 'issued'];
   public dataSource!: MatTableDataSource<DistributionDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

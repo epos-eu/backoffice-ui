@@ -13,6 +13,7 @@ import { ServiceDataSource } from 'src/apiAndObjects/objects/serviceDataSource';
 export class BrowseServicesComponent implements OnInit {
   public displayedColumns: string[] = ['uid', 'name'];
   public dataSource!: MatTableDataSource<ServiceDataSource>;
+  public loading = false;
   public pageSizeOptions = [10, 25, 50, 100];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -20,10 +21,14 @@ export class BrowseServicesComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.apiService.endpoints.services.getServices.call().then((data: Array<ServiceDataSource>) => {
-      this.dataSource = new MatTableDataSource(data as ServiceDataSource[]);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.loading = true;
+    this.apiService.endpoints.services.getServices
+      .call()
+      .then((data: Array<ServiceDataSource>) => {
+        this.dataSource = new MatTableDataSource(data as ServiceDataSource[]);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      })
+      .finally(() => (this.loading = false));
   }
 }

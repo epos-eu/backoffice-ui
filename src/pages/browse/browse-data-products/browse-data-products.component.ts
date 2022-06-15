@@ -15,6 +15,7 @@ export class BrowseDataProductsComponent implements OnInit {
   public displayedColumns: string[] = ['uid', 'name', 'description', 'type'];
   public dataSource!: MatTableDataSource<DataProductDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -22,10 +23,14 @@ export class BrowseDataProductsComponent implements OnInit {
   constructor(private dataProductsService: DataProductsService, private router: Router) {}
 
   ngOnInit(): void {
-    this.dataProductsService.getDataProducts().then((response: DataProductDataSource[]) => {
-      this.dataSource = new MatTableDataSource(response as DataProductDataSource[]);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
+    this.loading = true;
+    this.dataProductsService
+      .getDataProducts()
+      .then((response: DataProductDataSource[]) => {
+        this.dataSource = new MatTableDataSource(response as DataProductDataSource[]);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      })
+      .finally(() => (this.loading = false));
   }
 }

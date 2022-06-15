@@ -14,6 +14,7 @@ import { OrganizationService } from 'src/services/organization.service';
 export class BrowseOrganizationComponent implements OnInit {
   displayedColumns: string[] = ['uid', 'legalName'];
   dataSource!: MatTableDataSource<OrganisationDataSource>;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

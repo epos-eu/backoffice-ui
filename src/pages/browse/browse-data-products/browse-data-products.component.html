@@ -1,7 +1,10 @@
 <ng-scrollbar>
   <div class="container" fxLayout="row" fxLayoutAlign="center none">
     <h1 class="mat-display-1">Data products</h1>
-    <div class="mat-elevation-z8 mat-table-margin">
+    <div class="mat-table-margin">
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="!loading" class="mat-elevation-z8 mat-table-margin">
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- Uid column -->
         <ng-container matColumnDef="uid">
