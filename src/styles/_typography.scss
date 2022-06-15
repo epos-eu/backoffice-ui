@@ -1,0 +1,10 @@
+$custom-typography: mat.define-typography-config(
+  $font-family: '"Roboto Flex", sans-serif'
+);
+
+@include mat.core($custom-typography);
+
+.mat-toolbar {
+  font: initial;
+  font-family: 'Roboto Flex', sans-serif;
+}

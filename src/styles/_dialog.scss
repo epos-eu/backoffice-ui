@@ -1,0 +1,64 @@
+@import '~@angular/material/theming';
+
+app-dialog {
+  width: 100%;
+  padding: 2rem;
+
+  app-dialog-add-person,
+  app-dialog-add-contact {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+
+    .mat-dialog-actions {
+      align-self: flex-end;
+    }
+  }
+}
+
+.mat-dialog-container {
+  border-left: 5px solid #004926;
+  overflow: hidden !important;
+  padding: 24px 12px !important;
+}
+
+.custom-dialog {
+  app-dialog {
+    padding: 0 !important;
+  }
+
+  .mat-dialog-container {
+    border-left: none !important;
+    padding-left: 0;
+    padding-right: 0;
+    overflow: hidden !important;
+    display: flex;
+
+    app-dialog-delete {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      width: 100%;
+
+      h1 {
+        padding: 0 2rem;
+      }
+
+      .mat-dialog-content {
+        padding: 0 3.5rem;
+
+        p {
+          color: #515151;
+          font-family: 'Roboto Flex', sans-serif;
+        }
+      }
+
+      .mat-dialog-actions {
+        padding: 1rem 2rem;
+        background: #efefef;
+        justify-content: flex-end;
+      }
+    }
+  }
+}

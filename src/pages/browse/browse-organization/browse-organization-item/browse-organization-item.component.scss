@@ -1,9 +1,19 @@
-.mat-form-margin {
-  margin-left: 5%;
+* {
+  font-family: 'Roboto Flex', sans-serif;
 }
 
 .mat-tab-label {
   background-color: transparent;
-  font-weight: 700;
   font-size: large;
+}
+
+button {
+  &.contact-add {
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  &.person-add {
+    margin-bottom: 2rem;
+  }
 }

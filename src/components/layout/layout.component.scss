@@ -12,7 +12,7 @@
 }
 
 .navbar-main-navigation {
-  margin-left: 5%;
+  margin-left: 2.5%;
 
   a {
     margin: 0 15%;
@@ -74,6 +74,10 @@ mat-sidenav {
   /* background-color:rgb(63, 81, 181); */
 }
 
+mat-sidenav-content {
+  font-family: 'Roboto Flex', sans-serif;
+}
+
 a.mat-list-item.active {
   background: rgba(0, 0, 0, .04);
 }
@@ -81,4 +85,14 @@ a.mat-list-item.active {
 #push-bottom {
   position: absolute;
   bottom: 0;
+}
+
+button {
+  &[mat-icon-button] {
+    mat-icon {
+      &.active {
+        color: #f39c12;
+      }
+    }
+  }
 }

@@ -1,13 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@use '@angular/material' as mat;
+@import './styles/theme';
+@import './styles/typography';
+@import './styles/dialog';
+@import './styles/snackbar';
+@import './styles/table';
+@import './styles/scroll';
 
 .container {
   margin-top: 10px;
   margin-left: 30px;
+
+  h1 {
+    &.mat-display-1 {
+      margin: 32px 0 32px 0;
+      font-weight: 500;
+    }
+  }
+
+  .top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    margin-right: 30px;
+
+    .actions {
+      button {
+        margin-left: 1rem;
+      }
+    }
+  }
 }
 
 .mat-toolbar.mat-primary {
-  background: #124027;
   color: #fff;
 }
 
@@ -17,4 +43,10 @@
 
 .mat-tab-body {
   padding: 10px 30px;
+}
+
+.inline-fields {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }

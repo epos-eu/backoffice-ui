@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ApiCaller } from 'src/api/apiCaller';
-import { RequestMethod } from 'src/api/requestMethod.enum';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { OrganisationDataSource } from 'src/apiAndObjects/objects/organisationDataSource';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganizationService {
-  constructor(private apiCaller: ApiCaller) {}
+  constructor(private apiService: ApiService) {}
 
-  getOrganizations() {
-    return this.apiCaller.doCall('organization', RequestMethod.GET);
+  public getOrganizations(): Promise<OrganisationDataSource[]> {
+    return this.apiService.endpoints.organisation.getOrganisations.call();
   }
 }

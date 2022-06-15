@@ -1,61 +1,110 @@
-<div class="container" fxLayout="row" fxLayoutAlign="center none">
-  <h1>Organization</h1>
-    <mat-tab-group mat-stretch-tabs class="mat-elevation-z4 mat-tab__padding" animationDuration="0ms" mat-align-tabs="start">
-
+<ng-scrollbar>
+  <div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <ng-container *ngIf="organization">
+      <div class="top-header">
+        <h1 class="mat-display-1">Organisation</h1>
+        <div class="actions">
+          <mat-slide-toggle class="example-margin" color="primary" (change)="handleChange($event)"
+            [checked]="editModeEnabled">
+            Edit mode
+          </mat-slide-toggle>
+          <button mat-flat-button color="primary" [disabled]="!editModeEnabled" (click)="handleSave()">Save</button>
+          <button mat-stroked-button color="warn" [disabled]="!editModeEnabled" (click)="handleDelete()">Delete</button>
+        </div>
+      </div>
+      <mat-tab-group mat-stretch-tabs class="mat-elevation-z4 mat-tab__padding" animationDuration="0ms"
+        mat-align-tabs="start">
         <mat-tab label="Information">
           <form>
-            <h4>Identifier</h4>
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="20">
-              <mat-label>Type</mat-label>
-              <input matInput placeholder="PIC" [(ngModel)]="organization.identifier[0].type" name="type" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
+            <h4 class="mat-subheading-2">Identifier</h4>
+            <div class="inline-fields">
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="20">
+                <mat-label>Type</mat-label>
+                <input matInput placeholder="PIC" [(ngModel)]="organization['identifier'][0].type" name="type"
+                  [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
+              </mat-form-field>
 
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="75" class="mat-form-margin">
-              <mat-label>Identifier</mat-label>
-              <input matInput placeholder="PIC:XXXXXXXXX" [(ngModel)]="organization.identifier[0].identifier" name="identifier" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="75"
+                class="mat-form-margin">
+                <mat-label>Identifier</mat-label>
+                <input matInput placeholder="PIC:XXXXXXXXX" [(ngModel)]="organization.identifier[0].identifier"
+                  name="identifier" [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
+              </mat-form-field>
+            </div>
 
-            <h4>Properties</h4>
+            <h4 class="mat-subheading-2">Properties</h4>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Legal Name</mat-label>
-              <input matInput [(ngModel)]="organization.legalName" name="legalName" [ngModelOptions]="{standalone: true}">
+              <input matInput [(ngModel)]="organization.legalName" name="legalName"
+                [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Logo</mat-label>
-              <input matInput [(ngModel)]="organization.logo" type="url" name="logo" [ngModelOptions]="{standalone: true}">
+              <input matInput [(ngModel)]="organization.logo" type="url" name="logo"
+                [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>E-mail</mat-label>
-              <input matInput [(ngModel)]="organization.email" type="email" name="email" [ngModelOptions]="{standalone: true}"t>
+              <input matInput [(ngModel)]="organization.email" type="email" name="email"
+                [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Telephone</mat-label>
-              <input matInput [(ngModel)]="organization.telephone" type="tel" name="telephone" [ngModelOptions]="{standalone: true}">
+              <input matInput [(ngModel)]="organization.telephone" type="tel" name="telephone"
+                [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
             </mat-form-field>
 
-            <h4>Address</h4>
+            <h4 class="mat-subheading-2">Address</h4>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Street</mat-label>
-              <input matInput [(ngModel)]="organization.address.street" name="street" [ngModelOptions]="{standalone: true}">
+              <input matInput [(ngModel)]="organization.address.street" name="street"
+                [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
             </mat-form-field>
             <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="100">
               <mat-label>Locality</mat-label>
-              <input matInput matInput [(ngModel)]="organization.address.locality" name="locality" [ngModelOptions]="{standalone: true}">
+              <input matInput matInput [(ngModel)]="organization.address.locality" name="locality"
+                [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
             </mat-form-field>
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="20">
-              <mat-label>Postal Code</mat-label>
-              <input matInput matInput [(ngModel)]="organization.address.postalCode" name="postalCode" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="75" class="mat-form-margin">
-              <mat-label>Country</mat-label>
-              <input matInput matInput [(ngModel)]="organization.address.country" name="country" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
+            <div class="inline-fields">
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="20">
+                <mat-label>Postal Code</mat-label>
+                <input matInput matInput [(ngModel)]="organization.address.postalCode" name="postalCode"
+                  [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
+              </mat-form-field>
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="75"
+                class="mat-form-margin">
+                <mat-label>Country</mat-label>
+                <input matInput matInput [(ngModel)]="organization.address.country" name="country"
+                  [ngModelOptions]="{standalone: true}" [disabled]="!editModeEnabled">
+              </mat-form-field>
+            </div>
           </form>
         </mat-tab>
-
         <mat-tab label="Relations">
-          Relations
-        </mat-tab>
+          <h4 class="mat-subheading-2">
+            Contact Points
+          </h4>
+          <mat-form-field *ngFor="let contact of organization.contactPoint; let i = index;" appearance="outline"
+            [floatLabel]="floatLabelControl.value" [style.width.%]="75" class="mat-form-margin">
+            <mat-label>Contact</mat-label>
+            <input matInput [value]="organization['contactPoint'][i]" name="contactPoint" [disabled]="!editModeEnabled">
+          </mat-form-field>
+          <button mat-raised-button color="primary" class="contact-add" [disabled]="!editModeEnabled"
+            (click)="handleAddContact()">Add</button>
 
-    </mat-tab-group>
-</div>
+          <h4 class="mat-subheading-2">
+            People
+          </h4>
+          <button mat-raised-button color="primary" class="person-add" [disabled]="!editModeEnabled"
+            (click)="handleAddPerson()">Add</button>
+        </mat-tab>
+      </mat-tab-group>
+    </ng-container>
+    <ng-container *ngIf="!organization">
+      <h1 class="mat-display-1">Organisations</h1>
+      <p class="body-1">
+        No records found. Please browse 'Organisations' using the list on the left.
+      </p>
+    </ng-container>
+  </div>
+</ng-scrollbar>

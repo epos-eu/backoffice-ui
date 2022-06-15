@@ -1,9 +1,0 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export interface ApiResponse {
-  readonly msg: string;
-  readonly type: string;
-  readonly self: string;
-  readonly props: Array<object>;
-  readonly data: any;
-  readonly meta: any;
-}

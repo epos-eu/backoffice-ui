@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { Organization } from '../../../../api/models/entities/organization.model';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { Organization } from 'src/apiAndObjects/objects/entities/organization.model';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-browse-organization-item',
@@ -9,14 +12,19 @@ import { Organization } from '../../../../api/models/entities/organization.model
   styleUrls: ['./browse-organization-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BrowseOrganizationItemComponent implements OnInit {
-  options: FormGroup;
-  hideRequiredControl = new FormControl(false);
-  floatLabelControl = new FormControl('auto');
+export class BrowseOrganizationItemComponent {
+  public options: FormGroup;
+  public hideRequiredControl = new FormControl(false);
+  public floatLabelControl = new FormControl('auto');
+  public editModeEnabled = false;
+  public organization!: Organization;
 
-  organization!: Organization;
-
-  constructor(fb: FormBuilder, private router: Router) {
+  constructor(
+    fb: FormBuilder,
+    private router: Router,
+    private dialogService: DialogService,
+    private snackbarService: SnackbarService,
+  ) {
     this.options = fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
@@ -24,7 +32,28 @@ export class BrowseOrganizationItemComponent implements OnInit {
     this.organization = this.router.getCurrentNavigation()?.extras.state as Organization;
   }
 
-  ngOnInit(): void {
-    console.log(this.organization);
+  public handleChange(event: MatSlideToggleChange): void {
+    this.editModeEnabled = event.checked;
+  }
+
+  public handleSave(): void {
+    // TODO: add Save method for DB operation
+    this.snackbarService.openSnackbar('Item saved successfully', 'Close', true, 4000, [
+      'snackbar',
+      'mat-toolbar',
+      'snackbar-primary',
+    ]);
+  }
+
+  public handleDelete(): void {
+    this.dialogService.handleDelete();
+  }
+
+  public handleAddPerson(): void {
+    this.dialogService.handleAddPerson();
+  }
+
+  public handleAddContact(): void {
+    this.dialogService.handleAddContact();
   }
 }

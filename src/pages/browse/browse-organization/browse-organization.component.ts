@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Organization } from 'src/api/models/entities/organization.model';
+import { OrganisationDataSource } from 'src/apiAndObjects/objects/organisationDataSource';
 import { OrganizationService } from 'src/services/organization.service';
 
 @Component({
@@ -13,30 +13,27 @@ import { OrganizationService } from 'src/services/organization.service';
 })
 export class BrowseOrganizationComponent implements OnInit {
   displayedColumns: string[] = ['uid', 'legalName'];
-  dataSource!: MatTableDataSource<Organization>;
+  dataSource!: MatTableDataSource<OrganisationDataSource>;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private orgService: OrganizationService, private router: Router) {}
+  constructor(private organisationService: OrganizationService, private router: Router) {}
 
   ngOnInit(): void {
-    this.orgService
-      .getOrganizations()
-      .then((response) => {
-        console.log(response);
-        this.dataSource = new MatTableDataSource(response as Organization[]);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.organisationService.getOrganizations().then((response: OrganisationDataSource[]) => {
+      this.dataSource = new MatTableDataSource(response as OrganisationDataSource[]);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   // TODO: add type for row
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rowClicked(row: any) {
-    this.router.navigate(['/browse/organization/details', row.identifier[0].identifier], { state: row });
+    this.router.navigate(['/browse/organization/details', row._sourceObject.identifier[0].identifier], {
+      state: row._sourceObject,
+    });
   }
 }

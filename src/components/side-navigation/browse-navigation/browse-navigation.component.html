@@ -1,68 +1,68 @@
 <mat-nav-list>
   <h3 mat-subheader>DDSS</h3>
 
-  <a mat-list-item [routerLink]="['/data-products']" routerLinkActive="active">
+  <a mat-list-item [routerLink]="['/browse/data-products']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       perm_media
     </mat-icon>
-    <p mat-line> DATA PRODUCTS </p>
+    <p mat-line>Data products</p>
   </a>
 
   <a mat-list-item [routerLink]="['/browse/web-services']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       layers
     </mat-icon>
-    <p mat-line> WEBSERVICES </p>
+    <p mat-line>Webservices</p>
   </a>
-  <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
+  <a mat-list-item [routerLink]="['/browse/software']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       desktop_windows
     </mat-icon>
-    <p mat-line> SOFTWARE </p>
+    <p mat-line>Software</p>
   </a>
 
-  <a mat-list-item [routerLink]="['/users']" routerLinkActive="active">
+  <a [disabled]="true" mat-list-item [routerLink]="['/browse/services']" routerLinkActive="active">
     <mat-icon mat-list-icon>device_hub</mat-icon>
-    <p mat-line> SERVICES </p>
+    <p mat-line>Services</p>
   </a>
 
   <mat-divider></mat-divider>
 
-  <h3 mat-subheader>ADMINISTRATIVE</h3>
+  <h3 mat-subheader>Administrative</h3>
 
   <a mat-list-item [routerLink]="['/browse/organization']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       business
     </mat-icon>
-    <p mat-line> ORGANIZATIONS </p>
+    <p mat-line>Organisations</p>
   </a>
-  <a mat-list-item [routerLink]="['/typography']" routerLinkActive="active">
+  <a mat-list-item [routerLink]="['/browse/people']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       person
     </mat-icon>
-    <p mat-line> PERSONS </p>
+    <p mat-line>People</p>
   </a>
-  <a mat-list-item [routerLink]="['/typography']" routerLinkActive="active">
+  <a mat-list-item [routerLink]="['/browse/publications']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       book
     </mat-icon>
-    <p mat-line> PUBLICATIONS </p>
+    <p mat-line>Publications</p>
   </a>
 
   <mat-divider></mat-divider>
 
-  <h3 mat-subheader>INFRASTRUCTURE</h3>
-  <a mat-list-item [routerLink]="['/icons']" routerLinkActive="active">
+  <h3 mat-subheader>Infrastructure</h3>
+  <a [disabled]="true" mat-list-item [routerLink]="['/browse/facilities']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       account_balance
     </mat-icon>
-    <p mat-line> FACILITIES </p>
+    <p mat-line>Facilities</p>
   </a>
-  <a mat-list-item [routerLink]="['/typography']" routerLinkActive="active">
+  <a [disabled]="true" mat-list-item [routerLink]="['/browse/equipment']" routerLinkActive="active">
     <mat-icon mat-list-icon>
       build
     </mat-icon>
-    <p mat-line> EQUIPMENTS </p>
+    <p mat-line>Equipment</p>
   </a>
 
 </mat-nav-list>
