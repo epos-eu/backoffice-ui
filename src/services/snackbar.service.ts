@@ -11,7 +11,7 @@ export class SnackbarService {
   public openSnackbar(
     title: string,
     action: string,
-    success: boolean,
+    type: string,
     duration?: number,
     panelClass?: Array<string>,
   ): void {
@@ -20,7 +20,7 @@ export class SnackbarService {
       data: {
         title,
         action,
-        success,
+        type,
       },
       panelClass,
     });

@@ -1,5 +1,5 @@
 export interface ISnackbar {
   title: string;
   action: string;
-  success: boolean;
+  type: 'success' | 'warning' | 'error';
 }
