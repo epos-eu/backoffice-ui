@@ -1,0 +1,14 @@
+mat-chip-list {
+  &.mat-chip-list-stacked {
+    .mat-chip-list-wrapper {
+      margin: 0 2rem 0 0.5rem;
+
+      mat-chip {
+        display: block;
+        margin-bottom: 0.75rem;
+        height: 56px;
+        border-radius: 36px;
+      }
+    }
+  }
+}

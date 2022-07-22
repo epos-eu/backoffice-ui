@@ -33,4 +33,8 @@ export class BrowseDataProductsComponent implements OnInit {
       })
       .finally(() => (this.loading = false));
   }
+
+  rowClicked(row: any) {
+    this.router.navigate(['/browse/data-products/details', row.id], { state: row._sourceObject });
+  }
 }

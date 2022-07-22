@@ -1,3 +1,5 @@
+@import '../../styles/theme.scss';
+
 .navbar-spacer {
   flex: 1 1 auto;
 }
@@ -6,31 +8,39 @@
   z-index: 2;
 }
 
+.logo-wrapper {
+  cursor: pointer;
+}
+
 .navbar-brand {
   text-decoration: none;
   color: white;
+  cursor: pointer;
 }
 
 .navbar-main-navigation {
   margin-left: 2.5%;
+}
 
-  a {
-    margin: 0 15%;
+.navbar-main-navigation-item {
+  margin: 0 15%;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  &:visited {
+    color: white;
+  }
+  &:hover,
+  &:focus {
+    color: orange;
     text-decoration: none;
-    cursor: pointer;
-    color: white;
   }
+}
 
-  a:visited {
-    color: white;
-  }
-
-  a:hover,
-  a:focus {
-      color: orange;
-      text-decoration: none;
-  }
-
+.login {
+  display: flex;
+  align-items: center;
+  margin-right: 2em;
 }
 
 .navbar-container {
@@ -70,7 +80,7 @@
 mat-sidenav {
   min-width: 280px !important;
   border-right: 1px solid #eee;
-  box-shadow: 6px 0 6px rgba(0, 0, 0, .1);
+  box-shadow: 6px 0 6px rgba(0, 0, 0, 0.1);
   /* background-color:rgb(63, 81, 181); */
 }
 
@@ -79,7 +89,7 @@ mat-sidenav-content {
 }
 
 a.mat-list-item.active {
-  background: rgba(0, 0, 0, .04);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 #push-bottom {
@@ -93,6 +103,84 @@ button {
       &.active {
         color: #f39c12;
       }
+    }
+  }
+}
+
+.dropdown-menu {
+  min-width: 160px;
+
+  background: $color-background-panel;
+  background-clip: padding-box;
+  line-height: normal;
+  z-index: 100;
+  position: absolute;
+  right: 35px;
+  left: auto;
+  top: 80px;
+
+  &--userdropdown {
+    padding: 0.3em;
+    width: 280px;
+    border: 1px solid $color-primary;
+  }
+
+  &-header {
+    padding: 7px 10px;
+    border-bottom: 1px solid $color-text-bg;
+    color: $color-dark-text;
+    font-size: 14px;
+    background: $color-primary;
+
+    &-userimage {
+      display: block;
+      margin: 0 auto;
+      z-index: 5;
+      height: 90px;
+      width: 90px;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+    }
+
+    &-username {
+      text-align: center;
+      font-weight: 800;
+      color: $color-text-bg;
+    }
+  }
+
+  &-body {
+    background: white;
+    color: black;
+    padding: 10px;
+
+    & .wrapper {
+      .menuitem {
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+        cursor: pointer;
+
+        span {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  &-footer {
+    background: white;
+    color: black;
+    padding: 10px;
+
+    & .btn-default {
+      color: $color-text-bg-dark;
+    }
+
+    &:after {
+      content: ' ';
+      display: table;
+      clear: both;
     }
   }
 }

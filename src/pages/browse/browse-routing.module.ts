@@ -13,6 +13,7 @@ import { BrowseServicesComponent } from './browse-services/browse-services.compo
 import { BrowseSoftwareComponent } from './browse-software/browse-software.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
+import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
 
 const routes: Routes = [
   {
@@ -44,7 +45,10 @@ const routes: Routes = [
   {
     path: 'data-products',
     component: LayoutComponent,
-    children: [{ path: '', component: BrowseDataProductsComponent }],
+    children: [
+      { path: '', component: BrowseDataProductsComponent },
+      { path: 'details/:id', component: BrowseDataProductsItemComponent },
+    ],
   },
   {
     path: 'services',

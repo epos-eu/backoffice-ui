@@ -1,5 +1,36 @@
 table {
   width: 100%;
+
+  td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 24px !important;
+  }
+
+  thead {
+    .mat-header-row {
+      background: #F1F1F1;
+    }
+
+    tr {
+      .mat-sort-header-content {
+        font-weight: 600;
+        color: #191919;
+      }
+    }
+  }
+
+  tbody {
+    .mat-row {
+      height: 56px;
+
+      &:nth-child(even) {
+        background-color: #F9F9F9;
+      }
+    }
+  }
 }
 
 .mat-form-field {

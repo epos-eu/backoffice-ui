@@ -5,25 +5,61 @@
       <mat-icon *ngIf="!sidenavOpen">menu</mat-icon>
       <mat-icon *ngIf="sidenavOpen" [ngClass]="sidenavOpen ? 'active' : ''">menu_open</mat-icon>
     </button>
-    <img width="100" alt="EPOS Logo" src="assets/EPOS_logo_white_orange.png" />
-    <a class="navbar-brand" matTooltip="Home">
+    <a class="logo-wrapper" (click)="handleClick()">
+      <img width="100" alt="EPOS Logo" src="assets/EPOS_logo_white_orange.png" />
+    </a>
+    <a class="navbar-brand" matTooltip="Home" (click)="handleClick()">
       <h1>
         METADATA BackOffice
       </h1>
     </a>
     <div class="navbar-main-navigation">
-      <a [routerLink]="['/browse']" routerLinkActive="active">Browse</a>
-      <a [routerLink]="['/import']" routerLinkActive="active">Import</a>
-      <a>Export</a>
+      <a class="navbar-main-navigation-item" [routerLink]="['/browse']" routerLinkActive="active">Browse</a>
+      <a class="navbar-main-navigation-item" [routerLink]="['/import']" routerLinkActive="active">Import</a>
+      <a class="navbar-main-navigation-item">Export</a>
+      <button mat-flat-button [disabled]="!user" color="primary" (click)="callTestLogin()">Demo
+        BackOffice
+        Login</button>
     </div>
     <span class="navbar-spacer"></span>
-    <button mat-button [matMenuTriggerFor]="userMenu">
+
+    <div *ngIf="null != userInfo">
+      <span>Name: {{userInfo.firstName}} {{userInfo.lastName}}</span>
+      <span>Role: {{userInfo.role}}</span>
+    </div>
+    <div class="nav-top-items-item guest" [ngClass]="{'nav-top-items-item--active': this.dropdown === 'user'}">
+      <a class="navbar-main-navigation-item login" (click)="toggleDropdown('user')" data-toggle="dropdown">
+        <mat-icon>person</mat-icon>
+        <span class="hidden-xs login-text">{{(user !== null) ? '' : 'Login'}}</span>
+      </a>
+      <div [hidden]="this.dropdown !== 'user'" class="dropdown-menu dropdown-menu--userdropdown">
+        <div class="dropdown-menu-header">
+          <p class="dropdown-menu-header-username">{{user?.getUsername() || 'User Guest'}}</p>
+        </div>
+        <div class="dropdown-menu-footer">
+          <div class="wrapper">
+            <div class="column-12">
+              <app-login [user]="user" (closeDropdown)="toggleDropdown('user')"></app-login>
+            </div>
+          </div>
+          <div id="sign-in-message" class="pull-left" style="color:red;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <button mat-button (click)="login()">
       <mat-icon>person</mat-icon>
       <span fxShow fxHide.xs>
         {{userName}}
       </span>
-    </button>
-    <mat-menu #userMenu="matMenu" xPosition="before" yPosition="above" [overlapTrigger]="false">
+    </button> -->
+    <!-- <button mat-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>person</mat-icon>
+      <span fxShow fxHide.xs>
+        {{userName}}
+      </span>
+    </button> -->
+    <!-- <mat-menu #userMenu="matMenu" xPosition="before" yPosition="above" [overlapTrigger]="false">
       <a mat-menu-item [routerLink]="['/account/profile']">
         <mat-icon>person</mat-icon>
         <span>Account</span>
@@ -32,15 +68,24 @@
         <mat-icon>exit_to_app</mat-icon>
         <span>Log out</span>
       </a>
-    </mat-menu>
+    </mat-menu> -->
+    <!-- <button mat-menu-item (click)="login()">
+      <mat-icon>exit_to_app</mat-icon>
+      <span>Login</span>
+    </button> -->
   </mat-toolbar>
 
   <mat-sidenav-container class="navbar-sidenav-container" autosize>
     <!-- Side nav -->
     <mat-sidenav #snav mode="side" [(opened)]="sidenavOpen" fixedTopGap="56" class="sidenav">
       <ng-scrollbar>
-        <app-browse-navigation *ngIf="navigationType == 'browse'"></app-browse-navigation>
-        <app-import-navigation *ngIf="navigationType == 'import'"></app-import-navigation>
+        <ng-container *ngIf="(liveChanges | async) === true">
+          <app-edit-navigation></app-edit-navigation>
+        </ng-container>
+        <ng-container *ngIf="(liveChanges | async) === false">
+          <app-browse-navigation *ngIf="navigationType == 'browse'"></app-browse-navigation>
+          <app-import-navigation *ngIf="navigationType == 'import'"></app-import-navigation>
+        </ng-container>
       </ng-scrollbar>
     </mat-sidenav>
     <!-- Main content -->

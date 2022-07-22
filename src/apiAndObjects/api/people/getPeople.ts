@@ -22,7 +22,7 @@ export class GetPeople extends CacheableEndpoint<Array<PeopleDataSource>, GetPeo
       PeopleDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/assets/data/software.json')));
+          resolve(lastValueFrom(httpClient.get('/testpath/assets/data/software.json')));
         }, 100);
       }),
     );

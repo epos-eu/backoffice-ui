@@ -1,5 +1,17 @@
 @import '~@angular/material/theming';
 
+app-dialog-delete {
+  .mat-dialog-title {
+    margin: 0;
+  }
+
+  .mat-dialog-content {
+    p {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
 app-dialog {
   width: 100%;
   padding: 2rem;
@@ -20,6 +32,12 @@ app-dialog {
   border-left: 5px solid #004926;
   overflow: hidden !important;
   padding: 24px 12px !important;
+
+  &#delete {
+    border-left: none !important;
+    width: 500px;
+    padding: 2rem !important;
+  }
 }
 
 .custom-dialog {

@@ -26,7 +26,7 @@ export class GetOrganisations extends CacheableEndpoint<
       OrganisationDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/assets/data/organization.json')));
+          resolve(lastValueFrom(httpClient.get('/testpath/assets/data/organization.json')));
         }, 100);
       }),
     );
