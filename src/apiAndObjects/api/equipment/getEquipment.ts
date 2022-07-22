@@ -26,7 +26,7 @@ export class GetEquipments extends CacheableEndpoint<
       EquipmentDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/assets/data/organization.json')));
+          resolve(lastValueFrom(httpClient.get('/testpath/assets/data/organization.json')));
         }, 100);
       }),
     );

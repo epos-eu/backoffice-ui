@@ -1,0 +1,30 @@
+<mat-nav-list>
+  <div class="top">
+    <h3 mat-subheader>Current changes</h3>
+    <mat-chip-list class="mat-chip-list-stacked" aria-label="Current changes" *ngIf="(itemsExist | async) === true">
+      <mat-chip *ngFor="let change of actionsService.editedItemsObservable | async" [color]="change.color"
+        [ngClass]="change.id === currentId ? 'active' : ''">
+        <div class="top">
+          <span>{{ change.label }}</span>
+          <span>{{ change.status }}</span>
+        </div>
+        <div class="bottom">
+          <p>ID: {{ change.id }}</p>
+        </div>
+      </mat-chip>
+    </mat-chip-list>
+    <p *ngIf="(itemsExist | async) === false">
+      No changes made yet.
+    </p>
+  </div>
+  <div class="bottom">
+    <div class="actions">
+      <button mat-stroked-button color="primary" (click)="handleSave()">
+        Save
+      </button>
+      <button mat-flat-button color="primary" (click)="handleSubmit()">
+        Submit
+      </button>
+    </div>
+  </div>
+</mat-nav-list>

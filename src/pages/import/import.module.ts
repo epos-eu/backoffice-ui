@@ -9,5 +9,6 @@ import { ImportStatusComponent } from './import-status/import-status.component';
 @NgModule({
   declarations: [ImportHomeComponent, NewImportComponent, ImportStatusComponent],
   imports: [CommonModule, ImportRoutingModule, AngularMaterialModule],
+  providers: [],
 })
 export class ImportModule {}

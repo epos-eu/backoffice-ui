@@ -1,10 +1,7 @@
 <ng-scrollbar>
   <div class="container" fxLayout="row" fxLayoutAlign="center none">
     <h1 class="mat-display-1">Data products</h1>
-    <div class="mat-table-margin">
-      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-    </div>
-    <div *ngIf="!loading" class="mat-elevation-z8 mat-table-margin">
+    <div class="mat-elevation-z8 mat-table-margin">
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- Uid column -->
         <ng-container matColumnDef="uid">
@@ -25,6 +22,7 @@
             {{ row._sourceObject.title }}
           </td>
         </ng-container>
+
         <!-- Description column -->
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -34,6 +32,7 @@
             {{ row._sourceObject.description }}
           </td>
         </ng-container>
+
         <!-- Type column -->
         <ng-container matColumnDef="type">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -43,8 +42,9 @@
             {{ row._sourceObject.type }}
           </td>
         </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="rowClicked(row)"></tr>
 
         <!-- No matching data -->
         <tr class="mat-row" *matNoDataRow>
@@ -53,7 +53,7 @@
           </td>
         </tr>
       </table>
-      <mat-paginator [pageSizeOptions]="pageSizeOptions" aria-label="Select page of webservices"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="pageSizeOptions" aria-label="Select page of data products"></mat-paginator>
     </div>
   </div>
 </ng-scrollbar>

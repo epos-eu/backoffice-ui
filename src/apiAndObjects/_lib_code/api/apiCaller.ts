@@ -28,7 +28,7 @@ export class ApiCaller {
     queryParams: Record<string, string | Array<string>> = {},
     bodyData: Record<string, unknown> | FormData | Array<unknown> = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
-    fullResponse?: boolean,
+    // fullResponse?: boolean,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
     const options = {

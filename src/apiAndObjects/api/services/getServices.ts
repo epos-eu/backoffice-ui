@@ -26,7 +26,7 @@ export class GetServices extends CacheableEndpoint<
       ServiceDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/assets/data/software.json')));
+          resolve(lastValueFrom(httpClient.get('/testpath/assets/data/software.json')));
         }, 100);
       }),
     );

@@ -6,15 +6,8 @@ import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-con
 import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-person/dialog-add-person.component';
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { DialogComponent } from 'src/components/dialogs/dialog/dialog.component';
-import { DialogTypes, IDialog } from 'src/components/dialogs/dialog/dialog.model';
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
-import { initEmptyContactObj } from 'src/helpers/contact';
-import { initEmptyPersonObj } from 'src/helpers/person';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
-interface ISize {
-  width: string;
-  height: string;
-}
 
 @Injectable({
   providedIn: 'root',

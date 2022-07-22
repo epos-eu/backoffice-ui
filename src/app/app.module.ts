@@ -13,6 +13,9 @@ import { PortalModule } from '@angular/cdk/portal';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { AngularMaterialModule } from './angular-material.module';
 import { DialogService } from 'src/components/dialogs/dialog.service';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { aaaiServiceProvider } from 'src/aaai/aaai.service';
+import { ApiLoginService } from 'src/apiAndObjects/api/api-login.service';
 
 @NgModule({
   declarations: [AppComponent, DialogComponent],
@@ -24,6 +27,7 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
     HttpClientModule,
     PortalModule,
     AngularMaterialModule,
+    OAuthModule.forRoot(),
   ],
   providers: [
     {
@@ -35,9 +39,18 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
       useValue: {},
     },
     ApiService,
+    ApiLoginService,
     DialogService,
     SnackbarService,
+    aaaiServiceProvider,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  // static forRoot(): ModuleWithProviders<AppModule> {
+  //   return {
+  //     ngModule: AppModule,
+  //     providers: [aaaiServiceProvider],
+  //   };
+  // }
+}

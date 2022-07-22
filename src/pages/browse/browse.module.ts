@@ -10,12 +10,15 @@ import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
 import { BrowseSoftwareComponent } from './browse-software/browse-software.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
 import { MatDialogRef } from '@angular/material/dialog';
-import { BrowsePeopleComponent } from './browse-people/browse-people.component';
-import { BrowseServicesComponent } from './browse-services/browse-services.component';
 import { BrowseFacilitiesComponent } from './browse-facilities/browse-facilities.component';
 import { BrowseEquipmentComponent } from './browse-equipment/browse-equipment.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { BrowsePublicationsComponent } from './browse-publications/browse-publications.component';
+import { BrowsePeopleComponent } from './browse-people/browse-people.component';
+import { BrowseServicesComponent } from './browse-services/browse-services.component';
+import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -32,8 +35,9 @@ import { BrowsePublicationsComponent } from './browse-publications/browse-public
     BrowseFacilitiesComponent,
     BrowseEquipmentComponent,
     BrowsePublicationsComponent,
+    BrowseDataProductsItemComponent,
   ],
-  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule],
+  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, MatExpansionModule, MatChipsModule],
   exports: [],
   providers: [
     {

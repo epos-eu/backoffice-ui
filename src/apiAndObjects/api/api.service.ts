@@ -52,6 +52,7 @@ export class ApiService extends BaseApi {
     super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector), environment.apiBaseUrl);
 
     // Add endpoints
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Object.values(this.endpoints).forEach((group: any) => {
       this.addEndpoints(Object.values(group));
     });

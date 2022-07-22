@@ -26,7 +26,7 @@ export class GetWebservices extends CacheableEndpoint<
       WebserviceDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/assets/data/webservice.json')));
+          resolve(lastValueFrom(httpClient.get('/testpath/assets/data/webservice.json')));
         }, 100);
       }),
     );

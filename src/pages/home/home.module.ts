@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { ApiModule } from 'src/apiAndObjects/api.module';
 import { ComponentsModule } from 'src/components/components.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HomeRoutingModule } from './home-routing.module';
 
 @NgModule({
   declarations: [HomePageComponent],
-  imports: [CommonModule, HomeRoutingModule, ComponentsModule],
+  imports: [CommonModule, HomeRoutingModule, ComponentsModule, OAuthModule, ApiModule],
+  providers: [],
 })
 export class HomeModule {}
