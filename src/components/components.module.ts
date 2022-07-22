@@ -6,10 +6,13 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { SideNavigationModule } from './side-navigation/side-navigation.module';
 import { DialogModule } from './dialogs/dialog.module';
 import { LoginComponent } from './login/login.component';
+import { ActionsDataComponent } from './actions-data/actions-data.component';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 @NgModule({
-  declarations: [LayoutComponent, LoginComponent],
-  imports: [RouterModule, CommonModule, AngularMaterialModule, SideNavigationModule, DialogModule],
-  exports: [LayoutComponent],
+  declarations: [LayoutComponent, ActionsDataComponent, LoginComponent],
+  imports: [RouterModule, CommonModule, AngularMaterialModule, SideNavigationModule, DialogModule, MatChipsModule],
+  exports: [LayoutComponent, ActionsDataComponent],
 })
 export class ComponentsModule {}

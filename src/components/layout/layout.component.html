@@ -83,6 +83,7 @@
           <app-edit-navigation></app-edit-navigation>
         </ng-container>
         <ng-container *ngIf="(liveChanges | async) === false">
+          <app-browse-navigation *ngIf="navigationType === 'home'"></app-browse-navigation>
           <app-browse-navigation *ngIf="navigationType == 'browse'"></app-browse-navigation>
           <app-import-navigation *ngIf="navigationType == 'import'"></app-import-navigation>
         </ng-container>
