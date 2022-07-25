@@ -17,7 +17,6 @@ export class ActiveUserService {
   // }
 
   public setActiveUserInfo(userInfo: UserInfo | null): void {
-    console.debug('call service', userInfo);
     this.activeUserInfo.next(userInfo);
   }
 }
