@@ -47,6 +47,9 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     this.subscriptions.push(
       this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
         this.user = user;
+        if (null != sessionStorage.getItem('access_token')) {
+          this.callTestLogin();
+        }
       }),
       this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserInfo) => {
         console.debug('userInfo:', userInfo);
