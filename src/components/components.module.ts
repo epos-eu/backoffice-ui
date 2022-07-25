@@ -9,7 +9,6 @@ import { LoginComponent } from './login/login.component';
 import { ActionsDataComponent } from './actions-data/actions-data.component';
 import { MatChipsModule } from '@angular/material/chips';
 
-
 @NgModule({
   declarations: [LayoutComponent, ActionsDataComponent, LoginComponent],
   imports: [RouterModule, CommonModule, AngularMaterialModule, SideNavigationModule, DialogModule, MatChipsModule],

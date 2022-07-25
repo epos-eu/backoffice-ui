@@ -9,6 +9,8 @@ import { TestLoginDetailDataSource } from 'src/apiAndObjects/objects/testLoginDe
 import { BehaviorSubject } from 'rxjs';
 import { ActionsService } from 'src/services/actions.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { UserInfo } from 'src/utility/objects/userInfo';
+import { ActiveUserService } from 'src/services/activeUser.service';
 
 @Component({
   selector: 'app-layout',
@@ -36,6 +38,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     private readonly apiLoginService: ApiLoginService,
     public actionsService: ActionsService,
     private cdr: ChangeDetectorRef,
+    private activeUserService: ActiveUserService,
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +47,9 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     this.subscriptions.push(
       this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
         this.user = user;
+      }),
+      this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserInfo) => {
+        console.debug('userInfo:', userInfo);
       }),
     );
   }
@@ -73,8 +79,8 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     this.apiLoginService.endpoints.loginTest.getLoginDetailsTest
       .call()
       .then((data: Array<TestLoginDetailDataSource>) => {
+        this.activeUserService.setActiveUserInfo(data[0].userInfo as UserInfo);
         this.userInfo = data[0].userInfo as UserInfo;
-        // console.debug('data:', data[0].userInfo);
       });
   }
 
@@ -84,11 +90,4 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
       this.cdr.detectChanges();
     });
   }
-}
-
-interface UserInfo {
-  firstName: string;
-  lastName: string;
-  mail: string;
-  role: string;
 }
