@@ -47,12 +47,12 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     this.subscriptions.push(
       this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
         this.user = user;
-        if (null != sessionStorage.getItem('access_token')) {
+        if (null != sessionStorage.getItem('access_token') && this.userInfo == null) {
           this.callTestLogin();
         }
       }),
-      this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserInfo) => {
-        console.debug('userInfo:', userInfo);
+      this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserInfo | null) => {
+        this.userInfo = userInfo as UserInfo;
       }),
     );
   }
@@ -83,8 +83,11 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
       .call()
       .then((data: Array<TestLoginDetailDataSource>) => {
         this.activeUserService.setActiveUserInfo(data[0].userInfo as UserInfo);
-        this.userInfo = data[0].userInfo as UserInfo;
       });
+  }
+
+  fakeAssign() {
+    this.activeUserService.setActiveUserInfo(null);
   }
 
   ngAfterViewChecked(): void {

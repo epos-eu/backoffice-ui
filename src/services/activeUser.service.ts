@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { UserRole } from 'src/utility/enums/UserRole.enum';
+import { BehaviorSubject } from 'rxjs';
 import { UserInfo } from 'src/utility/objects/userInfo';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveUserService {
-  private activeUserRole = new Subject<UserRole>();
-  public activeUserRoleObservable = this.activeUserRole.asObservable();
+  // private activeUserRole = new BehaviorSubject<UserRole | null>(null);
+  // public activeUserRoleObservable = this.activeUserRole.asObservable();
 
-  private activeUserInfo = new Subject<UserInfo>();
+  private activeUserInfo = new BehaviorSubject<UserInfo | null>(null);
   public activeUserInfoObservable = this.activeUserInfo.asObservable();
 
-  // constructor() {}
+  // public setActiveUserRole(role: UserRole | null): void {
+  //   this.activeUserRole.next(role);
+  // }
 
-  public setActiveUserRole(role: UserRole): void {
-    this.activeUserRole.next(role);
-  }
-
-  public setActiveUserInfo(userInfo: UserInfo): void {
+  public setActiveUserInfo(userInfo: UserInfo | null): void {
+    console.debug('call service', userInfo);
     this.activeUserInfo.next(userInfo);
   }
 }
