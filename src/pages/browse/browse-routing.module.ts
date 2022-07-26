@@ -14,6 +14,13 @@ import { BrowseSoftwareComponent } from './browse-software/browse-software.compo
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
+import { BrowseSourceCodeComponent } from './browse-source-code/browse-source-code.component';
+import { BrowseContractComponent } from './browse-contract/browse-contract.component';
+import { BrowseUsersComponent } from './browse-users/browse-users.component';
+import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
+import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics.component';
+import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
+import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 
 const routes: Routes = [
   {
@@ -30,6 +37,11 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'source-code',
+    component: LayoutComponent,
+    children: [{ path: '', component: BrowseSourceCodeComponent }],
+  },
+  {
     path: 'organization',
     component: LayoutComponent,
     children: [
@@ -41,6 +53,16 @@ const routes: Routes = [
     path: 'software',
     component: LayoutComponent,
     children: [{ path: '', component: BrowseSoftwareComponent }],
+  },
+  {
+    path: 'distribution',
+    component: LayoutComponent,
+    children: [{ path: '', component: BrowseDistributionComponent }],
+  },
+  {
+    path: 'contact-point',
+    component: LayoutComponent,
+    children: [{ path: '', component: BrowseContactPointComponent }],
   },
   {
     path: 'data-products',
@@ -61,6 +83,21 @@ const routes: Routes = [
     children: [{ path: '', component: BrowsePeopleComponent }],
   },
   {
+    path: 'contract',
+    component: LayoutComponent,
+    children: [{ path: '', component: BrowseContractComponent }],
+  },
+  {
+    path: 'users',
+    component: LayoutComponent,
+    children: [{ path: '', component: BrowseUsersComponent }],
+  },
+  {
+    path: 'groups',
+    component: LayoutComponent,
+    children: [{ path: '', component: BrowseGroupsComponent }],
+  },
+  {
     path: 'publications',
     component: LayoutComponent,
     children: [{ path: '', component: BrowsePublicationsComponent }],
@@ -74,6 +111,11 @@ const routes: Routes = [
     path: 'equipment',
     component: LayoutComponent,
     children: [{ path: '', component: BrowseEquipmentComponent }],
+  },
+  {
+    path: 'statistics',
+    component: LayoutComponent,
+    children: [{ path: '', component: BrowseStatisticsComponent }],
   },
 ];
 

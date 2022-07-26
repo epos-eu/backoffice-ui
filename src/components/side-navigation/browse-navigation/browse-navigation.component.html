@@ -1,68 +1,137 @@
-<mat-nav-list>
-  <h3 mat-subheader>DDSS</h3>
+<ng-container *ngIf="userInfo">
+  <ng-container [ngSwitch]="true">
+    <ng-container *ngSwitchCase="isAdmin(userInfo.role)">
+      <mat-nav-list>
+        <h3 mat-subheader>DDSS</h3>
+        <a mat-list-item [routerLink]="['/browse/data-products']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            perm_media
+          </mat-icon>
+          <p mat-line>Data products</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/web-services']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            layers
+          </mat-icon>
+          <p mat-line>Webservices</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/source-code']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            code
+          </mat-icon>
+          <p mat-line>Source code</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/software']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            desktop_windows
+          </mat-icon>
+          <p mat-line>Software</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/distribution']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            share
+          </mat-icon>
+          <p mat-line>Distribution</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/contact-point']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            contact_support
+          </mat-icon>
+          <p mat-line>Contact point</p>
+        </a>
+        <mat-divider></mat-divider>
+        <h3 mat-subheader>Administrative</h3>
+        <a mat-list-item [routerLink]="['/browse/organization']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            business
+          </mat-icon>
+          <p mat-line>Organisations</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/people']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            portrait
+          </mat-icon>
+          <p mat-line>People</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/contract']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            library_books
+          </mat-icon>
+          <p mat-line>Contract</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/users']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            person
+          </mat-icon>
+          <p mat-line>Users</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/groups']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            group
+          </mat-icon>
+          <p mat-line>Groups</p>
+        </a>
+        <mat-divider></mat-divider>
+        <h3 mat-subheader>Data</h3>
+        <a mat-list-item [routerLink]="['/browse/statistics']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            bar_chart
+          </mat-icon>
+          <p mat-line>Statistics</p>
+        </a>
+      </mat-nav-list>
+    </ng-container>
 
-  <a mat-list-item [routerLink]="['/browse/data-products']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      perm_media
-    </mat-icon>
-    <p mat-line>Data products</p>
-  </a>
+    <ng-container *ngSwitchCase="isReviewer(userInfo.role)">
+      <mat-nav-list>
+        <h3 mat-subheader>DDSS</h3>
+        <a mat-list-item [routerLink]="['/browse/data-products']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            perm_media
+          </mat-icon>
+          <p mat-line>Data products</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/organization']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            business
+          </mat-icon>
+          <p mat-line>Organisations</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/people']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            portrait
+          </mat-icon>
+          <p mat-line>People</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/software']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            desktop_windows
+          </mat-icon>
+          <p mat-line>Software</p>
+        </a>
+        <a mat-list-item [routerLink]="['/browse/source-code']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            code
+          </mat-icon>
+          <p mat-line>Source code</p>
+        </a>
+      </mat-nav-list>
+    </ng-container>
 
-  <a mat-list-item [routerLink]="['/browse/web-services']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      layers
-    </mat-icon>
-    <p mat-line>Webservices</p>
-  </a>
-  <a mat-list-item [routerLink]="['/browse/software']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      desktop_windows
-    </mat-icon>
-    <p mat-line>Software</p>
-  </a>
+    <ng-container *ngIf="isEditor(userInfo.role)">
+      <mat-nav-list>
+        <h3 mat-subheader>DDSS</h3>
+        <a mat-list-item [routerLink]="['/browse/data-products']" routerLinkActive="active">
+          <mat-icon mat-list-icon>
+            perm_media
+          </mat-icon>
+          <p mat-line>Data products</p>
+        </a>
+      </mat-nav-list>
+    </ng-container>
+  </ng-container>
+</ng-container>
 
-  <a [disabled]="true" mat-list-item [routerLink]="['/browse/services']" routerLinkActive="active">
-    <mat-icon mat-list-icon>device_hub</mat-icon>
-    <p mat-line>Services</p>
-  </a>
-
-  <mat-divider></mat-divider>
-
-  <h3 mat-subheader>Administrative</h3>
-
-  <a mat-list-item [routerLink]="['/browse/organization']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      business
-    </mat-icon>
-    <p mat-line>Organisations</p>
-  </a>
-  <a mat-list-item [routerLink]="['/browse/people']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      person
-    </mat-icon>
-    <p mat-line>People</p>
-  </a>
-  <a mat-list-item [routerLink]="['/browse/publications']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      book
-    </mat-icon>
-    <p mat-line>Publications</p>
-  </a>
-
-  <mat-divider></mat-divider>
-
-  <h3 mat-subheader>Infrastructure</h3>
-  <a [disabled]="true" mat-list-item [routerLink]="['/browse/facilities']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      account_balance
-    </mat-icon>
-    <p mat-line>Facilities</p>
-  </a>
-  <a [disabled]="true" mat-list-item [routerLink]="['/browse/equipment']" routerLinkActive="active">
-    <mat-icon mat-list-icon>
-      build
-    </mat-icon>
-    <p mat-line>Equipment</p>
-  </a>
-
-</mat-nav-list>
+<ng-container *ngIf="!userInfo">
+  <mat-spinner></mat-spinner>
+</ng-container>
