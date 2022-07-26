@@ -19,7 +19,7 @@
     </div>
     <span class="navbar-spacer"></span>
 
-    <div *ngIf="null != userInfo">
+    <div class="user-details" *ngIf="null != userInfo">
       <span>Name: {{userInfo.firstName}} {{userInfo.lastName}}</span>
       <span>Role: {{userInfo.role}}</span>
     </div>

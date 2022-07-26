@@ -11,6 +11,8 @@ import { ActionsService } from 'src/services/actions.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserInfo } from 'src/utility/objects/userInfo';
 import { ActiveUserService } from 'src/services/activeUser.service';
+import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 @Component({
   selector: 'app-layout',
@@ -35,7 +37,8 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private actRoute: ActivatedRoute,
     private aaai: AaaiService,
-    private readonly apiLoginService: ApiLoginService,
+    private apiLoginService: ApiLoginService,
+    private persistorService: PersistorService,
     public actionsService: ActionsService,
     private cdr: ChangeDetectorRef,
     private activeUserService: ActiveUserService,
@@ -47,7 +50,10 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     this.subscriptions.push(
       this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
         this.user = user;
-        if (null != sessionStorage.getItem('access_token') && this.userInfo == null) {
+        if (
+          null != this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN) &&
+          this.userInfo == null
+        ) {
           this.callTestLogin();
         }
       }),
@@ -84,10 +90,6 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
       .then((data: Array<TestLoginDetailDataSource>) => {
         this.activeUserService.setActiveUserInfo(data[0].userInfo as UserInfo);
       });
-  }
-
-  fakeAssign() {
-    this.activeUserService.setActiveUserInfo(null);
   }
 
   ngAfterViewChecked(): void {
