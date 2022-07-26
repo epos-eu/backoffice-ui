@@ -9,7 +9,7 @@ import { TestLoginDetailDataSource } from 'src/apiAndObjects/objects/testLoginDe
 import { BehaviorSubject } from 'rxjs';
 import { ActionsService } from 'src/services/actions.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { UserInfo } from 'src/utility/objects/userInfo';
+import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
@@ -27,7 +27,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
 
   public dropdown = '';
   public user: null | AAAIUser = null;
-  public userInfo: UserInfo | null = null;
+  public userInfo: UserBackofficeInfo | null = null;
 
   public sidenavOpen = true;
   public liveChanges = new BehaviorSubject<boolean>(false);
@@ -57,8 +57,8 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
           this.callTestLogin();
         }
       }),
-      this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserInfo | null) => {
-        this.userInfo = userInfo as UserInfo;
+      this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserBackofficeInfo | null) => {
+        this.userInfo = userInfo as UserBackofficeInfo;
       }),
     );
   }
@@ -88,7 +88,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     this.apiLoginService.endpoints.loginTest.getLoginDetailsTest
       .call()
       .then((data: Array<TestLoginDetailDataSource>) => {
-        this.activeUserService.setActiveUserInfo(data[0].userInfo as UserInfo);
+        this.activeUserService.setActiveUserInfo(data[0].userInfo as UserBackofficeInfo);
       });
   }
 

@@ -1,7 +1,7 @@
 import { Subscription } from 'rxjs';
 import { IActionItem } from 'src/components/actions-data/actions-data.interface';
 import { ActiveUserService } from 'src/services/activeUser.service';
-import { UserInfo } from 'src/utility/objects/userInfo';
+import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { Component, OnInit } from '@angular/core';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -13,7 +13,7 @@ import { ActionsService } from 'src/services/actions.service';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent implements OnInit {
-  public userInfo: UserInfo | null = null;
+  public userInfo: UserBackofficeInfo | null = null;
   private readonly subscriptions: Array<Subscription> = new Array<Subscription>();
 
   public actionItems: Array<IActionItem> = [
@@ -45,8 +45,8 @@ export class HomePageComponent implements OnInit {
 
   constructor(private readonly activeUserService: ActiveUserService, private actionsService: ActionsService) {
     this.subscriptions.push(
-      this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserInfo | null) => {
-        this.userInfo = userInfo as UserInfo;
+      this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserBackofficeInfo | null) => {
+        this.userInfo = userInfo as UserBackofficeInfo;
       }),
     );
   }

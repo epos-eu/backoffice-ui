@@ -1,6 +1,6 @@
 import { UserRole } from '../enums/UserRole.enum';
 
-export interface UserInfo {
+export interface UserBackofficeInfo {
   firstName: string;
   lastName: string;
   mail: string;
