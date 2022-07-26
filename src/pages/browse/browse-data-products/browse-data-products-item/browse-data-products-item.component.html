@@ -23,59 +23,53 @@
       </div>
     </div>
     <div class="body">
-      <form>
+      <form [formGroup]="form" *ngIf="form">
         <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
           <mat-label>UID</mat-label>
-          <input matInput placeholder="UID" name="uid" [(ngModel)]="dataProduct.uid"
-            [ngModelOptions]="{ standalone: true }">
+          <input matInput placeholder="UID" name="uid" [(ngModel)]="dataProduct.uid" formControlName="uid">
         </mat-form-field>
         <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
           <mat-label>Title</mat-label>
-          <input matInput placeholder="Title" name="title" [(ngModel)]="dataProduct.title[0]"
-            [ngModelOptions]="{ standalone: true }">
+          <input matInput placeholder="Title" name="title" [(ngModel)]="dataProduct.title[0]" formControlName="title">
         </mat-form-field>
         <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
           <mat-label>Description</mat-label>
-          <textarea matInput [value]="dataProduct.description" name="description"
-            [ngStyle]="{ 'line-height': '1.4' }"></textarea>
+          <textarea matInput [value]="dataProduct.description" name="description" [ngStyle]="{ 'line-height': '1.4' }"
+            formControlName="description"></textarea>
         </mat-form-field>
+        <mat-accordion>
+          <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Distribution
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-label>UID</mat-label>
+              <input matInput placeholder="UID" name="distributionUid" formControlName="distributionUid">
+            </mat-form-field>
+            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-label>Title</mat-label>
+              <input matInput placeholder="Title" name="distributionTitle" formControlName="distributionTitle">
+            </mat-form-field>
+          </mat-expansion-panel>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Webservice
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-label>UID</mat-label>
+              <input matInput placeholder="UID" name="webserviceUid" formControlName="webserviceUid">
+            </mat-form-field>
+            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-label>Title</mat-label>
+              <input matInput placeholder="Title" name="webserviceTitle" formControlName="webserviceTitle">
+            </mat-form-field>
+          </mat-expansion-panel>
+        </mat-accordion>
       </form>
-      <mat-accordion>
-        <mat-expansion-panel expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Distribution
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <form>
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-              <mat-label>UID</mat-label>
-              <input matInput placeholder="UID" name="type">
-            </mat-form-field>
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-              <mat-label>Title</mat-label>
-              <input matInput placeholder="Title" name="type">
-            </mat-form-field>
-          </form>
-        </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Webservice
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <form>
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-              <mat-label>UID</mat-label>
-              <input matInput placeholder="UID" name="uid">
-            </mat-form-field>
-            <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-              <mat-label>Title</mat-label>
-              <input matInput placeholder="Title" name="title">
-            </mat-form-field>
-          </form>
-        </mat-expansion-panel>
-      </mat-accordion>
     </div>
   </ng-container>
   <ng-container *ngIf="!dataProduct">

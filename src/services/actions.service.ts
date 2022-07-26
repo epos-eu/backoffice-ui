@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 
 @Injectable({
@@ -58,7 +59,7 @@ export class ActionsService {
    * @param {number} id
    */
   public saveCurrentEdit(id: string): void {
-    this.dispatchEditAction(id, 'saved');
+    this.dispatchEditAction(id, Status.Saved);
   }
 
   /**
@@ -67,7 +68,7 @@ export class ActionsService {
    * @param {number} id
    */
   public submitCurrentEdit(id: string): void {
-    this.dispatchEditAction(id, 'submitted');
+    this.dispatchEditAction(id, Status.Submitted);
   }
 
   /**
@@ -76,7 +77,7 @@ export class ActionsService {
    * @param {number} id
    * @param {string} type
    */
-  public dispatchEditAction(id: string, type: string): void {
+  public dispatchEditAction(id: string, type: Status): void {
     const copy = [...this.editedItems.getValue()];
     const currentItem = copy.filter((item) => item.id === id);
 
@@ -110,6 +111,7 @@ export class ActionsService {
     const items = this.editedItems.getValue();
     items[index] = updatedItem;
     localStorage.setItem('editedItems', JSON.stringify(items));
+    this.trackCurrentEdit(updatedItem.id);
   }
 
   /**
