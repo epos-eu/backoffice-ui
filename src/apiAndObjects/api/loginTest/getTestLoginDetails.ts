@@ -3,18 +3,22 @@ import { lastValueFrom } from 'rxjs';
 import { TestLoginDetailDataSource } from 'src/apiAndObjects/objects/testLoginDetailDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 export class GetLoginDetailsTest extends CacheableEndpoint<
   Array<TestLoginDetailDataSource>,
   GetTestLoginDetailsParams,
   TestLoginDetailDataSource
 > {
+  private persistorService: PersistorService = new PersistorService();
+
   protected getCacheKey(params: GetTestLoginDetailsParams): string {
     return JSON.stringify(params);
   }
 
   protected callLive(params: GetTestLoginDetailsParams): Promise<Array<TestLoginDetailDataSource>> {
-    const accessToken = sessionStorage.getItem('access_token');
+    const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const authHeader = new HttpHeaders().set('Authorization', accessToken ? accessToken : '');
       return authHeader;

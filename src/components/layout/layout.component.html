@@ -16,14 +16,10 @@
     <div class="navbar-main-navigation">
       <a class="navbar-main-navigation-item" [routerLink]="['/browse']" routerLinkActive="active">Browse</a>
       <a class="navbar-main-navigation-item" [routerLink]="['/import']" routerLinkActive="active">Import</a>
-      <a class="navbar-main-navigation-item">Export</a>
-      <button mat-flat-button [disabled]="!user" color="primary" (click)="callTestLogin()">Demo
-        BackOffice
-        Login</button>
     </div>
     <span class="navbar-spacer"></span>
 
-    <div *ngIf="null != userInfo">
+    <div class="user-details" *ngIf="null != userInfo">
       <span>Name: {{userInfo.firstName}} {{userInfo.lastName}}</span>
       <span>Role: {{userInfo.role}}</span>
     </div>

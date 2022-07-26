@@ -2,6 +2,7 @@
   <app-actions-data title="DDSS" [items]="actionItems"></app-actions-data>
   <div class="flex-row">
     <div class="wave">👋</div>
-    <h1>Welcome!</h1>
+    <h1>Welcome <span *ngIf="userInfo">{{userInfo.firstName}}!</span></h1>
+    <h1 *ngIf="userInfo">- {{userInfo.role}}</h1>
   </div>
 </div>
