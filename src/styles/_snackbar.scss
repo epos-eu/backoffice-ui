@@ -1,7 +1,22 @@
 .snackbar {
-  padding: 0.5rem 1rem !important;
+  padding: 0 1rem !important;
+  width: 730px;
+  height: 48px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
-  &.snackbar-primary {
-    background: #004926;
+  &.snackbar-success {
+    background: rgba(0, 123, 64, 0.2);
+    color: #007B40;
+  }
+
+  &.snackbar-error {
+    background: rgb(240, 61, 62, 0.2);
+    color: #F03D3E;
+  }
+
+  &.snackbar-warning {
+    background: rgb(240, 168, 69, 0.2);
+    color: #000000;
   }
 }

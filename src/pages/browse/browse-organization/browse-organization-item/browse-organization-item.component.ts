@@ -38,7 +38,7 @@ export class BrowseOrganizationItemComponent {
 
   public handleSave(): void {
     // TODO: add Save method for DB operation
-    this.snackbarService.openSnackbar('Item saved successfully', 'Close', true, 4000, [
+    this.snackbarService.openSnackbar('Item saved successfully', 'Close', 'success', 4000, [
       'snackbar',
       'mat-toolbar',
       'snackbar-primary',
