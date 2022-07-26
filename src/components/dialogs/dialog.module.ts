@@ -5,9 +5,16 @@ import { DialogAddPersonComponent } from './dialog-add-person/dialog-add-person.
 import { DialogAddContactComponent } from './dialog-add-contact/dialog-add-contact.component';
 import { MetadataFileViewComponent } from './metadata-file-view/metadata-file-view.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
+import { RevisionsComponent } from './revisions/revisions.component';
 
 @NgModule({
-  declarations: [DialogDeleteComponent, DialogAddPersonComponent, DialogAddContactComponent, MetadataFileViewComponent],
+  declarations: [
+    DialogDeleteComponent,
+    DialogAddPersonComponent,
+    DialogAddContactComponent,
+    MetadataFileViewComponent,
+    RevisionsComponent,
+  ],
   imports: [CommonModule, AngularMaterialModule],
 })
 export class DialogModule {}
