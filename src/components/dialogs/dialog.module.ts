@@ -6,6 +6,7 @@ import { DialogAddContactComponent } from './dialog-add-contact/dialog-add-conta
 import { MetadataFileViewComponent } from './metadata-file-view/metadata-file-view.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { RevisionsComponent } from './revisions/revisions.component';
+import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { RevisionsComponent } from './revisions/revisions.component';
     DialogAddContactComponent,
     MetadataFileViewComponent,
     RevisionsComponent,
+    DialogLoginComponent,
   ],
   imports: [CommonModule, AngularMaterialModule],
 })

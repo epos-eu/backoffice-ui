@@ -38,6 +38,7 @@ export abstract class BaseDialogService {
     closable = true,
     customData?: DataInType,
     configIn: MatDialogConfig = {},
+    backdropClass?: string,
     parentElement?: HTMLElement,
   ): Promise<DialogData<DataInType, DataOutType>> {
     // don't open if already open
@@ -55,6 +56,7 @@ export abstract class BaseDialogService {
         data: dialogData,
         id: dialogId,
         hasBackdrop: null == parentElement,
+        backdropClass: backdropClass ? backdropClass : '',
         disableClose: !closable,
         ...configIn,
       };

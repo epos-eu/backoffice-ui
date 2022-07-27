@@ -26,7 +26,7 @@
     <div class="nav-top-items-item guest" [ngClass]="{'nav-top-items-item--active': this.dropdown === 'user'}">
       <a class="navbar-main-navigation-item login" (click)="toggleDropdown('user')" data-toggle="dropdown">
         <mat-icon>person</mat-icon>
-        <span class="hidden-xs login-text">{{(user !== null) ? '' : 'Login'}}</span>
+        <!-- <span class="hidden-xs login-text">{{(user !== null) ? '' : 'Login'}}</span> -->
       </a>
       <div [hidden]="this.dropdown !== 'user'" class="dropdown-menu dropdown-menu--userdropdown">
         <div class="dropdown-menu-header">

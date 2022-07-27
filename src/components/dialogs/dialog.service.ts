@@ -8,6 +8,7 @@ import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dial
 import { DialogComponent } from 'src/components/dialogs/dialog/dialog.component';
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
+import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +47,10 @@ export class DialogService extends BaseDialogService {
 
   public openMetadataViewDialog(): Promise<DialogData> {
     return this.openDialog('metadataView', MetadataFileViewComponent);
+  }
+
+  public openLoginDialogComponent(): Promise<DialogData> {
+    return this.openDialog('loginCopmonent', DialogLoginComponent, false, null, undefined, 'login-backdrop');
   }
 
   public handleDelete(): void {
