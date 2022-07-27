@@ -1,11 +1,11 @@
-import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { AAAIUser } from 'src/aaai/aaaiUser.interface';
 import { ApiLoginService } from 'src/apiAndObjects/api/api-login.service';
-import { TestLoginDetailDataSource } from 'src/apiAndObjects/objects/testLoginDetailDataSource';
+import { LoginDetailDataSource } from 'src/apiAndObjects/objects/loginDetailDataSource';
 import { BehaviorSubject } from 'rxjs';
 import { ActionsService } from 'src/services/actions.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -13,17 +13,20 @@ import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { SectionsService } from 'src/services/sections.service';
+import { Sections } from 'src/utility/objects/login/sections';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })
-export class LayoutComponent implements OnInit, AfterViewChecked {
+export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
   userName = '';
   navigationType = '';
 
   @ViewChild('snav') sidenav!: MatSidenav;
+  @ViewChild('dialog') dialog!: ElementRef<HTMLElement>;
 
   public dropdown = '';
   public user: null | AAAIUser = null;
@@ -42,9 +45,11 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
     public actionsService: ActionsService,
     private cdr: ChangeDetectorRef,
     private activeUserService: ActiveUserService,
+    private sectionsService: SectionsService,
   ) {}
 
   ngOnInit(): void {
+    this.initClick();
     this.navigationType = this.actRoute.parent?.snapshot.url[0].path || '';
 
     this.subscriptions.push(
@@ -61,6 +66,18 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
         this.userInfo = userInfo as UserBackofficeInfo;
       }),
     );
+  }
+
+  private initClick(): void {
+    this.onDocumentClick = this.onDocumentClick.bind(this);
+    document.addEventListener('click', this.onDocumentClick);
+  }
+
+  private onDocumentClick(event: MouseEvent) {
+    if (this.dialog.nativeElement.contains(event.target as Node)) {
+      return;
+    }
+    this.dropdown = '';
   }
 
   public handleToggle(): void {
@@ -85,11 +102,14 @@ export class LayoutComponent implements OnInit, AfterViewChecked {
   }
 
   public callTestLogin() {
-    this.apiLoginService.endpoints.loginTest.getLoginDetailsTest
-      .call()
-      .then((data: Array<TestLoginDetailDataSource>) => {
-        this.activeUserService.setActiveUserInfo(data[0].userInfo as UserBackofficeInfo);
-      });
+    this.apiLoginService.endpoints.loginTest.getLoginDetailsTest.call().then((data: Array<LoginDetailDataSource>) => {
+      this.sectionsService.setSections(data[0].sections as Array<Sections>);
+      this.activeUserService.setActiveUserInfo(data[0].userInfo as UserBackofficeInfo);
+    });
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('click', this.onDocumentClick);
   }
 
   ngAfterViewChecked(): void {

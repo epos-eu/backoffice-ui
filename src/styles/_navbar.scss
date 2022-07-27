@@ -1,0 +1,16 @@
+button {
+  &.mat-flat-button {
+    &.mat-accent {
+      span {
+        &.mat-button-wrapper {
+          color: #FFFFFF;
+          font-family: 'Roboto Flex', sans-serif;
+        }
+      }
+    }
+  }
+
+  &.mat-mini-fab {
+    box-shadow: none !important;
+  }
+}

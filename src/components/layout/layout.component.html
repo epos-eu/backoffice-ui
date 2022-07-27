@@ -20,14 +20,16 @@
     <span class="navbar-spacer"></span>
 
     <div class="user-details" *ngIf="null != userInfo">
-      <span>Name: {{userInfo.firstName}} {{userInfo.lastName}}</span>
-      <span>Role: {{userInfo.role}}</span>
+      <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
+      <p>({{ userInfo.role.toLowerCase() }})</p>
     </div>
-    <div class="nav-top-items-item guest" [ngClass]="{'nav-top-items-item--active': this.dropdown === 'user'}">
-      <a class="navbar-main-navigation-item login" (click)="toggleDropdown('user')" data-toggle="dropdown">
+    <div class="nav-top-items-item guest" [ngClass]="{'nav-top-items-item--active': this.dropdown === 'user'}" #dialog>
+      <button mat-mini-fab color="accent" aria-label="Login" class="account" *ngIf="user !== null"
+        (click)="toggleDropdown('user')">
         <mat-icon>person</mat-icon>
-        <!-- <span class="hidden-xs login-text">{{(user !== null) ? '' : 'Login'}}</span> -->
-      </a>
+      </button>
+      <button mat-flat-button color="accent" *ngIf="user === null" class="hidden-xs login" (click)="login()">Log
+        in</button>
       <div [hidden]="this.dropdown !== 'user'" class="dropdown-menu dropdown-menu--userdropdown">
         <div class="dropdown-menu-header">
           <p class="dropdown-menu-header-username">{{user?.getUsername() || 'User Guest'}}</p>
