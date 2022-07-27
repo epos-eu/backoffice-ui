@@ -1,0 +1,38 @@
+@import '../../../../src/styles/theme';
+
+button.mat-flat-button {
+  border: 1px solid white;
+  padding: 15px;
+  color: white;
+  font-weight: bold;
+  background-color: orange;
+}
+
+.login-disclaimer {
+  clear: both;
+  text-align: center;
+  padding: 1rem 0;
+
+  color: black;
+  font-size: 16px;
+
+  a {
+    color: $color-primary;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  align-items: center;
+  white-space: break-spaces;
+  text-align: center;
+  font-family: 'Roboto Flex', sans-serif;
+
+  & .manage-link {
+    font-size: 16px;
+    color: $color-primary;
+    margin: 1rem 0;
+  }
+}

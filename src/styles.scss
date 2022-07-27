@@ -52,3 +52,10 @@
   justify-content: space-between;
   width: 100%;
 }
+
+.login-backdrop {
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.32);
+  /* Full height */
+  height: 100%;
+}
