@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { TestLoginDetailDataSource } from 'src/apiAndObjects/objects/testLoginDetailDataSource';
+import { LoginDetailDataSource } from 'src/apiAndObjects/objects/loginDetailDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 export class GetLoginDetailsTest extends CacheableEndpoint<
-  Array<TestLoginDetailDataSource>,
+  Array<LoginDetailDataSource>,
   GetTestLoginDetailsParams,
-  TestLoginDetailDataSource
+  LoginDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -17,7 +17,7 @@ export class GetLoginDetailsTest extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetTestLoginDetailsParams): Promise<Array<TestLoginDetailDataSource>> {
+  protected callLive(params: GetTestLoginDetailsParams): Promise<Array<LoginDetailDataSource>> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const authHeader = new HttpHeaders().set('Authorization', accessToken ? accessToken : '');
@@ -26,13 +26,13 @@ export class GetLoginDetailsTest extends CacheableEndpoint<
     const callResponsePromise = this.apiCaller
       .doCall('', RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
-    return this.buildObjectsFromResponse(TestLoginDetailDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(LoginDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<TestLoginDetailDataSource[]> {
+  protected callMock(): Promise<LoginDetailDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
-      TestLoginDetailDataSource,
+      LoginDetailDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
           resolve(lastValueFrom(httpClient.get('/testpath/assets/data/organization.json')));
@@ -59,5 +59,5 @@ export class GetLoginDetailsTest extends CacheableEndpoint<
 
 export interface GetTestLoginDetailsParams {
   singleOptionOnly?: boolean;
-  dataSource: TestLoginDetailDataSource;
+  dataSource: LoginDetailDataSource;
 }

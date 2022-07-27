@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -15,7 +15,8 @@ import { ActionsService } from 'src/services/actions.service';
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new FormControl('auto');
-  public dataProduct!: DataProduct;
+  // public dataProduct!: DataProduct;
+  public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: FormGroup;
 
@@ -24,8 +25,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private actionService: ActionsService,
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
   ) {
-    this.dataProduct = this.router.getCurrentNavigation()?.extras.state as DataProduct;
+    // this.dataProduct = this.router.getCurrentNavigation()?.extras.state as DataProduct;
+    // this.UID = this.router.getCurrentNavigation()?.extras.state;
+    // console.log(this.router.getCurrentNavigation()?.extras.state);
+    this.UID = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
@@ -37,44 +42,52 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(): void {
-    if (this.dataProduct) {
-      this.actionService.setLiveEdit();
-      this.actionService.addEditedItems([
-        {
-          type: 'data-products',
-          label: 'Data product',
-          status: Status.Draft,
-          color: 'draft',
-          id: this.dataProduct.uid,
-        },
-      ]);
-      this.actionService.trackCurrentEdit(this.dataProduct.uid);
-      this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
-        if (item) {
-          this.currentEdit = item;
-        }
-      });
-      this.trackFormData();
-    }
+    // if (this.dataProduct) {
+    //   this.actionService.setLiveEdit();
+    //   this.actionService.addEditedItems([
+    //     {
+    //       type: 'data-products',
+    //       label: 'Data product',
+    //       status: Status.Draft,
+    //       color: 'draft',
+    //       id: this.dataProduct.uid,
+    //     },
+    //   ]);
+    //   this.actionService.trackCurrentEdit(this.dataProduct.uid);
+    //   this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
+    //     if (item) {
+    //       this.currentEdit = item;
+    //     }
+    //   });
+    //   this.trackFormData();
+    // }
+    this.actionService.setLiveEdit();
+    this.actionService.addEditedItems([
+      {
+        type: 'data-products',
+        label: 'Data product',
+        status: Status.Draft,
+        color: 'draft',
+        id: 'Test!',
+      },
+    ]);
+    this.trackFormData();
   }
 
   private trackFormData(): void {
     this.form = this.formBuilder.group({
-      uid: this.dataProduct.uid,
-      title: this.dataProduct.title,
-      description: this.dataProduct.description[0],
+      uid: this.UID,
+      title: '',
+      description: '',
       distributionUid: '',
       distributionTitle: '',
       webserviceUid: '',
       webserviceTitle: '',
     });
-    this.form.valueChanges.subscribe((changes) => {
-      console.log(changes === this.form.value);
-    });
   }
 
   public handleGetRevisions(): void {
-    // Todo: get
+    // Todo: pass revisions data to component
     this.dialogService.openDialogForComponent(RevisionsComponent, {}, '50vw', '70vh');
   }
 

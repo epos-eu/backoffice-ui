@@ -1,12 +1,15 @@
 <div class="content">
-  <button mat-flat-button (click)="logInOut()">
-    {{(user !== null) ? 'Logout' : 'Login / Register'}}
-  </button>
-
-  <a class="manage-link" target="_blank" [href]="manageUrl">{{(user !== null) ? '' : 'Forgotten Password/'}}Manage
-    Account</a>
-
-  <div class="login-disclaimer">By using EPOS ICS portal you accept the EPOS terms and conditions.
-    <a appShowDisclaimerDirective>More Detail</a>
+  <div class="button-wrapper">
+    <a mat-stroked-button class="manage-link" target="_blank" [href]="manageUrl">
+      {{ (user !== null) ? '' : 'Forgotten Password/'}}
+      Manage account
+    </a>
+    <button mat-flat-button (click)="logInOut()">
+      {{ (user !== null) ? 'Logout' : 'Login / Register' }}
+    </button>
+  </div>
+  <div class="login-disclaimer">
+    <p>By using EPOS ICS portal you accept the EPOS terms and conditions.</p>
+    <a appShowDisclaimerDirective>More Details</a>
   </div>
 </div>

@@ -3,8 +3,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
-import { DataProductsService } from 'src/services/data-products.service';
+import { SectionsService } from 'src/services/sections.service';
+import { ColumnLabel } from 'src/utility/enums/columnLabel.enum';
+import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { ItemCell } from 'src/utility/objects/login/itemCell';
+import { SectionItem } from 'src/utility/objects/login/sectionItem';
+import { Sections } from 'src/utility/objects/login/sections';
 
 @Component({
   selector: 'app-browse-data-products',
@@ -12,29 +16,37 @@ import { DataProductsService } from 'src/services/data-products.service';
   styleUrls: ['./browse-data-products.component.scss'],
 })
 export class BrowseDataProductsComponent implements OnInit {
-  public displayedColumns: string[] = ['uid', 'name', 'description', 'type'];
-  public dataSource!: MatTableDataSource<DataProductDataSource>;
+  public displayedColumns: string[] = [];
+  public dataSource!: MatTableDataSource<SectionItem>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dataProductsService: DataProductsService, private router: Router) {}
+  constructor(private router: Router, private sectionsService: SectionsService) {}
 
   ngOnInit(): void {
     this.loading = true;
-    this.dataProductsService
-      .getDataProducts()
-      .then((response: DataProductDataSource[]) => {
-        this.dataSource = new MatTableDataSource(response as DataProductDataSource[]);
+    this.sectionsService.sectionsObservable
+      .subscribe((sections: Array<Sections>) => {
+        const dataProducts = sections.filter((item) => item.sectionName === SectionName.DATA_PRODUCT);
+        this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
+        this.dataSource = new MatTableDataSource(dataProducts[0].items);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       })
-      .finally(() => (this.loading = false));
+      .add(() => (this.loading = false));
   }
 
-  rowClicked(row: any) {
-    this.router.navigate(['/browse/data-products/details', row.id], { state: row._sourceObject });
+  public formatTimestamp(timestamp: string): string {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  }
+
+  public rowClicked(row: SectionItem): void {
+    const uidRow = row.cells.filter((item: ItemCell) => item.cellColumnName === ColumnLabel.UID);
+    const uid = uidRow[0].value as string;
+    this.router.navigate(['/browse/data-products/details', uid]);
   }
 }
