@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
@@ -12,14 +12,14 @@ import { SnackbarService } from 'src/services/snackbar.service';
   styleUrls: ['./browse-web-services-item.component.scss'],
 })
 export class BrowseWebServicesItemComponent {
-  public options: FormGroup;
-  private hideRequiredControl = new FormControl(false);
-  public floatLabelControl = new FormControl('auto');
+  public options: UntypedFormGroup;
+  private hideRequiredControl = new UntypedFormControl(false);
+  public floatLabelControl = new UntypedFormControl('auto');
   public webservice!: WebService;
   public editModeEnabled = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,

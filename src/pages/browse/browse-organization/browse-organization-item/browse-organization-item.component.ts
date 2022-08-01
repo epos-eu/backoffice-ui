@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -13,14 +13,14 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class BrowseOrganizationItemComponent {
-  public options: FormGroup;
-  public hideRequiredControl = new FormControl(false);
-  public floatLabelControl = new FormControl('auto');
+  public options: UntypedFormGroup;
+  public hideRequiredControl = new UntypedFormControl(false);
+  public floatLabelControl = new UntypedFormControl('auto');
   public editModeEnabled = false;
   public organization!: Organization;
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private router: Router,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
