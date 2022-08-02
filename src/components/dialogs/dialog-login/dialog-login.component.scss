@@ -1,5 +1,46 @@
 @import '../../../../src/styles/theme';
 
+* {
+  font-family: 'Roboto Flex', sans-serif;
+}
+
+.logo {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.top {
+  width: 100%;
+  height: auto;
+  h3 {
+    color: hsl(0, 0%, 19%);
+    margin: 1rem 0;
+  }
+  background: hsl(0, 0%, 95%);
+  padding: 0 0.5rem;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button,
+  a {
+    padding: 0.125rem 1rem;
+    font-family: 'Roboto Flex', sans-serif;
+    margin-left: 0.5rem;
+  }
+}
+
 button.mat-flat-button {
   border: 1px solid white;
   padding: 15px;
@@ -12,12 +53,34 @@ button.mat-flat-button {
   clear: both;
   text-align: center;
   padding: 1rem 0;
-
+  width: 100%;
+  align-self: center;
   color: black;
   font-size: 16px;
 
+  p {
+    line-height: 1.4;
+  }
+
   a {
     color: $color-primary;
+  }
+
+  mat-accordion {
+    mat-expansion-panel {
+      box-shadow: none;
+
+      mat-panel-title {
+        color: #4d8067;
+        justify-content: center;
+      }
+
+      ng-scrollbar {
+        &.details-scrollbar {
+          height: 250px;
+        }
+      }
+    }
   }
 }
 
@@ -34,5 +97,11 @@ button.mat-flat-button {
     font-size: 16px;
     color: $color-primary;
     margin: 1rem 0;
+  }
+}
+
+.details-scrollbar {
+  p {
+    margin-right: 1rem;
   }
 }
