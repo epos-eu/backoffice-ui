@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
@@ -14,17 +14,17 @@ import { ActionsService } from 'src/services/actions.service';
   styleUrls: ['./browse-data-products-item.component.scss'],
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
-  public floatLabelControl = new FormControl('auto');
+  public floatLabelControl = new UntypedFormControl('auto');
   // public dataProduct!: DataProduct;
   public UID!: string | null;
   public currentEdit!: IChangeItem;
-  public form!: FormGroup;
+  public form!: UntypedFormGroup;
 
   constructor(
     private router: Router,
     private dialogService: DialogService,
     private actionService: ActionsService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
   ) {
     // this.dataProduct = this.router.getCurrentNavigation()?.extras.state as DataProduct;
