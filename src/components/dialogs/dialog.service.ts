@@ -50,7 +50,17 @@ export class DialogService extends BaseDialogService {
   }
 
   public openLoginDialogComponent(): Promise<DialogData> {
-    return this.openDialog('loginCopmonent', DialogLoginComponent, false, null, undefined, 'login-backdrop');
+    return this.openDialog(
+      'loginCopmonent',
+      DialogLoginComponent,
+      false,
+      null,
+      {
+        width: '40vw',
+        height: 'auto',
+      },
+      'login-backdrop',
+    );
   }
 
   public handleDelete(): void {

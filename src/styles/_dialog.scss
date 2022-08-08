@@ -79,3 +79,33 @@ app-dialog {
     }
   }
 }
+
+#loginCopmonent {
+  padding: 0 !important;
+
+  .content {
+    .button-wrapper {
+      a {
+        span {
+          &.mat-button-wrapper {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  app-dialog-login {
+    .bottom {
+      mat-accordion {
+        mat-expansion-panel {
+          .mat-expansion-panel-content {
+            height: 250px;
+            overflow: hidden;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}

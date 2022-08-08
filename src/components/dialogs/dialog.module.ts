@@ -7,6 +7,7 @@ import { MetadataFileViewComponent } from './metadata-file-view/metadata-file-vi
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { RevisionsComponent } from './revisions/revisions.component';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { DialogLoginComponent } from './dialog-login/dialog-login.component';
     RevisionsComponent,
     DialogLoginComponent,
   ],
-  imports: [CommonModule, AngularMaterialModule],
+  imports: [CommonModule, AngularMaterialModule, MatExpansionModule],
 })
 export class DialogModule {}
