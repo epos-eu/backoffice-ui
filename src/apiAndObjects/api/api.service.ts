@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
 import { GetIndexDetails } from './index/getIndexDetails';
+import { GetDistributionDetail } from './distribution/getDistributionDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -13,6 +14,9 @@ export class ApiService extends BaseApi {
   public readonly endpoints = {
     index: {
       getIndexDetails: new GetIndexDetails(ApiService.USE_LIVE_API),
+    },
+    distribution: {
+      distributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
     },
   };
 
