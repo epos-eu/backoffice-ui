@@ -1,4 +1,4 @@
-<ng-scrollbar>
+<!-- <ng-scrollbar>
   <div class="container" fxLayout="row" fxLayoutAlign="center none">
     <h1 class="mat-display-1">Services</h1>
     <div class="mat-table-margin">
@@ -6,7 +6,7 @@
     </div>
     <div *ngIf="!loading" class="mat-elevation-z8 mat-table-margin">
       <table mat-table [dataSource]="dataSource" matSort>
-        <!-- Uid column -->
+        Uid column
         <ng-container matColumnDef="uid">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Uid
@@ -16,7 +16,7 @@
           </td>
         </ng-container>
 
-        <!-- Name column -->
+        Name column
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Name
@@ -28,7 +28,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-        <!-- No matching data -->
+        No matching data
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">
             No data matching the filter
@@ -38,4 +38,4 @@
       <mat-paginator [pageSizeOptions]="pageSizeOptions" aria-label="Select page of Services"></mat-paginator>
     </div>
   </div>
-</ng-scrollbar>
+</ng-scrollbar> -->

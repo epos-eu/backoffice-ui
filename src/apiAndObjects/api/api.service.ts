@@ -3,15 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
-import { GetOrganisations } from './organisation/getOrganisations';
-import { GetWebservices } from './webservice/getWebservices';
-import { GetDataProducts } from './dataProduct/getDataProducts';
-import { GetSoftware } from './software/getSoftware';
-import { GetPeople } from './people/getPeople';
-import { GetServices } from './services/getServices';
-import { GetEquipments } from './equipment/getEquipment';
-import { GetFacilities } from './facility/getFacilities';
-import { GetDistributions } from './distribution/getDistibutions';
+import { GetIndexDetails } from './index/getIndexDetails';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -19,32 +11,8 @@ export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
-    organisation: {
-      getOrganisations: new GetOrganisations(ApiService.USE_LIVE_API),
-    },
-    webservice: {
-      getWebservices: new GetWebservices(ApiService.USE_LIVE_API),
-    },
-    dataProduct: {
-      getDataProducts: new GetDataProducts(ApiService.USE_LIVE_API),
-    },
-    software: {
-      getSoftware: new GetSoftware(ApiService.USE_LIVE_API),
-    },
-    people: {
-      getPeople: new GetPeople(ApiService.USE_LIVE_API),
-    },
-    services: {
-      getServices: new GetServices(ApiService.USE_LIVE_API),
-    },
-    facility: {
-      getFacilities: new GetFacilities(ApiService.USE_LIVE_API),
-    },
-    equipment: {
-      getEquipments: new GetEquipments(ApiService.USE_LIVE_API),
-    },
-    distribution: {
-      getDistributions: new GetDistributions(ApiService.USE_LIVE_API),
+    index: {
+      getIndexDetails: new GetIndexDetails(ApiService.USE_LIVE_API),
     },
   };
 
