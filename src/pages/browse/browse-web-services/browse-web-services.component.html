@@ -1,9 +1,9 @@
-<ng-scrollbar>
+<!-- <ng-scrollbar>
   <div class="container" fxLayout="row" fxLayoutAlign="center none">
     <h1 class="mat-display-1">Webservices</h1>
     <div class="mat-elevation-z8 mat-table-margin">
       <table mat-table [dataSource]="dataSource" matSort>
-        <!-- Provider Column -->
+        Provider Column
         <ng-container matColumnDef="uid">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Provider
@@ -13,7 +13,7 @@
           </td>
         </ng-container>
 
-        <!-- Name column -->
+        Name column
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Name
@@ -23,7 +23,7 @@
           </td>
         </ng-container>
 
-        <!-- Issued (datePublished) column -->
+        Issued (datePublished) column
         <ng-container matColumnDef="datePublished">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Issued
@@ -35,7 +35,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="rowClicked(row)"></tr>
 
-        <!-- No matching data -->
+        No matching data
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">
             No data matching the filter
@@ -45,4 +45,4 @@
       <mat-paginator [pageSizeOptions]="pageSizeOptions" aria-label="Select page of webservices"></mat-paginator>
     </div>
   </div>
-</ng-scrollbar>
+</ng-scrollbar> -->

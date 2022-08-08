@@ -10,7 +10,6 @@ import { BrowseOrganizationComponent } from './browse-organization/browse-organi
 import { BrowsePeopleComponent } from './browse-people/browse-people.component';
 import { BrowsePublicationsComponent } from './browse-publications/browse-publications.component';
 import { BrowseServicesComponent } from './browse-services/browse-services.component';
-import { BrowseSoftwareComponent } from './browse-software/browse-software.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
@@ -49,11 +48,11 @@ const routes: Routes = [
       { path: 'details/:id', component: BrowseOrganizationItemComponent },
     ],
   },
-  {
-    path: 'software',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseSoftwareComponent }],
-  },
+  // {
+  //   path: 'software',
+  //   component: LayoutComponent,
+  //   children: [{ path: '', component: BrowseSoftwareComponent }],
+  // },
   {
     path: 'distribution',
     component: LayoutComponent,

@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { AAAIUser } from 'src/aaai/aaaiUser.interface';
-import { ApiLoginService } from 'src/apiAndObjects/api/api-login.service';
-import { LoginDetailDataSource } from 'src/apiAndObjects/objects/loginDetailDataSource';
 import { BehaviorSubject } from 'rxjs';
 import { ActionsService } from 'src/services/actions.service';
 import { ChangeDetectorRef } from '@angular/core';
@@ -15,6 +13,8 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { SectionsService } from 'src/services/sections.service';
 import { Sections } from 'src/utility/objects/login/sections';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { IndexDetailDataSource } from 'src/apiAndObjects/objects/indexDetailDataSource';
 
 @Component({
   selector: 'app-layout',
@@ -40,12 +40,12 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
     private router: Router,
     private actRoute: ActivatedRoute,
     private aaai: AaaiService,
-    private apiLoginService: ApiLoginService,
     private persistorService: PersistorService,
     public actionsService: ActionsService,
     private cdr: ChangeDetectorRef,
     private activeUserService: ActiveUserService,
     private sectionsService: SectionsService,
+    private apiService: ApiService,
   ) {}
 
   ngOnInit(): void {
@@ -102,7 +102,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   public callTestLogin() {
-    this.apiLoginService.endpoints.loginTest.getLoginDetailsTest.call().then((data: Array<LoginDetailDataSource>) => {
+    this.apiService.endpoints.index.getIndexDetails.call().then((data: Array<IndexDetailDataSource>) => {
       this.sectionsService.setSections(data[0].sections as Array<Sections>);
       this.activeUserService.setActiveUserInfo(data[0].userInfo as UserBackofficeInfo);
     });

@@ -10,7 +10,7 @@ import { RevisionsDataSource } from 'src/apiAndObjects/objects/revisionsDataSour
   styleUrls: ['./revisions.component.scss'],
 })
 export class RevisionsComponent implements OnInit {
-  public displayedColumns: string[] = ['uid', 'name', 'createdAt', 'createdBy'];
+  public displayedColumns: string[] = ['uid', 'version', 'createdAt', 'createdBy'];
   public dataSource!: MatTableDataSource<RevisionsDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
 

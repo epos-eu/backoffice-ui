@@ -1,38 +1,38 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { LoginDetailDataSource } from 'src/apiAndObjects/objects/loginDetailDataSource';
+import { IndexDetailDataSource } from 'src/apiAndObjects/objects/indexDetailDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
-export class GetLoginDetailsTest extends CacheableEndpoint<
-  Array<LoginDetailDataSource>,
-  GetTestLoginDetailsParams,
-  LoginDetailDataSource
+export class GetIndexDetails extends CacheableEndpoint<
+  Array<IndexDetailDataSource>,
+  GetIndexDetailsParams,
+  IndexDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(params: GetTestLoginDetailsParams): string {
+  protected getCacheKey(params: GetIndexDetailsParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetTestLoginDetailsParams): Promise<Array<LoginDetailDataSource>> {
+  protected callLive(params: GetIndexDetailsParams): Promise<Array<IndexDetailDataSource>> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const authHeader = new HttpHeaders().set('Authorization', accessToken ? accessToken : '');
       return authHeader;
     };
     const callResponsePromise = this.apiCaller
-      .doCall('', RequestMethod.GET, undefined, undefined, headers)
+      .doCall('/index', RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
-    return this.buildObjectsFromResponse(LoginDetailDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(IndexDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<LoginDetailDataSource[]> {
+  protected callMock(): Promise<IndexDetailDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
-      LoginDetailDataSource,
+      IndexDetailDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
           resolve(lastValueFrom(httpClient.get('/testpath/assets/data/organization.json')));
@@ -43,7 +43,7 @@ export class GetLoginDetailsTest extends CacheableEndpoint<
 
   private processResponseData(
     data: Array<Record<string, unknown>> | unknown,
-    params: GetTestLoginDetailsParams,
+    params: GetIndexDetailsParams,
   ): Array<Record<string, unknown>> {
     if (Array.isArray(data)) {
       data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
@@ -57,7 +57,7 @@ export class GetLoginDetailsTest extends CacheableEndpoint<
   }
 }
 
-export interface GetTestLoginDetailsParams {
+export interface GetIndexDetailsParams {
   singleOptionOnly?: boolean;
-  dataSource: LoginDetailDataSource;
+  dataSource: IndexDetailDataSource;
 }

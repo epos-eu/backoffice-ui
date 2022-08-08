@@ -15,7 +15,6 @@ import { AngularMaterialModule } from './angular-material.module';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { aaaiServiceProvider } from 'src/aaai/aaai.service';
-import { ApiLoginService } from 'src/apiAndObjects/api/api-login.service';
 
 @NgModule({
   declarations: [AppComponent, DialogComponent],
@@ -39,7 +38,6 @@ import { ApiLoginService } from 'src/apiAndObjects/api/api-login.service';
       useValue: {},
     },
     ApiService,
-    ApiLoginService,
     DialogService,
     SnackbarService,
     aaaiServiceProvider,

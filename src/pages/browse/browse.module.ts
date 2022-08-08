@@ -7,7 +7,6 @@ import { BrowseOrganizationComponent } from './browse-organization/browse-organi
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
-import { BrowseSoftwareComponent } from './browse-software/browse-software.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BrowseFacilitiesComponent } from './browse-facilities/browse-facilities.component';
@@ -35,7 +34,6 @@ import { BrowseDistributionComponent } from './browse-distribution/browse-distri
     BrowseOrganizationItemComponent,
     BrowseWebServicesItemComponent,
     SnackbarComponent,
-    BrowseSoftwareComponent,
     BrowseDataProductsComponent,
     BrowsePeopleComponent,
     BrowseServicesComponent,
