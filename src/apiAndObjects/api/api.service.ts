@@ -5,6 +5,7 @@ import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
 import { GetIndexDetails } from './index/getIndexDetails';
 import { GetDistributionDetail } from './distribution/getDistributionDetail';
+import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -16,7 +17,10 @@ export class ApiService extends BaseApi {
       getIndexDetails: new GetIndexDetails(ApiService.USE_LIVE_API),
     },
     distribution: {
-      distributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
+      getDistributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
+    },
+    webservice: {
+      getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
     },
   };
 
