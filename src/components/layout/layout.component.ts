@@ -16,11 +16,7 @@ import { Sections } from 'src/utility/objects/login/sections';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { IndexDetailDataSource } from 'src/apiAndObjects/objects/indexDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
-import {
-  GetDistributionDetail,
-  GetDistributionDetailsParams,
-} from 'src/apiAndObjects/api/distribution/getDistributionDetail';
-import { GetWebserviceDetailParams } from 'src/apiAndObjects/api/webservice/getWebserviceDetail';
+import { GetDistributionDetailsParams } from 'src/apiAndObjects/api/distribution/getDistributionDetail';
 
 @Component({
   selector: 'app-layout',

@@ -6,6 +6,7 @@ import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseH
 import { GetIndexDetails } from './index/getIndexDetails';
 import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
+import { GetOperationDetails } from './operation/getOperationDetails';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -21,6 +22,9 @@ export class ApiService extends BaseApi {
     },
     webservice: {
       getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
+    },
+    operation: {
+      getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),
     },
   };
 
