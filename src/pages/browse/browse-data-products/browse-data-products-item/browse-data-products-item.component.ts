@@ -32,17 +32,21 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initData();
+    this.route.paramMap.subscribe((obs) => {
+      if (null != obs.get('id')) {
+        this.initData(obs.get('id') as string);
+      }
+    });
   }
 
   ngOnDestroy(): void {
     this.actionService.cancelLiveEdit();
   }
 
-  private initData(): void {
+  private initData(id: string): void {
     this.apiService.endpoints.dataProducts.getDataProductDetail
       .call({
-        instanceId: 'f970a760-3909-45b1-b03a-f8d49249e43c',
+        instanceId: id,
       })
       .then((data: Array<DataProductsDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
