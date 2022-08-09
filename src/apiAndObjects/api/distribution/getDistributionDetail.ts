@@ -24,7 +24,7 @@ export class GetDistributionDetail extends CacheableEndpoint<
       return authHeader;
     };
     const callResponsePromise = this.apiCaller
-      .doCall(`/distribution?instanceid=${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`distribution?instanceid=${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(DistributionDetailDataSource, callResponsePromise);
   }
@@ -45,6 +45,7 @@ export class GetDistributionDetail extends CacheableEndpoint<
     data: Array<Record<string, unknown>> | unknown,
     params: GetDistributionDetailsParams,
   ): Array<Record<string, unknown>> {
+    console.debug('data', data);
     if (Array.isArray(data)) {
       data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
       return params.singleOptionOnly === true ? data.slice(0, 1) : data;
@@ -60,5 +61,5 @@ export class GetDistributionDetail extends CacheableEndpoint<
 export interface GetDistributionDetailsParams {
   singleOptionOnly?: boolean;
   instanceId: string;
-  dataSource: DistributionDetailDataSource;
+  // dataSource?: DistributionDetailDataSource;
 }

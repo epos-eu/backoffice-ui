@@ -15,6 +15,12 @@ import { SectionsService } from 'src/services/sections.service';
 import { Sections } from 'src/utility/objects/login/sections';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { IndexDetailDataSource } from 'src/apiAndObjects/objects/indexDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
+import {
+  GetDistributionDetail,
+  GetDistributionDetailsParams,
+} from 'src/apiAndObjects/api/distribution/getDistributionDetail';
+import { GetWebserviceDetailParams } from 'src/apiAndObjects/api/webservice/getWebserviceDetail';
 
 @Component({
   selector: 'app-layout',
@@ -117,5 +123,17 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.liveChanges.next(value);
       this.cdr.detectChanges();
     });
+  }
+
+  testApiCall(): void {
+    const params: GetDistributionDetailsParams = {
+      singleOptionOnly: true,
+      instanceId: '88967808-3495-4128-8666-213a54a671d2',
+    };
+    this.apiService.endpoints.distribution.getDistributionDetail
+      .call(params)
+      .then((data: Array<DistributionDetailDataSource>) => {
+        console.debug(data);
+      });
   }
 }

@@ -60,5 +60,5 @@ export class GetWebserviceDetail extends CacheableEndpoint<
 export interface GetWebserviceDetailParams {
   singleOptionOnly?: boolean;
   instanceId: string;
-  dataSource: WebserviceDetailDataSource;
+  // dataSource: WebserviceDetailDataSource;
 }
