@@ -7,6 +7,7 @@ import { GetIndexDetails } from './index/getIndexDetails';
 import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
+import { GetDataProductDetail } from './data-products/getDataProductDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -25,6 +26,9 @@ export class ApiService extends BaseApi {
     },
     operation: {
       getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),
+    },
+    dataProducts: {
+      getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
     },
   };
 

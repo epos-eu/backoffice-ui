@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="body">
-    <form [formGroup]="form" *ngIf="form">
+    <form [formGroup]="form" *ngIf="form && dataProduct">
       <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
         <mat-label>UID</mat-label>
         <input matInput placeholder="UID" name="uid" formControlName="uid">
@@ -33,8 +33,8 @@
       </mat-form-field>
       <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
         <mat-label>Description</mat-label>
-        <textarea matInput name="description" [ngStyle]="{ 'line-height': '1.4' }"
-          formControlName="description"></textarea>
+        <textarea matInput name="description" [ngStyle]="{ 'line-height': '1.4' }" formControlName="description"
+          [value]="dataProduct.description[0]"></textarea>
       </mat-form-field>
       <mat-accordion>
         <mat-expansion-panel expanded="true">
