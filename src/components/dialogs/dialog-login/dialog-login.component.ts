@@ -15,12 +15,17 @@ import { ActiveUserService } from 'src/services/activeUser.service';
 export class DialogLoginComponent {
   public user: null | AAAIUser = null;
   public manageUrl: string;
+  public showLoading = true;
 
   constructor(private readonly aaai: AaaiService, private readonly activeUserService: ActiveUserService) {
     this.manageUrl = this.aaai.getManageUrl();
     this.aaai.watchUser().subscribe((aaaiUser: AAAIUser | null) => {
       this.user = aaaiUser;
     });
+
+    setTimeout(() => {
+      this.showLoading = false;
+    }, 2000);
   }
 
   public logInOut(): void {

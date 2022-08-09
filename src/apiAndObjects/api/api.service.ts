@@ -4,6 +4,10 @@ import { environment } from 'src/environments/environment';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
 import { GetIndexDetails } from './index/getIndexDetails';
+import { GetDistributionDetail } from './distribution/getDistributionDetail';
+import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
+import { GetOperationDetails } from './operation/getOperationDetails';
+import { GetDataProductDetail } from './data-products/getDataProductDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -13,6 +17,18 @@ export class ApiService extends BaseApi {
   public readonly endpoints = {
     index: {
       getIndexDetails: new GetIndexDetails(ApiService.USE_LIVE_API),
+    },
+    distribution: {
+      getDistributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
+    },
+    webservice: {
+      getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
+    },
+    operation: {
+      getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),
+    },
+    dataProducts: {
+      getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
     },
   };
 

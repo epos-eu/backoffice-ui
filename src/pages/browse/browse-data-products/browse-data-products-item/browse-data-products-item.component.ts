@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
@@ -15,21 +16,18 @@ import { ActionsService } from 'src/services/actions.service';
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new UntypedFormControl('auto');
-  // public dataProduct!: DataProduct;
+  public dataProduct!: DataProductsDataSource | undefined;
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
 
   constructor(
-    private router: Router,
     private dialogService: DialogService,
     private actionService: ActionsService,
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
+    private apiService: ApiService,
   ) {
-    // this.dataProduct = this.router.getCurrentNavigation()?.extras.state as DataProduct;
-    // this.UID = this.router.getCurrentNavigation()?.extras.state;
-    // console.log(this.router.getCurrentNavigation()?.extras.state);
     this.UID = this.route.snapshot.paramMap.get('id');
   }
 
@@ -42,44 +40,43 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(): void {
-    // if (this.dataProduct) {
-    //   this.actionService.setLiveEdit();
-    //   this.actionService.addEditedItems([
-    //     {
-    //       type: 'data-products',
-    //       label: 'Data product',
-    //       status: Status.Draft,
-    //       color: 'draft',
-    //       id: this.dataProduct.uid,
-    //     },
-    //   ]);
-    //   this.actionService.trackCurrentEdit(this.dataProduct.uid);
-    //   this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
-    //     if (item) {
-    //       this.currentEdit = item;
-    //     }
-    //   });
-    //   this.trackFormData();
-    // }
-    this.actionService.setLiveEdit();
-    this.actionService.addEditedItems([
-      {
-        type: 'data-products',
-        label: 'Data product',
-        status: Status.Draft,
-        color: 'draft',
-        id: 'Test!',
-      },
-    ]);
-    this.trackFormData();
+    this.apiService.endpoints.dataProducts.getDataProductDetail
+      .call({
+        instanceId: 'f970a760-3909-45b1-b03a-f8d49249e43c',
+      })
+      .then((data: Array<DataProductsDataSource>) => {
+        if (Array.isArray(data) && data.length > 0) {
+          this.dataProduct = data.shift();
+
+          if (this.dataProduct) {
+            this.actionService.setLiveEdit();
+            this.actionService.addEditedItems([
+              {
+                type: 'data-products',
+                label: 'Data product',
+                status: Status.Draft,
+                color: 'draft',
+                id: this.dataProduct.instanceId,
+              },
+            ]);
+            this.trackFormData();
+            // this.actionService.trackCurrentEdit(this.dataProduct.uid);
+            // this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
+            //   if (item) {
+            //     this.currentEdit = item;
+            //   }
+            // });
+          }
+        }
+      });
   }
 
   private trackFormData(): void {
     this.form = this.formBuilder.group({
-      uid: this.UID,
-      title: '',
-      description: '',
-      distributionUid: '',
+      uid: this.dataProduct?.uid,
+      title: this.dataProduct?.title,
+      description: this.dataProduct?.description,
+      distributionUid: this.dataProduct?.distribution[0]['uid'],
       distributionTitle: '',
       webserviceUid: '',
       webserviceTitle: '',
