@@ -8,6 +8,7 @@ import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
 import { GetDataProductDetail } from './data-products/getDataProductDetail';
+import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -29,6 +30,9 @@ export class ApiService extends BaseApi {
     },
     dataProducts: {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
+    },
+    contactPoint: {
+      getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
     },
   };
 
