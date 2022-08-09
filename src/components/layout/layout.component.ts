@@ -121,15 +121,15 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
-  testApiCall(): void {
-    const params: GetDistributionDetailsParams = {
-      singleOptionOnly: true,
-      instanceId: '88967808-3495-4128-8666-213a54a671d2',
-    };
-    this.apiService.endpoints.distribution.getDistributionDetail
-      .call(params)
-      .then((data: Array<DistributionDetailDataSource>) => {
-        console.debug(data);
-      });
-  }
+  // testApiCall(): void {
+  //   const params: GetDistributionDetailsParams = {
+  //     singleOptionOnly: true,
+  //     instanceId: '88967808-3495-4128-8666-213a54a671d2',
+  //   };
+  //   this.apiService.endpoints.distribution.getDistributionDetail
+  //     .call(params)
+  //     .then((data: Array<DistributionDetailDataSource>) => {
+  //       console.debug(data);
+  //     });
+  // }
 }
