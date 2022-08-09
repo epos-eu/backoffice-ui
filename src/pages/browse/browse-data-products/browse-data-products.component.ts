@@ -4,9 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SectionsService } from 'src/services/sections.service';
-import { ColumnLabel } from 'src/utility/enums/columnLabel.enum';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
-import { ItemCell } from 'src/utility/objects/login/itemCell';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
 import { Sections } from 'src/utility/objects/login/sections';
 
@@ -45,8 +43,6 @@ export class BrowseDataProductsComponent implements OnInit {
   }
 
   public rowClicked(row: SectionItem): void {
-    const uidRow = row.cells.filter((item: ItemCell) => item.cellColumnName === ColumnLabel.UID);
-    const uid = uidRow[0].value as string;
-    this.router.navigate(['/browse/data-products/details', uid]);
+    this.router.navigate(['/browse/data-products/details', row.instanceId]);
   }
 }
