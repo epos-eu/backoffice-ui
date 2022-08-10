@@ -3,7 +3,7 @@
     <h3 mat-subheader>Current changes</h3>
     <mat-chip-list class="mat-chip-list-stacked" aria-label="Current changes" *ngIf="(itemsExist | async) === true">
       <mat-chip *ngFor="let change of actionsService.editedItemsObservable | async" [color]="change.color"
-        [ngClass]="isActive(change.id) ? 'active' : ''">
+        [ngClass]="isActive(change.id) ? 'active' : ''" (click)="handleClick(change.id)">
         <div class="top">
           <span>{{ change.label }}</span>
           <span>{{ change.status }}</span>
