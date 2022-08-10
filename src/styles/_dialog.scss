@@ -109,3 +109,15 @@ app-dialog {
     }
   }
 }
+
+.user-permissions {
+  .mat-dialog-container {
+    padding: 0 !important;
+
+    app-user-permissions {
+      height: 100%;
+      display: block;
+      width: 100%;
+    }
+  }
+}
