@@ -3,4 +3,6 @@ export enum SectionName {
   ORGANIZATION = 'Organization',
   USER = 'User',
   PERSON = 'Person',
+  CONTACT_POINT = 'Contactpoint',
+  WEBSERVICE = 'Webservice',
 }
