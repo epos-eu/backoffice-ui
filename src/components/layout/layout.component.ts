@@ -17,6 +17,9 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { IndexDetailDataSource } from 'src/apiAndObjects/objects/indexDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
 import { GetDistributionDetailsParams } from 'src/apiAndObjects/api/distribution/getDistributionDetail';
+import { SetUserRoleParams } from 'src/apiAndObjects/api/user/setUserRole';
+import { UserRole } from 'src/utility/enums/UserRole.enum';
+import { NewUserRoleDataSource } from 'src/apiAndObjects/objects/newUserRoleDataSource';
 
 @Component({
   selector: 'app-layout',
@@ -121,15 +124,13 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
-  testApiCall(): void {
-    const params: GetDistributionDetailsParams = {
-      singleOptionOnly: true,
-      instanceId: '88967808-3495-4128-8666-213a54a671d2',
-    };
-    this.apiService.endpoints.distribution.getDistributionDetail
-      .call(params)
-      .then((data: Array<DistributionDetailDataSource>) => {
-        console.debug(data);
-      });
-  }
+  // testApiCall(): void {
+  //   const params: SetUserRoleParams = {
+  //     instanceId: 'ad0a6799-9c6c-4c59-b0b9-95aea6ed13ad',
+  //     role: UserRole.EDITOR,
+  //   };
+  //   this.apiService.endpoints.user.setNewRole.call(params).then((data: NewUserRoleDataSource) => {
+  //     console.debug(data);
+  //   });
+  // }
 }
