@@ -41,12 +41,6 @@ export class HomePageComponent implements OnInit {
       color: 'error',
       type: Status.Declined,
     },
-    {
-      label: 'Published',
-      count: 0,
-      color: 'published',
-      type: Status.Published,
-    },
   ];
 
   constructor(private readonly activeUserService: ActiveUserService, private actionsService: ActionsService) {

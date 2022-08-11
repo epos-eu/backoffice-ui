@@ -58,8 +58,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               {
                 type: 'data-products',
                 label: 'Data product',
-                status: this.dataProduct.state as Status,
-                color: this.dataProduct.state.toLowerCase(),
+                status: Status.Draft,
+                color: 'draft',
                 id: this.dataProduct.instanceId,
               },
             ]);
