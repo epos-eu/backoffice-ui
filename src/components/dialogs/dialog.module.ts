@@ -8,6 +8,8 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { RevisionsComponent } from './revisions/revisions.component';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MetadataFileViewComponent,
     RevisionsComponent,
     DialogLoginComponent,
+    UserPermissionsComponent,
   ],
-  imports: [CommonModule, AngularMaterialModule, MatExpansionModule],
+  imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule],
 })
 export class DialogModule {}
