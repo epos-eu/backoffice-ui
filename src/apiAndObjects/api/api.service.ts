@@ -8,6 +8,7 @@ import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
 import { GetDataProductDetail } from './data-products/getDataProductDetail';
+import { SetUserRole } from './user/setUserRole';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -29,6 +30,9 @@ export class ApiService extends BaseApi {
     },
     dataProducts: {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
+    },
+    user: {
+      setNewRole: new SetUserRole(ApiService.USE_LIVE_API),
     },
   };
 
