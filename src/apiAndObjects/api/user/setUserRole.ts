@@ -1,0 +1,45 @@
+import { HttpHeaders } from '@angular/common/http';
+import { NewUserRoleDataSource } from 'src/apiAndObjects/objects/newUserRoleDataSource';
+import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
+import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { UserRole } from 'src/utility/enums/UserRole.enum';
+
+export class SetUserRole extends CacheableEndpoint<NewUserRoleDataSource, SetUserRoleParams, NewUserRoleDataSource> {
+  private persistorService: PersistorService = new PersistorService();
+
+  protected getCacheKey(params: SetUserRoleParams): string {
+    return JSON.stringify(params);
+  }
+
+  protected callLive(params: SetUserRoleParams): Promise<NewUserRoleDataSource> {
+    const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
+    const headers = (): HttpHeaders => {
+      const authHeader = new HttpHeaders().set('Authorization', accessToken ? accessToken : '');
+      return authHeader;
+    };
+    const callResponsePromise = this.apiCaller.doCall(
+      ['user', params.instanceId, 'role'],
+      RequestMethod.PUT,
+      undefined,
+      {
+        newRole: params.role,
+      },
+      headers,
+    );
+
+    return this.buildObjectFromResponse(NewUserRoleDataSource, callResponsePromise).then(
+      (newUserRole: NewUserRoleDataSource) => newUserRole,
+    );
+  }
+
+  protected callMock(): Promise<NewUserRoleDataSource> {
+    throw new Error('Method not implemented.');
+  }
+}
+
+export interface SetUserRoleParams {
+  instanceId: string;
+  role: UserRole;
+}
