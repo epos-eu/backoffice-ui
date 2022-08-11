@@ -8,10 +8,20 @@ import { DialogModule } from './dialogs/dialog.module';
 import { LoginComponent } from './login/login.component';
 import { ActionsDataComponent } from './actions-data/actions-data.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { ChartjsModule } from '@ctrl/ngx-chartjs';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
-  declarations: [LayoutComponent, ActionsDataComponent, LoginComponent],
-  imports: [RouterModule, CommonModule, AngularMaterialModule, SideNavigationModule, DialogModule, MatChipsModule],
-  exports: [LayoutComponent, ActionsDataComponent],
+  declarations: [LayoutComponent, ActionsDataComponent, LoginComponent, ChartComponent],
+  imports: [
+    RouterModule,
+    CommonModule,
+    AngularMaterialModule,
+    SideNavigationModule,
+    DialogModule,
+    MatChipsModule,
+    ChartjsModule,
+  ],
+  exports: [LayoutComponent, ActionsDataComponent, ChartComponent],
 })
 export class ComponentsModule {}

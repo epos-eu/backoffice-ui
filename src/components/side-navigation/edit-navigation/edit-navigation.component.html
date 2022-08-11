@@ -6,7 +6,7 @@
         [ngClass]="isActive(change.id) ? 'active' : ''">
         <div class="top">
           <span>{{ change.label }}</span>
-          <span>{{ change.status }}</span>
+          <span>{{ change.status.toLowerCase() }}</span>
         </div>
         <div class="bottom">
           <p>ID: {{ change.id }}</p>

@@ -41,6 +41,12 @@ export class HomePageComponent implements OnInit {
       color: 'error',
       type: Status.Declined,
     },
+    {
+      label: 'Published',
+      count: 0,
+      color: 'published',
+      type: Status.Published,
+    },
   ];
 
   constructor(private readonly activeUserService: ActiveUserService, private actionsService: ActionsService) {
@@ -63,7 +69,7 @@ export class HomePageComponent implements OnInit {
     editedItems.map((item) => {
       if (types.includes(item.status)) {
         const index = this.actionItems.findIndex((obj) => obj.type === item.status);
-        // this.actionItems[index].count += 1;
+        this.actionItems[index].count += 1;
       }
     });
   }
