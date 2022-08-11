@@ -9,6 +9,7 @@ import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
 import { GetDataProductDetail } from './data-products/getDataProductDetail';
 import { SetUserRole } from './user/setUserRole';
+import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -33,6 +34,9 @@ export class ApiService extends BaseApi {
     },
     user: {
       setNewRole: new SetUserRole(ApiService.USE_LIVE_API),
+    },
+    contactPoint: {
+      getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
     },
   };
 

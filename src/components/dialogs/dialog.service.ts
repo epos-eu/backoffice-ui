@@ -26,10 +26,12 @@ export class DialogService extends BaseDialogService {
     data?: T,
     width = '80vw',
     height = '80vh',
+    panelClass?: string,
   ): Promise<DialogData<T>> {
     return this.openDialog('anyDialog', contentComponent, true, data, {
       width,
       height,
+      panelClass,
     });
   }
 

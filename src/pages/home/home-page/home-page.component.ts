@@ -63,7 +63,7 @@ export class HomePageComponent implements OnInit {
     editedItems.map((item) => {
       if (types.includes(item.status)) {
         const index = this.actionItems.findIndex((obj) => obj.type === item.status);
-        // this.actionItems[index].count += 1;
+        this.actionItems[index].count += 1;
       }
     });
   }
