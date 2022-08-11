@@ -45,9 +45,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   private initData(id: string): void {
     this.apiService.endpoints.dataProducts.getDataProductDetail
-      .call({
-        instanceId: id,
-      })
+      .call(
+        {
+          instanceId: id,
+        },
+        false,
+      )
       .then((data: Array<DataProductsDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
@@ -64,12 +67,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               },
             ]);
             this.trackFormData();
-            // this.actionService.trackCurrentEdit(this.dataProduct.uid);
-            // this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
-            //   if (item) {
-            //     this.currentEdit = item;
-            //   }
-            // });
+            this.actionService.trackCurrentEdit(this.dataProduct.uid);
+            this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
+              if (item) {
+                this.currentEdit = item;
+              }
+            });
           }
         }
       });

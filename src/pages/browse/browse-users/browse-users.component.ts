@@ -3,6 +3,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/components/dialogs/dialog.service';
+import { UserPermissionsComponent } from 'src/components/dialogs/user-permissions/user-permissions.component';
 import { SectionsService } from 'src/services/sections.service';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
@@ -22,7 +24,7 @@ export class BrowseUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router, private sectionsService: SectionsService) {}
+  constructor(private router: Router, private sectionsService: SectionsService, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -38,6 +40,7 @@ export class BrowseUsersComponent implements OnInit {
   }
 
   public rowClicked(row: SectionItem): void {
-    // this.router.navigate(['/browse/data-products/details', row.instanceId]);
+    // open dialog
+    this.dialogService.openDialogForComponent(UserPermissionsComponent, {}, '40vw', 'auto', 'user-permissions');
   }
 }
