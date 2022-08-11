@@ -53,4 +53,8 @@ export class EditNavigationComponent implements OnInit {
     }
     return false;
   }
+
+  public handleClick(id: string): void {
+    this.router.navigate(['/browse/data-products/details', id]);
+  }
 }
