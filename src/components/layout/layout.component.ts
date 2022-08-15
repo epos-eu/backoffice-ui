@@ -64,7 +64,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
           null != this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN) &&
           this.userInfo == null
         ) {
-          this.callTestLogin();
+          this.getLoginData();
         }
       }),
       this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserBackofficeInfo | null) => {
@@ -106,7 +106,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.aaai.login();
   }
 
-  public callTestLogin() {
+  public getLoginData() {
     this.apiService.endpoints.index.getIndexDetails.call().then((data: Array<IndexDetailDataSource>) => {
       this.sectionsService.setSections(data[0].sections as Array<Sections>);
       this.activeUserService.setActiveUserInfo(data[0].userInfo as UserBackofficeInfo);
@@ -123,14 +123,4 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.cdr.detectChanges();
     });
   }
-
-  // testApiCall(): void {
-  //   const params: SetUserRoleParams = {
-  //     instanceId: 'ad0a6799-9c6c-4c59-b0b9-95aea6ed13ad',
-  //     role: UserRole.EDITOR,
-  //   };
-  //   this.apiService.endpoints.user.setNewRole.call(params).then((data: NewUserRoleDataSource) => {
-  //     console.debug(data);
-  //   });
-  // }
 }
