@@ -41,5 +41,5 @@ export class SetUserRole extends CacheableEndpoint<NewUserRoleDataSource, SetUse
 
 export interface SetUserRoleParams {
   instanceId: string;
-  role: UserRole;
+  role: string;
 }

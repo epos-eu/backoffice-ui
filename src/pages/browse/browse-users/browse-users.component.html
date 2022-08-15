@@ -1,7 +1,10 @@
 <ng-scrollbar>
   <div class="container" fxLayout="row" fxLayoutAlign="center none">
     <h1 class="mat-display-1">Users</h1>
-    <div class="mat-elevation-z8 mat-table-margin">
+    <div *ngIf="loading" class="loading-wrapper">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading" class="mat-elevation-z8 mat-table-margin">
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- Name column -->
         <ng-container matColumnDef="Name">

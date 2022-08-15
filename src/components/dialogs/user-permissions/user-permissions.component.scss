@@ -2,6 +2,10 @@
   font-family: 'Roboto Flex', sans-serif;
 }
 
+table {
+  width: 100%;
+}
+
 .top {
   width: 100%;
   background: #004926;
@@ -18,4 +22,10 @@
 
 .bottom {
   margin-top: 1rem;
+}
+
+.title {
+  font-weight: bold;
+  margin-right: 0.5em;
+  width: 5.5em;
 }
