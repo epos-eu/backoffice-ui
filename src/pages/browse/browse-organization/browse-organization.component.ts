@@ -3,17 +3,18 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { HelpersService } from 'src/services/helpers.service';
 import { SectionsService } from 'src/services/sections.service';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
 import { Sections } from 'src/utility/objects/login/sections';
-
 @Component({
   selector: 'app-browse-organization',
   templateUrl: './browse-organization.component.html',
   styleUrls: ['./browse-organization.component.scss'],
 })
 export class BrowseOrganizationComponent implements OnInit {
+  public formatTimestamp = HelpersService.formatTimestamp;
   public displayedColumns: string[] = [];
   public dataSource!: MatTableDataSource<SectionItem>;
   public pageSizeOptions = [10, 25, 50, 100];
@@ -35,11 +36,6 @@ export class BrowseOrganizationComponent implements OnInit {
         this.dataSource.sort = this.sort;
       })
       .add(() => (this.loading = false));
-  }
-
-  public formatTimestamp(timestamp: string): string {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
   }
 
   public rowClicked(row: SectionItem): void {

@@ -1,11 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { HelpersService } from 'src/services/helpers.service';
+import { SectionsService } from 'src/services/sections.service';
+import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { SectionItem } from 'src/utility/objects/login/sectionItem';
+import { Sections } from 'src/utility/objects/login/sections';
 
 @Component({
   selector: 'app-browse-contact-point',
   templateUrl: './browse-contact-point.component.html',
   styleUrls: ['./browse-contact-point.component.scss'],
 })
-export class BrowseContactPointComponent {
-  // constructor() {}
-  // ngOnInit() {}
+export class BrowseContactPointComponent implements OnInit {
+  public formatTimestamp = HelpersService.formatTimestamp;
+  public displayedColumns: string[] = [];
+  public dataSource!: MatTableDataSource<SectionItem>;
+  public pageSizeOptions = [10, 25, 50, 100];
+  public loading = false;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private sectionsService: SectionsService) {}
+
+  public ngOnInit(): void {
+    this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
+      const contactPoint = sections.filter((item) => item.sectionName === SectionName.CONTACT_POINT);
+
+      this.displayedColumns = contactPoint[0].columns.map((item) => item.columnLabel);
+      this.dataSource = new MatTableDataSource(contactPoint[0].items);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
 }
