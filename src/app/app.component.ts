@@ -12,7 +12,10 @@ export class AppComponent {
   constructor(private dialogService: DialogService, private aaai: AaaiService) {
     this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
       if (null == user) {
-        this.dialogService.openLoginDialogComponent();
+        // Prevent app erroring from trying to open same dialog twice
+        if (this.dialogService.dialog.getDialogById('loginCopmonent')?.getState() !== MatDialogState.OPEN) {
+          this.dialogService.openLoginDialogComponent();
+        }
       } else if (
         null != user &&
         this.dialogService.dialog.getDialogById('loginCopmonent')?.getState() === MatDialogState.OPEN
