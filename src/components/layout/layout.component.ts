@@ -15,6 +15,11 @@ import { SectionsService } from 'src/services/sections.service';
 import { Sections } from 'src/utility/objects/login/sections';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { IndexDetailDataSource } from 'src/apiAndObjects/objects/indexDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
+import { GetDistributionDetailsParams } from 'src/apiAndObjects/api/distribution/getDistributionDetail';
+import { SetUserRoleParams } from 'src/apiAndObjects/api/user/setUserRole';
+import { UserRole } from 'src/utility/enums/UserRole.enum';
+import { NewUserRoleDataSource } from 'src/apiAndObjects/objects/newUserRoleDataSource';
 
 @Component({
   selector: 'app-layout',
@@ -59,7 +64,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
           null != this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN) &&
           this.userInfo == null
         ) {
-          this.callTestLogin();
+          this.getLoginData();
         }
       }),
       this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserBackofficeInfo | null) => {
@@ -101,7 +106,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.aaai.login();
   }
 
-  public callTestLogin() {
+  public getLoginData() {
     this.apiService.endpoints.index.getIndexDetails.call().then((data: Array<IndexDetailDataSource>) => {
       this.sectionsService.setSections(data[0].sections as Array<Sections>);
       this.activeUserService.setActiveUserInfo(data[0].userInfo as UserBackofficeInfo);

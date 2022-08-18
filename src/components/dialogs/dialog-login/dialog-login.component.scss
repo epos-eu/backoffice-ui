@@ -110,6 +110,12 @@ button.mat-flat-button {
     color: $color-primary;
     margin: 1rem 0;
   }
+
+  .loading-wrapper {
+    display: flex;
+    align-items: center;
+    height: 238px;
+  }
 }
 
 .details-scrollbar {

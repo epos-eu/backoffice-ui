@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogState } from '@angular/material/dialog';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { AAAIUser } from 'src/aaai/aaaiUser.interface';
 import { DialogService } from 'src/components/dialogs/dialog.service';
+import { BarController, BarElement, Chart, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 
 @Component({
   selector: 'app-root',
   template: `<router-outlet></router-outlet>`,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private dialogService: DialogService, private aaai: AaaiService) {
     this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
       if (null == user) {
@@ -23,5 +24,9 @@ export class AppComponent {
         this.dialogService.dialog.getDialogById('loginCopmonent')?.close();
       }
     });
+  }
+
+  ngOnInit() {
+    Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
   }
 }

@@ -25,6 +25,7 @@ import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
 import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics.component';
 import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
+import { ComponentsModule } from 'src/components/components.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,14 @@ import { BrowseDistributionComponent } from './browse-distribution/browse-distri
     BrowseContactPointComponent,
     BrowseDistributionComponent,
   ],
-  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, MatExpansionModule, MatChipsModule],
+  imports: [
+    CommonModule,
+    BrowseRoutingModule,
+    AngularMaterialModule,
+    MatExpansionModule,
+    MatChipsModule,
+    ComponentsModule,
+  ],
   exports: [],
   providers: [
     {

@@ -1,0 +1,31 @@
+* {
+  font-family: 'Roboto Flex', sans-serif;
+}
+
+table {
+  width: 100%;
+}
+
+.top {
+  width: 100%;
+  background: #004926;
+  color: white;
+  height: 50px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.middle {
+  margin: 1rem 0;
+  padding: 0 1.5rem;
+}
+
+.bottom {
+  margin-top: 1rem;
+}
+
+.title {
+  font-weight: bold;
+  margin-right: 0.5em;
+  width: 5.5em;
+}

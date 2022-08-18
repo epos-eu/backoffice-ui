@@ -1,0 +1,31 @@
+<div class="top">
+  <h3>{{userDetails?.name}} {{userDetails?.surname}}</h3>
+</div>
+<div class="bottom">
+  <div class="container" fxLayout="row" fxLayoutAlign="center none">
+    <div class="mat-elevation-z8 mat-table-margin">
+      <mat-list role="list">
+        <mat-list-item role="listitem"><span class="title">First Name:</span> {{userDetails?.name}} </mat-list-item>
+        <mat-list-item role="listitem"><span class="title">Surname:</span> {{userDetails?.surname}}</mat-list-item>
+        <mat-list-item role="listitem"><span class="title">Email:</span> {{userDetails?.email}}</mat-list-item>
+        <mat-list-item role="listitem"><span class="title">Role:</span>
+          <mat-form-field appearance="legacy">
+            <mat-select [(ngModel)]="currentRole">
+              <mat-option *ngFor="let role of userRole | keyvalue" [value]="role.value">
+                {{role.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button [mat-dialog-close]="'cancel'">
+        Cancel
+      </button>
+      <button mat-flat-button color="primary" cdkFocusInitial (click)="setNewUserRole(currentRole)">
+        Save
+      </button>
+    </div>
+  </div>
+</div>

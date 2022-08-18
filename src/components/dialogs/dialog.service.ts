@@ -7,8 +7,10 @@ import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-pers
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { DialogComponent } from 'src/components/dialogs/dialog/dialog.component';
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
+import { SectionItem } from 'src/utility/objects/login/sectionItem';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
+import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
 
 @Injectable({
   providedIn: 'root',
@@ -26,10 +28,12 @@ export class DialogService extends BaseDialogService {
     data?: T,
     width = '80vw',
     height = '80vh',
+    panelClass?: string,
   ): Promise<DialogData<T>> {
     return this.openDialog('anyDialog', contentComponent, true, data, {
       width,
       height,
+      panelClass,
     });
   }
 
@@ -60,6 +64,20 @@ export class DialogService extends BaseDialogService {
         height: 'auto',
       },
       'login-backdrop',
+    );
+  }
+
+  public openChangeUserRoleDialog(userData: SectionItem): Promise<DialogData> {
+    return this.openDialog(
+      'changeUserRole',
+      UserPermissionsComponent,
+      false,
+      userData,
+      {
+        width: '40vw',
+        height: 'auto',
+      },
+      'user-permissions',
     );
   }
 
