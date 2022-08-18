@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 import { RequestMethod } from './requestMethod.enum';
@@ -28,7 +28,6 @@ export class ApiCaller {
     queryParams: Record<string, string | Array<string>> = {},
     bodyData: Record<string, unknown> | FormData | Array<unknown> = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
-    // fullResponse?: boolean,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
     const options = {
@@ -55,19 +54,12 @@ export class ApiCaller {
         break;
     }
     if (response != null) {
-      return response.toPromise().then((data: unknown) => this.httpCallErrorHandler.handleSuccess(data));
-      // return response
-      //   .toPromise()
-      //   .then((responseJson: unknown) => {
-      //     // console.debug('fullResponse', fullResponse);
-      //     fullResponse
-      //       ? this.httpCallErrorHandler.handleSuccess(responseJson, true)
-      //       : this.httpCallErrorHandler.handleSuccess(responseJson);
-      //   })
-      //   .catch((res: unknown) => {
-      //     console.log('doCall handleError', res);
-      //     return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
-      //   });
+      return firstValueFrom(response)
+        .then((data: unknown) => this.httpCallErrorHandler.handleSuccess(data))
+        .catch((res: unknown) => {
+          console.log('doCall handleError', res);
+          return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
+        });
     }
     return Promise.resolve(null);
   }
