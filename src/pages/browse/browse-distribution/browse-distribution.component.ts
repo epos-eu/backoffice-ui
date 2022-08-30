@@ -43,6 +43,6 @@ export class BrowseDistributionComponent implements OnInit {
   }
 
   public rowClicked(row: SectionItem): void {
-    this.router.navigate(['/browse/data-products/details', row.instanceId]);
+    this.router.navigate(['/browse/distributions/details', row.instanceId]);
   }
 }
