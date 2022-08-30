@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
@@ -27,6 +27,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private apiService: ApiService,
+    private router: Router,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
   }
@@ -98,5 +99,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public handleDelete(): void {
     // Todo: delete item from DB
     this.dialogService.handleDelete();
+  }
+
+  public handleBack(): void {
+    this.router.navigate(['/browse/data-products']);
   }
 }
