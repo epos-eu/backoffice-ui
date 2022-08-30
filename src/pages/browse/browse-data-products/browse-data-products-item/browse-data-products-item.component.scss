@@ -51,7 +51,7 @@
 
       &.mat-error {
         background: rgb(240, 61, 62, 0.2);
-        color: #F03D3E;
+        color: #f03d3e;
       }
 
       &:hover {
@@ -76,5 +76,18 @@
   mat-accordion {
     display: inline-block;
     width: 95%;
+  }
+}
+
+.back-btn {
+  border-radius: 25px;
+  margin-left: 1rem;
+
+  mat-icon {
+    color: #004926;
+  }
+
+  .back-label-text {
+    margin-left: 0.25rem;
   }
 }
