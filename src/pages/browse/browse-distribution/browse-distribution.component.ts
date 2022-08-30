@@ -42,7 +42,7 @@ export class BrowseDistributionComponent implements OnInit {
     return date.toLocaleString();
   }
 
-  public rowClicked(row: SectionItem): void {
-    this.router.navigate(['/browse/distributions/details', row.instanceId]);
-  }
+  // public rowClicked(row: SectionItem): void {
+  //   this.router.navigate(['/browse/distributions/details', row.instanceId]);
+  // }
 }
