@@ -3,7 +3,7 @@ import { AuthConfig, OAuthService, UserInfo } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '../authProvider.interface';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { AAAIUser } from '../aaaiUser.interface';
 import { BasicUser } from './basicUser';
 import { Injector } from '@angular/core';
@@ -171,16 +171,16 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     };
 
     // console.debug('authorizationHeader', this.oAuthService.authorizationHeader());
-    return this.http
-      .post(
+    return firstValueFrom(
+      this.http.post(
         OAuthAuthenticationProvider.REVOKE_ENDPOINT,
         `token=${this.oAuthService.getAccessToken()}` +
           `&client_id=${this.oAuthService.clientId}` +
           '&token_type_hint=access_token' +
           '&logout=true',
         httpOptions,
-      )
-      .toPromise()
+      ),
+    )
       .then(() => {})
       .catch((e) => {
         console.warn('Unable to revoke Access Token', e);

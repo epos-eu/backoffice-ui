@@ -5,4 +5,5 @@ export enum SectionName {
   PERSON = 'Person',
   CONTACT_POINT = 'Contactpoint',
   WEBSERVICE = 'Webservice',
+  DISTRIBUTION = 'Distribution',
 }
