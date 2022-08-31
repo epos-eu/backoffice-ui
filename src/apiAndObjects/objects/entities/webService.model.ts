@@ -1,24 +1,32 @@
+import { State } from 'src/utility/enums/state.enum';
 import { Documentation } from '../types/documentation.type';
+import { Provider } from '../types/provider.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
+import { SupportedOperation } from '../types/supportedOperation.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
+import { ContactPoint } from './contactPoint.model';
 
 export class WebService {
   constructor(
+    public instanceId: string,
+    public changeTimestamp: string,
+    public state: State,
+    public toBeDelete: string, // should be converted to boolean.
+    public uid: string,
+    public fileProvenance: string,
     public category: string[],
-    public contactPoint: string[],
+    public contactPoint: Array<ContactPoint>,
     public dateModified: string,
     public datePublished: string,
     public description: string,
     public documentation: Documentation[],
     public entryPoint: string,
-    public fileProvenance: string,
     public keywords: string,
     public license: string,
     public name: string,
-    public provider: string,
-    public spatialExtent: SpatialExtent[],
-    public supportedOperation: string[],
-    public temporalExtent: TemporalExtent[],
-    public uid: string,
+    public provider: Provider,
+    public spatialExtent: SpatialExtent,
+    public supportedOperation: SupportedOperation,
+    public temporalExtent: TemporalExtent,
   ) {}
 }
