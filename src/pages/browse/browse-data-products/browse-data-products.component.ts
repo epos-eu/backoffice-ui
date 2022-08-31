@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,7 +13,7 @@ import { Sections } from 'src/utility/objects/login/sections';
   templateUrl: './browse-data-products.component.html',
   styleUrls: ['./browse-data-products.component.scss'],
 })
-export class BrowseDataProductsComponent implements OnInit {
+export class BrowseDataProductsComponent implements OnInit, AfterViewInit {
   public displayedColumns: string[] = [];
   public dataSource!: MatTableDataSource<SectionItem>;
   public pageSizeOptions = [10, 25, 50, 100];
@@ -29,12 +29,18 @@ export class BrowseDataProductsComponent implements OnInit {
     this.sectionsService.sectionsObservable
       .subscribe((sections: Array<Sections>) => {
         const dataProducts = sections.filter((item) => item.sectionName === SectionName.DATA_PRODUCT);
-        this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
-        this.dataSource = new MatTableDataSource(dataProducts[0].items);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        if (dataProducts[0]) {
+          this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
+          this.dataSource = new MatTableDataSource(dataProducts[0].items);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
       })
       .add(() => (this.loading = false));
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   public formatTimestamp(timestamp: string): string {
