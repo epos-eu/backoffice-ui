@@ -312,5 +312,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+    this.testMethod();
   }
 }

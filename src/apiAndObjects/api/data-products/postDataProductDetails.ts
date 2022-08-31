@@ -29,7 +29,7 @@ export class PostDataProductDetails extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['dataproduct'], RequestMethod.POST, undefined, [body], headers);
+    const callResponsePromise = this.apiCaller.doCall(['dataproduct'], RequestMethod.POST, undefined, body, headers);
 
     return this.buildObjectFromResponse(PostDataProductDataSource, callResponsePromise).then(
       (response: PostDataProductDataSource) => response,
