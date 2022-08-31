@@ -8,6 +8,7 @@ import { ContactPoint } from './contactPoint.model';
 
 export class WebService {
   constructor(
+    public title: string,
     public instanceId: string,
     public changeTimestamp: string,
     public state: State,
@@ -23,10 +24,10 @@ export class WebService {
     public entryPoint: string,
     public keywords: string,
     public license: string,
-    public name: string,
     public provider: Provider,
-    public spatialExtent: SpatialExtent,
-    public supportedOperation: SupportedOperation,
-    public temporalExtent: TemporalExtent,
+    public spatialExtent: Array<SpatialExtent>,
+    public supportedOperation: Array<SupportedOperation>,
+    public temporalExtent: Array<TemporalExtent>,
+    public name?: string,
   ) {}
 }
