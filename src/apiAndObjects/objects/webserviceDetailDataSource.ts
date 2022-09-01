@@ -1,4 +1,10 @@
+import { State } from 'src/utility/enums/state.enum';
 import { BaseObject } from '../_lib_code/objects/baseObject';
+import { ContactPoint } from './entities/contactPoint.model';
+import { Provider } from './types/provider.type';
+import { SpatialExtent } from './types/spatialExtent.type';
+import { SupportedOperation } from './types/supportedOperation.type';
+import { TemporalExtent } from './types/temporalExtent.type';
 
 export class WebserviceDetailDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -39,24 +45,25 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly editorId: string;
   public readonly changeComment: string;
   public readonly version: string;
-  public readonly state: string;
+  public readonly state: State;
   public readonly toBeDelete: string;
   public readonly uid: string;
   public readonly fileProvenance: string;
-  public readonly category: string;
-  public readonly contactPoint: string;
-  public readonly dateModified: string;
-  public readonly datePublished: string;
+  public readonly category: Array<string>;
+  public readonly contactPoint: Array<ContactPoint>;
+  public readonly dateModified: moment.Moment;
+  public readonly datePublished: moment.Moment;
   public readonly description: string;
-  public readonly documentation: string;
+  public readonly documentation: Array<string>;
   public readonly entryPoint: string;
   public readonly keywords: string;
   public readonly license: string;
   public readonly name: string;
-  public readonly provider: string;
+  public readonly provider: unknown; //Provider
   public readonly aaaiTypes: string;
-  public readonly supportedOperation: string;
-  public readonly temporalExtent: string;
+  public readonly spatialExtent: Array<SpatialExtent>;
+  public readonly supportedOperation: Array<SupportedOperation>;
+  public readonly temporalExtent: Array<TemporalExtent>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -69,23 +76,24 @@ export class WebserviceDetailDataSource extends BaseObject {
     this.editorId = this._getString(WebserviceDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(WebserviceDetailDataSource.KEYS.CHANGE_COMMENT);
     this.version = this._getString(WebserviceDetailDataSource.KEYS.VERSION);
-    this.state = this._getString(WebserviceDetailDataSource.KEYS.STATE);
+    this.state = this._getEnumFromValue(WebserviceDetailDataSource.KEYS.STATE, State);
     this.toBeDelete = this._getString(WebserviceDetailDataSource.KEYS.TO_BE_DELETE);
     this.uid = this._getString(WebserviceDetailDataSource.KEYS.UID);
     this.fileProvenance = this._getString(WebserviceDetailDataSource.KEYS.FILE_PROVENANCE);
-    this.category = this._getString(WebserviceDetailDataSource.KEYS.CATEGORY);
-    this.contactPoint = this._getString(WebserviceDetailDataSource.KEYS.CONTACT_POINT);
-    this.dateModified = this._getString(WebserviceDetailDataSource.KEYS.DATE_MODIFIED);
-    this.datePublished = this._getString(WebserviceDetailDataSource.KEYS.DATE_PUBLISHED);
+    this.category = this._getArray(WebserviceDetailDataSource.KEYS.CATEGORY);
+    this.contactPoint = this._getArray(WebserviceDetailDataSource.KEYS.CONTACT_POINT);
+    this.dateModified = this._getDate(WebserviceDetailDataSource.KEYS.DATE_MODIFIED);
+    this.datePublished = this._getDate(WebserviceDetailDataSource.KEYS.DATE_PUBLISHED);
     this.description = this._getString(WebserviceDetailDataSource.KEYS.DESCRIPTION);
-    this.documentation = this._getString(WebserviceDetailDataSource.KEYS.DOCUMENTATION);
+    this.documentation = this._getArray(WebserviceDetailDataSource.KEYS.DOCUMENTATION);
     this.entryPoint = this._getString(WebserviceDetailDataSource.KEYS.ENTRY_POINT);
     this.keywords = this._getString(WebserviceDetailDataSource.KEYS.KEYWORDS);
     this.license = this._getString(WebserviceDetailDataSource.KEYS.LICENSE);
     this.name = this._getString(WebserviceDetailDataSource.KEYS.NAME);
-    this.provider = this._getString(WebserviceDetailDataSource.KEYS.PROVIDER);
+    this.provider = this._getValue(WebserviceDetailDataSource.KEYS.PROVIDER) as Provider;
     this.aaaiTypes = this._getString(WebserviceDetailDataSource.KEYS.AAAI_TYPES);
-    this.supportedOperation = this._getString(WebserviceDetailDataSource.KEYS.SUPPORTED_OPERATION);
-    this.temporalExtent = this._getString(WebserviceDetailDataSource.KEYS.TEMPORAL_EXTENT);
+    this.spatialExtent = this._getArray(WebserviceDetailDataSource.KEYS.SPATIAL_EXTENT);
+    this.supportedOperation = this._getArray(WebserviceDetailDataSource.KEYS.SUPPORTED_OPERATION);
+    this.temporalExtent = this._getArray(WebserviceDetailDataSource.KEYS.TEMPORAL_EXTENT);
   }
 }
