@@ -50,7 +50,7 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly uid: string;
   public readonly fileProvenance: string;
   public readonly category: Array<string>;
-  public readonly contactPoint: Array<ContactPoint>;
+  public readonly contactPoint: Array<Record<string, unknown>>;
   public readonly dateModified: moment.Moment;
   public readonly datePublished: moment.Moment;
   public readonly description: string;
@@ -59,10 +59,10 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly keywords: string;
   public readonly license: string;
   public readonly name: string;
-  public readonly provider: unknown; //Provider
+  public readonly provider: Record<string, unknown>; //Provider
   public readonly aaaiTypes: string;
   public readonly spatialExtent: Array<SpatialExtent>;
-  public readonly supportedOperation: Array<SupportedOperation>;
+  public readonly supportedOperation: Array<Record<string, unknown>>;
   public readonly temporalExtent: Array<TemporalExtent>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
