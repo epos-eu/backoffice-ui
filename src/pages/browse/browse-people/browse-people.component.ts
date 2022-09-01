@@ -26,23 +26,17 @@ export class BrowsePeopleComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.sectionsService.sectionsObservable
-      .subscribe((sections: Array<Sections>) => {
-        const dataProducts = sections.filter((item) => item.sectionName === SectionName.PERSON);
-        this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
-        this.dataSource = new MatTableDataSource(dataProducts[0].items);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-      .add(() => (this.loading = false));
+    this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
+      const dataProducts = sections.filter((item) => item.sectionName === SectionName.PERSON);
+      this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
+      this.dataSource = new MatTableDataSource(dataProducts[0].items);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.loading = false;
+    });
   }
 
-  public formatTimestamp(timestamp: string): string {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-  }
-
-  public rowClicked(row: SectionItem): void {
-    // this.router.navigate(['/browse/data-products/details', row.instanceId]);
-  }
+  // public rowClicked(row: SectionItem): void {
+  // this.router.navigate(['/browse/data-products/details', row.instanceId]);
+  // }
 }

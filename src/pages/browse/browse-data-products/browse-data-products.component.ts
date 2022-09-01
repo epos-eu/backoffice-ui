@@ -43,11 +43,6 @@ export class BrowseDataProductsComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  public formatTimestamp(timestamp: string): string {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-  }
-
   public rowClicked(row: SectionItem): void {
     this.router.navigate(['/browse/data-products/details', row.instanceId]);
   }

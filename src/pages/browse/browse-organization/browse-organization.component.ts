@@ -3,7 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { HelpersService } from 'src/services/helpers.service';
 import { SectionsService } from 'src/services/sections.service';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
@@ -14,7 +13,6 @@ import { Sections } from 'src/utility/objects/login/sections';
   styleUrls: ['./browse-organization.component.scss'],
 })
 export class BrowseOrganizationComponent implements OnInit {
-  public formatTimestamp = HelpersService.formatTimestamp;
   public displayedColumns: string[] = [];
   public dataSource!: MatTableDataSource<SectionItem>;
   public pageSizeOptions = [10, 25, 50, 100];
