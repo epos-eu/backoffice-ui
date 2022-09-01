@@ -1,6 +1,6 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { firstValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 export abstract class BaseDialogService {
   private customBackdropCounts? = new Map<HTMLElement, number>();
@@ -65,12 +65,12 @@ export abstract class BaseDialogService {
       this.addCustomBackdrop(parentElement as HTMLElement);
       dialogRef = this.dialog.open(contentComponent, config);
 
-      void firstValueFrom(dialogRef.afterClosed()).then(() => {
+      void lastValueFrom(dialogRef.afterClosed()).then(() => {
         if (null != parentElement) {
           this.tryRemoveCustomBackdrop(parentElement);
         }
       });
-      return firstValueFrom(dialogRef.afterClosed()).then(() => dialogData);
+      return lastValueFrom(dialogRef.afterClosed()).then(() => dialogData);
     }
   }
 

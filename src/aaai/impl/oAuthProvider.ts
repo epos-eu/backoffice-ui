@@ -3,7 +3,7 @@ import { AuthConfig, OAuthService, UserInfo } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '../authProvider.interface';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
 import { AAAIUser } from '../aaaiUser.interface';
 import { BasicUser } from './basicUser';
 import { Injector } from '@angular/core';
@@ -171,7 +171,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     };
 
     // console.debug('authorizationHeader', this.oAuthService.authorizationHeader());
-    return firstValueFrom(
+    return lastValueFrom(
       this.http.post(
         OAuthAuthenticationProvider.REVOKE_ENDPOINT,
         `token=${this.oAuthService.getAccessToken()}` +

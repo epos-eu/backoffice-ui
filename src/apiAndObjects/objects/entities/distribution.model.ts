@@ -1,16 +1,21 @@
+import { State } from 'src/utility/enums/state.enum';
+import { AccessService } from '../types/accessService.type';
 export class Distribution {
   constructor(
-    public accessService: string,
-    public accessURL: string[],
-    public description: string[],
-    public downloadURL: string[],
+    public instanceId: string,
+    public changeTimestamp: string,
+    public state: State,
+    public toBeDelete: string,
+    public uid: string,
     public fileProvenance: string,
+    public accessService: AccessService,
+    public accessURL: Array<string>,
+    public description: Array<string>,
+    public downloadURL: Array<string>,
     public format: string,
     public issued: string,
-    public licence: string,
     public modified: string,
-    public title: string[],
+    public title: Array<string>,
     public type: string,
-    public uid: string,
   ) {}
 }
