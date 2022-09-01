@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { HelpersService } from 'src/services/helpers.service';
 import { SectionsService } from 'src/services/sections.service';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
@@ -14,7 +13,6 @@ import { Sections } from 'src/utility/objects/login/sections';
   styleUrls: ['./browse-contact-point.component.scss'],
 })
 export class BrowseContactPointComponent implements OnInit {
-  public formatTimestamp = HelpersService.formatTimestamp;
   public displayedColumns: string[] = [];
   public dataSource!: MatTableDataSource<SectionItem>;
   public pageSizeOptions = [10, 25, 50, 100];

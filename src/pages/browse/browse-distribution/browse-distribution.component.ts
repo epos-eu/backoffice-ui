@@ -37,11 +37,6 @@ export class BrowseDistributionComponent implements OnInit {
       .add(() => (this.loading = false));
   }
 
-  public formatTimestamp(timestamp: string): string {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-  }
-
   // public rowClicked(row: SectionItem): void {
   //   this.router.navigate(['/browse/distributions/details', row.instanceId]);
   // }
