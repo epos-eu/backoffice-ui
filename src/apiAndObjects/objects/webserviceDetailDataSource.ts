@@ -1,9 +1,7 @@
 import { State } from 'src/utility/enums/state.enum';
 import { BaseObject } from '../_lib_code/objects/baseObject';
-import { ContactPoint } from './entities/contactPoint.model';
 import { Provider } from './types/provider.type';
 import { SpatialExtent } from './types/spatialExtent.type';
-import { SupportedOperation } from './types/supportedOperation.type';
 import { TemporalExtent } from './types/temporalExtent.type';
 
 export class WebserviceDetailDataSource extends BaseObject {
