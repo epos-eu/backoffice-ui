@@ -8,32 +8,32 @@ import { ContactPoint } from './contactPoint.model';
 
 export class DataProduct {
   constructor(
-    public instanceId: string,
-    public changeTimestamp: string,
+    public instanceId: string, // include (hidden)
+    public changeTimestamp: string, // include
     public editorId: string,
-    public state: State,
+    public state: State, // include
     public toBeDelete: string, // should be converted to boolean.
-    public uid: string,
+    public uid: string, // include
     public fileProvenance: string,
     public accrualPeriodicity: string,
     public category: string[],
     public contactPoint: Array<ContactPoint>,
-    public description: string[],
+    public description: string[], // include
     public distribution: Array<SimpleDistributionType>,
     public hasPart: string[],
-    public identifier: Identifier[],
+    public identifier: Identifier[], // include
     public isPartOf: string[],
-    public issued: string,
-    public keywords: string,
-    public modified: string,
+    public issued: string, // include
+    public keywords: string, // include
+    public modified: string, // include
     public provenance: string[],
     public publisher: Array<Publisher>,
-    public spatialExtent: Array<SpatialExtent>,
-    public temporalExtent: Array<TemporalExtent>,
-    public title: string[],
+    public spatialExtent: Array<SpatialExtent>, // include
+    public temporalExtent: Array<TemporalExtent>, // include
+    public title: string[], // include
     public type: string,
-    public versionInfo: string,
+    public versionInfo: string, // include
     public accessRight?: string,
-    public created?: string,
+    public created?: string, // include
   ) {}
 }
