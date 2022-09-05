@@ -10,6 +10,7 @@ import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
 import { MatIconModule } from '@angular/material/icon';
+import { DialogSubmitComponent } from './dialog-submit/dialog-submit.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
     RevisionsComponent,
     DialogLoginComponent,
     UserPermissionsComponent,
+    DialogSubmitComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule],
 })

@@ -51,7 +51,8 @@ app-dialog {
     overflow: hidden !important;
     display: flex;
 
-    app-dialog-delete {
+    app-dialog-delete,
+    app-dialog-submit {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -118,6 +119,35 @@ app-dialog {
       height: 100%;
       display: block;
       width: 100%;
+    }
+  }
+}
+
+.dialog-submit {
+  .mat-dialog-container {
+    height: 315px;
+    padding: 2rem 1.5rem !important;
+
+    h1 {
+      margin-bottom: 0;
+    }
+
+    p {
+      margin-top: 0.25rem;
+    }
+
+    form {
+      margin-top: 2rem;
+    }
+  }
+
+  app-dialog-submit {
+    display: flex;
+    flex-direction: column;
+
+    .mat-dialog-actions {
+      align-self: flex-end;
+      margin-top: 0.75rem;
     }
   }
 }
