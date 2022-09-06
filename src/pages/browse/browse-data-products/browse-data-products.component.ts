@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,9 +13,9 @@ import { Sections } from 'src/utility/objects/login/sections';
   templateUrl: './browse-data-products.component.html',
   styleUrls: ['./browse-data-products.component.scss'],
 })
-export class BrowseDataProductsComponent implements OnInit, AfterViewInit {
-  public displayedColumns: string[] = [];
-  public dataSource!: MatTableDataSource<SectionItem>;
+export class BrowseDataProductsComponent implements OnInit {
+  public displayedColumns = ['uid', 'lastChange', 'status', 'comment', 'author'];
+  public dataSource!: MatTableDataSource<TableDetail>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
 
@@ -24,25 +24,47 @@ export class BrowseDataProductsComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router, private sectionsService: SectionsService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loading = true;
     this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
-      const dataProducts = sections.filter((item) => item.sectionName === SectionName.DATA_PRODUCT);
-      if (dataProducts[0]) {
-        this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
-        this.dataSource = new MatTableDataSource(dataProducts[0].items);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.loading = false;
-      }
+      this.createTableObjects(sections);
     });
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
   }
 
   public rowClicked(row: SectionItem): void {
     this.router.navigate(['/browse/data-products/details', row.instanceId]);
   }
+
+  private createTableObjects(sections: Array<Sections>) {
+    const tableDetails = new Array<TableDetail>();
+    const dataProducts = sections.filter((item) => item.sectionName === SectionName.DATA_PRODUCT);
+    if (dataProducts[0]) {
+      dataProducts[0].items.forEach((item: SectionItem) => {
+        const detail: TableDetail = {
+          uid: item.cells[0].value,
+          lastChange: item.cells[1].value,
+          status: item.cells[2].value,
+          comment: item.cells[3].value,
+          author: item.cells[4].value,
+        };
+        tableDetails.push(detail);
+      });
+      this.initialiseTable(tableDetails);
+    }
+  }
+
+  private initialiseTable(details: Array<TableDetail>) {
+    this.dataSource = new MatTableDataSource(details);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.loading = false;
+  }
+}
+
+interface TableDetail {
+  uid: string;
+  lastChange: string;
+  status: string;
+  comment: string;
+  author: string;
 }
