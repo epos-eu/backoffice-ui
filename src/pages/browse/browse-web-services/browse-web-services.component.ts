@@ -16,6 +16,7 @@ export class BrowseWebServicesComponent implements OnInit {
   public displayedColumns: string[] = [];
   public dataSource!: MatTableDataSource<SectionItem>;
   public pageSizeOptions = [10, 25, 50, 100];
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -23,13 +24,14 @@ export class BrowseWebServicesComponent implements OnInit {
   constructor(private sectionsService: SectionsService) {}
 
   public ngOnInit(): void {
+    this.loading = true;
     this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
       const webservice = sections.filter((item) => item.sectionName === SectionName.WEBSERVICE);
-
       this.displayedColumns = webservice[0].columns.map((item) => item.columnLabel);
       this.dataSource = new MatTableDataSource(webservice[0].items);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.loading = false;
     });
   }
 }

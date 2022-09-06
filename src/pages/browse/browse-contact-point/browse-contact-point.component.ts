@@ -24,6 +24,7 @@ export class BrowseContactPointComponent implements OnInit {
   constructor(private sectionsService: SectionsService) {}
 
   public ngOnInit(): void {
+    this.loading = true;
     this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
       const contactPoint = sections.filter((item) => item.sectionName === SectionName.CONTACT_POINT);
 
@@ -31,6 +32,7 @@ export class BrowseContactPointComponent implements OnInit {
       this.dataSource = new MatTableDataSource(contactPoint[0].items);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.loading = false;
     });
   }
 }

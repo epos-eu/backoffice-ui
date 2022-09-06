@@ -14,6 +14,7 @@ export class BrowseGroupsComponent implements OnInit {
   public displayedColumns: string[] = ['name', 'description'];
   public dataSource!: MatTableDataSource<GroupsDataSource>;
   public pageSizeOptions = [10, 25, 50, 100];
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
