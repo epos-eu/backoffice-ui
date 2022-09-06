@@ -1,39 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SectionsService } from 'src/services/sections.service';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
-import { Sections } from 'src/utility/objects/login/sections';
 @Component({
   selector: 'app-browse-organization',
   templateUrl: './browse-organization.component.html',
   styleUrls: ['./browse-organization.component.scss'],
 })
-export class BrowseOrganizationComponent implements OnInit {
-  public displayedColumns: string[] = [];
-  public dataSource!: MatTableDataSource<SectionItem>;
-  public pageSizeOptions = [10, 25, 50, 100];
-  public loading = false;
+export class BrowseOrganizationComponent {
+  public sectionName = SectionName.ORGANIZATION;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  constructor(private router: Router, private sectionsService: SectionsService) {}
-
-  public ngOnInit() {
-    this.loading = true;
-    this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
-      const dataProducts = sections.filter((item) => item.sectionName === SectionName.ORGANIZATION);
-      this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
-      this.dataSource = new MatTableDataSource(dataProducts[0].items);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.loading = false;
-    });
-  }
+  constructor(private router: Router) {}
 
   public rowClicked(row: SectionItem): void {
     this.router.navigate(['/browse/organization/details', row.instanceId]);
