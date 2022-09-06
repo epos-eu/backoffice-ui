@@ -68,6 +68,8 @@
 }
 
 .body {
+  padding-bottom: 2rem;
+
   form {
     display: flex;
     flex-direction: column;
@@ -80,7 +82,7 @@
 
     label {
       margin-bottom: 0.75rem;
-      font-size: 15px;
+      font-size: 14px;
     }
   }
 

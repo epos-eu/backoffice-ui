@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
+import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
+import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -68,6 +70,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               },
             ]);
             this.trackFormData();
+            this.patch('spatialExtent');
+            this.patch('temporalExtent');
             this.actionService.trackCurrentEdit(this.dataProduct.uid);
             this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
               if (item) {
@@ -90,11 +94,43 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       keywords: this.dataProduct?.keywords,
       modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
-      created: this.dataProduct?.created,
+      created: this.dataProduct?.created.format(),
+      spatialExtent: this.formBuilder.array([]),
+      temporalExtent: this.formBuilder.array([]),
       distributionUid: this.dataProduct?.distribution[0]['uid'],
       distributionTitle: '',
       webserviceUid: '',
       webserviceTitle: '',
+      contactPointUid: '',
+      contactPointTitle: '',
+    });
+  }
+
+  public getControls(field: string) {
+    return (this.form.get(field) as FormArray).controls;
+  }
+
+  private patch(field: string): void {
+    const control = <FormArray>this.form.get(field);
+    if (this.dataProduct) {
+      switch (true) {
+        case field === 'spatialExtent':
+          this.dataProduct.spatialExtent.forEach((item: SpatialExtent) => {
+            control.push(this.patchValues('Location', item.location));
+          });
+          break;
+        case field === 'temporalExtent':
+          this.dataProduct.temporalExtent.forEach((item: TemporalExtent) => {
+            control.push(this.patchValues('Period', `${item.startDate} - ${item.endDate ? item.endDate : 'Now'}`));
+          });
+      }
+    }
+  }
+
+  private patchValues(label: string, value: string) {
+    return this.formBuilder.group({
+      label: [label],
+      value: [value],
     });
   }
 

@@ -69,18 +69,25 @@
         <input matInput placeholder="Created" name="created" formControlName="created" readonly>
       </mat-form-field>
       <label>Spatial extent</label>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95"
-        *ngFor="let item of dataProduct?.spatialExtent">
-        <mat-label>Location</mat-label>
-        <input matInput name="spatialExtent" formControlName="spatialExtent" [value]="item?.location">
-      </mat-form-field>
+      <div formArrayName="spatialExtent">
+        <mat-form-field *ngFor="let child of getControls('spatialExtent'); let i = index" appearance="outline"
+          [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+          <mat-label>{{ child.value.label }}</mat-label>
+          <div [formGroupName]="i">
+            <input matInput formControlName="value">
+          </div>
+        </mat-form-field>
+      </div>
       <label>Temporal extent</label>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95"
-        *ngFor="let item of dataProduct?.temporalExtent">
-        <mat-label>Period</mat-label>
-        <input matInput name="temporalExtent" formControlName="temporalExtent"
-          [value]="(item?.startDate | date) + '-' + (item?.endDate | date)">
-      </mat-form-field>
+      <div formArrayName="temporalExtent">
+        <mat-form-field *ngFor="let child of getControls('temporalExtent'); let i = index" appearance="outline"
+          [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+          <mat-label>{{ child.value.label }}</mat-label>
+          <div [formGroupName]="i">
+            <input matInput formControlName="value">
+          </div>
+        </mat-form-field>
+      </div>
 
       <mat-accordion>
         <mat-expansion-panel expanded="true">

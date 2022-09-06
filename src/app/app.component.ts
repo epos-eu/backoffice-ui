@@ -7,6 +7,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { BarController, BarElement, Chart, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 import { State } from 'src/utility/enums/state.enum';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -90,7 +91,7 @@ export class AppComponent implements OnInit {
           ],
           temporalExtent: [
             {
-              startDate: '1971-01-01T00:00:00',
+              startDate: moment(),
             },
           ],
           title: ['Magnetotelluric time series (MTS)'],
@@ -186,7 +187,7 @@ export class AppComponent implements OnInit {
             ],
             temporalExtent: [
               {
-                startDate: '1971-01-01T00:00:00',
+                startDate: moment(),
               },
             ],
           },
@@ -232,7 +233,7 @@ export class AppComponent implements OnInit {
             ],
             temporalExtent: [
               {
-                startDate: '1971-01-01T00:00:00',
+                startDate: moment(),
               },
             ],
           },
@@ -312,6 +313,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
-    this.testMethod();
+    // this.testMethod();
   }
 }
