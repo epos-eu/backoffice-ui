@@ -26,15 +26,14 @@ export class BrowseDistributionComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.sectionsService.sectionsObservable
-      .subscribe((sections: Array<Sections>) => {
-        const dataProducts = sections.filter((item) => item.sectionName === SectionName.DISTRIBUTION);
-        this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
-        this.dataSource = new MatTableDataSource(dataProducts[0].items);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      })
-      .add(() => (this.loading = false));
+    this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
+      const dataProducts = sections.filter((item) => item.sectionName === SectionName.DISTRIBUTION);
+      this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
+      this.dataSource = new MatTableDataSource(dataProducts[0].items);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.loading = false;
+    });
   }
 
   // public rowClicked(row: SectionItem): void {
