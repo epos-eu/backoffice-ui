@@ -6,6 +6,7 @@
     </div>
     <div [hidden]="loading" class="mat-elevation-z8 mat-table-margin">
       <table mat-table [dataSource]="dataSource" matSort>
+        <!-- UID column -->
         <ng-container matColumnDef="uid">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             UID
@@ -14,7 +15,7 @@
             {{ row.uid }}
           </td>
         </ng-container>
-
+        <!-- Last change column -->
         <ng-container matColumnDef="lastChange">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Last Change
@@ -23,7 +24,7 @@
             {{ row.lastChange | date }}
           </td>
         </ng-container>
-
+        <!-- Status column -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Status
@@ -32,7 +33,7 @@
             {{ row.status.toLowerCase() }}
           </td>
         </ng-container>
-
+        <!-- Comment column -->
         <ng-container matColumnDef="comment">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Comment
@@ -41,7 +42,7 @@
             {{ row.comment }}
           </td>
         </ng-container>
-
+        <!-- Author column -->
         <ng-container matColumnDef="author">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             Author
@@ -53,7 +54,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="rowClicked(row)"></tr>
-
+        <!-- No matching data -->
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">
             No data matching the filter
