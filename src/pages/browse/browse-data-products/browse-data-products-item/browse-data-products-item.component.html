@@ -44,10 +44,10 @@
         <mat-label>Changed</mat-label>
         <input matInput placeholder="Changed" name="changeTimestamp" formControlName="changeTimestamp" readonly>
       </mat-form-field>
-      <!-- <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
         <mat-label>State</mat-label>
         <input matInput placeholder="Status" name="state" formControlName="state" readonly>
-      </mat-form-field> -->
+      </mat-form-field>
       <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
         <mat-label>Issued</mat-label>
         <input matInput placeholder="Issued" name="issued" formControlName="issued" readonly>
@@ -64,10 +64,6 @@
         <mat-label>Version Info</mat-label>
         <input matInput placeholder="Version Info" name="versionInfo" formControlName="versionInfo">
       </mat-form-field>
-      <!-- <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-        <mat-label>Created</mat-label>
-        <input matInput placeholder="Created" name="created" formControlName="created" readonly>
-      </mat-form-field> -->
       <label>Spatial extent</label>
       <div formArrayName="spatialExtent">
         <mat-form-field *ngFor="let child of getControls('spatialExtent'); let i = index" appearance="outline"
@@ -78,7 +74,7 @@
           </div>
         </mat-form-field>
       </div>
-      <!-- <label>Temporal extent</label>
+      <label>Temporal extent</label>
       <div formArrayName="temporalExtent">
         <mat-form-field *ngFor="let child of getControls('temporalExtent'); let i = index" appearance="outline"
           [floatLabel]="floatLabelControl.value" [style.width.%]="95">
@@ -87,26 +83,34 @@
             <input matInput formControlName="startDate" readonly>
           </div>
         </mat-form-field>
-      </div> -->
+      </div>
 
-      <!-- <mat-accordion>
-        <mat-expansion-panel expanded="true">
+      <mat-accordion>
+        <mat-expansion-panel (afterExpand)="handleExpand('distribution')">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Distribution
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-            <mat-label>UID</mat-label>
-            <input matInput placeholder="UID" name="distributionUid" formControlName="distributionUid">
-          </mat-form-field>
-          <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-            <mat-label>Title</mat-label>
-            <input matInput placeholder="Title" name="distributionTitle" formControlName="distributionTitle">
-          </mat-form-field>
+          <div formArrayName="distribution">
+            <ng-container *ngFor="let child of getControls('distribution'); let i = index">
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+                <mat-label>UID</mat-label>
+                <div [formGroupName]="i">
+                  <input matInput formControlName="uid">
+                </div>
+              </mat-form-field>
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+                <mat-label>Title</mat-label>
+                <div [formGroupName]="i">
+                  <input matInput formControlName="title">
+                </div>
+              </mat-form-field>
+            </ng-container>
+          </div>
         </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
+        <!-- <mat-expansion-panel>
+          <!-- <mat-expansion-panel-header>
             <mat-panel-title>
               Webservice
             </mat-panel-title>
@@ -119,23 +123,31 @@
             <mat-label>Title</mat-label>
             <input matInput placeholder="Title" name="webserviceTitle" formControlName="webserviceTitle">
           </mat-form-field>
-        </mat-expansion-panel>
-        <mat-expansion-panel>
+        </mat-expansion-panel> -->
+        <mat-expansion-panel (afterExpand)="handleExpand('contactPoint')">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Contact point
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-            <mat-label>UID</mat-label>
-            <input matInput placeholder="UID" name="contactPointUid" formControlName="contactPointUid">
-          </mat-form-field>
-          <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-            <mat-label>Title</mat-label>
-            <input matInput placeholder="Title" name="contactPointTitle" formControlName="contactPointTitle">
-          </mat-form-field>
+          <div formArrayName="contactPoint">
+            <ng-container *ngFor="let child of getControls('contactPoint'); let i = index">
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+                <mat-label>UID</mat-label>
+                <div [formGroupName]="i">
+                  <input matInput formControlName="uid">
+                </div>
+              </mat-form-field>
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+                <mat-label>Email</mat-label>
+                <div [formGroupName]="i">
+                  <input matInput formControlName="email">
+                </div>
+              </mat-form-field>
+            </ng-container>
+          </div>
         </mat-expansion-panel>
-      </mat-accordion> -->
+      </mat-accordion>
     </form>
   </div>
 </div>
