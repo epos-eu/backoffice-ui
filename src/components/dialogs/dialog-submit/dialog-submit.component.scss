@@ -1,0 +1,17 @@
+* {
+  font-family: 'Roboto Flex', sans-serif;
+}
+
+form {
+  &.comment-form {
+    margin-top: 0 !important;
+  }
+
+  mat-form-field {
+    textarea {
+      &.error {
+        outline: 2px solid red;
+      }
+    }
+  }
+}

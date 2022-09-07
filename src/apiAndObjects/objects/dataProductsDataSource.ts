@@ -90,7 +90,7 @@ export class DataProductsDataSource extends BaseObject {
     this.editorId = this._getString(DataProductsDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(DataProductsDataSource.KEYS.CHANGE_COMMENT);
     this.version = this._getString(DataProductsDataSource.KEYS.VERSION);
-    this.state = this._getEnumFromValue(DataProductsDataSource.KEYS.STATE, State);
+    this.state = this._getValue(DataProductsDataSource.KEYS.STATE) as State;
     this.toBeDelete = this._getString(DataProductsDataSource.KEYS.TO_BE_DELETE);
     this.uid = this._getString(DataProductsDataSource.KEYS.UID);
     this.fileProvenance = this._getString(DataProductsDataSource.KEYS.FILE_PROVENANCE);

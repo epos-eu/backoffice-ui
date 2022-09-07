@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { DialogSubmitComponent } from 'src/components/dialogs/dialog-submit/dialog-submit.component';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
 
@@ -10,7 +13,12 @@ import { IChangeItem } from './edit.interface';
   styleUrls: ['./edit-navigation.component.scss'],
 })
 export class EditNavigationComponent implements OnInit {
-  constructor(public actionsService: ActionsService, private router: Router) {}
+  constructor(
+    public actionsService: ActionsService,
+    private router: Router,
+    private dialogService: DialogService,
+    public dialog: MatDialog,
+  ) {}
 
   public itemsExist = new BehaviorSubject<boolean>(false);
   public currentEdit!: IChangeItem;
@@ -36,7 +44,13 @@ export class EditNavigationComponent implements OnInit {
 
   public handleSubmit(): void {
     // Todo: save to DB
-    this.actionsService.submitCurrentEdit(this.currentEdit.id);
+    // this.actionsService.submitCurrentEdit(this.currentEdit.id);
+    const dialogRef = this.dialog.open(DialogSubmitComponent, {
+      width: '450px',
+      height: '275px',
+      panelClass: 'dialog-submit',
+    });
+    this.dialogService.setRef(dialogRef);
   }
 
   public checkForItems(): void {
