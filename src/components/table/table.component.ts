@@ -33,8 +33,8 @@ export class TableComponent implements OnInit {
     });
   }
 
-  public rowClicked(row: SectionItem): void {
-    this.rowClickDetailsEmit.next(['/browse/data-products/details', row.instanceId]);
+  public rowClicked(instanceId: string): void {
+    this.rowClickDetailsEmit.next(['/browse/data-products/details', instanceId]);
   }
 
   private createTableObjects(sections: Array<Sections>) {
@@ -48,6 +48,7 @@ export class TableComponent implements OnInit {
           status: item.cells[2].value,
           comment: item.cells[3].value,
           author: item.cells[4].value,
+          instanceId: item.instanceId,
         };
         tableDetails.push(detail);
       });
@@ -68,4 +69,5 @@ interface TableDetail {
   status: string;
   comment: string;
   author: string;
+  instanceId: string;
 }
