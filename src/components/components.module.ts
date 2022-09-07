@@ -10,10 +10,10 @@ import { ActionsDataComponent } from './actions-data/actions-data.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { ChartComponent } from './chart/chart.component';
-import { DdssTableComponent } from './ddss-table/ddss-table.component';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
-  declarations: [LayoutComponent, ActionsDataComponent, LoginComponent, ChartComponent, DdssTableComponent],
+  declarations: [LayoutComponent, ActionsDataComponent, LoginComponent, ChartComponent, TableComponent],
   imports: [
     RouterModule,
     CommonModule,
@@ -23,6 +23,6 @@ import { DdssTableComponent } from './ddss-table/ddss-table.component';
     MatChipsModule,
     ChartjsModule,
   ],
-  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, DdssTableComponent],
+  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent],
 })
 export class ComponentsModule {}

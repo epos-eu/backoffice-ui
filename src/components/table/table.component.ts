@@ -8,11 +8,11 @@ import { SectionItem } from 'src/utility/objects/login/sectionItem';
 import { Sections } from 'src/utility/objects/login/sections';
 
 @Component({
-  selector: 'app-ddss-table',
-  templateUrl: './ddss-table.component.html',
-  styleUrls: ['./ddss-table.component.scss'],
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss'],
 })
-export class DdssTableComponent implements OnInit {
+export class TableComponent implements OnInit {
   @Input() sectionName!: string;
   @Output() rowClickDetailsEmit = new Subject<Array<string>>();
 
