@@ -7,6 +7,7 @@ import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-pers
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { DialogComponent } from 'src/components/dialogs/dialog/dialog.component';
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
+import { TableUserDetail } from 'src/pages/browse/browse-users/browse-users.component';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
@@ -67,7 +68,7 @@ export class DialogService extends BaseDialogService {
     );
   }
 
-  public openChangeUserRoleDialog(userData: SectionItem): Promise<DialogData> {
+  public openChangeUserRoleDialog(userData: TableUserDetail): Promise<DialogData> {
     return this.openDialog(
       'changeUserRole',
       UserPermissionsComponent,
