@@ -27,7 +27,6 @@ export class TableComponent implements AfterViewInit {
   constructor(private sectionsService: SectionsService) {}
 
   public ngAfterViewInit(): void {
-    console.debug('call');
     this.loading = true;
     this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
       this.createTableObjects(sections);
