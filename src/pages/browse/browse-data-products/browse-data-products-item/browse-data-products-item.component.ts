@@ -177,6 +177,13 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
+  private patchDistribution(distribution: Array<DistributionDetailDataSource>) {
+    const control = <FormArray>this.form.get('distribution');
+    distribution.forEach((item) => {
+      control.push(this.patchValues('distribution', [item.uid, item.title]));
+    });
+  }
+
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
     this.dialogService.openDialogForComponent(RevisionsComponent, {}, '35vw', 'auto', 'revisions-dialog');
@@ -195,16 +202,19 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     switch (true) {
       case type === 'distribution':
         if (!this.distributionLoaded) {
-          if (this.dataProduct?.distribution[0].instanceId) {
-            this.apiService.endpoints.distribution.getDistributionDetail
-              .call({
-                instanceId: this.dataProduct?.distribution[0]['instanceId'],
-              })
-              .then((distribution: Array<DistributionDetailDataSource>) => {
-                this.distribution = distribution;
-                this.patch('distribution');
-                this.distributionLoaded = true;
-              });
+          if (this.dataProduct?.distribution) {
+            this.dataProduct?.distribution.forEach((item: any) => {
+              if (null != item) {
+                this.apiService.endpoints.distribution.getDistributionDetail
+                  .call({
+                    instanceId: item.instanceId,
+                  })
+                  .then((distribution) => {
+                    this.patchDistribution(distribution);
+                    this.distributionLoaded = true;
+                  });
+              }
+            });
           }
         }
         break;
