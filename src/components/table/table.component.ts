@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,7 +12,7 @@ import { Sections } from 'src/utility/objects/login/sections';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements AfterViewInit {
   @Input() sectionName!: string;
   @Output() rowClickDetailsEmit = new Subject<Array<string>>();
 
@@ -26,7 +26,8 @@ export class TableComponent implements OnInit {
 
   constructor(private sectionsService: SectionsService) {}
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
+    console.debug('call');
     this.loading = true;
     this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
       this.createTableObjects(sections);
