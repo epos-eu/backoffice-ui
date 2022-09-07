@@ -20,7 +20,7 @@
       </mat-list>
     </div>
     <div mat-dialog-actions>
-      <button mat-button [mat-dialog-close]="'cancel'">
+      <button mat-button (click)="cancel()">
         Cancel
       </button>
       <button mat-flat-button color="primary" cdkFocusInitial (click)="setNewUserRole(currentRole)">

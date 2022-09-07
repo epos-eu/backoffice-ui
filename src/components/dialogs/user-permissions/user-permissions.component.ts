@@ -5,9 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SetUserRoleParams } from 'src/apiAndObjects/api/user/setUserRole';
 import { NewUserRoleDataSource } from 'src/apiAndObjects/objects/newUserRoleDataSource';
+import { TableUserDetail } from 'src/pages/browse/browse-users/browse-users.component';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
-import { SectionItem } from 'src/utility/objects/login/sectionItem';
 import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
@@ -16,7 +16,6 @@ import { DialogData } from '../baseDialogService.abstract';
   styleUrls: ['./user-permissions.component.scss'],
 })
 export class UserPermissionsComponent implements OnInit {
-  public displayedColumns = ['name', 'surname', 'email', 'role'];
   public userDetails?: ListObject;
   public userRole = UserRole;
   public currentRole = '';
@@ -25,7 +24,7 @@ export class UserPermissionsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData<SectionItem>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<TableUserDetail>,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
   ) {}
@@ -35,9 +34,9 @@ export class UserPermissionsComponent implements OnInit {
   }
 
   private initData(): void {
-    const dataProducts: SectionItem = this.data.dataIn as SectionItem;
+    const dataProducts: TableUserDetail = this.data.dataIn as TableUserDetail;
 
-    switch (dataProducts.cells[3].value as UserRole) {
+    switch (dataProducts.role as UserRole) {
       case UserRole.ADMIN:
         this.currentRole = UserRole.ADMIN;
         break;
@@ -53,10 +52,10 @@ export class UserPermissionsComponent implements OnInit {
     }
 
     this.userDetails = {
-      name: dataProducts.cells[0].value,
-      surname: dataProducts.cells[1].value,
-      email: dataProducts.cells[2].value,
-      role: dataProducts.cells[3].value as UserRole,
+      name: dataProducts.name,
+      surname: dataProducts.surname,
+      email: dataProducts.email,
+      role: dataProducts.role as UserRole,
     };
   }
 
@@ -67,12 +66,20 @@ export class UserPermissionsComponent implements OnInit {
     };
     this.apiService.endpoints.user.setNewRole
       .call(params)
-      .then((response: NewUserRoleDataSource) => {
-        console.debug(response);
+      .then(() => {
         this.snackbarService.openSnackbar(`User Successfully changed to ${currentRole}`, 'close', 'success');
+        this.data.dataOut = true;
       })
-      .catch(() => this.snackbarService.openSnackbar(`Error: failed to change user role`, 'close', 'error'))
+      .catch(() => {
+        this.snackbarService.openSnackbar(`Error: failed to change user role`, 'close', 'error');
+        this.data.dataOut = false;
+      })
       .finally(() => this.data.close());
+  }
+
+  public cancel(): void {
+    this.data.dataOut = false;
+    this.data.close();
   }
 }
 

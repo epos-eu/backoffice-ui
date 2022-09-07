@@ -1,48 +1,17 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SectionsService } from 'src/services/sections.service';
 import { SectionName } from 'src/utility/enums/sectionName.enum';
-import { SectionItem } from 'src/utility/objects/login/sectionItem';
-import { Sections } from 'src/utility/objects/login/sections';
 
 @Component({
   selector: 'app-browse-data-products',
   templateUrl: './browse-data-products.component.html',
   styleUrls: ['./browse-data-products.component.scss'],
 })
-export class BrowseDataProductsComponent implements OnInit, AfterViewInit {
-  public displayedColumns: string[] = [];
-  public dataSource!: MatTableDataSource<SectionItem>;
-  public pageSizeOptions = [10, 25, 50, 100];
-  public loading = false;
+export class BrowseDataProductsComponent {
+  public sectionName = SectionName.DATA_PRODUCT;
+  constructor(private router: Router) {}
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  constructor(private router: Router, private sectionsService: SectionsService) {}
-
-  ngOnInit(): void {
-    this.loading = true;
-    this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
-      const dataProducts = sections.filter((item) => item.sectionName === SectionName.DATA_PRODUCT);
-      if (dataProducts[0]) {
-        this.displayedColumns = dataProducts[0].columns.map((item) => item.columnLabel);
-        this.dataSource = new MatTableDataSource(dataProducts[0].items);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.loading = false;
-      }
-    });
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  public rowClicked(row: SectionItem): void {
-    this.router.navigate(['/browse/data-products/details', row.instanceId]);
+  public rowClicked(rowClickDetails: Array<string>): void {
+    this.router.navigate(rowClickDetails);
   }
 }
