@@ -1,4 +1,4 @@
 export type TemporalExtent = {
-  endDate?: moment.Moment;
-  startDate: moment.Moment;
+  endDate?: string;
+  startDate: string;
 };

@@ -5,7 +5,6 @@ import { BehaviorSubject } from 'rxjs';
 import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-contact/dialog-add-contact.component';
 import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-person/dialog-add-person.component';
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
-import { DialogComponent } from 'src/components/dialogs/dialog/dialog.component';
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
 import { TableUserDetail } from 'src/pages/browse/browse-users/browse-users.component';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
@@ -17,11 +16,23 @@ import { UserPermissionsComponent } from './user-permissions/user-permissions.co
   providedIn: 'root',
 })
 export class DialogService extends BaseDialogService {
-  private dialogRef!: MatDialogRef<DialogComponent>;
+  private dialogRef!: MatDialogRef<unknown>;
   private dialogState = new BehaviorSubject<string>('');
   public dialogStateObservable = this.dialogState.asObservable();
   constructor(public override dialog: MatDialog) {
     super(dialog);
+  }
+
+  public setRef(ref: MatDialogRef<unknown>): void {
+    this.dialogRef = ref;
+  }
+
+  public getRef(): MatDialogRef<unknown> {
+    return this.dialogRef;
+  }
+
+  public closeDialog(): void {
+    this.getRef().close();
   }
 
   public openDialogForComponent<T = unknown>(
@@ -36,18 +47,6 @@ export class DialogService extends BaseDialogService {
       height,
       panelClass,
     });
-  }
-
-  public handleCancel(): void {
-    this.handleClose('cancel');
-  }
-
-  public handleConfirm(): void {
-    this.handleClose('confirm');
-  }
-
-  public handleClose(button: 'cancel' | 'confirm'): void {
-    this.dialogRef.close(button);
   }
 
   public openMetadataViewDialog(): Promise<DialogData> {

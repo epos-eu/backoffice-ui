@@ -44,10 +44,10 @@
         <mat-label>Changed</mat-label>
         <input matInput placeholder="Changed" name="changeTimestamp" formControlName="changeTimestamp" readonly>
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+      <!-- <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
         <mat-label>State</mat-label>
         <input matInput placeholder="Status" name="state" formControlName="state" readonly>
-      </mat-form-field>
+      </mat-form-field> -->
       <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
         <mat-label>Issued</mat-label>
         <input matInput placeholder="Issued" name="issued" formControlName="issued" readonly>
@@ -64,32 +64,32 @@
         <mat-label>Version Info</mat-label>
         <input matInput placeholder="Version Info" name="versionInfo" formControlName="versionInfo">
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+      <!-- <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
         <mat-label>Created</mat-label>
         <input matInput placeholder="Created" name="created" formControlName="created" readonly>
-      </mat-form-field>
+      </mat-form-field> -->
       <label>Spatial extent</label>
       <div formArrayName="spatialExtent">
         <mat-form-field *ngFor="let child of getControls('spatialExtent'); let i = index" appearance="outline"
           [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-          <mat-label>{{ child.value.label }}</mat-label>
+          <mat-label>Location</mat-label>
           <div [formGroupName]="i">
-            <input matInput formControlName="value">
+            <input matInput formControlName="location">
           </div>
         </mat-form-field>
       </div>
-      <label>Temporal extent</label>
+      <!-- <label>Temporal extent</label>
       <div formArrayName="temporalExtent">
         <mat-form-field *ngFor="let child of getControls('temporalExtent'); let i = index" appearance="outline"
           [floatLabel]="floatLabelControl.value" [style.width.%]="95">
-          <mat-label>{{ child.value.label }}</mat-label>
+          <mat-label>Start date</mat-label>
           <div [formGroupName]="i">
-            <input matInput formControlName="value">
+            <input matInput formControlName="startDate" readonly>
           </div>
         </mat-form-field>
-      </div>
+      </div> -->
 
-      <mat-accordion>
+      <!-- <mat-accordion>
         <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -135,7 +135,7 @@
             <input matInput placeholder="Title" name="contactPointTitle" formControlName="contactPointTitle">
           </mat-form-field>
         </mat-expansion-panel>
-      </mat-accordion>
+      </mat-accordion> -->
     </form>
   </div>
 </div>

@@ -10,6 +10,8 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
+import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -30,6 +32,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private router: Router,
+    private persistorService: PersistorService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
   }
@@ -86,23 +89,31 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private trackFormData(): void {
     this.form = this.formBuilder.group({
       uid: this.dataProduct?.uid,
-      title: this.dataProduct?.title,
-      description: this.dataProduct?.description,
+      title: [this.dataProduct?.title],
+      description: [this.dataProduct?.description],
       changeTimestamp: this.dataProduct?.changeTimestamp,
-      state: this.dataProduct?.state,
+      // state: this.dataProduct?.state,
+      identifier: [this.dataProduct?.identifier],
       issued: this.dataProduct?.issued,
       keywords: this.dataProduct?.keywords,
       modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
-      created: this.dataProduct?.created.format(),
+      // created: this.dataProduct?.created.format(),
       spatialExtent: this.formBuilder.array([]),
       temporalExtent: this.formBuilder.array([]),
-      distributionUid: this.dataProduct?.distribution[0]['uid'],
-      distributionTitle: '',
-      webserviceUid: '',
-      webserviceTitle: '',
-      contactPointUid: '',
-      contactPointTitle: '',
+      // distributionUid: this.dataProduct?.distribution[0]['uid'],
+      // distributionTitle: '',
+      // webserviceUid: '',
+      // webserviceTitle: '',
+      // contactPointUid: '',
+      // contactPointTitle: '',
+    });
+    this.form.valueChanges.subscribe((changes) => {
+      this.persistorService.setValueInStorage(
+        StorageType.LOCAL_STORAGE,
+        StorageKey.FORM_DATA_PRODUCT,
+        JSON.stringify(changes),
+      );
     });
   }
 
@@ -116,22 +127,31 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       switch (true) {
         case field === 'spatialExtent':
           this.dataProduct.spatialExtent.forEach((item: SpatialExtent) => {
-            control.push(this.patchValues('Location', item.location));
+            control.push(this.patchValues('spatialExtent', [item.location]));
           });
           break;
         case field === 'temporalExtent':
           this.dataProduct.temporalExtent.forEach((item: TemporalExtent) => {
-            control.push(this.patchValues('Period', `${item.startDate} - ${item.endDate ? item.endDate : 'Now'}`));
+            control.push(this.patchValues('temporalExtent', [item.startDate, item.endDate]));
           });
       }
     }
   }
 
-  private patchValues(label: string, value: string) {
-    return this.formBuilder.group({
-      label: [label],
-      value: [value],
-    });
+  private patchValues(field: string, values: Array<string | moment.Moment | undefined>) {
+    switch (true) {
+      case field === 'spatialExtent':
+        return this.formBuilder.group({
+          location: [values[0]],
+        });
+      case field === 'temporalExtent':
+        return this.formBuilder.group({
+          startDate: values[0],
+          endDate: values[1],
+        });
+      default:
+        return this.formBuilder.group({});
+    }
   }
 
   public handleGetRevisions(): void {

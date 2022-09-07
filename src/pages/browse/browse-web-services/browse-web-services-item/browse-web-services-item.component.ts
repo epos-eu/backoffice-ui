@@ -49,11 +49,11 @@ export class BrowseWebServicesItemComponent {
   }
 
   public handleCancel(): void {
-    this.dialogService.handleCancel();
+    // this.dialogService.handleCancel();
   }
 
   public handleConfirm(): void {
-    this.dialogService.handleConfirm();
+    // this.dialogService.handleConfirm();
   }
 
   public formatDate = (dateStr: string): string => {
