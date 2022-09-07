@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
@@ -24,6 +26,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
+  public distribution!: Array<DistributionDetailDataSource>;
+  public distributionLoaded = false;
+  public contactPoint!: Array<ContactPointDataSource>;
+  public contactPointLoaded = false;
 
   constructor(
     private dialogService: DialogService,
@@ -87,26 +93,22 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   private trackFormData(): void {
+    console.log(this.dataProduct);
     this.form = this.formBuilder.group({
       uid: this.dataProduct?.uid,
       title: [this.dataProduct?.title],
       description: [this.dataProduct?.description],
       changeTimestamp: this.dataProduct?.changeTimestamp,
-      // state: this.dataProduct?.state,
+      state: this.dataProduct?.state,
       identifier: [this.dataProduct?.identifier],
       issued: this.dataProduct?.issued,
       keywords: this.dataProduct?.keywords,
       modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
-      // created: this.dataProduct?.created.format(),
       spatialExtent: this.formBuilder.array([]),
       temporalExtent: this.formBuilder.array([]),
-      // distributionUid: this.dataProduct?.distribution[0]['uid'],
-      // distributionTitle: '',
-      // webserviceUid: '',
-      // webserviceTitle: '',
-      // contactPointUid: '',
-      // contactPointTitle: '',
+      distribution: this.formBuilder.array([]),
+      contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
       this.persistorService.setValueInStorage(
@@ -134,11 +136,22 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.dataProduct.temporalExtent.forEach((item: TemporalExtent) => {
             control.push(this.patchValues('temporalExtent', [item.startDate, item.endDate]));
           });
+          break;
+        case field === 'distribution':
+          this.distribution.forEach((item) => {
+            control.push(this.patchValues('distribution', [item.uid, item.title]));
+          });
+          break;
+        case field === 'contactPoint':
+          this.contactPoint.forEach((item) => {
+            control.push(this.patchValues('contactPoint', [item.uid, item.email]));
+          });
+          break;
       }
     }
   }
 
-  private patchValues(field: string, values: Array<string | moment.Moment | undefined>) {
+  private patchValues(field: string, values: Array<string | moment.Moment | string[] | undefined>) {
     switch (true) {
       case field === 'spatialExtent':
         return this.formBuilder.group({
@@ -148,6 +161,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         return this.formBuilder.group({
           startDate: values[0],
           endDate: values[1],
+        });
+      case field === 'distribution':
+        return this.formBuilder.group({
+          uid: values[0],
+          title: values[1],
+        });
+      case field === 'contactPoint':
+        return this.formBuilder.group({
+          uid: values[0],
+          email: values[1],
         });
       default:
         return this.formBuilder.group({});
@@ -166,5 +189,40 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleBack(): void {
     this.router.navigate(['/browse/data-products']);
+  }
+
+  public handleExpand(type: string): void {
+    switch (true) {
+      case type === 'distribution':
+        if (!this.distributionLoaded) {
+          if (this.dataProduct?.distribution[0].instanceId) {
+            this.apiService.endpoints.distribution.getDistributionDetail
+              .call({
+                instanceId: this.dataProduct?.distribution[0]['instanceId'],
+              })
+              .then((distribution: Array<DistributionDetailDataSource>) => {
+                this.distribution = distribution;
+                this.patch('distribution');
+                this.distributionLoaded = true;
+              });
+          }
+        }
+        break;
+      case type === 'contactPoint':
+        if (!this.contactPointLoaded) {
+          if (this.dataProduct?.contactPoint[0].instanceId) {
+            this.apiService.endpoints.contactPoint.getContactPointDetail
+              .call({
+                instanceId: this.dataProduct?.contactPoint[0]['instanceId'],
+              })
+              .then((contactPoint: Array<ContactPointDataSource>) => {
+                this.contactPoint = contactPoint;
+                this.patch('contactPoint');
+                this.contactPointLoaded = true;
+              });
+          }
+        }
+        break;
+    }
   }
 }

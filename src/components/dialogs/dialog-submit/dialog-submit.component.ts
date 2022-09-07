@@ -46,7 +46,7 @@ export class DialogSubmitComponent {
             this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
               'snackbar',
               'mat-toolbar',
-              'snackbar-primary',
+              'snackbar-success',
             ]);
           })
           .catch((err) => {
