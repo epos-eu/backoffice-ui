@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { DialogSubmitComponent } from 'src/components/dialogs/dialog-submit/dialog-submit.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
@@ -38,13 +39,20 @@ export class EditNavigationComponent implements OnInit {
   }
 
   public handleSave(): void {
-    // Todo: save to DB
     this.actionsService.saveCurrentEdit(this.currentEdit.id);
+    this.actionsService.addEditedItems([
+      {
+        type: 'data-products',
+        label: 'Data product',
+        status: Status.Draft,
+        color: 'draft',
+        id: this.currentEdit.id,
+      },
+    ]);
+    this.itemsExist.next(true);
   }
 
   public handleSubmit(): void {
-    // Todo: save to DB
-    // this.actionsService.submitCurrentEdit(this.currentEdit.id);
     const dialogRef = this.dialog.open(DialogSubmitComponent, {
       width: '450px',
       height: '275px',

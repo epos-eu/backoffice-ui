@@ -2,7 +2,7 @@
   <div class="top">
     <h3 mat-subheader>Current changes</h3>
     <mat-chip-list class="mat-chip-list-stacked" aria-label="Current changes" *ngIf="(itemsExist | async) === true">
-      <mat-chip *ngFor="let change of actionsService.editedItemsObservable | async" [color]="change.color"
+      <mat-chip *ngFor="let change of (actionsService.editedItemsObservable | async)" [color]="change.color"
         [ngClass]="isActive(change.id) ? 'active' : ''" (click)="handleClick(change.id)">
         <div class="top">
           <span>{{ change.label }}</span>
@@ -13,7 +13,7 @@
         </div>
       </mat-chip>
     </mat-chip-list>
-    <p *ngIf="(itemsExist | async) === false">
+    <p *ngIf="(itemsExist | async) === false" [ngStyle]="{ margin: '1rem' }">
       No changes made yet.
     </p>
   </div>

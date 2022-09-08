@@ -71,6 +71,10 @@ export class ActionsService {
     this.dispatchEditAction(id, Status.Submitted);
   }
 
+  public resetToDraft(id: string): void {
+    this.dispatchEditAction(id, Status.Draft);
+  }
+
   /**
    * Dispatch save, submit, approve etc. actions
    *
@@ -93,6 +97,16 @@ export class ActionsService {
     }
   }
 
+  public initEdit(id: string): void {
+    this.currentEdit.next({
+      type: 'data-products',
+      label: 'Data product',
+      status: Status.Draft,
+      color: 'draft',
+      id,
+    });
+  }
+
   /**
    * Track the current edit.
    *
@@ -101,7 +115,12 @@ export class ActionsService {
   public trackCurrentEdit(id: string): void {
     const copy = [...this.editedItems.getValue()];
     const item = copy.filter((obj) => obj.id === id);
-    this.currentEdit.next(item[0]);
+
+    if (item.length === 0) {
+      this.initEdit(id);
+    } else {
+      this.currentEdit.next(item[0]);
+    }
   }
 
   /**
