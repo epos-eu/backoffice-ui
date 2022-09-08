@@ -112,6 +112,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
+      console.debug('changes:', changes);
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.FORM_DATA_PRODUCT,
@@ -138,16 +139,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             control.push(this.patchValues('temporalExtent', [item.startDate, item.endDate]));
           });
           break;
-        case field === 'distribution':
-          this.distribution.forEach((item) => {
-            control.push(this.patchValues('distribution', [item.uid, item.title]));
-          });
-          break;
-        case field === 'contactPoint':
-          this.contactPoint.forEach((item) => {
-            control.push(this.patchValues('contactPoint', [item.uid, item.email]));
-          });
-          break;
+        // case field === 'distribution':
+        //   this.distribution.forEach((item) => {
+        //     control.push(this.patchValues('distribution', [item.uid, item.title]));
+        //   });
+        //   break;
+        // case field === 'contactPoint':
+        //   this.contactPoint.forEach((item) => {
+        //     control.push(this.patchValues('contactPoint', [item.uid, item.email]));
+        //   });
+        //   break;
       }
     }
   }
@@ -167,6 +168,13 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         return this.formBuilder.group({
           uid: values[0],
           title: values[1],
+          fileProvenance: values[2],
+          description: values[3],
+          format: values[4],
+          type: values[5],
+          issued: values[6],
+          modified: values[7],
+          changeTimestamp: values[8],
         });
       case field === 'contactPoint':
         return this.formBuilder.group({
@@ -181,7 +189,25 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private patchDistribution(distribution: Array<DistributionDetailDataSource>) {
     const control = <FormArray>this.form.get('distribution');
     distribution.forEach((item) => {
-      control.push(this.patchValues('distribution', [item.uid, item.title]));
+      control.push(
+        this.patchValues('distribution', [
+          item.uid,
+          item.title,
+          item.fileProvenance,
+          item.description,
+          item.format,
+          item.type,
+          item.issued,
+          item.modified,
+          item.changeTimestamp,
+        ]),
+      );
+    });
+  }
+  private patchContactPoint(contactPoint: Array<ContactPointDataSource>) {
+    const control = <FormArray>this.form.get('contactPoint');
+    contactPoint.forEach((item) => {
+      control.push(this.patchValues('contactPoint', [item.uid, item.email]));
     });
   }
 
@@ -207,6 +233,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     });
   }
 
+  private mapContactPointCalls(ids: Array<string>): Promise<ContactPointDataSource[]>[] {
+    return ids.map((id) => {
+      return this.apiService.endpoints.contactPoint.getContactPointDetail.call({
+        instanceId: id,
+      });
+    });
+  }
+
   public handleExpand(type: string): void {
     switch (true) {
       case type === 'distribution':
@@ -226,16 +260,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         break;
       case type === 'contactPoint':
         if (!this.contactPointLoaded) {
-          if (this.dataProduct?.contactPoint[0].instanceId) {
-            this.apiService.endpoints.contactPoint.getContactPointDetail
-              .call({
-                instanceId: this.dataProduct?.contactPoint[0]['instanceId'],
-              })
-              .then((contactPoint: Array<ContactPointDataSource>) => {
-                this.contactPoint = contactPoint;
-                this.patch('contactPoint');
-                this.contactPointLoaded = true;
+          if (this.dataProduct?.contactPoint) {
+            const ids = this.dataProduct?.contactPoint.map((item) => item.instanceId);
+            if (ids && ids.length > 0) {
+              forkJoin(this.mapContactPointCalls(ids)).subscribe((contactPoints) => {
+                contactPoints.forEach((contactPoint: Array<ContactPointDataSource>) => {
+                  this.patchContactPoint(contactPoint);
+                  this.contactPointLoaded = true;
+                });
               });
+            }
           }
         }
         break;

@@ -33,6 +33,7 @@ export class DialogSubmitComponent {
       );
       if (localStorage !== null) {
         const formData: DataProduct = JSON.parse(localStorage);
+        console.debug('submit', formData);
         this.apiService.endpoints.dataProducts.postDataProductDetail
           .call({
             comment: this.comment.value as string,
@@ -43,6 +44,7 @@ export class DialogSubmitComponent {
             contactPoints: [],
           })
           .then((response: any) => {
+            console.debug('response:', response);
             this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
               'snackbar',
               'mat-toolbar',
