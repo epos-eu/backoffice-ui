@@ -29,9 +29,9 @@ export abstract class CacheableEndpoint<RETURN_TYPE, PARAMS_TYPE, OBJECT_TYPE = 
     if (null != cacheValue && useCache) {
       // console.log('using cache');
       return Promise.resolve(cacheValue);
-    } else if (null != this.currentCallPromise) {
-      // console.log('using call same promise');
-      return this.currentCallPromise;
+      // } else if (null != this.currentCallPromise) {
+      //   // console.log('using call same promise');
+      //   return this.currentCallPromise;
     } else {
       // console.log('creating call promise');
       this.currentCallPromise = super.call(params).then((value: RETURN_TYPE) => {
