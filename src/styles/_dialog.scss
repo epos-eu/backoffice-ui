@@ -151,3 +151,9 @@ app-dialog {
     }
   }
 }
+
+.revisions-dialog {
+  .mat-dialog-container {
+    padding: 0 !important;
+  }
+}

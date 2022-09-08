@@ -75,7 +75,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             this.trackFormData();
             this.patch('spatialExtent');
             this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit(this.dataProduct.uid);
+            this.actionService.trackCurrentEdit(this.dataProduct.instanceId);
             this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
               if (item) {
                 this.currentEdit = item;
@@ -156,7 +156,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
-    this.dialogService.openDialogForComponent(RevisionsComponent, {}, '50vw', '70vh');
+    this.dialogService.openDialogForComponent(RevisionsComponent, {}, '35vw', 'auto', 'revisions-dialog');
   }
 
   public handleDelete(): void {
