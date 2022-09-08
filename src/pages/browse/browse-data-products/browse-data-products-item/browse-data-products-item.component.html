@@ -85,7 +85,7 @@
         </mat-form-field>
       </div>
 
-      <mat-accordion>
+      <mat-accordion multi>
         <mat-expansion-panel (afterExpand)="handleExpand('distribution')">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -169,6 +169,24 @@
                 <mat-label>Email</mat-label>
                 <div [formGroupName]="i">
                   <input matInput formControlName="email">
+                </div>
+              </mat-form-field>
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+                <mat-label>Organization</mat-label>
+                <div [formGroupName]="i">
+                  <input matInput formControlName="organization">
+                </div>
+              </mat-form-field>
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+                <mat-label>Telephone</mat-label>
+                <div [formGroupName]="i">
+                  <input matInput formControlName="telephone">
+                </div>
+              </mat-form-field>
+              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+                <mat-label>Change Timestamp</mat-label>
+                <div [formGroupName]="i">
+                  <input matInput formControlName="changeTimestamp">
                 </div>
               </mat-form-field>
             </ng-container>

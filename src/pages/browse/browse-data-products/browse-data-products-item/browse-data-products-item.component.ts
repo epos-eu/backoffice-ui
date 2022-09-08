@@ -112,7 +112,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
-      console.debug('changes:', changes);
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.FORM_DATA_PRODUCT,
@@ -180,6 +179,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         return this.formBuilder.group({
           uid: values[0],
           email: values[1],
+          organization: values[2],
+          telephone: values[2],
+          changeTimestamp: values[2],
         });
       default:
         return this.formBuilder.group({});
@@ -207,7 +209,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private patchContactPoint(contactPoint: Array<ContactPointDataSource>) {
     const control = <FormArray>this.form.get('contactPoint');
     contactPoint.forEach((item) => {
-      control.push(this.patchValues('contactPoint', [item.uid, item.email]));
+      control.push(
+        this.patchValues('contactPoint', [
+          item.uid,
+          item.email,
+          item.organization,
+          item.telephone,
+          item.changeTimestamp,
+        ]),
+      );
     });
   }
 
