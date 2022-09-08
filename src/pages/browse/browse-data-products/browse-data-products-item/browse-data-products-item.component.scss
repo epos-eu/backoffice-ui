@@ -24,7 +24,6 @@
   }
 
   .actions {
-    margin-right: 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,7 +93,7 @@
 
 .back-btn {
   border-radius: 25px;
-  margin-left: 1rem;
+  margin-top: 0.75rem;
 
   mat-icon {
     color: #004926;

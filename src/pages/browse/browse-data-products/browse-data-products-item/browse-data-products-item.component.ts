@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
@@ -81,7 +82,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             this.trackFormData();
             this.patch('spatialExtent');
             this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit(this.dataProduct.uid);
+            this.actionService.trackCurrentEdit(this.dataProduct.instanceId);
             this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
               if (item) {
                 this.currentEdit = item;
@@ -186,7 +187,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
-    this.dialogService.openDialogForComponent(RevisionsComponent, {}, '50vw', '70vh');
+    this.dialogService.openDialogForComponent(RevisionsComponent, {}, '35vw', 'auto', 'revisions-dialog');
   }
 
   public handleDelete(): void {
@@ -198,23 +199,28 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.router.navigate(['/browse/data-products']);
   }
 
+  private mapDistributionCalls(ids: Array<string>): Promise<DistributionDetailDataSource[]>[] {
+    return ids.map((id) => {
+      return this.apiService.endpoints.distribution.getDistributionDetail.call({
+        instanceId: id,
+      });
+    });
+  }
+
   public handleExpand(type: string): void {
     switch (true) {
       case type === 'distribution':
         if (!this.distributionLoaded) {
           if (this.dataProduct?.distribution) {
-            this.dataProduct?.distribution.forEach((item: any) => {
-              if (null != item) {
-                this.apiService.endpoints.distribution.getDistributionDetail
-                  .call({
-                    instanceId: item.instanceId,
-                  })
-                  .then((distribution) => {
-                    this.patchDistribution(distribution);
-                    this.distributionLoaded = true;
-                  });
-              }
-            });
+            const ids = this.dataProduct?.distribution.map((item) => item.instanceId);
+            if (ids && ids.length > 0) {
+              forkJoin(this.mapDistributionCalls(ids)).subscribe((distributions) => {
+                distributions.forEach((distribution: DistributionDetailDataSource[]) => {
+                  this.patchDistribution(distribution);
+                  this.distributionLoaded = true;
+                });
+              });
+            }
           }
         }
         break;
