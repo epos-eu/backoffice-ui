@@ -1,6 +1,7 @@
 import { State } from 'src/utility/enums/state.enum';
 import { BaseObject } from '../_lib_code/objects/baseObject';
 import { ContactPoint } from './entities/contactPoint.model';
+import { Distribution } from './entities/distribution.model';
 import { SpatialExtent } from './types/spatialExtent.type';
 import { TemporalExtent } from './types/temporalExtent.type';
 
@@ -61,7 +62,7 @@ export class DataProductsDataSource extends BaseObject {
   public readonly contactPoint: Array<ContactPoint>;
   public readonly created: moment.Moment;
   public readonly description: Array<string>;
-  public readonly distribution: Array<Record<string, unknown>>;
+  public readonly distribution: Array<Distribution>;
   public readonly hasPart: Array<unknown>;
   public readonly identifier: Array<Record<string, unknown>>;
   public readonly isPartOf: Array<unknown>;

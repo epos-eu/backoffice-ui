@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
-import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -24,6 +26,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
+  public distribution!: Array<DistributionDetailDataSource>;
+  public distributionLoaded = false;
+  public contactPoint!: Array<ContactPointDataSource>;
+  public contactPointLoaded = false;
 
   constructor(
     private dialogService: DialogService,
@@ -63,24 +69,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
           if (this.dataProduct) {
             this.actionService.setLiveEdit();
-            this.actionService.addEditedItems([
-              {
-                type: 'data-products',
-                label: 'Data product',
-                status: Status.Draft,
-                color: 'draft',
-                id: this.dataProduct.instanceId,
-              },
-            ]);
             this.trackFormData();
             this.patch('spatialExtent');
             this.patch('temporalExtent');
             this.actionService.trackCurrentEdit(this.dataProduct.instanceId);
-            this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
-              if (item) {
-                this.currentEdit = item;
-              }
-            });
           }
         }
       });
@@ -92,23 +84,19 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       title: [this.dataProduct?.title],
       description: [this.dataProduct?.description],
       changeTimestamp: this.dataProduct?.changeTimestamp,
-      // state: this.dataProduct?.state,
+      state: this.dataProduct?.state,
       identifier: [this.dataProduct?.identifier],
       issued: this.dataProduct?.issued,
       keywords: this.dataProduct?.keywords,
       modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
-      // created: this.dataProduct?.created.format(),
       spatialExtent: this.formBuilder.array([]),
       temporalExtent: this.formBuilder.array([]),
-      // distributionUid: this.dataProduct?.distribution[0]['uid'],
-      // distributionTitle: '',
-      // webserviceUid: '',
-      // webserviceTitle: '',
-      // contactPointUid: '',
-      // contactPointTitle: '',
+      distribution: this.formBuilder.array([]),
+      contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
+      this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.FORM_DATA_PRODUCT,
@@ -134,11 +122,22 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.dataProduct.temporalExtent.forEach((item: TemporalExtent) => {
             control.push(this.patchValues('temporalExtent', [item.startDate, item.endDate]));
           });
+          break;
+        // case field === 'distribution':
+        //   this.distribution.forEach((item) => {
+        //     control.push(this.patchValues('distribution', [item.uid, item.title]));
+        //   });
+        //   break;
+        // case field === 'contactPoint':
+        //   this.contactPoint.forEach((item) => {
+        //     control.push(this.patchValues('contactPoint', [item.uid, item.email]));
+        //   });
+        //   break;
       }
     }
   }
 
-  private patchValues(field: string, values: Array<string | moment.Moment | undefined>) {
+  private patchValues(field: string, values: Array<string | moment.Moment | string[] | undefined>) {
     switch (true) {
       case field === 'spatialExtent':
         return this.formBuilder.group({
@@ -149,9 +148,62 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           startDate: values[0],
           endDate: values[1],
         });
+      case field === 'distribution':
+        return this.formBuilder.group({
+          uid: values[0],
+          title: values[1],
+          fileProvenance: values[2],
+          description: values[3],
+          format: values[4],
+          type: values[5],
+          issued: values[6],
+          modified: values[7],
+          changeTimestamp: values[8],
+        });
+      case field === 'contactPoint':
+        return this.formBuilder.group({
+          uid: values[0],
+          email: values[1],
+          organization: values[2],
+          telephone: values[2],
+          changeTimestamp: values[2],
+        });
       default:
         return this.formBuilder.group({});
     }
+  }
+
+  private patchDistribution(distribution: Array<DistributionDetailDataSource>) {
+    const control = <FormArray>this.form.get('distribution');
+    distribution.forEach((item) => {
+      control.push(
+        this.patchValues('distribution', [
+          item.uid,
+          item.title,
+          item.fileProvenance,
+          item.description,
+          item.format,
+          item.type,
+          item.issued,
+          item.modified,
+          item.changeTimestamp,
+        ]),
+      );
+    });
+  }
+  private patchContactPoint(contactPoint: Array<ContactPointDataSource>) {
+    const control = <FormArray>this.form.get('contactPoint');
+    contactPoint.forEach((item) => {
+      control.push(
+        this.patchValues('contactPoint', [
+          item.uid,
+          item.email,
+          item.organization,
+          item.telephone,
+          item.changeTimestamp,
+        ]),
+      );
+    });
   }
 
   public handleGetRevisions(): void {
@@ -166,5 +218,56 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleBack(): void {
     this.router.navigate(['/browse/data-products']);
+  }
+
+  private mapDistributionCalls(ids: Array<string>): Promise<DistributionDetailDataSource[]>[] {
+    return ids.map((id) => {
+      return this.apiService.endpoints.distribution.getDistributionDetail.call({
+        instanceId: id,
+      });
+    });
+  }
+
+  private mapContactPointCalls(ids: Array<string>): Promise<ContactPointDataSource[]>[] {
+    return ids.map((id) => {
+      return this.apiService.endpoints.contactPoint.getContactPointDetail.call({
+        instanceId: id,
+      });
+    });
+  }
+
+  public handleExpand(type: string): void {
+    switch (true) {
+      case type === 'distribution':
+        if (!this.distributionLoaded) {
+          if (this.dataProduct?.distribution) {
+            const ids = this.dataProduct?.distribution.map((item) => item.instanceId);
+            if (ids && ids.length > 0) {
+              forkJoin(this.mapDistributionCalls(ids)).subscribe((distributions) => {
+                distributions.forEach((distribution: DistributionDetailDataSource[]) => {
+                  this.patchDistribution(distribution);
+                  this.distributionLoaded = true;
+                });
+              });
+            }
+          }
+        }
+        break;
+      case type === 'contactPoint':
+        if (!this.contactPointLoaded) {
+          if (this.dataProduct?.contactPoint) {
+            const ids = this.dataProduct?.contactPoint.map((item) => item.instanceId);
+            if (ids && ids.length > 0) {
+              forkJoin(this.mapContactPointCalls(ids)).subscribe((contactPoints) => {
+                contactPoints.forEach((contactPoint: Array<ContactPointDataSource>) => {
+                  this.patchContactPoint(contactPoint);
+                  this.contactPointLoaded = true;
+                });
+              });
+            }
+          }
+        }
+        break;
+    }
   }
 }

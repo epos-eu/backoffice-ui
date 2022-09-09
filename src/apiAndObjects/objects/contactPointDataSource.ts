@@ -12,6 +12,7 @@ export class ContactPointDataSource extends BaseObject {
     FILE_PROVENANCE: 'fileProvenance',
     EMAIL: 'email',
     LANGUAGE: 'language',
+    ORGANIZATION: 'organization',
     ROLE: 'role',
     PERSON: 'person',
     TELEPHONE: 'telephone',
@@ -26,6 +27,7 @@ export class ContactPointDataSource extends BaseObject {
   public readonly fileProvenance: string;
   public readonly email: Array<string>;
   public readonly language: Array<string>;
+  public readonly organization: string;
   public readonly role: string;
   public readonly person: Record<string, unknown>;
   public readonly telephone: Array<string>;
@@ -43,6 +45,7 @@ export class ContactPointDataSource extends BaseObject {
     this.fileProvenance = this._getString(ContactPointDataSource.KEYS.FILE_PROVENANCE);
     this.email = this._getArray(ContactPointDataSource.KEYS.EMAIL);
     this.language = this._getArray(ContactPointDataSource.KEYS.LANGUAGE);
+    this.organization = this._getString(ContactPointDataSource.KEYS.ORGANIZATION);
     this.role = this._getString(ContactPointDataSource.KEYS.ROLE);
     this.person = this._getValue(ContactPointDataSource.KEYS.PERSON) as Record<string, unknown>;
     this.telephone = this._getArray(ContactPointDataSource.KEYS.TELEPHONE);
