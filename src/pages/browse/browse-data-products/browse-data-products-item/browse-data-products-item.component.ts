@@ -6,7 +6,6 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
-import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -70,31 +69,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
           if (this.dataProduct) {
             this.actionService.setLiveEdit();
-            this.actionService.addEditedItems([
-              {
-                type: 'data-products',
-                label: 'Data product',
-                status: Status.Draft,
-                color: 'draft',
-                id: this.dataProduct.instanceId,
-              },
-            ]);
             this.trackFormData();
             this.patch('spatialExtent');
             this.patch('temporalExtent');
             this.actionService.trackCurrentEdit(this.dataProduct.instanceId);
-            this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
-              if (item) {
-                this.currentEdit = item;
-              }
-            });
           }
         }
       });
   }
 
   private trackFormData(): void {
-    console.log(this.dataProduct);
     this.form = this.formBuilder.group({
       uid: this.dataProduct?.uid,
       title: [this.dataProduct?.title],
@@ -112,6 +96,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
+      this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.FORM_DATA_PRODUCT,

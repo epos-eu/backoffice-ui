@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
+import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { SectionName } from 'src/utility/enums/sectionName.enum';
-import { State } from 'src/utility/enums/state.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DialogService } from '../dialog.service';
 
@@ -15,15 +14,23 @@ import { DialogService } from '../dialog.service';
   templateUrl: './dialog-submit.component.html',
   styleUrls: ['./dialog-submit.component.scss'],
 })
-export class DialogSubmitComponent {
+export class DialogSubmitComponent implements OnInit {
   public comment = new FormControl('', [Validators.required]);
+  public currentEdit!: IChangeItem;
 
   constructor(
     private persistorService: PersistorService,
     private apiService: ApiService,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
   ) {}
+
+  ngOnInit(): void {
+    this.actionsService.currentEditObservable.subscribe((edit) => {
+      this.currentEdit = edit;
+    });
+  }
 
   public handleSubmit(): void {
     if (this.comment.valid) {
@@ -43,6 +50,7 @@ export class DialogSubmitComponent {
             contactPoints: [],
           })
           .then((response: any) => {
+            this.actionsService.submitCurrentEdit(this.currentEdit.id);
             this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
               'snackbar',
               'mat-toolbar',
