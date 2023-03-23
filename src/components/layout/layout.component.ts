@@ -11,16 +11,9 @@ import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { SectionsService } from 'src/services/sections.service';
-import { Sections } from 'src/utility/objects/login/sections';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { IndexDetailDataSource } from 'src/apiAndObjects/objects/indexDetailDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
-import { GetDistributionDetailsParams } from 'src/apiAndObjects/api/distribution/getDistributionDetail';
-import { SetUserRoleParams } from 'src/apiAndObjects/api/user/setUserRole';
-import { UserRole } from 'src/utility/enums/UserRole.enum';
-import { NewUserRoleDataSource } from 'src/apiAndObjects/objects/newUserRoleDataSource';
-
+import { UserInfoDataSource } from 'src/apiAndObjects/objects/userInfoDataSource';
+import { Entity } from 'src/utility/enums/entity.enum';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -49,7 +42,6 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
     public actionsService: ActionsService,
     private cdr: ChangeDetectorRef,
     private activeUserService: ActiveUserService,
-    private sectionsService: SectionsService,
     private apiService: ApiService,
   ) {}
 
@@ -107,10 +99,13 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   public getLoginData() {
-    this.apiService.endpoints.index.getIndexDetails.call().then((data: Array<IndexDetailDataSource>) => {
-      this.sectionsService.setSections(data[0].sections as Array<Sections>);
-      this.activeUserService.setActiveUserInfo(data[0].userInfo as UserBackofficeInfo);
-    });
+    this.apiService.endpoints[Entity.USER].getUserInfo
+      .call({
+        available_section: true,
+      })
+      .then((userInfo: UserInfoDataSource) => {
+        this.activeUserService.setActiveUserInfo(userInfo as UserBackofficeInfo);
+      });
   }
 
   ngOnDestroy(): void {

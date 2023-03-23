@@ -14,7 +14,7 @@ import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-
+import { Entity } from 'src/utility/enums/entity.enum';
 @Component({
   selector: 'app-browse-data-products-item',
   templateUrl: './browse-data-products-item.component.html',
@@ -56,7 +56,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(id: string): void {
-    this.apiService.endpoints.dataProducts.getDataProductDetail
+    this.apiService.endpoints[Entity.DATA_PRODUCT].getDataProductDetail
       .call(
         {
           instanceId: id,
@@ -222,7 +222,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   private mapDistributionCalls(ids: Array<string>): Promise<DistributionDetailDataSource[]>[] {
     return ids.map((id) => {
-      return this.apiService.endpoints.distribution.getDistributionDetail.call({
+      return this.apiService.endpoints[Entity.DISTRIBUTION].getDistributionDetail.call({
         instanceId: id,
       });
     });
@@ -230,7 +230,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   private mapContactPointCalls(ids: Array<string>): Promise<ContactPointDataSource[]>[] {
     return ids.map((id) => {
-      return this.apiService.endpoints.contactPoint.getContactPointDetail.call({
+      return this.apiService.endpoints[Entity.CONTACT_POINT].getContactPointDetail.call({
         instanceId: id,
       });
     });

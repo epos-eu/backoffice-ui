@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
-import { GetIndexDetails } from './index/getIndexDetails';
 import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
@@ -11,6 +10,15 @@ import { GetDataProductDetail } from './data-products/getDataProductDetail';
 import { SetUserRole } from './user/setUserRole';
 import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 import { PostDataProductDetails } from './data-products/postDataProductDetails';
+import { GetUserInfo } from './user/getUserInfo';
+import { GetAllDataProducts } from './data-products/getAllDataProducts';
+import { GetAllWebservices } from './webservice/getAllWebservices';
+import { GetAllDistributions } from './distribution/getAllDistributions';
+import { GetAllContactPoints } from './contact-point/getAllContactPoints';
+import { GetAllUsers } from './user/getAllUsers';
+import { GetAllPeople } from './person/getAllPeople';
+import { GetAllOrganizations } from './organization/getAllOrganizations';
+import { GetAllOperations } from './operation/getAllOperations';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -18,27 +26,37 @@ export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
-    index: {
-      getIndexDetails: new GetIndexDetails(ApiService.USE_LIVE_API),
-    },
-    distribution: {
+    Distribution: {
       getDistributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
+      getAll: new GetAllDistributions(ApiService.USE_LIVE_API),
     },
-    webservice: {
+    Webservice: {
       getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
+      getAll: new GetAllWebservices(ApiService.USE_LIVE_API),
     },
-    operation: {
+    Operation: {
       getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),
+      getAll: new GetAllOperations(ApiService.USE_LIVE_API),
     },
-    dataProducts: {
+    DataProduct: {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
       postDataProductDetail: new PostDataProductDetails(ApiService.USE_LIVE_API),
+      getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
     },
-    user: {
+    User: {
       setNewRole: new SetUserRole(ApiService.USE_LIVE_API),
+      getUserInfo: new GetUserInfo(ApiService.USE_LIVE_API),
+      getAll: new GetAllUsers(ApiService.USE_LIVE_API),
     },
-    contactPoint: {
+    Contactpoint: {
       getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
+      getAll: new GetAllContactPoints(ApiService.USE_LIVE_API),
+    },
+    Person: {
+      getAll: new GetAllPeople(ApiService.USE_LIVE_API),
+    },
+    Organization: {
+      getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
     },
   };
 

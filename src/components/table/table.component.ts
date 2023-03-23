@@ -3,9 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
-import { SectionsService } from 'src/services/sections.service';
-import { SectionItem } from 'src/utility/objects/login/sectionItem';
-import { Sections } from 'src/utility/objects/login/sections';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { Entity } from 'src/utility/enums/entity.enum';
+import { TableDetail } from 'src/utility/objects/table/detail';
+import { TableItem, TableItems } from 'src/utility/objects/table/items';
 
 @Component({
   selector: 'app-table',
@@ -13,7 +14,7 @@ import { Sections } from 'src/utility/objects/login/sections';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements AfterViewInit {
-  @Input() sectionName!: string;
+  @Input() sectionName!: Entity;
   @Output() rowClickDetailsEmit = new Subject<Array<string>>();
 
   public displayedColumns = ['uid', 'lastChange', 'status', 'comment', 'author'];
@@ -24,12 +25,13 @@ export class TableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private sectionsService: SectionsService) {}
+  constructor(private apiService: ApiService) {}
 
   public ngAfterViewInit(): void {
     this.loading = true;
-    this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
-      this.createTableObjects(sections);
+
+    this.apiService.endpoints[this.sectionName].getAll.call().then((tableItems) => {
+      this.createTableObjects(tableItems as TableItems);
     });
   }
 
@@ -37,23 +39,20 @@ export class TableComponent implements AfterViewInit {
     this.rowClickDetailsEmit.next(['/browse/data-products/details', instanceId]);
   }
 
-  private createTableObjects(sections: Array<Sections>) {
+  private createTableObjects(items: TableItems) {
     const tableDetails = new Array<TableDetail>();
-    const dataProducts = sections.filter((item) => item.sectionName === this.sectionName).pop();
-    if (dataProducts) {
-      dataProducts.items.forEach((item: SectionItem) => {
-        const detail: TableDetail = {
-          uid: item.cells[0].value,
-          lastChange: item.cells[1].value,
-          status: item.cells[2].value,
-          comment: item.cells[3].value,
-          author: item.cells[4].value,
-          instanceId: item.instanceId,
-        };
-        tableDetails.push(detail);
-      });
-      this.initialiseTable(tableDetails);
-    }
+    items.forEach((item: TableItem) => {
+      const detail: TableDetail = {
+        uid: item.uid,
+        lastChange: item.changeTimestamp,
+        status: item.state,
+        comment: item.changeComment,
+        author: item.editorId,
+        instanceId: item.instanceId,
+      };
+      tableDetails.push(detail);
+    });
+    this.initialiseTable(tableDetails);
   }
 
   private initialiseTable(details: Array<TableDetail>) {
@@ -62,12 +61,4 @@ export class TableComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
     this.loading = false;
   }
-}
-interface TableDetail {
-  uid: string;
-  lastChange: string;
-  status: string;
-  comment: string;
-  author: string;
-  instanceId: string;
 }

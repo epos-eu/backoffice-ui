@@ -1,4 +1,4 @@
-export enum SectionName {
+export enum Entity {
   DATA_PRODUCT = 'DataProduct',
   ORGANIZATION = 'Organization',
   USER = 'User',
@@ -6,4 +6,5 @@ export enum SectionName {
   CONTACT_POINT = 'Contactpoint',
   WEBSERVICE = 'Webservice',
   DISTRIBUTION = 'Distribution',
+  OPERATION = 'Operation',
 }

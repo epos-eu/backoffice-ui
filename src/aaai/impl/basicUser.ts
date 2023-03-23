@@ -23,8 +23,9 @@ export class BasicUser implements AAAIUser {
   // }
 
   public static makeFromProfileResponse(token: string, profileObject: UserInfo): null | AAAIUser {
+    console.log(profileObject);
     // Needs updating when we know what the object looks like
-    return BasicUser.make(profileObject['email'], profileObject['email'], token);
+    return BasicUser.make(profileObject['info'].email, profileObject['info'].email, token);
   }
 
   public getUsername(): string {

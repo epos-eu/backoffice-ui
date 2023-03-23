@@ -20,6 +20,8 @@ export class DistributionDetailDataSource extends BaseObject {
     TYPE: 'type',
     META_ID: 'metaId',
     UID: 'uid',
+    EDITOR_ID: 'editorId',
+    CHANGE_COMMENT: 'changeComment',
   };
 
   public readonly instanceId: string;
@@ -38,6 +40,8 @@ export class DistributionDetailDataSource extends BaseObject {
   public readonly type: string;
   public readonly metaId: string;
   public readonly uid: string;
+  public readonly editorId: string;
+  public readonly changeComment: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -58,5 +62,7 @@ export class DistributionDetailDataSource extends BaseObject {
     this.type = this._getString(DistributionDetailDataSource.KEYS.TYPE);
     this.metaId = this._getString(DistributionDetailDataSource.KEYS.META_ID);
     this.uid = this._getString(DistributionDetailDataSource.KEYS.UID);
+    this.editorId = this._getString(DistributionDetailDataSource.KEYS.EDITOR_ID);
+    this.changeComment = this._getString(DistributionDetailDataSource.KEYS.CHANGE_COMMENT);
   }
 }

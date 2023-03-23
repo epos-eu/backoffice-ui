@@ -1,7 +1,7 @@
-import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 export type AccessService = {
   instanceId: string;
   uid: string;
-  entityType: SectionName;
+  entityType: Entity;
 };

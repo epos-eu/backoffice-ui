@@ -1,10 +1,11 @@
-import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { State } from 'src/utility/enums/state.enum';
+
 export class ContactPoint {
   constructor(
     public uid: string,
     public instanceId: string,
-    public entityType?: SectionName,
+    public entityType?: Entity,
     public changeTimestamp?: string,
     public editorId?: string,
     public state?: State,

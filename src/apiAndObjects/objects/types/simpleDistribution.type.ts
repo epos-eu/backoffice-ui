@@ -1,4 +1,4 @@
-import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 export type SimpleDistributionType = {
   // action?: object;
@@ -6,5 +6,5 @@ export type SimpleDistributionType = {
   // encodingFormat?: string;
   instanceId: string;
   uid: string;
-  entityType: SectionName;
+  entityType: Entity;
 };

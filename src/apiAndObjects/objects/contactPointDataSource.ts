@@ -17,6 +17,7 @@ export class ContactPointDataSource extends BaseObject {
     PERSON: 'person',
     TELEPHONE: 'telephone',
     META_ID: 'metaId',
+    CHANGE_COMMENT: 'changeComment',
   };
 
   public readonly instanceId: string;
@@ -33,6 +34,7 @@ export class ContactPointDataSource extends BaseObject {
   public readonly telephone: Array<string>;
   public readonly metaId: string;
   public readonly uid: string;
+  public readonly changeComment: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -51,5 +53,6 @@ export class ContactPointDataSource extends BaseObject {
     this.telephone = this._getArray(ContactPointDataSource.KEYS.TELEPHONE);
     this.metaId = this._getString(ContactPointDataSource.KEYS.META_ID);
     this.uid = this._getString(ContactPointDataSource.KEYS.UID);
+    this.changeComment = this._getString(ContactPointDataSource.KEYS.CHANGE_COMMENT);
   }
 }

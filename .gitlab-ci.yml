@@ -1,0 +1,83 @@
+stages:
+  - build
+  - image
+  - deploy
+
+build:
+  stage: build
+  image: node:lts-alpine
+  script:
+    - npm install -g @angular/cli@14.1.0
+    - npm install
+    - ng build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 2 hours
+  cache:
+    paths:
+      - node_modules/
+
+docker-build:
+  image: docker:stable
+  stage: image
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build -f Dockerfile -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+
+# below deploy stage is for testing
+
+#deploy_stage:
+#  image: $CI_REGISTRY/$K8S_KUBECTL_IMAGE
+#  stage: deploy
+#  tags:
+#    - k8s
+#    - docker
+#  script:
+#    - ./pre-deploy.sh
+#    - sed -i "s|DEPLOY-TAG|test|g" ./k8-deploy.yml
+#    - sed -i "s|/deploy/path|/|g" ./k8-deploy.yml
+#    - kubectl apply -f ./k8-deploy.yml
+#    - echo "Deployment Available Here - https://ics-c.epos-ip.org/"
+#  when: manual
+#  only:
+#    - tags
+
+deploy to kube dev:
+  image: $CI_REGISTRY/$K8S_KUBECTL_IMAGE
+  stage: deploy
+  tags:
+    - k8s
+    - docker
+  variables:
+    COMMAND: 'install'
+    CI_REGISTRY_IMAGE: epos-ci.brgm.fr:5005/epos/epos-backoffice-gui
+  except:
+    - staging
+    - production
+  script:
+    #- export K8S_NAMESPACE_TO_DEPLOY=$ENV_STAGE-$PROJECT_NAME-$CI_COMMIT_REF_SLUG
+    #- export DEPLOY_PATH=/$ENV_STAGE/$PROJECT_NAME/$CI_COMMIT_REF_SLUG/
+    #- export BASE_CONTEXT=/$ENV_STAGE/$PROJECT_NAME/$CI_COMMIT_REF_SLUG
+    #- chmod +x ./pre-deploy.sh ./deploy_resources.sh
+    #- ./pre-deploy.sh
+    #- /bin/bash ./deploy_resources.sh
+    - kubectl config set-cluster $K8S_DEV_CLUSTER --server="https://$K8S_DEV_HOST:$K8S_DEV_PORT" --insecure-skip-tls-verify
+    - kubectl config set-credentials $K8S_SERVICEACCOUNT --token="$K8S_DEV_TOKEN"
+    - kubectl config set-context "$K8S_DEV_CLUSTER-$K8S_NAMESPACE" --cluster=$K8S_DEV_CLUSTER --namespace=$K8S_NAMESPACE --user=$K8S_SERVICEACCOUNT
+    - kubectl config use-context "$K8S_DEV_CLUSTER-$K8S_NAMESPACE"
+    - echo "Checking cluster connection and permissions...." && kubectl get nodes --show-labels
+    # - kubectl create ns epos-backoffice-gui-new || true
+    - kubectl apply -f ./manifests/k8-deploy.yml -n epos-backoffice-gui-new
+    - kubectl delete secret epos-ics-c-tests-docker-registry-secret -n epos-backoffice-gui-new
+    - kubectl create secret docker-registry epos-ics-c-tests-docker-registry-secret --docker-server=epos-ci.brgm.fr:5005 --docker-username=doesnotmatter --docker-email=doesnotmatter@example.com --docker-password=$DOCKER_PULL_TOKEN -n epos-backoffice-gui-new || true
+    # - kubectl apply -f ./k8-deploy.yml -n epos-backoffice-gui-test
+    - export DEPLOY_TIMESTAMP=`date +'%s'`
+    - export BASE_URL="/testpath/backoffice/"
+    - for f in manifests/*.yml ; do envsubst < "$f" | kubectl apply -f - -n epos-backoffice-gui-new; done
+    - echo "Deployment Available Here - https://ics-c.epos-ip.org${BASE_URL}browse"
+    # redeploy to test

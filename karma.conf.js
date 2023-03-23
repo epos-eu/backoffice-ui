@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/epos-back-office'),
+      dir: require('path').join(__dirname, './coverage/testpath'),
       subdir: '.',
       reporters: [
         { type: 'html' },

@@ -27,7 +27,7 @@
         Status
       </th>
       <td mat-cell *matCellDef="let row" class="column-status">
-        {{ row.status.toLowerCase() }}
+        {{ row?.status }}
       </td>
     </ng-container>
     <!-- Comment column -->
