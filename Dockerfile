@@ -1,0 +1,14 @@
+FROM nginx:latest
+
+ENV BASE_URL /testpath/backoffice
+
+COPY dist/ /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Fix base url paths
+CMD sed -i 's|<base href="/">|<base href="'$BASE_URL'">|g' /usr/share/nginx/html/epos-back-office/index.html && \
+    sed -i 's|^\(\s*\)rewrite ^/(.*)$ /$1 last;|\1rewrite ^'$BASE_URL'(.*)$ /$1 last;|g' /etc/nginx/conf.d/default.conf && \
+    nginx -g "daemon off;"
+
+
+EXPOSE 80

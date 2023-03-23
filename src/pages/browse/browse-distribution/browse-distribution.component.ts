@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 @Component({
   selector: 'app-browse-distribution',
@@ -7,5 +7,5 @@ import { SectionName } from 'src/utility/enums/sectionName.enum';
   styleUrls: ['./browse-distribution.component.scss'],
 })
 export class BrowseDistributionComponent {
-  public sectionName = SectionName.DISTRIBUTION;
+  public sectionName = Entity.DISTRIBUTION;
 }

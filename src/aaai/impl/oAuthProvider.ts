@@ -138,9 +138,10 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
         try {
           this.oAuthService
             .loadUserProfile()
-            .then((object: UserInfo): void => {
-              console.log('loadUserProfile response', object);
-              this.userProfileSource.next(BasicUser.makeFromProfileResponse(token, object));
+            .then((object: object): void => {
+              const userInfo = object as UserInfo;
+              console.log('loadUserProfile response', userInfo);
+              this.userProfileSource.next(BasicUser.makeFromProfileResponse(token, userInfo));
 
               // console.debug('scopes', this.oAuthService.getGrantedScopes());
               // console.debug('scopes', this.oAuthService.getIdentityClaims());

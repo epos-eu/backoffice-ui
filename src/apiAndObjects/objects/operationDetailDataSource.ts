@@ -15,6 +15,8 @@ export class OperationDetailDataSource extends BaseObject {
     TEMPLATE: 'template',
     MAPPING: 'mapping',
     META_ID: 'metaId',
+    EDITOR_ID: 'editorId',
+    CHANGE_COMMENT: 'changeComment',
   };
 
   public readonly instanceId: string;
@@ -28,6 +30,8 @@ export class OperationDetailDataSource extends BaseObject {
   public readonly template: string;
   public readonly mapping: Array<Mapping>;
   public readonly metaId: string;
+  public readonly editorId: string;
+  public readonly changeComment: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -43,5 +47,7 @@ export class OperationDetailDataSource extends BaseObject {
     this.returns = this._getArray(OperationDetailDataSource.KEYS.RETURNS);
     this.template = this._getString(OperationDetailDataSource.KEYS.TEMPLATE);
     this.mapping = this._getValue(OperationDetailDataSource.KEYS.MAPPING) as Array<Mapping>;
+    this.editorId = this._getString(OperationDetailDataSource.KEYS.EDITOR_ID);
+    this.changeComment = this._getString(OperationDetailDataSource.KEYS.CHANGE_COMMENT);
   }
 }

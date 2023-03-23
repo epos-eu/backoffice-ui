@@ -6,6 +6,7 @@ import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DialogService } from '../dialog.service';
 
@@ -40,7 +41,7 @@ export class DialogSubmitComponent implements OnInit {
       );
       if (localStorage !== null) {
         const formData: DataProduct = JSON.parse(localStorage);
-        this.apiService.endpoints.dataProducts.postDataProductDetail
+        this.apiService.endpoints[Entity.DATA_PRODUCT].postDataProductDetail
           .call({
             comment: this.comment.value as string,
             dataProduct: formData,

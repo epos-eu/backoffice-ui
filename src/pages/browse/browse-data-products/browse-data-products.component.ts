@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 @Component({
   selector: 'app-browse-data-products',
@@ -8,7 +8,7 @@ import { SectionName } from 'src/utility/enums/sectionName.enum';
   styleUrls: ['./browse-data-products.component.scss'],
 })
 export class BrowseDataProductsComponent {
-  public sectionName = SectionName.DATA_PRODUCT;
+  public sectionName = Entity.DATA_PRODUCT;
   constructor(private router: Router) {}
 
   public rowClicked(rowClickDetails: Array<string>): void {

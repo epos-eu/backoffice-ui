@@ -6,8 +6,7 @@ import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-con
 import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-person/dialog-add-person.component';
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
-import { TableUserDetail } from 'src/pages/browse/browse-users/browse-users.component';
-import { SectionItem } from 'src/utility/objects/login/sectionItem';
+import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';

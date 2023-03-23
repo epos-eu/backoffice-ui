@@ -25,7 +25,7 @@ export class PostDataProductDetails extends CacheableEndpoint<
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
-        .set('Authorization', accessToken ? accessToken : '')
+        .set('Authorization', accessToken ? `Bearer ${accessToken}` : '')
         .set('Content-Type', 'application/json');
       return headers;
     };

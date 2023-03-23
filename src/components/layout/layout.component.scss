@@ -18,6 +18,12 @@
   cursor: pointer;
   font-family: 'Roboto Flex', sans-serif;
   font-weight: 400;
+
+  h1 {
+    font-family: 'Roboto Flex', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+  }
 }
 
 .navbar-main-navigation {
@@ -26,7 +32,7 @@
 
 .navbar-main-navigation-item {
   font-family: 'Roboto Flex', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 15%;
   text-decoration: none;
   cursor: pointer;
@@ -50,7 +56,7 @@
   align-items: center;
 
   mat-icon {
-    color: #FFFFFF;
+    color: #ffffff;
   }
 }
 
@@ -66,7 +72,7 @@
     &:nth-of-type(2) {
       font-size: 14px;
       text-transform: capitalize;
-      color: #E0E0E0;
+      color: #e0e0e0;
     }
   }
 }

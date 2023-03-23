@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { UserInfoDataSource } from 'src/apiAndObjects/objects/userInfoDataSource';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { SectionsService } from 'src/services/sections.service';
-import { SectionName } from 'src/utility/enums/sectionName.enum';
-import { SectionItem } from 'src/utility/objects/login/sectionItem';
-import { Sections } from 'src/utility/objects/login/sections';
+import { Entity } from 'src/utility/enums/entity.enum';
+import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 
 @Component({
   selector: 'app-browse-users',
@@ -23,12 +23,12 @@ export class BrowseUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private sectionsService: SectionsService, private dialogService: DialogService) {}
+  constructor(private dialogService: DialogService, private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.loading = true;
-    this.sectionsService.sectionsObservable.subscribe((sections: Array<Sections>) => {
-      this.createUserTableObjects(sections);
+    this.apiService.endpoints[Entity.USER].getAll.call().then((users: Array<UserInfoDataSource>) => {
+      this.createUserTableObjects(users);
     });
   }
 
@@ -36,22 +36,20 @@ export class BrowseUsersComponent implements OnInit {
     this.dialogService.openChangeUserRoleDialog(row).then((data: DialogData) => {
       if (data.dataOut) {
         this.loading = true;
-        this.sectionsService.forceSectionDataUpdate();
       }
     });
   }
 
-  private createUserTableObjects(sections: Array<Sections>) {
+  private createUserTableObjects(users: Array<UserInfoDataSource>) {
     const tableDetails = new Array<TableUserDetail>();
-    const dataProducts = sections.filter((item) => item.sectionName === SectionName.USER).pop();
-    if (dataProducts) {
-      dataProducts.items.forEach((item: SectionItem) => {
+    if (users) {
+      users.forEach((user: UserInfoDataSource) => {
         const detail: TableUserDetail = {
-          name: item.cells[0].value,
-          surname: item.cells[1].value,
-          email: item.cells[2].value,
-          role: item.cells[3].value,
-          instanceId: item.instanceId,
+          name: user.firstName,
+          surname: user.lastName,
+          email: user.email,
+          role: user.role,
+          instanceId: user.instanceId,
         };
         tableDetails.push(detail);
       });
@@ -65,11 +63,4 @@ export class BrowseUsersComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.loading = false;
   }
-}
-export interface TableUserDetail {
-  name: string;
-  surname: string;
-  email: string;
-  role: string;
-  instanceId: string;
 }

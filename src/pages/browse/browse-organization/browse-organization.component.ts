@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SectionName } from 'src/utility/enums/sectionName.enum';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { SectionItem } from 'src/utility/objects/login/sectionItem';
 @Component({
   selector: 'app-browse-organization',
@@ -8,7 +8,7 @@ import { SectionItem } from 'src/utility/objects/login/sectionItem';
   styleUrls: ['./browse-organization.component.scss'],
 })
 export class BrowseOrganizationComponent {
-  public sectionName = SectionName.ORGANIZATION;
+  public sectionName = Entity.ORGANIZATION;
 
   constructor(private router: Router) {}
 

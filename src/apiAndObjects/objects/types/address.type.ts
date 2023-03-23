@@ -3,4 +3,5 @@ export type Address = {
   locality: string;
   postalCode: string;
   street: string;
+  countryCode?: string;
 };

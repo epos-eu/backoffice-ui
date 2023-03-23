@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   server: 'http://localhost:4200',
-  apiBaseUrl: 'https://ics-c.epos-ip.org/demo/k8s-epos-deploy/backoffice-test-env/api/webapi/v1.3/backoffice',
+  apiBaseUrl: 'https://ics-c.epos-ip.org/demo/k8s-epos-deploy/backoffice-test-env/api/v1/backoffice',
   useLiveApi: true,
   apiMockUrl: 'http://localhost:4200/assets/data',
 };
