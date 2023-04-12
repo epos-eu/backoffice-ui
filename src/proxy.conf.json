@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "https://ics-c.epos-ip.org/demo/k8s-epos-deploy/backoffice-test-env/api/v1",
+    "pathRewrite": { "^/api": "" },
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
