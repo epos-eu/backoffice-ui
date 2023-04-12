@@ -34,7 +34,7 @@ export class DistributionDetailDataSource extends BaseObject {
   public readonly description: Array<string>;
   public readonly downloadURL: Array<string>;
   public readonly format: string;
-  public readonly issued: string;
+  public readonly issued: moment.Moment | undefined | null;
   public readonly modified: string;
   public readonly title: Array<string>;
   public readonly type: string;
@@ -56,7 +56,7 @@ export class DistributionDetailDataSource extends BaseObject {
     this.description = this._getArray(DistributionDetailDataSource.KEYS.DESCRIPTION);
     this.downloadURL = this._getArray(DistributionDetailDataSource.KEYS.DOWNLOAD_URL);
     this.format = this._getString(DistributionDetailDataSource.KEYS.FORMAT);
-    this.issued = this._getString(DistributionDetailDataSource.KEYS.ISSUED);
+    this.issued = this._getDate(DistributionDetailDataSource.KEYS.ISSUED);
     this.modified = this._getString(DistributionDetailDataSource.KEYS.MODIFIED);
     this.title = this._getArray(DistributionDetailDataSource.KEYS.TITLE);
     this.type = this._getString(DistributionDetailDataSource.KEYS.TYPE);

@@ -3,7 +3,7 @@ import { AccessService } from '../types/accessService.type';
 export class Distribution {
   constructor(
     public instanceId: string,
-    public changeTimestamp: string,
+    public changeTimestamp: moment.Moment | undefined,
     public state: State,
     public toBeDelete: string,
     public uid: string,
@@ -13,7 +13,7 @@ export class Distribution {
     public description: Array<string>,
     public downloadURL: Array<string>,
     public format: string,
-    public issued: string,
+    public issued: moment.Moment | undefined | null,
     public modified: string,
     public title: Array<string>,
     public type: string,

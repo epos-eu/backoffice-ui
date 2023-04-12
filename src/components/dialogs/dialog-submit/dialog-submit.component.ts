@@ -43,14 +43,10 @@ export class DialogSubmitComponent implements OnInit {
         const formData: DataProduct = JSON.parse(localStorage);
         this.apiService.endpoints[Entity.DATA_PRODUCT].postDataProductDetail
           .call({
-            comment: this.comment.value as string,
-            dataProduct: formData,
-            distributions: [],
-            webServices: [],
-            operations: [],
-            contactPoints: [],
+            ...formData,
+            changeComment: this.comment.value as string,
           })
-          .then((response: any) => {
+          .then(() => {
             this.actionsService.submitCurrentEdit(this.currentEdit.id);
             this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
               'snackbar',

@@ -66,7 +66,7 @@ export class DataProductsDataSource extends BaseObject {
   public readonly hasPart: Array<unknown>;
   public readonly identifier: Array<Record<string, unknown>>;
   public readonly isPartOf: Array<unknown>;
-  public readonly issued: moment.Moment;
+  public readonly issued: moment.Moment | undefined | null;
   public readonly keywords: string;
   public readonly modified: moment.Moment;
   public readonly provenance: Array<unknown>;

@@ -1,14 +1,17 @@
 import { HttpHeaders } from '@angular/common/http';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
-import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { PostDataProductDataSource } from 'src/apiAndObjects/objects/postDataProductDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { Group } from 'src/apiAndObjects/objects/entities/group.model';
+import { State } from 'src/utility/enums/state.enum';
+import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
+import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
+import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
+import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 
 export class PostDataProductDetails extends CacheableEndpoint<
   PostDataProductDataSource,
@@ -42,10 +45,42 @@ export class PostDataProductDetails extends CacheableEndpoint<
 }
 
 export interface SaveDataProductBody {
-  comment: string;
-  dataProduct: DataProduct;
-  distributions: Array<Distribution>;
-  webServices: Array<WebService>;
-  operations: Array<Operation>;
-  contactPoints: Array<ContactPoint>;
+  accessRight?: string;
+  accrualPeriodicity?: string;
+  category?: Array<string>;
+  changeComment: string;
+  changeTimestamp: moment.Moment | undefined;
+  contactPoint: Array<ContactPoint>;
+  created?: moment.Moment | undefined;
+  dctIdentifier?: string;
+  description: Array<string>;
+  distribution: Array<Distribution>;
+  documentation?: string;
+  editorId?: string;
+  fileProvenance?: string;
+  groups?: Array<Group>;
+  hasPart?: Array<EntityDetail>;
+  hasQualityAnnotation?: string;
+  identifier: Array<Identifier>;
+  instanceChangedId?: string;
+  instanceId?: string;
+  isPartOf?: Array<EntityDetail>;
+  issued: moment.Moment | undefined | null;
+  keywords: string;
+  metaId?: string;
+  modified: string;
+  operation?: string;
+  provenance?: Array<string>;
+  publisher?: Array<EntityDetail>;
+  qualityAssurance?: string;
+  relation?: Array<EntityDetail>;
+  spatialExtent?: Array<SpatialExtent>;
+  state?: State;
+  temporalExtent: Array<TemporalExtent>;
+  title: Array<string>;
+  toBeDelete?: string;
+  type?: string;
+  uid: string;
+  version?: string;
+  versionInfo: string;
 }
