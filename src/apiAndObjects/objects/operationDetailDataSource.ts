@@ -20,7 +20,7 @@ export class OperationDetailDataSource extends BaseObject {
   };
 
   public readonly instanceId: string;
-  public readonly changeTimestamp: string;
+  public readonly changeTimestamp: Date;
   public readonly state: string;
   public readonly toBeDelete: string;
   public readonly uid: string;
@@ -37,7 +37,7 @@ export class OperationDetailDataSource extends BaseObject {
     super(sourceObject);
 
     this.instanceId = this._getString(OperationDetailDataSource.KEYS.INSTANCE_ID);
-    this.changeTimestamp = this._getString(OperationDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getDate(OperationDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.state = this._getEnumFromValue(OperationDetailDataSource.KEYS.STATE, State);
     this.toBeDelete = this._getString(OperationDetailDataSource.KEYS.TO_BE_DELETE);
     this.metaId = this._getString(OperationDetailDataSource.KEYS.META_ID);

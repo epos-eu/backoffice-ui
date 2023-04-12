@@ -21,7 +21,7 @@ export class ContactPointDataSource extends BaseObject {
   };
 
   public readonly instanceId: string;
-  public readonly changeTimestamp: string;
+  public readonly changeTimestamp: Date;
   public readonly editorId: string;
   public readonly state: State;
   public readonly toBeDelete: string;
@@ -40,7 +40,7 @@ export class ContactPointDataSource extends BaseObject {
     super(sourceObject);
 
     this.instanceId = this._getString(ContactPointDataSource.KEYS.INSTANCE_ID);
-    this.changeTimestamp = this._getString(ContactPointDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getDate(ContactPointDataSource.KEYS.CHANGE_TIMESTAMP);
     this.editorId = this._getString(ContactPointDataSource.KEYS.EDITOR_ID);
     this.state = this._getValue(ContactPointDataSource.KEYS.STATE) as State;
     this.toBeDelete = this._getString(ContactPointDataSource.KEYS.TO_BE_DELETE);

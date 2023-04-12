@@ -137,7 +137,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  private patchValues(field: string, values: Array<string | moment.Moment | string[] | undefined | null>) {
+  private patchValues(field: string, values: Array<string | Date | string[] | undefined | null>) {
     switch (true) {
       case field === 'spatialExtent':
         return this.formBuilder.group({

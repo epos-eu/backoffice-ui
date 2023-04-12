@@ -49,9 +49,9 @@ export interface SaveDataProductBody {
   accrualPeriodicity?: string;
   category?: Array<string>;
   changeComment: string;
-  changeTimestamp: moment.Moment | undefined;
+  changeTimestamp: Date;
   contactPoint: Array<ContactPoint>;
-  created?: moment.Moment | undefined;
+  created?: Date;
   dctIdentifier?: string;
   description: Array<string>;
   distribution: Array<Distribution>;
@@ -65,7 +65,7 @@ export interface SaveDataProductBody {
   instanceChangedId?: string;
   instanceId?: string;
   isPartOf?: Array<EntityDetail>;
-  issued: moment.Moment | undefined | null;
+  issued: Date;
   keywords: string;
   metaId?: string;
   modified: string;

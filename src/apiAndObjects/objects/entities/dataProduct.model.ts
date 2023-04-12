@@ -10,12 +10,12 @@ import { Group } from './group.model';
 export class DataProduct {
   constructor(
     public changeComment: string,
-    public changeTimestamp: moment.Moment | undefined,
+    public changeTimestamp: Date,
     public contactPoint: Array<ContactPoint>,
     public description: Array<string>,
     public distribution: Array<Distribution>,
     public identifier: Array<Identifier>,
-    public issued: moment.Moment | undefined | null,
+    public issued: Date,
     public keywords: string,
     public modified: string,
     public temporalExtent: Array<TemporalExtent>,
@@ -25,7 +25,7 @@ export class DataProduct {
     public accessRight?: string,
     public accrualPeriodicity?: string,
     public category?: string[],
-    public created?: moment.Moment | undefined,
+    public created?: Date,
     public dctIdentifier?: string,
     public documentation?: string,
     public editorId?: string,
