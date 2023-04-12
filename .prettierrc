@@ -4,7 +4,8 @@
   "trailingComma": "all",
   "singleQuote": true,
   "printWidth": 120,
-  "bracketSameLine": true,
+  "bracketSameLine": false,
   "html-whitespace-sensitivity": "ignore",
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "singleAttributePerLine": true
 }

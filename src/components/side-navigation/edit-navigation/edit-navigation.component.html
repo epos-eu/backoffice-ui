@@ -1,9 +1,17 @@
 <mat-nav-list>
   <div class="top">
     <h3 mat-subheader>Current changes</h3>
-    <mat-chip-list class="mat-chip-list-stacked" aria-label="Current changes" *ngIf="(itemsExist | async) === true">
-      <mat-chip *ngFor="let change of (actionsService.editedItemsObservable | async)" [color]="change.color"
-        [ngClass]="isActive(change.id) ? 'active' : ''" (click)="handleClick(change.id)">
+    <mat-chip-list
+      class="mat-chip-list-stacked"
+      aria-label="Current changes"
+      *ngIf="(itemsExist | async) === true"
+    >
+      <mat-chip
+        *ngFor="let change of actionsService.editedItemsObservable | async"
+        [color]="change.color"
+        [ngClass]="isActive(change.id) ? 'active' : ''"
+        (click)="handleClick(change.id)"
+      >
         <div class="top">
           <span>{{ change.label }}</span>
           <span>{{ change.status.toLowerCase() }}</span>
@@ -13,18 +21,29 @@
         </div>
       </mat-chip>
     </mat-chip-list>
-    <p *ngIf="(itemsExist | async) === false" [ngStyle]="{ margin: '1rem' }">
+    <p
+      *ngIf="(itemsExist | async) === false"
+      [ngStyle]="{ margin: '1rem' }"
+    >
       No changes made yet.
     </p>
   </div>
   <div class="bottom">
     <div class="actions">
-      <button mat-stroked-button color="primary" (click)="handleSave()"
-        [disabled]="currentEdit && currentEdit.status !== 'draft'">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="handleSave()"
+        [disabled]="currentEdit && currentEdit.status !== 'draft'"
+      >
         Save
       </button>
-      <button mat-flat-button color="primary" (click)="handleSubmit()"
-        [disabled]="currentEdit && currentEdit.status !== 'saved'">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="handleSubmit()"
+        [disabled]="currentEdit && currentEdit.status !== 'saved'"
+      >
         Submit
       </button>
     </div>

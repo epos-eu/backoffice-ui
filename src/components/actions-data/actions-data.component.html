@@ -1,6 +1,9 @@
 <h3>{{ title }}</h3>
 <mat-chip-list [attr.aria-label]="ariaLabel">
-  <mat-chip *ngFor="let item of actionItems" [color]="item.color">
+  <mat-chip
+    *ngFor="let item of actionItems"
+    [color]="item.color"
+  >
     <div class="flex-row">
       <span class="label">{{ item.label }}</span>
       <span class="count">{{ item.count }}</span>

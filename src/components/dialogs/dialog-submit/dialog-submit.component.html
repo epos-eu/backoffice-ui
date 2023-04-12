@@ -1,22 +1,36 @@
-<form (ngSubmit)="handleSubmit()" class="comment-form">
-  <h1 mat-dialog-title>
-    You're about to submit a draft
-  </h1>
+<form
+  (ngSubmit)="handleSubmit()"
+  class="comment-form"
+>
+  <h1 mat-dialog-title>You're about to submit a draft</h1>
   <div mat-dialog-content>
     <ng-scrollbar [autoHeightDisabled]="false">
       <p>Are you sure you want to continue?</p>
       <mat-form-field appearance="fill">
         <mat-label>Add a comment</mat-label>
-        <textarea matInput placeholder="Details about new draft..." [formControl]="comment" required></textarea>
+        <textarea
+          matInput
+          placeholder="Details about new draft..."
+          [formControl]="comment"
+          required
+        ></textarea>
         <mat-error *ngIf="comment.invalid">Please add a comment to this draft.</mat-error>
       </mat-form-field>
     </ng-scrollbar>
   </div>
   <div mat-dialog-actions>
-    <button mat-stroked-button [mat-dialog-close]="'cancel'">
+    <button
+      mat-stroked-button
+      [mat-dialog-close]="'cancel'"
+    >
       Cancel
     </button>
-    <button type="submit" mat-flat-button color="primary" cdkFocusInitial>
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      cdkFocusInitial
+    >
       Submit
     </button>
   </div>

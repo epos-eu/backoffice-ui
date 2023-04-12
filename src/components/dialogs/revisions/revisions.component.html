@@ -1,51 +1,101 @@
-<div fxLayout="row" fxLayoutAlign="center none">
+<div
+  fxLayout="row"
+  fxLayoutAlign="center none"
+>
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+    >
       <ng-container matColumnDef="uid">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
           Uid
         </th>
-        <td mat-cell *matCellDef="let row">
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
           {{ row.id }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="version">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
           Name
         </th>
-        <td mat-cell *matCellDef="let row">
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
           {{ row.version }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
           Created At
         </th>
-        <td mat-cell *matCellDef="let row">
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
           {{ row._sourceObject.createdAt }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="createdBy">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
           Created By
         </th>
-        <td mat-cell *matCellDef="let row">
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
           {{ row._sourceObject.createdBy }}
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
 
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">
+      <tr
+        class="mat-row"
+        *matNoDataRow
+      >
+        <td
+          class="mat-cell"
+          colspan="4"
+        >
           No data matching the filter
         </td>
       </tr>
     </table>
-    <mat-paginator [pageSizeOptions]="pageSizeOptions" aria-label="Select page of revisions"></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="pageSizeOptions"
+      aria-label="Select page of revisions"
+    ></mat-paginator>
   </div>
 </div>

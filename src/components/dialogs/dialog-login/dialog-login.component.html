@@ -1,20 +1,38 @@
 <div class="logo">
-  <img width="175" alt="EPOS Logo" src="assets/EPOS_logo_white_orange.png">
+  <img
+    width="175"
+    alt="EPOS Logo"
+    src="assets/EPOS_logo_white_orange.png"
+  />
 </div>
 <div class="content">
   <div class="top">
     <h3>EPOS Backoffice</h3>
   </div>
-  <div *ngIf="showLoading" class="loading-wrapper">
+  <div
+    *ngIf="showLoading"
+    class="loading-wrapper"
+  >
     <mat-spinner></mat-spinner>
   </div>
-  <div *ngIf="!showLoading" class="bottom">
+  <div
+    *ngIf="!showLoading"
+    class="bottom"
+  >
     <div class="button-wrapper">
-      <a mat-stroked-button class="manage-link" target="_blank" [href]="manageUrl">
+      <a
+        mat-stroked-button
+        class="manage-link"
+        target="_blank"
+        [href]="manageUrl"
+      >
         Manage account
       </a>
-      <button mat-flat-button (click)="logInOut()">
-        {{ (user !== null) ? 'Log out' : 'Log in / Register' }}
+      <button
+        mat-flat-button
+        (click)="logInOut()"
+      >
+        {{ user !== null ? 'Log out' : 'Log in / Register' }}
       </button>
     </div>
     <div class="login-disclaimer">
@@ -22,9 +40,7 @@
       <mat-accordion>
         <mat-expansion-panel hideToggle>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              More details
-            </mat-panel-title>
+            <mat-panel-title> More details </mat-panel-title>
           </mat-expansion-panel-header>
           <ng-scrollbar class="details-scrollbar">
             <p>
@@ -50,19 +66,16 @@
             </p>
             <p>
               Although samples and records are maintained with all reasonable care, there may be some deterioration in
-              the
-              long term.
+              the long term.
             </p>
             <p>
               The most appropriate techniques for copying original records are used, but there may be some loss of
-              detail
-              and dimensional distortion when such records are copied.
+              detail and dimensional distortion when such records are copied.
             </p>
             <p>
               Data may be compiled from the disparate sources of information at BGS's disposal, including material
-              donated
-              to BGS by third parties, and may not originally have been subject to any verification or other quality
-              control process.
+              donated to BGS by third parties, and may not originally have been subject to any verification or other
+              quality control process.
             </p>
             <p>
               Data, information and related records that have been donated to BGS have been produced for a specific
