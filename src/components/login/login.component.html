@@ -1,11 +1,19 @@
 <div class="content">
   <div class="button-wrapper">
-    <a mat-stroked-button class="manage-link" target="_blank" [href]="manageUrl">
-      {{ (user !== null) ? '' : 'Forgotten Password/'}}
+    <a
+      mat-stroked-button
+      class="manage-link"
+      target="_blank"
+      [href]="manageUrl"
+    >
+      {{ user !== null ? '' : 'Forgotten Password/' }}
       Manage account
     </a>
-    <button mat-flat-button (click)="logInOut()">
-      {{ (user !== null) ? 'Logout' : 'Login / Register' }}
+    <button
+      mat-flat-button
+      (click)="logInOut()"
+    >
+      {{ user !== null ? 'Logout' : 'Login / Register' }}
     </button>
   </div>
   <div class="login-disclaimer">

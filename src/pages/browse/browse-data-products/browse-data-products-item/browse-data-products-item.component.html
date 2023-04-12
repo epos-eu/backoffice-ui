@@ -1,24 +1,46 @@
-<div class="container" fxLayout="row" fxLayoutAlign="center none">
-  <button mat-stroked-button color="primary" class="back-btn" (click)="handleBack()">
+<div
+  class="container"
+  fxLayout="row"
+  fxLayoutAlign="center none"
+>
+  <button
+    mat-stroked-button
+    color="primary"
+    class="back-btn"
+    (click)="handleBack()"
+  >
     <mat-icon>keyboard_backspace</mat-icon>
     <span class="back-label-text">Back</span>
   </button>
   <div class="top-header">
     <div class="flex-row">
       <h1 class="mat-display-1">Data product</h1>
-      <mat-chip-list aria-label="Status" *ngIf="currentEdit">
+      <mat-chip-list
+        aria-label="Status"
+        *ngIf="currentEdit"
+      >
         <mat-chip [color]="currentEdit.color">{{ currentEdit.status }}</mat-chip>
       </mat-chip-list>
     </div>
     <div class="actions">
       <div class="flex-col">
-        <button mat-mini-fab color="default" aria-label="Load a revision" (click)="handleGetRevisions()">
+        <button
+          mat-mini-fab
+          color="default"
+          aria-label="Load a revision"
+          (click)="handleGetRevisions()"
+        >
           <mat-icon>replay</mat-icon>
         </button>
         <label>Revisions</label>
       </div>
       <div class="flex-col">
-        <button mat-mini-fab color="error" aria-label="Delete data product" (click)="handleDelete()">
+        <button
+          mat-mini-fab
+          color="error"
+          aria-label="Delete data product"
+          (click)="handleDelete()"
+        >
           <mat-icon>delete</mat-icon>
         </button>
         <label>Delete</label>
@@ -26,61 +48,164 @@
     </div>
   </div>
   <div class="body">
-    <form [formGroup]="form" *ngIf="form && dataProduct">
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+    <form
+      [formGroup]="form"
+      *ngIf="form && dataProduct"
+    >
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>UID</mat-label>
-        <input matInput placeholder="UID" name="uid" formControlName="uid">
+        <input
+          matInput
+          placeholder="UID"
+          name="uid"
+          formControlName="uid"
+        />
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>Title</mat-label>
-        <input matInput placeholder="Title" name="title" formControlName="title">
+        <input
+          matInput
+          placeholder="Title"
+          name="title"
+          formControlName="title"
+        />
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>Description</mat-label>
-        <textarea matInput name="description" [ngStyle]="{ 'line-height': '1.4' }" formControlName="description"
-          [value]="dataProduct.description[0]"></textarea>
+        <textarea
+          matInput
+          name="description"
+          [ngStyle]="{ 'line-height': '1.4' }"
+          formControlName="description"
+          [value]="dataProduct.description[0]"
+        ></textarea>
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>Changed</mat-label>
-        <input matInput placeholder="Changed" name="changeTimestamp" formControlName="changeTimestamp" readonly>
+        <input
+          matInput
+          placeholder="Changed"
+          name="changeTimestamp"
+          formControlName="changeTimestamp"
+          readonly
+        />
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>State</mat-label>
-        <input matInput placeholder="Status" name="state" formControlName="state" readonly>
+        <input
+          matInput
+          placeholder="Status"
+          name="state"
+          formControlName="state"
+          readonly
+        />
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>Issued</mat-label>
-        <input matInput placeholder="Issued" name="issued" formControlName="issued" readonly>
+        <input
+          matInput
+          placeholder="Issued"
+          name="issued"
+          formControlName="issued"
+          readonly
+        />
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>Keywords</mat-label>
-        <input matInput placeholder="Keywords" name="keywords" formControlName="keywords">
+        <input
+          matInput
+          placeholder="Keywords"
+          name="keywords"
+          formControlName="keywords"
+        />
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>Modified</mat-label>
-        <input matInput placeholder="Modified" name="modified" formControlName="modified" readonly>
+        <input
+          matInput
+          placeholder="Modified"
+          name="modified"
+          formControlName="modified"
+          readonly
+        />
       </mat-form-field>
-      <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
         <mat-label>Version Info</mat-label>
-        <input matInput placeholder="Version Info" name="versionInfo" formControlName="versionInfo">
+        <input
+          matInput
+          placeholder="Version Info"
+          name="versionInfo"
+          formControlName="versionInfo"
+        />
       </mat-form-field>
       <label>Spatial extent</label>
       <div formArrayName="spatialExtent">
-        <mat-form-field *ngFor="let child of getControls('spatialExtent'); let i = index" appearance="outline"
-          [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+        <mat-form-field
+          *ngFor="let child of getControls('spatialExtent'); let i = index"
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="99"
+        >
           <mat-label>Location</mat-label>
           <div [formGroupName]="i">
-            <input matInput formControlName="location">
+            <input
+              matInput
+              formControlName="location"
+            />
           </div>
         </mat-form-field>
       </div>
       <label>Temporal extent</label>
       <div formArrayName="temporalExtent">
-        <mat-form-field *ngFor="let child of getControls('temporalExtent'); let i = index" appearance="outline"
-          [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+        <mat-form-field
+          *ngFor="let child of getControls('temporalExtent'); let i = index"
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="99"
+        >
           <mat-label>Start date</mat-label>
           <div [formGroupName]="i">
-            <input matInput formControlName="startDate" readonly>
+            <input
+              matInput
+              formControlName="startDate"
+              readonly
+            />
           </div>
         </mat-form-field>
       </div>
@@ -88,64 +213,125 @@
       <mat-accordion multi>
         <mat-expansion-panel (afterExpand)="handleExpand('distribution')">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Distribution
-            </mat-panel-title>
+            <mat-panel-title> Distribution </mat-panel-title>
           </mat-expansion-panel-header>
           <div formArrayName="distribution">
             <ng-container *ngFor="let child of getControls('distribution'); let i = index">
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="99"
+              >
                 <mat-label>UID</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="uid">
+                  <input
+                    matInput
+                    formControlName="uid"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="99">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="99"
+              >
                 <mat-label>Title</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="title">
+                  <input
+                    matInput
+                    formControlName="title"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>File Provenance</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="fileProvenance">
+                  <input
+                    matInput
+                    formControlName="fileProvenance"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Description</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="description">
+                  <input
+                    matInput
+                    formControlName="description"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Format</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="format">
+                  <input
+                    matInput
+                    formControlName="format"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Type</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="type">
+                  <input
+                    matInput
+                    formControlName="type"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Issued</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="issued">
+                  <input
+                    matInput
+                    formControlName="issued"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Modified</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="modified">
+                  <input
+                    matInput
+                    formControlName="modified"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Change Timestamp</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="changeTimestamp">
+                  <input
+                    matInput
+                    formControlName="changeTimestamp"
+                  />
                 </div>
               </mat-form-field>
             </ng-container>
@@ -153,40 +339,73 @@
         </mat-expansion-panel>
         <mat-expansion-panel (afterExpand)="handleExpand('contactPoint')">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Contact point
-            </mat-panel-title>
+            <mat-panel-title> Contact point </mat-panel-title>
           </mat-expansion-panel-header>
           <div formArrayName="contactPoint">
             <ng-container *ngFor="let child of getControls('contactPoint'); let i = index">
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>UID</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="uid">
+                  <input
+                    matInput
+                    formControlName="uid"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Email</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="email">
+                  <input
+                    matInput
+                    formControlName="email"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Organization</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="organization">
+                  <input
+                    matInput
+                    formControlName="organization"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Telephone</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="telephone">
+                  <input
+                    matInput
+                    formControlName="telephone"
+                  />
                 </div>
               </mat-form-field>
-              <mat-form-field appearance="outline" [floatLabel]="floatLabelControl.value" [style.width.%]="95">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
                 <mat-label>Change Timestamp</mat-label>
                 <div [formGroupName]="i">
-                  <input matInput formControlName="changeTimestamp">
+                  <input
+                    matInput
+                    formControlName="changeTimestamp"
+                  />
                 </div>
               </mat-form-field>
             </ng-container>

@@ -1,48 +1,101 @@
 <div class="navbar-container">
   <!-- Top navbar -->
-  <mat-toolbar class="navbar" color="primary">
-    <button mat-icon-button (click)="handleToggle()">
+  <mat-toolbar
+    class="navbar"
+    color="primary"
+  >
+    <button
+      mat-icon-button
+      (click)="handleToggle()"
+    >
       <mat-icon *ngIf="!sidenavOpen">menu</mat-icon>
-      <mat-icon *ngIf="sidenavOpen" [ngClass]="sidenavOpen ? 'active' : ''">menu_open</mat-icon>
+      <mat-icon
+        *ngIf="sidenavOpen"
+        [ngClass]="sidenavOpen ? 'active' : ''"
+        >menu_open</mat-icon
+      >
     </button>
-    <a class="logo-wrapper" (click)="handleClick()">
-      <img width="100" alt="EPOS Logo" src="assets/EPOS_logo_white_orange.png" />
+    <a
+      class="logo-wrapper"
+      (click)="handleClick()"
+    >
+      <img
+        width="100"
+        alt="EPOS Logo"
+        src="assets/EPOS_logo_white_orange.png"
+      />
     </a>
-    <a class="navbar-brand" matTooltip="Home" (click)="handleClick()">
-      <h1>
-        METADATA Backoffice
-      </h1>
+    <a
+      class="navbar-brand"
+      matTooltip="Home"
+      (click)="handleClick()"
+    >
+      <h1>METADATA Backoffice</h1>
     </a>
     <div class="navbar-main-navigation">
-      <a class="navbar-main-navigation-item" [routerLink]="['/browse']" routerLinkActive="active">Browse</a>
+      <a
+        class="navbar-main-navigation-item"
+        [routerLink]="['/browse']"
+        routerLinkActive="active"
+        >Browse</a
+      >
       <!-- <a  class="navbar-main-navigation-item" [routerLink]="['/import']" routerLinkActive="active">Import</a> -->
       <!-- <a class="navbar-main-navigation-item" routerLinkActive="active" (click)="testApiCall()">Test</a> -->
     </div>
     <span class="navbar-spacer"></span>
 
-    <div class="user-details" *ngIf="null != userInfo">
+    <div
+      class="user-details"
+      *ngIf="null != userInfo"
+    >
       <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
       <p>({{ userInfo.role.toLowerCase() }})</p>
     </div>
-    <div class="nav-top-items-item guest" [ngClass]="{'nav-top-items-item--active': this.dropdown === 'user'}" #dialog>
-      <button mat-mini-fab color="accent" aria-label="Login" class="account" *ngIf="user !== null"
-        (click)="toggleDropdown('user')">
+    <div
+      class="nav-top-items-item guest"
+      [ngClass]="{ 'nav-top-items-item--active': this.dropdown === 'user' }"
+      #dialog
+    >
+      <button
+        mat-mini-fab
+        color="accent"
+        aria-label="Login"
+        class="account"
+        *ngIf="user !== null"
+        (click)="toggleDropdown('user')"
+      >
         <mat-icon>person</mat-icon>
       </button>
-      <button mat-flat-button color="accent" *ngIf="user === null" class="hidden-xs login" (click)="login()">Log
-        in</button>
-      <div [hidden]="this.dropdown !== 'user'" class="dropdown-menu dropdown-menu--userdropdown">
+      <button
+        mat-flat-button
+        color="accent"
+        *ngIf="user === null"
+        class="hidden-xs login"
+        (click)="login()"
+      >
+        Log in
+      </button>
+      <div
+        [hidden]="this.dropdown !== 'user'"
+        class="dropdown-menu dropdown-menu--userdropdown"
+      >
         <div class="dropdown-menu-header">
           <p class="dropdown-menu-header-username">{{ user?.getUsername() || 'User Guest' }}</p>
         </div>
         <div class="dropdown-menu-footer">
           <div class="wrapper">
             <div class="column-12">
-              <app-login [user]="user" (closeDropdown)="toggleDropdown('user')"></app-login>
+              <app-login
+                [user]="user"
+                (closeDropdown)="toggleDropdown('user')"
+              ></app-login>
             </div>
           </div>
-          <div id="sign-in-message" class="pull-left" style="color:red;">
-          </div>
+          <div
+            id="sign-in-message"
+            class="pull-left"
+            style="color: red"
+          ></div>
         </div>
       </div>
     </div>
@@ -74,9 +127,18 @@
     </button> -->
   </mat-toolbar>
 
-  <mat-sidenav-container class="navbar-sidenav-container" autosize>
+  <mat-sidenav-container
+    class="navbar-sidenav-container"
+    autosize
+  >
     <!-- Side nav -->
-    <mat-sidenav #snav mode="side" [(opened)]="sidenavOpen" fixedTopGap="56" class="sidenav">
+    <mat-sidenav
+      #snav
+      mode="side"
+      [(opened)]="sidenavOpen"
+      fixedTopGap="56"
+      class="sidenav"
+    >
       <ng-scrollbar>
         <ng-container *ngIf="(liveChanges | async) === true">
           <app-edit-navigation></app-edit-navigation>

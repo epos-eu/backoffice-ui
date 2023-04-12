@@ -39,7 +39,6 @@ export class EditNavigationComponent implements OnInit {
   }
 
   public handleSave(): void {
-    this.actionsService.saveCurrentEdit(this.currentEdit.id);
     this.actionsService.addEditedItems([
       {
         type: 'data-products',
@@ -49,6 +48,7 @@ export class EditNavigationComponent implements OnInit {
         id: this.currentEdit.id,
       },
     ]);
+    this.actionsService.saveCurrentEdit(this.currentEdit.id);
     this.itemsExist.next(true);
   }
 

@@ -1,14 +1,20 @@
-<h1 mat-dialog-title>
-  You're about to delete an item
-</h1>
+<h1 mat-dialog-title>You're about to delete an item</h1>
 <div mat-dialog-content>
   <p>Are you sure you want to continue?</p>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="'cancel'">
+  <button
+    mat-button
+    [mat-dialog-close]="'cancel'"
+  >
     Cancel
   </button>
-  <button mat-flat-button color="warn" cdkFocusInitial [mat-dialog-close]="'delete'">
+  <button
+    mat-flat-button
+    color="warn"
+    cdkFocusInitial
+    [mat-dialog-close]="'delete'"
+  >
     Delete
   </button>
 </div>
