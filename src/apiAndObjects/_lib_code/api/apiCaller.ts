@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 import { RequestMethod } from './requestMethod.enum';
 import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
+import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/postContactPointDetails';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -27,7 +28,7 @@ export class ApiCaller {
     urlSegments: string | Array<string>,
     requestMethod: RequestMethod,
     queryParams: Record<string, string | Array<string>> = {},
-    bodyData: Record<string, unknown> | FormData | Array<unknown> | SaveDataProductBody = {},
+    bodyData: Record<string, unknown> | FormData | Array<unknown> | SaveDataProductBody | SaveContactPointBody = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);

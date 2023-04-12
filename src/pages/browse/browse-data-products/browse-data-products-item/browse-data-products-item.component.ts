@@ -198,7 +198,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.patchValues('contactPoint', [
           item.uid,
           item.email,
-          item.organization,
+          // item.organization,
           item.telephone,
           item.changeTimestamp,
         ]),
