@@ -1,5 +1,6 @@
 import { State } from 'src/utility/enums/state.enum';
 import { BaseObject } from '../_lib_code/objects/baseObject';
+import { Group } from './entities/group.model';
 
 export class ContactPointDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -18,6 +19,10 @@ export class ContactPointDataSource extends BaseObject {
     TELEPHONE: 'telephone',
     META_ID: 'metaId',
     CHANGE_COMMENT: 'changeComment',
+    GROUPS: 'groups',
+    INSTANCE_CHANGED_ID: 'instanceChangedId',
+    OPERATION: 'operation',
+    VERSION: 'version',
   };
 
   public readonly instanceId: string;
@@ -28,13 +33,16 @@ export class ContactPointDataSource extends BaseObject {
   public readonly fileProvenance: string;
   public readonly email: Array<string>;
   public readonly language: Array<string>;
-  public readonly organization: string;
+  public readonly organization: Organization;
   public readonly role: string;
-  public readonly person: Record<string, unknown>;
+  public readonly person: Person;
   public readonly telephone: Array<string>;
   public readonly metaId: string;
   public readonly uid: string;
   public readonly changeComment: string;
+  public readonly groups: Array<Group>;
+  public readonly instanceChangedId: string;
+  public readonly operation: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -47,12 +55,29 @@ export class ContactPointDataSource extends BaseObject {
     this.fileProvenance = this._getString(ContactPointDataSource.KEYS.FILE_PROVENANCE);
     this.email = this._getArray(ContactPointDataSource.KEYS.EMAIL);
     this.language = this._getArray(ContactPointDataSource.KEYS.LANGUAGE);
-    this.organization = this._getString(ContactPointDataSource.KEYS.ORGANIZATION);
+    this.organization = this._getValue(ContactPointDataSource.KEYS.ORGANIZATION) as Organization;
     this.role = this._getString(ContactPointDataSource.KEYS.ROLE);
-    this.person = this._getValue(ContactPointDataSource.KEYS.PERSON) as Record<string, unknown>;
+    this.person = this._getValue(ContactPointDataSource.KEYS.PERSON) as Person;
     this.telephone = this._getArray(ContactPointDataSource.KEYS.TELEPHONE);
     this.metaId = this._getString(ContactPointDataSource.KEYS.META_ID);
     this.uid = this._getString(ContactPointDataSource.KEYS.UID);
     this.changeComment = this._getString(ContactPointDataSource.KEYS.CHANGE_COMMENT);
+    this.groups = this._getArray(ContactPointDataSource.KEYS.GROUPS);
+    this.instanceChangedId = this._getString(ContactPointDataSource.KEYS.INSTANCE_CHANGED_ID);
+    this.operation = this._getString(ContactPointDataSource.KEYS.OPERATION);
   }
 }
+
+type Organization = {
+  entityType: string;
+  instanceId: string;
+  metaId: string;
+  uid: string;
+};
+
+type Person = {
+  entityType: string;
+  instanceId: string;
+  metaId: string;
+  uid: string;
+};
