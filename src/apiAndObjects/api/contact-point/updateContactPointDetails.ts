@@ -40,7 +40,7 @@ export class PostContactPointDetail extends CacheableEndpoint<
 
 export interface SaveContactPointBody {
   changeComment: string;
-  changeTimestamp: moment.Moment | undefined | null;
+  changeTimestamp: Date | undefined | null;
   editorId: string;
   email: Array<string>;
   fileProvenance: string;

@@ -45,7 +45,7 @@ export interface SaveDistributionBody {
   accessURL: Array<string>;
   availableFormats: Array<AvailableFormat>;
   changeComment: string;
-  changeTimestamp: moment.Moment | undefined;
+  changeTimestamp: Date | undefined;
   conformsTo: string;
   dataPolicy: string;
   dataProduct: Array<DataProduct>;
@@ -66,12 +66,12 @@ export interface SaveDistributionBody {
   instanceChangedId: string;
   instanceId: string;
   internalID: Array<string>;
-  issued: moment.Moment | undefined;
+  issued: Date | undefined;
   keywords: Array<string>;
   licence: string;
   license: string;
   metaId: string;
-  modified: moment.Moment | undefined;
+  modified: Date | undefined;
   operation: string;
   operationid: string;
   parameters: Array<BackofficeParameter>;
