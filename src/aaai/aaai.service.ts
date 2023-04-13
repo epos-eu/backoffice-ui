@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { Injector } from '@angular/core';
-import moment from 'moment-es6';
 import { AuthenticationProvider } from './authProvider.interface';
 import { AAAIUser } from './aaaiUser.interface';
 import { OAuthAuthenticationProvider } from './impl/oAuthProvider';
@@ -13,8 +12,8 @@ import { OAuthService } from 'angular-oauth2-oidc';
  * logout and user information access to the rest of the GUI.
  */
 export class AaaiService {
-  private lastUserInteraction = moment();
-  private readonly logOutAfterInactivityPeriod = moment.duration(60, 'minutes');
+  private readonly now = new Date();
+  private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
 
   private constructor(private readonly authProvider: AuthenticationProvider) {
     this.startLogoutInterval();
@@ -50,14 +49,11 @@ export class AaaiService {
     return this.authProvider.getManageUrl();
   }
 
-  public userInteracted(): void {
-    this.lastUserInteraction = moment();
-  }
-
   private startLogoutInterval(): void {
     setInterval(() => {
-      const logoutTime = this.lastUserInteraction.clone().add(this.logOutAfterInactivityPeriod);
-      if (null != this.getUser() && logoutTime.isBefore(moment())) {
+      const logoutTime = new Date(this.logOutAfterInactivityPeriod);
+      if (null != this.getUser() && logoutTime < new Date()) {
+        console.log('Time to log out');
         this.logout();
       }
     }, 60 * 1000); // 1 mins

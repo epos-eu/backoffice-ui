@@ -6,14 +6,14 @@
   <div mat-dialog-content>
     <ng-scrollbar [autoHeightDisabled]="false">
       <p>Are you sure you want to continue?</p>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Add a comment</mat-label>
-        <textarea
+        <input
           matInput
           placeholder="Details about new draft..."
           [formControl]="comment"
           required
-        ></textarea>
+        />
         <mat-error *ngIf="comment.invalid">Please add a comment to this draft.</mat-error>
       </mat-form-field>
     </ng-scrollbar>

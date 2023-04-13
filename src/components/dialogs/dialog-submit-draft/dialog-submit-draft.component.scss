@@ -8,6 +8,8 @@ form {
   }
 
   mat-form-field {
+    margin: 0.5rem 0;
+
     textarea {
       &.error {
         outline: 2px solid red;

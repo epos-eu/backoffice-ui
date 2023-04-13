@@ -1,8 +1,8 @@
 export interface TableDetail {
   uid: string;
-  lastChange: string | moment.Moment;
+  lastChange: Date;
   status: string;
-  comment: string;
+  changeComment: string;
   author: string;
   instanceId: string;
 }

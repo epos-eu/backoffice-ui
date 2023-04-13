@@ -1,126 +1,141 @@
-<div
-  class="container"
-  fxLayout="row"
-  fxLayoutAlign="center none"
->
-  <button
-    mat-stroked-button
-    color="primary"
-    class="back-btn"
-    (click)="handleBack()"
+<ng-scrollbar [autoHeightDisabled]="false">
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayoutAlign="center none"
   >
-    <mat-icon>keyboard_backspace</mat-icon>
-    <span class="back-label-text">Back</span>
-  </button>
-  <div class="top-header">
-    <div class="flex-row">
-      <h1 class="mat-display-1">Data product</h1>
-      <mat-chip-list
-        aria-label="Status"
-        *ngIf="currentEdit"
-      >
-        <mat-chip [color]="currentEdit.color">{{ currentEdit.status }}</mat-chip>
-      </mat-chip-list>
-    </div>
-    <div class="actions">
-      <div class="flex-col">
-        <button
-          mat-mini-fab
-          color="default"
-          aria-label="Load a revision"
-          (click)="handleGetRevisions()"
-        >
-          <mat-icon>replay</mat-icon>
-        </button>
-        <label>Revisions</label>
-      </div>
-      <div class="flex-col">
-        <button
-          mat-mini-fab
-          color="error"
-          aria-label="Delete data product"
-          (click)="handleDelete()"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-        <label>Delete</label>
-      </div>
-    </div>
-  </div>
-  <div class="body">
-    <form
-      [formGroup]="form"
-      *ngIf="form && dataProduct"
+    <button
+      mat-stroked-button
+      color="primary"
+      class="back-btn"
+      (click)="handleBack()"
     >
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
+      <mat-icon>keyboard_backspace</mat-icon>
+      <span class="back-label-text">Back</span>
+    </button>
+    <div class="top-header">
+      <div class="flex-row">
+        <h1 class="mat-display-1">Data product</h1>
+        <mat-chip-list
+          aria-label="Status"
+          *ngIf="currentEdit"
+        >
+          <mat-chip [color]="currentEdit.color">{{ currentEdit.status }}</mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="actions">
+        <div class="flex-col">
+          <button
+            mat-mini-fab
+            color="default"
+            aria-label="Load a revision"
+            (click)="handleGetRevisions()"
+          >
+            <mat-icon>replay</mat-icon>
+          </button>
+          <label>Revisions</label>
+        </div>
+        <div class="flex-col">
+          <button
+            mat-mini-fab
+            color="error"
+            aria-label="Delete data product"
+            (click)="handleDelete()"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+          <label>Delete</label>
+        </div>
+      </div>
+    </div>
+    <div class="body">
+      <form
+        [formGroup]="form"
+        *ngIf="form && dataProduct"
       >
-        <mat-label>UID</mat-label>
-        <input
-          matInput
-          placeholder="UID"
-          name="uid"
-          formControlName="uid"
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>Title</mat-label>
-        <input
-          matInput
-          placeholder="Title"
-          name="title"
-          formControlName="title"
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>Description</mat-label>
-        <textarea
-          matInput
-          name="description"
-          [ngStyle]="{ 'line-height': '1.4' }"
-          formControlName="description"
-          [value]="dataProduct.description[0]"
-        ></textarea>
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>Changed</mat-label>
-        <input
-          matInput
-          placeholder="Changed"
-          name="changeTimestamp"
-          formControlName="changeTimestamp"
-          readonly
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>State</mat-label>
-        <input
-          matInput
-          placeholder="Status"
-          name="state"
-          formControlName="state"
-          readonly
-        />
-      </mat-form-field>
-      <mat-form-field
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>Instance ID</mat-label>
+          <input
+            matInput
+            placeholder="Instance ID"
+            name="instanceId"
+            formControlName="instanceId"
+            readonly
+          />
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>UID</mat-label>
+          <input
+            matInput
+            placeholder="UID"
+            name="uid"
+            formControlName="uid"
+          />
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>Title</mat-label>
+          <input
+            matInput
+            placeholder="Title"
+            name="title"
+            formControlName="title"
+          />
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            name="description"
+            [ngStyle]="{ 'line-height': '1.4' }"
+            formControlName="description"
+            [value]="dataProduct.description[0]"
+          ></textarea>
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>Changed</mat-label>
+          <input
+            matInput
+            placeholder="Changed"
+            name="changeTimestamp"
+            formControlName="changeTimestamp"
+            readonly
+          />
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>State</mat-label>
+          <input
+            matInput
+            placeholder="Status"
+            name="state"
+            formControlName="state"
+            readonly
+          />
+        </mat-form-field>
+        <!-- <mat-form-field
         appearance="outline"
         [floatLabel]="floatLabelControl.value"
         [style.width.%]="99"
@@ -133,84 +148,88 @@
           formControlName="issued"
           readonly
         />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>Keywords</mat-label>
-        <input
-          matInput
-          placeholder="Keywords"
-          name="keywords"
-          formControlName="keywords"
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>Modified</mat-label>
-        <input
-          matInput
-          placeholder="Modified"
-          name="modified"
-          formControlName="modified"
-          readonly
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>Version Info</mat-label>
-        <input
-          matInput
-          placeholder="Version Info"
-          name="versionInfo"
-          formControlName="versionInfo"
-        />
-      </mat-form-field>
-      <label>Spatial extent</label>
-      <div formArrayName="spatialExtent">
+      </mat-form-field> -->
         <mat-form-field
-          *ngFor="let child of getControls('spatialExtent'); let i = index"
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
-          [style.width.%]="99"
+          [style.width.%]="97"
         >
-          <mat-label>Location</mat-label>
-          <div [formGroupName]="i">
-            <input
-              matInput
-              formControlName="location"
-            />
-          </div>
+          <mat-label>Keywords</mat-label>
+          <input
+            matInput
+            placeholder="Keywords"
+            name="keywords"
+            formControlName="keywords"
+          />
         </mat-form-field>
-      </div>
-      <label>Temporal extent</label>
-      <div formArrayName="temporalExtent">
         <mat-form-field
-          *ngFor="let child of getControls('temporalExtent'); let i = index"
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
-          [style.width.%]="99"
+          [style.width.%]="97"
         >
-          <mat-label>Start date</mat-label>
-          <div [formGroupName]="i">
-            <input
-              matInput
-              formControlName="startDate"
-              readonly
-            />
-          </div>
+          <mat-label>Modified</mat-label>
+          <input
+            matInput
+            placeholder="Modified"
+            name="modified"
+            formControlName="modified"
+            readonly
+          />
         </mat-form-field>
-      </div>
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>Version Info</mat-label>
+          <input
+            matInput
+            placeholder="Version Info"
+            name="versionInfo"
+            formControlName="versionInfo"
+          />
+        </mat-form-field>
+        <ng-container *ngIf="getControls('spatialExtent').length > 0">
+          <label>Spatial extent</label>
+          <div formArrayName="spatialExtent">
+            <mat-form-field
+              *ngFor="let child of getControls('spatialExtent'); let i = index"
+              appearance="outline"
+              [floatLabel]="floatLabelControl.value"
+              [style.width.%]="97"
+            >
+              <mat-label>Location</mat-label>
+              <div [formGroupName]="i">
+                <input
+                  matInput
+                  formControlName="location"
+                />
+              </div>
+            </mat-form-field>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="getControls('temporalExtent').length > 0">
+          <label>Temporal extent</label>
+          <div formArrayName="temporalExtent">
+            <mat-form-field
+              *ngFor="let child of getControls('temporalExtent'); let i = index"
+              appearance="outline"
+              [floatLabel]="floatLabelControl.value"
+              [style.width.%]="97"
+            >
+              <mat-label>Start date</mat-label>
+              <div [formGroupName]="i">
+                <input
+                  matInput
+                  formControlName="startDate"
+                  readonly
+                />
+              </div>
+            </mat-form-field>
+          </div>
+        </ng-container>
 
-      <mat-accordion multi>
+        <!-- <mat-accordion multi>
         <mat-expansion-panel (afterExpand)="handleExpand('distribution')">
           <mat-expansion-panel-header>
             <mat-panel-title> Distribution </mat-panel-title>
@@ -411,7 +430,8 @@
             </ng-container>
           </div>
         </mat-expansion-panel>
-      </mat-accordion>
-    </form>
+      </mat-accordion> -->
+      </form>
+    </div>
   </div>
-</div>
+</ng-scrollbar>

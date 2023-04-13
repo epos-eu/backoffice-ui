@@ -7,9 +7,10 @@ import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
 import { GetDataProductDetail } from './data-products/getDataProductDetail';
-import { SetUserRole } from './user/setUserRole';
+import { UpdateUser } from './user/updateUserDetail';
 import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 import { PostDataProductDetails } from './data-products/postDataProductDetails';
+import { PutDataProductDetail } from './data-products/putDataProductDetail';
 import { GetUserInfo } from './user/getUserInfo';
 import { GetAllDataProducts } from './data-products/getAllDataProducts';
 import { GetAllWebservices } from './webservice/getAllWebservices';
@@ -19,6 +20,13 @@ import { GetAllUsers } from './user/getAllUsers';
 import { GetAllPeople } from './person/getAllPeople';
 import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
+import { CreateContactPointDetail } from './contact-point/createContactPointDetails';
+import { CreateOrganizationDetail } from './organization/createOrganizationDetail';
+import { CreatePersonDetail } from './person/createPersonDetail';
+import { CreateOperationDetail } from './operation/createOperationDetail';
+import { CreateUserDetail } from './user/createUserDetail';
+import { CreateDistributionDetail } from './distribution/createDistributionDetail';
+import { AaaiService } from 'src/aaai/aaai.service';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -29,6 +37,7 @@ export class ApiService extends BaseApi {
     Distribution: {
       getDistributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllDistributions(ApiService.USE_LIVE_API),
+      createDistribution: new CreateDistributionDetail(ApiService.USE_LIVE_API),
     },
     Webservice: {
       getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
@@ -37,31 +46,37 @@ export class ApiService extends BaseApi {
     Operation: {
       getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),
       getAll: new GetAllOperations(ApiService.USE_LIVE_API),
+      postOperationDetail: new CreateOperationDetail(ApiService.USE_LIVE_API),
     },
     DataProduct: {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
       postDataProductDetail: new PostDataProductDetails(ApiService.USE_LIVE_API),
+      putDataProductDetail: new PutDataProductDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
     },
     User: {
-      setNewRole: new SetUserRole(ApiService.USE_LIVE_API),
+      updateUser: new UpdateUser(ApiService.USE_LIVE_API),
       getUserInfo: new GetUserInfo(ApiService.USE_LIVE_API),
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
+      createUser: new CreateUserDetail(ApiService.USE_LIVE_API),
     },
     Contactpoint: {
       getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllContactPoints(ApiService.USE_LIVE_API),
+      postContactPointDetail: new CreateContactPointDetail(ApiService.USE_LIVE_API),
     },
     Person: {
       getAll: new GetAllPeople(ApiService.USE_LIVE_API),
+      postPersonDetail: new CreatePersonDetail(ApiService.USE_LIVE_API),
     },
     Organization: {
       getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
+      postOrganizationDetail: new CreateOrganizationDetail(ApiService.USE_LIVE_API),
     },
   };
 
-  constructor(httpClient: HttpClient, injector: Injector) {
-    super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector), environment.apiBaseUrl);
+  constructor(httpClient: HttpClient, injector: Injector, aaai: AaaiService) {
+    super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector, aaai), environment.apiBaseUrl);
 
     // Add endpoints
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

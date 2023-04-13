@@ -1,6 +1,6 @@
 import { BaseObject } from '../_lib_code/objects/baseObject';
 
-export class PostDataProductDataSource extends BaseObject {
+export class CreateUserDataSource extends BaseObject {
   public static readonly KEYS = {
     INSTANCE_ID: 'instanceId',
   };
@@ -10,6 +10,6 @@ export class PostDataProductDataSource extends BaseObject {
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
-    this.instanceId = this._getString(PostDataProductDataSource.KEYS.INSTANCE_ID);
+    this.instanceId = this._getString(CreateUserDataSource.KEYS.INSTANCE_ID);
   }
 }

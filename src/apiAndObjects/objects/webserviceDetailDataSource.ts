@@ -38,7 +38,7 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly instanceId: string;
   public readonly metaId: string;
   public readonly instanceChangedId: string;
-  public readonly changeTimestamp: string;
+  public readonly changeTimestamp: Date;
   public readonly operation: string;
   public readonly editorId: string;
   public readonly changeComment: string;
@@ -49,8 +49,8 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly fileProvenance: string;
   public readonly category: Array<string>;
   public readonly contactPoint: Array<Record<string, unknown>>;
-  public readonly dateModified: moment.Moment;
-  public readonly datePublished: moment.Moment;
+  public readonly dateModified: Date;
+  public readonly datePublished: Date;
   public readonly description: string;
   public readonly documentation: Array<string>;
   public readonly entryPoint: string;
@@ -69,7 +69,7 @@ export class WebserviceDetailDataSource extends BaseObject {
     this.instanceId = this._getString(WebserviceDetailDataSource.KEYS.INSTANCE_ID);
     this.metaId = this._getString(WebserviceDetailDataSource.KEYS.META_ID);
     this.instanceChangedId = this._getString(WebserviceDetailDataSource.KEYS.INSTANCE_CHANGE_ID);
-    this.changeTimestamp = this._getString(WebserviceDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getDate(WebserviceDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.operation = this._getString(WebserviceDetailDataSource.KEYS.OPERATION);
     this.editorId = this._getString(WebserviceDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(WebserviceDetailDataSource.KEYS.CHANGE_COMMENT);

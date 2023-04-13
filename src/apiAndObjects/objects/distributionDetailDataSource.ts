@@ -25,7 +25,7 @@ export class DistributionDetailDataSource extends BaseObject {
   };
 
   public readonly instanceId: string;
-  public readonly changeTimestamp: string;
+  public readonly changeTimestamp: Date;
   public readonly state: string;
   public readonly toBeDelete: string;
   public readonly fileProvenance: string;
@@ -34,7 +34,7 @@ export class DistributionDetailDataSource extends BaseObject {
   public readonly description: Array<string>;
   public readonly downloadURL: Array<string>;
   public readonly format: string;
-  public readonly issued: string;
+  public readonly issued: Date;
   public readonly modified: string;
   public readonly title: Array<string>;
   public readonly type: string;
@@ -47,7 +47,7 @@ export class DistributionDetailDataSource extends BaseObject {
     super(sourceObject);
 
     this.instanceId = this._getString(DistributionDetailDataSource.KEYS.INSTANCE_ID);
-    this.changeTimestamp = this._getString(DistributionDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getDate(DistributionDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.state = this._getEnumFromValue(DistributionDetailDataSource.KEYS.STATE, State);
     this.toBeDelete = this._getString(DistributionDetailDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(DistributionDetailDataSource.KEYS.FILE_PROVENANCE);
@@ -56,7 +56,7 @@ export class DistributionDetailDataSource extends BaseObject {
     this.description = this._getArray(DistributionDetailDataSource.KEYS.DESCRIPTION);
     this.downloadURL = this._getArray(DistributionDetailDataSource.KEYS.DOWNLOAD_URL);
     this.format = this._getString(DistributionDetailDataSource.KEYS.FORMAT);
-    this.issued = this._getString(DistributionDetailDataSource.KEYS.ISSUED);
+    this.issued = this._getDate(DistributionDetailDataSource.KEYS.ISSUED);
     this.modified = this._getString(DistributionDetailDataSource.KEYS.MODIFIED);
     this.title = this._getArray(DistributionDetailDataSource.KEYS.TITLE);
     this.type = this._getString(DistributionDetailDataSource.KEYS.TYPE);

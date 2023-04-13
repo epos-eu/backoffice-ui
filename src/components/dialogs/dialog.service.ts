@@ -84,12 +84,9 @@ export class DialogService extends BaseDialogService {
     this.openDialog('delete', DialogDeleteComponent, false, {
       width: '450px',
       height: '275px',
-    });
-    this.dialogStateObservable.subscribe((result) => {
-      if (Boolean(result) && result === 'delete') {
-        // TODO: add delete method to remove from DB
-      }
-    });
+    })
+      .then((response: DialogData) => console.log(response.dataOut))
+      .catch((err) => console.error(err));
   }
 
   public handleAddContact(): void {

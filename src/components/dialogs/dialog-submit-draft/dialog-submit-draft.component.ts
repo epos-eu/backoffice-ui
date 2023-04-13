@@ -12,10 +12,10 @@ import { DialogService } from '../dialog.service';
 
 @Component({
   selector: 'app-dialog-submit',
-  templateUrl: './dialog-submit.component.html',
-  styleUrls: ['./dialog-submit.component.scss'],
+  templateUrl: './dialog-submit-draft.component.html',
+  styleUrls: ['./dialog-submit-draft.component.scss'],
 })
-export class DialogSubmitComponent implements OnInit {
+export class DialogSubmitDraftComponent implements OnInit {
   public comment = new FormControl('', [Validators.required]);
   public currentEdit!: IChangeItem;
 
@@ -40,35 +40,31 @@ export class DialogSubmitComponent implements OnInit {
         StorageKey.FORM_DATA_PRODUCT,
       );
       if (localStorage !== null) {
-        const formData: DataProduct = JSON.parse(localStorage);
-        this.apiService.endpoints[Entity.DATA_PRODUCT].postDataProductDetail
-          .call({
-            comment: this.comment.value as string,
-            dataProduct: formData,
-            distributions: [],
-            webServices: [],
-            operations: [],
-            contactPoints: [],
-          })
-          .then((response: any) => {
-            this.actionsService.submitCurrentEdit(this.currentEdit.id);
-            this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
-          })
-          .catch((err) => {
-            console.error(err);
-            this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-error',
-            ]);
-          })
-          .finally(() => {
-            this.dialogService.closeDialog();
-          });
+        // const formData: DataProduct = JSON.parse(localStorage);
+        // this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
+        //   .call({
+        //     ...formData,
+        //     changeComment: this.comment.value as string,
+        //   })
+        //   .then(() => {
+        //     this.actionsService.submitCurrentEdit(this.currentEdit.id);
+        //     this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
+        //       'snackbar',
+        //       'mat-toolbar',
+        //       'snackbar-success',
+        //     ]);
+        //   })
+        //   .catch((err) => {
+        //     console.error(err);
+        //     this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
+        //       'snackbar',
+        //       'mat-toolbar',
+        //       'snackbar-error',
+        //     ]);
+        //   })
+        //   .finally(() => {
+        //     this.dialogService.closeDialog();
+        //   });
       }
     }
   }
