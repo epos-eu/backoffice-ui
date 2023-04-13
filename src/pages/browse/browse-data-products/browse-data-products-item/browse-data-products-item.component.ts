@@ -167,38 +167,38 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private patchDistribution(distribution: Array<DistributionDetailDataSource>) {
-  //   const control = <FormArray>this.form.get('distribution');
-  //   distribution.forEach((item) => {
-  //     control.push(
-  //       this.patchValues('distribution', [
-  //         item.uid,
-  //         item.title,
-  //         item.fileProvenance,
-  //         item.description,
-  //         item.format,
-  //         item.type,
-  //         item.issued,
-  //         item.modified,
-  //         item.changeTimestamp,
-  //       ]),
-  //     );
-  //   });
-  // }
-  // private patchContactPoint(contactPoint: Array<ContactPointDataSource>) {
-  //   const control = <FormArray>this.form.get('contactPoint');
-  //   contactPoint.forEach((item) => {
-  //     control.push(
-  //       this.patchValues('contactPoint', [
-  //         item.uid,
-  //         item.email,
-  //         item.organization,
-  //         item.telephone,
-  //         item.changeTimestamp,
-  //       ]),
-  //     );
-  //   });
-  // }
+  private patchDistribution(distribution: Array<DistributionDetailDataSource>) {
+    const control = <FormArray>this.form.get('distribution');
+    distribution.forEach((item) => {
+      control.push(
+        this.patchValues('distribution', [
+          item.uid,
+          item.title,
+          item.fileProvenance,
+          item.description,
+          item.format,
+          item.type,
+          item.issued,
+          item.modified,
+          item.changeTimestamp,
+        ]),
+      );
+    });
+  }
+  private patchContactPoint(contactPoint: Array<ContactPointDataSource>) {
+    const control = <FormArray>this.form.get('contactPoint');
+    contactPoint.forEach((item) => {
+      control.push(
+        this.patchValues('contactPoint', [
+          item.uid,
+          item.email,
+          // item.organization,
+          item.telephone,
+          item.changeTimestamp,
+        ]),
+      );
+    });
+  }
 
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component

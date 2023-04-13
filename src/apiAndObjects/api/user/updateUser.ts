@@ -6,7 +6,7 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 
-export class SetUserRole extends CacheableEndpoint<NewUserRoleDataSource, SetUserRoleParams, NewUserRoleDataSource> {
+export class UpdateUser extends CacheableEndpoint<NewUserRoleDataSource, SetUserRoleParams, NewUserRoleDataSource> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: SetUserRoleParams): string {

@@ -7,7 +7,7 @@ import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
 import { GetDataProductDetail } from './data-products/getDataProductDetail';
-import { SetUserRole } from './user/setUserRole';
+import { UpdateUser } from './user/updateUser';
 import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 import { PostDataProductDetails } from './data-products/postDataProductDetails';
 import { PutDataProductDetail } from './data-products/putDataProductDetail';
@@ -20,6 +20,11 @@ import { GetAllUsers } from './user/getAllUsers';
 import { GetAllPeople } from './person/getAllPeople';
 import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
+import { PostContactPointDetail } from './contact-point/postContactPointDetails';
+import { PostOrganizationDetail } from './organization/postOrganizationDetails';
+import { PostPersonDetail } from './person/postPesonDetail';
+import { PostOperationDetail } from './operation/postOperationDetail';
+import { CreateUserDetail } from './user/createUserDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -38,6 +43,7 @@ export class ApiService extends BaseApi {
     Operation: {
       getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),
       getAll: new GetAllOperations(ApiService.USE_LIVE_API),
+      postOperationDetail: new PostOperationDetail(ApiService.USE_LIVE_API),
     },
     DataProduct: {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
@@ -46,19 +52,23 @@ export class ApiService extends BaseApi {
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
     },
     User: {
-      setNewRole: new SetUserRole(ApiService.USE_LIVE_API),
+      updateUser: new UpdateUser(ApiService.USE_LIVE_API),
       getUserInfo: new GetUserInfo(ApiService.USE_LIVE_API),
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
+      createUser: new CreateUserDetail(ApiService.USE_LIVE_API),
     },
     Contactpoint: {
       getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllContactPoints(ApiService.USE_LIVE_API),
+      postContactPointDetail: new PostContactPointDetail(ApiService.USE_LIVE_API),
     },
     Person: {
       getAll: new GetAllPeople(ApiService.USE_LIVE_API),
+      postPersonDetail: new PostPersonDetail(ApiService.USE_LIVE_API),
     },
     Organization: {
       getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
+      postOrganizationDetail: new PostOrganizationDetail(ApiService.USE_LIVE_API),
     },
   };
 
