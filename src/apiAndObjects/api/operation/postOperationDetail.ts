@@ -41,7 +41,7 @@ export class PostOperationDetail extends CacheableEndpoint<
 
 export interface SaveOperationBody {
   changeComment: string;
-  changeTimestamp: moment.Moment | undefined;
+  changeTimestamp: Date | undefined;
   editorId: string;
   email: Array<string>;
   fileProvenance: string;

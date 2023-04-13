@@ -44,7 +44,7 @@ export interface SaveOrganizationBody {
   acronym: string;
   address: Address;
   changeComment: string;
-  changeTimestamp: moment.Moment | undefined;
+  changeTimestamp: Date | undefined;
   contactPoint: Array<ContactPoint>;
   editorId: string;
   email: Array<string>;
