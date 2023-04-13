@@ -5,12 +5,12 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { State } from 'src/utility/enums/state.enum';
-import { PostContactPointDataSource } from 'src/apiAndObjects/objects/postContactPointDataSource';
+import { CreateUpdateContactPointDataSource } from 'src/apiAndObjects/objects/createUpdateContactPointDataSource';
 
 export class PostContactPointDetail extends CacheableEndpoint<
-  PostContactPointDataSource,
+  CreateUpdateContactPointDataSource,
   SaveContactPointBody,
-  PostContactPointDataSource
+  CreateUpdateContactPointDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -18,7 +18,7 @@ export class PostContactPointDetail extends CacheableEndpoint<
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveContactPointBody): Promise<PostContactPointDataSource> {
+  protected callLive(body: SaveContactPointBody): Promise<CreateUpdateContactPointDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -28,12 +28,12 @@ export class PostContactPointDetail extends CacheableEndpoint<
     };
     const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.POST, undefined, body, headers);
 
-    return this.buildObjectFromResponse(PostContactPointDataSource, callResponsePromise).then(
-      (response: PostContactPointDataSource) => response,
+    return this.buildObjectFromResponse(CreateUpdateContactPointDataSource, callResponsePromise).then(
+      (response: CreateUpdateContactPointDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<PostContactPointDataSource> {
+  protected callMock(): Promise<CreateUpdateContactPointDataSource> {
     throw new Error('Method not implemented.');
   }
 }

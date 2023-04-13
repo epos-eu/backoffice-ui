@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 import { RequestMethod } from './requestMethod.enum';
 import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
-import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/postContactPointDetails';
+import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/createContactPointDetails';
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/postOrganizationDetails';
 import { SavePersonBody } from 'src/apiAndObjects/api/person/postPesonDetail';
 import { SaveOperationBody } from 'src/apiAndObjects/api/operation/postOperationDetail';
