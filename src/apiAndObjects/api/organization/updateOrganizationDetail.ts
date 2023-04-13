@@ -3,16 +3,16 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { PostOrganizationDataSource } from 'src/apiAndObjects/objects/postOrganizationDataSource';
 import { State } from 'src/utility/enums/state.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { Address } from 'src/apiAndObjects/objects/types/address.type';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
+import { CreateUpdateOrganizationDataSource } from 'src/apiAndObjects/objects/createUpdateOrganizationDataSource';
 
 export class PostOrganizationDetail extends CacheableEndpoint<
-  PostOrganizationDataSource,
+  CreateUpdateOrganizationDataSource,
   SaveOrganizationBody,
-  PostOrganizationDataSource
+  CreateUpdateOrganizationDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -20,7 +20,7 @@ export class PostOrganizationDetail extends CacheableEndpoint<
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveOrganizationBody): Promise<PostOrganizationDataSource> {
+  protected callLive(body: SaveOrganizationBody): Promise<CreateUpdateOrganizationDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -28,14 +28,14 @@ export class PostOrganizationDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['organization'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['organization'], RequestMethod.PUT, undefined, body, headers);
 
-    return this.buildObjectFromResponse(PostOrganizationDataSource, callResponsePromise).then(
-      (response: PostOrganizationDataSource) => response,
+    return this.buildObjectFromResponse(CreateUpdateOrganizationDataSource, callResponsePromise).then(
+      (response: CreateUpdateOrganizationDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<PostOrganizationDataSource> {
+  protected callMock(): Promise<CreateUpdateOrganizationDataSource> {
     throw new Error('Method not implemented.');
   }
 }

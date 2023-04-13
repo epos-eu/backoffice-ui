@@ -20,7 +20,7 @@ import { GetAllPeople } from './person/getAllPeople';
 import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
 import { PostContactPointDetail } from './contact-point/createContactPointDetails';
-import { PostOrganizationDetail } from './organization/postOrganizationDetails';
+import { PostOrganizationDetail } from './organization/createOrganizationDetail';
 import { PostPersonDetail } from './person/postPesonDetail';
 import { PostOperationDetail } from './operation/createOperationDetail';
 import { CreateUserDetail } from './user/createUserDetail';
