@@ -24,6 +24,7 @@ import { PostOrganizationDetail } from './organization/postOrganizationDetails';
 import { PostPersonDetail } from './person/postPesonDetail';
 import { PostOperationDetail } from './operation/postOperationDetail';
 import { CreateUserDetail } from './user/createUserDetail';
+import { CreateDistributionDetail } from './distribution/createDistributionDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -34,6 +35,7 @@ export class ApiService extends BaseApi {
     Distribution: {
       getDistributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllDistributions(ApiService.USE_LIVE_API),
+      createDistribution: new CreateDistributionDetail(ApiService.USE_LIVE_API),
     },
     Webservice: {
       getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
