@@ -5,7 +5,7 @@
 <div mat-dialog-actions>
   <button
     mat-button
-    [mat-dialog-close]="'cancel'"
+    (click)="handleCancel()"
   >
     Cancel
   </button>
@@ -13,7 +13,7 @@
     mat-flat-button
     color="warn"
     cdkFocusInitial
-    [mat-dialog-close]="'delete'"
+    (click)="handleDelete()"
   >
     Delete
   </button>

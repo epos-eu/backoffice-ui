@@ -26,6 +26,7 @@ import { CreatePersonDetail } from './person/createPersonDetail';
 import { CreateOperationDetail } from './operation/createOperationDetail';
 import { CreateUserDetail } from './user/createUserDetail';
 import { CreateDistributionDetail } from './distribution/createDistributionDetail';
+import { AaaiService } from 'src/aaai/aaai.service';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -74,8 +75,8 @@ export class ApiService extends BaseApi {
     },
   };
 
-  constructor(httpClient: HttpClient, injector: Injector) {
-    super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector), environment.apiBaseUrl);
+  constructor(httpClient: HttpClient, injector: Injector, aaai: AaaiService) {
+    super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector, aaai), environment.apiBaseUrl);
 
     // Add endpoints
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

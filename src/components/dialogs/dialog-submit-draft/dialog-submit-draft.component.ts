@@ -40,31 +40,31 @@ export class DialogSubmitDraftComponent implements OnInit {
         StorageKey.FORM_DATA_PRODUCT,
       );
       if (localStorage !== null) {
-        const formData: DataProduct = JSON.parse(localStorage);
-        this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
-          .call({
-            ...formData,
-            changeComment: this.comment.value as string,
-          })
-          .then(() => {
-            this.actionsService.submitCurrentEdit(this.currentEdit.id);
-            this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
-          })
-          .catch((err) => {
-            console.error(err);
-            this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-error',
-            ]);
-          })
-          .finally(() => {
-            this.dialogService.closeDialog();
-          });
+        // const formData: DataProduct = JSON.parse(localStorage);
+        // this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
+        //   .call({
+        //     ...formData,
+        //     changeComment: this.comment.value as string,
+        //   })
+        //   .then(() => {
+        //     this.actionsService.submitCurrentEdit(this.currentEdit.id);
+        //     this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
+        //       'snackbar',
+        //       'mat-toolbar',
+        //       'snackbar-success',
+        //     ]);
+        //   })
+        //   .catch((err) => {
+        //     console.error(err);
+        //     this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
+        //       'snackbar',
+        //       'mat-toolbar',
+        //       'snackbar-error',
+        //     ]);
+        //   })
+        //   .finally(() => {
+        //     this.dialogService.closeDialog();
+        //   });
       }
     }
   }

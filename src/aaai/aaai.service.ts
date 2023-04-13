@@ -12,7 +12,6 @@ import { OAuthService } from 'angular-oauth2-oidc';
  * logout and user information access to the rest of the GUI.
  */
 export class AaaiService {
-  private lastUserInteraction = new Date().toDateString();
   private readonly now = new Date();
   private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
 
@@ -50,14 +49,11 @@ export class AaaiService {
     return this.authProvider.getManageUrl();
   }
 
-  public userInteracted(): void {
-    this.lastUserInteraction = new Date().toDateString();
-  }
-
   private startLogoutInterval(): void {
     setInterval(() => {
       const logoutTime = new Date(this.logOutAfterInactivityPeriod);
       if (null != this.getUser() && logoutTime < new Date()) {
+        console.log('Time to log out');
         this.logout();
       }
     }, 60 * 1000); // 1 mins

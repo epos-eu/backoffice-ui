@@ -66,7 +66,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         false,
       )
       .then((data: Array<DataProductsDataSource>) => {
-        console.log(data[0]);
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
 

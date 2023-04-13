@@ -1,4 +1,5 @@
 export enum State {
+  DRAFT = 'DRAFT',
   SAVED = 'SAVED',
   SUBMITTED = 'SUBMITTED',
   PUBLISHED = 'PUBLISHED',

@@ -1,7 +1,7 @@
 <mat-nav-list>
   <div class="top">
     <h3 mat-subheader>Current changes</h3>
-    <mat-chip-list
+    <!-- <mat-chip-list
       class="mat-chip-list-stacked"
       aria-label="Current changes"
       *ngIf="(itemsExist | async) === true"
@@ -20,7 +20,7 @@
           <p>ID: {{ change.id }}</p>
         </div>
       </mat-chip>
-    </mat-chip-list>
+    </mat-chip-list> -->
     <p
       *ngIf="(itemsExist | async) === false"
       [ngStyle]="{ margin: '1rem' }"

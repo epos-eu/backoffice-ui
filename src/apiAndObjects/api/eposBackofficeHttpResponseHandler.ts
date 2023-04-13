@@ -2,10 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injector } from '@angular/core';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ApiResponse } from './apiResponse.interface';
+import { AaaiService } from 'src/aaai/aaai.service';
 
 export class EposBackOfficeHttpResponseHandler {
   private readonly notificationsService: SnackbarService;
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, private aaai: AaaiService) {
     this.notificationsService = injector.get<SnackbarService>(SnackbarService);
   }
 
