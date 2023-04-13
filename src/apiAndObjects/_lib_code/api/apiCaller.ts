@@ -6,6 +6,7 @@ import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDat
 import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/postContactPointDetails';
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/postOrganizationDetails';
 import { SavePersonBody } from 'src/apiAndObjects/api/person/postPesonDetail';
+import { SaveOperationBody } from 'src/apiAndObjects/api/operation/postOperationDetail';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -37,7 +38,8 @@ export class ApiCaller {
       | SaveDataProductBody
       | SaveContactPointBody
       | SaveOrganizationBody
-      | SavePersonBody = {},
+      | SavePersonBody
+      | SaveOperationBody = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
