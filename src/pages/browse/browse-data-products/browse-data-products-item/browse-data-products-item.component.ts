@@ -15,6 +15,7 @@ import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
+
 @Component({
   selector: 'app-browse-data-products-item',
   templateUrl: './browse-data-products-item.component.html',
@@ -78,6 +79,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       });
   }
 
+  private isValidDate(d: unknown) {
+    return d instanceof Date && !isNaN(d.getTime());
+  }
+
   private trackFormData(): void {
     this.form = this.formBuilder.group({
       uid: this.dataProduct?.uid,
@@ -86,7 +91,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       changeTimestamp: this.dataProduct?.changeTimestamp,
       state: this.dataProduct?.state,
       identifier: [this.dataProduct?.identifier],
-      issued: this.dataProduct?.issued,
+      issued: this.isValidDate(this.dataProduct?.issued) ? this.dataProduct?.issued : '',
       keywords: this.dataProduct?.keywords,
       modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
@@ -145,8 +150,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         });
       case field === 'temporalExtent':
         return this.formBuilder.group({
-          startDate: values[0],
-          endDate: values[1],
+          startDate: values[0] ? values[0] : '',
+          endDate: values[1] ? values[1] : '',
         });
       case field === 'distribution':
         return this.formBuilder.group({
