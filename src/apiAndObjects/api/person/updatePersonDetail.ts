@@ -3,24 +3,24 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { PostOrganizationDataSource } from 'src/apiAndObjects/objects/postOrganizationDataSource';
 import { State } from 'src/utility/enums/state.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { Address } from 'src/apiAndObjects/objects/types/address.type';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
+import { CreateUpdatePersonDataSource } from 'src/apiAndObjects/objects/createUpdatePersonDataSource';
 
-export class PostOrganizationDetail extends CacheableEndpoint<
-  PostOrganizationDataSource,
-  SaveOrganizationBody,
-  PostOrganizationDataSource
+export class UpdatePersonDetail extends CacheableEndpoint<
+  CreateUpdatePersonDataSource,
+  SavePersonBody,
+  CreateUpdatePersonDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: SaveOrganizationBody): string {
+  protected getCacheKey(body: SavePersonBody): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveOrganizationBody): Promise<PostOrganizationDataSource> {
+  protected callLive(body: SavePersonBody): Promise<CreateUpdatePersonDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -28,19 +28,19 @@ export class PostOrganizationDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['organization'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['person'], RequestMethod.PUT, undefined, body, headers);
 
-    return this.buildObjectFromResponse(PostOrganizationDataSource, callResponsePromise).then(
-      (response: PostOrganizationDataSource) => response,
+    return this.buildObjectFromResponse(CreateUpdatePersonDataSource, callResponsePromise).then(
+      (response: CreateUpdatePersonDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<PostOrganizationDataSource> {
+  protected callMock(): Promise<CreateUpdatePersonDataSource> {
     throw new Error('Method not implemented.');
   }
 }
 
-export interface SaveOrganizationBody {
+export interface SavePersonBody {
   acronym: string;
   address: Address;
   changeComment: string;

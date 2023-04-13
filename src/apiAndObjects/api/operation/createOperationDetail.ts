@@ -3,22 +3,23 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { State } from 'src/utility/enums/state.enum';
-import { PostContactPointDataSource } from 'src/apiAndObjects/objects/postContactPointDataSource';
+import { Group } from 'src/apiAndObjects/objects/entities/group.model';
+import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { CreateUpdateOperationDataSource } from 'src/apiAndObjects/objects/createUpdateOperationDataSource';
 
-export class PostContactPointDetail extends CacheableEndpoint<
-  PostContactPointDataSource,
-  SaveContactPointBody,
-  PostContactPointDataSource
+export class CreateOperationDetail extends CacheableEndpoint<
+  CreateUpdateOperationDataSource,
+  SaveOperationBody,
+  CreateUpdateOperationDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: SaveContactPointBody): string {
+  protected getCacheKey(body: SaveOperationBody): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveContactPointBody): Promise<PostContactPointDataSource> {
+  protected callLive(body: SaveOperationBody): Promise<CreateUpdateOperationDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -26,48 +27,42 @@ export class PostContactPointDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['operation'], RequestMethod.POST, undefined, body, headers);
 
-    return this.buildObjectFromResponse(PostContactPointDataSource, callResponsePromise).then(
-      (response: PostContactPointDataSource) => response,
+    return this.buildObjectFromResponse(CreateUpdateOperationDataSource, callResponsePromise).then(
+      (response: CreateUpdateOperationDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<PostContactPointDataSource> {
+  protected callMock(): Promise<CreateUpdateOperationDataSource> {
     throw new Error('Method not implemented.');
   }
 }
 
-export interface SaveContactPointBody {
+export interface SaveOperationBody {
   changeComment: string;
-  changeTimestamp: Date | undefined | null;
+  changeTimestamp: Date | undefined;
   editorId: string;
   email: Array<string>;
   fileProvenance: string;
   groups: Array<Group>;
   instanceChangedId: string;
   instanceId: string;
-  language: Array<string>;
+  mapping: Array<Mapping>;
+  legalName: Array<string>;
   metaId: string;
+  method: string;
   operation: string;
-  organization: Organization;
-  person: Person;
-  role: string;
+  returns: Array<string>;
   state: State;
-  telephone: Array<string>;
+  template: string;
   toBeDelete: string;
   uid: string;
   version: string;
+  webservice: Array<Webservice>;
 }
 
-type Organization = {
-  entityType: string;
-  instanceId: string;
-  metaId: string;
-  uid: string;
-};
-
-type Person = {
+type Webservice = {
   entityType: string;
   instanceId: string;
   metaId: string;
