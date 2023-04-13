@@ -19,6 +19,8 @@ import { GetAllUsers } from './user/getAllUsers';
 import { GetAllPeople } from './person/getAllPeople';
 import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
+import { PostContactPointDetail } from './contact-point/postContactPointDetails';
+import { PostOrganizationDetail } from './organization/postOrganizationDetails';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -51,12 +53,14 @@ export class ApiService extends BaseApi {
     Contactpoint: {
       getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllContactPoints(ApiService.USE_LIVE_API),
+      postContactPointDetail: new PostContactPointDetail(ApiService.USE_LIVE_API),
     },
     Person: {
       getAll: new GetAllPeople(ApiService.USE_LIVE_API),
     },
     Organization: {
       getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
+      postOrganizationDetail: new PostOrganizationDetail(ApiService.USE_LIVE_API),
     },
   };
 

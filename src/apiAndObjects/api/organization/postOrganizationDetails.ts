@@ -3,22 +3,24 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { Group } from 'src/apiAndObjects/objects/entities/group.model';
+import { PostOrganizationDataSource } from 'src/apiAndObjects/objects/postOrganizationDataSource';
 import { State } from 'src/utility/enums/state.enum';
-import { PostContactPointDataSource } from 'src/apiAndObjects/objects/postContactPointDataSource';
+import { Group } from 'src/apiAndObjects/objects/entities/group.model';
+import { Address } from 'src/apiAndObjects/objects/types/address.type';
+import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 
-export class PostContactPointDetail extends CacheableEndpoint<
-  PostContactPointDataSource,
-  SaveContactPointBody,
-  PostContactPointDataSource
+export class PostOrganizationDetail extends CacheableEndpoint<
+  PostOrganizationDataSource,
+  SaveOrganizationBody,
+  PostOrganizationDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: SaveContactPointBody): string {
+  protected getCacheKey(body: SaveOrganizationBody): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveContactPointBody): Promise<PostContactPointDataSource> {
+  protected callLive(body: SaveOrganizationBody): Promise<PostOrganizationDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -26,48 +28,56 @@ export class PostContactPointDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['organization'], RequestMethod.POST, undefined, body, headers);
 
-    return this.buildObjectFromResponse(PostContactPointDataSource, callResponsePromise).then(
-      (response: PostContactPointDataSource) => response,
+    return this.buildObjectFromResponse(PostOrganizationDataSource, callResponsePromise).then(
+      (response: PostOrganizationDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<PostContactPointDataSource> {
+  protected callMock(): Promise<PostOrganizationDataSource> {
     throw new Error('Method not implemented.');
   }
 }
 
-export interface SaveContactPointBody {
+export interface SaveOrganizationBody {
+  acronym: string;
+  address: Address;
   changeComment: string;
-  changeTimestamp: moment.Moment | undefined | null;
+  changeTimestamp: moment.Moment | undefined;
+  contactPoint: Array<ContactPoint>;
   editorId: string;
   email: Array<string>;
   fileProvenance: string;
   groups: Array<Group>;
+  identifier: Array<Identifier>;
   instanceChangedId: string;
   instanceId: string;
-  language: Array<string>;
+  legalName: Array<string>;
+  leiCode: string;
+  logo: string;
+  maturity: string;
+  memberOf: Array<MemberOf>;
   metaId: string;
   operation: string;
-  organization: Organization;
-  person: Person;
-  role: string;
+  owns: Array<string>;
   state: State;
   telephone: Array<string>;
   toBeDelete: string;
+  type: string;
   uid: string;
+  url: string;
   version: string;
 }
 
-type Organization = {
+type MemberOf = {
   entityType: string;
   instanceId: string;
   metaId: string;
   uid: string;
 };
 
-type Person = {
+type ContactPoint = {
   entityType: string;
   instanceId: string;
   metaId: string;
