@@ -9,7 +9,7 @@ import { Address } from 'src/apiAndObjects/objects/types/address.type';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 import { CreateUpdateOrganizationDataSource } from 'src/apiAndObjects/objects/createUpdateOrganizationDataSource';
 
-export class PostOrganizationDetail extends CacheableEndpoint<
+export class UpdateOrganizationDetail extends CacheableEndpoint<
   CreateUpdateOrganizationDataSource,
   SaveOrganizationBody,
   CreateUpdateOrganizationDataSource

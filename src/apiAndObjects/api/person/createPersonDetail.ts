@@ -5,21 +5,22 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
-import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
-import { CreateUpdateOperationDataSource } from 'src/apiAndObjects/objects/createUpdateOperationDataSource';
+import { Address } from 'src/apiAndObjects/objects/types/address.type';
+import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
+import { CreateUpdatePersonDataSource } from 'src/apiAndObjects/objects/createUpdatePersonDataSource';
 
-export class CreateOperationDetail extends CacheableEndpoint<
-  CreateUpdateOperationDataSource,
-  SaveOperationBody,
-  CreateUpdateOperationDataSource
+export class CreatePersonDetail extends CacheableEndpoint<
+  CreateUpdatePersonDataSource,
+  SavePersonBody,
+  CreateUpdatePersonDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: SaveOperationBody): string {
+  protected getCacheKey(body: SavePersonBody): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveOperationBody): Promise<CreateUpdateOperationDataSource> {
+  protected callLive(body: SavePersonBody): Promise<CreateUpdatePersonDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -27,42 +28,56 @@ export class CreateOperationDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['operation'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['person'], RequestMethod.POST, undefined, body, headers);
 
-    return this.buildObjectFromResponse(CreateUpdateOperationDataSource, callResponsePromise).then(
-      (response: CreateUpdateOperationDataSource) => response,
+    return this.buildObjectFromResponse(CreateUpdatePersonDataSource, callResponsePromise).then(
+      (response: CreateUpdatePersonDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<CreateUpdateOperationDataSource> {
+  protected callMock(): Promise<CreateUpdatePersonDataSource> {
     throw new Error('Method not implemented.');
   }
 }
 
-export interface SaveOperationBody {
+export interface SavePersonBody {
+  acronym: string;
+  address: Address;
   changeComment: string;
   changeTimestamp: Date | undefined;
+  contactPoint: Array<ContactPoint>;
   editorId: string;
   email: Array<string>;
   fileProvenance: string;
   groups: Array<Group>;
+  identifier: Array<Identifier>;
   instanceChangedId: string;
   instanceId: string;
-  mapping: Array<Mapping>;
   legalName: Array<string>;
+  leiCode: string;
+  logo: string;
+  maturity: string;
+  memberOf: Array<MemberOf>;
   metaId: string;
-  method: string;
   operation: string;
-  returns: Array<string>;
+  owns: Array<string>;
   state: State;
-  template: string;
+  telephone: Array<string>;
   toBeDelete: string;
+  type: string;
   uid: string;
+  url: string;
   version: string;
-  webservice: Array<Webservice>;
 }
 
-type Webservice = {
+type MemberOf = {
+  entityType: string;
+  instanceId: string;
+  metaId: string;
+  uid: string;
+};
+
+type ContactPoint = {
   entityType: string;
   instanceId: string;
   metaId: string;

@@ -7,7 +7,7 @@ import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { State } from 'src/utility/enums/state.enum';
 import { CreateUpdateContactPointDataSource } from 'src/apiAndObjects/objects/createUpdateContactPointDataSource';
 
-export class PostContactPointDetail extends CacheableEndpoint<
+export class UpdateContactPointDetail extends CacheableEndpoint<
   CreateUpdateContactPointDataSource,
   SaveContactPointBody,
   CreateUpdateContactPointDataSource

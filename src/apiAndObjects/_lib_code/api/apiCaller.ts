@@ -5,7 +5,7 @@ import { RequestMethod } from './requestMethod.enum';
 import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
 import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/createContactPointDetails';
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/createOrganizationDetail';
-import { SavePersonBody } from 'src/apiAndObjects/api/person/postPesonDetail';
+import { SavePersonBody } from 'src/apiAndObjects/api/person/createPersonDetail';
 import { SaveOperationBody } from 'src/apiAndObjects/api/operation/createOperationDetail';
 import { SaveUserBody } from 'src/apiAndObjects/api/user/createUserDetail';
 import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/createDistributionDetail';

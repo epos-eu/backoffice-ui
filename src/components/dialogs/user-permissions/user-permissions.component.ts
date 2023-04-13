@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SetUserRoleParams } from 'src/apiAndObjects/api/user/updateUser';
+import { SetUserRoleParams } from 'src/apiAndObjects/api/user/updateUserDetail';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';

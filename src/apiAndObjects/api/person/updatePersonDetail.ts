@@ -7,16 +7,20 @@ import { State } from 'src/utility/enums/state.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { Address } from 'src/apiAndObjects/objects/types/address.type';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
-import { PostPersonDataSource } from 'src/apiAndObjects/objects/postPersonDataSource';
+import { CreateUpdatePersonDataSource } from 'src/apiAndObjects/objects/createUpdatePersonDataSource';
 
-export class PostPersonDetail extends CacheableEndpoint<PostPersonDataSource, SavePersonBody, PostPersonDataSource> {
+export class UpdatePersonDetail extends CacheableEndpoint<
+  CreateUpdatePersonDataSource,
+  SavePersonBody,
+  CreateUpdatePersonDataSource
+> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(body: SavePersonBody): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SavePersonBody): Promise<PostPersonDataSource> {
+  protected callLive(body: SavePersonBody): Promise<CreateUpdatePersonDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -24,14 +28,14 @@ export class PostPersonDetail extends CacheableEndpoint<PostPersonDataSource, Sa
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['person'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['person'], RequestMethod.PUT, undefined, body, headers);
 
-    return this.buildObjectFromResponse(PostPersonDataSource, callResponsePromise).then(
-      (response: PostPersonDataSource) => response,
+    return this.buildObjectFromResponse(CreateUpdatePersonDataSource, callResponsePromise).then(
+      (response: CreateUpdatePersonDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<PostPersonDataSource> {
+  protected callMock(): Promise<CreateUpdatePersonDataSource> {
     throw new Error('Method not implemented.');
   }
 }
