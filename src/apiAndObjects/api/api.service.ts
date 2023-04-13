@@ -7,7 +7,7 @@ import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
 import { GetDataProductDetail } from './data-products/getDataProductDetail';
-import { SetUserRole } from './user/setUserRole';
+import { UpdateUser } from './user/updateUser';
 import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 import { PostDataProductDetails } from './data-products/postDataProductDetails';
 import { GetUserInfo } from './user/getUserInfo';
@@ -23,6 +23,7 @@ import { PostContactPointDetail } from './contact-point/postContactPointDetails'
 import { PostOrganizationDetail } from './organization/postOrganizationDetails';
 import { PostPersonDetail } from './person/postPesonDetail';
 import { PostOperationDetail } from './operation/postOperationDetail';
+import { CreateUserDetail } from './user/createUserDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -49,9 +50,10 @@ export class ApiService extends BaseApi {
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
     },
     User: {
-      setNewRole: new SetUserRole(ApiService.USE_LIVE_API),
+      updateUser: new UpdateUser(ApiService.USE_LIVE_API),
       getUserInfo: new GetUserInfo(ApiService.USE_LIVE_API),
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
+      createUser: new CreateUserDetail(ApiService.USE_LIVE_API),
     },
     Contactpoint: {
       getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
