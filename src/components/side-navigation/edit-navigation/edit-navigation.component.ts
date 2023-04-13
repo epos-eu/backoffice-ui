@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
-import { DialogSubmitComponent } from 'src/components/dialogs/dialog-submit/dialog-submit.component';
+import { DialogSubmitDraftComponent } from 'src/components/dialogs/dialog-submit-draft/dialog-submit-draft.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
@@ -53,7 +53,7 @@ export class EditNavigationComponent implements OnInit {
   }
 
   public handleSubmit(): void {
-    const dialogRef = this.dialog.open(DialogSubmitComponent, {
+    const dialogRef = this.dialog.open(DialogSubmitDraftComponent, {
       width: '450px',
       height: '275px',
       panelClass: 'dialog-submit',

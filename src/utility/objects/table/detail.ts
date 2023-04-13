@@ -2,7 +2,7 @@ export interface TableDetail {
   uid: string;
   lastChange: Date;
   status: string;
-  comment: string;
+  changeComment: string;
   author: string;
   instanceId: string;
 }

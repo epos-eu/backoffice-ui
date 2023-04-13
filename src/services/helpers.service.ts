@@ -8,4 +8,16 @@ export class HelpersService {
     const date = new Date(timestamp);
     return date.toLocaleString();
   }
+
+  public static isValidDate(d: unknown) {
+    return d instanceof Date && !isNaN(d.getTime());
+  }
+
+  public static whiteSpaceReplace(str: string | undefined): string {
+    if (str) {
+      str = str.replace(/\s*,\s*/g, ', ');
+      return str;
+    }
+    return '';
+  }
 }
