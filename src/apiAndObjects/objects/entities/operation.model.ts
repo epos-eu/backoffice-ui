@@ -3,7 +3,7 @@ import { Mapping } from '../types/mapping.type';
 export class Operation {
   constructor(
     public instanceId: string,
-    public changeTimestamp: string,
+    public changeTimestamp: Date,
     public state: string,
     public toBeDelete: string,
     public uid: string,

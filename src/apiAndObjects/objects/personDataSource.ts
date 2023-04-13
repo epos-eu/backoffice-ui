@@ -36,7 +36,7 @@ export class PersonDataSource extends BaseObject {
   public readonly instanceId: string;
   public readonly metaId: string;
   public readonly instanceChangedId: string;
-  public readonly changeTimestamp: moment.Moment;
+  public readonly changeTimestamp: Date;
   public readonly operation: SupportedOperation;
   public readonly editorId: string;
   public readonly changeComment: string;
@@ -64,7 +64,7 @@ export class PersonDataSource extends BaseObject {
     this.instanceId = this._getString(PersonDataSource.KEYS.INSTANCE_ID);
     this.metaId = this._getString(PersonDataSource.KEYS.META_ID);
     this.instanceChangedId = this._getString(PersonDataSource.KEYS.INSTANCE_CHANGED_ID);
-    this.changeTimestamp = this._getValue(PersonDataSource.KEYS.CHANGE_TIMESTAMP) as moment.Moment;
+    this.changeTimestamp = this._getDate(PersonDataSource.KEYS.CHANGE_TIMESTAMP);
     this.operation = this._getValue(PersonDataSource.KEYS.OPERATION) as SupportedOperation;
     this.editorId = this._getString(PersonDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(PersonDataSource.KEYS.CHANGE_COMMENT);

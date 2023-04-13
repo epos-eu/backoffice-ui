@@ -1,4 +1,3 @@
-import moment from 'moment-es6';
 import { ObjectAccessor } from './objectAccessor';
 
 /**
@@ -69,9 +68,9 @@ export class BaseObject {
     return ObjectAccessor.getArray(keys, this._getSource(source));
   }
   /**
-   * Same as _getValue but returns a moment
+   * Same as _getValue but returns a Date
    */
-  protected _getDate(keys: string | Array<string>, source?: Record<string, unknown>): moment.Moment {
+  protected _getDate(keys: string | Array<string>, source?: Record<string, unknown>): Date {
     return ObjectAccessor.getDate(keys, this._getSource(source));
   }
   /**

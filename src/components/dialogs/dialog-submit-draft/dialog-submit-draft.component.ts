@@ -12,10 +12,10 @@ import { DialogService } from '../dialog.service';
 
 @Component({
   selector: 'app-dialog-submit',
-  templateUrl: './dialog-submit.component.html',
-  styleUrls: ['./dialog-submit.component.scss'],
+  templateUrl: './dialog-submit-draft.component.html',
+  styleUrls: ['./dialog-submit-draft.component.scss'],
 })
-export class DialogSubmitComponent implements OnInit {
+export class DialogSubmitDraftComponent implements OnInit {
   public comment = new FormControl('', [Validators.required]);
   public currentEdit!: IChangeItem;
 
@@ -41,7 +41,7 @@ export class DialogSubmitComponent implements OnInit {
       );
       if (localStorage !== null) {
         const formData: DataProduct = JSON.parse(localStorage);
-        this.apiService.endpoints[Entity.DATA_PRODUCT].postDataProductDetail
+        this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
           .call({
             ...formData,
             changeComment: this.comment.value as string,

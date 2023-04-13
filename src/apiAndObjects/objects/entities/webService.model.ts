@@ -10,7 +10,7 @@ export class WebService {
   constructor(
     public title: string,
     public instanceId: string,
-    public changeTimestamp: string,
+    public changeTimestamp: Date,
     public state: State,
     public toBeDelete: string, // should be converted to boolean.
     public uid: string,

@@ -10,7 +10,7 @@ import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogSubmitComponent } from './dialog-submit/dialog-submit.component';
+import { DialogSubmitDraftComponent } from './dialog-submit-draft/dialog-submit-draft.component';
 import { ServicesModule } from 'src/services/services.module';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { ServicesModule } from 'src/services/services.module';
     RevisionsComponent,
     DialogLoginComponent,
     UserPermissionsComponent,
-    DialogSubmitComponent,
+    DialogSubmitDraftComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule, ServicesModule],
 })

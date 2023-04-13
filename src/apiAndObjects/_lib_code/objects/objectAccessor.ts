@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 export class ObjectAccessor {
   /**
    * Returns the value for the first key in the array that exists on the source object.
@@ -42,12 +40,11 @@ export class ObjectAccessor {
     return null != returnValue ? returnValue : [];
   }
   /**
-   * Same as _getValue but returns a moment
+   * Same as _getValue but returns a Date
    */
-  public static getDate(keys: string | Array<string>, source: Record<string, unknown> | undefined): moment.Moment {
-    const value = this.getValue(keys, source);
-    return value ? moment(value as moment.MomentInput) : moment(null);
-    // return null == value ? null : moment(value);
+  public static getDate(keys: string | Array<string>, source: Record<string, unknown> | undefined): Date {
+    const value = this.getValue(keys, source) as string;
+    return value ? new Date(value) : new Date('');
   }
   /**
    * Same as _getValue but returns a boolean

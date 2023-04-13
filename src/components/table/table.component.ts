@@ -17,7 +17,7 @@ export class TableComponent implements AfterViewInit {
   @Input() sectionName!: Entity;
   @Output() rowClickDetailsEmit = new Subject<Array<string>>();
 
-  public displayedColumns = ['uid', 'lastChange', 'status', 'comment', 'author'];
+  public displayedColumns = ['uid', 'lastChange', 'status', 'changeComment', 'author'];
   public dataSource!: MatTableDataSource<TableDetail>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
@@ -42,11 +42,12 @@ export class TableComponent implements AfterViewInit {
   private createTableObjects(items: TableItems) {
     const tableDetails = new Array<TableDetail>();
     items.forEach((item: TableItem) => {
+      console.log(item);
       const detail: TableDetail = {
         uid: item.uid,
         lastChange: item.changeTimestamp,
         status: item.state,
-        comment: item.changeComment,
+        changeComment: item.changeComment,
         author: item.editorId,
         instanceId: item.instanceId,
       };

@@ -1,4 +1,4 @@
 export type TemporalExtent = {
-  endDate?: string;
-  startDate: string;
+  endDate?: Date;
+  startDate: Date;
 };

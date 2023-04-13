@@ -47,7 +47,7 @@ export class DataProductsDataSource extends BaseObject {
   public readonly instanceId: string;
   public readonly metaId: string;
   public readonly instanceChangedId: string;
-  public readonly changeTimestamp: moment.Moment;
+  public readonly changeTimestamp: Date;
   public readonly operation: string;
   public readonly editorId: string;
   public readonly changeComment: string;
@@ -60,15 +60,15 @@ export class DataProductsDataSource extends BaseObject {
   public readonly accrualPeriodicity: string;
   public readonly category: Array<string>;
   public readonly contactPoint: Array<ContactPoint>;
-  public readonly created: moment.Moment;
+  public readonly created: Date;
   public readonly description: Array<string>;
   public readonly distribution: Array<Distribution>;
   public readonly hasPart: Array<unknown>;
   public readonly identifier: Array<Record<string, unknown>>;
   public readonly isPartOf: Array<unknown>;
-  public readonly issued: moment.Moment | undefined | null;
+  public readonly issued: Date;
   public readonly keywords: string;
-  public readonly modified: moment.Moment;
+  public readonly modified: Date;
   public readonly provenance: Array<unknown>;
   public readonly publisher: Array<Record<string, unknown>>;
   public readonly relation: string;

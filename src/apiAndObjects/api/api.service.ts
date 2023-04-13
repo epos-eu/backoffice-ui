@@ -10,6 +10,7 @@ import { GetDataProductDetail } from './data-products/getDataProductDetail';
 import { UpdateUser } from './user/updateUser';
 import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 import { PostDataProductDetails } from './data-products/postDataProductDetails';
+import { PutDataProductDetail } from './data-products/putDataProductDetail';
 import { GetUserInfo } from './user/getUserInfo';
 import { GetAllDataProducts } from './data-products/getAllDataProducts';
 import { GetAllWebservices } from './webservice/getAllWebservices';
@@ -49,6 +50,7 @@ export class ApiService extends BaseApi {
     DataProduct: {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
       postDataProductDetail: new PostDataProductDetails(ApiService.USE_LIVE_API),
+      putDataProductDetail: new PutDataProductDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
     },
     User: {
