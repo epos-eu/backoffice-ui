@@ -5,13 +5,13 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
-import { PostOperationDataSource } from 'src/apiAndObjects/objects/postOperationDataSource';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { CreateUpdateOperationDataSource } from 'src/apiAndObjects/objects/createUpdateOperationDataSource';
 
 export class PostOperationDetail extends CacheableEndpoint<
-  PostOperationDataSource,
+  CreateUpdateOperationDataSource,
   SaveOperationBody,
-  PostOperationDataSource
+  CreateUpdateOperationDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -19,7 +19,7 @@ export class PostOperationDetail extends CacheableEndpoint<
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveOperationBody): Promise<PostOperationDataSource> {
+  protected callLive(body: SaveOperationBody): Promise<CreateUpdateOperationDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -27,14 +27,14 @@ export class PostOperationDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['operation'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['operation'], RequestMethod.PUT, undefined, body, headers);
 
-    return this.buildObjectFromResponse(PostOperationDataSource, callResponsePromise).then(
-      (response: PostOperationDataSource) => response,
+    return this.buildObjectFromResponse(CreateUpdateOperationDataSource, callResponsePromise).then(
+      (response: CreateUpdateOperationDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<PostOperationDataSource> {
+  protected callMock(): Promise<CreateUpdateOperationDataSource> {
     throw new Error('Method not implemented.');
   }
 }

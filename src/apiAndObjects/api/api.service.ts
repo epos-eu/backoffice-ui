@@ -22,7 +22,7 @@ import { GetAllOperations } from './operation/getAllOperations';
 import { PostContactPointDetail } from './contact-point/createContactPointDetails';
 import { PostOrganizationDetail } from './organization/postOrganizationDetails';
 import { PostPersonDetail } from './person/postPesonDetail';
-import { PostOperationDetail } from './operation/postOperationDetail';
+import { PostOperationDetail } from './operation/createOperationDetail';
 import { CreateUserDetail } from './user/createUserDetail';
 import { CreateDistributionDetail } from './distribution/createDistributionDetail';
 

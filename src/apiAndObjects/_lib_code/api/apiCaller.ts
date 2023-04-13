@@ -6,7 +6,7 @@ import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDat
 import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/createContactPointDetails';
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/postOrganizationDetails';
 import { SavePersonBody } from 'src/apiAndObjects/api/person/postPesonDetail';
-import { SaveOperationBody } from 'src/apiAndObjects/api/operation/postOperationDetail';
+import { SaveOperationBody } from 'src/apiAndObjects/api/operation/createOperationDetail';
 import { SaveUserBody } from 'src/apiAndObjects/api/user/createUserDetail';
 import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/createDistributionDetail';
 
