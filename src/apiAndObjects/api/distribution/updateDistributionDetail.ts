@@ -28,7 +28,7 @@ export class CreateDistributionDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['distribution'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['distribution'], RequestMethod.PUT, undefined, body, headers);
 
     return this.buildObjectFromResponse(CreateUpdateDistributionDataSource, callResponsePromise).then(
       (response: CreateUpdateDistributionDataSource) => response,
