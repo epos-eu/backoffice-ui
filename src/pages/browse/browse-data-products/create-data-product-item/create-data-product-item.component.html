@@ -1,0 +1,59 @@
+<ng-scrollbar [autoHeightDisabled]="false">
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayoutAlign="center none"
+  >
+    <button
+      mat-stroked-button
+      color="primary"
+      class="back-btn"
+      (click)="handleBack()"
+    >
+      <mat-icon color="primary">keyboard_backspace</mat-icon>
+      <span class="back-label-text">Back</span>
+    </button>
+    <div class="top-header">
+      <div class="flex-row">
+        <h1 class="mat-display-1">New Data Product</h1>
+      </div>
+    </div>
+    <div
+      *ngIf="loading"
+      class="loading-wrapper"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="!loading">
+      <form
+        [formGroup]="form"
+        *ngIf="form"
+      >
+        <mat-form-field
+          appearance="outline"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="97"
+        >
+          <mat-label>UID</mat-label>
+          <input
+            matInput
+            placeholder="UID"
+            name="uid"
+            formControlName="uid"
+            required
+          />
+        </mat-form-field>
+      </form>
+      <button
+        mat-stroked-button
+        color="primary"
+        class="back-btn"
+        (click)="handleCreate()"
+        [disabled]="!enableSave"
+      >
+        <mat-icon color="primary">save</mat-icon>
+        <span class="back-label-text">Create</span>
+      </button>
+    </div>
+  </div>
+</ng-scrollbar>

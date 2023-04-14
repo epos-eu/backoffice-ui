@@ -1,3 +1,12 @@
 .column-status {
   text-transform: capitalize;
 }
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    border-radius: 25px;
+  }
+}

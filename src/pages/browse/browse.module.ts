@@ -26,6 +26,8 @@ import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics
 import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
+import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { ComponentsModule } from 'src/components/components.module';
     BrowseStatisticsComponent,
     BrowseContactPointComponent,
     BrowseDistributionComponent,
+    CreateDataProductItemComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +60,7 @@ import { ComponentsModule } from 'src/components/components.module';
     MatExpansionModule,
     MatChipsModule,
     ComponentsModule,
+    MatProgressSpinnerModule,
   ],
   exports: [],
   providers: [

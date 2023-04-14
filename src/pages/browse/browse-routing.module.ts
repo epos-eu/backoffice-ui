@@ -20,6 +20,7 @@ import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
 import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics.component';
 import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
+import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,7 @@ const routes: Routes = [
     children: [
       { path: '', component: BrowseDataProductsComponent },
       { path: 'details/:id', component: BrowseDataProductsItemComponent },
+      { path: 'new', component: CreateDataProductItemComponent },
     ],
   },
   {

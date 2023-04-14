@@ -1,13 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
-import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
-import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -85,6 +82,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       instanceId: this.dataProduct?.instanceId as string,
       uid: this.dataProduct?.uid,
       title: [this.dataProduct?.title],
+      // title: [this.dataProduct?.title],
       description: [this.dataProduct?.description],
       changeTimestamp: this.dataProduct?.changeTimestamp,
       state: this.dataProduct?.state,
@@ -99,12 +97,17 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
+      const value = changes;
+      // TODO: Some stange behaviour where the detect changes pops value out of array.
+      value['title'] = [changes['title']];
+      value['description'] = [changes['description']];
       this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.FORM_DATA_PRODUCT,
-        JSON.stringify(changes),
+        JSON.stringify(value),
       );
+      console.debug(value);
     });
   }
 
