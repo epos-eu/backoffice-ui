@@ -27,6 +27,7 @@ import { BrowseContactPointComponent } from './browse-contact-point/browse-conta
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { CreateDataProductItemComponent } from './browse-data-products/create-da
     MatExpansionModule,
     MatChipsModule,
     ComponentsModule,
+    MatProgressSpinnerModule,
   ],
   exports: [],
   providers: [
