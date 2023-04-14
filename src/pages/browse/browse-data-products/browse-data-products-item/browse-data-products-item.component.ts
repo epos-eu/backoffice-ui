@@ -88,7 +88,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       identifier: [this.dataProduct?.identifier],
       // issued: this.isValidDate(this.dataProduct?.issued) ? this.dataProduct?.issued : '',
       keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
-      modified: this.dataProduct?.modified ? this.dataProduct?.modified : this.dataProduct?.changeTimestamp,
+      modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
       spatialExtent: this.formBuilder.array([]),
       temporalExtent: this.formBuilder.array([]),
