@@ -95,7 +95,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       distribution: this.formBuilder.array([]),
       contactPoint: this.formBuilder.array([]),
     });
-    console.debug(this.dataProduct?.modified);
     this.form.valueChanges.subscribe((changes) => {
       this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
       this.persistorService.setValueInStorage(
