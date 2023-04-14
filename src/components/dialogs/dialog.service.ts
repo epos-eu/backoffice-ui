@@ -10,6 +10,10 @@ import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { Entity } from 'src/utility/enums/entity.enum';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +22,13 @@ export class DialogService extends BaseDialogService {
   private dialogRef!: MatDialogRef<unknown>;
   private dialogState = new BehaviorSubject<string>('');
   public dialogStateObservable = this.dialogState.asObservable();
-  constructor(public override dialog: MatDialog) {
+
+  constructor(
+    public override dialog: MatDialog,
+    private apiService: ApiService,
+    private snackbarService: SnackbarService,
+    private router: Router,
+  ) {
     super(dialog);
   }
 
@@ -80,12 +90,37 @@ export class DialogService extends BaseDialogService {
     );
   }
 
-  public handleDelete(): void {
+  public handleDelete(instanceId: string): void {
     this.openDialog('delete', DialogDeleteComponent, false, {
       width: '450px',
       height: '275px',
     })
-      .then((response: DialogData) => console.log(response.dataOut))
+      .then((response: DialogData) => {
+        if (response.dataOut === 'delete') {
+          this.apiService.endpoints[Entity.DATA_PRODUCT].deleteDataProduct
+            .call({
+              instanceId,
+            })
+            .then(() => {
+              this.snackbarService.openSnackbar(
+                `Successfully deleted entity: ${instanceId}`,
+                'Close',
+                'success',
+                3000,
+                ['snackbar', 'mat-toolbar', 'snackbar-success'],
+              );
+              this.router.navigate(['/browse/data-products']);
+            })
+            .catch((err) => {
+              console.error(err);
+              this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]);
+            });
+        }
+      })
       .catch((err) => console.error(err));
   }
 

@@ -45,7 +45,7 @@ export class BrowseWebServicesItemComponent {
   }
 
   public handleDelete(): void {
-    this.dialogService.handleDelete();
+    // this.dialogService.handleDelete();
   }
 
   public handleCancel(): void {
