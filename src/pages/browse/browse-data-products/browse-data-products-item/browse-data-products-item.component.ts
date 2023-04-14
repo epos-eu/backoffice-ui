@@ -82,6 +82,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       instanceId: this.dataProduct?.instanceId as string,
       uid: this.dataProduct?.uid,
       title: [this.dataProduct?.title],
+      // title: [this.dataProduct?.title],
       description: [this.dataProduct?.description],
       changeTimestamp: this.dataProduct?.changeTimestamp,
       state: this.dataProduct?.state,
@@ -96,12 +97,17 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
+      const value = changes;
+      // TODO: Some stange behaviour where the detect changes pops value out of array.
+      value['title'] = [changes['title']];
+      value['description'] = [changes['description']];
       this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.FORM_DATA_PRODUCT,
-        JSON.stringify(changes),
+        JSON.stringify(value),
       );
+      console.debug(value);
     });
   }
 
