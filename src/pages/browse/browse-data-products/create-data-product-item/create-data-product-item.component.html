@@ -1,1 +1,303 @@
-<p>create-data-product-item works!</p>
+<ng-scrollbar [autoHeightDisabled]="false">
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayoutAlign="center none"
+  >
+    <button
+      mat-stroked-button
+      color="primary"
+      class="back-btn"
+      (click)="handleBack()"
+    >
+      <mat-icon color="primary">keyboard_backspace</mat-icon>
+      <span class="back-label-text">Back</span>
+    </button>
+    <div class="top-header">
+      <div class="flex-row">
+        <h1 class="mat-display-1">New Data Product</h1>
+        <!-- <mat-chip-list
+        aria-label="Status"
+        *ngIf="currentEdit"
+        >
+        <mat-chip [color]="currentEdit.color">{{ currentEdit.status }}</mat-chip>
+      </mat-chip-list> -->
+      </div>
+      <!-- <div class="actions">
+      <div class="flex-col">
+          <button
+          mat-mini-fab
+          color="default"
+          aria-label="Load a revision"
+          (click)="handleGetRevisions()"
+          >
+          <mat-icon>replay</mat-icon>
+        </button>
+        <label>Revisions</label>
+      </div>
+      <div class="flex-col">
+        <button
+        mat-mini-fab
+        color="error"
+        aria-label="Delete data product"
+        (click)="handleDelete()"
+        >
+        <mat-icon>delete</mat-icon>
+      </button>
+      <label>Delete</label>
+    </div>
+  </div> -->
+    </div>
+    <!--     
+    <div class="body">
+      
+    </div> -->
+    <form
+      [formGroup]="form"
+      *ngIf="form"
+    >
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
+      >
+        <mat-label>UID</mat-label>
+        <input
+          matInput
+          placeholder="UID"
+          name="uid"
+          formControlName="uid"
+          required
+        />
+      </mat-form-field>
+
+      <!-- <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="99"
+      >
+        <mat-label>Issued</mat-label>
+        <input
+          matInput
+          placeholder="Issued"
+          name="issued"
+          formControlName="issued"
+          readonly
+        />
+      </mat-form-field> -->
+
+      <!-- <mat-accordion multi>
+        <mat-expansion-panel (afterExpand)="handleExpand('distribution')">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Distribution </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div formArrayName="distribution">
+            <ng-container *ngFor="let child of getControls('distribution'); let i = index">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="99"
+              >
+                <mat-label>UID</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="uid"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="99"
+              >
+                <mat-label>Title</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="title"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>File Provenance</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="fileProvenance"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Description</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="description"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Format</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="format"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Type</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="type"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Issued</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="issued"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Modified</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="modified"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Change Timestamp</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="changeTimestamp"
+                  />
+                </div>
+              </mat-form-field>
+            </ng-container>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel (afterExpand)="handleExpand('contactPoint')">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Contact point </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div formArrayName="contactPoint">
+            <ng-container *ngFor="let child of getControls('contactPoint'); let i = index">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>UID</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="uid"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Email</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="email"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Organization</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="organization"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Telephone</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="telephone"
+                  />
+                </div>
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="95"
+              >
+                <mat-label>Change Timestamp</mat-label>
+                <div [formGroupName]="i">
+                  <input
+                    matInput
+                    formControlName="changeTimestamp"
+                  />
+                </div>
+              </mat-form-field>
+            </ng-container>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+    </form>
+    <button
+      mat-stroked-button
+      color="primary"
+      class="back-btn"
+      (click)="handleCreate()"
+      [disabled]="!enableSave"
+    >
+      <mat-icon color="primary">save</mat-icon>
+      <span class="back-label-text">Create</span>
+    </button>
+  </div>
+</ng-scrollbar>
