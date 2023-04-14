@@ -14,4 +14,8 @@ export class BrowseDataProductsComponent {
   public rowClicked(rowClickDetails: Array<string>): void {
     this.router.navigate(rowClickDetails);
   }
+
+  public createDataProduct(): void {
+    this.router.navigate(['browse/data-products/new']);
+  }
 }

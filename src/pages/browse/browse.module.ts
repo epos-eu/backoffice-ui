@@ -26,6 +26,7 @@ import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics
 import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
+import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ComponentsModule } from 'src/components/components.module';
     BrowseStatisticsComponent,
     BrowseContactPointComponent,
     BrowseDistributionComponent,
+    CreateDataProductItemComponent,
   ],
   imports: [
     CommonModule,

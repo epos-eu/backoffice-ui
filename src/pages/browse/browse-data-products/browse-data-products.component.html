@@ -4,7 +4,17 @@
     fxLayout="row"
     fxLayoutAlign="center none"
   >
-    <h1 class="mat-display-1">Data products</h1>
+    <div class="title mat-table-margin">
+      <h1 class="mat-display-1">Data products</h1>
+      <button
+        mat-raised-button
+        (click)="createDataProduct()"
+      >
+        <mat-icon color="primary">add_circle</mat-icon>
+        New Data Product
+      </button>
+    </div>
+
     <app-table
       [sectionName]="sectionName"
       (rowClickDetailsEmit)="rowClicked($event)"
