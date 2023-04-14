@@ -1,13 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
-import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
-import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -91,13 +88,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       identifier: [this.dataProduct?.identifier],
       // issued: this.isValidDate(this.dataProduct?.issued) ? this.dataProduct?.issued : '',
       keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
-      modified: this.dataProduct?.modified,
+      modified: this.dataProduct?.modified ? this.dataProduct?.modified : this.dataProduct?.changeTimestamp,
       versionInfo: this.dataProduct?.versionInfo,
       spatialExtent: this.formBuilder.array([]),
       temporalExtent: this.formBuilder.array([]),
       distribution: this.formBuilder.array([]),
       contactPoint: this.formBuilder.array([]),
     });
+    console.debug(this.dataProduct?.modified);
     this.form.valueChanges.subscribe((changes) => {
       this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
       this.persistorService.setValueInStorage(

@@ -39,15 +39,26 @@ export class CreateDataProductItemComponent implements OnInit {
     this.loading = true;
     const item: SaveDataProductBody = {
       uid: this.form.value['uid'],
+      modified: new Date().toISOString(),
     };
 
     this.apiService.endpoints.DataProduct.postDataProductDetail
       .call(item)
       .then((value: DataProductDataSource) => {
         this.router.navigate(['/browse/data-products/details', value.instanceId]);
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000);
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
       })
-      .catch(() => this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error'))
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      )
       .finally(() => (this.loading = false));
   }
 
