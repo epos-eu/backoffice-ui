@@ -27,6 +27,7 @@ import { CreateOperationDetail } from './operation/createOperationDetail';
 import { CreateUserDetail } from './user/createUserDetail';
 import { CreateDistributionDetail } from './distribution/createDistributionDetail';
 import { AaaiService } from 'src/aaai/aaai.service';
+import { DeleteDataProduct } from './data-products/deleteDataProduct';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -52,6 +53,7 @@ export class ApiService extends BaseApi {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
       postDataProductDetail: new PostDataProductDetails(ApiService.USE_LIVE_API),
       putDataProductDetail: new PutDataProductDetail(ApiService.USE_LIVE_API),
+      deleteDataProduct: new DeleteDataProduct(ApiService.USE_LIVE_API),
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
     },
     User: {

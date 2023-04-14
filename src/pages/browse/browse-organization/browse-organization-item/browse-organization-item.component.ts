@@ -46,7 +46,7 @@ export class BrowseOrganizationItemComponent {
   }
 
   public handleDelete(): void {
-    this.dialogService.handleDelete();
+    // this.dialogService.handleDelete();
   }
 
   public handleAddPerson(): void {

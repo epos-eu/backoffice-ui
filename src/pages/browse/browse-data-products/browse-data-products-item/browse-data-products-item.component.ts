@@ -206,7 +206,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleDelete(): void {
     // Todo: delete item from DB
-    this.dialogService.handleDelete();
+    if (this.dataProduct?.instanceId) {
+      this.dialogService.handleDelete(this.dataProduct?.instanceId);
+    }
   }
 
   public handleBack(): void {
