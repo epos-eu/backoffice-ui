@@ -2,8 +2,6 @@
   <div
     *ngIf="!uploading && !uploaded && !integrityChecked"
     class="container"
-    fxLayout="row"
-    fxLayoutAlign="center none"
   >
     <h1 class="mat-headline-4">New Metadata Import</h1>
     <h4>Import metadata file(s):</h4>
@@ -78,8 +76,6 @@
   <div
     *ngIf="uploading"
     class="container"
-    fxLayout="row"
-    fxLayoutAlign="center none"
   >
     <h1 class="mat-headline-4">Uploading</h1>
 
@@ -91,8 +87,6 @@
   <div
     *ngIf="uploaded"
     class="container"
-    fxLayout="row"
-    fxLayoutAlign="center none"
   >
     <h1 class="mat-headline-4">Success</h1>
     <h4>Preview file(s):</h4>
@@ -162,8 +156,6 @@
   <div
     *ngIf="integrityChecked"
     class="container"
-    fxLayout="row"
-    fxLayoutAlign="center none"
   >
     <h1 class="mat-headline-4">Metadata Status</h1>
     <h4>Imported File(s):</h4>
