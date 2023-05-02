@@ -1,3 +1,6 @@
+
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 mat-chip {
   min-width: 200px;
   height: 45px;
@@ -25,7 +28,7 @@ mat-chip {
     }
   }
 
-  &.mat-error {
+  &.mat-mdc-form-field-error {
     background: rgba(240, 61, 62, 0.2);
     color: #f03d3e;
 

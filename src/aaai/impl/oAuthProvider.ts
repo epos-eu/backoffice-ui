@@ -68,7 +68,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
         // TODO lint: must be a better way to get the base
         // eslint-disable-next-line max-len
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, no-underscore-dangle, @typescript-eslint/dot-notation
-        const base = String(router['location']._baseHref); // e.g. /testpath
+        const base = String(router['location']._basePath); // e.g. /testpath
         const origin = window.location.origin; // e.g. http://localhost:4200
 
         console.log('base', base);
