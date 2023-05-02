@@ -3,12 +3,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    mat-chip-list {
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+    /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+    mat-chip-listbox {
       margin-left: 1rem;
       margin-top: 0.125rem;
-
-      mat-chip {
+      /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
+      mat-chip-option {
         min-width: 75px;
         display: flex;
         justify-content: center;
@@ -58,7 +59,7 @@
           background: rgba(224, 224, 224, 0.8);
         }
 
-        &.mat-error {
+        &.mat-mdc-form-field-error {
           background: rgb(240, 61, 62, 0.4);
         }
       }

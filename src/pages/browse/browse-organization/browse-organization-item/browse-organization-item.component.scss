@@ -2,6 +2,7 @@
   font-family: 'Roboto Flex', sans-serif;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 .mat-tab-label {
   background-color: transparent;
   font-size: large;

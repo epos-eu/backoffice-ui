@@ -83,7 +83,7 @@ export class DialogService extends BaseDialogService {
       false,
       userData,
       {
-        width: '40vw',
+        width: '30vw',
         height: 'auto',
       },
       'user-permissions',

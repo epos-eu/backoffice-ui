@@ -1,4 +1,4 @@
-@import '../../styles/theme.scss';
+@import '../../styles/theme';
 
 .navbar-spacer {
   flex: 1 1 auto;
@@ -127,7 +127,7 @@ mat-sidenav-content {
   overflow-x: hidden;
 }
 
-a.mat-list-item.active {
+a.mat-mdc-list-item.active {
   background: rgba(0, 0, 0, 0.04);
 }
 
@@ -154,7 +154,7 @@ button {
   line-height: normal;
   z-index: 100;
   position: absolute;
-  right: 35px;
+  right: 25px;
   left: auto;
   top: 80px;
 

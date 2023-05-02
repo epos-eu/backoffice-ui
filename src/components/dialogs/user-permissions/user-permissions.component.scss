@@ -2,30 +2,52 @@
   font-family: 'Roboto Flex', sans-serif;
 }
 
-table {
+.wrapper {
+  padding: 2rem;
+}
+
+.flex-col-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+
+mat-form-field {
+  margin-top: 2rem;
+
+  mat-select {
+    mat-option {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.flex-wrapper {
+  display: flex;
   width: 100%;
-}
+  align-items: center;
 
-.top {
-  width: 100%;
-  background: #004926;
-  color: white;
-  height: 50px;
-  padding: 0.5rem 1rem;
-  text-align: center;
-}
+  .circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
+  }
 
-.middle {
-  margin: 1rem 0;
-  padding: 0 1.5rem;
-}
+  .details {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
 
-.bottom {
-  margin-top: 1rem;
-}
+    .name {
+      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
 
-.title {
-  font-weight: bold;
-  margin-right: 0.5em;
-  width: 5.5em;
+    .email {
+      font-size: 14px;
+      margin-top: 0;
+      color: #555;
+    }
+  }
 }

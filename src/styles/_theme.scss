@@ -1,6 +1,6 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
-@include mat-core();
+@include mat.core();
 
 $primary-map: (
   50: #e0e9e5,
@@ -101,13 +101,22 @@ $warn-map: (
   ),
 );
 
-$primary-palette: mat-palette($primary-map);
-$accent-palette: mat-palette($accent-map);
-$warn-palette: mat-palette($warn-map);
+$primary-palette: mat.define-palette($primary-map);
+$accent-palette: mat.define-palette($accent-map);
+$warn-palette: mat.define-palette($warn-map);
 
-$app-theme: mat-light-theme($primary-palette, $accent-palette, $warn-palette);
+$app-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary-palette,
+      accent: $accent-palette,
+      warn: $warn-palette,
+    ),
+  )
+);
 
-@include angular-material-theme($app-theme);
+@include mat.all-component-themes($app-theme);
+@include mat.all-component-typographies();
 
 $color-main-content: #ffffff;
 $color-primary: #004926;

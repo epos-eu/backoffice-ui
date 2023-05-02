@@ -1,12 +1,8 @@
 <ng-scrollbar>
-  <div
-    class="container"
-    fxLayout="row"
-    fxLayoutAlign="center none"
-  >
+  <div class="container">
     <ng-container *ngIf="organization">
       <div class="top-header">
-        <h1 class="mat-display-1">Organisation</h1>
+        <h1 class="mat-headline-4">Organisation</h1>
         <div class="actions">
           <mat-slide-toggle
             class="example-margin"
@@ -42,7 +38,7 @@
       >
         <mat-tab label="Information">
           <form>
-            <h4 class="mat-subheading-2">Identifier</h4>
+            <h4 class="mat-subtitle-1">Identifier</h4>
             <div class="inline-fields">
               <mat-form-field
                 appearance="outline"
@@ -78,7 +74,7 @@
               </mat-form-field>
             </div>
 
-            <h4 class="mat-subheading-2">Properties</h4>
+            <h4 class="mat-subtitle-1">Properties</h4>
             <mat-form-field
               appearance="outline"
               [floatLabel]="floatLabelControl.value"
@@ -139,7 +135,7 @@
               />
             </mat-form-field>
 
-            <h4 class="mat-subheading-2">Address</h4>
+            <h4 class="mat-subtitle-1">Address</h4>
             <mat-form-field
               appearance="outline"
               [floatLabel]="floatLabelControl.value"
@@ -205,7 +201,7 @@
           </form>
         </mat-tab>
         <mat-tab label="Relations">
-          <h4 class="mat-subheading-2">Contact Points</h4>
+          <h4 class="mat-subtitle-1">Contact Points</h4>
           <mat-form-field
             *ngFor="let contact of organization.contactPoint; let i = index"
             appearance="outline"
@@ -231,7 +227,7 @@
             Add
           </button>
 
-          <h4 class="mat-subheading-2">People</h4>
+          <h4 class="mat-subtitle-1">People</h4>
           <button
             mat-raised-button
             color="primary"
@@ -245,7 +241,7 @@
       </mat-tab-group>
     </ng-container>
     <ng-container *ngIf="!organization">
-      <h1 class="mat-display-1">Organisations</h1>
+      <h1 class="mat-headline-4">Organisations</h1>
       <p class="body-1">No records found. Please browse 'Organisations' using the list on the left.</p>
     </ng-container>
   </div>

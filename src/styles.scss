@@ -16,7 +16,7 @@
   margin-left: 30px;
 
   h1 {
-    &.mat-display-1 {
+    &.mat-headline-4 {
       margin: 32px 0 32px 0;
       font-weight: 500;
     }
@@ -41,11 +41,11 @@
   color: #fff;
 }
 
-.mat-tab-group {
+.mat-mdc-tab-group {
   margin-right: 30px;
 }
 
-.mat-tab-body {
+.mat-mdc-tab-body {
   padding: 10px 30px;
 }
 
@@ -59,4 +59,45 @@
   backdrop-filter: blur(4px);
   background: #004926;
   height: 100%;
+}
+
+.mat-mdc-list-item-unscoped-content {
+  display: flex;
+  align-items: center;
+}
+
+app-browse-navigation {
+  .mat-mdc-list-item-unscoped-content {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.mat-table-margin {
+  margin-right: 1.5rem;
+}
+
+.button-wrapper {
+  a,
+  button {
+    .mdc-button__label {
+      font-family: 'Roboto Flex', sans-serif;
+      font-size: 14px;
+      margin-right: 0.5rem;
+      letter-spacing: initial;
+    }
+  }
+}
+
+.mdc-button__label {
+  letter-spacing: initial;
+}
+
+.mat-mdc-select-min-line,
+.mdc-list-item__primary-text {
+  text-transform: capitalize !important;
 }

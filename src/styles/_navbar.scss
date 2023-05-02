@@ -1,7 +1,8 @@
 button {
-  &.mat-flat-button {
+  &.mat-mdc-unelevated-button {
     &.mat-accent {
       span {
+        /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
         &.mat-button-wrapper {
           color: #FFFFFF;
           font-family: 'Roboto Flex', sans-serif;
@@ -10,7 +11,7 @@ button {
     }
   }
 
-  &.mat-mini-fab {
+  &.mat-mdc-mini-fab {
     box-shadow: none !important;
   }
 }
