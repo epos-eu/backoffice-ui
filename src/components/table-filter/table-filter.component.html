@@ -1,0 +1,29 @@
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>filter_list</mat-icon>
+        <span>Filters</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="filters">
+      <mat-form-field
+        appearance="outline"
+        color="primary"
+      >
+        <mat-label>Status</mat-label>
+        <mat-select
+          (selectionChange)="handleFilterByStatus($event)"
+          panelClass="table-filter-panel"
+        >
+          <mat-option
+            *ngFor="let item of statusOptions"
+            [value]="item.option"
+          >
+            {{ item.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
