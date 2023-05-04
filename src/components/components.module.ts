@@ -11,9 +11,18 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { ChartComponent } from './chart/chart.component';
 import { TableComponent } from './table/table.component';
+import { TableFilterComponent } from './table-filter/table-filter.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
-  declarations: [LayoutComponent, ActionsDataComponent, LoginComponent, ChartComponent, TableComponent],
+  declarations: [
+    LayoutComponent,
+    ActionsDataComponent,
+    LoginComponent,
+    ChartComponent,
+    TableComponent,
+    TableFilterComponent,
+  ],
   imports: [
     RouterModule,
     CommonModule,
@@ -22,6 +31,7 @@ import { TableComponent } from './table/table.component';
     DialogModule,
     MatChipsModule,
     ChartjsModule,
+    MatExpansionModule,
   ],
   exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent],
 })

@@ -101,3 +101,15 @@ app-browse-navigation {
 .mdc-list-item__primary-text {
   text-transform: capitalize !important;
 }
+
+.table-filter-panel {
+  .mdc-list-item__primary-text {
+    font-size: 14px !important;
+  }
+}
+
+app-table-filter {
+  .mat-mdc-select-value-text {
+    font-size: 14px;
+  }
+}

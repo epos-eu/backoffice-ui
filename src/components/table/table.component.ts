@@ -39,6 +39,10 @@ export class TableComponent implements AfterViewInit {
     this.rowClickDetailsEmit.next(['/browse/data-products/details', instanceId]);
   }
 
+  public handleFilter(filterStr: string) {
+    this.dataSource.filter = filterStr.trim().toLowerCase();
+  }
+
   private createTableObjects(items: TableItems) {
     const tableDetails = new Array<TableDetail>();
     items.forEach((item: TableItem) => {
@@ -59,6 +63,9 @@ export class TableComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(details);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = (data: any, filterValue: string) => {
+      return data.status.trim().toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0;
+    };
     this.loading = false;
   }
 }
