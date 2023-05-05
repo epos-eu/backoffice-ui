@@ -28,6 +28,7 @@ import { BrowseDistributionComponent } from './browse-distribution/browse-distri
 import { ComponentsModule } from 'src/components/components.module';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     BrowseContactPointComponent,
     BrowseDistributionComponent,
     CreateDataProductItemComponent,
+    BrowseDistributionItemComponent,
   ],
   imports: [
     CommonModule,

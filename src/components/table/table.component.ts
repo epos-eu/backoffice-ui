@@ -36,7 +36,7 @@ export class TableComponent implements AfterViewInit {
   }
 
   public rowClicked(instanceId: string): void {
-    this.rowClickDetailsEmit.next(['/browse/data-products/details', instanceId]);
+    this.rowClickDetailsEmit.next([instanceId]);
   }
 
   private createTableObjects(items: TableItems) {

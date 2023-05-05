@@ -12,7 +12,7 @@ export class BrowseDataProductsComponent {
   constructor(private router: Router) {}
 
   public rowClicked(rowClickDetails: Array<string>): void {
-    this.router.navigate(rowClickDetails);
+    this.router.navigate(['/browse/data-products/details'].concat(rowClickDetails));
   }
 
   public createDataProduct(): void {
