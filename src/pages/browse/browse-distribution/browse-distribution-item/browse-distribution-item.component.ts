@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
@@ -16,7 +16,7 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
   templateUrl: './browse-distribution-item.component.html',
   styleUrls: ['./browse-distribution-item.component.scss'],
 })
-export class BrowseDistributionItemComponent {
+export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new UntypedFormControl('auto');
   public distributionDetail!: DistributionDetailDataSource | undefined;
   public UID!: string | null;

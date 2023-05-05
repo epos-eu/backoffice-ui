@@ -22,6 +22,7 @@ export class DistributionDetailDataSource extends BaseObject {
     UID: 'uid',
     EDITOR_ID: 'editorId',
     CHANGE_COMMENT: 'changeComment',
+    PRODUCT_ID: 'productid',
   };
 
   public readonly instanceId: string;
@@ -42,6 +43,7 @@ export class DistributionDetailDataSource extends BaseObject {
   public readonly uid: string;
   public readonly editorId: string;
   public readonly changeComment: string;
+  public readonly productid: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -64,5 +66,6 @@ export class DistributionDetailDataSource extends BaseObject {
     this.uid = this._getString(DistributionDetailDataSource.KEYS.UID);
     this.editorId = this._getString(DistributionDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(DistributionDetailDataSource.KEYS.CHANGE_COMMENT);
+    this.productid = this._getString(DistributionDetailDataSource.KEYS.PRODUCT_ID);
   }
 }

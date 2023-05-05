@@ -15,7 +15,7 @@ export class BrowseDistributionComponent {
     this.router.navigate(['/browse/distribution/details'].concat(rowClickDetails));
   }
 
-  public createDataProduct(): void {
+  public createDistribution(): void {
     this.router.navigate(['browse/distribution/new']);
   }
 }

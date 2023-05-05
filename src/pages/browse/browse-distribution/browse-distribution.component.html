@@ -2,7 +2,10 @@
   <div class="container">
     <div class="title mat-table-margin">
       <h1 class="mat-headline-4">Distribution</h1>
-      <button mat-stroked-button>
+      <button
+        mat-stroked-button
+        (click)="createDistribution()"
+      >
         <mat-icon color="primary">add_circle</mat-icon>
         New Distribution
       </button>
