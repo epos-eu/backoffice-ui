@@ -36,7 +36,16 @@ export class TableComponent implements AfterViewInit {
   }
 
   public rowClicked(instanceId: string): void {
-    this.rowClickDetailsEmit.next(['/browse/data-products/details', instanceId]);
+    let emitPath;
+    switch (true) {
+      case this.sectionName === Entity.DATA_PRODUCT:
+        emitPath = 'data-products';
+        break;
+      case this.sectionName === Entity.WEBSERVICE:
+        emitPath = 'web-services';
+        break;
+    }
+    this.rowClickDetailsEmit.next([`/browse/${emitPath}/details`, instanceId]);
   }
 
   public handleFilter(filterStr: string) {

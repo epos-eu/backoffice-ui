@@ -1,16 +1,5 @@
-import { Mapping } from '../types/mapping.type';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 export class Operation {
-  constructor(
-    public instanceId: string,
-    public changeTimestamp: Date,
-    public state: string,
-    public toBeDelete: string,
-    public uid: string,
-    public fileProvenance: string,
-    public method: string,
-    public returns: Array<string>,
-    public template: string,
-    public mapping: Array<Mapping>,
-  ) {}
+  constructor(public entityType: Entity, public instanceId: string, public metaId: string, public uid: string) {}
 }
