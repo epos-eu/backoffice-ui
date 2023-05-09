@@ -31,8 +31,9 @@ import { RequestMethod } from '../_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { DeleteDataProduct } from './data-products/deleteDataProduct';
+// import { DeleteDataProduct } from './data-products/deleteDataProduct';
 import { PostWebserviceDetail } from './webservice/postWebserviceDetail';
+import { PutWebserviceDetail } from './webservice/putWebserviceDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -49,6 +50,7 @@ export class ApiService extends BaseApi {
       getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllWebservices(ApiService.USE_LIVE_API),
       postWebserviceDetail: new PostWebserviceDetail(ApiService.USE_LIVE_API),
+      putWebserviceDetail: new PutWebserviceDetail(ApiService.USE_LIVE_API),
     },
     Operation: {
       getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),

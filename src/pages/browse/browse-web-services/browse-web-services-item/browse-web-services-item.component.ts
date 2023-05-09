@@ -74,7 +74,6 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   private trackFormData(): void {
-    console.log(this.webservice);
     this.form = this.formBuilder.group({
       instanceId: this.webservice?.instanceId as string,
       uid: this.webservice?.uid,
