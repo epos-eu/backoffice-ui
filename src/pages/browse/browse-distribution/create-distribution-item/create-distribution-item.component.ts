@@ -6,6 +6,7 @@ import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/createD
 import { CreateUpdateDistributionDataSource } from 'src/apiAndObjects/objects/createUpdateDistributionDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-create-distribution-item',
@@ -39,8 +40,9 @@ export class CreateDistributionItemComponent implements OnInit {
     this.loading = true;
     const item: SaveDistributionBody = {
       uid: this.form.value['uid'],
-      productid: this.form.value['productid'],
+      state: State.DRAFT,
       modified: new Date().toISOString(),
+      // keywords: [''],
     };
 
     this.apiService.endpoints.Distribution.createDistribution
@@ -66,7 +68,6 @@ export class CreateDistributionItemComponent implements OnInit {
   private trackFormData(): void {
     this.form = this.formBuilder.group({
       uid: this.distribution?.uid,
-      productid: this.distribution?.productid,
     });
     this.form.valueChanges.subscribe(() => {
       this.enableSave = this.form.valid;

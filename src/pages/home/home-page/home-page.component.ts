@@ -53,9 +53,9 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.actionsService.initEditedItems();
-    this.actionsService.editedItemsObservable.subscribe((editedItems: Array<IChangeItem>) => {
-      this.getCounts(editedItems);
-    });
+    // this.actionsService.editedItemsObservable.subscribe((editedItems: Array<IChangeItem>) => {
+    //   this.getCounts(editedItems);
+    // });
   }
 
   private getCounts(editedItems: Array<IChangeItem>): void {

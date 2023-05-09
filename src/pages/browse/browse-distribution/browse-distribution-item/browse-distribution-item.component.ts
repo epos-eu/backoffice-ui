@@ -62,6 +62,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           this.distributionDetail = data.shift();
+          console.debug(this.distributionDetail);
 
           if (this.distributionDetail) {
             this.actionService.setLiveEdit();

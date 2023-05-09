@@ -75,7 +75,7 @@ export interface SaveDistributionBody {
   operation?: string;
   operationid?: string;
   parameters?: Array<BackofficeParameter>;
-  productid: string;
+  productid?: string;
   scienceDomain?: Array<string>;
   serviceDescription?: string;
   serviceDocumentation?: string;

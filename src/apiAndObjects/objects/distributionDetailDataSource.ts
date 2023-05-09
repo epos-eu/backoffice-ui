@@ -47,10 +47,11 @@ export class DistributionDetailDataSource extends BaseObject {
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
+    console.debug(sourceObject);
 
     this.instanceId = this._getString(DistributionDetailDataSource.KEYS.INSTANCE_ID);
     this.changeTimestamp = this._getDate(DistributionDetailDataSource.KEYS.CHANGE_TIMESTAMP);
-    this.state = this._getEnumFromValue(DistributionDetailDataSource.KEYS.STATE, State);
+    this.state = this._getValue(DistributionDetailDataSource.KEYS.STATE) as State;
     this.toBeDelete = this._getString(DistributionDetailDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(DistributionDetailDataSource.KEYS.FILE_PROVENANCE);
     this.accessService = this._getValue(DistributionDetailDataSource.KEYS.ACCESS_SERVICE) as AccessService;
@@ -67,5 +68,6 @@ export class DistributionDetailDataSource extends BaseObject {
     this.editorId = this._getString(DistributionDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(DistributionDetailDataSource.KEYS.CHANGE_COMMENT);
     this.productid = this._getString(DistributionDetailDataSource.KEYS.PRODUCT_ID);
+    console.debug('state', this.state);
   }
 }
