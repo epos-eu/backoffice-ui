@@ -37,7 +37,7 @@ export class GetContactPointDetail extends CacheableEndpoint<
       ContactPointDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/testpath/assets/data/contactPoint.json')));
+          resolve(lastValueFrom(httpClient.get('/assets/data/contactPoint.json')));
         }, 100);
       }),
     );
