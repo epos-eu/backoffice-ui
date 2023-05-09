@@ -46,7 +46,6 @@ export class GetDistributionDetail extends CacheableEndpoint<
     data: Array<Record<string, unknown>> | unknown,
     params: GetDistributionDetailsParams,
   ): Array<Record<string, unknown>> {
-    console.debug('raw return data', data);
     if (Array.isArray(data)) {
       data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
       return params.singleOptionOnly === true ? data.slice(0, 1) : data;

@@ -13,6 +13,7 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -209,7 +210,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public handleDelete(): void {
     // Todo: delete item from DB
     if (this.dataProduct?.instanceId) {
-      this.dialogService.handleDelete(this.dataProduct?.instanceId);
+      this.dialogService.handleDelete(this.dataProduct?.instanceId, EntityEndpointValue.DATA_PRODUCT);
     }
   }
 
