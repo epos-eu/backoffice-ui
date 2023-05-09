@@ -107,7 +107,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         StorageKey.FORM_DATA_PRODUCT,
         JSON.stringify(value),
       );
-      console.debug(value);
     });
   }
 

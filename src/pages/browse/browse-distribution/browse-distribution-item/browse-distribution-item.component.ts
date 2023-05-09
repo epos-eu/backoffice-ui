@@ -62,8 +62,6 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           this.distributionDetail = data.shift();
-          console.debug(this.distributionDetail);
-
           if (this.distributionDetail) {
             this.actionService.setLiveEdit();
             this.trackFormData();
@@ -105,7 +103,6 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
         StorageKey.FORM_DATA_PRODUCT,
         JSON.stringify(value),
       );
-      console.debug(value);
     });
   }
 
