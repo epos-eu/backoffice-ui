@@ -92,8 +92,10 @@
 }
 
 .back-btn {
-  border-radius: 25px;
-  margin-top: 0.75rem;
+  &.mat-mdc-outlined-button {
+    border-radius: 25px;
+    margin-top: 0.75rem;
+  }
 
   mat-icon {
     color: #004926;

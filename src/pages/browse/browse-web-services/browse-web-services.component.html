@@ -1,6 +1,9 @@
 <ng-scrollbar>
   <div class="container">
     <h1 class="mat-headline-4">Webservices</h1>
-    <app-table [sectionName]="sectionName"></app-table>
+    <app-table
+      [sectionName]="sectionName"
+      (rowClickDetailsEmit)="rowClicked($event)"
+    ></app-table>
   </div>
 </ng-scrollbar>
