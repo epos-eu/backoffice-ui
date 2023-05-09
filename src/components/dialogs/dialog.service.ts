@@ -11,9 +11,9 @@ import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { Entity } from 'src/utility/enums/entity.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Router } from '@angular/router';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -90,17 +90,15 @@ export class DialogService extends BaseDialogService {
     );
   }
 
-  public handleDelete(instanceId: string): void {
+  public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue): void {
     this.openDialog('delete', DialogDeleteComponent, false, {
       width: '450px',
       height: '275px',
     })
       .then((response: DialogData) => {
         if (response.dataOut === 'delete') {
-          this.apiService.endpoints[Entity.DATA_PRODUCT].deleteDataProduct
-            .call({
-              instanceId,
-            })
+          this.apiService
+            .deleteEntity(entityEndpoint, instanceId)
             .then(() => {
               this.snackbarService.openSnackbar(
                 `Successfully deleted entity: ${instanceId}`,
@@ -109,7 +107,7 @@ export class DialogService extends BaseDialogService {
                 3000,
                 ['snackbar', 'mat-toolbar', 'snackbar-success'],
               );
-              this.router.navigate(['/browse/data-products']);
+              this.router.navigate([`/browse/${entityEndpoint}`]);
             })
             .catch((err) => {
               console.error(err);

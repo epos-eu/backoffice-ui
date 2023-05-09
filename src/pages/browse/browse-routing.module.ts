@@ -21,6 +21,8 @@ import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics
 import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
+import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
+import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
 
 const routes: Routes = [
   {
@@ -57,7 +59,11 @@ const routes: Routes = [
   {
     path: 'distribution',
     component: LayoutComponent,
-    children: [{ path: '', component: BrowseDistributionComponent }],
+    children: [
+      { path: '', component: BrowseDistributionComponent },
+      { path: 'details/:id', component: BrowseDistributionItemComponent },
+      { path: 'new', component: CreateDistributionItemComponent },
+    ],
   },
   {
     path: 'contact-point',

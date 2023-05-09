@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BaseApi } from '../_lib_code/api/baseApi.abstract';
 import { EposBackOfficeHttpResponseHandler } from './eposBackofficeHttpResponseHandler';
@@ -27,7 +27,10 @@ import { CreateOperationDetail } from './operation/createOperationDetail';
 import { CreateUserDetail } from './user/createUserDetail';
 import { CreateDistributionDetail } from './distribution/createDistributionDetail';
 import { AaaiService } from 'src/aaai/aaai.service';
-import { DeleteDataProduct } from './data-products/deleteDataProduct';
+import { RequestMethod } from '../_lib_code/api/requestMethod.enum';
+import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -53,7 +56,6 @@ export class ApiService extends BaseApi {
       getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
       postDataProductDetail: new PostDataProductDetails(ApiService.USE_LIVE_API),
       putDataProductDetail: new PutDataProductDetail(ApiService.USE_LIVE_API),
-      deleteDataProduct: new DeleteDataProduct(ApiService.USE_LIVE_API),
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
     },
     User: {
@@ -77,7 +79,12 @@ export class ApiService extends BaseApi {
     },
   };
 
-  constructor(httpClient: HttpClient, injector: Injector, aaai: AaaiService) {
+  constructor(
+    httpClient: HttpClient,
+    injector: Injector,
+    aaai: AaaiService,
+    private persistorService: PersistorService,
+  ) {
     super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector, aaai), environment.apiBaseUrl);
 
     // Add endpoints
@@ -85,5 +92,23 @@ export class ApiService extends BaseApi {
     Object.values(this.endpoints).forEach((group: any) => {
       this.addEndpoints(Object.values(group));
     });
+  }
+
+  public deleteEntity(entityEndpoint: EntityEndpointValue, instanceId: string): Promise<string> {
+    const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
+    const headers = (): HttpHeaders => {
+      const headers = new HttpHeaders()
+        .set('Authorization', accessToken ? `Bearer ${accessToken}` : '')
+        .set('Content-Type', 'application/json');
+      return headers;
+    };
+    const callResponsePromise = this.apiCaller.doCall(
+      [entityEndpoint, instanceId],
+      RequestMethod.DELETE,
+      undefined,
+      undefined,
+      headers,
+    );
+    return callResponsePromise as Promise<string>;
   }
 }

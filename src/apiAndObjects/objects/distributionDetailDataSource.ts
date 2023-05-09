@@ -22,6 +22,7 @@ export class DistributionDetailDataSource extends BaseObject {
     UID: 'uid',
     EDITOR_ID: 'editorId',
     CHANGE_COMMENT: 'changeComment',
+    PRODUCT_ID: 'productid',
   };
 
   public readonly instanceId: string;
@@ -42,13 +43,13 @@ export class DistributionDetailDataSource extends BaseObject {
   public readonly uid: string;
   public readonly editorId: string;
   public readonly changeComment: string;
+  public readonly productid: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
-
     this.instanceId = this._getString(DistributionDetailDataSource.KEYS.INSTANCE_ID);
     this.changeTimestamp = this._getDate(DistributionDetailDataSource.KEYS.CHANGE_TIMESTAMP);
-    this.state = this._getEnumFromValue(DistributionDetailDataSource.KEYS.STATE, State);
+    this.state = this._getValue(DistributionDetailDataSource.KEYS.STATE) as State;
     this.toBeDelete = this._getString(DistributionDetailDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(DistributionDetailDataSource.KEYS.FILE_PROVENANCE);
     this.accessService = this._getValue(DistributionDetailDataSource.KEYS.ACCESS_SERVICE) as AccessService;
@@ -64,5 +65,6 @@ export class DistributionDetailDataSource extends BaseObject {
     this.uid = this._getString(DistributionDetailDataSource.KEYS.UID);
     this.editorId = this._getString(DistributionDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(DistributionDetailDataSource.KEYS.CHANGE_COMMENT);
+    this.productid = this._getString(DistributionDetailDataSource.KEYS.PRODUCT_ID);
   }
 }
