@@ -10,6 +10,7 @@
 @import './styles/colour';
 @import './styles/navbar';
 @import './styles/chart';
+@import './styles/entity';
 
 .container {
   margin-top: 10px;
@@ -29,11 +30,11 @@
     max-width: 100%;
     margin-right: 2rem;
 
-    .actions {
-      button {
-        margin-left: 1rem;
-      }
-    }
+    // .actions {
+    //   button {
+    //     margin-left: 1rem;
+    //   }
+    // }
   }
 }
 

@@ -14,6 +14,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class AaaiService {
   private readonly now = new Date();
   private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
+  private readonly logoutTime = new Date(this.logOutAfterInactivityPeriod);
 
   private constructor(private readonly authProvider: AuthenticationProvider) {
     this.startLogoutInterval();
@@ -51,8 +52,7 @@ export class AaaiService {
 
   private startLogoutInterval(): void {
     setInterval(() => {
-      const logoutTime = new Date(this.logOutAfterInactivityPeriod);
-      if (null != this.getUser() && logoutTime < new Date()) {
+      if (null != this.getUser() && this.logoutTime < new Date()) {
         console.log('Time to log out');
         this.logout();
       }
