@@ -37,7 +37,7 @@ export class GetDataProductDetail extends CacheableEndpoint<
       DataProductsDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
-          resolve(lastValueFrom(httpClient.get('/testpath/assets/data/dataProduct.json')));
+          resolve(lastValueFrom(httpClient.get('/assets/data/dataProduct.json')));
         }, 100);
       }),
     );
