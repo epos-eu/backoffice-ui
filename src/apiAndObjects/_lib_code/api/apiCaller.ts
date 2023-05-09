@@ -9,6 +9,7 @@ import { SavePersonBody } from 'src/apiAndObjects/api/person/createPersonDetail'
 import { SaveOperationBody } from 'src/apiAndObjects/api/operation/createOperationDetail';
 import { SaveUserBody } from 'src/apiAndObjects/api/user/createUserDetail';
 import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/createDistributionDetail';
+import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -43,7 +44,8 @@ export class ApiCaller {
       | SavePersonBody
       | SaveOperationBody
       | SaveUserBody
-      | SaveDistributionBody = {},
+      | SaveDistributionBody
+      | SaveWebserviceBody = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);

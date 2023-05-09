@@ -1,6 +1,15 @@
 <ng-scrollbar>
   <div class="container">
-    <h1 class="mat-headline-4">Webservices</h1>
+    <div class="title mat-table-margin">
+      <h1 class="mat-headline-4">Webservices</h1>
+      <button
+        mat-stroked-button
+        (click)="createWebService()"
+      >
+        <mat-icon color="primary">add_circle</mat-icon>
+        New webservice
+      </button>
+    </div>
     <app-table
       [sectionName]="sectionName"
       (rowClickDetailsEmit)="rowClicked($event)"

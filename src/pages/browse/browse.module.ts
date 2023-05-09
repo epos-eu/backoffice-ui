@@ -30,6 +30,7 @@ import { CreateDataProductItemComponent } from './browse-data-products/create-da
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
 import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
+import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { CreateDistributionItemComponent } from './browse-distribution/create-di
     CreateDataProductItemComponent,
     BrowseDistributionItemComponent,
     CreateDistributionItemComponent,
+    CreateWebServiceItemComponent,
   ],
   imports: [
     CommonModule,
