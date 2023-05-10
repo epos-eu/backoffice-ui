@@ -41,6 +41,11 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.persistorService.setValueInStorage(
+      StorageType.LOCAL_STORAGE,
+      StorageKey.ACTIVE_ENTITY,
+      EntityEndpointValue.DISTRIBUTION,
+    );
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);
@@ -99,11 +104,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       value['title'] = [changes['title']];
       value['description'] = [changes['description']];
       this.actionService.resetToDraft(this.distributionDetail?.instanceId as string);
-      this.persistorService.setValueInStorage(
-        StorageType.LOCAL_STORAGE,
-        StorageKey.FORM_DATA_PRODUCT,
-        JSON.stringify(value),
-      );
+      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
   }
 

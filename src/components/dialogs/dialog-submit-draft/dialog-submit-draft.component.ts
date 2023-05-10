@@ -35,36 +35,33 @@ export class DialogSubmitDraftComponent implements OnInit {
 
   public handleSubmit(): void {
     if (this.comment.valid) {
-      const localStorage = this.persistorService.getValueFromStorage(
-        StorageType.LOCAL_STORAGE,
-        StorageKey.FORM_DATA_PRODUCT,
-      );
+      const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
       if (localStorage !== null) {
-        // const formData: DataProduct = JSON.parse(localStorage);
-        // this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
-        //   .call({
-        //     ...formData,
-        //     changeComment: this.comment.value as string,
-        //   })
-        //   .then(() => {
-        //     this.actionsService.submitCurrentEdit(this.currentEdit.id);
-        //     this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
-        //       'snackbar',
-        //       'mat-toolbar',
-        //       'snackbar-success',
-        //     ]);
-        //   })
-        //   .catch((err) => {
-        //     console.error(err);
-        //     this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
-        //       'snackbar',
-        //       'mat-toolbar',
-        //       'snackbar-error',
-        //     ]);
-        //   })
-        //   .finally(() => {
-        //     this.dialogService.closeDialog();
-        //   });
+        const formData: DataProduct = JSON.parse(localStorage);
+        this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
+          .call({
+            ...formData,
+            changeComment: this.comment.value as string,
+          })
+          .then(() => {
+            this.actionsService.submitCurrentEdit(this.currentEdit.id);
+            this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-error',
+            ]);
+          })
+          .finally(() => {
+            this.dialogService.closeDialog();
+          });
       }
     }
   }

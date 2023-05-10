@@ -31,6 +31,7 @@ import { RequestMethod } from '../_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { UpdateDistributionDetail } from './distribution/updateDistributionDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -42,6 +43,7 @@ export class ApiService extends BaseApi {
       getDistributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllDistributions(ApiService.USE_LIVE_API),
       createDistribution: new CreateDistributionDetail(ApiService.USE_LIVE_API),
+      updateDistributionDetail: new UpdateDistributionDetail(ApiService.USE_LIVE_API),
     },
     Webservice: {
       getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),

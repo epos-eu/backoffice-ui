@@ -40,9 +40,7 @@ export class CreateDistributionItemComponent implements OnInit {
     this.loading = true;
     const item: SaveDistributionBody = {
       uid: this.form.value['uid'],
-      state: State.DRAFT,
       modified: new Date().toISOString(),
-      // keywords: [''],
     };
 
     this.apiService.endpoints.Distribution.createDistribution
