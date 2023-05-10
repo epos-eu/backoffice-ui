@@ -164,11 +164,9 @@ export class EditNavigationComponent implements OnInit {
     this.itemsExist.next(true);
 
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
-    console.debug(localStorage);
     if (localStorage !== null) {
       const formData: SaveDistributionBody = JSON.parse(localStorage);
       if (formData.state === State.DRAFT) {
-        console.debug('hereeee');
         this.apiService.endpoints[Entity.DISTRIBUTION].update
           .call({
             ...formData,
@@ -198,7 +196,6 @@ export class EditNavigationComponent implements OnInit {
           .call({
             ...formData,
             state: State.DRAFT,
-            metaId: 'test meta id',
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
