@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/createDistributionDetail';
+import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
 import { CreateUpdateDistributionDataSource } from 'src/apiAndObjects/objects/createUpdateDistributionDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-create-distribution-item',
@@ -43,7 +42,7 @@ export class CreateDistributionItemComponent implements OnInit {
       modified: new Date().toISOString(),
     };
 
-    this.apiService.endpoints.Distribution.createDistribution
+    this.apiService.endpoints.Distribution.create
       .call(item)
       .then((value: CreateUpdateDistributionDataSource) => {
         this.router.navigate(['/browse/distribution/details', value.instanceId]);

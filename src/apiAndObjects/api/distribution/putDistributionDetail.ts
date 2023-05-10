@@ -3,14 +3,10 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { State } from 'src/utility/enums/state.enum';
-import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { CreateUpdateDistributionDataSource } from 'src/apiAndObjects/objects/createUpdateDistributionDataSource';
-import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
-import { SpatialBounds } from 'src/apiAndObjects/objects/types/spatialBounds.type';
-import { SaveDistributionBody } from './createDistributionDetail';
+import { SaveDistributionBody } from './postDistributionDetail';
 
-export class UpdateDistributionDetail extends CacheableEndpoint<
+export class PutDistributionDetail extends CacheableEndpoint<
   CreateUpdateDistributionDataSource,
   SaveDistributionBody,
   CreateUpdateDistributionDataSource

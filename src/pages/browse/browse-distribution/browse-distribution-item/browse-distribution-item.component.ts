@@ -58,7 +58,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(id: string): void {
-    this.apiService.endpoints.Distribution.getDistributionDetail
+    this.apiService.endpoints.Distribution.get
       .call(
         {
           instanceId: id,

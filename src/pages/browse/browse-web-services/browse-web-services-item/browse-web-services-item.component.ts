@@ -54,7 +54,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(id: string): void {
-    this.apiService.endpoints[Entity.WEBSERVICE].getWebserviceDetail
+    this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
         {
           instanceId: id,

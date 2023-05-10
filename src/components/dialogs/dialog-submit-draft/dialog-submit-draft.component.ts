@@ -38,7 +38,7 @@ export class DialogSubmitDraftComponent implements OnInit {
       const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
       if (localStorage !== null) {
         const formData: DataProduct = JSON.parse(localStorage);
-        this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
+        this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
             changeComment: this.comment.value as string,

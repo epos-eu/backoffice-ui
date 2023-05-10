@@ -61,7 +61,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(id: string): void {
-    this.apiService.endpoints[Entity.DATA_PRODUCT].getDataProductDetail
+    this.apiService.endpoints[Entity.DATA_PRODUCT].get
       .call(
         {
           instanceId: id,

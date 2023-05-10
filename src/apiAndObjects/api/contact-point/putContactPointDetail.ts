@@ -7,7 +7,7 @@ import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { State } from 'src/utility/enums/state.enum';
 import { CreateUpdateContactPointDataSource } from 'src/apiAndObjects/objects/createUpdateContactPointDataSource';
 
-export class UpdateContactPointDetail extends CacheableEndpoint<
+export class PutContactPointDetail extends CacheableEndpoint<
   CreateUpdateContactPointDataSource,
   SaveContactPointBody,
   CreateUpdateContactPointDataSource
@@ -26,7 +26,7 @@ export class UpdateContactPointDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.PUT, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.POST, undefined, body, headers);
 
     return this.buildObjectFromResponse(CreateUpdateContactPointDataSource, callResponsePromise).then(
       (response: CreateUpdateContactPointDataSource) => response,

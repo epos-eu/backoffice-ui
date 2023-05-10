@@ -97,7 +97,7 @@ export class EditNavigationComponent implements OnInit {
     if (localStorage !== null) {
       const formData: DataProduct = JSON.parse(localStorage);
       if (formData.state === State.DRAFT) {
-        this.apiService.endpoints[Entity.DATA_PRODUCT].putDataProductDetail
+        this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
           })
@@ -117,7 +117,7 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
-        this.apiService.endpoints[Entity.DATA_PRODUCT].postDataProductDetail
+        this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
             state: State.DRAFT,

@@ -8,7 +8,7 @@ import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { CreateUpdateOperationDataSource } from 'src/apiAndObjects/objects/createUpdateOperationDataSource';
 
-export class UpdateOperationDetail extends CacheableEndpoint<
+export class PutOperationDetail extends CacheableEndpoint<
   CreateUpdateOperationDataSource,
   SaveOperationBody,
   CreateUpdateOperationDataSource

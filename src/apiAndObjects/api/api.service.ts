@@ -20,18 +20,18 @@ import { GetAllUsers } from './user/getAllUsers';
 import { GetAllPeople } from './person/getAllPeople';
 import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
-import { CreateContactPointDetail } from './contact-point/createContactPointDetails';
-import { CreateOrganizationDetail } from './organization/createOrganizationDetail';
 import { CreatePersonDetail } from './person/createPersonDetail';
-import { CreateOperationDetail } from './operation/createOperationDetail';
 import { CreateUserDetail } from './user/createUserDetail';
-import { CreateDistributionDetail } from './distribution/createDistributionDetail';
+import { PostDistributionDetail } from './distribution/postDistributionDetail';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { RequestMethod } from '../_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { UpdateDistributionDetail } from './distribution/updateDistributionDetail';
+import { PutDistributionDetail } from './distribution/putDistributionDetail';
+import { PostContactPointDetail } from './contact-point/postContactPointDetail';
+import { PostOperationDetail } from './operation/postOperationDetail';
+import { PostOrganizationDetail } from './organization/postOrganizationDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -39,26 +39,37 @@ export class ApiService extends BaseApi {
   private static readonly USE_LIVE_API = environment.useLiveApi;
 
   public readonly endpoints = {
-    Distribution: {
-      getDistributionDetail: new GetDistributionDetail(ApiService.USE_LIVE_API),
-      getAll: new GetAllDistributions(ApiService.USE_LIVE_API),
-      createDistribution: new CreateDistributionDetail(ApiService.USE_LIVE_API),
-      updateDistributionDetail: new UpdateDistributionDetail(ApiService.USE_LIVE_API),
+    /* DDSS Entities */
+    DataProduct: {
+      get: new GetDataProductDetail(ApiService.USE_LIVE_API),
+      getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
+      create: new PostDataProductDetails(ApiService.USE_LIVE_API),
+      update: new PutDataProductDetail(ApiService.USE_LIVE_API),
     },
     Webservice: {
-      getWebserviceDetail: new GetWebserviceDetail(ApiService.USE_LIVE_API),
+      get: new GetWebserviceDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllWebservices(ApiService.USE_LIVE_API),
     },
-    Operation: {
-      getOperationDetail: new GetOperationDetails(ApiService.USE_LIVE_API),
-      getAll: new GetAllOperations(ApiService.USE_LIVE_API),
-      postOperationDetail: new CreateOperationDetail(ApiService.USE_LIVE_API),
+    Distribution: {
+      get: new GetDistributionDetail(ApiService.USE_LIVE_API),
+      getAll: new GetAllDistributions(ApiService.USE_LIVE_API),
+      create: new PostDistributionDetail(ApiService.USE_LIVE_API),
+      update: new PutDistributionDetail(ApiService.USE_LIVE_API),
     },
-    DataProduct: {
-      getDataProductDetail: new GetDataProductDetail(ApiService.USE_LIVE_API),
-      postDataProductDetail: new PostDataProductDetails(ApiService.USE_LIVE_API),
-      putDataProductDetail: new PutDataProductDetail(ApiService.USE_LIVE_API),
-      getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
+    Contactpoint: {
+      get: new GetContactPointDetail(ApiService.USE_LIVE_API),
+      getAll: new GetAllContactPoints(ApiService.USE_LIVE_API),
+      create: new PostContactPointDetail(ApiService.USE_LIVE_API),
+    },
+
+    /* Administrative Entities */
+    Organization: {
+      getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
+      createOrganizationDetail: new PostOrganizationDetail(ApiService.USE_LIVE_API),
+    },
+    Person: {
+      getAll: new GetAllPeople(ApiService.USE_LIVE_API),
+      postPersonDetail: new CreatePersonDetail(ApiService.USE_LIVE_API),
     },
     User: {
       updateUser: new UpdateUser(ApiService.USE_LIVE_API),
@@ -66,18 +77,10 @@ export class ApiService extends BaseApi {
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
       createUser: new CreateUserDetail(ApiService.USE_LIVE_API),
     },
-    Contactpoint: {
-      getContactPointDetail: new GetContactPointDetail(ApiService.USE_LIVE_API),
-      getAll: new GetAllContactPoints(ApiService.USE_LIVE_API),
-      postContactPointDetail: new CreateContactPointDetail(ApiService.USE_LIVE_API),
-    },
-    Person: {
-      getAll: new GetAllPeople(ApiService.USE_LIVE_API),
-      postPersonDetail: new CreatePersonDetail(ApiService.USE_LIVE_API),
-    },
-    Organization: {
-      getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
-      postOrganizationDetail: new CreateOrganizationDetail(ApiService.USE_LIVE_API),
+    Operation: {
+      get: new GetOperationDetails(ApiService.USE_LIVE_API),
+      getAll: new GetAllOperations(ApiService.USE_LIVE_API),
+      create: new PostOperationDetail(ApiService.USE_LIVE_API),
     },
   };
 
@@ -96,6 +99,7 @@ export class ApiService extends BaseApi {
     });
   }
 
+  /* Generic non-entity specific delet function */
   public deleteEntity(entityEndpoint: EntityEndpointValue, instanceId: string): Promise<string> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {

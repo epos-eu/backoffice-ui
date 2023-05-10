@@ -9,7 +9,7 @@ import { CreateUpdateDistributionDataSource } from 'src/apiAndObjects/objects/cr
 import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
 import { SpatialBounds } from 'src/apiAndObjects/objects/types/spatialBounds.type';
 
-export class CreateDistributionDetail extends CacheableEndpoint<
+export class PostDistributionDetail extends CacheableEndpoint<
   CreateUpdateDistributionDataSource,
   SaveDistributionBody,
   CreateUpdateDistributionDataSource
