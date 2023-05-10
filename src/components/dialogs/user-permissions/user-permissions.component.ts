@@ -64,7 +64,7 @@ export class UserPermissionsComponent implements OnInit {
       instanceId: this.data.dataIn.instanceId,
       role: currentRole as UserRole,
     };
-    this.apiService.endpoints[Entity.USER].updateUser
+    this.apiService.endpoints[Entity.USER].update
       .call(params)
       .then(() => {
         this.snackbarService.openSnackbar(`User Successfully changed to ${currentRole}`, 'close', 'success');

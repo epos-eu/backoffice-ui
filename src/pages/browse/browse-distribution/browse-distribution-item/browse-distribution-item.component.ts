@@ -9,6 +9,7 @@ import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.c
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
@@ -41,11 +42,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.persistorService.setValueInStorage(
-      StorageType.LOCAL_STORAGE,
-      StorageKey.ACTIVE_ENTITY,
-      EntityEndpointValue.DISTRIBUTION,
-    );
+    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DISTRIBUTION);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);

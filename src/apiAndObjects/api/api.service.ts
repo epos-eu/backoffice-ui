@@ -72,10 +72,10 @@ export class ApiService extends BaseApi {
       postPersonDetail: new CreatePersonDetail(ApiService.USE_LIVE_API),
     },
     User: {
-      updateUser: new UpdateUser(ApiService.USE_LIVE_API),
-      getUserInfo: new GetUserInfo(ApiService.USE_LIVE_API),
+      get: new GetUserInfo(ApiService.USE_LIVE_API),
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
-      createUser: new CreateUserDetail(ApiService.USE_LIVE_API),
+      create: new CreateUserDetail(ApiService.USE_LIVE_API),
+      update: new UpdateUser(ApiService.USE_LIVE_API),
     },
     Operation: {
       get: new GetOperationDetails(ApiService.USE_LIVE_API),
@@ -99,7 +99,7 @@ export class ApiService extends BaseApi {
     });
   }
 
-  /* Generic non-entity specific delet function */
+  /* Generic non-entity specific delete function */
   public deleteEntity(entityEndpoint: EntityEndpointValue, instanceId: string): Promise<string> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {

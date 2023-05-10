@@ -47,11 +47,13 @@ export interface SaveDistributionBody {
   changeComment?: string;
   changeTimestamp?: Date | undefined;
   conformsTo?: string;
+  contactPoint?: string;
   dataPolicy?: string;
   dataProduct?: Array<DataProduct>;
   dataProvider?: Array<string>;
   description?: Array<string>;
   distributionid?: string;
+  distribution?: string;
   doi?: Array<string>;
   downloadURL?: Array<string>;
   editorId?: string;
@@ -85,9 +87,10 @@ export interface SaveDistributionBody {
   serviceSpatial?: SpatialBounds;
   serviceTemporalCoverage?: TemporalExtent;
   serviceType?: Array<string>;
-  spatial?: SpatialBounds;
+  spatialExtent?: SpatialBounds;
   state?: State;
   temporalCoverage?: TemporalExtent;
+  temporalExtent?: TemporalExtent;
   title?: Array<string>;
   toBeDelete?: string;
   type?: string;

@@ -44,11 +44,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.persistorService.setValueInStorage(
-      StorageType.LOCAL_STORAGE,
-      StorageKey.ACTIVE_ENTITY,
-      EntityEndpointValue.DATA_PRODUCT,
-    );
+    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);

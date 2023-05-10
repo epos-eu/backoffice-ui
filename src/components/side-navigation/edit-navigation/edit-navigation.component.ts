@@ -15,6 +15,7 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -32,7 +33,7 @@ export class EditNavigationComponent implements OnInit {
     public actionsService: ActionsService,
   ) {}
 
-  private activeEntityEndpoint = '';
+  private activeEntity = '';
   public itemsExist = new BehaviorSubject<boolean>(false);
   public currentEdit!: IChangeItem;
 
@@ -40,11 +41,10 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.initEditedItems();
     this.checkForItems();
     this.trackEdit();
-    this.activeEntityEndpoint = this.persistorService.getValueFromStorage(
+    this.activeEntity = this.persistorService.getValueFromStorage(
       StorageType.LOCAL_STORAGE,
       StorageKey.ACTIVE_ENTITY,
-    ) as string;
-    console.debug('active entity', this.activeEntityEndpoint);
+    ) as Entity;
   }
 
   private trackEdit(): void {
@@ -56,7 +56,16 @@ export class EditNavigationComponent implements OnInit {
   }
 
   public handleSave(): void {
-    this.handleDataProductSave();
+    switch (this.activeEntity as Entity) {
+      case Entity.DATA_PRODUCT: {
+        this.handleDataProductSave();
+        break;
+      }
+      case Entity.DISTRIBUTION: {
+        this.handleDistributionSave();
+        break;
+      }
+    }
   }
 
   public handleSubmit(): void {
@@ -141,68 +150,76 @@ export class EditNavigationComponent implements OnInit {
     }
   }
 
-  // private handleDistributionSave() {
-  //   this.actionsService.addEditedItems([
-  //     {
-  //       type: 'distribution',
-  //       label: 'Distribution',
-  //       status: Status.Draft,
-  //       color: 'draft',
-  //       id: this.currentEdit.id,
-  //     },
-  //   ]);
-  //   this.actionsService.saveCurrentEdit(this.currentEdit.id);
-  //   this.itemsExist.next(true);
+  private handleDistributionSave() {
+    this.actionsService.addEditedItems([
+      {
+        type: 'distribution',
+        label: 'Distribution',
+        status: Status.Draft,
+        color: 'draft',
+        id: this.currentEdit.id,
+      },
+    ]);
+    this.actionsService.saveCurrentEdit(this.currentEdit.id);
+    this.itemsExist.next(true);
 
-  //   const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
-  //   if (localStorage !== null) {
-  //     const formData: Distribution = JSON.parse(localStorage);
-  //     if (formData.state === State.DRAFT) {
-  //       this.apiService.endpoints[Entity.DISTRIBUTION].updateDistributionDetail
-  //         .call({
-  //           ...formData,
-  //         })
-  //         .then(() => {
-  //           this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
-  //             'snackbar',
-  //             'mat-toolbar',
-  //             'snackbar-success',
-  //           ]);
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //           this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
-  //             'snackbar',
-  //             'mat-toolbar',
-  //             'snackbar-error',
-  //           ]);
-  //         });
-  //     } else {
-  //       this.apiService.endpoints[Entity.DISTRIBUTION].updateDistributionDetail
-  //         .call({
-  //           ...formData,
-  //           state: State.DRAFT,
-  //         })
-  //         .then(() => {
-  //           this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
-  //             'snackbar',
-  //             'mat-toolbar',
-  //             'snackbar-success',
-  //           ]);
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //           this.snackbarService.openSnackbar('Error creating new draft', 'Close', 'error', 3000, [
-  //             'snackbar',
-  //             'mat-toolbar',
-  //             'snackbar-error',
-  //           ]);
-  //         });
-  //     }
-  //   }
+    const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    console.debug(localStorage);
+    if (localStorage !== null) {
+      const formData: SaveDistributionBody = JSON.parse(localStorage);
+      if (formData.state === State.DRAFT) {
+        console.debug('hereeee');
+        this.apiService.endpoints[Entity.DISTRIBUTION].update
+          .call({
+            ...formData,
+            spatialExtent: undefined,
+            temporalExtent: undefined,
+            distribution: undefined,
+            contactPoint: undefined,
+            metaId: 'test meta id',
+          })
+          .then(() => {
+            this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-error',
+            ]);
+          });
+      } else {
+        this.apiService.endpoints[Entity.DISTRIBUTION].update
+          .call({
+            ...formData,
+            state: State.DRAFT,
+            metaId: 'test meta id',
+          })
+          .then(() => {
+            this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.snackbarService.openSnackbar('Error creating new draft', 'Close', 'error', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-error',
+            ]);
+          });
+      }
+    }
+  }
+
+  // public handleClick(id: string): void {
+  //   this.router.navigate(['/browse/data-products/details', id]);
+  // }
 }
-
-// public handleClick(id: string): void {
-//   this.router.navigate(['/browse/data-products/details', id]);
-// }
-// }
