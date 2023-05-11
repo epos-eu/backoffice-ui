@@ -8,8 +8,11 @@ import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webservice
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { HelpersService } from 'src/services/helpers.service';
+import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -33,6 +36,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private actionService: ActionsService,
+    private persistorService: PersistorService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -42,6 +46,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.WEBSERVICE);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);
@@ -74,7 +79,6 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   private trackFormData(): void {
-    console.log(this.webservice);
     this.form = this.formBuilder.group({
       instanceId: this.webservice?.instanceId as string,
       uid: this.webservice?.uid,
@@ -90,6 +94,11 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
       supportedOperation: this.webservice?.supportedOperation,
       temporalExtent: this.webservice?.temporalExtent,
       license: this.webservice?.license,
+    });
+    this.form.valueChanges.subscribe((changes) => {
+      const value = changes;
+      this.actionService.resetToDraft(this.webservice?.instanceId as string);
+      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
   }
 
@@ -111,7 +120,9 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   public handleDelete(): void {
-    // this.dialogService.handleDelete();
+    if (this.webservice) {
+      this.dialogService.handleDelete(this.webservice.instanceId, EntityEndpointValue.WEBSERVICE);
+    }
   }
 
   public handleCancel(): void {

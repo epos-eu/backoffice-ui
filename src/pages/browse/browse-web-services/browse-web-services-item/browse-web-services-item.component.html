@@ -1,14 +1,6 @@
 <ng-scrollbar [autoHeightDisabled]="false">
   <div class="container">
-    <button
-      mat-stroked-button
-      color="primary"
-      class="back-btn"
-      (click)="handleBack()"
-    >
-      <mat-icon>keyboard_backspace</mat-icon>
-      <span class="back-label-text">Back</span>
-    </button>
+    <app-back-button path="/browse/web-services"></app-back-button>
     <div class="top-header">
       <div class="flex-row">
         <h1 class="mat-headline-4">Webservice</h1>

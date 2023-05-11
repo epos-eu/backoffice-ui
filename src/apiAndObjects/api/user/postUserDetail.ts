@@ -8,7 +8,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { CreateUserDataSource } from 'src/apiAndObjects/objects/createUserDataSource';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 
-export class CreateUserDetail extends CacheableEndpoint<CreateUserDataSource, SaveUserBody, CreateUserDataSource> {
+export class PostUserDetail extends CacheableEndpoint<CreateUserDataSource, SaveUserBody, CreateUserDataSource> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(body: SaveUserBody): string {

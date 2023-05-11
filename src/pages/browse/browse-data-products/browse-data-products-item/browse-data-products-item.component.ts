@@ -211,10 +211,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public handleBack(): void {
-    this.router.navigate(['/browse/data-products']);
-  }
-
   // private mapDistributionCalls(ids: Array<string>): Promise<DistributionDetailDataSource[]>[] {
   //   return ids.map((id) => {
   //     return this.apiService.endpoints[Entity.DISTRIBUTION].getDistributionDetail.call({

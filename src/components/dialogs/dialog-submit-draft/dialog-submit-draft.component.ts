@@ -10,6 +10,8 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DialogService } from '../dialog.service';
 import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
+import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-dialog-submit',
@@ -50,6 +52,10 @@ export class DialogSubmitDraftComponent implements OnInit {
           this.handleDistributionSubmit();
           break;
         }
+        case Entity.WEBSERVICE: {
+          this.handleWebserviceSubmit();
+          break;
+        }
       }
     }
   }
@@ -61,6 +67,42 @@ export class DialogSubmitDraftComponent implements OnInit {
       this.apiService.endpoints[Entity.DATA_PRODUCT].update
         .call({
           ...formData,
+          changeComment: this.comment.value as string,
+        })
+        .then(() => {
+          this.actionsService.submitCurrentEdit(this.currentEdit.id);
+          this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-success',
+          ]);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        })
+        .finally(() => {
+          this.dialogService.closeDialog();
+        });
+    }
+  }
+
+  private handleWebserviceSubmit() {
+    const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    if (localStorage !== null) {
+      const formData: SaveWebserviceBody = JSON.parse(localStorage);
+      this.apiService.endpoints[Entity.WEBSERVICE].update
+        .call({
+          ...formData,
+          datePublished: undefined,
+          identifier: undefined,
+          state: State.DRAFT,
+          supportedOperation: undefined,
+          temporalExtent: undefined,
           changeComment: this.comment.value as string,
         })
         .then(() => {

@@ -4,11 +4,12 @@ import { HttpResponseHandler } from './httpResponseHandler.interface';
 import { RequestMethod } from './requestMethod.enum';
 import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
 import { SavePersonBody } from 'src/apiAndObjects/api/person/createPersonDetail';
-import { SaveUserBody } from 'src/apiAndObjects/api/user/createUserDetail';
 import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
 import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/postContactPointDetail';
 import { SaveOperationBody } from 'src/apiAndObjects/api/operation/postOperationDetail';
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/postOrganizationDetail';
+import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
+import { SaveUserBody } from 'src/apiAndObjects/api/user/postUserDetail';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -43,7 +44,8 @@ export class ApiCaller {
       | SavePersonBody
       | SaveOperationBody
       | SaveUserBody
-      | SaveDistributionBody = {},
+      | SaveDistributionBody
+      | SaveWebserviceBody = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);

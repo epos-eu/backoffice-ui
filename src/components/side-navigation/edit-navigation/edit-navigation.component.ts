@@ -14,8 +14,8 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
+import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -63,6 +63,10 @@ export class EditNavigationComponent implements OnInit {
       }
       case Entity.DISTRIBUTION: {
         this.handleDistributionSave();
+        break;
+      }
+      case Entity.WEBSERVICE: {
+        this.handleWebserviceSave();
         break;
       }
     }
@@ -130,6 +134,73 @@ export class EditNavigationComponent implements OnInit {
           .call({
             ...formData,
             state: State.DRAFT,
+          })
+          .then(() => {
+            this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.snackbarService.openSnackbar('Error creating new draft', 'Close', 'error', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-error',
+            ]);
+          });
+      }
+    }
+  }
+
+  private handleWebserviceSave() {
+    this.actionsService.addEditedItems([
+      {
+        type: 'webservice',
+        label: 'Webservice',
+        status: Status.Draft,
+        color: 'draft',
+        id: this.currentEdit.id,
+      },
+    ]);
+    this.actionsService.saveCurrentEdit(this.currentEdit.id);
+    this.itemsExist.next(true);
+
+    const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    if (localStorage !== null) {
+      const formData: SaveWebserviceBody = JSON.parse(localStorage);
+      if (formData.state === State.DRAFT) {
+        console.debug('call here', formData);
+        this.apiService.endpoints[Entity.WEBSERVICE].update
+          .call({
+            ...formData,
+          })
+          .then(() => {
+            this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-error',
+            ]);
+          });
+      } else {
+        console.debug('call here, no draft', formData);
+        this.apiService.endpoints.Webservice.update
+          .call({
+            ...formData,
+            datePublished: undefined,
+            identifier: undefined,
+            state: State.DRAFT,
+            supportedOperation: undefined,
+            temporalExtent: undefined,
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [

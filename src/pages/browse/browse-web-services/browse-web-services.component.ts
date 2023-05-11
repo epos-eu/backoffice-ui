@@ -15,4 +15,8 @@ export class BrowseWebServicesComponent {
   public rowClicked(rowClickDetails: Array<string>): void {
     this.router.navigate(['/browse/web-services/details'].concat(rowClickDetails));
   }
+
+  public createWebService(): void {
+    this.router.navigate(['browse/web-services/new']);
+  }
 }

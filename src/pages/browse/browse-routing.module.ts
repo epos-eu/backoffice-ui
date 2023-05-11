@@ -23,6 +23,7 @@ import { BrowseDistributionComponent } from './browse-distribution/browse-distri
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
 import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
+import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
     children: [
       { path: '', component: BrowseWebServicesComponent },
       { path: 'details/:id', component: BrowseWebServicesItemComponent },
+      { path: 'new', component: CreateWebServiceItemComponent },
     ],
   },
   {

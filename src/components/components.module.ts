@@ -13,6 +13,8 @@ import { ChartComponent } from './chart/chart.component';
 import { TableComponent } from './table/table.component';
 import { TableFilterComponent } from './table-filter/table-filter.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { BackButtonComponent } from './back-button/back-button.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ChartComponent,
     TableComponent,
     TableFilterComponent,
+    BackButtonComponent,
   ],
   imports: [
     RouterModule,
@@ -32,7 +35,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatChipsModule,
     ChartjsModule,
     MatExpansionModule,
+    MatIconModule,
   ],
-  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent],
+  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent, BackButtonComponent],
 })
 export class ComponentsModule {}

@@ -7,11 +7,10 @@ import { GetDistributionDetail } from './distribution/getDistributionDetail';
 import { GetWebserviceDetail } from './webservice/getWebserviceDetail';
 import { GetOperationDetails } from './operation/getOperationDetails';
 import { GetDataProductDetail } from './data-products/getDataProductDetail';
-import { UpdateUser } from './user/updateUserDetail';
 import { GetContactPointDetail } from './contact-point/getContactPointDetail';
 import { PostDataProductDetails } from './data-products/postDataProductDetails';
 import { PutDataProductDetail } from './data-products/putDataProductDetail';
-import { GetUserInfo } from './user/getUserInfo';
+import { GetUserInfo } from './user/getUserDetail';
 import { GetAllDataProducts } from './data-products/getAllDataProducts';
 import { GetAllWebservices } from './webservice/getAllWebservices';
 import { GetAllDistributions } from './distribution/getAllDistributions';
@@ -21,7 +20,6 @@ import { GetAllPeople } from './person/getAllPeople';
 import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
 import { CreatePersonDetail } from './person/createPersonDetail';
-import { CreateUserDetail } from './user/createUserDetail';
 import { PostDistributionDetail } from './distribution/postDistributionDetail';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { RequestMethod } from '../_lib_code/api/requestMethod.enum';
@@ -32,6 +30,10 @@ import { PutDistributionDetail } from './distribution/putDistributionDetail';
 import { PostContactPointDetail } from './contact-point/postContactPointDetail';
 import { PostOperationDetail } from './operation/postOperationDetail';
 import { PostOrganizationDetail } from './organization/postOrganizationDetail';
+import { PostWebserviceDetail } from './webservice/postWebserviceDetail';
+import { PutWebserviceDetail } from './webservice/putWebserviceDetail';
+import { PostUserDetail } from './user/postUserDetail';
+import { PutUserDetail } from './user/putUserDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -49,6 +51,8 @@ export class ApiService extends BaseApi {
     Webservice: {
       get: new GetWebserviceDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllWebservices(ApiService.USE_LIVE_API),
+      create: new PostWebserviceDetail(ApiService.USE_LIVE_API),
+      update: new PutWebserviceDetail(ApiService.USE_LIVE_API),
     },
     Distribution: {
       get: new GetDistributionDetail(ApiService.USE_LIVE_API),
@@ -65,17 +69,17 @@ export class ApiService extends BaseApi {
     /* Administrative Entities */
     Organization: {
       getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
-      createOrganizationDetail: new PostOrganizationDetail(ApiService.USE_LIVE_API),
+      create: new PostOrganizationDetail(ApiService.USE_LIVE_API),
     },
     Person: {
       getAll: new GetAllPeople(ApiService.USE_LIVE_API),
-      postPersonDetail: new CreatePersonDetail(ApiService.USE_LIVE_API),
+      create: new CreatePersonDetail(ApiService.USE_LIVE_API),
     },
     User: {
       get: new GetUserInfo(ApiService.USE_LIVE_API),
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
-      create: new CreateUserDetail(ApiService.USE_LIVE_API),
-      update: new UpdateUser(ApiService.USE_LIVE_API),
+      create: new PostUserDetail(ApiService.USE_LIVE_API),
+      update: new PutUserDetail(ApiService.USE_LIVE_API),
     },
     Operation: {
       get: new GetOperationDetails(ApiService.USE_LIVE_API),
