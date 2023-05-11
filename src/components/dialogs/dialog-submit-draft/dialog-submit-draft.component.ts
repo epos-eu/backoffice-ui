@@ -9,9 +9,9 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DialogService } from '../dialog.service';
-import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
-import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { State } from 'src/utility/enums/state.enum';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 
 @Component({
   selector: 'app-dialog-submit',
@@ -94,15 +94,15 @@ export class DialogSubmitDraftComponent implements OnInit {
   private handleWebserviceSubmit() {
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (localStorage !== null) {
-      const formData: SaveWebserviceBody = JSON.parse(localStorage);
+      const formData: WebService = JSON.parse(localStorage);
       this.apiService.endpoints[Entity.WEBSERVICE].update
         .call({
           ...formData,
-          datePublished: undefined,
-          identifier: undefined,
+          datePublished: new Date(),
+          identifier: [],
           state: State.DRAFT,
-          supportedOperation: undefined,
-          temporalExtent: undefined,
+          supportedOperation: [],
+          temporalExtent: [],
           changeComment: this.comment.value as string,
         })
         .then(() => {

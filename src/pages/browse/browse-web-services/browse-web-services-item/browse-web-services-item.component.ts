@@ -69,7 +69,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
       .then((data: Array<WebserviceDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
-          if (this.webservice) {
+          if (this.webservice && this.webservice.instanceId) {
             this.actionService.setLiveEdit();
             this.trackFormData();
             this.actionService.trackCurrentEdit(this.webservice.instanceId);
@@ -120,7 +120,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   public handleDelete(): void {
-    if (this.webservice) {
+    if (this.webservice && this.webservice.instanceId) {
       this.dialogService.handleDelete(this.webservice.instanceId, EntityEndpointValue.WEBSERVICE);
     }
   }

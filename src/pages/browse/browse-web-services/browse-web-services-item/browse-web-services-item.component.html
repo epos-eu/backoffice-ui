@@ -203,7 +203,7 @@
             formControlName="keywords"
           />
         </mat-form-field>
-        <ng-container *ngIf="webservice.supportedOperation.length > 0">
+        <ng-container *ngIf="webservice.supportedOperation && webservice.supportedOperation.length > 0">
           <mat-label class="heading">Supported operation</mat-label>
           <ng-container *ngFor="let item of webservice.supportedOperation">
             <mat-form-field
@@ -237,7 +237,7 @@
             </mat-form-field>
           </ng-container>
         </ng-container>
-        <ng-container *ngIf="webservice.spatialExtent.length > 0">
+        <ng-container *ngIf="webservice.spatialExtent && webservice.spatialExtent.length > 0">
           <mat-label class="heading">Spatial extent</mat-label>
           <ng-container *ngFor="let item of webservice.spatialExtent">
             <mat-form-field
@@ -257,7 +257,7 @@
             </mat-form-field>
           </ng-container>
         </ng-container>
-        <ng-container *ngIf="webservice.temporalExtent.length > 0">
+        <ng-container *ngIf="webservice.temporalExtent && webservice.temporalExtent.length > 0">
           <mat-label class="heading">Temporal extent</mat-label>
           <ng-container *ngFor="let item of webservice.temporalExtent">
             <mat-form-field

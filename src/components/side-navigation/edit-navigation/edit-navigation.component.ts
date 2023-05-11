@@ -14,8 +14,8 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -169,7 +169,7 @@ export class EditNavigationComponent implements OnInit {
 
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (localStorage !== null) {
-      const formData: SaveWebserviceBody = JSON.parse(localStorage);
+      const formData: WebService = JSON.parse(localStorage);
       if (formData.state === State.DRAFT) {
         console.debug('call here', formData);
         this.apiService.endpoints[Entity.WEBSERVICE].update
@@ -196,11 +196,11 @@ export class EditNavigationComponent implements OnInit {
         this.apiService.endpoints.Webservice.update
           .call({
             ...formData,
-            datePublished: undefined,
-            identifier: undefined,
+            datePublished: new Date(),
+            identifier: [],
             state: State.DRAFT,
-            supportedOperation: undefined,
-            temporalExtent: undefined,
+            supportedOperation: [],
+            temporalExtent: [],
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [

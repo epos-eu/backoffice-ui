@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webserviceDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
 
@@ -35,7 +35,7 @@ export class CreateWebServiceItemComponent implements OnInit {
 
   public handleCreate(): void {
     this.loading = true;
-    const item: SaveWebserviceBody = {
+    const item: WebService = {
       uid: this.form.value['uid'],
       dateModified: new Date(),
     };
