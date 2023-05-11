@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
 import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
 import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class CreateDataProductItemComponent implements OnInit {
 
   public handleCreate(): void {
     this.loading = true;
-    const item: SaveDataProductBody = {
+    const item: DataProduct = {
       uid: this.form.value['uid'],
       modified: new Date().toISOString(),
     };

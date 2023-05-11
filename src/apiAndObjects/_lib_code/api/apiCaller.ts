@@ -2,7 +2,6 @@ import { lastValueFrom, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 import { RequestMethod } from './requestMethod.enum';
-import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
 import { SavePersonBody } from 'src/apiAndObjects/api/person/createPersonDetail';
 import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
 import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/postContactPointDetail';
@@ -10,6 +9,7 @@ import { SaveOperationBody } from 'src/apiAndObjects/api/operation/postOperation
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/postOrganizationDetail';
 import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
 import { SaveUserBody } from 'src/apiAndObjects/api/user/postUserDetail';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -38,7 +38,7 @@ export class ApiCaller {
       | Record<string, unknown>
       | FormData
       | Array<unknown>
-      | SaveDataProductBody
+      | DataProduct
       | SaveContactPointBody
       | SaveOrganizationBody
       | SavePersonBody

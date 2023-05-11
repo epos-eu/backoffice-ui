@@ -101,8 +101,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.form.valueChanges.subscribe((changes) => {
       const value = changes;
       // TODO: Some stange behaviour where the detect changes pops value out of array.
-      // value['title'] = [changes['title']];
-      // value['description'] = [changes['description']];
+      value['title'] = [changes['title']];
+      value['description'] = [changes['description']];
       this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
       this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
