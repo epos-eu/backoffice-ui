@@ -3,7 +3,6 @@ import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } f
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
-import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
@@ -14,6 +13,7 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -22,7 +22,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new UntypedFormControl('auto');
-  public dataProduct!: DataProductsDataSource | undefined;
+  public dataProduct!: DataProductDetailDataSource | undefined;
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
@@ -64,7 +64,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         },
         false,
       )
-      .then((data: Array<DataProductsDataSource>) => {
+      .then((data: Array<DataProductDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
 

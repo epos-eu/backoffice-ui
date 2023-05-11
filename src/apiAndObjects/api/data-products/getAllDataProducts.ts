@@ -1,14 +1,14 @@
 import { HttpHeaders } from '@angular/common/http';
-import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 export class GetAllDataProducts extends CacheableEndpoint<
-  Array<DataProductsDataSource>,
+  Array<DataProductDetailDataSource>,
   GetAllDataProductsParams,
-  DataProductsDataSource
+  DataProductDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -16,7 +16,7 @@ export class GetAllDataProducts extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllDataProductsParams): Promise<DataProductsDataSource[]> {
+  protected callLive(params: GetAllDataProductsParams): Promise<DataProductDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -31,10 +31,10 @@ export class GetAllDataProducts extends CacheableEndpoint<
       undefined,
       headers,
     );
-    return this.buildObjectsFromResponse(DataProductsDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(DataProductDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<DataProductsDataSource[]> {
+  protected callMock(): Promise<DataProductDetailDataSource[]> {
     throw new Error('Method not implemented.');
   }
 }

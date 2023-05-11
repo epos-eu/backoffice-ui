@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
-import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 
@@ -14,7 +13,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 })
 export class CreateDataProductItemComponent implements OnInit {
   public form!: UntypedFormGroup;
-  public dataProduct!: DataProductsDataSource | undefined;
+  public dataProduct!: DataProductDetailDataSource | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
 
@@ -44,7 +43,7 @@ export class CreateDataProductItemComponent implements OnInit {
 
     this.apiService.endpoints.DataProduct.create
       .call(item)
-      .then((value: DataProductDataSource) => {
+      .then((value: DataProductDetailDataSource) => {
         this.router.navigate(['/browse/data-products/details', value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
