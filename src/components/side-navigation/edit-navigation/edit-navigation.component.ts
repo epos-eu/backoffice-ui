@@ -241,9 +241,9 @@ export class EditNavigationComponent implements OnInit {
         this.apiService.endpoints[Entity.DISTRIBUTION].update
           .call({
             ...formData,
-            spatialExtent: undefined,
-            temporalExtent: undefined,
-            distribution: undefined,
+            // spatialExtent: undefined,
+            // temporalExtent: undefined,
+            // distribution: undefined,
             contactPoint: undefined,
             metaId: 'test meta id',
           })
@@ -267,6 +267,12 @@ export class EditNavigationComponent implements OnInit {
           .call({
             ...formData,
             state: State.DRAFT,
+            ...formData,
+            // spatialExtent: undefined,
+            // temporalExtent: undefined,
+            // distribution: undefined,
+            contactPoint: undefined,
+            metaId: 'test meta id',
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [

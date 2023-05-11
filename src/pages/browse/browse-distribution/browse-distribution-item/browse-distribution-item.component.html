@@ -177,8 +177,8 @@
             formControlName="versionInfo"
           />
         </mat-form-field> -->
-        <ng-container *ngIf="getControls('spatialExtent').length > 0">
-          <label>Spatial extent</label>
+        <!-- <ng-container *ngIf="getControls('spatialExtent').length > 0"> -->
+        <!-- <label>Spatial extent</label>
           <div formArrayName="spatialExtent">
             <mat-form-field
               *ngFor="let child of getControls('spatialExtent'); let i = index"
@@ -194,9 +194,9 @@
                 />
               </div>
             </mat-form-field>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="getControls('temporalExtent').length > 0">
+          </div> -->
+        <!-- </ng-container> -->
+        <!-- <ng-container *ngIf="getControls('temporalExtent').length > 0">
           <label>Temporal extent</label>
           <div formArrayName="temporalExtent">
             <mat-form-field
@@ -215,7 +215,7 @@
               </div>
             </mat-form-field>
           </div>
-        </ng-container>
+        </ng-container> -->
 
         <!-- <mat-accordion multi>
         <mat-expansion-panel (afterExpand)="handleExpand('distribution')">

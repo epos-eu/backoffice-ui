@@ -90,16 +90,14 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       // keywords: HelpersService.whiteSpaceReplace(this.distributionDetail?.keywords),
       modified: this.distributionDetail?.modified,
       // versionInfo: this.distributionDetail?.versionInfo,
-      spatialExtent: this.formBuilder.array([]),
-      temporalExtent: this.formBuilder.array([]),
-      distribution: this.formBuilder.array([]),
+      // spatialExtent: this.formBuilder.array([]),
+      // distribution: this.formBuilder.array([]),
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
       const value = changes;
-      // TODO: Some stange behaviour where the detect changes pops value out of array.
-      value['title'] = [changes['title']];
       value['description'] = [changes['description']];
+      value['title'] = [changes['title']];
       this.actionService.resetToDraft(this.distributionDetail?.instanceId as string);
       this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
