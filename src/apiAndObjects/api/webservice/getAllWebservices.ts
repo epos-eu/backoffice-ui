@@ -4,19 +4,20 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 
 export class GetAllWebservices extends CacheableEndpoint<
   Array<WebserviceDetailDataSource>,
-  GetAllWebservicesParams,
+  WebService,
   WebserviceDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(params: GetAllWebservicesParams): string {
+  protected getCacheKey(params: WebService): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllWebservicesParams): Promise<WebserviceDetailDataSource[]> {
+  protected callLive(): Promise<WebserviceDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -37,6 +38,3 @@ export class GetAllWebservices extends CacheableEndpoint<
     throw new Error('Method not implemented.');
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface GetAllWebservicesParams {}

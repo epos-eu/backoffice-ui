@@ -1,24 +1,23 @@
 import { HttpHeaders } from '@angular/common/http';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webserviceDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { SaveWebserviceBody } from './postWebserviceDetail';
 
 export class PutWebserviceDetail extends CacheableEndpoint<
   WebserviceDetailDataSource,
-  SaveWebserviceBody,
+  WebService,
   WebserviceDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: SaveWebserviceBody): string {
+  protected getCacheKey(body: WebService): string {
     return JSON.stringify(body);
   }
 
-  protected override callLive(body: SaveWebserviceBody): Promise<WebserviceDetailDataSource> {
-    console.debug('body', body);
+  protected override callLive(body: WebService): Promise<WebserviceDetailDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()

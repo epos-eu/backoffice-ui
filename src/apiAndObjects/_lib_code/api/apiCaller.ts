@@ -6,10 +6,10 @@ import { SavePersonBody } from 'src/apiAndObjects/api/person/createPersonDetail'
 import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/postContactPointDetail';
 import { SaveOperationBody } from 'src/apiAndObjects/api/operation/postOperationDetail';
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/postOrganizationDetail';
-import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
 import { SaveUserBody } from 'src/apiAndObjects/api/user/postUserDetail';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -45,7 +45,7 @@ export class ApiCaller {
       | SaveOperationBody
       | SaveUserBody
       | Distribution
-      | SaveWebserviceBody = {},
+      | WebService = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
     const url = this.getUrl(urlSegments);
