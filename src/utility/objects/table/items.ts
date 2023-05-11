@@ -1,5 +1,5 @@
 import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
-import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/operationDetailDataSource';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/organizationDataSource';
@@ -8,7 +8,7 @@ import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webservice
 
 export type TableItems =
   | Array<ContactPointDataSource>
-  | Array<DataProductsDataSource>
+  | Array<DataProductDetailDataSource>
   | Array<DistributionDetailDataSource>
   | Array<OrganizationDataSource>
   | Array<PersonDataSource>
@@ -17,7 +17,7 @@ export type TableItems =
 
 export type TableItem =
   | ContactPointDataSource
-  | DataProductsDataSource
+  | DataProductDetailDataSource
   | DistributionDetailDataSource
   | OrganizationDataSource
   | PersonDataSource

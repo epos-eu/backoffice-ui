@@ -9,9 +9,9 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DialogService } from '../dialog.service';
-import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
 import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
 import { State } from 'src/utility/enums/state.enum';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 
 @Component({
   selector: 'app-dialog-submit',
@@ -130,7 +130,7 @@ export class DialogSubmitDraftComponent implements OnInit {
   private handleDistributionSubmit() {
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (localStorage !== null) {
-      const formData: SaveDistributionBody = JSON.parse(localStorage);
+      const formData: Distribution = JSON.parse(localStorage);
       this.apiService.endpoints[Entity.DISTRIBUTION].update
         .call({
           ...formData,

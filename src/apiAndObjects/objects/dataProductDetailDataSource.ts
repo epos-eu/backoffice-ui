@@ -5,7 +5,7 @@ import { Distribution } from './entities/distribution.model';
 import { SpatialExtent } from './types/spatialExtent.type';
 import { TemporalExtent } from './types/temporalExtent.type';
 
-export class DataProductsDataSource extends BaseObject {
+export class DataProductDetailDataSource extends BaseObject {
   public static readonly KEYS = {
     INSTANCE_ID: 'instanceId',
     META_ID: 'metaId',
@@ -83,40 +83,40 @@ export class DataProductsDataSource extends BaseObject {
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
 
-    this.instanceId = this._getString(DataProductsDataSource.KEYS.INSTANCE_ID);
-    this.metaId = this._getString(DataProductsDataSource.KEYS.META_ID);
-    this.instanceChangedId = this._getString(DataProductsDataSource.KEYS.INSTANCE_CHANGE_ID);
-    this.changeTimestamp = this._getDate(DataProductsDataSource.KEYS.CHANGE_TIMESTAMP);
-    this.operation = this._getString(DataProductsDataSource.KEYS.OPERATION);
-    this.editorId = this._getString(DataProductsDataSource.KEYS.EDITOR_ID);
-    this.changeComment = this._getString(DataProductsDataSource.KEYS.CHANGE_COMMENT);
-    this.version = this._getString(DataProductsDataSource.KEYS.VERSION);
-    this.state = this._getValue(DataProductsDataSource.KEYS.STATE) as State;
-    this.toBeDelete = this._getString(DataProductsDataSource.KEYS.TO_BE_DELETE);
-    this.uid = this._getString(DataProductsDataSource.KEYS.UID);
-    this.fileProvenance = this._getString(DataProductsDataSource.KEYS.FILE_PROVENANCE);
-    this.accessRight = this._getString(DataProductsDataSource.KEYS.ACCESS_RIGHT);
-    this.accrualPeriodicity = this._getString(DataProductsDataSource.KEYS.ACCRUAL_PERIODICITY);
-    this.category = this._getArray(DataProductsDataSource.KEYS.CATEGORY);
-    this.contactPoint = this._getArray(DataProductsDataSource.KEYS.CONTACT_POINT);
-    this.created = this._getDate(DataProductsDataSource.KEYS.CREATED);
-    this.description = this._getArray(DataProductsDataSource.KEYS.DESCRIPTION);
-    this.distribution = this._getArray(DataProductsDataSource.KEYS.DISTRIBUTION);
-    this.hasPart = this._getArray(DataProductsDataSource.KEYS.HAS_PART);
-    this.identifier = this._getArray(DataProductsDataSource.KEYS.IDENTIFIER);
-    this.isPartOf = this._getArray(DataProductsDataSource.KEYS.IS_PART_OF);
-    this.issued = this._getDate(DataProductsDataSource.KEYS.ISSUED);
-    this.keywords = this._getString(DataProductsDataSource.KEYS.KEYWORDS);
-    this.modified = this._getDate(DataProductsDataSource.KEYS.MODIFIED);
-    this.provenance = this._getArray(DataProductsDataSource.KEYS.PROVENANCE);
-    this.publisher = this._getArray(DataProductsDataSource.KEYS.PUBLISHER);
-    this.relation = this._getString(DataProductsDataSource.KEYS.RELATION);
-    this.spatialExtent = this._getArray(DataProductsDataSource.KEYS.SPATIAL_EXTENT);
-    this.temporalExtent = this._getArray(DataProductsDataSource.KEYS.TEMPORAL_EXTENT);
-    this.title = this._getArray(DataProductsDataSource.KEYS.TITLE);
-    this.type = this._getString(DataProductsDataSource.KEYS.TYPE);
-    this.versionInfo = this._getString(DataProductsDataSource.KEYS.VERSION_INFO);
-    this.documentation = this._getString(DataProductsDataSource.KEYS.DOCUMENTATION);
-    this.qualityAssurance = this._getString(DataProductsDataSource.KEYS.QUALITY_ASSURANCE);
+    this.instanceId = this._getString(DataProductDetailDataSource.KEYS.INSTANCE_ID);
+    this.metaId = this._getString(DataProductDetailDataSource.KEYS.META_ID);
+    this.instanceChangedId = this._getString(DataProductDetailDataSource.KEYS.INSTANCE_CHANGE_ID);
+    this.changeTimestamp = this._getDate(DataProductDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.operation = this._getString(DataProductDetailDataSource.KEYS.OPERATION);
+    this.editorId = this._getString(DataProductDetailDataSource.KEYS.EDITOR_ID);
+    this.changeComment = this._getString(DataProductDetailDataSource.KEYS.CHANGE_COMMENT);
+    this.version = this._getString(DataProductDetailDataSource.KEYS.VERSION);
+    this.state = this._getValue(DataProductDetailDataSource.KEYS.STATE) as State;
+    this.toBeDelete = this._getString(DataProductDetailDataSource.KEYS.TO_BE_DELETE);
+    this.uid = this._getString(DataProductDetailDataSource.KEYS.UID);
+    this.fileProvenance = this._getString(DataProductDetailDataSource.KEYS.FILE_PROVENANCE);
+    this.accessRight = this._getString(DataProductDetailDataSource.KEYS.ACCESS_RIGHT);
+    this.accrualPeriodicity = this._getString(DataProductDetailDataSource.KEYS.ACCRUAL_PERIODICITY);
+    this.category = this._getArray(DataProductDetailDataSource.KEYS.CATEGORY);
+    this.contactPoint = this._getArray(DataProductDetailDataSource.KEYS.CONTACT_POINT);
+    this.created = this._getDate(DataProductDetailDataSource.KEYS.CREATED);
+    this.description = this._getArray(DataProductDetailDataSource.KEYS.DESCRIPTION);
+    this.distribution = this._getArray(DataProductDetailDataSource.KEYS.DISTRIBUTION);
+    this.hasPart = this._getArray(DataProductDetailDataSource.KEYS.HAS_PART);
+    this.identifier = this._getArray(DataProductDetailDataSource.KEYS.IDENTIFIER);
+    this.isPartOf = this._getArray(DataProductDetailDataSource.KEYS.IS_PART_OF);
+    this.issued = this._getDate(DataProductDetailDataSource.KEYS.ISSUED);
+    this.keywords = this._getString(DataProductDetailDataSource.KEYS.KEYWORDS);
+    this.modified = this._getDate(DataProductDetailDataSource.KEYS.MODIFIED);
+    this.provenance = this._getArray(DataProductDetailDataSource.KEYS.PROVENANCE);
+    this.publisher = this._getArray(DataProductDetailDataSource.KEYS.PUBLISHER);
+    this.relation = this._getString(DataProductDetailDataSource.KEYS.RELATION);
+    this.spatialExtent = this._getArray(DataProductDetailDataSource.KEYS.SPATIAL_EXTENT);
+    this.temporalExtent = this._getArray(DataProductDetailDataSource.KEYS.TEMPORAL_EXTENT);
+    this.title = this._getArray(DataProductDetailDataSource.KEYS.TITLE);
+    this.type = this._getString(DataProductDetailDataSource.KEYS.TYPE);
+    this.versionInfo = this._getString(DataProductDetailDataSource.KEYS.VERSION_INFO);
+    this.documentation = this._getString(DataProductDetailDataSource.KEYS.DOCUMENTATION);
+    this.qualityAssurance = this._getString(DataProductDetailDataSource.KEYS.QUALITY_ASSURANCE);
   }
 }

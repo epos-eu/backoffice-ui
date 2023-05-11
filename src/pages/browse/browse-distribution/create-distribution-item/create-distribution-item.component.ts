@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
-import { CreateUpdateDistributionDataSource } from 'src/apiAndObjects/objects/createUpdateDistributionDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
@@ -37,14 +36,14 @@ export class CreateDistributionItemComponent implements OnInit {
 
   public handleCreate(): void {
     this.loading = true;
-    const item: SaveDistributionBody = {
+    const item: Distribution = {
       uid: this.form.value['uid'],
       modified: new Date().toISOString(),
     };
 
     this.apiService.endpoints.Distribution.create
       .call(item)
-      .then((value: CreateUpdateDistributionDataSource) => {
+      .then((value: DistributionDetailDataSource) => {
         this.router.navigate(['/browse/distribution/details', value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',

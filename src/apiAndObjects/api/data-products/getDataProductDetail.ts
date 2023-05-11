@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 export class GetDataProductDetail extends CacheableEndpoint<
-  Array<DataProductsDataSource>,
+  Array<DataProductDetailDataSource>,
   GetDataProductsDetailsParams,
-  DataProductsDataSource
+  DataProductDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -17,7 +17,7 @@ export class GetDataProductDetail extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetDataProductsDetailsParams): Promise<DataProductsDataSource[]> {
+  protected callLive(params: GetDataProductsDetailsParams): Promise<DataProductDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -28,13 +28,13 @@ export class GetDataProductDetail extends CacheableEndpoint<
     const callResponsePromise = this.apiCaller
       .doCall(`dataproduct/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
-    return this.buildObjectsFromResponse(DataProductsDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(DataProductDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(params?: GetDataProductsDetailsParams | undefined): Promise<DataProductsDataSource[]> {
+  protected callMock(params?: GetDataProductsDetailsParams | undefined): Promise<DataProductDetailDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
-      DataProductsDataSource,
+      DataProductDetailDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
           resolve(lastValueFrom(httpClient.get('/assets/data/dataProduct.json')));

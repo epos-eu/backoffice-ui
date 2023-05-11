@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SaveDataProductBody } from 'src/apiAndObjects/api/data-products/postDataProductDetails';
-import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
-import { DataProductsDataSource } from 'src/apiAndObjects/objects/dataProductsDataSource';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
@@ -14,7 +13,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 })
 export class CreateDataProductItemComponent implements OnInit {
   public form!: UntypedFormGroup;
-  public dataProduct!: DataProductsDataSource | undefined;
+  public dataProduct!: DataProductDetailDataSource | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
 
@@ -37,14 +36,14 @@ export class CreateDataProductItemComponent implements OnInit {
 
   public handleCreate(): void {
     this.loading = true;
-    const item: SaveDataProductBody = {
+    const item: DataProduct = {
       uid: this.form.value['uid'],
       modified: new Date().toISOString(),
     };
 
     this.apiService.endpoints.DataProduct.create
       .call(item)
-      .then((value: DataProductDataSource) => {
+      .then((value: DataProductDetailDataSource) => {
         this.router.navigate(['/browse/data-products/details', value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',

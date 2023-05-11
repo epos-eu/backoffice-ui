@@ -1,27 +1,23 @@
 import { HttpHeaders } from '@angular/common/http';
-import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { State } from 'src/utility/enums/state.enum';
-import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
-import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
-import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
 
 export class PutDataProductDetail extends CacheableEndpoint<
-  DataProductDataSource,
-  SaveDataProductBody,
-  DataProductDataSource
+  DataProductDetailDataSource,
+  DataProduct,
+  DataProductDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: SaveDataProductBody): string {
+  protected getCacheKey(body: DataProduct): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveDataProductBody): Promise<DataProductDataSource> {
+  protected callLive(body: DataProduct): Promise<DataProductDetailDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -31,30 +27,12 @@ export class PutDataProductDetail extends CacheableEndpoint<
     };
     const callResponsePromise = this.apiCaller.doCall(['dataproduct'], RequestMethod.PUT, undefined, body, headers);
 
-    return this.buildObjectFromResponse(DataProductDataSource, callResponsePromise).then(
-      (response: DataProductDataSource) => response,
+    return this.buildObjectFromResponse(DataProductDetailDataSource, callResponsePromise).then(
+      (response: DataProductDetailDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<DataProductDataSource> {
+  protected callMock(): Promise<DataProductDetailDataSource> {
     throw new Error('Method not implemented.');
   }
-}
-
-export interface SaveDataProductBody {
-  instanceId?: string;
-  uid: string;
-  title: string;
-  description: string;
-  changeTimestamp: Date;
-  state?: State;
-  keywords: string;
-  modified: string;
-  versionInfo: string;
-  changeComment: string;
-  contactPoint: Array<ContactPoint>;
-  distribution: Array<Distribution>;
-  identifier: Array<Identifier>;
-  issued: Date;
-  temporalExtent: Array<TemporalExtent>;
 }

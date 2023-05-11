@@ -61,5 +61,4 @@ export class GetDistributionDetail extends CacheableEndpoint<
 export interface GetDistributionDetailsParams {
   singleOptionOnly?: boolean;
   instanceId: string;
-  // dataSource?: DistributionDetailDataSource;
 }
