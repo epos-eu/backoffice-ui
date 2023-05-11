@@ -44,8 +44,8 @@ export class PutDataProductDetail extends CacheableEndpoint<
 export interface SaveDataProductBody {
   instanceId?: string;
   uid: string;
-  title: Array<string>;
-  description: Array<string>;
+  title: string;
+  description: string;
   changeTimestamp: Date;
   state?: State;
   keywords: string;
