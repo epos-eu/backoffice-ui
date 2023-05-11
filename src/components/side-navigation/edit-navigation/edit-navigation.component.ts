@@ -14,8 +14,8 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
 import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -236,7 +236,7 @@ export class EditNavigationComponent implements OnInit {
 
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (localStorage !== null) {
-      const formData: SaveDistributionBody = JSON.parse(localStorage);
+      const formData: Distribution = JSON.parse(localStorage);
       if (formData.state === State.DRAFT) {
         this.apiService.endpoints[Entity.DISTRIBUTION].update
           .call({

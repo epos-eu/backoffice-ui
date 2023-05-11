@@ -1,6 +1,4 @@
 import { HttpHeaders } from '@angular/common/http';
-import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { DataProductDataSource } from 'src/apiAndObjects/objects/dataProductDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';

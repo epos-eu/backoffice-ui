@@ -3,13 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpResponseHandler } from './httpResponseHandler.interface';
 import { RequestMethod } from './requestMethod.enum';
 import { SavePersonBody } from 'src/apiAndObjects/api/person/createPersonDetail';
-import { SaveDistributionBody } from 'src/apiAndObjects/api/distribution/postDistributionDetail';
 import { SaveContactPointBody } from 'src/apiAndObjects/api/contact-point/postContactPointDetail';
 import { SaveOperationBody } from 'src/apiAndObjects/api/operation/postOperationDetail';
 import { SaveOrganizationBody } from 'src/apiAndObjects/api/organization/postOrganizationDetail';
 import { SaveWebserviceBody } from 'src/apiAndObjects/api/webservice/postWebserviceDetail';
 import { SaveUserBody } from 'src/apiAndObjects/api/user/postUserDetail';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
@@ -44,7 +44,7 @@ export class ApiCaller {
       | SavePersonBody
       | SaveOperationBody
       | SaveUserBody
-      | SaveDistributionBody
+      | Distribution
       | SaveWebserviceBody = {},
     headerFilter?: (headers: HttpHeaders) => HttpHeaders,
   ): Promise<unknown> {
