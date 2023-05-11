@@ -43,7 +43,7 @@ export class CreateDistributionItemComponent implements OnInit {
 
     this.apiService.endpoints.Distribution.create
       .call(item)
-      .then((value: { uid: string; instanceId: string }) => {
+      .then((value: DistributionDetailDataSource) => {
         this.router.navigate(['/browse/distribution/details', value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
