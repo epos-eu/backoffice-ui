@@ -9,6 +9,7 @@ import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.c
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
@@ -41,6 +42,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DISTRIBUTION);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);
@@ -53,7 +55,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(id: string): void {
-    this.apiService.endpoints.Distribution.getDistributionDetail
+    this.apiService.endpoints.Distribution.get
       .call(
         {
           instanceId: id,
@@ -88,22 +90,16 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       // keywords: HelpersService.whiteSpaceReplace(this.distributionDetail?.keywords),
       modified: this.distributionDetail?.modified,
       // versionInfo: this.distributionDetail?.versionInfo,
-      spatialExtent: this.formBuilder.array([]),
-      temporalExtent: this.formBuilder.array([]),
-      distribution: this.formBuilder.array([]),
+      // spatialExtent: this.formBuilder.array([]),
+      // distribution: this.formBuilder.array([]),
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
       const value = changes;
-      // TODO: Some stange behaviour where the detect changes pops value out of array.
-      value['title'] = [changes['title']];
       value['description'] = [changes['description']];
+      value['title'] = [changes['title']];
       this.actionService.resetToDraft(this.distributionDetail?.instanceId as string);
-      this.persistorService.setValueInStorage(
-        StorageType.LOCAL_STORAGE,
-        StorageKey.FORM_DATA_PRODUCT,
-        JSON.stringify(value),
-      );
+      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
   }
 

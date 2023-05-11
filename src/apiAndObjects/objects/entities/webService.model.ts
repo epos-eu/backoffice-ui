@@ -22,7 +22,7 @@ export class WebService {
     public editorId: string,
     public entryPoint: string,
     public fileProvenance: string,
-    public identifier: string,
+    public identifier: Array<string>,
     public instanceChangedId: string,
     public instanceId: string,
     public keywords: string,

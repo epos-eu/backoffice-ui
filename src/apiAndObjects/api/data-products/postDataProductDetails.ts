@@ -53,7 +53,7 @@ export interface SaveDataProductBody {
   contactPoint?: Array<ContactPoint>;
   created?: Date;
   dctIdentifier?: string;
-  description?: Array<string>;
+  description?: string;
   distribution?: Array<Distribution>;
   documentation?: string;
   editorId?: string;
@@ -77,7 +77,7 @@ export interface SaveDataProductBody {
   spatialExtent?: Array<SpatialExtent>;
   state?: State;
   temporalExtent?: Array<TemporalExtent>;
-  title?: Array<string>;
+  title?: string;
   toBeDelete?: string;
   type?: string;
   uid: string;

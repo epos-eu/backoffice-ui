@@ -56,7 +56,7 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly editorId: string;
   public readonly entryPoint: string;
   public readonly fileProvenance: string;
-  public readonly identifier: string;
+  public readonly identifier: Array<string>;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
   public readonly keywords: string;
@@ -90,7 +90,7 @@ export class WebserviceDetailDataSource extends BaseObject {
     this.editorId = this._getString(WebserviceDetailDataSource.KEYS.EDITOR_ID);
     this.entryPoint = this._getString(WebserviceDetailDataSource.KEYS.ENTRY_POINT);
     this.fileProvenance = this._getString(WebserviceDetailDataSource.KEYS.FILE_PROVENANCE);
-    this.identifier = this._getString(WebserviceDetailDataSource.KEYS.IDENTIFIER);
+    this.identifier = this._getArray(WebserviceDetailDataSource.KEYS.IDENTIFIER);
     this.instanceChangedId = this._getString(WebserviceDetailDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.instanceId = this._getString(WebserviceDetailDataSource.KEYS.INSTANCE_ID);
     this.keywords = this._getString(WebserviceDetailDataSource.KEYS.KEYWORDS);

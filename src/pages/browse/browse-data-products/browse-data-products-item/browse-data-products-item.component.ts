@@ -44,6 +44,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);
@@ -56,7 +57,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   private initData(id: string): void {
-    this.apiService.endpoints[Entity.DATA_PRODUCT].getDataProductDetail
+    this.apiService.endpoints[Entity.DATA_PRODUCT].get
       .call(
         {
           instanceId: id,
@@ -100,14 +101,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.form.valueChanges.subscribe((changes) => {
       const value = changes;
       // TODO: Some stange behaviour where the detect changes pops value out of array.
-      value['title'] = [changes['title']];
-      value['description'] = [changes['description']];
+      // value['title'] = [changes['title']];
+      // value['description'] = [changes['description']];
       this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
-      this.persistorService.setValueInStorage(
-        StorageType.LOCAL_STORAGE,
-        StorageKey.FORM_DATA_PRODUCT,
-        JSON.stringify(value),
-      );
+      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
   }
 
@@ -212,10 +209,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     if (this.dataProduct?.instanceId) {
       this.dialogService.handleDelete(this.dataProduct?.instanceId, EntityEndpointValue.DATA_PRODUCT);
     }
-  }
-
-  public handleBack(): void {
-    this.router.navigate(['/browse/data-products']);
   }
 
   // private mapDistributionCalls(ids: Array<string>): Promise<DistributionDetailDataSource[]>[] {

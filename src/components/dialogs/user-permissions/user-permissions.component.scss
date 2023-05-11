@@ -1,3 +1,5 @@
+@import '../../../styles/theme';
+
 * {
   font-family: 'Roboto Flex', sans-serif;
 }
@@ -31,6 +33,10 @@ mat-form-field {
     width: 64px;
     height: 64px;
     border-radius: 100%;
+    background-color: $color-secondary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .details {

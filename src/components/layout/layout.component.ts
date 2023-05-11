@@ -99,7 +99,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   public getLoginData() {
-    this.apiService.endpoints[Entity.USER].getUserInfo
+    this.apiService.endpoints[Entity.USER].get
       .call({
         available_section: true,
       })

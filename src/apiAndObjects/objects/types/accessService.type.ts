@@ -4,4 +4,5 @@ export type AccessService = {
   instanceId: string;
   uid: string;
   entityType: Entity;
+  metaId: string;
 };

@@ -42,7 +42,7 @@ export class CreateDataProductItemComponent implements OnInit {
       modified: new Date().toISOString(),
     };
 
-    this.apiService.endpoints.DataProduct.postDataProductDetail
+    this.apiService.endpoints.DataProduct.create
       .call(item)
       .then((value: DataProductDataSource) => {
         this.router.navigate(['/browse/data-products/details', value.instanceId]);

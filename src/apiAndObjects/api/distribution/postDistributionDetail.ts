@@ -9,7 +9,7 @@ import { CreateUpdateDistributionDataSource } from 'src/apiAndObjects/objects/cr
 import { TemporalExtent } from 'src/apiAndObjects/objects/types/temporalExtent.type';
 import { SpatialBounds } from 'src/apiAndObjects/objects/types/spatialBounds.type';
 
-export class UpdateDistributionDetail extends CacheableEndpoint<
+export class PostDistributionDetail extends CacheableEndpoint<
   CreateUpdateDistributionDataSource,
   SaveDistributionBody,
   CreateUpdateDistributionDataSource
@@ -28,7 +28,7 @@ export class UpdateDistributionDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['distribution'], RequestMethod.PUT, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['distribution'], RequestMethod.POST, undefined, body, headers);
 
     return this.buildObjectFromResponse(CreateUpdateDistributionDataSource, callResponsePromise).then(
       (response: CreateUpdateDistributionDataSource) => response,
@@ -41,58 +41,61 @@ export class UpdateDistributionDetail extends CacheableEndpoint<
 }
 
 export interface SaveDistributionBody {
-  accessService: AccessService;
-  accessURL: Array<string>;
-  availableFormats: Array<AvailableFormat>;
-  changeComment: string;
-  changeTimestamp: Date | undefined;
-  conformsTo: string;
-  dataPolicy: string;
-  dataProduct: Array<DataProduct>;
-  dataProvider: Array<string>;
-  description: Array<string>;
-  distributionid: string;
-  doi: Array<string>;
-  downloadURL: Array<string>;
-  editorId: string;
-  endpoint: string;
-  fileProvenance: string;
-  format: string;
-  frequencyUpdate: string;
-  groups: Array<Group>;
-  hasQualityAnnotation: string;
-  href: string;
-  id: string;
-  instanceChangedId: string;
-  instanceId: string;
-  internalID: Array<string>;
-  issued: Date | undefined;
-  keywords: Array<string>;
-  licence: string;
-  license: string;
-  metaId: string;
-  modified: Date | undefined;
-  operation: string;
-  operationid: string;
-  parameters: Array<BackofficeParameter>;
-  productid: string;
-  scienceDomain: Array<string>;
-  serviceDescription: string;
-  serviceDocumentation: string;
-  serviceEndpoint: string;
-  serviceName: string;
-  serviceProvider: string;
-  serviceSpatial: SpatialBounds;
-  serviceTemporalCoverage: TemporalExtent;
-  serviceType: Array<string>;
-  spatial: SpatialBounds;
-  state: State;
-  temporalCoverage: TemporalExtent;
-  title: Array<string>;
-  toBeDelete: string;
-  type: string;
+  accessService?: AccessService;
+  accessURL?: Array<string>;
+  availableFormats?: Array<AvailableFormat>;
+  changeComment?: string;
+  changeTimestamp?: Date | undefined;
+  conformsTo?: string;
+  contactPoint?: string;
+  dataPolicy?: string;
+  dataProduct?: Array<DataProduct>;
+  dataProvider?: Array<string>;
+  description?: Array<string>;
+  distributionid?: string;
+  distribution?: string;
+  doi?: Array<string>;
+  downloadURL?: Array<string>;
+  editorId?: string;
+  endpoint?: string;
+  fileProvenance?: string;
+  format?: string;
+  frequencyUpdate?: string;
+  groups?: Array<Group>;
+  hasQualityAnnotation?: string;
+  href?: string;
+  id?: string;
+  instanceChangedId?: string;
+  instanceId?: string;
+  internalID?: Array<string>;
+  issued?: Date | undefined;
+  keywords?: Array<string>;
+  licence?: string;
+  license?: string;
+  metaId?: string;
+  modified?: string;
+  operation?: string;
+  operationid?: string;
+  parameters?: Array<BackofficeParameter>;
+  productid?: string;
+  scienceDomain?: Array<string>;
+  serviceDescription?: string;
+  serviceDocumentation?: string;
+  serviceEndpoint?: string;
+  serviceName?: string;
+  serviceProvider?: string;
+  serviceSpatial?: SpatialBounds;
+  serviceTemporalCoverage?: TemporalExtent;
+  serviceType?: Array<string>;
+  spatialExtent?: SpatialBounds;
+  state?: State;
+  temporalCoverage?: TemporalExtent;
+  temporalExtent?: TemporalExtent;
+  title?: Array<string>;
+  toBeDelete?: string;
+  type?: string;
   uid: string;
-  version: string;
+  version?: string;
 }
 
 type AccessService = {
