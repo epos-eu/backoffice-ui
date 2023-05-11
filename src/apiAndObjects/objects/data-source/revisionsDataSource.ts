@@ -1,4 +1,4 @@
-import { BaseObject } from '../_lib_code/objects/baseObject';
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 
 export class RevisionsDataSource extends BaseObject {
   public static readonly KEYS = {

@@ -1,6 +1,6 @@
-import { BaseObject } from '../_lib_code/objects/baseObject';
-import { AccessService } from './types/accessService.type';
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
+import { AccessService } from '../types/accessService.type';
 
 export class DistributionDetailDataSource extends BaseObject {
   public static readonly KEYS = {

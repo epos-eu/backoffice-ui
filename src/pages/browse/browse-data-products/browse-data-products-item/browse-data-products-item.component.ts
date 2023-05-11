@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -13,7 +12,8 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -28,7 +28,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public form!: UntypedFormGroup;
   public distribution!: Array<DistributionDetailDataSource>;
   public distributionLoaded = false;
-  public contactPoint!: Array<ContactPointDataSource>;
+  public contactPoint!: Array<ContactPointDetailDataSource>;
   public contactPointLoaded = false;
 
   constructor(
@@ -184,7 +184,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       );
     });
   }
-  private patchContactPoint(contactPoint: Array<ContactPointDataSource>) {
+  private patchContactPoint(contactPoint: Array<ContactPointDetailDataSource>) {
     const control = <FormArray>this.form.get('contactPoint');
     contactPoint.forEach((item) => {
       control.push(

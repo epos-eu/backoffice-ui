@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { UserInfoDataSource } from 'src/apiAndObjects/objects/userInfoDataSource';
+import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';

@@ -1,9 +1,9 @@
 import { State } from 'src/utility/enums/state.enum';
-import { BaseObject } from '../_lib_code/objects/baseObject';
-import { ContactPoint } from './entities/contactPoint.model';
-import { Distribution } from './entities/distribution.model';
-import { SpatialExtent } from './types/spatialExtent.type';
-import { TemporalExtent } from './types/temporalExtent.type';
+import { BaseObject } from '../../_lib_code/objects/baseObject';
+import { ContactPoint } from '../entities/contactPoint.model';
+import { Distribution } from '../entities/distribution.model';
+import { SpatialExtent } from '../types/spatialExtent.type';
+import { TemporalExtent } from '../types/temporalExtent.type';
 
 export class DataProductDetailDataSource extends BaseObject {
   public static readonly KEYS = {

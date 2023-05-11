@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 export class GetContactPointDetail extends CacheableEndpoint<
-  Array<ContactPointDataSource>,
+  Array<ContactPointDetailDataSource>,
   GetContactPointDetailsParams,
-  ContactPointDataSource
+  ContactPointDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -17,7 +17,7 @@ export class GetContactPointDetail extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetContactPointDetailsParams): Promise<ContactPointDataSource[]> {
+  protected callLive(params: GetContactPointDetailsParams): Promise<ContactPointDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -28,13 +28,13 @@ export class GetContactPointDetail extends CacheableEndpoint<
     const callResponsePromise = this.apiCaller
       .doCall(`contactpoint/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
-    return this.buildObjectsFromResponse(ContactPointDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(ContactPointDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(params?: GetContactPointDetailsParams | undefined): Promise<ContactPointDataSource[]> {
+  protected callMock(params?: GetContactPointDetailsParams | undefined): Promise<ContactPointDetailDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
-      ContactPointDataSource,
+      ContactPointDetailDataSource,
       new Promise((resolve) => {
         setTimeout(() => {
           resolve(lastValueFrom(httpClient.get('/assets/data/contactPoint.json')));

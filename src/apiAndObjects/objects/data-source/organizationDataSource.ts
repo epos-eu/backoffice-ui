@@ -1,7 +1,7 @@
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
-import { BaseObject } from '../_lib_code/objects/baseObject';
-import { Address } from './types/address.type';
-import { SupportedOperation } from './types/supportedOperation.type';
+import { Address } from '../types/address.type';
+import { SupportedOperation } from '../types/supportedOperation.type';
 
 export class OrganizationDataSource extends BaseObject {
   public static readonly KEYS = {

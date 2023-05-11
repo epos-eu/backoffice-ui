@@ -1,5 +1,5 @@
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
-import { BaseObject } from '../_lib_code/objects/baseObject';
 
 export class UserInfoDataSource extends BaseObject {
   public static readonly KEYS = {

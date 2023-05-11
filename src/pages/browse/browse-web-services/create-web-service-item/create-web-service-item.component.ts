@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angul
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webserviceDetailDataSource';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({

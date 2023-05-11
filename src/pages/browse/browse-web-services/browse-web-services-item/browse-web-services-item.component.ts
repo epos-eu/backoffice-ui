@@ -4,7 +4,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webserviceDetailDataSource';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { HelpersService } from 'src/services/helpers.service';

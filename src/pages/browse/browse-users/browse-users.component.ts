@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { UserInfoDataSource } from 'src/apiAndObjects/objects/userInfoDataSource';
+import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Entity } from 'src/utility/enums/entity.enum';

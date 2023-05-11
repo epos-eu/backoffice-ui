@@ -1,9 +1,9 @@
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
-import { BaseObject } from '../_lib_code/objects/baseObject';
-import { Address } from './types/address.type';
-import { Affiliation } from './types/affiliation.type';
-import { SupportedOperation } from './types/supportedOperation.type';
+import { SupportedOperation } from '../types/supportedOperation.type';
+import { Address } from '../types/address.type';
+import { Affiliation } from '../types/affiliation.type';
 
 export class PersonDataSource extends BaseObject {
   public static readonly KEYS = {

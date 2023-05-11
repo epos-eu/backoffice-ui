@@ -3,22 +3,21 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { Group } from 'src/apiAndObjects/objects/entities/group.model';
-import { State } from 'src/utility/enums/state.enum';
-import { CreateUpdateContactPointDataSource } from 'src/apiAndObjects/objects/createUpdateContactPointDataSource';
+import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 
 export class PutContactPointDetail extends CacheableEndpoint<
-  CreateUpdateContactPointDataSource,
-  SaveContactPointBody,
-  CreateUpdateContactPointDataSource
+  ContactPointDetailDataSource,
+  ContactPoint,
+  ContactPointDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: SaveContactPointBody): string {
+  protected getCacheKey(body: ContactPoint): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: SaveContactPointBody): Promise<CreateUpdateContactPointDataSource> {
+  protected callLive(body: ContactPoint): Promise<ContactPointDetailDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -28,48 +27,12 @@ export class PutContactPointDetail extends CacheableEndpoint<
     };
     const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.POST, undefined, body, headers);
 
-    return this.buildObjectFromResponse(CreateUpdateContactPointDataSource, callResponsePromise).then(
-      (response: CreateUpdateContactPointDataSource) => response,
+    return this.buildObjectFromResponse(ContactPointDetailDataSource, callResponsePromise).then(
+      (response: ContactPointDetailDataSource) => response,
     );
   }
 
-  protected callMock(): Promise<CreateUpdateContactPointDataSource> {
+  protected callMock(): Promise<ContactPointDetailDataSource> {
     throw new Error('Method not implemented.');
   }
 }
-
-export interface SaveContactPointBody {
-  changeComment: string;
-  changeTimestamp: Date | undefined | null;
-  editorId: string;
-  email: Array<string>;
-  fileProvenance: string;
-  groups: Array<Group>;
-  instanceChangedId: string;
-  instanceId: string;
-  language: Array<string>;
-  metaId: string;
-  operation: string;
-  organization: Organization;
-  person: Person;
-  role: string;
-  state: State;
-  telephone: Array<string>;
-  toBeDelete: string;
-  uid: string;
-  version: string;
-}
-
-type Organization = {
-  entityType: string;
-  instanceId: string;
-  metaId: string;
-  uid: string;
-};
-
-type Person = {
-  entityType: string;
-  instanceId: string;
-  metaId: string;
-  uid: string;
-};

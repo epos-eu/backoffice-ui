@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { StatisticsDataSource } from 'src/apiAndObjects/objects/statisticsDataSource';
+import { StatisticsDataSource } from 'src/apiAndObjects/objects/data-source/statisticsDataSource';
 import { ChartData, ChartOptions } from 'chart.js';
 import { ChartConfig } from 'src/utility/config/chart';
 import { table, groups } from './dummyData';
