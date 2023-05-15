@@ -101,7 +101,7 @@ export class EditNavigationComponent implements OnInit {
   private handleDataProductSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'data-products',
+        type: Entity.DATA_PRODUCT,
         label: 'Data product',
         status: Status.Draft,
         color: 'draft',
@@ -162,7 +162,7 @@ export class EditNavigationComponent implements OnInit {
   private handleWebserviceSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'webservice',
+        type: Entity.WEBSERVICE,
         label: 'Webservice',
         status: Status.Draft,
         color: 'draft',
@@ -229,7 +229,7 @@ export class EditNavigationComponent implements OnInit {
   private handleDistributionSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'distribution',
+        type: Entity.DISTRIBUTION,
         label: 'Distribution',
         status: Status.Draft,
         color: 'draft',
@@ -301,7 +301,7 @@ export class EditNavigationComponent implements OnInit {
   private handleContactPointSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'contactPoint',
+        type: Entity.CONTACT_POINT,
         label: 'Contact Point',
         status: Status.Draft,
         color: 'draft',

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -99,7 +100,7 @@ export class ActionsService {
 
   public initEdit(id: string): void {
     this.currentEdit.next({
-      type: 'data-products',
+      type: Entity.DATA_PRODUCT,
       label: 'Data product',
       status: Status.Draft,
       color: 'draft',
