@@ -13,7 +13,6 @@ import { BrowseServicesComponent } from './browse-services/browse-services.compo
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
-import { BrowseSourceCodeComponent } from './browse-source-code/browse-source-code.component';
 import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
@@ -44,23 +43,13 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'source-code',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseSourceCodeComponent }],
-  },
-  {
-    path: 'organization',
+    path: EntityEndpointValue.ORGANIZATION,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseOrganizationComponent },
       { path: 'details/:id', component: BrowseOrganizationItemComponent },
     ],
   },
-  // {
-  //   path: 'software',
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: BrowseSoftwareComponent }],
-  // },
   {
     path: EntityEndpointValue.DISTRIBUTION,
     component: LayoutComponent,
