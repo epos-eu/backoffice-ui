@@ -5,7 +5,10 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <ng-container *ngIf="!loading">
-  <app-table-filter (onFilter)="handleFilter($event)"></app-table-filter>
+  <app-table-filter
+    (onFilter)="handleFilter($event)"
+    (onClear)="handleClear()"
+  ></app-table-filter>
 </ng-container>
 <div
   [hidden]="loading"
