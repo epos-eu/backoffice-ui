@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
-  selector: 'app-create-distribution-item',
-  templateUrl: './create-distribution-item.component.html',
-  styleUrls: ['./create-distribution-item.component.scss'],
+  selector: 'app-create-contact-point-item',
+  templateUrl: './create-contact-point-item.component.html',
+  styleUrls: ['./create-contact-point-item.component.scss'],
 })
-export class CreateDistributionItemComponent implements OnInit {
+export class CreateContactPointItemComponent implements OnInit {
   public form!: UntypedFormGroup;
-  public distribution!: DistributionDetailDataSource | undefined;
+  public contactPoint!: ContactPointDetailDataSource | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
 
@@ -32,15 +32,14 @@ export class CreateDistributionItemComponent implements OnInit {
 
   public handleCreate(): void {
     this.loading = true;
-    const item: Distribution = {
+    const item: ContactPoint = {
       uid: this.form.value['uid'],
-      modified: new Date().toISOString(),
     };
 
-    this.apiService.endpoints.Distribution.create
+    this.apiService.endpoints.Contactpoint.create
       .call(item)
-      .then((value: DistributionDetailDataSource) => {
-        this.router.navigate(['/browse/distribution/details', value.instanceId]);
+      .then((value: ContactPointDetailDataSource) => {
+        this.router.navigate(['/browse/contact-point/details', value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
           'mat-toolbar',
@@ -48,7 +47,7 @@ export class CreateDistributionItemComponent implements OnInit {
         ]);
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
+        this.snackbarService.openSnackbar(`Error: failed to create new Contact Point`, 'close', 'error', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
@@ -59,7 +58,7 @@ export class CreateDistributionItemComponent implements OnInit {
 
   private trackFormData(): void {
     this.form = this.formBuilder.group({
-      uid: this.distribution?.uid,
+      uid: this.contactPoint?.uid,
     });
     this.form.valueChanges.subscribe(() => {
       this.enableSave = this.form.valid;

@@ -1,6 +1,18 @@
 <ng-scrollbar>
   <div class="container">
-    <h1 class="mat-headline-4">Contact point</h1>
-    <app-table [sectionName]="sectionName"></app-table>
+    <div class="title mat-table-margin">
+      <h1 class="mat-headline-4">Contact point</h1>
+      <button
+        mat-stroked-button
+        (click)="createContactPoint()"
+      >
+        <mat-icon color="primary">add_circle</mat-icon>
+        New Contact Point
+      </button>
+    </div>
+    <app-table
+      [sectionName]="sectionName"
+      (rowClickDetailsEmit)="rowClicked($event)"
+    ></app-table>
   </div>
 </ng-scrollbar>

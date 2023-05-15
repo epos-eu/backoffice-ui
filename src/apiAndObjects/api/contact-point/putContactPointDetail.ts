@@ -25,7 +25,7 @@ export class PutContactPointDetail extends CacheableEndpoint<
         .set('Content-Type', 'application/json');
       return headers;
     };
-    const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.POST, undefined, body, headers);
+    const callResponsePromise = this.apiCaller.doCall(['contactpoint'], RequestMethod.PUT, undefined, body, headers);
 
     return this.buildObjectFromResponse(ContactPointDetailDataSource, callResponsePromise).then(
       (response: ContactPointDetailDataSource) => response,

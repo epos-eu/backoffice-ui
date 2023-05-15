@@ -3,7 +3,7 @@ export enum EntityEndpointValue {
   ORGANIZATION = 'organization',
   USER = 'user',
   PERSON = 'person',
-  CONTACT_POINT = 'pontactpoint',
+  CONTACT_POINT = 'contactpoint',
   WEBSERVICE = 'webservice',
   DISTRIBUTION = 'distribution',
   OPERATION = 'operation',

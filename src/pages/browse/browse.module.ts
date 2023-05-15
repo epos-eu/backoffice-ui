@@ -31,6 +31,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
 import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
+import { CreateContactPointItemComponent } from './browse-contact-point/create-contact-point-item/create-contact-point-item.component';
+import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { CreateWebServiceItemComponent } from './browse-web-services/create-web-
     BrowseDistributionItemComponent,
     CreateDistributionItemComponent,
     CreateWebServiceItemComponent,
+    CreateContactPointItemComponent,
+    BrowseContactPointItemComponent,
   ],
   imports: [
     CommonModule,

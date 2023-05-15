@@ -12,6 +12,7 @@ import { DialogService } from '../dialog.service';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { State } from 'src/utility/enums/state.enum';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
+import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 
 @Component({
   selector: 'app-dialog-submit',
@@ -54,6 +55,10 @@ export class DialogSubmitDraftComponent implements OnInit {
         }
         case Entity.WEBSERVICE: {
           this.handleWebserviceSubmit();
+          break;
+        }
+        case Entity.CONTACT_POINT: {
+          this.handleContactPointSubmit();
           break;
         }
       }
@@ -140,6 +145,36 @@ export class DialogSubmitDraftComponent implements OnInit {
           distribution: undefined,
           contactPoint: undefined,
           metaId: 'test meta id',
+        })
+        .then(() => {
+          this.actionsService.submitCurrentEdit(this.currentEdit.id);
+          this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-success',
+          ]);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        })
+        .finally(() => {
+          this.dialogService.closeDialog();
+        });
+    }
+  }
+
+  private handleContactPointSubmit() {
+    const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    if (localStorage !== null) {
+      const formData: ContactPoint = JSON.parse(localStorage);
+      this.apiService.endpoints[Entity.CONTACT_POINT].update
+        .call({
+          ...formData,
         })
         .then(() => {
           this.actionsService.submitCurrentEdit(this.currentEdit.id);

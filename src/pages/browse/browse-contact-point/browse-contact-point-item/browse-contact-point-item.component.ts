@@ -2,32 +2,27 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 
 @Component({
-  selector: 'app-browse-distribution-item',
-  templateUrl: './browse-distribution-item.component.html',
-  styleUrls: ['./browse-distribution-item.component.scss'],
+  selector: 'app-browse-contact-point-item',
+  templateUrl: './browse-contact-point-item.component.html',
+  styleUrls: ['./browse-contact-point-item.component.scss'],
 })
-export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
+export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new UntypedFormControl('auto');
-  public distributionDetail!: DistributionDetailDataSource | undefined;
+  public contactPoint!: ContactPointDetailDataSource | undefined;
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
-  // public distribution!: Array<DistributionDetailDataSource>;
-  public distributionLoaded = false;
-  public contactPoint!: Array<ContactPointDetailDataSource>;
-  public contactPointLoaded = false;
 
   constructor(
     private dialogService: DialogService,
@@ -41,8 +36,8 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
     this.UID = this.route.snapshot.paramMap.get('id');
   }
 
-  public ngOnInit(): void {
-    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DISTRIBUTION);
+  ngOnInit(): void {
+    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.CONTACT_POINT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);
@@ -50,27 +45,28 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
     });
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.actionService.cancelLiveEdit();
   }
 
   private initData(id: string): void {
-    this.apiService.endpoints.Distribution.get
+    this.apiService.endpoints[Entity.CONTACT_POINT].get
       .call(
         {
           instanceId: id,
         },
         false,
       )
-      .then((data) => {
+      .then((data: Array<ContactPointDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
-          this.distributionDetail = data.shift();
-          if (this.distributionDetail) {
+          this.contactPoint = data.shift();
+
+          if (this.contactPoint) {
             this.actionService.setLiveEdit();
             this.trackFormData();
             // this.patch('spatialExtent');
             // this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit(this.distributionDetail.instanceId);
+            this.actionService.trackCurrentEdit(this.contactPoint.instanceId);
           }
         }
       });
@@ -78,27 +74,20 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
 
   private trackFormData(): void {
     this.form = this.formBuilder.group({
-      instanceId: this.distributionDetail?.instanceId as string,
-      uid: this.distributionDetail?.uid,
-      title: [this.distributionDetail?.title],
-      // title: [this.distributionDetail?.title],
-      description: [this.distributionDetail?.description],
-      changeTimestamp: this.distributionDetail?.changeTimestamp,
-      state: this.distributionDetail?.state,
-      // identifier: [this.distributionDetail?.identifier],
-      // issued: this.isValidDate(this.distributionDetail?.issued) ? this.distributionDetail?.issued : '',
-      // keywords: HelpersService.whiteSpaceReplace(this.distributionDetail?.keywords),
-      modified: this.distributionDetail?.modified,
-      // versionInfo: this.distributionDetail?.versionInfo,
+      instanceId: this.contactPoint?.instanceId as string,
+      uid: this.contactPoint?.uid,
+      operation: this.contactPoint?.operation,
       // spatialExtent: this.formBuilder.array([]),
+      // temporalExtent: this.formBuilder.array([]),
       // distribution: this.formBuilder.array([]),
-      contactPoint: this.formBuilder.array([]),
+      // contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
       const value = changes;
-      value['description'] = [changes['description']];
-      value['title'] = [changes['title']];
-      this.actionService.resetToDraft(this.distributionDetail?.instanceId as string);
+      // TODO: Some stange behaviour where the detect changes pops value out of array.
+      // value['title'] = [changes['title']];
+      // value['description'] = [changes['description']];
+      this.actionService.resetToDraft(this.contactPoint?.instanceId as string);
       this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
   }
@@ -109,15 +98,15 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
 
   // private patch(field: string): void {
   //   const control = <FormArray>this.form.get(field);
-  //   if (this.distributionDetail) {
+  //   if (this.dataProduct) {
   //     switch (true) {
   //       case field === 'spatialExtent':
-  //         this.distributionDetail.spatialExtent.forEach((item: SpatialExtent) => {
+  //         this.dataProduct.spatialExtent.forEach((item: SpatialExtent) => {
   //           control.push(this.patchValues('spatialExtent', [item.location]));
   //         });
   //         break;
   //       case field === 'temporalExtent':
-  //         this.distributionDetail.temporalExtent.forEach((item: TemporalExtent) => {
+  //         this.dataProduct.temporalExtent.forEach((item: TemporalExtent) => {
   //           control.push(this.patchValues('temporalExtent', [item.startDate, item.endDate]));
   //         });
   //         break;
@@ -161,39 +150,6 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  private patchDistribution(distribution: Array<DistributionDetailDataSource>) {
-    const control = <FormArray>this.form.get('distribution');
-    distribution.forEach((item) => {
-      control.push(
-        this.patchValues('distribution', [
-          item.uid,
-          item.title,
-          item.fileProvenance,
-          item.description,
-          item.format,
-          item.type,
-          item.issued,
-          item.modified,
-          item.changeTimestamp,
-        ]),
-      );
-    });
-  }
-  private patchContactPoint(contactPoint: Array<ContactPointDetailDataSource>) {
-    const control = <FormArray>this.form.get('contactPoint');
-    contactPoint.forEach((item) => {
-      control.push(
-        this.patchValues('contactPoint', [
-          item.uid,
-          item.email,
-          // item.organization,
-          item.telephone,
-          item.changeTimestamp,
-        ]),
-      );
-    });
-  }
-
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
     this.dialogService.openDialogForComponent(RevisionsComponent, {}, '35vw', 'auto', 'revisions-dialog');
@@ -201,8 +157,59 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
 
   public handleDelete(): void {
     // Todo: delete item from DB
-    if (this.distributionDetail?.instanceId) {
-      this.dialogService.handleDelete(this.distributionDetail?.instanceId, EntityEndpointValue.DISTRIBUTION);
+    if (this.contactPoint?.instanceId) {
+      this.dialogService.handleDelete(this.contactPoint?.instanceId, EntityEndpointValue.CONTACT_POINT);
     }
   }
+
+  // private mapDistributionCalls(ids: Array<string>): Promise<DistributionDetailDataSource[]>[] {
+  //   return ids.map((id) => {
+  //     return this.apiService.endpoints[Entity.DISTRIBUTION].getDistributionDetail.call({
+  //       instanceId: id,
+  //     });
+  //   });
+  // }
+
+  // private mapContactPointCalls(ids: Array<string>): Promise<ContactPointDataSource[]>[] {
+  //   return ids.map((id) => {
+  //     return this.apiService.endpoints[Entity.CONTACT_POINT].getContactPointDetail.call({
+  //       instanceId: id,
+  //     });
+  //   });
+  // }
+
+  // public handleExpand(type: string): void {
+  //   switch (true) {
+  //     case type === 'distribution':
+  //       if (!this.distributionLoaded) {
+  //         if (this.dataProduct?.distribution) {
+  //           const ids = this.dataProduct?.distribution.map((item) => item.instanceId);
+  //           if (ids && ids.length > 0) {
+  //             forkJoin(this.mapDistributionCalls(ids)).subscribe((distributions) => {
+  //               distributions.forEach((distribution: DistributionDetailDataSource[]) => {
+  //                 this.patchDistribution(distribution);
+  //                 this.distributionLoaded = true;
+  //               });
+  //             });
+  //           }
+  //         }
+  //       }
+  //       break;
+  //     case type === 'contactPoint':
+  //       if (!this.contactPointLoaded) {
+  //         if (this.dataProduct?.contactPoint) {
+  //           const ids = this.dataProduct?.contactPoint.map((item) => item.instanceId);
+  //           if (ids && ids.length > 0) {
+  //             forkJoin(this.mapContactPointCalls(ids)).subscribe((contactPoints) => {
+  //               contactPoints.forEach((contactPoint: Array<ContactPointDataSource>) => {
+  //                 this.patchContactPoint(contactPoint);
+  //                 this.contactPointLoaded = true;
+  //               });
+  //             });
+  //           }
+  //         }
+  //       }
+  //       break;
+  //   }
+  // }
 }
