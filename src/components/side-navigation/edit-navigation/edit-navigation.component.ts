@@ -360,7 +360,7 @@ export class EditNavigationComponent implements OnInit {
     }
   }
 
-  // public handleClick(id: string): void {
-  //   this.router.navigate(['/browse/data-products/details', id]);
-  // }
+  public handleClick(id: string): void {
+    this.router.navigate(['/browse/data-products/details', id]);
+  }
 }
