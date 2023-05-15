@@ -9,7 +9,6 @@ import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 })
 export class BrowseNavigationComponent implements OnInit {
   public userInfo: UserBackofficeInfo | null = null;
-
   constructor(private activeUserService: ActiveUserService) {}
 
   ngOnInit(): void {

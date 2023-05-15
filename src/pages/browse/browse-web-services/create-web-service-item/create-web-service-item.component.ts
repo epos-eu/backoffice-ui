@@ -5,6 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-create-web-service-item',
@@ -17,6 +18,7 @@ export class CreateWebServiceItemComponent implements OnInit {
   public enableSave = false;
   public loading = false;
   public floatLabelControl = new UntypedFormControl('auto');
+  public webserviceEntity = EntityEndpointValue.WEBSERVICE;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -29,10 +31,6 @@ export class CreateWebServiceItemComponent implements OnInit {
     this.trackFormData();
   }
 
-  public handleBack(): void {
-    this.router.navigate(['/browse/web-services']);
-  }
-
   public handleCreate(): void {
     this.loading = true;
     const item: WebService = {
@@ -43,7 +41,7 @@ export class CreateWebServiceItemComponent implements OnInit {
     this.apiService.endpoints.Webservice.create
       .call(item)
       .then((value: WebserviceDetailDataSource) => {
-        this.router.navigate(['/browse/web-services/details', value.instanceId]);
+        this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, value.instanceId]);
         this.snackbarService.openSnackbar('Successfully created webservice.', 'close', 'success', 3000, [
           'snackbar',
           'mat-toolbar',

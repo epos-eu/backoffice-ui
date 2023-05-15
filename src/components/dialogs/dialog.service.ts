@@ -110,8 +110,6 @@ export class DialogService extends BaseDialogService {
 
               if (entityEndpoint === EntityEndpointValue.DATA_PRODUCT) {
                 this.router.navigate([`/browse/data-products`]);
-              } else if (entityEndpoint === EntityEndpointValue.WEBSERVICE) {
-                this.router.navigate([`/browse/web-services`]);
               } else if (entityEndpoint === EntityEndpointValue.CONTACT_POINT) {
                 this.router.navigate([`/browse/contact-point`]);
               } else {

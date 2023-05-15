@@ -34,7 +34,7 @@ const routes: Routes = [
     children: [{ path: '', component: BrowseHomeComponent }],
   },
   {
-    path: 'web-services',
+    path: 'webservice',
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseWebServicesComponent },

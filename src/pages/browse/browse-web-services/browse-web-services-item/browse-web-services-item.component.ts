@@ -26,6 +26,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   public webservice!: WebService | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
+  public webserviceEntity = EntityEndpointValue.WEBSERVICE;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -103,7 +104,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   public handleBack(): void {
-    this.router.navigate(['/browse/web-services']);
+    this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}`]);
   }
 
   public handleChange(event: MatSlideToggleChange): void {
