@@ -26,7 +26,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   public webservice!: WebService | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
-  public webserviceEntity = EntityEndpointValue.WEBSERVICE;
+  public routeEntity = EntityEndpointValue.WEBSERVICE;
 
   constructor(
     private fb: UntypedFormBuilder,

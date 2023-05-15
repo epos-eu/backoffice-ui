@@ -108,9 +108,7 @@ export class DialogService extends BaseDialogService {
                 ['snackbar', 'mat-toolbar', 'snackbar-success'],
               );
 
-              if (entityEndpoint === EntityEndpointValue.DATA_PRODUCT) {
-                this.router.navigate([`/browse/data-products`]);
-              } else if (entityEndpoint === EntityEndpointValue.CONTACT_POINT) {
+              if (entityEndpoint === EntityEndpointValue.CONTACT_POINT) {
                 this.router.navigate([`/browse/contact-point`]);
               } else {
                 this.router.navigate([`/browse/${entityEndpoint}`]);

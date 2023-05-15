@@ -26,6 +26,7 @@ import { CreateDistributionItemComponent } from './browse-distribution/create-di
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
 import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
 import { CreateContactPointItemComponent } from './browse-contact-point/create-contact-point-item/create-contact-point-item.component';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
     children: [{ path: '', component: BrowseHomeComponent }],
   },
   {
-    path: 'webservice',
+    path: EntityEndpointValue.WEBSERVICE,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseWebServicesComponent },
@@ -79,7 +80,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'data-products',
+    path: EntityEndpointValue.DATA_PRODUCT,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseDataProductsComponent },

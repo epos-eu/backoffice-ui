@@ -18,7 +18,7 @@ export class CreateWebServiceItemComponent implements OnInit {
   public enableSave = false;
   public loading = false;
   public floatLabelControl = new UntypedFormControl('auto');
-  public webserviceEntity = EntityEndpointValue.WEBSERVICE;
+  public routeEntity = EntityEndpointValue.WEBSERVICE;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
