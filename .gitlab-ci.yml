@@ -10,9 +10,9 @@ variables:
     }' # PROJECT_NAME, CI_COMMIT_REF_SLUG and ENV_STAGE need to be provided as a minimum
 
 include:
-  - project: "epos/k8s-epos-deploy"
+  - project: 'epos/k8s-epos-deploy'
     ref: backoffice-test-env #apis-newgui
-    file: ".gitlab-kube-include.yml"
+    file: '.gitlab-kube-include.yml'
 
 stages:
   - build
@@ -23,7 +23,7 @@ build:
   stage: build
   image: node:lts-alpine
   script:
-    - npm install -g @angular/cli@14.1.0
+    - npm install -g @angular/cli@15.2.7
     - npm install
     - ng build
   artifacts:
