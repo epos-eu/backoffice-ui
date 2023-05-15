@@ -30,10 +30,6 @@ export class CreateContactPointItemComponent implements OnInit {
     this.trackFormData();
   }
 
-  public handleBack(): void {
-    this.router.navigate(['/browse/contact-point']);
-  }
-
   public handleCreate(): void {
     this.loading = true;
     const item: ContactPoint = {

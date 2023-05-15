@@ -30,10 +30,6 @@ export class CreateDistributionItemComponent implements OnInit {
     this.trackFormData();
   }
 
-  public handleBack(): void {
-    this.router.navigate(['/browse/distribution']);
-  }
-
   public handleCreate(): void {
     this.loading = true;
     const item: Distribution = {

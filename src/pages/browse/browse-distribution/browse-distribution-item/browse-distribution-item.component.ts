@@ -205,8 +205,4 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       this.dialogService.handleDelete(this.distributionDetail?.instanceId, EntityEndpointValue.DISTRIBUTION);
     }
   }
-
-  public handleBack(): void {
-    this.router.navigate(['/browse/distribution']);
-  }
 }
