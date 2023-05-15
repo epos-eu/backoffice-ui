@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-browse-contact-point',
@@ -12,10 +13,10 @@ export class BrowseContactPointComponent {
   constructor(private router: Router) {}
 
   public rowClicked(rowClickDetails: Array<string>): void {
-    this.router.navigate(['/browse/contact-point/details'].concat(rowClickDetails));
+    this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`].concat(rowClickDetails));
   }
 
   public createContactPoint(): void {
-    this.router.navigate(['browse/contact-point/new']);
+    this.router.navigate([`browse/${EntityEndpointValue.CONTACT_POINT}/new`]);
   }
 }

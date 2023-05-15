@@ -23,6 +23,7 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
+  public entityRoute = EntityEndpointValue.CONTACT_POINT;
 
   constructor(
     private dialogService: DialogService,

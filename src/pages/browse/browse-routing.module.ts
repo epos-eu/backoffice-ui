@@ -62,7 +62,7 @@ const routes: Routes = [
   //   children: [{ path: '', component: BrowseSoftwareComponent }],
   // },
   {
-    path: 'distribution',
+    path: EntityEndpointValue.DISTRIBUTION,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseDistributionComponent },
@@ -71,7 +71,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'contact-point',
+    path: EntityEndpointValue.CONTACT_POINT,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseContactPointComponent },
