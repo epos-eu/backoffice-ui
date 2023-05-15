@@ -301,8 +301,8 @@ export class EditNavigationComponent implements OnInit {
   private handleContactPointSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'distribution',
-        label: 'Distribution',
+        type: 'contactPoint',
+        label: 'Contact Point',
         status: Status.Draft,
         color: 'draft',
         id: this.currentEdit.id,

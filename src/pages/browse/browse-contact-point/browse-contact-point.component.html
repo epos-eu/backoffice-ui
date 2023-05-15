@@ -10,6 +10,9 @@
         New Contact Point
       </button>
     </div>
-    <app-table [sectionName]="sectionName"></app-table>
+    <app-table
+      [sectionName]="sectionName"
+      (rowClickDetailsEmit)="rowClicked($event)"
+    ></app-table>
   </div>
 </ng-scrollbar>
