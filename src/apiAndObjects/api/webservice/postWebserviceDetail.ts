@@ -2,7 +2,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webserviceDetailDataSource';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 

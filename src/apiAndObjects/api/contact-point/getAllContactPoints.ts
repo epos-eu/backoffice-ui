@@ -1,15 +1,15 @@
 import { HttpHeaders } from '@angular/common/http';
-import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { GetAllDataProductsParams } from '../data-products/getAllDataProducts';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 
 export class GetAllContactPoints extends CacheableEndpoint<
-  Array<ContactPointDataSource>,
+  Array<ContactPointDetailDataSource>,
   GetAllContactPointsParams,
-  ContactPointDataSource
+  ContactPointDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -17,7 +17,7 @@ export class GetAllContactPoints extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllContactPointsParams): Promise<ContactPointDataSource[]> {
+  protected callLive(params: GetAllContactPointsParams): Promise<ContactPointDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -32,10 +32,10 @@ export class GetAllContactPoints extends CacheableEndpoint<
       undefined,
       headers,
     );
-    return this.buildObjectsFromResponse(ContactPointDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(ContactPointDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<ContactPointDataSource[]> {
+  protected callMock(): Promise<ContactPointDetailDataSource[]> {
     throw new Error('Method not implemented.');
   }
 }

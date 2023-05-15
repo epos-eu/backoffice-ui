@@ -1,13 +1,13 @@
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
-import { BaseObject } from '../_lib_code/objects/baseObject';
-import { Provider } from './types/provider.type';
-import { SpatialExtent } from './types/spatialExtent.type';
-import { TemporalExtent } from './types/temporalExtent.type';
-import { ContactPoint } from './entities/contactPoint.model';
-import { Distribution } from './entities/distribution.model';
-import { Documentation } from './types/documentation.type';
-import { Operation } from './entities/operation.model';
-import { SupportedOperation } from './types/supportedOperation.type';
+import { ContactPoint } from '../entities/contactPoint.model';
+import { Distribution } from '../entities/distribution.model';
+import { Documentation } from '../types/documentation.type';
+import { Provider } from '../types/provider.type';
+import { SpatialExtent } from '../types/spatialExtent.type';
+import { SupportedOperation } from '../types/supportedOperation.type';
+import { TemporalExtent } from '../types/temporalExtent.type';
+import { Operation } from '../entities/operation.model';
 
 export class WebserviceDetailDataSource extends BaseObject {
   public static readonly KEYS = {

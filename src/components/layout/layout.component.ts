@@ -12,7 +12,7 @@ import { ActiveUserService } from 'src/services/activeUser.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { UserInfoDataSource } from 'src/apiAndObjects/objects/userInfoDataSource';
+import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
 import { Entity } from 'src/utility/enums/entity.enum';
 @Component({
   selector: 'app-layout',

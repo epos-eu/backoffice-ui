@@ -4,7 +4,7 @@ import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enu
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 
 export class PutDistributionDetail extends CacheableEndpoint<
   DistributionDetailDataSource,

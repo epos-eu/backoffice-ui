@@ -1,6 +1,6 @@
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { Sections } from 'src/utility/objects/login/sections';
 import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
-import { BaseObject } from '../_lib_code/objects/baseObject';
 
 export class IndexDetailDataSource extends BaseObject {
   public static readonly KEYS = {

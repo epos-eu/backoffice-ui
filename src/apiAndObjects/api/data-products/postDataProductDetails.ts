@@ -4,7 +4,7 @@ import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enu
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 
 export class PostDataProductDetails extends CacheableEndpoint<
   DataProductDetailDataSource,

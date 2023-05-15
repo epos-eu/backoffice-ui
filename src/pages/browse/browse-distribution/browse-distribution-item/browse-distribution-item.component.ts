@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -26,7 +26,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   public form!: UntypedFormGroup;
   // public distribution!: Array<DistributionDetailDataSource>;
   public distributionLoaded = false;
-  public contactPoint!: Array<ContactPointDataSource>;
+  public contactPoint!: Array<ContactPointDetailDataSource>;
   public contactPointLoaded = false;
 
   constructor(
@@ -179,7 +179,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       );
     });
   }
-  private patchContactPoint(contactPoint: Array<ContactPointDataSource>) {
+  private patchContactPoint(contactPoint: Array<ContactPointDetailDataSource>) {
     const control = <FormArray>this.form.get('contactPoint');
     contactPoint.forEach((item) => {
       control.push(

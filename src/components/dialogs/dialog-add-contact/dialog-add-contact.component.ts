@@ -9,7 +9,7 @@ import { initEmptyContactObj } from 'src/helpers/contact';
 })
 export class DialogAddContactComponent implements OnInit {
   public data = [];
-  public formFields: ContactPoint = initEmptyContactObj();
+  public formFields: ContactPoint = initEmptyContactObj() as ContactPoint;
   public types = [
     {
       label: 'Contact',

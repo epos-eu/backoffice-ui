@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/operationDetailDataSource';
+import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';

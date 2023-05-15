@@ -1,13 +1,13 @@
-import { ContactPointDataSource } from 'src/apiAndObjects/objects/contactPointDataSource';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/dataProductDetailDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/operationDetailDataSource';
-import { OrganizationDataSource } from 'src/apiAndObjects/objects/organizationDataSource';
-import { PersonDataSource } from 'src/apiAndObjects/objects/personDataSource';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/webserviceDetailDataSource';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
+import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
+import { PersonDataSource } from 'src/apiAndObjects/objects/data-source/personDataSource';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 
 export type TableItems =
-  | Array<ContactPointDataSource>
+  | Array<ContactPointDetailDataSource>
   | Array<DataProductDetailDataSource>
   | Array<DistributionDetailDataSource>
   | Array<OrganizationDataSource>
@@ -16,7 +16,7 @@ export type TableItems =
   | Array<OperationDetailDataSource>;
 
 export type TableItem =
-  | ContactPointDataSource
+  | ContactPointDetailDataSource
   | DataProductDetailDataSource
   | DistributionDetailDataSource
   | OrganizationDataSource

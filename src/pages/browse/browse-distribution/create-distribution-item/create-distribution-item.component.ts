@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/distributionDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 

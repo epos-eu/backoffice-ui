@@ -1,6 +1,6 @@
-import { BaseObject } from '../_lib_code/objects/baseObject';
+import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
-import { Mapping } from './types/mapping.type';
+import { Mapping } from '../types/mapping.type';
 
 export class OperationDetailDataSource extends BaseObject {
   public static readonly KEYS = {
