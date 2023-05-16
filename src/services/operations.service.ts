@@ -9,6 +9,7 @@ import { SnackbarService } from './snackbar.service';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { ActionsService } from './actions.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class OperationsService {
     private persistorService: PersistorService,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
   ) {}
 
   public handleDataProductSave(): void {
@@ -35,6 +37,7 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.disableSave();
           })
           .catch((err) => {
             console.error(err);
@@ -56,6 +59,7 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.disableSave();
           })
           .catch((err) => {
             console.error(err);

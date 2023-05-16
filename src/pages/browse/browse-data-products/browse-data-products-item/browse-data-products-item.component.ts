@@ -12,7 +12,6 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -36,6 +35,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private persistorService: PersistorService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
+  }
+
+  private trackEdit(): void {
+    this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
+      if (item) {
+        console.log(item);
+        this.currentEdit = item;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -67,17 +75,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           if (this.dataProduct) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            // this.patch('spatialExtent');
-            // this.patch('temporalExtent');
 
             this.actionService.trackCurrentEdit({
               type: Entity.DATA_PRODUCT,
               route: EntityEndpointValue.DATA_PRODUCT,
               label: 'Data Product',
-              status: Status.Draft,
+              state: this.dataProduct.state,
               color: 'draft',
               id: this.dataProduct.instanceId,
             });
+            this.trackEdit();
           }
         }
       });
@@ -106,7 +113,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       // TODO: Some stange behaviour where the detect changes pops value out of array.
       value['title'] = [changes['title']];
       value['description'] = [changes['description']];
-      this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
+      this.actionService.enableSave();
       this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
   }

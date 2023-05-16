@@ -27,7 +27,7 @@ export class DistributionDetailDataSource extends BaseObject {
 
   public readonly instanceId: string;
   public readonly changeTimestamp: Date;
-  public readonly state: string;
+  public readonly state: State;
   public readonly toBeDelete: string;
   public readonly fileProvenance: string;
   public readonly accessService: AccessService;

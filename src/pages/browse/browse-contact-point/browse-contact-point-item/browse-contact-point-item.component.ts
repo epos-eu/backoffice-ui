@@ -11,7 +11,6 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 
 @Component({
   selector: 'app-browse-contact-point-item',
@@ -72,7 +71,7 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
               type: Entity.CONTACT_POINT,
               route: EntityEndpointValue.CONTACT_POINT,
               label: 'Contact Point',
-              status: Status.Draft,
+              state: this.contactPoint.state,
               color: 'draft',
               id: this.contactPoint.instanceId,
             });

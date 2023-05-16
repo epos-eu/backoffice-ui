@@ -14,7 +14,7 @@
       >
         <div class="top">
           <span>{{ change.label }}</span>
-          <span>{{ change.status.toLowerCase() }}</span>
+          <span>{{ change.state }}</span>
         </div>
         <div class="bottom">
           <p>ID: {{ change.id }}</p>
@@ -30,11 +30,12 @@
   </div>
   <div class="bottom">
     <div class="actions">
+      {{ currentEdit | json }}
       <button
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="currentEdit && currentEdit.status !== 'draft'"
+        [disabled]="currentEdit && currentEdit.state === state.DRAFT && !formEdited"
       >
         Save
       </button>
@@ -42,7 +43,7 @@
         mat-flat-button
         color="primary"
         (click)="handleSubmit()"
-        [disabled]="currentEdit && currentEdit.status !== 'saved'"
+        [disabled]="currentEdit && currentEdit.state !== state.DRAFT"
       >
         Submit
       </button>
