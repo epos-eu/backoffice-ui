@@ -8,12 +8,13 @@
     </mat-expansion-panel-header>
     <div class="filters">
       <mat-form-field
-        appearance="outline"
+        appearance="fill"
         color="primary"
       >
         <mat-label>Status</mat-label>
         <mat-select
           (selectionChange)="handleFilterByStatus($event)"
+          [(ngModel)]="filters.status"
           panelClass="table-filter-panel"
         >
           <mat-option
@@ -24,6 +25,25 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        color="primary"
+      >
+        <mat-label>UID</mat-label>
+        <input
+          matInput
+          placeholder="Search by UID"
+          (input)="handleUidSearch($event)"
+          [value]="filters.uid"
+        />
+      </mat-form-field>
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="handleClearFilters()"
+      >
+        Clear filters
+      </button>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

@@ -7,6 +7,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { TableDetail } from 'src/utility/objects/table/detail';
 import { TableItem, TableItems } from 'src/utility/objects/table/items';
+import { FilterEmit } from '../table-filter/table-filter.component';
 
 @Component({
   selector: 'app-table',
@@ -39,8 +40,12 @@ export class TableComponent implements AfterViewInit {
     this.rowClickDetailsEmit.next([instanceId]);
   }
 
-  public handleFilter(filterStr: string) {
-    this.dataSource.filter = filterStr.trim().toLowerCase();
+  public handleFilter(filters: FilterEmit) {
+    this.dataSource.filter = JSON.stringify(filters);
+  }
+
+  public handleClear(): void {
+    this.dataSource.filter = '';
   }
 
   private createTableObjects(items: TableItems) {
@@ -64,7 +69,11 @@ export class TableComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = (data: any, filterValue: string) => {
-      return data.status.trim().toLocaleLowerCase().indexOf(filterValue.trim().toLocaleLowerCase()) >= 0;
+      const filters = JSON.parse(filterValue);
+      return (
+        data.status.trim().toLocaleLowerCase().indexOf(filters.status.trim().toLocaleLowerCase()) >= 0 &&
+        data.uid.trim().toLocaleLowerCase().indexOf(filters.uid.trim().toLocaleLowerCase()) >= 0
+      );
     };
     this.loading = false;
   }
