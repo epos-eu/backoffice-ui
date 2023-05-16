@@ -83,6 +83,19 @@
       margin-bottom: 0.75rem;
       font-size: 14px;
     }
+
+    mat-label {
+      &.heading {
+        margin-bottom: 1.5rem;
+        font-size: 15px;
+      }
+    }
+
+    mat-form-field {
+      &.indent {
+        margin-left: 1rem;
+      }
+    }
   }
 
   mat-accordion {

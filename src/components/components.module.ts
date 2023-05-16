@@ -15,6 +15,7 @@ import { TableFilterComponent } from './table-filter/table-filter.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { BackButtonComponent } from './back-button/back-button.component';
+import { SortingDirective } from 'src/directives/sorting-cache.directive';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { BackButtonComponent } from './back-button/back-button.component';
     TableComponent,
     TableFilterComponent,
     BackButtonComponent,
+    SortingDirective,
   ],
   imports: [
     RouterModule,
