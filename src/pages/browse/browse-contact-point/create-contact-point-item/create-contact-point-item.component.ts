@@ -5,6 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-create-contact-point-item',
@@ -39,7 +40,7 @@ export class CreateContactPointItemComponent implements OnInit {
     this.apiService.endpoints.Contactpoint.create
       .call(item)
       .then((value: ContactPointDetailDataSource) => {
-        this.router.navigate(['/browse/contact-point/details', value.instanceId]);
+        this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
           'mat-toolbar',

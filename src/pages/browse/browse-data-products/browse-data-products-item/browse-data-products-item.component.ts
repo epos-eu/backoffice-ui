@@ -30,6 +30,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public distributionLoaded = false;
   public contactPoint!: Array<ContactPointDetailDataSource>;
   public contactPointLoaded = false;
+  public entityRoute = EntityEndpointValue.DATA_PRODUCT;
 
   constructor(
     private dialogService: DialogService,

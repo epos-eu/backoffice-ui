@@ -26,6 +26,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   public webservice!: WebService | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
+  public entityRoute = EntityEndpointValue.WEBSERVICE;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -100,10 +101,6 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
       this.actionService.resetToDraft(this.webservice?.instanceId as string);
       this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
-  }
-
-  public handleBack(): void {
-    this.router.navigate(['/browse/web-services']);
   }
 
   public handleChange(event: MatSlideToggleChange): void {

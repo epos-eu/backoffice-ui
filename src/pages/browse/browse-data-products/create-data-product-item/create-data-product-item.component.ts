@@ -5,6 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-create-data-product-item',
@@ -16,8 +17,8 @@ export class CreateDataProductItemComponent implements OnInit {
   public dataProduct!: DataProductDetailDataSource | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
-
   public enableSave = false;
+  public entityRoute = EntityEndpointValue.DATA_PRODUCT;
 
   constructor(
     private router: Router,
@@ -30,10 +31,6 @@ export class CreateDataProductItemComponent implements OnInit {
     this.trackFormData();
   }
 
-  public handleBack(): void {
-    this.router.navigate(['/browse/data-products']);
-  }
-
   public handleCreate(): void {
     this.loading = true;
     const item: DataProduct = {
@@ -44,7 +41,7 @@ export class CreateDataProductItemComponent implements OnInit {
     this.apiService.endpoints.DataProduct.create
       .call(item)
       .then((value: DataProductDetailDataSource) => {
-        this.router.navigate(['/browse/data-products/details', value.instanceId]);
+        this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
           'mat-toolbar',
