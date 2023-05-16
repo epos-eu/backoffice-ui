@@ -13,6 +13,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -73,7 +74,14 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
           if (this.webservice && this.webservice.instanceId) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            this.actionService.trackCurrentEdit(this.webservice.instanceId);
+            this.actionService.trackCurrentEdit({
+              type: Entity.WEBSERVICE,
+              route: EntityEndpointValue.WEBSERVICE,
+              label: 'Data Product',
+              status: Status.Draft,
+              color: 'draft',
+              id: this.webservice.instanceId,
+            });
           }
         }
       });

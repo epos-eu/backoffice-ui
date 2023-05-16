@@ -1,8 +1,10 @@
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 export interface IChangeItem {
   type: Entity;
+  route: EntityEndpointValue;
   label: string;
   status: Status;
   color: string;

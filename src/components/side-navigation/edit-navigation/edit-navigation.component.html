@@ -10,7 +10,7 @@
         *ngFor="let change of actionsService.editedItemsObservable | async"
         [color]="change.color"
         [ngClass]="isActive(change.id) ? 'active' : ''"
-        (click)="handleClick(change.id)"
+        (click)="handleClick(change.id, change.route)"
       >
         <div class="top">
           <span>{{ change.label }}</span>

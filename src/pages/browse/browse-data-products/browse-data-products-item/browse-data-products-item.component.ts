@@ -14,6 +14,8 @@ import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -74,7 +76,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             this.trackFormData();
             // this.patch('spatialExtent');
             // this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit(this.dataProduct.instanceId);
+
+            this.actionService.trackCurrentEdit({
+              type: Entity.DATA_PRODUCT,
+              route: EntityEndpointValue.DATA_PRODUCT,
+              label: 'Data Product',
+              status: Status.Draft,
+              color: 'draft',
+              id: this.dataProduct.instanceId,
+            });
           }
         }
       });

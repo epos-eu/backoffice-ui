@@ -3,6 +3,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -98,14 +99,9 @@ export class ActionsService {
     }
   }
 
-  public initEdit(id: string): void {
-    this.currentEdit.next({
-      type: Entity.DATA_PRODUCT,
-      label: 'Data product',
-      status: Status.Draft,
-      color: 'draft',
-      id,
-    });
+  public initEdit(updatedItem: IChangeItem): void {
+    // console.debug('call', updatedItem);
+    this.currentEdit.next(updatedItem);
   }
 
   /**
@@ -113,14 +109,14 @@ export class ActionsService {
    *
    * @param {string} id
    */
-  public trackCurrentEdit(id: string): void {
+  public trackCurrentEdit(updatedItem: IChangeItem): void {
     const copy = [...this.editedItems.getValue()];
-    const item = copy.filter((obj) => obj.id === id);
+    const item = copy.find((obj) => obj === updatedItem);
 
-    if (item.length === 0) {
-      this.initEdit(id);
+    if (!item) {
+      this.initEdit(updatedItem);
     } else {
-      this.currentEdit.next(item[0]);
+      this.currentEdit.next(item);
     }
   }
 
@@ -131,7 +127,7 @@ export class ActionsService {
     const items = this.editedItems.getValue();
     items[index] = updatedItem;
     localStorage.setItem('editedItems', JSON.stringify(items));
-    this.trackCurrentEdit(updatedItem.id);
+    this.trackCurrentEdit(updatedItem);
   }
 
   /**

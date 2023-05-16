@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -70,7 +71,14 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
             this.trackFormData();
             // this.patch('spatialExtent');
             // this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit(this.distributionDetail.instanceId);
+            this.actionService.trackCurrentEdit({
+              type: Entity.DISTRIBUTION,
+              route: EntityEndpointValue.DISTRIBUTION,
+              label: 'Data Product',
+              status: Status.Draft,
+              color: 'draft',
+              id: this.distributionDetail.instanceId,
+            });
           }
         }
       });

@@ -17,6 +17,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -102,6 +103,7 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.addEditedItems([
       {
         type: Entity.DATA_PRODUCT,
+        route: EntityEndpointValue.DATA_PRODUCT,
         label: 'Data product',
         status: Status.Draft,
         color: 'draft',
@@ -163,6 +165,7 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.addEditedItems([
       {
         type: Entity.WEBSERVICE,
+        route: EntityEndpointValue.WEBSERVICE,
         label: 'Webservice',
         status: Status.Draft,
         color: 'draft',
@@ -176,7 +179,6 @@ export class EditNavigationComponent implements OnInit {
     if (localStorage !== null) {
       const formData: WebService = JSON.parse(localStorage);
       if (formData.state === State.DRAFT) {
-        console.debug('call here', formData);
         this.apiService.endpoints[Entity.WEBSERVICE].update
           .call({
             ...formData,
@@ -197,7 +199,6 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
-        console.debug('call here, no draft', formData);
         this.apiService.endpoints.Webservice.update
           .call({
             ...formData,
@@ -230,6 +231,7 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.addEditedItems([
       {
         type: Entity.DISTRIBUTION,
+        route: EntityEndpointValue.DISTRIBUTION,
         label: 'Distribution',
         status: Status.Draft,
         color: 'draft',
@@ -270,7 +272,6 @@ export class EditNavigationComponent implements OnInit {
       } else {
         this.apiService.endpoints[Entity.DISTRIBUTION].update
           .call({
-            ...formData,
             state: State.DRAFT,
             ...formData,
             // spatialExtent: undefined,
@@ -302,6 +303,7 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.addEditedItems([
       {
         type: Entity.CONTACT_POINT,
+        route: EntityEndpointValue.CONTACT_POINT,
         label: 'Contact Point',
         status: Status.Draft,
         color: 'draft',
@@ -360,7 +362,8 @@ export class EditNavigationComponent implements OnInit {
     }
   }
 
-  public handleClick(id: string): void {
-    this.router.navigate(['/browse/data-products/details', id]);
+  public handleClick(id: string, route: EntityEndpointValue): void {
+    console.debug(route);
+    this.router.navigate([`/browse/${route}/details`, id]);
   }
 }

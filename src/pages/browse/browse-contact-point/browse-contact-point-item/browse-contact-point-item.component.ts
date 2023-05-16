@@ -11,6 +11,7 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 
 @Component({
   selector: 'app-browse-contact-point-item',
@@ -67,7 +68,14 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
             this.trackFormData();
             // this.patch('spatialExtent');
             // this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit(this.contactPoint.instanceId);
+            this.actionService.trackCurrentEdit({
+              type: Entity.CONTACT_POINT,
+              route: EntityEndpointValue.CONTACT_POINT,
+              label: 'Data Product',
+              status: Status.Draft,
+              color: 'draft',
+              id: this.contactPoint.instanceId,
+            });
           }
         }
       });
