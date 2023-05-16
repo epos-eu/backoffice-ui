@@ -84,9 +84,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       instanceId: this.dataProduct?.instanceId as string,
       uid: this.dataProduct?.uid,
-      title: [this.dataProduct?.title],
+      title: this.dataProduct?.title,
       // title: [this.dataProduct?.title],
-      description: [this.dataProduct?.description],
+      description: this.dataProduct?.description,
       changeTimestamp: this.dataProduct?.changeTimestamp,
       state: this.dataProduct?.state,
       identifier: [this.dataProduct?.identifier],

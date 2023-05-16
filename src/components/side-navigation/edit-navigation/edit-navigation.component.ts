@@ -111,6 +111,8 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.saveCurrentEdit(this.currentEdit.id);
     this.itemsExist.next(true);
 
+    // NORTHWICH
+
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (localStorage !== null) {
       const formData: DataProduct = JSON.parse(localStorage);
@@ -135,7 +137,7 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
-        this.apiService.endpoints[Entity.DATA_PRODUCT].update
+        this.apiService.endpoints[Entity.DATA_PRODUCT].create
           .call({
             ...formData,
             state: State.DRAFT,
@@ -198,7 +200,7 @@ export class EditNavigationComponent implements OnInit {
           });
       } else {
         console.debug('call here, no draft', formData);
-        this.apiService.endpoints.Webservice.update
+        this.apiService.endpoints.Webservice.create
           .call({
             ...formData,
             datePublished: new Date(),
@@ -268,7 +270,7 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
-        this.apiService.endpoints[Entity.DISTRIBUTION].update
+        this.apiService.endpoints[Entity.DISTRIBUTION].create
           .call({
             ...formData,
             state: State.DRAFT,
@@ -335,7 +337,7 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
-        this.apiService.endpoints[Entity.CONTACT_POINT].update
+        this.apiService.endpoints[Entity.CONTACT_POINT].create
           .call({
             ...formData,
             state: State.DRAFT,
