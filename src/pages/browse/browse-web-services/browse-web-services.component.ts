@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-browse-web-services',
@@ -13,10 +14,10 @@ export class BrowseWebServicesComponent {
   public sectionName = Entity.WEBSERVICE;
 
   public rowClicked(rowClickDetails: Array<string>): void {
-    this.router.navigate(['/browse/web-services/details'].concat(rowClickDetails));
+    this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`].concat(rowClickDetails));
   }
 
   public createWebService(): void {
-    this.router.navigate(['browse/web-services/new']);
+    this.router.navigate(['browse/webservice/new']);
   }
 }

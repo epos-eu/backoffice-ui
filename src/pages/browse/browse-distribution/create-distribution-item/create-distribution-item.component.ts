@@ -5,6 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-create-distribution-item',
@@ -16,6 +17,7 @@ export class CreateDistributionItemComponent implements OnInit {
   public distribution!: DistributionDetailDataSource | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
+  public entityRoute = EntityEndpointValue.DISTRIBUTION;
 
   public enableSave = false;
 
@@ -40,7 +42,7 @@ export class CreateDistributionItemComponent implements OnInit {
     this.apiService.endpoints.Distribution.create
       .call(item)
       .then((value: DistributionDetailDataSource) => {
-        this.router.navigate(['/browse/distribution/details', value.instanceId]);
+        this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}/details`, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
           'mat-toolbar',

@@ -18,7 +18,6 @@ import { BrowseServicesComponent } from './browse-services/browse-services.compo
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
-import { BrowseSourceCodeComponent } from './browse-source-code/browse-source-code.component';
 import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
@@ -49,7 +48,6 @@ import { BrowseContactPointItemComponent } from './browse-contact-point/browse-c
     BrowseEquipmentComponent,
     BrowsePublicationsComponent,
     BrowseDataProductsItemComponent,
-    BrowseSourceCodeComponent,
     BrowseContractComponent,
     BrowseUsersComponent,
     BrowseGroupsComponent,

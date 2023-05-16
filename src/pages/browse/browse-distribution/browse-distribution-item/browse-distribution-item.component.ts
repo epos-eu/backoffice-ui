@@ -24,10 +24,10 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
-  // public distribution!: Array<DistributionDetailDataSource>;
   public distributionLoaded = false;
   public contactPoint!: Array<ContactPointDetailDataSource>;
   public contactPointLoaded = false;
+  public entityRoute = EntityEndpointValue.DISTRIBUTION;
 
   constructor(
     private dialogService: DialogService,

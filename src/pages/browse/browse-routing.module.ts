@@ -13,7 +13,6 @@ import { BrowseServicesComponent } from './browse-services/browse-services.compo
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
-import { BrowseSourceCodeComponent } from './browse-source-code/browse-source-code.component';
 import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
@@ -26,6 +25,7 @@ import { CreateDistributionItemComponent } from './browse-distribution/create-di
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
 import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
 import { CreateContactPointItemComponent } from './browse-contact-point/create-contact-point-item/create-contact-point-item.component';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 const routes: Routes = [
   {
@@ -34,7 +34,7 @@ const routes: Routes = [
     children: [{ path: '', component: BrowseHomeComponent }],
   },
   {
-    path: 'web-services',
+    path: EntityEndpointValue.WEBSERVICE,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseWebServicesComponent },
@@ -43,25 +43,15 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'source-code',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseSourceCodeComponent }],
-  },
-  {
-    path: 'organization',
+    path: EntityEndpointValue.ORGANIZATION,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseOrganizationComponent },
       { path: 'details/:id', component: BrowseOrganizationItemComponent },
     ],
   },
-  // {
-  //   path: 'software',
-  //   component: LayoutComponent,
-  //   children: [{ path: '', component: BrowseSoftwareComponent }],
-  // },
   {
-    path: 'distribution',
+    path: EntityEndpointValue.DISTRIBUTION,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseDistributionComponent },
@@ -70,7 +60,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'contact-point',
+    path: EntityEndpointValue.CONTACT_POINT,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseContactPointComponent },
@@ -79,7 +69,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'data-products',
+    path: EntityEndpointValue.DATA_PRODUCT,
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseDataProductsComponent },
