@@ -123,20 +123,6 @@
             readonly
           />
         </mat-form-field>
-        <!-- <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="99"
-      >
-        <mat-label>Issued</mat-label>
-        <input
-          matInput
-          placeholder="Issued"
-          name="issued"
-          formControlName="issued"
-          readonly
-        />
-      </mat-form-field> -->
         <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
@@ -177,248 +163,61 @@
             formControlName="versionInfo"
           />
         </mat-form-field>
-        <ng-container *ngIf="getControls('spatialExtent').length > 0">
-          <label>Spatial extent</label>
-          <div formArrayName="spatialExtent">
+        <ng-container *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0">
+          <mat-label class="heading">Spatial extent</mat-label>
+          <ng-container *ngFor="let item of dataProduct.spatialExtent">
             <mat-form-field
-              *ngFor="let child of getControls('spatialExtent'); let i = index"
               appearance="outline"
               [floatLabel]="floatLabelControl.value"
-              [style.width.%]="97"
+              [style.width.%]="96"
+              class="indent"
             >
               <mat-label>Location</mat-label>
-              <div [formGroupName]="i">
-                <input
-                  matInput
-                  formControlName="location"
-                />
-              </div>
+              <input
+                matInput
+                placeholder="Location"
+                name="temporalExtent.location"
+                [value]="item.location"
+                readonly
+              />
             </mat-form-field>
-          </div>
+          </ng-container>
         </ng-container>
-        <ng-container *ngIf="getControls('temporalExtent').length > 0">
-          <label>Temporal extent</label>
-          <div formArrayName="temporalExtent">
+        <ng-container *ngIf="dataProduct.temporalExtent && dataProduct.temporalExtent.length > 0">
+          <mat-label class="heading">Temporal extent</mat-label>
+          <ng-container *ngFor="let item of dataProduct.temporalExtent">
             <mat-form-field
-              *ngFor="let child of getControls('temporalExtent'); let i = index"
               appearance="outline"
               [floatLabel]="floatLabelControl.value"
-              [style.width.%]="97"
+              [style.width.%]="96"
+              class="indent"
             >
               <mat-label>Start date</mat-label>
-              <div [formGroupName]="i">
-                <input
-                  matInput
-                  formControlName="startDate"
-                  readonly
-                />
-              </div>
+              <input
+                matInput
+                placeholder="Start date"
+                name="temporalExtent.startDate"
+                [value]="item.startDate"
+                readonly
+              />
             </mat-form-field>
-          </div>
+            <mat-form-field
+              appearance="outline"
+              [floatLabel]="floatLabelControl.value"
+              [style.width.%]="96"
+              class="indent"
+            >
+              <mat-label>End date</mat-label>
+              <input
+                matInput
+                placeholder="End date"
+                name="temporalExtent.endDate"
+                [value]="item.endDate"
+                readonly
+              />
+            </mat-form-field>
+          </ng-container>
         </ng-container>
-
-        <!-- <mat-accordion multi>
-        <mat-expansion-panel (afterExpand)="handleExpand('distribution')">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Distribution </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div formArrayName="distribution">
-            <ng-container *ngFor="let child of getControls('distribution'); let i = index">
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="99"
-              >
-                <mat-label>UID</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="uid"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="99"
-              >
-                <mat-label>Title</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="title"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>File Provenance</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="fileProvenance"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Description</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="description"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Format</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="format"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Type</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="type"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Issued</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="issued"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Modified</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="modified"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Change Timestamp</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="changeTimestamp"
-                  />
-                </div>
-              </mat-form-field>
-            </ng-container>
-          </div>
-        </mat-expansion-panel>
-        <mat-expansion-panel (afterExpand)="handleExpand('contactPoint')">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Contact point </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div formArrayName="contactPoint">
-            <ng-container *ngFor="let child of getControls('contactPoint'); let i = index">
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>UID</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="uid"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Email</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="email"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Organization</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="organization"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Telephone</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="telephone"
-                  />
-                </div>
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="95"
-              >
-                <mat-label>Change Timestamp</mat-label>
-                <div [formGroupName]="i">
-                  <input
-                    matInput
-                    formControlName="changeTimestamp"
-                  />
-                </div>
-              </mat-form-field>
-            </ng-container>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion> -->
       </form>
     </div>
   </div>

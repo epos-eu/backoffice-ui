@@ -23,6 +23,10 @@ export class TableFilterComponent {
 
   public statusOptions: FilterItem[] = [
     {
+      option: '',
+      label: 'Any',
+    },
+    {
       option: 'DRAFT',
       label: 'Draft',
     },
