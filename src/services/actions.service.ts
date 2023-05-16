@@ -16,6 +16,9 @@ export class ActionsService {
   private currentEdit = new ReplaySubject<IChangeItem>();
   public currentEditObservable = this.currentEdit.asObservable();
 
+  private shouldClearFilters = new BehaviorSubject<boolean>(false);
+  public shouldClearFiltersObs = this.shouldClearFilters.asObservable();
+
   /**
    * Check if record being edited already exists.
    *
@@ -170,5 +173,9 @@ export class ActionsService {
   public clearAllItems(): void {
     this.editedItems.getValue().splice(0, this.editedItems.getValue().length);
     this.editedItems.next(this.editedItems.getValue());
+  }
+
+  public clearFilters(): void {
+    this.shouldClearFilters.next(true);
   }
 }

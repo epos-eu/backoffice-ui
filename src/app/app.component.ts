@@ -3,15 +3,22 @@ import { MatDialogState } from '@angular/material/dialog';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { AAAIUser } from 'src/aaai/aaaiUser.interface';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { BarController, BarElement, Chart, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+import { Router, NavigationEnd, Event as NavigationEvent } from '@angular/router';
+import { filter, pairwise } from 'rxjs/operators';
+import { ActionsService } from 'src/services/actions.service';
 
 @Component({
   selector: 'app-root',
   template: `<router-outlet></router-outlet>`,
 })
 export class AppComponent implements OnInit {
-  constructor(private dialogService: DialogService, private aaai: AaaiService, private apiService: ApiService) {
+  constructor(
+    private dialogService: DialogService,
+    private aaai: AaaiService,
+    private router: Router,
+    private actionsService: ActionsService,
+  ) {
     this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
       if (null == user) {
         // Prevent app erroring from trying to open same dialog twice
@@ -25,6 +32,18 @@ export class AppComponent implements OnInit {
         this.dialogService.dialog.getDialogById('loginCopmonent')?.close();
       }
     });
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        pairwise(),
+      )
+      .subscribe(([prev, curr]: [NavigationEvent, NavigationEvent]) => {
+        if (prev instanceof NavigationEnd && curr instanceof NavigationEnd) {
+          if (prev.urlAfterRedirects !== curr.urlAfterRedirects) {
+            this.actionsService.clearFilters();
+          }
+        }
+      });
   }
 
   ngOnInit() {
