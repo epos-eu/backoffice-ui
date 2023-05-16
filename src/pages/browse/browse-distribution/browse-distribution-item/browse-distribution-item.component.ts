@@ -74,7 +74,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
             this.actionService.trackCurrentEdit({
               type: Entity.DISTRIBUTION,
               route: EntityEndpointValue.DISTRIBUTION,
-              label: 'Data Product',
+              label: 'Distribution',
               status: Status.Draft,
               color: 'draft',
               id: this.distributionDetail.instanceId,
@@ -89,23 +89,15 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       instanceId: this.distributionDetail?.instanceId as string,
       uid: this.distributionDetail?.uid,
       title: [this.distributionDetail?.title],
-      // title: [this.distributionDetail?.title],
       description: [this.distributionDetail?.description],
       changeTimestamp: this.distributionDetail?.changeTimestamp,
       state: this.distributionDetail?.state,
-      // identifier: [this.distributionDetail?.identifier],
-      // issued: this.isValidDate(this.distributionDetail?.issued) ? this.distributionDetail?.issued : '',
-      // keywords: HelpersService.whiteSpaceReplace(this.distributionDetail?.keywords),
       modified: this.distributionDetail?.modified,
-      // versionInfo: this.distributionDetail?.versionInfo,
-      // spatialExtent: this.formBuilder.array([]),
-      // distribution: this.formBuilder.array([]),
-      contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
       const value = changes;
-      value['description'] = [changes['description']];
-      value['title'] = [changes['title']];
+      // value['description'] = [changes['description']];
+      // value['title'] = [changes['title']];
       this.actionService.resetToDraft(this.distributionDetail?.instanceId as string);
       this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });

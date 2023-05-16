@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
-import { Entity } from 'src/utility/enums/entity.enum';
-import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -100,7 +98,6 @@ export class ActionsService {
   }
 
   public initEdit(updatedItem: IChangeItem): void {
-    // console.debug('call', updatedItem);
     this.currentEdit.next(updatedItem);
   }
 

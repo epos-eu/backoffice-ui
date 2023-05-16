@@ -73,6 +73,7 @@ export class DialogSubmitDraftComponent implements OnInit {
         .call({
           ...formData,
           changeComment: this.comment.value as string,
+          state: State.SUBMITTED,
         })
         .then(() => {
           this.actionsService.submitCurrentEdit(this.currentEdit.id);
@@ -105,7 +106,7 @@ export class DialogSubmitDraftComponent implements OnInit {
           ...formData,
           datePublished: new Date(),
           identifier: [],
-          state: State.DRAFT,
+          state: State.SUBMITTED,
           supportedOperation: [],
           temporalExtent: [],
           changeComment: this.comment.value as string,
@@ -139,12 +140,13 @@ export class DialogSubmitDraftComponent implements OnInit {
       this.apiService.endpoints[Entity.DISTRIBUTION].update
         .call({
           ...formData,
+          state: State.SUBMITTED,
           changeComment: this.comment.value as string,
-          spatialExtent: undefined,
-          temporalExtent: undefined,
-          distribution: undefined,
-          contactPoint: undefined,
-          metaId: 'test meta id',
+          // spatialExtent: undefined,
+          // temporalExtent: undefined,
+          // distribution: undefined,
+          // contactPoint: undefined,
+          // metaId: 'test meta id',
         })
         .then(() => {
           this.actionsService.submitCurrentEdit(this.currentEdit.id);
@@ -175,6 +177,7 @@ export class DialogSubmitDraftComponent implements OnInit {
       this.apiService.endpoints[Entity.CONTACT_POINT].update
         .call({
           ...formData,
+          state: State.SUBMITTED,
         })
         .then(() => {
           this.actionsService.submitCurrentEdit(this.currentEdit.id);

@@ -113,8 +113,6 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.saveCurrentEdit(this.currentEdit.id);
     this.itemsExist.next(true);
 
-    // NORTHWICH
-
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (localStorage !== null) {
       const formData: DataProduct = JSON.parse(localStorage);
@@ -201,7 +199,6 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
-        console.debug('call here, no draft', formData);
         this.apiService.endpoints.Webservice.create
           .call({
             ...formData,
@@ -251,11 +248,6 @@ export class EditNavigationComponent implements OnInit {
         this.apiService.endpoints[Entity.DISTRIBUTION].update
           .call({
             ...formData,
-            // spatialExtent: undefined,
-            // temporalExtent: undefined,
-            // distribution: undefined,
-            contactPoint: undefined,
-            metaId: 'test meta id',
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
@@ -273,15 +265,11 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
+        console.debug('should be seting state');
         this.apiService.endpoints[Entity.DISTRIBUTION].create
           .call({
-            state: State.DRAFT,
             ...formData,
-            // spatialExtent: undefined,
-            // temporalExtent: undefined,
-            // distribution: undefined,
-            contactPoint: undefined,
-            metaId: 'test meta id',
+            state: State.DRAFT,
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
@@ -340,6 +328,7 @@ export class EditNavigationComponent implements OnInit {
             ]);
           });
       } else {
+        console.debug('call here');
         this.apiService.endpoints[Entity.CONTACT_POINT].create
           .call({
             ...formData,
@@ -365,7 +354,6 @@ export class EditNavigationComponent implements OnInit {
   }
 
   public handleClick(id: string, route: EntityEndpointValue): void {
-    console.debug(route);
     this.router.navigate([`/browse/${route}/details`, id]);
   }
 }

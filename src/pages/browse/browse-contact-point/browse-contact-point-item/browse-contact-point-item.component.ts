@@ -71,7 +71,7 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
             this.actionService.trackCurrentEdit({
               type: Entity.CONTACT_POINT,
               route: EntityEndpointValue.CONTACT_POINT,
-              label: 'Data Product',
+              label: 'Contact Point',
               status: Status.Draft,
               color: 'draft',
               id: this.contactPoint.instanceId,
