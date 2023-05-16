@@ -37,6 +37,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.UID = this.route.snapshot.paramMap.get('id');
   }
 
+  private trackEdit(): void {
+    this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
+      if (item) {
+        console.log(item);
+        this.currentEdit = item;
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
@@ -66,7 +75,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           if (this.dataProduct) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            this.actionService.trackCurrentEdit(this.dataProduct.instanceId);
+
+            this.actionService.trackCurrentEdit({
+              type: Entity.DATA_PRODUCT,
+              route: EntityEndpointValue.DATA_PRODUCT,
+              label: 'Data Product',
+              state: this.dataProduct.state,
+              color: 'draft',
+              id: this.dataProduct.instanceId,
+            });
+            this.trackEdit();
           }
         }
       });
@@ -95,7 +113,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       // TODO: Some stange behaviour where the detect changes pops value out of array.
       value['title'] = [changes['title']];
       value['description'] = [changes['description']];
-      this.actionService.resetToDraft(this.dataProduct?.instanceId as string);
+      this.actionService.enableSave();
       this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
     });
   }

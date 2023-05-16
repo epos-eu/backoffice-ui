@@ -13,6 +13,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -27,6 +28,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.WEBSERVICE;
+  public currentEdit!: IChangeItem;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -73,7 +75,14 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
           if (this.webservice && this.webservice.instanceId) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            this.actionService.trackCurrentEdit(this.webservice.instanceId);
+            this.actionService.trackCurrentEdit({
+              type: Entity.WEBSERVICE,
+              route: EntityEndpointValue.WEBSERVICE,
+              label: 'Webservice',
+              state: this.webservice.state!,
+              color: 'draft',
+              id: this.webservice.instanceId,
+            });
           }
         }
       });

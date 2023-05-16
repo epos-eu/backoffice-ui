@@ -9,6 +9,7 @@ import { SnackbarService } from './snackbar.service';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { ActionsService } from './actions.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class OperationsService {
     private persistorService: PersistorService,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
   ) {}
 
   public handleDataProductSave(): void {
@@ -35,6 +37,7 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.disableSave();
           })
           .catch((err) => {
             console.error(err);
@@ -56,6 +59,7 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.disableSave();
           })
           .catch((err) => {
             console.error(err);
@@ -130,8 +134,6 @@ export class OperationsService {
         this.apiService.endpoints[Entity.DISTRIBUTION].update
           .call({
             ...formData,
-            contactPoint: undefined,
-            metaId: 'test meta id',
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
@@ -149,13 +151,11 @@ export class OperationsService {
             ]);
           });
       } else {
+        console.debug('should be seting state');
         this.apiService.endpoints[Entity.DISTRIBUTION].create
           .call({
             ...formData,
             state: State.DRAFT,
-            ...formData,
-            contactPoint: undefined,
-            metaId: 'test meta id',
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
@@ -205,7 +205,6 @@ export class OperationsService {
           .call({
             ...formData,
             state: State.DRAFT,
-            ...formData,
           })
           .then(() => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [

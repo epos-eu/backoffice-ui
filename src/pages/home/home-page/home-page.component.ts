@@ -3,9 +3,9 @@ import { IActionItem } from 'src/components/actions-data/actions-data.interface'
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { Component, OnInit } from '@angular/core';
-import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-home',
@@ -18,28 +18,34 @@ export class HomePageComponent implements OnInit {
 
   public actionItems: Array<IActionItem> = [
     {
-      label: 'Drafted',
+      label: 'Draft',
       count: 0,
       color: 'default',
-      type: Status.Draft,
+      type: State.DRAFT,
     },
     {
-      label: 'Waiting for approval',
+      label: 'Submitted',
       count: 0,
       color: 'warning',
-      type: Status.Submitted,
+      type: State.SUBMITTED,
     },
     {
-      label: 'Approved',
+      label: 'Published',
       count: 0,
       color: 'success',
-      type: Status.Approved,
+      type: State.PUBLISHED,
     },
     {
-      label: 'Declined',
+      label: 'Archived',
       count: 0,
       color: 'error',
-      type: Status.Declined,
+      type: State.ARCHIVED,
+    },
+    {
+      label: 'Discarded',
+      count: 0,
+      color: 'error',
+      type: State.DISCARDED,
     },
   ];
 
@@ -53,16 +59,16 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.actionsService.initEditedItems();
-    // this.actionsService.editedItemsObservable.subscribe((editedItems: Array<IChangeItem>) => {
-    //   this.getCounts(editedItems);
-    // });
+    this.actionsService.editedItemsObservable.subscribe((editedItems: Array<IChangeItem>) => {
+      this.getCounts(editedItems);
+    });
   }
 
   private getCounts(editedItems: Array<IChangeItem>): void {
-    const types = Object.values(Status);
+    const types = Object.values(State);
     editedItems.map((item) => {
-      if (types.includes(item.status)) {
-        const index = this.actionItems.findIndex((obj) => obj.type === item.status);
+      if (types.includes(item.state)) {
+        const index = this.actionItems.findIndex((obj) => obj.type === item.state);
         this.actionItems[index].count += 1;
       }
     });

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
+import { State } from 'src/utility/enums/state.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 
 @Injectable({
@@ -18,6 +18,9 @@ export class ActionsService {
 
   private shouldClearFilters = new BehaviorSubject<boolean>(false);
   public shouldClearFiltersObs = this.shouldClearFilters.asObservable();
+
+  private formEdited = new BehaviorSubject<boolean>(false);
+  public formEditedObs = this.formEdited.asObservable();
 
   /**
    * Check if record being edited already exists.
@@ -62,7 +65,7 @@ export class ActionsService {
    * @param {number} id
    */
   public saveCurrentEdit(id: string): void {
-    this.dispatchEditAction(id, Status.Saved);
+    this.dispatchEditAction(id, State.DRAFT);
   }
 
   /**
@@ -71,11 +74,19 @@ export class ActionsService {
    * @param {number} id
    */
   public submitCurrentEdit(id: string): void {
-    this.dispatchEditAction(id, Status.Submitted);
+    this.dispatchEditAction(id, State.SUBMITTED);
   }
 
   public resetToDraft(id: string): void {
-    this.dispatchEditAction(id, Status.Draft);
+    this.dispatchEditAction(id, State.DRAFT);
+  }
+
+  public enableSave(): void {
+    this.formEdited.next(true);
+  }
+
+  public disableSave(): void {
+    this.formEdited.next(false);
   }
 
   /**
@@ -84,7 +95,7 @@ export class ActionsService {
    * @param {number} id
    * @param {string} type
    */
-  public dispatchEditAction(id: string, type: Status): void {
+  public dispatchEditAction(id: string, type: State): void {
     const copy = [...this.editedItems.getValue()];
     const currentItem = copy.filter((item) => item.id === id);
 
@@ -94,20 +105,14 @@ export class ActionsService {
 
       this.updateItem(index, {
         ...updated,
-        status: type,
+        state: type,
         color: type,
       });
     }
   }
 
-  public initEdit(id: string): void {
-    this.currentEdit.next({
-      type: 'data-products',
-      label: 'Data product',
-      status: Status.Draft,
-      color: 'draft',
-      id,
-    });
+  public initEdit(updatedItem: IChangeItem): void {
+    this.currentEdit.next(updatedItem);
   }
 
   /**
@@ -115,14 +120,14 @@ export class ActionsService {
    *
    * @param {string} id
    */
-  public trackCurrentEdit(id: string): void {
+  public trackCurrentEdit(updatedItem: IChangeItem): void {
     const copy = [...this.editedItems.getValue()];
-    const item = copy.filter((obj) => obj.id === id);
+    const item = copy.find((obj) => obj === updatedItem);
 
-    if (item.length === 0) {
-      this.initEdit(id);
+    if (!item) {
+      this.initEdit(updatedItem);
     } else {
-      this.currentEdit.next(item[0]);
+      this.currentEdit.next(item);
     }
   }
 
@@ -133,7 +138,7 @@ export class ActionsService {
     const items = this.editedItems.getValue();
     items[index] = updatedItem;
     localStorage.setItem('editedItems', JSON.stringify(items));
-    this.trackCurrentEdit(updatedItem.id);
+    this.trackCurrentEdit(updatedItem);
   }
 
   /**

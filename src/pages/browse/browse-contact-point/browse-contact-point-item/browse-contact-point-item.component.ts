@@ -67,7 +67,14 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
             this.trackFormData();
             // this.patch('spatialExtent');
             // this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit(this.contactPoint.instanceId);
+            this.actionService.trackCurrentEdit({
+              type: Entity.CONTACT_POINT,
+              route: EntityEndpointValue.CONTACT_POINT,
+              label: 'Contact Point',
+              state: this.contactPoint.state,
+              color: 'draft',
+              id: this.contactPoint.instanceId,
+            });
           }
         }
       });

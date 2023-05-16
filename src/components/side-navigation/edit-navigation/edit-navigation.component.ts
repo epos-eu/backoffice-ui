@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { Status } from 'src/apiAndObjects/objects/enums/actions.enum';
+import { State } from 'src/utility/enums/state.enum';
 import { DialogSubmitDraftComponent } from 'src/components/dialogs/dialog-submit-draft/dialog-submit-draft.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
@@ -9,7 +9,9 @@ import { IChangeItem } from './edit.interface';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { OperationsService } from 'src/services/operations.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -23,11 +25,14 @@ export class EditNavigationComponent implements OnInit {
     public dialog: MatDialog,
     public actionsService: ActionsService,
     private operationsService: OperationsService,
+    private router: Router,
   ) {}
 
   private activeEntity = '';
   public itemsExist = new BehaviorSubject<boolean>(false);
   public currentEdit!: IChangeItem;
+  public state = State;
+  public formEdited = false;
 
   ngOnInit(): void {
     this.actionsService.initEditedItems();
@@ -44,6 +49,9 @@ export class EditNavigationComponent implements OnInit {
       if (item) {
         this.currentEdit = item;
       }
+    });
+    this.actionsService.formEditedObs.subscribe((formEdited: boolean) => {
+      this.formEdited = formEdited;
     });
   }
 
@@ -92,9 +100,10 @@ export class EditNavigationComponent implements OnInit {
   private handleDataProductSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'data-products',
+        type: Entity.DATA_PRODUCT,
+        route: EntityEndpointValue.DATA_PRODUCT,
         label: 'Data product',
-        status: Status.Draft,
+        state: State.DRAFT,
         color: 'draft',
         id: this.currentEdit.id,
       },
@@ -107,9 +116,10 @@ export class EditNavigationComponent implements OnInit {
   private handleWebserviceSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'webservice',
+        type: Entity.WEBSERVICE,
+        route: EntityEndpointValue.WEBSERVICE,
         label: 'Webservice',
-        status: Status.Draft,
+        state: State.DRAFT,
         color: 'draft',
         id: this.currentEdit.id,
       },
@@ -122,9 +132,10 @@ export class EditNavigationComponent implements OnInit {
   private handleDistributionSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'distribution',
+        type: Entity.DISTRIBUTION,
+        route: EntityEndpointValue.DISTRIBUTION,
         label: 'Distribution',
-        status: Status.Draft,
+        state: State.DRAFT,
         color: 'draft',
         id: this.currentEdit.id,
       },
@@ -137,9 +148,10 @@ export class EditNavigationComponent implements OnInit {
   private handleContactPointSave() {
     this.actionsService.addEditedItems([
       {
-        type: 'contactPoint',
+        type: Entity.CONTACT_POINT,
+        route: EntityEndpointValue.CONTACT_POINT,
         label: 'Contact Point',
-        status: Status.Draft,
+        state: State.DRAFT,
         color: 'draft',
         id: this.currentEdit.id,
       },
@@ -147,5 +159,9 @@ export class EditNavigationComponent implements OnInit {
     this.actionsService.saveCurrentEdit(this.currentEdit.id);
     this.itemsExist.next(true);
     this.operationsService.handleContactPointSave();
+  }
+
+  public handleClick(id: string, route: EntityEndpointValue): void {
+    this.router.navigate([`/browse/${route}/details`, id]);
   }
 }
