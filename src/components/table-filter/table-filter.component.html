@@ -37,13 +37,20 @@
           [value]="filters.uid"
         />
       </mat-form-field>
-      <button
-        mat-flat-button
-        color="warn"
-        (click)="handleClearFilters()"
-      >
-        Clear filters
-      </button>
     </div>
+    <button
+      mat-stroked-button
+      (click)="handleClearFilters()"
+      class="clear-btn"
+    >
+      Clear all
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="handleViewResults()"
+    >
+      View results
+    </button>
   </mat-expansion-panel>
 </mat-accordion>

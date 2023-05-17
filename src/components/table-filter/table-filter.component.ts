@@ -24,6 +24,7 @@ export class TableFilterComponent implements OnInit {
   constructor(private actionsService: ActionsService) {}
 
   @Output() onFilter: EventEmitter<FilterEmit> = new EventEmitter();
+  @Output() onSubmit: EventEmitter<null> = new EventEmitter();
   @Output() onClear: EventEmitter<null> = new EventEmitter();
 
   public statusOptions: FilterItem[] = [
@@ -68,24 +69,27 @@ export class TableFilterComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this._initWatchers();
+    console.log();
+    // this._initWatchers();
   }
 
   public handleFilterByStatus(event: MatSelectChange): void {
     this.filters.status = event.value;
-    this.onFilter.emit(this.filters);
   }
 
   public handleUidSearch(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.filters.uid = target.value;
     sessionStorage.setItem(KEY, target.value);
-    this.onFilter.emit(this.filters);
   }
 
   public handleClearFilters(): void {
     this.filters.status = '';
     this.filters.uid = '';
     this.onClear.emit();
+  }
+
+  public handleViewResults(): void {
+    this.onFilter.emit(this.filters);
   }
 }
