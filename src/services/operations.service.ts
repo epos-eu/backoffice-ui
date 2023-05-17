@@ -67,6 +67,18 @@ export class OperationsService {
               'snackbar-success',
             ]);
             this.actionsService.disableSave();
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.DATA_PRODUCT,
+                route: EntityEndpointValue.DATA_PRODUCT,
+                label: 'Data product',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
             this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, data.instanceId]);
           })
           .catch((err) => {
@@ -121,6 +133,18 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.WEBSERVICE,
+                route: EntityEndpointValue.WEBSERVICE,
+                label: 'Webservice',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
             this.actionsService.disableSave();
             this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, data.instanceId]);
           })
@@ -172,6 +196,18 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.DISTRIBUTION,
+                route: EntityEndpointValue.DISTRIBUTION,
+                label: 'Distribution',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
             this.actionsService.disableSave();
             this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}/details`, data.instanceId]);
           })
@@ -223,6 +259,18 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.CONTACT_POINT,
+                route: EntityEndpointValue.CONTACT_POINT,
+                label: 'Contact Point',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
             this.actionsService.disableSave();
             this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, data.instanceId]);
           })
