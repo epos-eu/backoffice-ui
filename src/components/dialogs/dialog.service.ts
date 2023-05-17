@@ -14,6 +14,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { ActionsService } from 'src/services/actions.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,7 @@ export class DialogService extends BaseDialogService {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private router: Router,
+    private actionsService: ActionsService,
   ) {
     super(dialog);
   }
@@ -107,6 +109,7 @@ export class DialogService extends BaseDialogService {
                 3000,
                 ['snackbar', 'mat-toolbar', 'snackbar-success'],
               );
+              this.actionsService.deleteEditedItem(instanceId);
               this.router.navigate([`/browse/${entityEndpoint}`]);
             })
             .catch((err) => {

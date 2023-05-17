@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { State } from 'src/utility/enums/state.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
+import { PersistorService, StorageType } from './persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,8 @@ export class ActionsService {
 
   private formEdited = new BehaviorSubject<boolean>(false);
   public formEditedObs = this.formEdited.asObservable();
+
+  constructor(private persistorService: PersistorService) {}
 
   /**
    * Check if record being edited already exists.
@@ -137,7 +141,11 @@ export class ActionsService {
   public updateItem(index: number, updatedItem: IChangeItem) {
     const items = this.editedItems.getValue();
     items[index] = updatedItem;
-    localStorage.setItem('editedItems', JSON.stringify(items));
+    this.persistorService.setValueInStorage(
+      StorageType.LOCAL_STORAGE,
+      StorageKey.ENTITY_CHANGES,
+      JSON.stringify(items),
+    );
     this.trackCurrentEdit(updatedItem);
   }
 
@@ -147,7 +155,7 @@ export class ActionsService {
    * @returns {Array}
    */
   public getEditedItems(): Array<IChangeItem> | [] {
-    const editedItems = localStorage.getItem('editedItems');
+    const editedItems = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.ENTITY_CHANGES);
     if (editedItems != null) {
       return JSON.parse(editedItems);
     } else {
@@ -168,8 +176,23 @@ export class ActionsService {
       // Track new item being edited
       const merged = [...this.editedItems.getValue(), ...items];
       this.editedItems.next(merged);
-      localStorage.setItem('editedItems', JSON.stringify(merged));
+      this.persistorService.setValueInStorage(
+        StorageType.LOCAL_STORAGE,
+        StorageKey.ENTITY_CHANGES,
+        JSON.stringify(merged),
+      );
     }
+  }
+
+  public deleteEditedItem(instanceId: string): void {
+    const originalEdits = this.editedItems.getValue();
+    const newArray = originalEdits.filter((item: IChangeItem) => item.id !== instanceId);
+    this.editedItems.next(newArray);
+    this.persistorService.setValueInStorage(
+      StorageType.LOCAL_STORAGE,
+      StorageKey.ENTITY_CHANGES,
+      JSON.stringify(newArray),
+    );
   }
 
   /**
