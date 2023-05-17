@@ -184,6 +184,16 @@ export class ActionsService {
     }
   }
 
+  /**
+   * checks if item exists in editedItems.
+   */
+  public itemExists(instanceId: string): boolean {
+    return this.editedItems.getValue().some((item: IChangeItem) => item.id === instanceId);
+  }
+
+  /**
+   * Remove item from editedItems.
+   */
   public deleteEditedItem(instanceId: string): void {
     const originalEdits = this.editedItems.getValue();
     const newArray = originalEdits.filter((item: IChangeItem) => item.id !== instanceId);
