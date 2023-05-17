@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-output-on-prefix, @typescript-eslint/no-explicit-any */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { ActionsService } from 'src/services/actions.service';
 
@@ -20,10 +20,11 @@ export interface FilterEmit {
   templateUrl: './table-filter.component.html',
   styleUrls: ['./table-filter.component.scss'],
 })
-export class TableFilterComponent implements OnInit {
+export class TableFilterComponent {
   constructor(private actionsService: ActionsService) {}
 
   @Output() onFilter: EventEmitter<FilterEmit> = new EventEmitter();
+  @Output() onSubmit: EventEmitter<null> = new EventEmitter();
   @Output() onClear: EventEmitter<null> = new EventEmitter();
 
   public statusOptions: FilterItem[] = [
@@ -53,39 +54,23 @@ export class TableFilterComponent implements OnInit {
     uid: '',
   };
 
-  private _initWatchers(): void {
-    this.actionsService.shouldClearFiltersObs.subscribe((clear: boolean) => {
-      if (clear) {
-        this.handleClearFilters();
-      } else {
-        const cached = sessionStorage.getItem(KEY);
-        if (cached != null) {
-          this.filters.uid = cached;
-          this.onFilter.emit(this.filters);
-        }
-      }
-    });
-  }
-
-  public ngOnInit(): void {
-    this._initWatchers();
-  }
-
   public handleFilterByStatus(event: MatSelectChange): void {
     this.filters.status = event.value;
-    this.onFilter.emit(this.filters);
   }
 
   public handleUidSearch(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.filters.uid = target.value;
     sessionStorage.setItem(KEY, target.value);
-    this.onFilter.emit(this.filters);
   }
 
   public handleClearFilters(): void {
     this.filters.status = '';
     this.filters.uid = '';
     this.onClear.emit();
+  }
+
+  public handleViewResults(): void {
+    this.onFilter.emit(this.filters);
   }
 }
