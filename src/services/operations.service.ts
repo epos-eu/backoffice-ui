@@ -10,6 +10,12 @@ import { WebService } from 'src/apiAndObjects/objects/entities/webService.model'
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { ActionsService } from './actions.service';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { Router } from '@angular/router';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +26,7 @@ export class OperationsService {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
+    private router: Router,
   ) {}
 
   public handleDataProductSave(): void {
@@ -31,13 +38,26 @@ export class OperationsService {
           .call({
             ...formData,
           })
-          .then(() => {
+          .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
             this.actionsService.disableSave();
+            if (!this.actionsService.itemExists(data.instanceId)) {
+              this.actionsService.addEditedItems([
+                {
+                  type: Entity.DATA_PRODUCT,
+                  route: EntityEndpointValue.DATA_PRODUCT,
+                  label: 'Data product',
+                  state: State.DRAFT,
+                  color: 'draft',
+                  id: data.instanceId,
+                },
+              ]);
+              this.actionsService.saveCurrentEdit(data.instanceId);
+            }
           })
           .catch((err) => {
             console.error(err);
@@ -53,13 +73,26 @@ export class OperationsService {
             ...formData,
             state: State.DRAFT,
           })
-          .then(() => {
+          .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
             this.actionsService.disableSave();
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.DATA_PRODUCT,
+                route: EntityEndpointValue.DATA_PRODUCT,
+                label: 'Data product',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
+            this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, data.instanceId]);
           })
           .catch((err) => {
             console.error(err);
@@ -82,12 +115,25 @@ export class OperationsService {
           .call({
             ...formData,
           })
-          .then(() => {
+          .then((data: WebserviceDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
+            if (!this.actionsService.itemExists(data.instanceId)) {
+              this.actionsService.addEditedItems([
+                {
+                  type: Entity.WEBSERVICE,
+                  route: EntityEndpointValue.WEBSERVICE,
+                  label: 'Webservice',
+                  state: State.DRAFT,
+                  color: 'draft',
+                  id: data.instanceId,
+                },
+              ]);
+              this.actionsService.saveCurrentEdit(data.instanceId);
+            }
           })
           .catch((err) => {
             console.error(err);
@@ -107,12 +153,26 @@ export class OperationsService {
             supportedOperation: [],
             temporalExtent: [],
           })
-          .then(() => {
+          .then((data: WebserviceDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.WEBSERVICE,
+                route: EntityEndpointValue.WEBSERVICE,
+                label: 'Webservice',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
+            this.actionsService.disableSave();
+            this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, data.instanceId]);
           })
           .catch((err) => {
             console.error(err);
@@ -135,12 +195,25 @@ export class OperationsService {
           .call({
             ...formData,
           })
-          .then(() => {
+          .then((data: DistributionDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
+            if (!this.actionsService.itemExists(data.instanceId)) {
+              this.actionsService.addEditedItems([
+                {
+                  type: Entity.DISTRIBUTION,
+                  route: EntityEndpointValue.DISTRIBUTION,
+                  label: 'Distribution',
+                  state: State.DRAFT,
+                  color: 'draft',
+                  id: data.instanceId,
+                },
+              ]);
+              this.actionsService.saveCurrentEdit(data.instanceId);
+            }
           })
           .catch((err) => {
             console.error(err);
@@ -151,18 +224,31 @@ export class OperationsService {
             ]);
           });
       } else {
-        console.debug('should be seting state');
         this.apiService.endpoints[Entity.DISTRIBUTION].create
           .call({
             ...formData,
             state: State.DRAFT,
           })
-          .then(() => {
+          .then((data: DistributionDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.DISTRIBUTION,
+                route: EntityEndpointValue.DISTRIBUTION,
+                label: 'Distribution',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
+            this.actionsService.disableSave();
+            this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}/details`, data.instanceId]);
           })
           .catch((err) => {
             console.error(err);
@@ -185,12 +271,25 @@ export class OperationsService {
           .call({
             ...formData,
           })
-          .then(() => {
+          .then((data: ContactPointDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
+            if (!this.actionsService.itemExists(data.instanceId)) {
+              this.actionsService.addEditedItems([
+                {
+                  type: Entity.CONTACT_POINT,
+                  route: EntityEndpointValue.CONTACT_POINT,
+                  label: 'Contact Point',
+                  state: State.DRAFT,
+                  color: 'draft',
+                  id: data.instanceId,
+                },
+              ]);
+              this.actionsService.saveCurrentEdit(data.instanceId);
+            }
           })
           .catch((err) => {
             console.error(err);
@@ -206,12 +305,26 @@ export class OperationsService {
             ...formData,
             state: State.DRAFT,
           })
-          .then(() => {
+          .then((data: ContactPointDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
+            this.actionsService.addEditedItems([
+              {
+                type: Entity.CONTACT_POINT,
+                route: EntityEndpointValue.CONTACT_POINT,
+                label: 'Contact Point',
+                state: State.DRAFT,
+                color: 'draft',
+                id: data.instanceId,
+              },
+            ]);
+            this.actionsService.saveCurrentEdit(data.instanceId);
+            // this.itemsExist.next(true);
+            this.actionsService.disableSave();
+            this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, data.instanceId]);
           })
           .catch((err) => {
             console.error(err);

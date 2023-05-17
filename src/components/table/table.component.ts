@@ -45,7 +45,9 @@ export class TableComponent implements AfterViewInit {
   }
 
   public handleClear(): void {
-    this.dataSource.filter = '';
+    if (null != this.dataSource) {
+      this.dataSource.filter = '';
+    }
   }
 
   private createTableObjects(items: TableItems) {

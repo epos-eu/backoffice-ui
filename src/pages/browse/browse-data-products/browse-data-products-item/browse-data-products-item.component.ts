@@ -70,8 +70,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       .then((data: Array<DataProductDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
-          console.log(this.dataProduct);
-
           if (this.dataProduct) {
             this.actionService.setLiveEdit();
             this.trackFormData();

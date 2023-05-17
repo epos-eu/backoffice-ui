@@ -58,19 +58,19 @@ export class EditNavigationComponent implements OnInit {
   public handleSave(): void {
     switch (this.activeEntity as Entity) {
       case Entity.DATA_PRODUCT: {
-        this.handleDataProductSave();
+        this.operationsService.handleDataProductSave();
         break;
       }
       case Entity.DISTRIBUTION: {
-        this.handleDistributionSave();
+        this.operationsService.handleDistributionSave();
         break;
       }
       case Entity.WEBSERVICE: {
-        this.handleWebserviceSave();
+        this.operationsService.handleWebserviceSave();
         break;
       }
       case Entity.CONTACT_POINT: {
-        this.handleContactPointSave();
+        this.operationsService.handleContactPointSave();
         break;
       }
     }
@@ -95,70 +95,6 @@ export class EditNavigationComponent implements OnInit {
 
   public isActive(id: string): boolean {
     return this.currentEdit && id === this.currentEdit.id;
-  }
-
-  private handleDataProductSave() {
-    this.actionsService.addEditedItems([
-      {
-        type: Entity.DATA_PRODUCT,
-        route: EntityEndpointValue.DATA_PRODUCT,
-        label: 'Data product',
-        state: State.DRAFT,
-        color: 'draft',
-        id: this.currentEdit.id,
-      },
-    ]);
-    this.actionsService.saveCurrentEdit(this.currentEdit.id);
-    this.itemsExist.next(true);
-    this.operationsService.handleDataProductSave();
-  }
-
-  private handleWebserviceSave() {
-    this.actionsService.addEditedItems([
-      {
-        type: Entity.WEBSERVICE,
-        route: EntityEndpointValue.WEBSERVICE,
-        label: 'Webservice',
-        state: State.DRAFT,
-        color: 'draft',
-        id: this.currentEdit.id,
-      },
-    ]);
-    this.actionsService.saveCurrentEdit(this.currentEdit.id);
-    this.itemsExist.next(true);
-    this.operationsService.handleWebserviceSave();
-  }
-
-  private handleDistributionSave() {
-    this.actionsService.addEditedItems([
-      {
-        type: Entity.DISTRIBUTION,
-        route: EntityEndpointValue.DISTRIBUTION,
-        label: 'Distribution',
-        state: State.DRAFT,
-        color: 'draft',
-        id: this.currentEdit.id,
-      },
-    ]);
-    this.actionsService.saveCurrentEdit(this.currentEdit.id);
-    this.itemsExist.next(true);
-    this.operationsService.handleDistributionSave();
-  }
-
-  private handleContactPointSave() {
-    this.actionsService.addEditedItems([
-      {
-        type: Entity.CONTACT_POINT,
-        route: EntityEndpointValue.CONTACT_POINT,
-        label: 'Contact Point',
-        state: State.DRAFT,
-        color: 'draft',
-        id: this.currentEdit.id,
-      },
-    ]);
-    this.actionsService.saveCurrentEdit(this.currentEdit.id);
-    this.itemsExist.next(true);
-    this.operationsService.handleContactPointSave();
   }
 
   public handleClick(id: string, route: EntityEndpointValue): void {

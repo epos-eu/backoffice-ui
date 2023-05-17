@@ -4,8 +4,11 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-create-data-product-item',
@@ -25,6 +28,7 @@ export class CreateDataProductItemComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +51,17 @@ export class CreateDataProductItemComponent implements OnInit {
           'mat-toolbar',
           'snackbar-success',
         ]);
+        this.actionsService.addEditedItems([
+          {
+            type: Entity.DATA_PRODUCT,
+            route: EntityEndpointValue.DATA_PRODUCT,
+            label: 'Data product',
+            state: State.DRAFT,
+            color: 'draft',
+            id: value.instanceId,
+          },
+        ]);
+        this.actionsService.saveCurrentEdit(value.instanceId);
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [

@@ -6,6 +6,9 @@ import { WebService } from 'src/apiAndObjects/objects/entities/webService.model'
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { ActionsService } from 'src/services/actions.service';
+import { Entity } from 'src/utility/enums/entity.enum';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-create-web-service-item',
@@ -25,6 +28,7 @@ export class CreateWebServiceItemComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
   ) {}
 
   public ngOnInit(): void {
@@ -47,6 +51,17 @@ export class CreateWebServiceItemComponent implements OnInit {
           'mat-toolbar',
           'snackbar-success',
         ]);
+        this.actionsService.addEditedItems([
+          {
+            type: Entity.WEBSERVICE,
+            route: EntityEndpointValue.WEBSERVICE,
+            label: 'Webservice',
+            state: State.DRAFT,
+            color: 'draft',
+            id: value.instanceId,
+          },
+        ]);
+        this.actionsService.saveCurrentEdit(value.instanceId);
       })
       .catch(() => {
         this.snackbarService.openSnackbar('Failed to create new webservice.', 'close', 'error', 3000, [
