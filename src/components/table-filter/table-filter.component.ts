@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-output-on-prefix, @typescript-eslint/no-explicit-any */
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { ActionsService } from 'src/services/actions.service';
 
@@ -20,7 +20,7 @@ export interface FilterEmit {
   templateUrl: './table-filter.component.html',
   styleUrls: ['./table-filter.component.scss'],
 })
-export class TableFilterComponent implements OnInit {
+export class TableFilterComponent {
   constructor(private actionsService: ActionsService) {}
 
   @Output() onFilter: EventEmitter<FilterEmit> = new EventEmitter();
@@ -53,25 +53,6 @@ export class TableFilterComponent implements OnInit {
     status: '',
     uid: '',
   };
-
-  private _initWatchers(): void {
-    this.actionsService.shouldClearFiltersObs.subscribe((clear: boolean) => {
-      if (clear) {
-        this.handleClearFilters();
-      } else {
-        const cached = sessionStorage.getItem(KEY);
-        if (cached != null) {
-          this.filters.uid = cached;
-          this.onFilter.emit(this.filters);
-        }
-      }
-    });
-  }
-
-  public ngOnInit(): void {
-    console.log();
-    // this._initWatchers();
-  }
 
   public handleFilterByStatus(event: MatSelectChange): void {
     this.filters.status = event.value;
