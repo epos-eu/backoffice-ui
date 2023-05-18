@@ -325,7 +325,9 @@ export class OperationsService {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
-            // state: State.DRAFT,
+            state: State.DRAFT,
+            instanceChangedId: formData.instanceId,
+            metaId: formData.metaId,
           })
           .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
