@@ -7,6 +7,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { DialogData } from '../baseDialogService.abstract';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { State } from 'src/utility/enums/state.enum';
 
 interface CurrentEntity {
   metaId: string;
@@ -16,6 +17,7 @@ interface CurrentEntity {
 interface Revision {
   uid: string;
   version: string;
+  state: State;
   created: Date;
   editorId: string;
 }
@@ -28,7 +30,7 @@ interface Revision {
 export class RevisionsComponent implements OnInit {
   constructor(private apiService: ApiService, @Inject(MAT_DIALOG_DATA) public data: DialogData<CurrentEntity>) {}
 
-  public displayedColumns: string[] = ['uid', 'version', 'created', 'editorId'];
+  public displayedColumns: string[] = ['uid', 'version', 'state', 'created', 'editorId'];
   public dataSource!: MatTableDataSource<Revision>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
@@ -53,6 +55,7 @@ export class RevisionsComponent implements OnInit {
             return {
               uid: item.uid,
               version: item.version,
+              state: item.state,
               created: item.created,
               editorId: item.editorId,
             };
