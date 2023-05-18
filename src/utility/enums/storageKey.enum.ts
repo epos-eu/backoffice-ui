@@ -3,4 +3,5 @@ export enum StorageKey {
   ACTIVE_ENTITY = 'active_entity',
   FORM_DATA = 'form_data',
   ENTITY_CHANGES = 'edited_items',
+  ACTIVE_CONTACT_FORM_DATA = 'active_contact_form_data',
 }

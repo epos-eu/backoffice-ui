@@ -219,6 +219,19 @@
           </ng-container>
         </ng-container>
       </form>
+      <div>
+        <h1>Contact Point</h1>
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="newContactPoint()"
+        >
+          New Contact Point
+        </button>
+        <div *ngFor="let detail of contactPointDetails">
+          <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
+        </div>
+      </div>
     </div>
   </div>
 </ng-scrollbar>

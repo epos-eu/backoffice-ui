@@ -31,12 +31,19 @@ export class OperationsService {
 
   public handleDataProductSave(): void {
     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    // const bla: EntityDetail = {
+    //   entityType: 'contactpoint',
+    //   instanceId: '0e6d5478-9edb-49cf-8c87-1d3505079bc4',
+    //   metaId: 'c9f9cec9-0350-4f8a-bc59-5f2ee5c1ebad',
+    //   uid: 'http://orcid.org/0000-0002-0769-5277/contactPoint',
+    // };
     if (localStorage !== null) {
       const formData: DataProduct = JSON.parse(localStorage);
       if (formData.state === State.DRAFT) {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
+            // contactPoint: [bla],
           })
           .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
@@ -263,54 +270,24 @@ export class OperationsService {
   }
 
   public handleContactPointSave(): void {
-    const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    const localStorage = this.persistorService.getValueFromStorage(
+      StorageType.LOCAL_STORAGE,
+      StorageKey.ACTIVE_CONTACT_FORM_DATA,
+    );
     if (localStorage !== null) {
       const formData: ContactPoint = JSON.parse(localStorage);
-      if (formData.state === State.DRAFT) {
-        this.apiService.endpoints[Entity.CONTACT_POINT].update
-          .call({
-            ...formData,
-          })
-          .then((data: ContactPointDetailDataSource) => {
-            this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
-            if (!this.actionsService.itemExists(data.instanceId)) {
-              this.actionsService.addEditedItems([
-                {
-                  type: Entity.CONTACT_POINT,
-                  route: EntityEndpointValue.CONTACT_POINT,
-                  label: 'Contact Point',
-                  state: State.DRAFT,
-                  color: 'draft',
-                  id: data.instanceId,
-                },
-              ]);
-              this.actionsService.saveCurrentEdit(data.instanceId);
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-error',
-            ]);
-          });
-      } else {
-        this.apiService.endpoints[Entity.CONTACT_POINT].create
-          .call({
-            ...formData,
-            state: State.DRAFT,
-          })
-          .then((data: ContactPointDetailDataSource) => {
-            this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
+      // if (formData.state === State.DRAFT) {
+      this.apiService.endpoints[Entity.CONTACT_POINT].update
+        .call({
+          ...formData,
+        })
+        .then((data: ContactPointDetailDataSource) => {
+          this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-success',
+          ]);
+          if (!this.actionsService.itemExists(data.instanceId)) {
             this.actionsService.addEditedItems([
               {
                 type: Entity.CONTACT_POINT,
@@ -322,19 +299,52 @@ export class OperationsService {
               },
             ]);
             this.actionsService.saveCurrentEdit(data.instanceId);
-            // this.itemsExist.next(true);
-            this.actionsService.disableSave();
-            this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, data.instanceId]);
-          })
-          .catch((err) => {
-            console.error(err);
-            this.snackbarService.openSnackbar('Error creating new draft', 'Close', 'error', 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-error',
-            ]);
-          });
-      }
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        });
+      // } else {
+      // this.apiService.endpoints[Entity.CONTACT_POINT].create
+      //   .call({
+      //     ...formData,
+      //     state: State.DRAFT,
+      //   })
+      //   .then((data: ContactPointDetailDataSource) => {
+      //     this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
+      //       'snackbar',
+      //       'mat-toolbar',
+      //       'snackbar-success',
+      //     ]);
+      //     this.actionsService.addEditedItems([
+      //       {
+      //         type: Entity.CONTACT_POINT,
+      //         route: EntityEndpointValue.CONTACT_POINT,
+      //         label: 'Contact Point',
+      //         state: State.DRAFT,
+      //         color: 'draft',
+      //         id: data.instanceId,
+      //       },
+      //     ]);
+      //     this.actionsService.saveCurrentEdit(data.instanceId);
+      //     // this.itemsExist.next(true);
+      //     this.actionsService.disableSave();
+      //     this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, data.instanceId]);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //     this.snackbarService.openSnackbar('Error creating new draft', 'Close', 'error', 3000, [
+      //       'snackbar',
+      //       'mat-toolbar',
+      //       'snackbar-error',
+      //     ]);
+      //   });
+      // }
     }
   }
 }

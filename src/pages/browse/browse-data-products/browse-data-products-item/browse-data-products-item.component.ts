@@ -12,6 +12,11 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -25,6 +30,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.DATA_PRODUCT;
+  public contactPointDetails: Array<EntityDetail> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -33,6 +39,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private persistorService: PersistorService,
+    private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
   }
@@ -73,6 +81,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           if (this.dataProduct) {
             this.actionService.setLiveEdit();
             this.trackFormData();
+            this.contactPointDetails = this.dataProduct.contactPoint;
 
             this.actionService.trackCurrentEdit({
               type: Entity.DATA_PRODUCT,
@@ -138,5 +147,46 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     if (this.dataProduct?.instanceId) {
       this.dialogService.handleDelete(this.dataProduct?.instanceId, EntityEndpointValue.DATA_PRODUCT);
     }
+  }
+
+  public newContactPoint() {
+    const item: ContactPoint = {
+      uid: 'test UID',
+    };
+
+    this.apiService.endpoints.Contactpoint.create
+      .call(item)
+      .then((value: ContactPointDetailDataSource) => {
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+        this.actionsService.addEditedItems([
+          {
+            type: Entity.CONTACT_POINT,
+            route: EntityEndpointValue.CONTACT_POINT,
+            label: 'Contact Point',
+            state: State.DRAFT,
+            color: 'draft',
+            id: value.instanceId,
+          },
+        ]);
+        this.actionsService.saveCurrentEdit(value.instanceId);
+        const entityDetail: EntityDetail = {
+          entityType: 'contactpoint',
+          instanceId: value.instanceId,
+          uid: value.uid,
+          metaId: value.metaId,
+        };
+        this.contactPointDetails.push(entityDetail);
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to create new Contact Point`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
   }
 }

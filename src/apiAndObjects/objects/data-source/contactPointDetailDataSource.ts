@@ -43,6 +43,7 @@ export class ContactPointDetailDataSource extends BaseObject {
   public readonly groups: Array<Group>;
   public readonly instanceChangedId: string;
   public readonly operation: string;
+  public readonly version: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -65,6 +66,7 @@ export class ContactPointDetailDataSource extends BaseObject {
     this.groups = this._getArray(ContactPointDetailDataSource.KEYS.GROUPS);
     this.instanceChangedId = this._getString(ContactPointDetailDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.operation = this._getString(ContactPointDetailDataSource.KEYS.OPERATION);
+    this.version = this._getString(ContactPointDetailDataSource.KEYS.VERSION);
   }
 }
 

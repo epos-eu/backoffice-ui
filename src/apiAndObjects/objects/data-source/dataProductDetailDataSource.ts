@@ -4,6 +4,7 @@ import { ContactPoint } from '../entities/contactPoint.model';
 import { Distribution } from '../entities/distribution.model';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
+import { EntityDetail } from '../types/entityDetail.type';
 
 export class DataProductDetailDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -59,7 +60,7 @@ export class DataProductDetailDataSource extends BaseObject {
   public readonly accessRight: string;
   public readonly accrualPeriodicity: string;
   public readonly category: Array<string>;
-  public readonly contactPoint: Array<ContactPoint>;
+  public readonly contactPoint: Array<EntityDetail>;
   public readonly created: Date;
   public readonly description: Array<string>;
   public readonly distribution: Array<Distribution>;
