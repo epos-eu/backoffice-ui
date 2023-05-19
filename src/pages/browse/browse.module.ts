@@ -34,6 +34,7 @@ import { CreateContactPointItemComponent } from './browse-contact-point/create-c
 import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
 import { ContactPointFormDetailsComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-form-details.component';
 import { DistributionFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/distribution-form-details.component';
+import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { DistributionFormDetailsComponent } from './browse-data-products/browse-
     BrowseContactPointItemComponent,
     ContactPointFormDetailsComponent,
     DistributionFormDetailsComponent,
+    WebserviceFormDetailsComponent,
   ],
   imports: [
     CommonModule,

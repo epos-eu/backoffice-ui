@@ -76,6 +76,7 @@
             [ngStyle]="{ 'line-height': '1.4' }"
             formControlName="description"
             [value]="distribution.description[0]"
+            [disabled]="true"
           ></textarea>
         </mat-form-field>
         <mat-form-field
@@ -403,6 +404,20 @@
         </mat-expansion-panel>
       </mat-accordion> -->
       </form>
+      <div>
+        <div class="entity-title">
+          <h1>Webservice</h1>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="newWebservice()"
+            [hidden]="accessService"
+          >
+            New Webservice
+          </button>
+        </div>
+        <app-webservice-form-details [accessService]="accessService"></app-webservice-form-details>
+      </div>
       <button
         mat-stroked-button
         color="primary"

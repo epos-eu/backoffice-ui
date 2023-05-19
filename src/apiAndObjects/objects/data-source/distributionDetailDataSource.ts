@@ -1,6 +1,7 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
 import { AccessService } from '../types/accessService.type';
+import { EntityDetail } from '../types/entityDetail.type';
 
 export class DistributionDetailDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -13,6 +14,7 @@ export class DistributionDetailDataSource extends BaseObject {
     ACCESS_URL: 'accessUrl',
     DESCRIPTION: 'description',
     DOWNLOAD_URL: 'downloadURL',
+    DATA_PRODUCT: 'dataProduct',
     FORMAT: 'format',
     ISSUED: 'issued',
     MODIFIED: 'modified',
@@ -34,6 +36,7 @@ export class DistributionDetailDataSource extends BaseObject {
   public readonly accessURL: Array<string>;
   public readonly description: Array<string>;
   public readonly downloadURL: Array<string>;
+  public readonly dataProduct: Array<EntityDetail>;
   public readonly format: string;
   public readonly issued: Date;
   public readonly modified: string;
@@ -56,6 +59,7 @@ export class DistributionDetailDataSource extends BaseObject {
     this.accessURL = this._getArray(DistributionDetailDataSource.KEYS.ACCESS_URL);
     this.description = this._getArray(DistributionDetailDataSource.KEYS.DESCRIPTION);
     this.downloadURL = this._getArray(DistributionDetailDataSource.KEYS.DOWNLOAD_URL);
+    this.dataProduct = this._getArray(DistributionDetailDataSource.KEYS.DATA_PRODUCT);
     this.format = this._getString(DistributionDetailDataSource.KEYS.FORMAT);
     this.issued = this._getDate(DistributionDetailDataSource.KEYS.ISSUED);
     this.modified = this._getString(DistributionDetailDataSource.KEYS.MODIFIED);

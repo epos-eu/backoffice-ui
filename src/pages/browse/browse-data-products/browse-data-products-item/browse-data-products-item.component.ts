@@ -19,6 +19,8 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -34,6 +36,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public entityRoute = EntityEndpointValue.DATA_PRODUCT;
   public contactPointDetails: Array<EntityDetail> = [];
   public distributionDetails: Array<EntityDetail> = [];
+  public webserviceDetails: Array<EntityDetail> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -85,7 +88,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             this.actionService.setLiveEdit();
             this.trackFormData();
             this.contactPointDetails = this.dataProduct.contactPoint;
-            this.distributionDetails = this.dataProduct.distribution;
+            this.distributionDetails = this.dataProduct.distribution.filter(
+              (item: EntityDetail) => item.entityType === Entity.DISTRIBUTION,
+            );
+            this.webserviceDetails = this.dataProduct.distribution.filter(
+              (item: EntityDetail) => item.entityType === Entity.WEBSERVICE,
+            );
 
             this.actionService.trackCurrentEdit({
               type: Entity.DATA_PRODUCT,
@@ -105,6 +113,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       instanceId: this.dataProduct?.instanceId as string,
       uid: this.dataProduct?.uid,
+      metaId: this.dataProduct?.metaId,
       title: this.dataProduct?.title,
       description: this.dataProduct?.description,
       changeTimestamp: this.dataProduct?.changeTimestamp,
@@ -195,9 +204,17 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public newDistribution() {
+    const relatedDataProduct: EntityDetail = {
+      entityType: Entity.DATA_PRODUCT,
+      instanceId: this.dataProduct?.instanceId as string,
+      uid: this.dataProduct?.uid as string,
+      metaId: this.dataProduct?.metaId as string,
+    };
+
     const item: Distribution = {
       uid: 'new distribution',
       modified: new Date().toISOString(),
+      dataProduct: [relatedDataProduct],
     };
 
     this.apiService.endpoints.Distribution.create
@@ -220,7 +237,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         ]);
         this.actionsService.saveCurrentEdit(value.instanceId);
         const entityDetail: EntityDetail = {
-          entityType: 'distribution',
+          entityType: Entity.DISTRIBUTION,
           instanceId: value.instanceId,
           uid: value.uid,
           metaId: value.metaId,

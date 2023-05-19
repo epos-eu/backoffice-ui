@@ -2,10 +2,11 @@ import { State } from 'src/utility/enums/state.enum';
 import { SpatialBounds } from '../types/spatialBounds.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
 import { Group } from './group.model';
+import { EntityDetail } from '../types/entityDetail.type';
 export class Distribution {
   constructor(
     public uid: string,
-    public accessService?: AccessService,
+    public accessService?: EntityDetail,
     public accessURL?: Array<string>,
     public availableFormats?: Array<AvailableFormat>,
     public changeComment?: string,
@@ -13,7 +14,7 @@ export class Distribution {
     public conformsTo?: string,
     public contactPoint?: string,
     public dataPolicy?: string,
-    public dataProduct?: Array<DataProduct>,
+    public dataProduct?: Array<EntityDetail>,
     public dataProvider?: Array<string>,
     public description?: Array<string>,
     public distributionid?: string,
@@ -61,20 +62,6 @@ export class Distribution {
     public version?: string,
   ) {}
 }
-
-type AccessService = {
-  entityType: string;
-  instanceId: string;
-  metaId: string;
-  uid: string;
-};
-
-type DataProduct = {
-  entityType: string;
-  instanceId: string;
-  metaId: string;
-  uid: string;
-};
 
 type AvailableFormat = {
   format: string;
