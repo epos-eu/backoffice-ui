@@ -234,6 +234,21 @@
           <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
         </div>
       </div>
+      <div>
+        <div class="entity-title">
+          <h1>Distribution</h1>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="newDistribution()"
+          >
+            New Distribution
+          </button>
+        </div>
+        <div *ngFor="let detail of distributionDetails">
+          <app-distribution-form-details [distributionDetails]="detail"></app-distribution-form-details>
+        </div>
+      </div>
     </div>
   </div>
 </ng-scrollbar>

@@ -17,6 +17,8 @@ import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-sou
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { State } from 'src/utility/enums/state.enum';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -31,6 +33,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.DATA_PRODUCT;
   public contactPointDetails: Array<EntityDetail> = [];
+  public distributionDetails: Array<EntityDetail> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -82,6 +85,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             this.actionService.setLiveEdit();
             this.trackFormData();
             this.contactPointDetails = this.dataProduct.contactPoint;
+            this.distributionDetails = this.dataProduct.distribution;
 
             this.actionService.trackCurrentEdit({
               type: Entity.DATA_PRODUCT,
@@ -183,6 +187,48 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Contact Point`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
+  }
+
+  public newDistribution() {
+    const item: Distribution = {
+      uid: 'new distribution',
+      modified: new Date().toISOString(),
+    };
+
+    this.apiService.endpoints.Distribution.create
+      .call(item)
+      .then((value: DistributionDetailDataSource) => {
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+        this.actionsService.addEditedItems([
+          {
+            type: Entity.DISTRIBUTION,
+            route: EntityEndpointValue.DISTRIBUTION,
+            label: 'Distribution',
+            state: State.DRAFT,
+            color: 'draft',
+            id: value.instanceId,
+          },
+        ]);
+        this.actionsService.saveCurrentEdit(value.instanceId);
+        const entityDetail: EntityDetail = {
+          entityType: 'distribution',
+          instanceId: value.instanceId,
+          uid: value.uid,
+          metaId: value.metaId,
+        };
+        this.distributionDetails.push(entityDetail);
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',

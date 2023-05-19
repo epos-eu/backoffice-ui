@@ -63,7 +63,7 @@ export class DataProductDetailDataSource extends BaseObject {
   public readonly contactPoint: Array<EntityDetail>;
   public readonly created: Date;
   public readonly description: Array<string>;
-  public readonly distribution: Array<Distribution>;
+  public readonly distribution: Array<EntityDetail>;
   public readonly hasPart: Array<unknown>;
   public readonly identifier: Array<Record<string, unknown>>;
   public readonly isPartOf: Array<unknown>;
