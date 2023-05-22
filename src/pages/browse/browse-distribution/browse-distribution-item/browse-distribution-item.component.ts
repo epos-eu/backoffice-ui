@@ -95,7 +95,11 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       // value['description'] = [changes['description']];
       // value['title'] = [changes['title']];
       this.actionService.resetToDraft(this.distributionDetail?.instanceId as string);
-      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+      this.persistorService.setValueInStorage(
+        StorageType.LOCAL_STORAGE,
+        StorageKey.ACTIVE_DISTRIBUTION_FORM_DATA,
+        JSON.stringify(value),
+      );
     });
   }
 

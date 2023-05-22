@@ -19,8 +19,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
+import { OperationsService } from 'src/services/operations.service';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -47,6 +46,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private persistorService: PersistorService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
+    private operationsService: OperationsService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
   }
@@ -85,16 +85,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            console.debug('initial', this.dataProduct);
+            this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
             this.actionService.setLiveEdit();
             this.trackFormData();
             this.contactPointDetails = this.dataProduct.contactPoint;
-            this.distributionDetails = this.dataProduct.distribution.filter(
-              (item: EntityDetail) => item.entityType === Entity.DISTRIBUTION,
-            );
-            this.webserviceDetails = this.dataProduct.distribution.filter(
-              (item: EntityDetail) => item.entityType === Entity.WEBSERVICE,
-            );
-
+            this.distributionDetails = this.dataProduct.distribution;
             this.actionService.trackCurrentEdit({
               type: Entity.DATA_PRODUCT,
               route: EntityEndpointValue.DATA_PRODUCT,
@@ -165,6 +161,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public newContactPoint() {
     const item: ContactPoint = {
       uid: 'test UID',
+      state: State.DRAFT,
     };
 
     this.apiService.endpoints.Contactpoint.create
@@ -186,13 +183,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           },
         ]);
         this.actionsService.saveCurrentEdit(value.instanceId);
-        const entityDetail: EntityDetail = {
-          entityType: 'contactpoint',
-          instanceId: value.instanceId,
-          uid: value.uid,
-          metaId: value.metaId,
-        };
-        this.contactPointDetails.push(entityDetail);
+        this.updateContactPoint(value);
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Contact Point`, 'close', 'error', 6000, [
@@ -251,5 +242,21 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           'snackbar-error',
         ]),
       );
+  }
+
+  public updateContactPoint(value: ContactPointDetailDataSource) {
+    console.debug(value);
+    const entityDetail: EntityDetail = {
+      entityType: 'ContactPoint',
+      instanceId: value.instanceId,
+      uid: value.uid,
+      metaId: value.metaId,
+    };
+    const dataProduct = this.operationsService.getActiveDataProductValue();
+    this.contactPointDetails.push(entityDetail);
+    if (null != dataProduct) {
+      dataProduct.contactPoint = this.contactPointDetails;
+      this.operationsService.setActiveDataProduct(dataProduct);
+    }
   }
 }

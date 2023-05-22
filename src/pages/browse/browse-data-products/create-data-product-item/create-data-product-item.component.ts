@@ -39,7 +39,7 @@ export class CreateDataProductItemComponent implements OnInit {
     this.loading = true;
     const item: DataProduct = {
       uid: this.form.value['uid'],
-      modified: new Date().toISOString(),
+      modified: new Date(),
     };
 
     this.apiService.endpoints.DataProduct.create

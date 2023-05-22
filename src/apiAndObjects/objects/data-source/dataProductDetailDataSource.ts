@@ -1,10 +1,9 @@
 import { State } from 'src/utility/enums/state.enum';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
-import { ContactPoint } from '../entities/contactPoint.model';
-import { Distribution } from '../entities/distribution.model';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
 import { EntityDetail } from '../types/entityDetail.type';
+import { Identifier } from '../types/identifier.type';
 
 export class DataProductDetailDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -43,6 +42,8 @@ export class DataProductDetailDataSource extends BaseObject {
     VERSION_INFO: 'versionInfo',
     DOCUMENTATION: 'documentation',
     QUALITY_ASSURANCE: 'qualityAssurance',
+    DCT_IDENTIFIER: 'dctIdentifier',
+    HAS_QUALITY_ANNOTATION: 'hasQualityAnnotation',
   };
 
   public readonly instanceId: string;
@@ -64,15 +65,15 @@ export class DataProductDetailDataSource extends BaseObject {
   public readonly created: Date;
   public readonly description: Array<string>;
   public readonly distribution: Array<EntityDetail>;
-  public readonly hasPart: Array<unknown>;
-  public readonly identifier: Array<Record<string, unknown>>;
-  public readonly isPartOf: Array<unknown>;
+  public readonly hasPart: Array<EntityDetail>;
+  public readonly identifier: Array<Identifier>;
+  public readonly isPartOf: Array<EntityDetail>;
   public readonly issued: Date;
   public readonly keywords: string;
   public readonly modified: Date;
-  public readonly provenance: Array<unknown>;
-  public readonly publisher: Array<Record<string, unknown>>;
-  public readonly relation: string;
+  public readonly provenance: Array<string>;
+  public readonly publisher: Array<EntityDetail>;
+  public readonly relation: Array<EntityDetail>;
   public readonly spatialExtent: Array<SpatialExtent>;
   public readonly temporalExtent: Array<TemporalExtent>;
   public readonly title: Array<string>;
@@ -80,6 +81,8 @@ export class DataProductDetailDataSource extends BaseObject {
   public readonly versionInfo: string;
   public readonly documentation: string;
   public readonly qualityAssurance: string;
+  public readonly dctIdentifier: string;
+  public readonly hasQualityAnnotation: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -111,7 +114,7 @@ export class DataProductDetailDataSource extends BaseObject {
     this.modified = this._getDate(DataProductDetailDataSource.KEYS.MODIFIED);
     this.provenance = this._getArray(DataProductDetailDataSource.KEYS.PROVENANCE);
     this.publisher = this._getArray(DataProductDetailDataSource.KEYS.PUBLISHER);
-    this.relation = this._getString(DataProductDetailDataSource.KEYS.RELATION);
+    this.relation = this._getArray(DataProductDetailDataSource.KEYS.RELATION);
     this.spatialExtent = this._getArray(DataProductDetailDataSource.KEYS.SPATIAL_EXTENT);
     this.temporalExtent = this._getArray(DataProductDetailDataSource.KEYS.TEMPORAL_EXTENT);
     this.title = this._getArray(DataProductDetailDataSource.KEYS.TITLE);
@@ -119,5 +122,7 @@ export class DataProductDetailDataSource extends BaseObject {
     this.versionInfo = this._getString(DataProductDetailDataSource.KEYS.VERSION_INFO);
     this.documentation = this._getString(DataProductDetailDataSource.KEYS.DOCUMENTATION);
     this.qualityAssurance = this._getString(DataProductDetailDataSource.KEYS.QUALITY_ASSURANCE);
+    this.dctIdentifier = this._getString(DataProductDetailDataSource.KEYS.DCT_IDENTIFIER);
+    this.hasQualityAnnotation = this._getString(DataProductDetailDataSource.KEYS.HAS_QUALITY_ANNOTATION);
   }
 }

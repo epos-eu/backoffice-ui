@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
@@ -9,10 +9,8 @@ import { WebService } from 'src/apiAndObjects/objects/entities/webService.model'
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
-import { ActionsService } from 'src/services/actions.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
-import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
@@ -24,7 +22,9 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 })
 export class WebserviceFormDetailsComponent {
   @Input() set accessService(webserviceDetails: EntityDetail) {
-    this.initData(webserviceDetails.instanceId);
+    if (null != webserviceDetails) {
+      this.initData(webserviceDetails.instanceId);
+    }
   }
 
   public options: UntypedFormGroup;
@@ -38,11 +38,8 @@ export class WebserviceFormDetailsComponent {
     private fb: UntypedFormBuilder,
     private router: Router,
     private dialogService: DialogService,
-    private snackbarService: SnackbarService,
     private formBuilder: UntypedFormBuilder,
-    private route: ActivatedRoute,
     private apiService: ApiService,
-    private actionService: ActionsService,
     private persistorService: PersistorService,
   ) {
     this.options = this.fb.group({

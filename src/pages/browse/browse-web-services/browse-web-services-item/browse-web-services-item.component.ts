@@ -108,7 +108,11 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
     this.form.valueChanges.subscribe((changes) => {
       const value = changes;
       this.actionService.resetToDraft(this.webservice?.instanceId as string);
-      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+      this.persistorService.setValueInStorage(
+        StorageType.LOCAL_STORAGE,
+        StorageKey.ACTIVE_WEBSERVICE_FORM_DATA,
+        JSON.stringify(value),
+      );
     });
   }
 

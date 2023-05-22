@@ -5,7 +5,6 @@ import { TemporalExtent } from '../types/temporalExtent.type';
 import { ContactPoint } from './contactPoint.model';
 import { Distribution } from './distribution.model';
 import { EntityDetail } from '../types/entityDetail.type';
-import { Group } from './group.model';
 
 export class DataProduct {
   constructor(
@@ -18,9 +17,9 @@ export class DataProduct {
     public identifier?: Array<Identifier>,
     public issued?: Date,
     public keywords?: string,
-    public modified?: string,
+    public modified?: Date,
     public temporalExtent?: Array<TemporalExtent>,
-    public title?: string,
+    public title?: Array<string>,
     public versionInfo?: string,
     public accessRight?: string,
     public accrualPeriodicity?: string,
@@ -30,7 +29,6 @@ export class DataProduct {
     public documentation?: string,
     public editorId?: string,
     public fileProvenance?: string,
-    public groups?: Array<Group>,
     public hasPart?: Array<EntityDetail>,
     public hasQualityAnnotation?: string,
     public instanceChangedId?: string,
