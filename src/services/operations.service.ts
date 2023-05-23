@@ -16,6 +16,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
+import { Revision } from 'src/components/dialogs/revisions/revisions.component';
 import { BehaviorSubject } from 'rxjs';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
@@ -38,6 +39,9 @@ export class OperationsService {
 
   private operation = new BehaviorSubject<Operation | null>(null);
   public operationObs = this.operation.asObservable();
+
+  private revisions = new BehaviorSubject<Array<Revision>>([]);
+  public revisionsObs = this.revisions.asObservable();
 
   constructor(
     private persistorService: PersistorService,
@@ -621,5 +625,9 @@ export class OperationsService {
           ]);
         });
     }
+  }
+
+  public setRevisions(revisions: Array<Revision>): void {
+    this.revisions.next(revisions);
   }
 }

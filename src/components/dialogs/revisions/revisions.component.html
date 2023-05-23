@@ -13,6 +13,23 @@
     [dataSource]="dataSource"
     matSort
   >
+    <ng-container matColumnDef="instanceId">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        hidden
+      >
+        instanceId
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        hidden
+      >
+        {{ row.instanceId }}
+      </td>
+    </ng-container>
     <ng-container matColumnDef="uid">
       <th
         mat-header-cell
@@ -101,6 +118,7 @@
     <tr
       mat-row
       *matRowDef="let row; columns: displayedColumns"
+      (click)="rowClicked(row.instanceId)"
     ></tr>
 
     <tr

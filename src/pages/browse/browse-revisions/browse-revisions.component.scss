@@ -1,0 +1,41 @@
+.flex-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.diff {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  margin: 2rem 0 1rem 0;
+
+  &.added {
+    background: #c8e0d5;
+    color: #007b40;
+  }
+
+  &.deleted {
+    background: rgb(248, 212, 212);
+    color: #f03d3e;
+  }
+
+  &.updated {
+    background: rgb(240, 168, 69, 0.2);
+    color: #f0a845;
+  }
+
+  .title {
+    font-size: 17px;
+    margin: 0;
+  }
+
+  svg {
+    margin-left: 0.25rem;
+  }
+}
+
+.sub-title {
+  text-transform: capitalize;
+}

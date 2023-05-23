@@ -1,0 +1,126 @@
+<div
+  class="mat-table-margin"
+  *ngIf="loading"
+>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<div
+  class="flex-wrapper"
+  *ngIf="!loading"
+>
+  <div *ngFor="let change of entityDiff | keyvalue">
+    <ng-container *ngIf="change.key === 'added'">
+      <div class="diff added">
+        <p class="title">Added</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-plus"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="#007b40"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            stroke="none"
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path d="M12 5l0 14" />
+          <path d="M5 12l14 0" />
+        </svg>
+      </div>
+      <ng-container *ngIf="getChangesLength(change.value) === 0">
+        <p>N/A</p>
+      </ng-container>
+      <ng-container *ngIf="getChangesLength(change.value) > 0">
+        <div *ngFor="let subChange of change.value | keyvalue">
+          <p class="sub-title">
+            {{ subChange.key }}
+          </p>
+          <div>
+            {{ subChange.value | json }}
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="change.key === 'deleted'">
+      <div class="diff deleted">
+        <p class="title">Deleted</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-minus"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="#f03d3e"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            stroke="none"
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path d="M5 12l14 0" />
+        </svg>
+      </div>
+      <ng-container *ngIf="getChangesLength(change.value) === 0">
+        <p>N/A</p>
+      </ng-container>
+      <ng-container *ngIf="getChangesLength(change.value) > 0">
+        <div *ngFor="let subChange of change.value | keyvalue">
+          <p class="sub-title">
+            {{ subChange.key }}
+          </p>
+          <div>
+            {{ subChange.value | json }}
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="change.key === 'updated'">
+      <div class="diff updated">
+        <p class="title">Updated</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="icon icon-tabler icon-tabler-pencil"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="#f0a845"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            stroke="none"
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+          <path d="M13.5 6.5l4 4" />
+        </svg>
+      </div>
+      <ng-container *ngIf="getChangesLength(change.value) === 0">
+        <p>N/A</p>
+      </ng-container>
+      <ng-container *ngIf="getChangesLength(change.value) > 0">
+        <div *ngFor="let subChange of change.value | keyvalue">
+          <p class="sub-title">
+            {{ subChange.key }}
+          </p>
+          <div>
+            {{ subChange.value }}
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
