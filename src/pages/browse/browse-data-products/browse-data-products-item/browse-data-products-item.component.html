@@ -220,48 +220,58 @@
         </ng-container>
       </form>
       <div>
-        <div class="entity-title">
-          <h1>Contact Point</h1>
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="newContactPoint()"
-          >
-            New Contact Point
-          </button>
-        </div>
-        <mat-form-field
-          class="contact-select"
-          *ngIf="showContactPointSelect"
-        >
-          <mat-label>Select Contact Point</mat-label>
-          <mat-select (selectionChange)="updateContactPointArray($event)">
-            <mat-option
-              *ngFor="let contactPoint of contactPointsFromCatalog"
-              [value]="contactPoint"
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Contact Point </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="entity-title">
+            <h1>Contact Point</h1>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="newContactPoint()"
             >
-              {{ contactPoint.uid }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngFor="let detail of contactPointDetails">
-          <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
-        </div>
+              New Contact Point
+            </button>
+          </div>
+          <mat-form-field
+            class="contact-select"
+            *ngIf="showContactPointSelect"
+          >
+            <mat-label>Select Contact Point</mat-label>
+            <mat-select (selectionChange)="updateContactPointArray($event)">
+              <mat-option
+                *ngFor="let contactPoint of contactPointsFromCatalog"
+                [value]="contactPoint"
+              >
+                {{ contactPoint.uid }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngFor="let detail of contactPointDetails">
+            <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
+          </div>
+        </mat-expansion-panel>
       </div>
       <div>
-        <div class="entity-title">
-          <h1>Distribution</h1>
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="newDistribution()"
-          >
-            New Distribution
-          </button>
-        </div>
-        <div *ngFor="let detail of distributionDetails">
-          <app-distribution-form-details [distributionDetails]="detail"></app-distribution-form-details>
-        </div>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Distribution </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="entity-title">
+            <h1>Distribution</h1>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="newDistribution()"
+            >
+              New Distribution
+            </button>
+          </div>
+          <div *ngFor="let detail of distributionDetails">
+            <app-distribution-form-details [distributionDetails]="detail"></app-distribution-form-details>
+          </div>
+        </mat-expansion-panel>
       </div>
     </div>
   </div>
