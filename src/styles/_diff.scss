@@ -20,4 +20,23 @@
       font-size: 14px !important;
     }
   }
+
+  .jsondiffpatch-left-value {
+    pre {
+      background: rgb(248, 212, 212) !important;
+    }
+  }
+
+  .jsondiffpatch-right-value {
+    pre {
+      background: #a4ccbb !important;
+    }
+  }
+}
+
+.jsondiffpatch-deleted {
+  .jsondiffpatch-property-name,
+  pre {
+    background: rgb(248, 212, 212) !important;
+  }
 }

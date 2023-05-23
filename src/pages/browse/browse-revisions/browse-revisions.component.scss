@@ -1,41 +1,39 @@
 .flex-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 2rem;
-}
+  padding: 2rem 0;
+  align-items: flex-start;
 
-.diff {
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  margin: 2rem 0 1rem 0;
-
-  &.added {
-    background: #c8e0d5;
-    color: #007b40;
+  .labels {
+    margin-bottom: 1rem;
   }
 
-  &.deleted {
-    background: rgb(248, 212, 212);
-    color: #f03d3e;
+  .flex-horizontal {
+    display: flex;
+    align-items: center;
+
+    p {
+      margin-left: 1rem;
+    }
   }
 
-  &.updated {
-    background: rgb(240, 168, 69, 0.2);
-    color: #f0a845;
-  }
+  .box {
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    width: 55px;
+    font-size: 15px;
 
-  .title {
-    font-size: 17px;
-    margin: 0;
-  }
+    p {
+      margin: 0;
+    }
 
-  svg {
-    margin-left: 0.25rem;
-  }
-}
+    &.current {
+      background: #a4ccbb;
+    }
 
-.sub-title {
-  text-transform: capitalize;
+    &.previous {
+      background: rgb(248, 212, 212);
+    }
+  }
 }

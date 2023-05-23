@@ -8,6 +8,7 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import * as jsondiffpatch from 'jsondiffpatch';
 import { State } from 'src/utility/enums/state.enum';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-browse-revisions',
@@ -19,12 +20,14 @@ export class BrowseRevisionsComponent implements OnInit {
     private operationsService: OperationsService,
     private persistorService: PersistorService,
     private apiService: ApiService,
+    private route: ActivatedRoute,
   ) {}
 
   public revisions: Array<Revision> = [];
   public entities: Array<DataProductDetailDataSource | undefined> = [];
   public visualDiff!: string | undefined;
   public loading = false;
+  public referrerId = '';
 
   private _getCachedRevisions(): string | null {
     return this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.REVISIONS);
@@ -51,7 +54,6 @@ export class BrowseRevisionsComponent implements OnInit {
     ]).subscribe((response: [DataProductDetailDataSource[], DataProductDetailDataSource[]]) => {
       this.entities = response.map(this._mapResponse);
       this.entities.sort((a) => (a?.state === State.PUBLISHED ? -1 : 1));
-      console.log(this.entities);
       this.loading = false;
       this.visualDiff = this._getVisualDiff();
     });
@@ -67,6 +69,11 @@ export class BrowseRevisionsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.route.paramMap.subscribe((obs) => {
+      if (null != obs.get('id')) {
+        this.referrerId = obs.get('id') as string;
+      }
+    });
     if (this._getCachedRevisions()) {
       const parsed = JSON.parse(this._getCachedRevisions() as string);
       this.revisions = parsed;

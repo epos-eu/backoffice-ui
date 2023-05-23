@@ -355,7 +355,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         metaId: this.dataProduct?.metaId,
         type: Entity.DATA_PRODUCT,
       },
-      '45vw',
+      '65vw',
       'auto',
       'revisions-dialog',
     );

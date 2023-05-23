@@ -91,7 +91,7 @@
         mat-cell
         *matCellDef="let row"
       >
-        {{ row.created }}
+        {{ row.created | date : 'mediumDate' }}
       </td>
     </ng-container>
 

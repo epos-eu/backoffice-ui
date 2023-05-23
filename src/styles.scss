@@ -36,12 +36,6 @@
     align-items: center;
     max-width: 100%;
     margin-right: 2rem;
-
-    // .actions {
-    //   button {
-    //     margin-left: 1rem;
-    //   }
-    // }
   }
 }
 
@@ -119,4 +113,8 @@ app-table-filter {
   .mat-mdc-select-value-text {
     font-size: 14px;
   }
+}
+
+.mat-column-state {
+  text-transform: capitalize;
 }
