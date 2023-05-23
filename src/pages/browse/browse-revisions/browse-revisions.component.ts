@@ -7,6 +7,7 @@ import { OperationsService } from 'src/services/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import * as jsondiffpatch from 'jsondiffpatch';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-browse-revisions',
@@ -49,6 +50,8 @@ export class BrowseRevisionsComponent implements OnInit {
       }),
     ]).subscribe((response: [DataProductDetailDataSource[], DataProductDetailDataSource[]]) => {
       this.entities = response.map(this._mapResponse);
+      this.entities.sort((a) => (a?.state === State.PUBLISHED ? -1 : 1));
+      console.log(this.entities);
       this.loading = false;
       this.visualDiff = this._getVisualDiff();
     });
