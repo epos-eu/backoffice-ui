@@ -3,9 +3,9 @@
     <!-- <app-back-button path="/browse/{{ entityRoute }}"></app-back-button> -->
     <div class="top-header">
       <div class="flex-row">
-        <p>
+        <!-- <p>
           <strong>{{ contactPoint?.uid }}</strong>
-        </p>
+        </p> -->
         <!-- <mat-chip-listbox
           aria-label="Status"
           *ngIf="currentEdit"
@@ -43,7 +43,7 @@
         [formGroup]="form"
         *ngIf="form && contactPoint"
       >
-        <mat-form-field
+        <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -56,7 +56,7 @@
             formControlName="instanceId"
             readonly
           />
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
@@ -68,9 +68,10 @@
             placeholder="UID"
             name="uid"
             formControlName="uid"
+            readonly
           />
         </mat-form-field>
-        <mat-form-field
+        <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -82,16 +83,16 @@
             name="operation"
             formControlName="operation"
           />
-        </mat-form-field>
+        </mat-form-field> -->
       </form>
-      <button
+      <!-- <button
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
         [disabled]="null == contactPoint"
       >
         Save
-      </button>
+      </button> -->
     </div>
   </div>
 </ng-scrollbar>

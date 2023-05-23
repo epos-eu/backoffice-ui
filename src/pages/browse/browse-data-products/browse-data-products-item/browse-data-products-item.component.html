@@ -230,6 +230,20 @@
             New Contact Point
           </button>
         </div>
+        <mat-form-field
+          class="contact-select"
+          *ngIf="showContactPointSelect"
+        >
+          <mat-label>Select Contact Point</mat-label>
+          <mat-select (selectionChange)="updateContactPointArray($event)">
+            <mat-option
+              *ngFor="let contactPoint of contactPointsFromCatalog"
+              [value]="contactPoint"
+            >
+              {{ contactPoint.uid }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <div *ngFor="let detail of contactPointDetails">
           <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
         </div>

@@ -20,6 +20,7 @@ import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationsService } from 'src/services/operations.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -36,6 +37,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public contactPointDetails: Array<EntityDetail> = [];
   public distributionDetails: Array<EntityDetail> = [];
   public webserviceDetails: Array<EntityDetail> = [];
+  public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
+  public showContactPointSelect = false;
 
   constructor(
     private dialogService: DialogService,
@@ -114,7 +117,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       description: this.dataProduct?.description,
       changeTimestamp: this.dataProduct?.changeTimestamp,
       state: this.dataProduct?.state,
-      identifier: [this.dataProduct?.identifier],
+      // identifier: [this.dataProduct?.identifier],
       // issued: this.isValidDate(this.dataProduct?.issued) ? this.dataProduct?.issued : '',
       keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
       modified: this.dataProduct?.modified,
@@ -125,12 +128,19 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
-      const value = changes;
-      // TODO: Some stange behaviour where the detect changes pops value out of array.
-      value['title'] = [changes['title']];
-      value['description'] = [changes['description']];
-      this.actionService.enableSave();
-      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+      const updatingObject = this.operationsService.getActiveDataProductValue();
+      if (updatingObject) {
+        updatingObject.uid = changes['uid'];
+        updatingObject.title = [changes['title']];
+        updatingObject.description = [changes['description']];
+        updatingObject.versionInfo = changes['versionInfo'];
+        // TODO: Some stange behaviour where the detect changes pops value out of array.
+        // value['title'] = [changes['title']];
+        // value['description'] = [changes['description']];
+        this.actionService.enableSave();
+        this.operationsService.setActiveDataProduct(updatingObject);
+        // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+      }
     });
   }
 
@@ -156,42 +166,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     if (this.dataProduct?.instanceId) {
       this.dialogService.handleDelete(this.dataProduct?.instanceId, EntityEndpointValue.DATA_PRODUCT);
     }
-  }
-
-  public newContactPoint() {
-    const item: ContactPoint = {
-      uid: 'test UID',
-      state: State.DRAFT,
-    };
-
-    this.apiService.endpoints.Contactpoint.create
-      .call(item)
-      .then((value: ContactPointDetailDataSource) => {
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-success',
-        ]);
-        this.actionsService.addEditedItems([
-          {
-            type: Entity.CONTACT_POINT,
-            route: EntityEndpointValue.CONTACT_POINT,
-            label: 'Contact Point',
-            state: State.DRAFT,
-            color: 'draft',
-            id: value.instanceId,
-          },
-        ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
-        this.updateContactPoint(value);
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Contact Point`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
   }
 
   public newDistribution() {
@@ -226,17 +200,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             id: value.instanceId,
           },
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
-        const entityDetail: EntityDetail = {
-          entityType: Entity.DISTRIBUTION,
-          instanceId: value.instanceId,
-          uid: value.uid,
-          metaId: value.metaId,
-        };
-        this.distributionDetails.push(entityDetail);
+        this.updateDistributionArray(value);
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
+        this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
@@ -244,7 +211,24 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       );
   }
 
-  public updateContactPoint(value: ContactPointDetailDataSource) {
+  public newContactPoint() {
+    this.apiService.endpoints.Contactpoint.getAll
+      .call()
+      .then((data: Array<ContactPointDetailDataSource>) => {
+        this.showContactPointSelect = true;
+        this.contactPointsFromCatalog = data;
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to request Contact Point entities.`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
+  }
+
+  public updateContactPointArray(event: MatSelectChange) {
+    const value: ContactPointDetailDataSource = event.value;
     console.debug(value);
     const entityDetail: EntityDetail = {
       entityType: 'ContactPoint',
@@ -256,6 +240,22 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.contactPointDetails.push(entityDetail);
     if (null != dataProduct) {
       dataProduct.contactPoint = this.contactPointDetails;
+      this.operationsService.setActiveDataProduct(dataProduct);
+      this.showContactPointSelect = false;
+    }
+  }
+
+  public updateDistributionArray(value: DistributionDetailDataSource) {
+    const entityDetail: EntityDetail = {
+      entityType: Entity.DISTRIBUTION,
+      instanceId: value.instanceId,
+      uid: value.uid,
+      metaId: value.metaId,
+    };
+    const dataProduct = this.operationsService.getActiveDataProductValue();
+    this.distributionDetails.push(entityDetail);
+    if (null != dataProduct) {
+      dataProduct.distribution = this.distributionDetails;
       this.operationsService.setActiveDataProduct(dataProduct);
     }
   }

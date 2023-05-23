@@ -2,8 +2,6 @@ import { State } from 'src/utility/enums/state.enum';
 import { Identifier } from '../types/identifier.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
-import { ContactPoint } from './contactPoint.model';
-import { Distribution } from './distribution.model';
 import { EntityDetail } from '../types/entityDetail.type';
 
 export class DataProduct {
@@ -11,9 +9,9 @@ export class DataProduct {
     public uid: string,
     public changeComment?: string,
     public changeTimestamp?: Date,
-    public contactPoint?: Array<ContactPoint>,
+    public contactPoint?: Array<EntityDetail>,
     public description?: Array<string>,
-    public distribution?: Array<Distribution>,
+    public distribution?: Array<EntityDetail>,
     public identifier?: Array<Identifier>,
     public issued?: Date,
     public keywords?: string,

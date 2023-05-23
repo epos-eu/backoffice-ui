@@ -91,25 +91,25 @@ export class ContactPointFormDetailsComponent implements OnInit {
   }
 
   public handleSave(): void {
-    this.apiService.endpoints.Contactpoint.update
-      .call(this.form.value as ContactPoint)
-      .then((data: ContactPointDetailDataSource) => {
-        const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
-        if (localStorage !== null) {
-          const entityDetail: EntityDetail = {
-            entityType: 'contactpoint',
-            metaId: data.metaId,
-            uid: data.uid,
-            instanceId: data.instanceId,
-          };
-          const formData: DataProduct = JSON.parse(localStorage);
-          formData.contactPoint?.push(entityDetail);
-          this.persistorService.setValueInStorage(
-            StorageType.LOCAL_STORAGE,
-            StorageKey.FORM_DATA,
-            JSON.stringify(formData),
-          );
-        }
-      });
+    // this.apiService.endpoints.Contactpoint.update
+    //   .call(this.form.value as ContactPoint)
+    //   .then((data: ContactPointDetailDataSource) => {
+    //     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    //     if (localStorage !== null) {
+    //       const entityDetail: EntityDetail = {
+    //         entityType: 'contactpoint',
+    //         metaId: data.metaId,
+    //         uid: data.uid,
+    //         instanceId: data.instanceId,
+    //       };
+    //       const formData: DataProduct = JSON.parse(localStorage);
+    //       formData.contactPoint?.push(entityDetail);
+    //       this.persistorService.setValueInStorage(
+    //         StorageType.LOCAL_STORAGE,
+    //         StorageKey.FORM_DATA,
+    //         JSON.stringify(formData),
+    //       );
+    //     }
+    //   });
   }
 }

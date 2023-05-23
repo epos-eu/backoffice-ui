@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
@@ -22,8 +22,12 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
   templateUrl: './distribution-form-details.component.html',
   styleUrls: ['./distribution-form-details.component.scss'],
 })
-export class DistributionFormDetailsComponent implements OnInit {
-  @Input() distributionDetails: EntityDetail | undefined;
+export class DistributionFormDetailsComponent {
+  @Input() set distributionDetails(details: EntityDetail | undefined) {
+    if (null != details) {
+      this.initData(details.instanceId);
+    }
+  }
 
   public floatLabelControl = new UntypedFormControl('auto');
   public distribution!: DistributionDetailDataSource | undefined;
@@ -40,12 +44,6 @@ export class DistributionFormDetailsComponent implements OnInit {
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
   ) {}
-
-  ngOnInit(): void {
-    if (this.distributionDetails) {
-      this.initData(this.distributionDetails?.instanceId);
-    }
-  }
 
   private initData(id: string): void {
     this.apiService.endpoints.Distribution.get
