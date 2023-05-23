@@ -14,7 +14,6 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
