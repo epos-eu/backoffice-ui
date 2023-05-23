@@ -1,6 +1,4 @@
-import { KeyValue } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { detailedDiff } from 'deep-object-diff';
 import { forkJoin } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
@@ -8,6 +6,7 @@ import { Revision } from 'src/components/dialogs/revisions/revisions.component';
 import { OperationsService } from 'src/services/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import * as jsondiffpatch from 'jsondiffpatch';
 
 @Component({
   selector: 'app-browse-revisions',
@@ -23,11 +22,20 @@ export class BrowseRevisionsComponent implements OnInit {
 
   public revisions: Array<Revision> = [];
   public entities: Array<DataProductDetailDataSource | undefined> = [];
-  public entityDiff!: object | null;
+  public visualDiff!: string | undefined;
   public loading = false;
 
   private _getCachedRevisions(): string | null {
     return this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.REVISIONS);
+  }
+
+  private _mapResponse(entity: DataProductDetailDataSource[]): DataProductDetailDataSource | undefined {
+    const item = entity.shift();
+    if (item) {
+      const mapped = Object.fromEntries(Object.entries(item).filter(([key]) => key !== '_sourceObject'));
+      return mapped as DataProductDetailDataSource;
+    }
+    return undefined;
   }
 
   private _fetchEntities(): void {
@@ -40,23 +48,22 @@ export class BrowseRevisionsComponent implements OnInit {
         instanceId: this.revisions[1].instanceId,
       }),
     ]).subscribe((response: [DataProductDetailDataSource[], DataProductDetailDataSource[]]) => {
-      this.entities = response.map((item) => item.shift());
+      this.entities = response.map(this._mapResponse);
       this.loading = false;
-      this.entityDiff = this._getEntityDiff();
-      console.log(this.entityDiff);
+      this.visualDiff = this._getVisualDiff();
     });
   }
 
-  private _getEntityDiff(): object | null {
-    if (this.entities[0] && this.entities[1]) {
-      const diff = detailedDiff(this.entities[0], this.entities[1]);
-      Object.values(diff).map((item) => delete item._sourceObject);
-      return diff;
+  private _getVisualDiff(): string | undefined {
+    const delta = jsondiffpatch.diff(this.entities[0], this.entities[1]);
+    if (delta) {
+      const html = jsondiffpatch.formatters.html.format(delta, this.entities[0]);
+      return html;
     }
-    return null;
+    return undefined;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this._getCachedRevisions()) {
       const parsed = JSON.parse(this._getCachedRevisions() as string);
       this.revisions = parsed;
@@ -72,9 +79,5 @@ export class BrowseRevisionsComponent implements OnInit {
         this._fetchEntities();
       });
     }
-  }
-
-  public getChangesLength(changes: KeyValue<string, never>): number {
-    return Object.keys(changes).length;
   }
 }

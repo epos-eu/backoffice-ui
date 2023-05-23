@@ -32,6 +32,7 @@
     "i": "^0.3.7",
     "leaflet": "^1.9.4",
     "material-icons-font": "^2.1.0",
+    "jsondiffpatch": "^0.4.1",
     "ngx-scrollbar": "^9.0.2",
     "npm": "^8.19.0",
     "rxjs": "~7.5.0",
