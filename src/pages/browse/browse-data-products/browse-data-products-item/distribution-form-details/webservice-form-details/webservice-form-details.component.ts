@@ -1,44 +1,45 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
+import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { ActionsService } from 'src/services/actions.service';
+import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { HelpersService } from 'src/services/helpers.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
-import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 
 @Component({
-  selector: 'app-browse-web-services-item',
-  templateUrl: './browse-web-services-item.component.html',
-  styleUrls: ['./browse-web-services-item.component.scss'],
+  selector: 'app-webservice-form-details',
+  templateUrl: './webservice-form-details.component.html',
+  styleUrls: ['./webservice-form-details.component.scss'],
 })
-export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
+export class WebserviceFormDetailsComponent {
+  @Input() set accessService(webserviceDetails: EntityDetail) {
+    if (null != webserviceDetails) {
+      this.initData(webserviceDetails.instanceId);
+    }
+  }
+
   public options: UntypedFormGroup;
   private hideRequiredControl = new UntypedFormControl(false);
   public floatLabelControl = new UntypedFormControl('auto');
   public webservice!: WebService | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
-  public entityRoute = EntityEndpointValue.WEBSERVICE;
-  public currentEdit!: IChangeItem;
 
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
     private dialogService: DialogService,
-    private snackbarService: SnackbarService,
     private formBuilder: UntypedFormBuilder,
-    private route: ActivatedRoute,
     private apiService: ApiService,
-    private actionService: ActionsService,
     private persistorService: PersistorService,
   ) {
     this.options = this.fb.group({
@@ -46,19 +47,6 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
       floatLabel: this.floatLabelControl,
     });
     this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
-  }
-
-  ngOnInit(): void {
-    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.WEBSERVICE);
-    this.route.paramMap.subscribe((obs) => {
-      if (null != obs.get('id')) {
-        this.initData(obs.get('id') as string);
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.actionService.cancelLiveEdit();
   }
 
   private initData(id: string): void {
@@ -73,16 +61,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
           if (this.webservice && this.webservice.instanceId) {
-            this.actionService.setLiveEdit();
             this.trackFormData();
-            this.actionService.trackCurrentEdit({
-              type: Entity.WEBSERVICE,
-              route: EntityEndpointValue.WEBSERVICE,
-              label: 'Webservice',
-              state: this.webservice.state!,
-              color: 'draft',
-              id: this.webservice.instanceId,
-            });
           }
         }
       });
@@ -92,27 +71,19 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       instanceId: this.webservice?.instanceId as string,
       uid: this.webservice?.uid,
+      metaId: this.webservice?.metaId,
       name: this.webservice?.name,
       description: this.webservice?.description,
-      datePublished: this.webservice?.datePublished,
+      // datePublished: this.webservice?.datePublished,
       dateModified: this.webservice?.dateModified,
       changeComment: this.webservice?.changeComment,
       changeTimestamp: this.webservice?.changeTimestamp,
-      identifier: this.webservice?.identifier,
+      // identifier: this.webservice?.identifier,
       entryPoint: this.webservice?.entryPoint,
       keywords: HelpersService.whiteSpaceReplace(this.webservice?.keywords),
-      supportedOperation: this.webservice?.supportedOperation,
-      temporalExtent: this.webservice?.temporalExtent,
+      // supportedOperation: this.webservice?.supportedOperation,
+      // temporalExtent: this.webservice?.temporalExtent,
       license: this.webservice?.license,
-    });
-    this.form.valueChanges.subscribe((changes) => {
-      const value = changes;
-      this.actionService.resetToDraft(this.webservice?.instanceId as string);
-      this.persistorService.setValueInStorage(
-        StorageType.LOCAL_STORAGE,
-        StorageKey.ACTIVE_WEBSERVICE_FORM_DATA,
-        JSON.stringify(value),
-      );
     });
   }
 
@@ -121,26 +92,39 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   public handleSave() {
-    // TODO: add Save method for DB operation
-    this.snackbarService.openSnackbar('Item saved successfully', 'Close', 'success', 4000, [
-      'snackbar',
-      'mat-toolbar',
-      'snackbar-primary',
-    ]);
+    // this.form.value['description'] = [this.form.value['description']];
+    // this.form.value['title'] = [this.form.value['title']];
+    this.apiService.endpoints.Webservice.update
+      .call(this.form.value as WebService)
+      .then((data: WebserviceDetailDataSource) => {
+        const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+        if (localStorage !== null) {
+          const entityDetail: EntityDetail = {
+            entityType: 'webservice',
+            metaId: data.metaId,
+            uid: data.uid,
+            instanceId: data.instanceId,
+          };
+          // this.snackbarService.openSnackbar(`Success: ${data.uid} created`, 'close', 'success', 6000, [
+          //   'snackbar',
+          //   'mat-toolbar',
+          //   'snackbar-success',
+          // ]);
+          const formData: DataProduct = JSON.parse(localStorage);
+          formData.distribution?.push(entityDetail);
+          this.persistorService.setValueInStorage(
+            StorageType.LOCAL_STORAGE,
+            StorageKey.FORM_DATA,
+            JSON.stringify(formData),
+          );
+        }
+      });
   }
 
   public handleDelete(): void {
     if (this.webservice && this.webservice.instanceId) {
       this.dialogService.handleDelete(this.webservice.instanceId, EntityEndpointValue.WEBSERVICE);
     }
-  }
-
-  public handleCancel(): void {
-    // this.dialogService.handleCancel();
-  }
-
-  public handleConfirm(): void {
-    // this.dialogService.handleConfirm();
   }
 
   public formatDate = (dateStr: string): string => {
@@ -150,4 +134,17 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
     }
     return 'Invalid date';
   };
+
+  public handleGetRevisions(): void {
+    // Todo: pass revisions data to component
+    this.dialogService.openDialogForComponent(
+      RevisionsComponent,
+      {
+        metaId: this.webservice?.metaId,
+      },
+      '35vw',
+      'auto',
+      'revisions-dialog',
+    );
+  }
 }

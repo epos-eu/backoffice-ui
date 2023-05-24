@@ -1,49 +1,64 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
-import { AccessService } from '../types/accessService.type';
+import { EntityDetail } from '../types/entityDetail.type';
+import { Group } from '../entities/group.model';
 
 export class DistributionDetailDataSource extends BaseObject {
   public static readonly KEYS = {
-    INSTANCE_ID: 'instanceId',
-    CHANGE_TIMESTAMP: 'changeTimestamp',
-    STATE: 'state',
-    TO_BE_DELETE: 'toBeDelete',
-    FILE_PROVENANCE: 'fileProvenance',
     ACCESS_SERVICE: 'accessService',
     ACCESS_URL: 'accessUrl',
+    CHANGE_COMMENT: 'changeComment',
+    CHANGE_TIMESTAMP: 'changeTimestamp',
+    CONFORMS_TO: 'conformsTo',
+    DATA_POLICY: 'dataPolicy',
+    DATA_PRODUCT: 'dataProduct',
     DESCRIPTION: 'description',
     DOWNLOAD_URL: 'downloadURL',
+    EDITOR_ID: 'editorId',
+    FILE_PROVENANCE: 'fileProvenance',
     FORMAT: 'format',
+    GROUPS: 'groups',
+    INSTANCE_CHANGED_ID: 'instanceChangedId',
+    INSTANCE_ID: 'instanceId',
     ISSUED: 'issued',
+    LICENCE: 'licence',
+    META_ID: 'metaId',
     MODIFIED: 'modified',
+    OPERATION: 'operation',
+    STATE: 'state',
     TITLE: 'title',
     TYPE: 'type',
-    META_ID: 'metaId',
+    TO_BE_DELETE: 'toBeDelete',
     UID: 'uid',
-    EDITOR_ID: 'editorId',
-    CHANGE_COMMENT: 'changeComment',
-    PRODUCT_ID: 'productid',
+    VERSION: 'version',
   };
 
-  public readonly instanceId: string;
-  public readonly changeTimestamp: Date;
-  public readonly state: State;
-  public readonly toBeDelete: string;
-  public readonly fileProvenance: string;
-  public readonly accessService: AccessService;
+  public readonly accessService: EntityDetail;
   public readonly accessURL: Array<string>;
+  public readonly changeComment: string;
+  public readonly changeTimestamp: Date;
+  public readonly conformsTo: string;
+  public readonly dataPolicy: string;
+  public readonly dataProduct: Array<EntityDetail>;
   public readonly description: Array<string>;
   public readonly downloadURL: Array<string>;
-  public readonly format: string;
-  public readonly issued: Date;
-  public readonly modified: string;
-  public readonly title: Array<string>;
-  public readonly type: string;
-  public readonly metaId: string;
-  public readonly uid: string;
   public readonly editorId: string;
-  public readonly changeComment: string;
-  public readonly productid: string;
+  public readonly fileProvenance: string;
+  public readonly format: string;
+  public readonly groups: Array<Group>;
+  public readonly instanceChangedId: string;
+  public readonly instanceId: string;
+  public readonly issued: Date;
+  public readonly licence: string;
+  public readonly metaId: string;
+  public readonly modified: string;
+  public readonly operation: string;
+  public readonly state: State;
+  public readonly title: Array<string>;
+  public readonly toBeDelete: string;
+  public readonly type: string;
+  public readonly uid: string;
+  public readonly version: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -52,10 +67,11 @@ export class DistributionDetailDataSource extends BaseObject {
     this.state = this._getValue(DistributionDetailDataSource.KEYS.STATE) as State;
     this.toBeDelete = this._getString(DistributionDetailDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(DistributionDetailDataSource.KEYS.FILE_PROVENANCE);
-    this.accessService = this._getValue(DistributionDetailDataSource.KEYS.ACCESS_SERVICE) as AccessService;
+    this.accessService = this._getValue(DistributionDetailDataSource.KEYS.ACCESS_SERVICE) as EntityDetail;
     this.accessURL = this._getArray(DistributionDetailDataSource.KEYS.ACCESS_URL);
     this.description = this._getArray(DistributionDetailDataSource.KEYS.DESCRIPTION);
     this.downloadURL = this._getArray(DistributionDetailDataSource.KEYS.DOWNLOAD_URL);
+    this.dataProduct = this._getArray(DistributionDetailDataSource.KEYS.DATA_PRODUCT);
     this.format = this._getString(DistributionDetailDataSource.KEYS.FORMAT);
     this.issued = this._getDate(DistributionDetailDataSource.KEYS.ISSUED);
     this.modified = this._getString(DistributionDetailDataSource.KEYS.MODIFIED);
@@ -65,6 +81,12 @@ export class DistributionDetailDataSource extends BaseObject {
     this.uid = this._getString(DistributionDetailDataSource.KEYS.UID);
     this.editorId = this._getString(DistributionDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(DistributionDetailDataSource.KEYS.CHANGE_COMMENT);
-    this.productid = this._getString(DistributionDetailDataSource.KEYS.PRODUCT_ID);
+    this.conformsTo = this._getString(DistributionDetailDataSource.KEYS.CONFORMS_TO);
+    this.dataPolicy = this._getString(DistributionDetailDataSource.KEYS.DATA_POLICY);
+    this.groups = this._getArray(DistributionDetailDataSource.KEYS.GROUPS);
+    this.instanceChangedId = this._getString(DistributionDetailDataSource.KEYS.INSTANCE_CHANGED_ID);
+    this.version = this._getString(DistributionDetailDataSource.KEYS.VERSION);
+    this.licence = this._getString(DistributionDetailDataSource.KEYS.LICENCE);
+    this.operation = this._getString(DistributionDetailDataSource.KEYS.OPERATION);
   }
 }

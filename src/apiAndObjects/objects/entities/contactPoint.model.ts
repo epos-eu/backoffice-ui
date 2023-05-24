@@ -1,5 +1,6 @@
 import { State } from 'src/utility/enums/state.enum';
 import { Group } from './group.model';
+import { EntityDetail } from '../types/entityDetail.type';
 
 export class ContactPoint {
   constructor(
@@ -15,8 +16,8 @@ export class ContactPoint {
     public language?: Array<string>,
     public metaId?: string,
     public operation?: string,
-    public organization?: Organization,
-    public person?: Person,
+    public organization?: EntityDetail,
+    public person?: EntityDetail,
     public role?: string,
     public state?: State,
     public telephone?: Array<string>,
@@ -24,17 +25,3 @@ export class ContactPoint {
     public version?: string,
   ) {}
 }
-
-type Organization = {
-  entityType: string;
-  instanceId: string;
-  metaId: string;
-  uid: string;
-};
-
-type Person = {
-  entityType: string;
-  instanceId: string;
-  metaId: string;
-  uid: string;
-};

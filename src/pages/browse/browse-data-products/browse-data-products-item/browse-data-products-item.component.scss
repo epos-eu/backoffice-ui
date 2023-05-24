@@ -116,3 +116,19 @@
     margin-left: 0.25rem;
   }
 }
+
+.entity-title {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.contact-select {
+  width: 95%;
+  margin-left: 2em;
+}
+
+.mat-expansion-panel {
+  margin: 1em 0em 1em 0em;
+  width: 97%;
+}

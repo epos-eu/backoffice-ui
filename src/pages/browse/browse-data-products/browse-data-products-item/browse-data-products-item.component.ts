@@ -12,6 +12,14 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { SnackbarService } from 'src/services/snackbar.service';
+import { State } from 'src/utility/enums/state.enum';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { OperationsService } from 'src/services/operations.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -25,6 +33,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.DATA_PRODUCT;
+  public contactPointDetails: Array<EntityDetail> = [];
+  public distributionDetails: Array<EntityDetail> = [];
+  public webserviceDetails: Array<EntityDetail> = [];
+  public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
+  public showContactPointSelect = false;
 
   constructor(
     private dialogService: DialogService,
@@ -33,6 +46,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private persistorService: PersistorService,
+    private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
+    private operationsService: OperationsService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
   }
@@ -71,9 +87,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
             this.actionService.setLiveEdit();
             this.trackFormData();
-
+            this.contactPointDetails = this.dataProduct.contactPoint;
+            this.distributionDetails = this.dataProduct.distribution;
             this.actionService.trackCurrentEdit({
               type: Entity.DATA_PRODUCT,
               route: EntityEndpointValue.DATA_PRODUCT,
@@ -92,11 +110,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       instanceId: this.dataProduct?.instanceId as string,
       uid: this.dataProduct?.uid,
+      metaId: this.dataProduct?.metaId,
       title: this.dataProduct?.title,
       description: this.dataProduct?.description,
       changeTimestamp: this.dataProduct?.changeTimestamp,
       state: this.dataProduct?.state,
-      identifier: [this.dataProduct?.identifier],
+      // identifier: [this.dataProduct?.identifier],
       // issued: this.isValidDate(this.dataProduct?.issued) ? this.dataProduct?.issued : '',
       keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
       modified: this.dataProduct?.modified,
@@ -107,12 +126,19 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
-      const value = changes;
-      // TODO: Some stange behaviour where the detect changes pops value out of array.
-      value['title'] = [changes['title']];
-      value['description'] = [changes['description']];
-      this.actionService.enableSave();
-      this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+      const updatingObject = this.operationsService.getActiveDataProductValue();
+      if (updatingObject) {
+        updatingObject.uid = changes['uid'];
+        updatingObject.title = [changes['title']];
+        updatingObject.description = [changes['description']];
+        updatingObject.versionInfo = changes['versionInfo'];
+        // TODO: Some stange behaviour where the detect changes pops value out of array.
+        // value['title'] = [changes['title']];
+        // value['description'] = [changes['description']];
+        this.actionService.enableSave();
+        this.operationsService.setActiveDataProduct(updatingObject);
+        // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+      }
     });
   }
 
@@ -137,6 +163,98 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     // Todo: delete item from DB
     if (this.dataProduct?.instanceId) {
       this.dialogService.handleDelete(this.dataProduct?.instanceId, EntityEndpointValue.DATA_PRODUCT);
+    }
+  }
+
+  public newDistribution() {
+    const relatedDataProduct: EntityDetail = {
+      entityType: Entity.DATA_PRODUCT,
+      instanceId: this.dataProduct?.instanceId as string,
+      uid: this.dataProduct?.uid as string,
+      metaId: this.dataProduct?.metaId as string,
+    };
+
+    const item: Distribution = {
+      uid: 'new distribution',
+      modified: new Date().toISOString(),
+      dataProduct: [relatedDataProduct],
+    };
+
+    this.apiService.endpoints.Distribution.create
+      .call(item)
+      .then((value: DistributionDetailDataSource) => {
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+        this.actionsService.addEditedItems([
+          {
+            type: Entity.DISTRIBUTION,
+            route: EntityEndpointValue.DISTRIBUTION,
+            label: 'Distribution',
+            state: State.DRAFT,
+            color: 'draft',
+            id: value.instanceId,
+          },
+        ]);
+        this.updateDistributionArray(value);
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
+  }
+
+  public newContactPoint() {
+    this.apiService.endpoints.Contactpoint.getAll
+      .call()
+      .then((data: Array<ContactPointDetailDataSource>) => {
+        this.showContactPointSelect = true;
+        this.contactPointsFromCatalog = data;
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to request Contact Point entities.`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
+  }
+
+  public updateContactPointArray(event: MatSelectChange) {
+    const value: ContactPointDetailDataSource = event.value;
+    console.debug(value);
+    const entityDetail: EntityDetail = {
+      entityType: 'ContactPoint',
+      instanceId: value.instanceId,
+      uid: value.uid,
+      metaId: value.metaId,
+    };
+    const dataProduct = this.operationsService.getActiveDataProductValue();
+    this.contactPointDetails.push(entityDetail);
+    if (null != dataProduct) {
+      dataProduct.contactPoint = this.contactPointDetails;
+      this.operationsService.setActiveDataProduct(dataProduct);
+      this.showContactPointSelect = false;
+    }
+  }
+
+  public updateDistributionArray(value: DistributionDetailDataSource) {
+    const entityDetail: EntityDetail = {
+      entityType: Entity.DISTRIBUTION,
+      instanceId: value.instanceId,
+      uid: value.uid,
+      metaId: value.metaId,
+    };
+    const dataProduct = this.operationsService.getActiveDataProductValue();
+    this.distributionDetails.push(entityDetail);
+    if (null != dataProduct) {
+      dataProduct.distribution = this.distributionDetails;
+      this.operationsService.setActiveDataProduct(dataProduct);
     }
   }
 }

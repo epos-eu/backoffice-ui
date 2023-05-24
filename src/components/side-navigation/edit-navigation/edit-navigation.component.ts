@@ -100,4 +100,8 @@ export class EditNavigationComponent implements OnInit {
   public handleClick(id: string, route: EntityEndpointValue): void {
     this.router.navigate([`/browse/${route}/details`, id]);
   }
+
+  public logDataProduct() {
+    console.debug(this.operationsService.getActiveDataProductValue());
+  }
 }
