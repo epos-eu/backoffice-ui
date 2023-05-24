@@ -10,6 +10,7 @@ import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type'
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { ActionsService } from 'src/services/actions.service';
+import { OperationsService } from 'src/services/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -43,6 +44,7 @@ export class DistributionFormDetailsComponent {
     private persistorService: PersistorService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
+    private operationsService: OperationsService,
   ) {}
 
   private initData(id: string): void {
@@ -57,6 +59,9 @@ export class DistributionFormDetailsComponent {
         if (Array.isArray(data) && data.length > 0) {
           this.distribution = data.shift();
           if (this.distribution) {
+            this.operationsService.setActiveDistribution(
+              this.operationsService.convertToDistribution(this.distribution),
+            );
             this.accessService = this.distribution.accessService;
             this.trackFormData();
           }
@@ -77,6 +82,17 @@ export class DistributionFormDetailsComponent {
       modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],
     });
+    this.form.valueChanges.subscribe((changes) => {
+      const updatingObject = this.operationsService.getActiveDistributionValue();
+      if (updatingObject) {
+        updatingObject.uid = changes['uid'];
+        updatingObject.title = [changes['title']];
+        updatingObject.description = [changes['description']];
+        // this.actionService.enableSave();
+        this.operationsService.setActiveDistribution(updatingObject);
+        // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+      }
+    });
   }
 
   public handleGetRevisions(): void {
@@ -93,30 +109,7 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
-    Array.isArray(this.form.value['description'])
-      ? ''
-      : (this.form.value['description'] = [this.form.value['description']]);
-    Array.isArray(this.form.value['title']) ? '' : (this.form.value['title'] = [this.form.value['title']]);
-    this.apiService.endpoints.Distribution.update
-      .call(this.form.value as Distribution)
-      .then((data: DistributionDetailDataSource) => {
-        const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
-        if (localStorage !== null) {
-          const entityDetail: EntityDetail = {
-            entityType: 'distribution',
-            metaId: data.metaId,
-            uid: data.uid,
-            instanceId: data.instanceId,
-          };
-          const formData: DataProduct = JSON.parse(localStorage);
-          formData.distribution?.push(entityDetail);
-          this.persistorService.setValueInStorage(
-            StorageType.LOCAL_STORAGE,
-            StorageKey.FORM_DATA,
-            JSON.stringify(formData),
-          );
-        }
-      });
+    this.operationsService.handleDistributionSave();
   }
 
   public newWebservice() {
