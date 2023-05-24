@@ -187,6 +187,7 @@ export class OperationsService {
     if (null != formData) {
       console.debug(formData);
       formData.modified = new Date();
+      //TODO: temporal extent being set as was erroring in API without definition.
       formData.temporalExtent![0].endDate = new Date();
       formData.instanceChangedId = undefined;
       // const formData: DataProduct = JSON.parse(localStorage);
