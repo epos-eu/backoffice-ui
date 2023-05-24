@@ -28,6 +28,9 @@ export class OperationsService {
   private distribution = new BehaviorSubject<Distribution | null>(null);
   public distributionObs = this.distribution.asObservable();
 
+  private contactPoint = new BehaviorSubject<ContactPoint | null>(null);
+  public contactPointObs = this.contactPoint.asObservable();
+
   constructor(
     private persistorService: PersistorService,
     private apiService: ApiService,
@@ -62,6 +65,20 @@ export class OperationsService {
    */
   public getActiveDistributionValue(): Distribution | null {
     return this.distribution.getValue();
+  }
+
+  /**
+   * Sets active Distribution
+   */
+  public setActiveContactPoint(contactPoint: ContactPoint): void {
+    this.contactPoint.next(contactPoint);
+  }
+
+  /**
+   * Gets active Distribution
+   */
+  public getActiveContactPointValue(): ContactPoint | null {
+    return this.contactPoint.getValue();
   }
 
   public convertToDataProduct(initial: DataProductDetailDataSource): DataProduct {
@@ -139,6 +156,31 @@ export class OperationsService {
     return exportVar;
   }
 
+  public convertToContactPoint(initial: ContactPointDetailDataSource): ContactPoint {
+    const exportVar = new ContactPoint(
+      initial.uid,
+      initial.changeComment,
+      initial.changeTimestamp,
+      initial.editorId,
+      initial.email,
+      initial.fileProvenance,
+      initial.groups,
+      initial.instanceChangedId,
+      initial.instanceId,
+      initial.language,
+      initial.metaId,
+      initial.operation,
+      initial.organization,
+      initial.person,
+      initial.role,
+      initial.state,
+      initial.telephone,
+      initial.toBeDelete,
+      initial.version,
+    );
+    return exportVar;
+  }
+
   public handleDataProductSave(): void {
     const formData = this.getActiveDataProductValue();
     // const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
@@ -146,6 +188,7 @@ export class OperationsService {
       console.debug(formData);
       formData.modified = new Date();
       formData.temporalExtent![0].endDate = new Date();
+      formData.instanceChangedId = undefined;
       // const formData: DataProduct = JSON.parse(localStorage);
       if (formData.state === State.DRAFT) {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
@@ -311,6 +354,7 @@ export class OperationsService {
     if (formData) {
       // if (formData.state === State.DRAFT) {
       formData.modified = new Date().toISOString();
+      formData.instanceChangedId = undefined;
       this.apiService.endpoints[Entity.DISTRIBUTION].update
         .call({
           ...formData,
