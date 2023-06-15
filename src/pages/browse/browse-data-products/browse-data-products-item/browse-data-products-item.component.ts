@@ -324,7 +324,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private formatLocationFromStringToObject(value: string, type: string): Array<SpatialExtent> {
     return [
       {
-        location: this.locationToString(type, value),
+        location: this.locationToString(value, type),
       },
     ];
   }
