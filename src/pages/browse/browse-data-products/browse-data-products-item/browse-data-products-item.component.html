@@ -193,8 +193,22 @@
                     Refresh the map
                   </button>
                 </div>
+                <app-spatial-coverage-map
+                  [spatialRange]="spatialCoverageInput"
+                  [coordinatesChange]="spatialCoverageChange"
+                >
+                </app-spatial-coverage-map>
               </div>
             </ng-container>
+          </ng-container>
+          <ng-container *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length === 0">
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="newSpatialCoverage()"
+            >
+              Add Spatial Coverage
+            </button>
           </ng-container>
         </mat-expansion-panel>
 

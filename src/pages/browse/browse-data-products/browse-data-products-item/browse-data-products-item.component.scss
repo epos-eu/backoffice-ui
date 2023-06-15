@@ -155,3 +155,21 @@
   margin: 1em 0em 1em 0em;
   width: 97%;
 }
+
+.spatial-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.mat-radio-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.spatial-coverage-input {
+  button {
+    margin-left: 1em;
+  }
+}

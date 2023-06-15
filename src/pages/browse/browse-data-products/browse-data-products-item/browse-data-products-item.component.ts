@@ -20,6 +20,9 @@ import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.mo
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationsService } from 'src/services/operations.service';
 import { MatSelectChange } from '@angular/material/select';
+import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
+import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -38,6 +41,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public webserviceDetails: Array<EntityDetail> = [];
   public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
   public showContactPointSelect = false;
+  public labelSpatialCoverage = '';
+  public spatialCoveragePoint = SpatialCoverageType.POINT as string;
+  public spatialCoveragePolygon = SpatialCoverageType.POLYGON as string;
+  public spatialCoverageInput: string | undefined = '';
+  public spatialCoverageChange: Subject<string | undefined> = new Subject();
+  public spatialCoverageType = SpatialCoverageType.POLYGON;
 
   constructor(
     private dialogService: DialogService,
@@ -87,6 +96,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            this.setSpatialCoverageVariables();
+
             this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
             this.actionService.setLiveEdit();
             this.trackFormData();
@@ -120,7 +131,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
       modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
-      spatialExtent: this.formBuilder.array([]),
+      spatialExtent: this.formatLocationFromObjectToString(),
+      spatialExtentType: [this.spatialCoverageType],
       temporalExtent: this.formBuilder.array([]),
       distribution: this.formBuilder.array([]),
       contactPoint: this.formBuilder.array([]),
@@ -132,6 +144,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         updatingObject.title = [changes['title']];
         updatingObject.description = [changes['description']];
         updatingObject.versionInfo = changes['versionInfo'];
+        updatingObject.spatialExtent = this.formatLocationFromStringToObject(
+          changes['spatialExtent'],
+          changes['spatialExtentType'],
+        );
+
+        this.changeSpatialCoverageLabel(changes['spatialExtentType']);
         // TODO: Some stange behaviour where the detect changes pops value out of array.
         // value['title'] = [changes['title']];
         // value['description'] = [changes['description']];
@@ -225,9 +243,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       );
   }
 
+  public newSpatialCoverage() {
+    this.dataProduct?.spatialExtent.push({ location: '' });
+  }
+
   public updateContactPointArray(event: MatSelectChange) {
     const value: ContactPointDetailDataSource = event.value;
-    console.debug(value);
     const entityDetail: EntityDetail = {
       entityType: 'ContactPoint',
       instanceId: value.instanceId,
@@ -256,5 +277,60 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       dataProduct.distribution = this.distributionDetails;
       this.operationsService.setActiveDataProduct(dataProduct);
     }
+  }
+
+  public refreshPointsOnMap() {
+    this.spatialCoverageChange.next(
+      this.locationToString(this.form.get('spatialExtent')?.value, this.form.get('spatialExtentType')?.value),
+    );
+  }
+
+  private setSpatialCoverageVariables() {
+    this.dataProduct?.spatialExtent.forEach((item) => {
+      this.spatialCoverageType = item.location.includes(SpatialCoverageType.POINT)
+        ? SpatialCoverageType.POINT
+        : SpatialCoverageType.POLYGON;
+
+      this.changeSpatialCoverageLabel(this.spatialCoverageType);
+
+      this.spatialCoverageInput = item.location;
+    });
+  }
+
+  private formatLocationFromObjectToString(): Array<string> {
+    const locationObject = this.dataProduct?.spatialExtent;
+    if (locationObject !== undefined) {
+      return locationObject.map((spatial: SpatialExtent) => {
+        let regex = /\(\((.*?)\)\)/g;
+        if (spatial.location.includes(SpatialCoverageType.POINT)) {
+          regex = /\((.*?)\)/g;
+        }
+
+        const match = regex.exec(spatial.location);
+        return match !== null ? match[1] : '';
+      });
+    } else {
+      return [''];
+    }
+  }
+
+  private locationToString(value: string, type: string): string {
+    if (type === SpatialCoverageType.POLYGON) {
+      return type + '((' + value + '))';
+    }
+    return type + '(' + value + ')';
+  }
+
+  private formatLocationFromStringToObject(value: string, type: string): Array<SpatialExtent> {
+    return [
+      {
+        location: this.locationToString(type, value),
+      },
+    ];
+  }
+
+  private changeSpatialCoverageLabel(pointType: string): void {
+    this.labelSpatialCoverage =
+      pointType === SpatialCoverageType.POINT ? 'Latitude Longitude' : 'List of coordinates (separated by comma)';
   }
 }

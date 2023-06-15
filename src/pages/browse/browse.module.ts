@@ -18,6 +18,7 @@ import { BrowseServicesComponent } from './browse-services/browse-services.compo
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatRadioModule } from '@angular/material/radio';
 import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
@@ -35,6 +36,7 @@ import { BrowseContactPointItemComponent } from './browse-contact-point/browse-c
 import { ContactPointFormDetailsComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-form-details.component';
 import { DistributionFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/distribution-form-details.component';
 import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
+import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import { WebserviceFormDetailsComponent } from './browse-data-products/browse-da
     ContactPointFormDetailsComponent,
     DistributionFormDetailsComponent,
     WebserviceFormDetailsComponent,
+    SpatialCoverageMapComponent,
   ],
   imports: [
     CommonModule,
@@ -75,6 +78,7 @@ import { WebserviceFormDetailsComponent } from './browse-data-products/browse-da
     MatChipsModule,
     ComponentsModule,
     MatProgressSpinnerModule,
+    MatRadioModule,
   ],
   exports: [],
   providers: [
