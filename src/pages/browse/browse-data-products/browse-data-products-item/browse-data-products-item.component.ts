@@ -331,6 +331,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   private changeSpatialCoverageLabel(pointType: string): void {
     this.labelSpatialCoverage =
-      pointType === SpatialCoverageType.POINT ? 'Latitude Longitude' : 'List of coordinates (separated by comma)';
+      pointType === SpatialCoverageType.POINT ? 'Longitude Latitude' : 'List of coordinates (separated by comma)';
   }
 }

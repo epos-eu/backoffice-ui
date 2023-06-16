@@ -68,10 +68,10 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
             icon.options.imagePath = 'assets/img/leaflet/';
             icon.options.iconUrl = 'marker-icon.png';
             icon.options.shadowUrl = 'marker-shadow.png';
-            const spatialPoint = new L.Marker({ lat: coordinates[0][0], lng: coordinates[0][1] }, { icon: icon });
+            const spatialPoint = new L.Marker({ lat: coordinates[0][1], lng: coordinates[0][0] }, { icon: icon });
             if (this.map !== undefined) {
               spatialPoint.addTo(this.map);
-              this.map.flyTo({ lat: coordinates[0][0], lng: coordinates[0][1] });
+              this.map.flyTo({ lat: coordinates[0][1], lng: coordinates[0][0] });
             }
           } else {
             const globalBbox = new L.Polygon(coordinates as Array<L.LatLngTuple>);
