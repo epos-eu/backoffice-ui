@@ -16,9 +16,6 @@ import { BrowsePublicationsComponent } from './browse-publications/browse-public
 import { BrowsePeopleComponent } from './browse-people/browse-people.component';
 import { BrowseServicesComponent } from './browse-services/browse-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatRadioModule } from '@angular/material/radio';
 import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
@@ -27,7 +24,6 @@ import { BrowseContactPointComponent } from './browse-contact-point/browse-conta
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
 import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
@@ -70,16 +66,7 @@ import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-
     WebserviceFormDetailsComponent,
     SpatialCoverageMapComponent,
   ],
-  imports: [
-    CommonModule,
-    BrowseRoutingModule,
-    AngularMaterialModule,
-    MatExpansionModule,
-    MatChipsModule,
-    ComponentsModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-  ],
+  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule],
   exports: [],
   providers: [
     {

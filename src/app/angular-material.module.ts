@@ -20,6 +20,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   declarations: [],
   imports: [
@@ -45,6 +48,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatListModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatRadioModule,
   ],
   exports: [
     FormsModule,
@@ -69,6 +75,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatListModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatRadioModule,
   ],
 })
 export class AngularMaterialModule {}
