@@ -1,6 +1,9 @@
 <div class="container">
   <app-back-button [path]="'/browse/dataproduct/details/' + referrerId"></app-back-button>
-  <div class="top-header">
+  <div
+    class="top-header"
+    *ngIf="!error"
+  >
     <div class="flex-row">
       <h1 class="mat-headline-4">Revisions</h1>
     </div>
@@ -15,20 +18,25 @@
     class="flex-wrapper"
     *ngIf="!loading"
   >
-    <div class="labels">
-      <div class="flex-horizontal">
-        <div class="box previous">
-          <p>Previous</p>
+    <ng-container *ngIf="!error">
+      <div class="labels">
+        <div class="flex-horizontal">
+          <div class="box previous">
+            <p>Previous</p>
+          </div>
+          <p>v1.0.0</p>
         </div>
-        <p>v1.0.0</p>
-      </div>
-      <div class="flex-horizontal">
-        <div class="box current">
-          <p>Current</p>
+        <div class="flex-horizontal">
+          <div class="box current">
+            <p>Current</p>
+          </div>
+          <p>v1.0.1</p>
         </div>
-        <p>v1.0.1</p>
       </div>
-    </div>
-    <div [innerHTML]="visualDiff"></div>
+      <div [innerHTML]="visualDiff"></div>
+    </ng-container>
+    <ng-container *ngIf="error">
+      <app-error-notice></app-error-notice>
+    </ng-container>
   </div>
 </div>

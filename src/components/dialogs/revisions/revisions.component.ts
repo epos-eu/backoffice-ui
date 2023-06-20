@@ -59,22 +59,25 @@ export class RevisionsComponent implements OnInit {
 
     switch (true) {
       case this.data.dataIn.type === Entity.DATA_PRODUCT:
-        this.apiService.endpoints.DataProduct.getAll.call().then((data: Array<DataProductDetailDataSource>) => {
-          const related = data.filter((item) => item.metaId === metaId);
-          const revisions: Revision[] = related.map((item) => {
-            return {
-              instanceId: item.instanceId,
-              uid: item.uid,
-              version: item.version,
-              state: item.state,
-              created: item.created,
-              editorId: item.editorId,
-            };
+        this.apiService.endpoints.DataProduct.getAll
+          .call({}, false)
+          .then((data: Array<DataProductDetailDataSource>) => {
+            console.log(data);
+            const related = data.filter((item) => item.metaId === metaId);
+            const revisions: Revision[] = related.map((item) => {
+              return {
+                instanceId: item.instanceId,
+                uid: item.uid,
+                version: item.version,
+                state: item.state,
+                created: item.created,
+                editorId: item.editorId,
+              };
+            });
+            this.loading = false;
+            this._initTable(revisions);
+            this.revisions = revisions;
           });
-          this.loading = false;
-          this._initTable(revisions);
-          this.revisions = revisions;
-        });
         break;
     }
   }

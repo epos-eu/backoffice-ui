@@ -27,6 +27,7 @@ export class BrowseRevisionsComponent implements OnInit {
   public entities: Array<DataProductDetailDataSource | undefined> = [];
   public visualDiff!: string | undefined;
   public loading = false;
+  public error = false;
   public referrerId = '';
 
   private _getCachedRevisions(): string | null {
@@ -44,13 +45,26 @@ export class BrowseRevisionsComponent implements OnInit {
 
   private _fetchEntities(): void {
     this.loading = true;
+
+    if (this.revisions.length === 0) {
+      this.loading = false;
+      this.error = true;
+      return;
+    }
+
     forkJoin([
-      this.apiService.endpoints.DataProduct.get.call({
-        instanceId: this.revisions[0].instanceId,
-      }),
-      this.apiService.endpoints.DataProduct.get.call({
-        instanceId: this.revisions[1].instanceId,
-      }),
+      this.apiService.endpoints.DataProduct.get.call(
+        {
+          instanceId: this.revisions[0].instanceId,
+        },
+        false,
+      ),
+      this.apiService.endpoints.DataProduct.get.call(
+        {
+          instanceId: this.revisions[1].instanceId,
+        },
+        false,
+      ),
     ]).subscribe((response: [DataProductDetailDataSource[], DataProductDetailDataSource[]]) => {
       this.entities = response.map(this._mapResponse);
       this.entities.sort((a) => (a?.state === State.PUBLISHED ? -1 : 1));
@@ -74,20 +88,20 @@ export class BrowseRevisionsComponent implements OnInit {
         this.referrerId = obs.get('id') as string;
       }
     });
-    if (this._getCachedRevisions()) {
-      const parsed = JSON.parse(this._getCachedRevisions() as string);
-      this.revisions = parsed;
+    // if (this._getCachedRevisions()) {
+    //   const parsed = JSON.parse(this._getCachedRevisions() as string);
+    //   this.revisions = parsed;
+    //   this._fetchEntities();
+    // } else {
+    this.operationsService.revisionsObs.subscribe((revisions: Array<Revision>) => {
+      this.revisions = revisions;
+      this.persistorService.setValueInStorage(
+        StorageType.LOCAL_STORAGE,
+        StorageKey.REVISIONS,
+        JSON.stringify(revisions),
+      );
       this._fetchEntities();
-    } else {
-      this.operationsService.revisionsObs.subscribe((revisions: Array<Revision>) => {
-        this.revisions = revisions;
-        this.persistorService.setValueInStorage(
-          StorageType.LOCAL_STORAGE,
-          StorageKey.REVISIONS,
-          JSON.stringify(revisions),
-        );
-        this._fetchEntities();
-      });
-    }
+    });
   }
+  // }
 }

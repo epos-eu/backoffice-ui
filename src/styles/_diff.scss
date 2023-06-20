@@ -40,3 +40,15 @@
     background: rgb(248, 212, 212) !important;
   }
 }
+
+.jsondiffpatch-added {
+  .jsondiffpatch-property-name {
+    background: #a4ccbb !important;
+  }
+
+  .jsondiffpatch-value {
+    pre {
+      background: #a4ccbb !important;
+    }
+  }
+}

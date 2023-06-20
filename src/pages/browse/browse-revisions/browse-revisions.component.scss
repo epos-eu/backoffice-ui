@@ -37,3 +37,23 @@
     }
   }
 }
+
+.err-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  .title {
+    font-size: 42px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    margin-top: 0;
+  }
+}
