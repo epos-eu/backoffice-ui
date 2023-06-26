@@ -65,7 +65,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private trackEdit(): void {
     this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
       if (item) {
-        console.log(item);
         this.currentEdit = item;
       }
     });
@@ -96,6 +95,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            console.log(this.dataProduct);
             this.setSpatialCoverageVariables();
 
             this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
@@ -126,8 +126,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       description: this.dataProduct?.description,
       changeTimestamp: this.dataProduct?.changeTimestamp,
       state: this.dataProduct?.state,
-      // identifier: [this.dataProduct?.identifier],
-      // issued: this.isValidDate(this.dataProduct?.issued) ? this.dataProduct?.issued : '',
       keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
       modified: this.dataProduct?.modified,
       versionInfo: this.dataProduct?.versionInfo,
@@ -136,6 +134,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       temporalExtent: this.formBuilder.array([]),
       distribution: this.formBuilder.array([]),
       contactPoint: this.formBuilder.array([]),
+      created: this.dataProduct?.created,
+      issued: this.dataProduct?.issued,
+      identifier: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDataProductValue();

@@ -11,12 +11,16 @@
     flex-direction: row;
     font-size: 14px;
     background-color: white;
+    margin-bottom: 0.5rem;
 
     .label {
       flex: 0 0 10%;
-      font-weight: bold;
+      color: #000000;
     }
 
+    .value {
+      color: #595959;
+    }
   }
 }
 
@@ -92,6 +96,10 @@
   margin-right: 2rem;
   padding-bottom: 2rem;
 
+  .mat-expansion-panel-header-title {
+    font-size: 15px;
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -147,13 +155,14 @@
 }
 
 .contact-select {
-  width: 95%;
-  margin-left: 2em;
+  // width: 95%;
+  // margin-left: 2em;
+  font-size: 14px;
 }
 
 .mat-expansion-panel {
   margin: 1em 0em 1em 0em;
-  width: 97%;
+  // width: 97%;
 }
 
 .spatial-item {
@@ -172,4 +181,8 @@
   button {
     margin-left: 1em;
   }
+}
+
+.identifier-item {
+  margin-bottom: 0.5rem;
 }

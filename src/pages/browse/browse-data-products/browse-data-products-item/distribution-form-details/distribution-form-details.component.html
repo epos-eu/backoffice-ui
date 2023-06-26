@@ -1,7 +1,6 @@
 <ng-scrollbar [autoHeightDisabled]="false">
-  <div class="container">
-    <!-- <app-back-button path="/browse/{{ entityRoute }}"></app-back-button> -->
-    <div class="top-header">
+  <!-- <app-back-button path="/browse/{{ entityRoute }}"></app-back-button> -->
+  <!-- <div class="top-header">
       <div class="flex-row">
         <strong>{{ distribution?.uid }}</strong>
       </div>
@@ -18,96 +17,96 @@
           <label>Revisions</label>
         </div>
       </div>
-    </div>
-    <div class="body">
-      <form
-        [formGroup]="form"
-        *ngIf="form && distribution"
+    </div> -->
+  <div class="body">
+    <form
+      [formGroup]="form"
+      *ngIf="form && distribution"
+    >
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
       >
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>Instance ID</mat-label>
-          <input
-            matInput
-            placeholder="Instance ID"
-            name="instanceId"
-            formControlName="instanceId"
-            readonly
-          />
-        </mat-form-field>
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>UID</mat-label>
-          <input
-            matInput
-            placeholder="UID"
-            name="uid"
-            formControlName="uid"
-          />
-        </mat-form-field>
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>Title</mat-label>
-          <input
-            matInput
-            placeholder="Title"
-            name="title"
-            formControlName="title"
-          />
-        </mat-form-field>
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>Description</mat-label>
-          <textarea
-            matInput
-            name="description"
-            [ngStyle]="{ 'line-height': '1.4' }"
-            formControlName="description"
-            [value]="distribution.description[0]"
-            [disabled]="true"
-          ></textarea>
-        </mat-form-field>
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>Changed</mat-label>
-          <input
-            matInput
-            placeholder="Changed"
-            name="changeTimestamp"
-            formControlName="changeTimestamp"
-            readonly
-          />
-        </mat-form-field>
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>State</mat-label>
-          <input
-            matInput
-            placeholder="Status"
-            name="state"
-            formControlName="state"
-            readonly
-          />
-        </mat-form-field>
-        <!-- <mat-form-field
+        <mat-label>Instance ID</mat-label>
+        <input
+          matInput
+          placeholder="Instance ID"
+          name="instanceId"
+          formControlName="instanceId"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
+      >
+        <mat-label>UID</mat-label>
+        <input
+          matInput
+          placeholder="UID"
+          name="uid"
+          formControlName="uid"
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
+      >
+        <mat-label>Title</mat-label>
+        <input
+          matInput
+          placeholder="Title"
+          name="title"
+          formControlName="title"
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
+      >
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          name="description"
+          [ngStyle]="{ 'line-height': '1.4' }"
+          formControlName="description"
+          [value]="distribution.description[0]"
+          [disabled]="true"
+        ></textarea>
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
+      >
+        <mat-label>Changed</mat-label>
+        <input
+          matInput
+          placeholder="Changed"
+          name="changeTimestamp"
+          formControlName="changeTimestamp"
+          readonly
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
+      >
+        <mat-label>State</mat-label>
+        <input
+          matInput
+          placeholder="Status"
+          name="state"
+          formControlName="state"
+          readonly
+        />
+      </mat-form-field>
+      <!-- <mat-form-field
         appearance="outline"
         [floatLabel]="floatLabelControl.value"
         [style.width.%]="99"
@@ -121,7 +120,7 @@
           readonly
         />
       </mat-form-field> -->
-        <!-- <mat-form-field
+      <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -134,21 +133,21 @@
             formControlName="keywords"
           />
         </mat-form-field> -->
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>Modified</mat-label>
-          <input
-            matInput
-            placeholder="Modified"
-            name="modified"
-            formControlName="modified"
-            readonly
-          />
-        </mat-form-field>
-        <!-- <mat-form-field
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="97"
+      >
+        <mat-label>Modified</mat-label>
+        <input
+          matInput
+          placeholder="Modified"
+          name="modified"
+          formControlName="modified"
+          readonly
+        />
+      </mat-form-field>
+      <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -161,8 +160,8 @@
             formControlName="versionInfo"
           />
         </mat-form-field> -->
-        <!-- <ng-container *ngIf="getControls('spatialExtent').length > 0"> -->
-        <!-- <label>Spatial extent</label>
+      <!-- <ng-container *ngIf="getControls('spatialExtent').length > 0"> -->
+      <!-- <label>Spatial extent</label>
           <div formArrayName="spatialExtent">
             <mat-form-field
               *ngFor="let child of getControls('spatialExtent'); let i = index"
@@ -179,8 +178,8 @@
               </div>
             </mat-form-field>
           </div> -->
-        <!-- </ng-container> -->
-        <!-- <ng-container *ngIf="getControls('temporalExtent').length > 0">
+      <!-- </ng-container> -->
+      <!-- <ng-container *ngIf="getControls('temporalExtent').length > 0">
           <label>Temporal extent</label>
           <div formArrayName="temporalExtent">
             <mat-form-field
@@ -201,7 +200,7 @@
           </div>
         </ng-container> -->
 
-        <!-- <mat-accordion multi>
+      <!-- <mat-accordion multi>
         <mat-expansion-panel (afterExpand)="handleExpand('distribution')">
           <mat-expansion-panel-header>
             <mat-panel-title> Distribution </mat-panel-title>
@@ -403,29 +402,27 @@
           </div>
         </mat-expansion-panel>
       </mat-accordion> -->
-      </form>
-      <div>
-        <div class="entity-title">
-          <h1>Webservice</h1>
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="newWebservice()"
-            [hidden]="accessService"
-          >
-            New Webservice
-          </button>
-        </div>
-        <app-webservice-form-details [accessService]="accessService"></app-webservice-form-details>
-      </div>
+    </form>
+    <div>
+      <p>Webservice</p>
       <button
         mat-stroked-button
         color="primary"
-        (click)="handleSave()"
-        [disabled]="null == distribution"
+        (click)="newWebservice()"
+        [hidden]="accessService"
       >
-        Save
+        New Webservice
       </button>
+
+      <app-webservice-form-details [accessService]="accessService"></app-webservice-form-details>
     </div>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="handleSave()"
+      [disabled]="null == distribution"
+    >
+      Save
+    </button>
   </div>
 </ng-scrollbar>
