@@ -74,6 +74,7 @@ export class DistributionFormDetailsComponent {
       accessService: this.accessService,
       instanceId: this.distribution?.instanceId,
       uid: this.distribution?.uid,
+      license: this.distribution?.licence,
       metaId: this.distribution?.metaId,
       title: this.distribution?.title,
       description: this.distribution?.description,
@@ -85,9 +86,9 @@ export class DistributionFormDetailsComponent {
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
       if (updatingObject) {
-        updatingObject.uid = changes['uid'];
         updatingObject.title = [changes['title']];
         updatingObject.description = [changes['description']];
+        updatingObject.description = [changes['license']];
         // this.actionService.enableSave();
         this.operationsService.setActiveDistribution(updatingObject);
         // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
