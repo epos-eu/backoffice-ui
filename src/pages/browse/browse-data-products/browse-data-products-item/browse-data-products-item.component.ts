@@ -23,6 +23,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 import { Subject } from 'rxjs';
+import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -47,6 +48,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public spatialCoverageInput: string | undefined = '';
   public spatialCoverageChange: Subject<string | undefined> = new Subject();
   public spatialCoverageType = SpatialCoverageType.POLYGON;
+  public dataProviders: Array<string | undefined> = [];
+  public dataProvidersLoading = false;
 
   constructor(
     private dialogService: DialogService,
@@ -137,6 +140,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       created: this.dataProduct?.created,
       issued: this.dataProduct?.issued,
       identifier: this.formBuilder.array([]),
+      qualityAssurance: this.dataProduct?.qualityAssurance,
     });
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDataProductValue();
@@ -333,5 +337,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private changeSpatialCoverageLabel(pointType: string): void {
     this.labelSpatialCoverage =
       pointType === SpatialCoverageType.POINT ? 'Longitude Latitude' : 'List of coordinates (separated by comma)';
+  }
+
+  public handleDataProviders(): void {
+    if (this.dataProviders.length === 0) {
+      this.dataProvidersLoading = true;
+      this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
+        this.dataProviders = response.map((item) => item.legalName.shift());
+        this.dataProvidersLoading = false;
+      });
+    }
   }
 }

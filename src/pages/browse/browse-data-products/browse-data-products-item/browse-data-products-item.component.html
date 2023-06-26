@@ -192,6 +192,19 @@
             readonly
           />
         </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="100"
+        >
+          <mat-label>Quality assurance</mat-label>
+          <input
+            matInput
+            placeholder="Quality assurance"
+            name="qualityAssurance"
+            formControlName="qualityAssurance"
+          />
+        </mat-form-field>
 
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
@@ -234,9 +247,30 @@
           <button
             mat-stroked-button
             color="primary"
+            *ngIf="dataProduct.identifier && dataProduct.identifier.length === 0"
           >
             Add persistent identifier
           </button>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel
+          [expanded]="false"
+          (afterExpand)="handleDataProviders()"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>Data providers</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-form-field>
+            <mat-label>{{ dataProvidersLoading ? 'Loading..' : 'Select a provider' }}</mat-label>
+            <mat-select>
+              <mat-option
+                *ngFor="let provider of dataProviders"
+                [value]="provider"
+              >
+                {{ provider }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </mat-expansion-panel>
 
         <mat-expansion-panel [expanded]="true">
