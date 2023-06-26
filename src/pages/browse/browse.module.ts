@@ -16,8 +16,6 @@ import { BrowsePublicationsComponent } from './browse-publications/browse-public
 import { BrowsePeopleComponent } from './browse-people/browse-people.component';
 import { BrowseServicesComponent } from './browse-services/browse-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatChipsModule } from '@angular/material/chips';
 import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
@@ -26,7 +24,6 @@ import { BrowseContactPointComponent } from './browse-contact-point/browse-conta
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
 import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
@@ -35,6 +32,7 @@ import { BrowseContactPointItemComponent } from './browse-contact-point/browse-c
 import { ContactPointFormDetailsComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-form-details.component';
 import { DistributionFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/distribution-form-details.component';
 import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
+import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
 
 @NgModule({
   declarations: [
@@ -66,16 +64,9 @@ import { WebserviceFormDetailsComponent } from './browse-data-products/browse-da
     ContactPointFormDetailsComponent,
     DistributionFormDetailsComponent,
     WebserviceFormDetailsComponent,
+    SpatialCoverageMapComponent,
   ],
-  imports: [
-    CommonModule,
-    BrowseRoutingModule,
-    AngularMaterialModule,
-    MatExpansionModule,
-    MatChipsModule,
-    ComponentsModule,
-    MatProgressSpinnerModule,
-  ],
+  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule],
   exports: [],
   providers: [
     {
