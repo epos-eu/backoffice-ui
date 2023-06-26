@@ -212,72 +212,81 @@
           </ng-container>
         </mat-expansion-panel>
 
-        <ng-container *ngIf="dataProduct.temporalExtent && dataProduct.temporalExtent.length > 0">
-          <mat-label class="heading">Temporal extent</mat-label>
-          <ng-container *ngFor="let item of dataProduct.temporalExtent">
-            <mat-form-field
-              appearance="fill"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="96"
-              class="indent"
-            >
-              <mat-label>Start date</mat-label>
-              <input
-                matInput
-                placeholder="Start date"
-                name="temporalExtent.startDate"
-                [value]="item.startDate"
-                readonly
-              />
-            </mat-form-field>
-            <mat-form-field
-              appearance="fill"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="96"
-              class="indent"
-            >
-              <mat-label>End date</mat-label>
-              <input
-                matInput
-                placeholder="End date"
-                name="temporalExtent.endDate"
-                [value]="item.endDate"
-                readonly
-              />
-            </mat-form-field>
-            <input
-              matInput
-              name="instanceId"
-              formControlName="instanceId"
-              readonly
-              [hidden]="true"
-            />
-            <input
-              matInput
-              placeholder="Changed"
-              name="changeTimestamp"
-              formControlName="changeTimestamp"
-              readonly
-              [hidden]="true"
-            />
-            <input
-              matInput
-              placeholder="Status"
-              name="state"
-              formControlName="state"
-              readonly
-              [hidden]="true"
-            />
-            <input
-              matInput
-              placeholder="Modified"
-              name="modified"
-              formControlName="modified"
-              readonly
-              [hidden]="true"
-            />
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Temporal Coverage</mat-panel-title>
+          </mat-expansion-panel-header>
+          <ng-container *ngIf="dataProduct.temporalExtent && dataProduct.temporalExtent.length > 0">
+            <ng-container *ngFor="let item of dataProduct.temporalExtent">
+              <div class="fields-flex-col">
+                <mat-form-field appearance="fill">
+                  <mat-label>Start date</mat-label>
+                  <input
+                    matInput
+                    [ngxMatDatetimePicker]="pickerStartDate"
+                    placeholder="Choose a date & time"
+                    formControlName="temporalExtentStartDate"
+                  />
+
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="$any(pickerStartDate)"
+                  ></mat-datepicker-toggle>
+
+                  <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                  <mat-label>End date</mat-label>
+                  <input
+                    matInput
+                    [ngxMatDatetimePicker]="pickerEndDate"
+                    placeholder="Choose a date & time"
+                    formControlName="temporalExtentEndDate"
+                  />
+
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="$any(pickerEndDate)"
+                  ></mat-datepicker-toggle>
+
+                  <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
+                </mat-form-field>
+              </div>
+            </ng-container>
           </ng-container>
-        </ng-container>
+        </mat-expansion-panel>
+        <input
+          matInput
+          name="instanceId"
+          formControlName="instanceId"
+          readonly
+          [hidden]="true"
+        />
+        <input
+          matInput
+          placeholder="Changed"
+          name="changeTimestamp"
+          formControlName="changeTimestamp"
+          readonly
+          [hidden]="true"
+        />
+        <input
+          matInput
+          placeholder="Status"
+          name="state"
+          formControlName="state"
+          readonly
+          [hidden]="true"
+        />
+        <input
+          matInput
+          placeholder="Modified"
+          name="modified"
+          formControlName="modified"
+          readonly
+          [hidden]="true"
+        />
       </form>
       <div>
         <mat-expansion-panel>

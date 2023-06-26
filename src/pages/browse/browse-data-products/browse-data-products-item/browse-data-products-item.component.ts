@@ -23,11 +23,35 @@ import { MatSelectChange } from '@angular/material/select';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 import { Subject } from 'rxjs';
+import {
+  NGX_MAT_DATE_FORMATS,
+  NgxMatDateAdapter,
+  NgxMatDateFormats,
+} from '@angular-material-components/datetime-picker';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
+import * as moment from 'moment';
+
+const MY_DATE_FORMAT: NgxMatDateFormats = {
+  parse: {
+    dateInput: 'DD/MM/YYYY HH:mm',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY HH:mm',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-browse-data-products-item',
   templateUrl: './browse-data-products-item.component.html',
   styleUrls: ['./browse-data-products-item.component.scss'],
+  providers: [
+    { provide: NgxMatDateAdapter, useClass: NgxMatMomentAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: NGX_MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
+  ],
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new UntypedFormControl('auto');
@@ -133,12 +157,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       versionInfo: this.dataProduct?.versionInfo,
       spatialExtent: this.formatLocationFromObjectToString(),
       spatialExtentType: [this.spatialCoverageType],
-      temporalExtent: this.formBuilder.array([]),
+      temporalExtentStartDate: this.dataProduct?.temporalExtent[0].startDate,
+      temporalExtentEndDate: this.dataProduct?.temporalExtent[0].endDate,
       distribution: this.formBuilder.array([]),
       contactPoint: this.formBuilder.array([]),
     });
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDataProductValue();
+
       if (updatingObject) {
         updatingObject.uid = changes['uid'];
         updatingObject.title = [changes['title']];
@@ -148,8 +174,19 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           changes['spatialExtent'],
           changes['spatialExtentType'],
         );
-
         this.changeSpatialCoverageLabel(changes['spatialExtentType']);
+
+        updatingObject.temporalExtent = [
+          {
+            startDate: moment.isMoment(changes['temporalExtentStartDate'])
+              ? changes['temporalExtentStartDate'].format('YYYY-MM-DDTHH:mm:ss')
+              : changes['temporalExtentStartDate'],
+            endDate: moment.isMoment(changes['temporalExtentEndDate'])
+              ? changes['temporalExtentEndDate'].format('YYYY-MM-DDTHH:mm:ss')
+              : changes['temporalExtentEndDate'],
+          },
+        ];
+
         // TODO: Some stange behaviour where the detect changes pops value out of array.
         // value['title'] = [changes['title']];
         // value['description'] = [changes['description']];
