@@ -142,7 +142,29 @@
           <mat-radio-button value="download">Downloadable file (URL) </mat-radio-button>
           <mat-radio-button value="webservice">Web Service</mat-radio-button>
         </mat-radio-group>
-        value: {{ form.get('dataProductAccessibility')?.value }}
+
+        <mat-form-field
+          appearance="fill"
+          [style.width.%]="50"
+        >
+          <mat-label>Format</mat-label>
+          <select
+            matNativeControl
+            name="format"
+            formControlName="selectedFormat"
+          >
+            <option
+              value=""
+              selected
+            ></option>
+            <option
+              *ngFor="let format of formats"
+              [value]="format"
+            >
+              {{ format }}
+            </option>
+          </select>
+        </mat-form-field>
         <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
