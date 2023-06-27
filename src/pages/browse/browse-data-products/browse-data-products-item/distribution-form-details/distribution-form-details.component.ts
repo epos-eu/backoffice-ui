@@ -60,7 +60,6 @@ export class DistributionFormDetailsComponent {
         if (Array.isArray(data) && data.length > 0) {
           this.distribution = data.shift();
           if (this.distribution) {
-            console.debug(this.distribution);
             this.selectedFormat = this.distribution.format;
             this.operationsService.setActiveDistribution(
               this.operationsService.convertToDistribution(this.distribution),
@@ -97,9 +96,7 @@ export class DistributionFormDetailsComponent {
         updatingObject.licence = changes['licence'];
         updatingObject.title = [changes['title']];
         updatingObject.description = [changes['description']];
-        // this.actionService.enableSave();
         this.operationsService.setActiveDistribution(updatingObject);
-        // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
       }
     });
   }
