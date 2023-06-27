@@ -135,6 +135,7 @@
 
         <label id="example-radio-group-label">Data product accessible via: </label>
         <mat-radio-group
+          #dataProductAccessibility
           aria-labelledby="example-radio-group-label"
           class="example-radio-group"
           formControlName="dataProductAccessibility"
@@ -143,28 +144,30 @@
           <mat-radio-button value="webservice">Web Service</mat-radio-button>
         </mat-radio-group>
 
-        <mat-form-field
-          appearance="fill"
-          [style.width.%]="50"
-        >
-          <mat-label>Format</mat-label>
-          <select
-            matNativeControl
-            name="format"
-            formControlName="selectedFormat"
+        <ng-container *ngIf="this.form?.get('dataProductAccessibility')?.value === 'download'">
+          <mat-form-field
+            appearance="fill"
+            [style.width.%]="50"
           >
-            <option
-              value=""
-              selected
-            ></option>
-            <option
-              *ngFor="let format of formats"
-              [value]="format"
+            <mat-label>Format</mat-label>
+            <select
+              matNativeControl
+              name="format"
+              formControlName="selectedFormat"
             >
-              {{ format }}
-            </option>
-          </select>
-        </mat-form-field>
+              <option
+                value=""
+                selected
+              ></option>
+              <option
+                *ngFor="let format of formats"
+                [value]="format"
+              >
+                {{ format }}
+              </option>
+            </select>
+          </mat-form-field>
+        </ng-container>
         <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
@@ -477,7 +480,8 @@
         </mat-expansion-panel>
       </mat-accordion> -->
       </form>
-      <div>
+
+      <div *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'">
         <div class="entity-title">
           <h1>Webservice</h1>
           <button
