@@ -1,5 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -33,6 +41,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
 import * as moment from 'moment';
 import { Publisher } from 'src/apiAndObjects/objects/types/publisher.type';
+import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -147,63 +156,79 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       });
   }
 
+  private createIdentifierFormGroup(identifier: Identifier): FormGroup {
+    return this.formBuilder.group({
+      identifier: [identifier.identifier, [Validators.required]],
+      type: [identifier.type, [Validators.required]],
+    });
+  }
+
+  private loadIdentifierArray(identifier: Array<Identifier>): FormGroup[] {
+    const transformed = identifier.map((item: Identifier) => this.createIdentifierFormGroup(item));
+    return transformed;
+  }
+
   private trackFormData(): void {
-    this.form = this.formBuilder.group({
-      instanceId: this.dataProduct?.instanceId as string,
-      uid: this.dataProduct?.uid,
-      metaId: this.dataProduct?.metaId,
-      title: this.dataProduct?.title,
-      description: this.dataProduct?.description,
-      changeTimestamp: this.dataProduct?.changeTimestamp,
-      state: this.dataProduct?.state,
-      keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
-      modified: this.dataProduct?.modified,
-      versionInfo: this.dataProduct?.versionInfo,
-      spatialExtent: this.formatLocationFromObjectToString(),
-      spatialExtentType: [this.spatialCoverageType],
-      temporalExtentStartDate: this.dataProduct?.temporalExtent[0].startDate,
-      temporalExtentEndDate: this.dataProduct?.temporalExtent[0].endDate,
-      distribution: this.formBuilder.array([]),
-      contactPoint: this.formBuilder.array([]),
-      created: this.dataProduct?.created,
-      issued: this.dataProduct?.issued,
-      identifier: this.formBuilder.array([]),
-      qualityAssurance: this.dataProduct?.qualityAssurance,
-      publisher: this.dataProduct?.publisher,
-    });
-    this.form.valueChanges.subscribe((changes) => {
-      const updatingObject = this.operationsService.getActiveDataProductValue();
+    if (this.dataProduct) {
+      this.form = this.formBuilder.group({
+        instanceId: this.dataProduct?.instanceId as string,
+        uid: this.dataProduct?.uid,
+        metaId: this.dataProduct?.metaId,
+        title: this.dataProduct?.title,
+        description: this.dataProduct?.description,
+        changeTimestamp: this.dataProduct?.changeTimestamp,
+        state: this.dataProduct?.state,
+        keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
+        modified: this.dataProduct?.modified,
+        versionInfo: this.dataProduct?.versionInfo,
+        spatialExtent: this.formatLocationFromObjectToString(),
+        spatialExtentType: [this.spatialCoverageType],
+        temporalExtentStartDate: this.dataProduct?.temporalExtent[0].startDate,
+        temporalExtentEndDate: this.dataProduct?.temporalExtent[0].endDate,
+        distribution: this.formBuilder.array([]),
+        contactPoint: this.formBuilder.array([]),
+        created: this.dataProduct?.created,
+        issued: this.dataProduct?.issued,
+        identifier: this.formBuilder.array(this.loadIdentifierArray(this.dataProduct?.identifier)),
+        qualityAssurance: this.dataProduct?.qualityAssurance,
+        publisher: this.dataProduct?.publisher,
+      });
+      this.form.valueChanges.subscribe((changes) => {
+        console.log(changes);
+        const updatingObject = this.operationsService.getActiveDataProductValue();
 
-      if (updatingObject) {
-        updatingObject.uid = changes['uid'];
-        updatingObject.title = [changes['title']];
-        updatingObject.description = [changes['description']];
-        updatingObject.versionInfo = changes['versionInfo'];
-        updatingObject.spatialExtent = this.formatLocationFromStringToObject(
-          changes['spatialExtent'],
-          changes['spatialExtentType'],
-        );
-        this.changeSpatialCoverageLabel(changes['spatialExtentType']);
+        if (updatingObject) {
+          updatingObject.uid = changes['uid'];
+          updatingObject.title = [changes['title']];
+          updatingObject.description = [changes['description']];
+          updatingObject.versionInfo = changes['versionInfo'];
+          updatingObject.spatialExtent = this.formatLocationFromStringToObject(
+            changes['spatialExtent'],
+            changes['spatialExtentType'],
+          );
+          this.changeSpatialCoverageLabel(changes['spatialExtentType']);
 
-        updatingObject.temporalExtent = [
-          {
-            startDate: moment.isMoment(changes['temporalExtentStartDate'])
-              ? changes['temporalExtentStartDate'].format('YYYY-MM-DDTHH:mm:ss')
-              : changes['temporalExtentStartDate'],
-            endDate: moment.isMoment(changes['temporalExtentEndDate'])
-              ? changes['temporalExtentEndDate'].format('YYYY-MM-DDTHH:mm:ss')
-              : changes['temporalExtentEndDate'],
-          },
-        ];
+          updatingObject.temporalExtent = [
+            {
+              startDate: moment.isMoment(changes['temporalExtentStartDate'])
+                ? changes['temporalExtentStartDate'].format('YYYY-MM-DDTHH:mm:ss')
+                : changes['temporalExtentStartDate'],
+              endDate: moment.isMoment(changes['temporalExtentEndDate'])
+                ? changes['temporalExtentEndDate'].format('YYYY-MM-DDTHH:mm:ss')
+                : changes['temporalExtentEndDate'],
+            },
+          ];
+          updatingObject.identifier = changes.identifier;
 
-        // TODO: Some stange behaviour where the detect changes pops value out of array.
-        // value['title'] = [changes['title']];
-        // value['description'] = [changes['description']];
-        this.actionService.enableSave();
-        this.operationsService.setActiveDataProduct(updatingObject);
-        // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
-      }
-    });
+          // TODO: Some stange behaviour where the detect changes pops value out of array.
+          // value['title'] = [changes['title']];
+          // value['description'] = [changes['description']];
+          this.actionService.enableSave();
+          this.operationsService.setActiveDataProduct(updatingObject);
+          // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+        }
+      });
+    }
   }
 
   public getControls(field: string) {
@@ -404,7 +429,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.dataProduct.publisher[index] = publisher;
       }
     });
-    console.log(this.dataProduct);
   }
 
   public compareWithFn(optionOne: any, optionTwo: any): boolean {
@@ -412,5 +436,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  public handleAddIdentifier(): void {
+    const identifier = this.form.get('identifier') as FormArray;
+    identifier.push(
+      new FormGroup({
+        identifier: new FormControl(''),
+        type: new FormControl(''),
+      }),
+    );
   }
 }

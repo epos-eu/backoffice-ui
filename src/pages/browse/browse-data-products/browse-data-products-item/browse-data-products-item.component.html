@@ -210,46 +210,43 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Persistent Identifier</mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-container *ngIf="dataProduct.identifier && dataProduct.identifier.length > 0">
-            <ng-container *ngFor="let item of dataProduct.identifier; let i = index">
-              <div class="identifier-item">
-                <mat-form-field
-                  appearance="fill"
-                  [floatLabel]="floatLabelControl.value"
-                  [style.width.%]="100"
-                >
-                  <mat-label>Identifier</mat-label>
-                  <input
-                    matInput
-                    placeholder="Identifier"
-                    name="identifier.identifier"
-                    [value]="item.identifier"
-                    readonly
-                  />
-                </mat-form-field>
-                <mat-form-field
-                  appearance="fill"
-                  [floatLabel]="floatLabelControl.value"
-                  [style.width.%]="100"
-                >
-                  <mat-label>Type</mat-label>
-                  <input
-                    matInput
-                    placeholder="Identifier"
-                    name="identifier.type"
-                    [value]="item.type"
-                    readonly
-                  />
-                </mat-form-field>
-              </div>
+          <ng-container formArrayName="identifier">
+            <ng-container
+              *ngFor="let control of getControls('identifier'); let i = index"
+              [formGroupName]="i"
+            >
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="100"
+              >
+                <mat-label>Identifier</mat-label>
+                <input
+                  matInput
+                  placeholder="Identifier"
+                  formControlName="identifier"
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="100"
+              >
+                <mat-label>Type</mat-label>
+                <input
+                  matInput
+                  placeholder="Type"
+                  formControlName="type"
+                />
+              </mat-form-field>
             </ng-container>
           </ng-container>
           <button
             mat-stroked-button
             color="primary"
-            *ngIf="dataProduct.identifier && dataProduct.identifier.length === 0"
+            (click)="handleAddIdentifier()"
           >
-            Add persistent identifier
+            Add identifier
           </button>
         </mat-expansion-panel>
 
