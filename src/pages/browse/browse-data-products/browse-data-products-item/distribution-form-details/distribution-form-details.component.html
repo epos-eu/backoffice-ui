@@ -24,7 +24,7 @@
         [formGroup]="form"
         *ngIf="form && distribution"
       >
-        <mat-form-field
+        <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -37,8 +37,8 @@
             formControlName="instanceId"
             readonly
           />
-        </mat-form-field>
-        <mat-form-field
+        </mat-form-field> -->
+        <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -50,11 +50,11 @@
             name="uid"
             formControlName="uid"
           />
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field
-          appearance="outline"
+          appearance="fill"
           [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
+          [style.width.%]="50"
         >
           <mat-label>Title</mat-label>
           <input
@@ -65,9 +65,8 @@
           />
         </mat-form-field>
         <mat-form-field
-          appearance="outline"
+          appearance="fill"
           [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
         >
           <mat-label>Description</mat-label>
           <textarea
@@ -78,6 +77,19 @@
             [value]="distribution.description[0]"
             [disabled]="true"
           ></textarea>
+        </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="50"
+        >
+          <mat-label>License</mat-label>
+          <input
+            matInput
+            placeholder="License"
+            name="license"
+            formControlName="license"
+          />
         </mat-form-field>
         <mat-form-field
           appearance="outline"
