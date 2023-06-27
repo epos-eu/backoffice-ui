@@ -92,6 +92,58 @@
           />
         </mat-form-field>
         <mat-form-field
+          appearance="fill"
+          [style.width.%]="50"
+        >
+          <mat-label>Changed</mat-label>
+          <input
+            matInput
+            [ngxMatDatetimePicker]="ChangedDate"
+            placeholder="Choose a date & time"
+            name="changeTimestamp"
+            formControlName="changeTimestamp"
+          />
+
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="$any(ChangedDate)"
+          ></mat-datepicker-toggle>
+
+          <ngx-mat-datetime-picker #ChangedDate></ngx-mat-datetime-picker>
+        </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          [style.width.%]="50"
+        >
+          <mat-label>Modified</mat-label>
+          <input
+            matInput
+            [ngxMatDatetimePicker]="modifiedDate"
+            placeholder="Choose a date & time"
+            name="Modified"
+            formControlName="modified"
+            readonly
+          />
+
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="$any(modifiedDate)"
+          ></mat-datepicker-toggle>
+
+          <ngx-mat-datetime-picker #modifiedDate></ngx-mat-datetime-picker>
+        </mat-form-field>
+
+        <label id="example-radio-group-label">Data product accessible via: </label>
+        <mat-radio-group
+          aria-labelledby="example-radio-group-label"
+          class="example-radio-group"
+          formControlName="dataProductAccessibility"
+        >
+          <mat-radio-button value="download">Downloadable file (URL) </mat-radio-button>
+          <mat-radio-button value="webservice">Web Service</mat-radio-button>
+        </mat-radio-group>
+        value: {{ form.get('dataProductAccessibility')?.value }}
+        <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -104,8 +156,8 @@
             formControlName="changeTimestamp"
             readonly
           />
-        </mat-form-field>
-        <mat-form-field
+        </mat-form-field> -->
+        <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
           [style.width.%]="97"
@@ -118,7 +170,7 @@
             formControlName="state"
             readonly
           />
-        </mat-form-field>
+        </mat-form-field> -->
         <!-- <mat-form-field
         appearance="outline"
         [floatLabel]="floatLabelControl.value"
@@ -146,20 +198,7 @@
             formControlName="keywords"
           />
         </mat-form-field> -->
-        <mat-form-field
-          appearance="outline"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="97"
-        >
-          <mat-label>Modified</mat-label>
-          <input
-            matInput
-            placeholder="Modified"
-            name="modified"
-            formControlName="modified"
-            readonly
-          />
-        </mat-form-field>
+
         <!-- <mat-form-field
           appearance="outline"
           [floatLabel]="floatLabelControl.value"
