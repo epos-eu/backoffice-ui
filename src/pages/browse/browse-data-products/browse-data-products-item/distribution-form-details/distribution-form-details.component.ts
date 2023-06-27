@@ -77,7 +77,7 @@ export class DistributionFormDetailsComponent {
       accessService: this.accessService,
       instanceId: this.distribution?.instanceId,
       uid: this.distribution?.uid,
-      license: this.distribution?.licence,
+      licence: this.distribution?.licence,
       metaId: this.distribution?.metaId,
       title: this.distribution?.title,
       description: this.distribution?.description,
@@ -86,12 +86,15 @@ export class DistributionFormDetailsComponent {
       modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],
       dataProductAccessibility: '',
-      selectedFormat: this.distribution?.format,
+      format: this.distribution?.format,
       issued: this.distribution?.issued,
     });
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
       if (updatingObject) {
+        console.debug(changes['format']);
+        updatingObject.format = changes['format'];
+        updatingObject.licence = changes['licence'];
         updatingObject.title = [changes['title']];
         updatingObject.description = [changes['description']];
         // this.actionService.enableSave();
