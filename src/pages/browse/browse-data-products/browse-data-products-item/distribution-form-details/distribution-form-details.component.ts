@@ -91,7 +91,6 @@ export class DistributionFormDetailsComponent {
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
       if (updatingObject) {
-        console.debug(changes['format']);
         updatingObject.format = changes['format'];
         updatingObject.licence = changes['licence'];
         updatingObject.title = [changes['title']];

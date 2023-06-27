@@ -117,7 +117,20 @@
           <mat-radio-button value="webservice">Web Service</mat-radio-button>
         </mat-radio-group>
 
+        <mat-label>URL</mat-label>
+
         <ng-container *ngIf="this.form?.get('dataProductAccessibility')?.value === 'download'">
+          <mat-form-field
+            appearance="fill"
+            [style.width.%]="50"
+          >
+            <input
+              matInput
+              placeholder="Select a format type below"
+              readonly
+              [value]="this.form.get('format')?.value"
+            />
+          </mat-form-field>
           <mat-form-field
             appearance="fill"
             [style.width.%]="50"
@@ -134,9 +147,9 @@
               ></option>
               <option
                 *ngFor="let format of formats"
-                [value]="format"
+                [value]="format.url"
               >
-                {{ format }}
+                {{ format.format }}
               </option>
             </select>
           </mat-form-field>
