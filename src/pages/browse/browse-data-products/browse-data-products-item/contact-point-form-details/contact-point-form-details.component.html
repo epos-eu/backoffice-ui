@@ -1,8 +1,7 @@
 <ng-scrollbar [autoHeightDisabled]="false">
-  <div class="container">
-    <div class="top-header">
-      <div class="flex-row"></div>
-      <div class="actions">
+  <!-- <div class="top-header">
+    <div class="flex-row"></div>
+    <div class="actions">
         <div class="flex-col">
           <button
             mat-mini-fab
@@ -15,21 +14,20 @@
           <label>Revisions</label>
         </div>
       </div>
-    </div>
+  </div> -->
 
-    <mat-form-field
-      appearance="outline"
-      [floatLabel]="floatLabelControl.value"
-      [style.width.%]="97"
-    >
-      <mat-label>UID</mat-label>
-      <input
-        [value]="contactPoint?.uid"
-        matInput
-        placeholder="UID"
-        name="uid"
-        readonly
-      />
-    </mat-form-field>
-  </div>
+  <mat-form-field
+    appearance="outline"
+    [floatLabel]="floatLabelControl.value"
+    [style.width.%]="100"
+  >
+    <mat-label>UID</mat-label>
+    <input
+      [value]="contactPoint?.uid"
+      matInput
+      placeholder="UID"
+      name="uid"
+      readonly
+    />
+  </mat-form-field>
 </ng-scrollbar>

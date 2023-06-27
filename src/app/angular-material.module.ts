@@ -23,6 +23,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -51,6 +59,11 @@ import { MatRadioModule } from '@angular/material/radio';
     MatExpansionModule,
     MatChipsModule,
     MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
   ],
   exports: [
     FormsModule,
@@ -78,6 +91,11 @@ import { MatRadioModule } from '@angular/material/radio';
     MatExpansionModule,
     MatChipsModule,
     MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
   ],
 })
 export class AngularMaterialModule {}
