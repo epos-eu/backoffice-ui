@@ -57,8 +57,8 @@
             *ngIf="dataProduct"
             class="detail"
           >
-            <div class="label">Changed:</div>
-            <div class="value">{{ dataProduct.changeTimestamp | date : 'full' }}</div>
+            <div class="label">Create:</div>
+            <div class="value">{{ dataProduct.created | date : 'full' }}</div>
           </div>
           <div
             *ngIf="dataProduct"
@@ -151,7 +151,9 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Spatial Coverage</mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-container *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0">
+          <ng-container
+            *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0 && spatialCoverageInput !== ''"
+          >
             <ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
               <div class="spatial-item">
                 <div
@@ -201,7 +203,9 @@
               </div>
             </ng-container>
           </ng-container>
-          <ng-container *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length === 0">
+          <ng-container
+            *ngIf="(dataProduct.spatialExtent && dataProduct.spatialExtent.length === 0) || spatialCoverageInput === ''"
+          >
             <button
               mat-stroked-button
               color="primary"
@@ -216,46 +220,102 @@
           <mat-expansion-panel-header>
             <mat-panel-title>Temporal Coverage</mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-container *ngIf="dataProduct.temporalExtent && dataProduct.temporalExtent.length > 0">
-            <ng-container *ngFor="let item of dataProduct.temporalExtent">
-              <div class="fields-flex-col">
-                <mat-form-field appearance="fill">
-                  <mat-label>Start date</mat-label>
-                  <input
-                    matInput
-                    [ngxMatDatetimePicker]="pickerStartDate"
-                    placeholder="Choose a date & time"
-                    formControlName="temporalExtentStartDate"
-                  />
 
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="$any(pickerStartDate)"
-                  ></mat-datepicker-toggle>
+          <div class="fields-flex-col">
+            <mat-form-field appearance="fill">
+              <mat-label>Start date</mat-label>
+              <input
+                matInput
+                [ngxMatDatetimePicker]="pickerStartDate"
+                placeholder="Choose a date & time"
+                formControlName="temporalExtentStartDate"
+              />
 
-                  <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
-                </mat-form-field>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="$any(pickerStartDate)"
+              ></mat-datepicker-toggle>
 
-                <mat-form-field appearance="fill">
-                  <mat-label>End date</mat-label>
-                  <input
-                    matInput
-                    [ngxMatDatetimePicker]="pickerEndDate"
-                    placeholder="Choose a date & time"
-                    formControlName="temporalExtentEndDate"
-                  />
+              <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
+            </mat-form-field>
 
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="$any(pickerEndDate)"
-                  ></mat-datepicker-toggle>
+            <mat-form-field appearance="fill">
+              <mat-label>End date</mat-label>
+              <input
+                matInput
+                [ngxMatDatetimePicker]="pickerEndDate"
+                placeholder="Choose a date & time"
+                formControlName="temporalExtentEndDate"
+              />
 
-                  <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
-                </mat-form-field>
-              </div>
-            </ng-container>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="$any(pickerEndDate)"
+              ></mat-datepicker-toggle>
+
+              <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
+            </mat-form-field>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title></mat-panel-title>
+          </mat-expansion-panel-header>
+          <ng-container>
+            <div class="fields-flex-row">
+              <mat-form-field
+                appearance="fill"
+                [style.width.%]="50"
+              >
+                <mat-label>Update frequency</mat-label>
+                <mat-select formControlName="accrualPeriodicity">
+                  <mat-option
+                    *ngFor="let item of accrualPeriodicityOptions"
+                    [value]="item.id"
+                  >
+                    {{ item.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field
+                appearance="fill"
+                [style.width.%]="50"
+              >
+                <mat-label>Type</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option
+                    *ngFor="let item of typeOptions"
+                    [value]="item.id"
+                    >{{ item.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field
+                appearance="fill"
+                [style.width.%]="50"
+              >
+                <mat-label>Issued</mat-label>
+                <input
+                  matInput
+                  [ngxMatDatetimePicker]="pickerIssued"
+                  placeholder="Choose a date & time"
+                  formControlName="issued"
+                />
+
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="$any(pickerIssued)"
+                ></mat-datepicker-toggle>
+
+                <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
+              </mat-form-field>
+            </div>
           </ng-container>
         </mat-expansion-panel>
+
         <input
           matInput
           name="instanceId"

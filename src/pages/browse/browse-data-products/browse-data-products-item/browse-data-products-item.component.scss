@@ -4,6 +4,12 @@
   gap: 10px;
 }
 
+.fields-flex-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .info {
   .detail {
     display: flex;
@@ -16,7 +22,6 @@
       flex: 0 0 10%;
       font-weight: bold;
     }
-
   }
 }
 
