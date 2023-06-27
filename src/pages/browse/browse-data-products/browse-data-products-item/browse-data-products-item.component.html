@@ -284,8 +284,12 @@
                 [style.width.%]="50"
               >
                 <mat-label>Type</mat-label>
-                <mat-select>
-                  <mat-option [value]=""> ? </mat-option>
+                <mat-select formControlName="type">
+                  <mat-option
+                    *ngFor="let item of typeOptions"
+                    [value]="item.id"
+                    >{{ item.name }}</mat-option
+                  >
                 </mat-select>
               </mat-form-field>
 

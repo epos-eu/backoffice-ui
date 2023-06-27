@@ -32,6 +32,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
 import * as moment from 'moment';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
+import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -73,6 +74,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public spatialCoverageChange: Subject<string | undefined> = new Subject();
   public spatialCoverageType = SpatialCoverageType.POLYGON;
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
+  public typeOptions: Array<{ id: string; name: string }> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -87,6 +89,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
+    this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
   }
 
   private trackEdit(): void {
@@ -166,6 +169,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       contactPoint: this.formBuilder.array([]),
       issued: this.dataProduct?.issued,
       accrualPeriodicity: this.dataProduct?.accrualPeriodicity,
+      type: this.dataProduct?.type,
     });
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDataProductValue();
@@ -196,6 +200,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         }
 
         updatingObject.accrualPeriodicity = changes['accrualPeriodicity'];
+        updatingObject.type = changes['type'];
 
         // TODO: Some stange behaviour where the detect changes pops value out of array.
         // value['title'] = [changes['title']];
