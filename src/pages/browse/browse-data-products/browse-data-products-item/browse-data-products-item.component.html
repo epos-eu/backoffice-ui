@@ -57,8 +57,8 @@
             *ngIf="dataProduct"
             class="detail"
           >
-            <div class="label">Changed:</div>
-            <div class="value">{{ dataProduct.changeTimestamp | date : 'full' }}</div>
+            <div class="label">Create:</div>
+            <div class="value">{{ dataProduct.created | date : 'full' }}</div>
           </div>
           <div
             *ngIf="dataProduct"

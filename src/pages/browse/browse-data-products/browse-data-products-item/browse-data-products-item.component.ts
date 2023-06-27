@@ -296,7 +296,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public newSpatialCoverage() {
-    this.dataProduct?.spatialExtent.push({ location: '' });
+    // this.dataProduct?.spatialExtent.push({ location: '' });
+    this.spatialCoverageInput = '0 0';
+    this.form.get('spatialExtentType')?.setValue('POINT');
+    this.form.get('spatialExtent')?.setValue('0 0');
+
+    setTimeout(() => {
+      this.refreshPointsOnMap();
+    }, 100);
   }
 
   public updateContactPointArray(event: MatSelectChange) {
