@@ -32,6 +32,7 @@ import {
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
 import * as moment from 'moment';
+import { Publisher } from 'src/apiAndObjects/objects/types/publisher.type';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -72,8 +73,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public spatialCoverageInput: string | undefined = '';
   public spatialCoverageChange: Subject<string | undefined> = new Subject();
   public spatialCoverageType = SpatialCoverageType.POLYGON;
-  public dataProviders: Array<string | undefined> = [];
+  public dataProviders: Array<OrganizationDataSource> = [];
   public dataProvidersLoading = false;
+  public selectedDataProviders: Array<Publisher> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -123,6 +125,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
             console.log(this.dataProduct);
+            this.selectedDataProviders = this.dataProduct.publisher;
             this.setSpatialCoverageVariables();
 
             this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
@@ -166,6 +169,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       issued: this.dataProduct?.issued,
       identifier: this.formBuilder.array([]),
       qualityAssurance: this.dataProduct?.qualityAssurance,
+      publisher: this.dataProduct?.publisher,
     });
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDataProductValue();
@@ -380,9 +384,33 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     if (this.dataProviders.length === 0) {
       this.dataProvidersLoading = true;
       this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
-        this.dataProviders = response.map((item) => item.legalName.shift());
+        this.dataProviders = response;
         this.dataProvidersLoading = false;
       });
     }
+  }
+
+  public handleDataProviderChange(event: Array<OrganizationDataSource>): void {
+    const mapped = event.map((item: OrganizationDataSource) => {
+      return {
+        uid: item.uid,
+        metaId: item.metaId,
+        instanceId: item.instanceId,
+        entityType: '',
+      };
+    });
+    mapped.forEach((publisher: Publisher, index: number) => {
+      if (this.dataProduct) {
+        this.dataProduct.publisher[index] = publisher;
+      }
+    });
+    console.log(this.dataProduct);
+  }
+
+  public compareWithFn(optionOne: any, optionTwo: any): boolean {
+    if (optionOne.metaId === optionTwo.metaId) {
+      return true;
+    }
+    return false;
   }
 }

@@ -256,18 +256,25 @@
         <mat-expansion-panel
           [expanded]="false"
           (afterExpand)="handleDataProviders()"
+          *ngIf="dataProduct.publisher && dataProduct.publisher.length > 0"
         >
           <mat-expansion-panel-header>
             <mat-panel-title>Data providers</mat-panel-title>
           </mat-expansion-panel-header>
           <mat-form-field>
-            <mat-label>{{ dataProvidersLoading ? 'Loading..' : 'Select a provider' }}</mat-label>
-            <mat-select>
+            <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
+            <mat-select
+              [(ngModel)]="selectedDataProviders"
+              (ngModelChange)="handleDataProviderChange($event)"
+              [ngModelOptions]="{ standalone: true }"
+              [compareWith]="compareWithFn"
+              multiple
+            >
               <mat-option
                 *ngFor="let provider of dataProviders"
                 [value]="provider"
               >
-                {{ provider }}
+                {{ provider.legalName }}
               </mat-option>
             </mat-select>
           </mat-form-field>
