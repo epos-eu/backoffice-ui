@@ -71,16 +71,16 @@
           <mat-label>Changed</mat-label>
           <input
             matInput
-            [ngxMatDatetimePicker]="ChangedDate"
             placeholder="Choose a date & time"
             name="changeTimestamp"
             formControlName="changeTimestamp"
+            readonly
           />
 
-          <mat-datepicker-toggle
+          <!-- <mat-datepicker-toggle
             matSuffix
             [for]="$any(ChangedDate)"
-          ></mat-datepicker-toggle>
+          ></mat-datepicker-toggle> -->
 
           <ngx-mat-datetime-picker #ChangedDate></ngx-mat-datetime-picker>
         </mat-form-field>
@@ -91,17 +91,16 @@
           <mat-label>Modified</mat-label>
           <input
             matInput
-            [ngxMatDatetimePicker]="modifiedDate"
             placeholder="Choose a date & time"
             name="Modified"
             formControlName="modified"
             readonly
           />
 
-          <mat-datepicker-toggle
+          <!-- <mat-datepicker-toggle
             matSuffix
             [for]="$any(modifiedDate)"
-          ></mat-datepicker-toggle>
+          ></mat-datepicker-toggle> -->
 
           <ngx-mat-datetime-picker #modifiedDate></ngx-mat-datetime-picker>
         </mat-form-field -->
@@ -113,7 +112,7 @@
           class="example-radio-group"
           formControlName="dataProductAccessibility"
         >
-          <mat-radio-button value="download">Downloadable file (URL) </mat-radio-button>
+          <mat-radio-button value="download">Downloadable file (URL)</mat-radio-button>
           <mat-radio-button value="webservice">Web Service</mat-radio-button>
         </mat-radio-group>
 
