@@ -229,6 +229,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.accrualPeriodicity = changes['accrualPeriodicity'];
           updatingObject.type = changes['type'];
           updatingObject.identifier = changes.identifier;
+          updatingObject.qualityAssurance = changes.qualityAssurance;
 
           // TODO: Some stange behaviour where the detect changes pops value out of array.
           // value['title'] = [changes['title']];
