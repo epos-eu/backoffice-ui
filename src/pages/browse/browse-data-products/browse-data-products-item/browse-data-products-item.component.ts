@@ -215,14 +215,13 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           );
           this.changeSpatialCoverageLabel(changes['spatialExtentType']);
 
-          if (changes['temporalExtentEndDate'] !== null && changes['temporalExtentStartDate'] !== null) {
-            updatingObject.temporalExtent = [
-              {
-                startDate: this.getDate(changes['temporalExtentStartDate']),
-                endDate: this.getDate(changes['temporalExtentEndDate']),
-              },
-            ];
-          }
+          updatingObject.temporalExtent = [
+            {
+              startDate: this.getDate(changes['temporalExtentStartDate']),
+              endDate: this.getDate(changes['temporalExtentEndDate']),
+            },
+          ];
+
           if (changes['issued'] !== null) {
             updatingObject.issued = this.getDate(changes['issued']);
           }
@@ -230,6 +229,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.accrualPeriodicity = changes['accrualPeriodicity'];
           updatingObject.type = changes['type'];
           updatingObject.identifier = changes.identifier;
+          updatingObject.qualityAssurance = changes.qualityAssurance;
 
           // TODO: Some stange behaviour where the detect changes pops value out of array.
           // value['title'] = [changes['title']];
@@ -406,10 +406,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getTemporalExtent(type = 'start'): Date | undefined | null {
+  private getTemporalExtent(type = 'startDate'): Date | undefined | null {
     const temporalExtent = this.dataProduct?.temporalExtent;
     if (temporalExtent !== undefined && temporalExtent.length > 0) {
-      if (type === 'start') {
+      if (type === 'startDate') {
         return temporalExtent[0].startDate;
       }
       return temporalExtent[0].endDate;
@@ -418,6 +418,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   private getDate(val: string | Date): any {
+    if (val === null) {
+      return '';
+    }
     return moment.isMoment(val) ? val.toISOString() : (val as string);
   }
 

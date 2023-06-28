@@ -150,133 +150,6 @@
           </mat-form-field>
         </mat-expansion-panel>
 
-        <!-- <mat-form-field
-          appearance="fill"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="100"
-        >
-          <mat-label>Created</mat-label>
-          <input
-            matInput
-            placeholder="Created"
-            name="created"
-            formControlName="created"
-            readonly
-          />
-        </mat-form-field> -->
-        <mat-form-field
-          appearance="fill"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="100"
-        >
-          <mat-label>Issued</mat-label>
-          <input
-            matInput
-            placeholder="Issued"
-            name="issued"
-            formControlName="issued"
-            readonly
-          />
-        </mat-form-field>
-        <mat-form-field
-          appearance="fill"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="100"
-        >
-          <mat-label>Modified</mat-label>
-          <input
-            matInput
-            placeholder="Modified"
-            name="modified"
-            formControlName="modified"
-            readonly
-          />
-        </mat-form-field>
-        <mat-form-field
-          appearance="fill"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="100"
-        >
-          <mat-label>Quality assurance</mat-label>
-          <input
-            matInput
-            placeholder="Quality assurance"
-            name="qualityAssurance"
-            formControlName="qualityAssurance"
-          />
-        </mat-form-field>
-
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Persistent Identifier</mat-panel-title>
-          </mat-expansion-panel-header>
-          <ng-container formArrayName="identifier">
-            <ng-container
-              *ngFor="let control of getControls('identifier'); let i = index"
-              [formGroupName]="i"
-            >
-              <mat-form-field
-                appearance="fill"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="100"
-              >
-                <mat-label>Identifier</mat-label>
-                <input
-                  matInput
-                  placeholder="Identifier"
-                  formControlName="identifier"
-                />
-              </mat-form-field>
-              <mat-form-field
-                appearance="fill"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="100"
-              >
-                <mat-label>Type</mat-label>
-                <input
-                  matInput
-                  placeholder="Type"
-                  formControlName="type"
-                />
-              </mat-form-field>
-            </ng-container>
-          </ng-container>
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="handleAddIdentifier()"
-          >
-            Add identifier
-          </button>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel
-          [expanded]="false"
-          (afterExpand)="handleDataProviders()"
-          *ngIf="dataProduct.publisher && dataProduct.publisher.length > 0"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title>Data providers</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-form-field>
-            <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
-            <mat-select
-              [(ngModel)]="selectedDataProviders"
-              (ngModelChange)="handleDataProviderChange($event)"
-              [ngModelOptions]="{ standalone: true }"
-              [compareWith]="compareWithFn"
-              multiple
-            >
-              <mat-option
-                *ngFor="let provider of dataProviders"
-                [value]="provider"
-              >
-                {{ provider.legalName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-expansion-panel>
-
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Spatial Coverage</mat-panel-title>
@@ -442,8 +315,93 @@
 
                 <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
               </mat-form-field>
+
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="100"
+              >
+                <mat-label>Quality assurance</mat-label>
+                <input
+                  matInput
+                  placeholder="Quality assurance"
+                  name="qualityAssurance"
+                  formControlName="qualityAssurance"
+                />
+              </mat-form-field>
             </div>
           </ng-container>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Persistent Identifier</mat-panel-title>
+          </mat-expansion-panel-header>
+          <ng-container formArrayName="identifier">
+            <ng-container
+              *ngFor="let control of getControls('identifier'); let i = index"
+              [formGroupName]="i"
+            >
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="100"
+              >
+                <mat-label>Identifier</mat-label>
+                <input
+                  matInput
+                  placeholder="Identifier"
+                  formControlName="identifier"
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="100"
+              >
+                <mat-label>Type</mat-label>
+                <input
+                  matInput
+                  placeholder="Type"
+                  formControlName="type"
+                />
+              </mat-form-field>
+            </ng-container>
+          </ng-container>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="handleAddIdentifier()"
+          >
+            Add identifier
+          </button>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel
+          [expanded]="false"
+          (afterExpand)="handleDataProviders()"
+          *ngIf="dataProduct.publisher && dataProduct.publisher.length > 0"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>Data providers</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-form-field>
+            <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
+            <mat-select
+              [(ngModel)]="selectedDataProviders"
+              (ngModelChange)="handleDataProviderChange($event)"
+              [ngModelOptions]="{ standalone: true }"
+              [compareWith]="compareWithFn"
+              multiple
+            >
+              <mat-option
+                *ngFor="let provider of dataProviders"
+                [value]="provider"
+              >
+                {{ provider.legalName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </mat-expansion-panel>
 
         <input
@@ -466,14 +424,6 @@
           placeholder="Status"
           name="state"
           formControlName="state"
-          readonly
-          [hidden]="true"
-        />
-        <input
-          matInput
-          placeholder="Modified"
-          name="modified"
-          formControlName="modified"
           readonly
           [hidden]="true"
         />
