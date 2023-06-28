@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -33,6 +34,7 @@ export class WebserviceFormDetailsComponent {
   public webservice!: WebService | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
+  public operation!: Operation;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -61,6 +63,7 @@ export class WebserviceFormDetailsComponent {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
           if (this.webservice && this.webservice.instanceId) {
+            // this.operation.
             this.trackFormData();
           }
         }

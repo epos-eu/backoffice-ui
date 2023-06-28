@@ -3,11 +3,9 @@ import { State } from 'src/utility/enums/state.enum';
 import { ContactPoint } from '../entities/contactPoint.model';
 import { Distribution } from '../entities/distribution.model';
 import { Documentation } from '../types/documentation.type';
-import { Provider } from '../types/provider.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
-import { SupportedOperation } from '../types/supportedOperation.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
-import { Operation } from '../entities/operation.model';
+import { EntityDetail } from '../types/entityDetail.type';
 
 export class WebserviceDetailDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -64,11 +62,11 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly metaId: string;
   public readonly name: string;
   public readonly operation: string;
-  public readonly provider: Provider;
+  public readonly provider: EntityDetail;
   public readonly schemaIdentifier: string;
   public readonly spatialExtent: Array<SpatialExtent>;
   public readonly state: State;
-  public readonly supportedOperation: Array<SupportedOperation>;
+  public readonly supportedOperation: Array<EntityDetail>;
   public readonly temporalExtent: Array<TemporalExtent>;
   public readonly toBeDelete: string;
   public readonly uid: string;
@@ -98,7 +96,7 @@ export class WebserviceDetailDataSource extends BaseObject {
     this.metaId = this._getString(WebserviceDetailDataSource.KEYS.META_ID);
     this.name = this._getString(WebserviceDetailDataSource.KEYS.NAME);
     this.operation = this._getString(WebserviceDetailDataSource.KEYS.OPERATION);
-    this.provider = this._getValue(WebserviceDetailDataSource.KEYS.PROVIDER) as Operation;
+    this.provider = this._getValue(WebserviceDetailDataSource.KEYS.PROVIDER) as EntityDetail;
     this.schemaIdentifier = this._getString(WebserviceDetailDataSource.KEYS.SCHEMA_IDENTIFIER);
     this.spatialExtent = this._getArray(WebserviceDetailDataSource.KEYS.SPATIAL_EXTENT);
     this.state = this._getValue(WebserviceDetailDataSource.KEYS.STATE) as State;
