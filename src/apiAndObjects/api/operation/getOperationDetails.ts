@@ -20,11 +20,12 @@ export class GetOperationDetails extends CacheableEndpoint<
   protected callLive(params: GetOperationDetailsParams): Promise<Array<OperationDetailDataSource>> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
-      const authHeader = new HttpHeaders().set('Authorization', accessToken ? accessToken : '');
+      let authHeader = new HttpHeaders();
+      authHeader = authHeader.append('Authorization', accessToken ? `Bearer ${accessToken}` : '');
       return authHeader;
     };
     const callResponsePromise = this.apiCaller
-      .doCall(`operation?instanceid=${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`operation/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(OperationDetailDataSource, callResponsePromise);
   }

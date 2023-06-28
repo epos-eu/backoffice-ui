@@ -3,6 +3,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angul
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
@@ -34,7 +35,7 @@ export class WebserviceFormDetailsComponent {
   public webservice!: WebService | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
-  public operation!: Operation;
+  public operation!: Operation | undefined;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -63,8 +64,12 @@ export class WebserviceFormDetailsComponent {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
           if (this.webservice && this.webservice.instanceId) {
-            // this.operation.
             this.trackFormData();
+            this.apiService.endpoints[Entity.OPERATION].get
+              .call({ instanceId: this.webservice.supportedOperation![0].instanceId }, false)
+              .then((data: Array<OperationDetailDataSource>) => {
+                this.operation = data.shift();
+              });
           }
         }
       });

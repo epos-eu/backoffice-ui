@@ -2,10 +2,10 @@ import { State } from 'src/utility/enums/state.enum';
 import { Documentation } from '../types/documentation.type';
 import { Provider } from '../types/provider.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
-import { SupportedOperation } from '../types/supportedOperation.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
 import { ContactPoint } from './contactPoint.model';
 import { Distribution } from './distribution.model';
+import { EntityDetail } from '../types/entityDetail.type';
 
 export class WebService {
   constructor(
@@ -35,7 +35,7 @@ export class WebService {
     public schemaIdentifier?: string,
     public spatialExtent?: Array<SpatialExtent>,
     public state?: State,
-    public supportedOperation?: Array<SupportedOperation>,
+    public supportedOperation?: Array<EntityDetail>,
     public temporalExtent?: Array<TemporalExtent>,
     public toBeDelete?: string,
     public version?: string,

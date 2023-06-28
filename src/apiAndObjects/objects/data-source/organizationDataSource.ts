@@ -1,7 +1,6 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
 import { Address } from '../types/address.type';
-import { SupportedOperation } from '../types/supportedOperation.type';
 
 export class OrganizationDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -38,7 +37,7 @@ export class OrganizationDataSource extends BaseObject {
   public readonly metaId: string;
   public readonly instanceChangedId: string;
   public readonly changeTimestamp: Date;
-  public readonly operation: SupportedOperation;
+  public readonly operation: unknown;
   public readonly editorId: string;
   public readonly changeComment: string;
   public readonly version: string;
@@ -69,7 +68,7 @@ export class OrganizationDataSource extends BaseObject {
     this.metaId = this._getString(OrganizationDataSource.KEYS.META_ID);
     this.instanceChangedId = this._getString(OrganizationDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.changeTimestamp = this._getDate(OrganizationDataSource.KEYS.CHANGE_TIMESTAMP);
-    this.operation = this._getValue(OrganizationDataSource.KEYS.OPERATION) as SupportedOperation;
+    this.operation = this._getValue(OrganizationDataSource.KEYS.OPERATION) as unknown;
     this.editorId = this._getString(OrganizationDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(OrganizationDataSource.KEYS.CHANGE_COMMENT);
     this.version = this._getString(OrganizationDataSource.KEYS.VERSION);

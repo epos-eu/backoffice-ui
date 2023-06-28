@@ -37,7 +37,7 @@ export class OperationDetailDataSource extends BaseObject {
   public readonly method: string;
   public readonly operation: string;
   public readonly returns: Array<string>;
-  public readonly state: string;
+  public readonly state: State;
   public readonly template: string;
   public readonly toBeDelete: string;
   public readonly uid: string;
