@@ -1,5 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -23,6 +31,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 import { Subject } from 'rxjs';
+import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import {
   NGX_MAT_DATE_FORMATS,
   NgxMatDateAdapter,
@@ -33,6 +42,8 @@ import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter
 import * as moment from 'moment';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
+import { Publisher } from 'src/apiAndObjects/objects/types/publisher.type';
+import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -75,6 +86,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public spatialCoverageType = SpatialCoverageType.POLYGON;
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
   public typeOptions: Array<{ id: string; name: string }> = [];
+  public dataProviders: Array<OrganizationDataSource> = [];
+  public dataProvidersLoading = false;
+  public selectedDataProviders: Array<Publisher> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -95,7 +109,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private trackEdit(): void {
     this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
       if (item) {
-        console.log(item);
         this.currentEdit = item;
       }
     });
@@ -126,6 +139,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            console.log(this.dataProduct);
+            this.selectedDataProviders = this.dataProduct.publisher;
             this.setSpatialCoverageVariables();
 
             this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
@@ -147,69 +162,84 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       });
   }
 
+  private createIdentifierFormGroup(identifier: Identifier): FormGroup {
+    return this.formBuilder.group({
+      identifier: [identifier.identifier, [Validators.required]],
+      type: [identifier.type, [Validators.required]],
+    });
+  }
+
+  private loadIdentifierArray(identifier: Array<Identifier>): FormGroup[] {
+    const transformed = identifier.map((item: Identifier) => this.createIdentifierFormGroup(item));
+    return transformed;
+  }
+
   private trackFormData(): void {
-    this.form = this.formBuilder.group({
-      instanceId: this.dataProduct?.instanceId as string,
-      uid: this.dataProduct?.uid,
-      metaId: this.dataProduct?.metaId,
-      title: this.dataProduct?.title,
-      description: this.dataProduct?.description,
-      changeTimestamp: this.dataProduct?.changeTimestamp,
-      state: this.dataProduct?.state,
-      // identifier: [this.dataProduct?.identifier],
-      // issued: this.isValidDate(this.dataProduct?.issued) ? this.dataProduct?.issued : '',
-      keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
-      modified: this.dataProduct?.modified,
-      versionInfo: this.dataProduct?.versionInfo,
-      spatialExtent: this.formatLocationFromObjectToString(),
-      spatialExtentType: [this.spatialCoverageType],
-      temporalExtentStartDate: this.getTemporalExtent('startDate'),
-      temporalExtentEndDate: this.getTemporalExtent('endDate'),
-      distribution: this.formBuilder.array([]),
-      contactPoint: this.formBuilder.array([]),
-      issued: this.dataProduct?.issued,
-      accrualPeriodicity: this.dataProduct?.accrualPeriodicity,
-      type: this.dataProduct?.type,
-    });
-    this.form.valueChanges.subscribe((changes) => {
-      const updatingObject = this.operationsService.getActiveDataProductValue();
+    if (this.dataProduct) {
+      this.form = this.formBuilder.group({
+        instanceId: this.dataProduct?.instanceId as string,
+        uid: this.dataProduct?.uid,
+        metaId: this.dataProduct?.metaId,
+        title: this.dataProduct?.title,
+        description: this.dataProduct?.description,
+        changeTimestamp: this.dataProduct?.changeTimestamp,
+        state: this.dataProduct?.state,
+        keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
+        modified: this.dataProduct?.modified,
+        versionInfo: this.dataProduct?.versionInfo,
+        spatialExtent: this.formatLocationFromObjectToString(),
+        spatialExtentType: [this.spatialCoverageType],
+        temporalExtentStartDate: this.getTemporalExtent('startDate'),
+        temporalExtentEndDate: this.getTemporalExtent('endDate'),
+        distribution: this.formBuilder.array([]),
+        contactPoint: this.formBuilder.array([]),
+        issued: this.dataProduct?.issued,
+        identifier: this.formBuilder.array(this.loadIdentifierArray(this.dataProduct?.identifier)),
+        qualityAssurance: this.dataProduct?.qualityAssurance,
+        publisher: this.dataProduct?.publisher,
+        accrualPeriodicity: this.dataProduct?.accrualPeriodicity,
+        type: this.dataProduct?.type,
+      });
+      this.form.valueChanges.subscribe((changes) => {
+        console.log(changes);
+        const updatingObject = this.operationsService.getActiveDataProductValue();
 
-      // console.debug(changes);
+        if (updatingObject) {
+          updatingObject.uid = changes['uid'];
+          updatingObject.title = [changes['title']];
+          updatingObject.description = [changes['description']];
+          updatingObject.versionInfo = changes['versionInfo'];
+          updatingObject.spatialExtent = this.formatLocationFromStringToObject(
+            changes['spatialExtent'],
+            changes['spatialExtentType'],
+          );
+          this.changeSpatialCoverageLabel(changes['spatialExtentType']);
 
-      if (updatingObject) {
-        updatingObject.uid = changes['uid'];
-        updatingObject.title = [changes['title']];
-        updatingObject.description = [changes['description'] ?? ''];
-        updatingObject.versionInfo = changes['versionInfo'];
-        updatingObject.spatialExtent = this.formatLocationFromStringToObject(
-          changes['spatialExtent'],
-          changes['spatialExtentType'],
-        );
-        this.changeSpatialCoverageLabel(changes['spatialExtentType']);
+          if (changes['temporalExtentEndDate'] !== null && changes['temporalExtentStartDate'] !== null) {
+            updatingObject.temporalExtent = [
+              {
+                startDate: this.getDate(changes['temporalExtentStartDate']),
+                endDate: this.getDate(changes['temporalExtentEndDate']),
+              },
+            ];
+          }
+          if (changes['issued'] !== null) {
+            updatingObject.issued = this.getDate(changes['issued']);
+          }
 
-        if (changes['temporalExtentEndDate'] !== null && changes['temporalExtentStartDate'] !== null)
-          updatingObject.temporalExtent = [
-            {
-              startDate: this.getDate(changes['temporalExtentStartDate']),
-              endDate: this.getDate(changes['temporalExtentEndDate']),
-            },
-          ];
+          updatingObject.accrualPeriodicity = changes['accrualPeriodicity'];
+          updatingObject.type = changes['type'];
+          updatingObject.identifier = changes.identifier;
 
-        if (changes['issued'] !== null) {
-          updatingObject.issued = this.getDate(changes['issued']);
+          // TODO: Some stange behaviour where the detect changes pops value out of array.
+          // value['title'] = [changes['title']];
+          // value['description'] = [changes['description']];
+          this.actionService.enableSave();
+          this.operationsService.setActiveDataProduct(updatingObject);
+          // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
         }
-
-        updatingObject.accrualPeriodicity = changes['accrualPeriodicity'];
-        updatingObject.type = changes['type'];
-
-        // TODO: Some stange behaviour where the detect changes pops value out of array.
-        // value['title'] = [changes['title']];
-        // value['description'] = [changes['description']];
-        this.actionService.enableSave();
-        this.operationsService.setActiveDataProduct(updatingObject);
-        // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
-      }
-    });
+      });
+    }
   }
 
   public getControls(field: string) {
@@ -409,5 +439,48 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private changeSpatialCoverageLabel(pointType: string): void {
     this.labelSpatialCoverage =
       pointType === SpatialCoverageType.POINT ? 'Longitude Latitude' : 'List of coordinates (separated by comma)';
+  }
+
+  public handleDataProviders(): void {
+    if (this.dataProviders.length === 0) {
+      this.dataProvidersLoading = true;
+      this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
+        this.dataProviders = response;
+        this.dataProvidersLoading = false;
+      });
+    }
+  }
+
+  public handleDataProviderChange(event: Array<OrganizationDataSource>): void {
+    const mapped = event.map((item: OrganizationDataSource) => {
+      return {
+        uid: item.uid,
+        metaId: item.metaId,
+        instanceId: item.instanceId,
+        entityType: '',
+      };
+    });
+    mapped.forEach((publisher: Publisher, index: number) => {
+      if (this.dataProduct) {
+        this.dataProduct.publisher[index] = publisher;
+      }
+    });
+  }
+
+  public compareWithFn(optionOne: any, optionTwo: any): boolean {
+    if (optionOne.metaId === optionTwo.metaId) {
+      return true;
+    }
+    return false;
+  }
+
+  public handleAddIdentifier(): void {
+    const identifier = this.form.get('identifier') as FormArray;
+    identifier.push(
+      new FormGroup({
+        identifier: new FormControl(''),
+        type: new FormControl(''),
+      }),
+    );
   }
 }

@@ -70,18 +70,20 @@
   padding-bottom: 2rem;
 
   form {
-    display: flex;
-    flex-direction: column;
+    &:not(.data-product) {
+      display: flex;
+      flex-direction: column;
 
-    input {
-      &:read-only {
-        // opacity: 0.4;
+      input {
+        &:read-only {
+          // opacity: 0.4;
+        }
       }
-    }
 
-    label {
-      margin-bottom: 0.75rem;
-      font-size: 14px;
+      label {
+        margin-bottom: 0.75rem;
+        font-size: 14px;
+      }
     }
   }
 
