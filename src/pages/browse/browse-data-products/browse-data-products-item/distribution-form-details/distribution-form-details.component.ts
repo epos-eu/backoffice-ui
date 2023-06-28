@@ -3,20 +3,17 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angul
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { ActionsService } from 'src/services/actions.service';
 import { OperationsService } from 'src/services/operations.service';
-import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { State } from 'src/utility/enums/state.enum';
-import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { FormatTypes } from './formats';
 
 @Component({
   selector: 'app-distribution-form-details',
@@ -37,11 +34,15 @@ export class DistributionFormDetailsComponent {
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
   public accessService!: EntityDetail;
 
+  public dataProductAccessibility?: string;
+  public dataProductAccessibilityOptions: string[] = ['download', 'webservice'];
+  public formats = FormatTypes;
+  public selectedFormat = '';
+
   constructor(
     private dialogService: DialogService,
     private formBuilder: UntypedFormBuilder,
     private apiService: ApiService,
-    private persistorService: PersistorService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
     private operationsService: OperationsService,
@@ -59,6 +60,7 @@ export class DistributionFormDetailsComponent {
         if (Array.isArray(data) && data.length > 0) {
           this.distribution = data.shift();
           if (this.distribution) {
+            this.selectedFormat = this.distribution.format;
             this.operationsService.setActiveDistribution(
               this.operationsService.convertToDistribution(this.distribution),
             );
@@ -74,6 +76,7 @@ export class DistributionFormDetailsComponent {
       accessService: this.accessService,
       instanceId: this.distribution?.instanceId,
       uid: this.distribution?.uid,
+      licence: this.distribution?.licence,
       metaId: this.distribution?.metaId,
       title: this.distribution?.title,
       description: this.distribution?.description,
@@ -81,16 +84,18 @@ export class DistributionFormDetailsComponent {
       state: this.distribution?.state,
       modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],
+      dataProductAccessibility: '',
+      format: this.distribution?.format,
+      issued: this.distribution?.issued,
     });
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
       if (updatingObject) {
-        updatingObject.uid = changes['uid'];
+        updatingObject.format = changes['format'];
+        updatingObject.licence = changes['licence'];
         updatingObject.title = [changes['title']];
         updatingObject.description = [changes['description']];
-        // this.actionService.enableSave();
         this.operationsService.setActiveDistribution(updatingObject);
-        // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
       }
     });
   }

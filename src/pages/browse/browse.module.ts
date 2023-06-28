@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { BrowseHomeComponent } from './browse-home/browse-home.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseRoutingModule } from './browse-routing.module';
@@ -66,7 +66,7 @@ import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-
     WebserviceFormDetailsComponent,
     SpatialCoverageMapComponent,
   ],
-  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule],
+  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor],
   exports: [],
   providers: [
     {

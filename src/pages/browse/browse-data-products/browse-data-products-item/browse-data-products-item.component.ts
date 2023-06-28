@@ -40,6 +40,8 @@ import {
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
 import * as moment from 'moment';
+import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
+import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import { Publisher } from 'src/apiAndObjects/objects/types/publisher.type';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 
@@ -82,6 +84,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public spatialCoverageInput: string | undefined = '';
   public spatialCoverageChange: Subject<string | undefined> = new Subject();
   public spatialCoverageType = SpatialCoverageType.POLYGON;
+  public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
+  public typeOptions: Array<{ id: string; name: string }> = [];
   public dataProviders: Array<OrganizationDataSource> = [];
   public dataProvidersLoading = false;
   public selectedDataProviders: Array<Publisher> = [];
@@ -98,6 +102,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private operationsService: OperationsService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
+    this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
+    this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
   }
 
   private trackEdit(): void {
@@ -183,15 +189,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         versionInfo: this.dataProduct?.versionInfo,
         spatialExtent: this.formatLocationFromObjectToString(),
         spatialExtentType: [this.spatialCoverageType],
-        temporalExtentStartDate: this.dataProduct?.temporalExtent[0].startDate,
-        temporalExtentEndDate: this.dataProduct?.temporalExtent[0].endDate,
+        temporalExtentStartDate: this.getTemporalExtent('startDate'),
+        temporalExtentEndDate: this.getTemporalExtent('endDate'),
         distribution: this.formBuilder.array([]),
         contactPoint: this.formBuilder.array([]),
-        created: this.dataProduct?.created,
         issued: this.dataProduct?.issued,
         identifier: this.formBuilder.array(this.loadIdentifierArray(this.dataProduct?.identifier)),
         qualityAssurance: this.dataProduct?.qualityAssurance,
         publisher: this.dataProduct?.publisher,
+        accrualPeriodicity: this.dataProduct?.accrualPeriodicity,
+        type: this.dataProduct?.type,
       });
       this.form.valueChanges.subscribe((changes) => {
         console.log(changes);
@@ -208,16 +215,20 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           );
           this.changeSpatialCoverageLabel(changes['spatialExtentType']);
 
-          updatingObject.temporalExtent = [
-            {
-              startDate: moment.isMoment(changes['temporalExtentStartDate'])
-                ? changes['temporalExtentStartDate'].format('YYYY-MM-DDTHH:mm:ss')
-                : changes['temporalExtentStartDate'],
-              endDate: moment.isMoment(changes['temporalExtentEndDate'])
-                ? changes['temporalExtentEndDate'].format('YYYY-MM-DDTHH:mm:ss')
-                : changes['temporalExtentEndDate'],
-            },
-          ];
+          if (changes['temporalExtentEndDate'] !== null && changes['temporalExtentStartDate'] !== null) {
+            updatingObject.temporalExtent = [
+              {
+                startDate: this.getDate(changes['temporalExtentStartDate']),
+                endDate: this.getDate(changes['temporalExtentEndDate']),
+              },
+            ];
+          }
+          if (changes['issued'] !== null) {
+            updatingObject.issued = this.getDate(changes['issued']);
+          }
+
+          updatingObject.accrualPeriodicity = changes['accrualPeriodicity'];
+          updatingObject.type = changes['type'];
           updatingObject.identifier = changes.identifier;
 
           // TODO: Some stange behaviour where the detect changes pops value out of array.
@@ -315,7 +326,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public newSpatialCoverage() {
-    this.dataProduct?.spatialExtent.push({ location: '' });
+    // this.dataProduct?.spatialExtent.push({ location: '' });
+    this.spatialCoverageInput = '0 0';
+    this.form.get('spatialExtentType')?.setValue('POINT');
+    this.form.get('spatialExtent')?.setValue('0 0');
+
+    setTimeout(() => {
+      this.refreshPointsOnMap();
+    }, 100);
   }
 
   public updateContactPointArray(event: MatSelectChange) {
@@ -365,6 +383,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       this.changeSpatialCoverageLabel(this.spatialCoverageType);
 
       this.spatialCoverageInput = item.location;
+      if (this.formatLocationFromObjectToString()[0] === 'null') {
+        this.spatialCoverageInput = '';
+      }
     });
   }
 
@@ -383,6 +404,21 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     } else {
       return [''];
     }
+  }
+
+  private getTemporalExtent(type = 'start'): Date | undefined | null {
+    const temporalExtent = this.dataProduct?.temporalExtent;
+    if (temporalExtent !== undefined && temporalExtent.length > 0) {
+      if (type === 'start') {
+        return temporalExtent[0].startDate;
+      }
+      return temporalExtent[0].endDate;
+    }
+    return null;
+  }
+
+  private getDate(val: string | Date): any {
+    return moment.isMoment(val) ? val.toISOString() : (val as string);
   }
 
   private locationToString(value: string, type: string): string {
