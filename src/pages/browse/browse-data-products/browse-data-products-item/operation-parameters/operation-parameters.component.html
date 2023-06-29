@@ -1,16 +1,34 @@
 <form
   [formGroup]="paramsForm"
-  *ngIf="paramsForm"
+  *ngIf="paramsForm && mapping"
 >
+  <ng-container formArrayName="mapping">
+    <ng-container
+      *ngFor="let control of getControls('mapping'); let i = index"
+      [formGroupName]="i"
+    >
+      <mat-form-field
+        appearance="fill"
+        [style.width.%]="100"
+      >
+        <mat-label>{{ control.value.label }}</mat-label>
+        <input
+          matInput
+          placeholder="Default value"
+          formControlName="defaultValue"
+        />
+      </mat-form-field>
+    </ng-container>
+  </ng-container>
   <mat-form-field
-    appearance="outline"
+    appearance="fill"
     [style.width.%]="100"
   >
-    <mat-label>Label</mat-label>
+    <mat-label>Template</mat-label>
     <input
       matInput
-      placeholder="Label"
-      formControlName="label"
+      placeholder="Template"
+      formControlName="template"
     />
   </mat-form-field>
 </form>

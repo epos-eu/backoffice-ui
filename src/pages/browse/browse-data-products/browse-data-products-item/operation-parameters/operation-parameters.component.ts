@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
+import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { Entity } from 'src/utility/enums/entity.enum';
 
 @Component({
@@ -14,31 +15,51 @@ export class OperationParametersComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private apiService: ApiService) {}
 
+  private operation!: OperationDetailDataSource;
+  private template!: string;
   public paramsForm!: UntypedFormGroup;
+  public mapping!: Mapping[];
 
-  private watchFormChanges(changes: any): void {
-    console.log(changes);
+  public getControls(field: string) {
+    return (this.paramsForm.get(field) as FormArray).controls;
   }
 
   private initData(): void {
-    if (this.instanceId) {
+    if (this.instanceId && !this.operation) {
       this.apiService.endpoints[Entity.OPERATION].get
         .call({ instanceId: this.instanceId }, false)
         .then((data: Array<OperationDetailDataSource>) => {
-          console.log(data);
+          const operation = data.shift();
+          if (typeof operation !== 'undefined') {
+            this.operation = operation;
+            this.template = this.operation.template;
+            this.mapping = this.operation.mapping;
+            this.initForm();
+          }
         });
     }
   }
 
+  private createMappingFormGroup(mapping: Mapping): FormGroup {
+    return this.formBuilder.group({
+      defaultValue: [mapping.defaultValue, mapping.required === 'true' ? Validators.required : ''],
+      label: [mapping.label],
+    });
+  }
+
+  private loadMappingArray(mapping: Array<Mapping>): FormGroup[] {
+    const transformed = mapping.map((item: Mapping) => this.createMappingFormGroup(item));
+    return transformed;
+  }
+
   private initForm(): void {
     this.paramsForm = this.formBuilder.group({
-      label: [''],
+      mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
+      template: this.template,
     });
-    this.paramsForm.valueChanges.subscribe((changes) => this.watchFormChanges(changes));
   }
 
   public ngOnInit(): void {
     this.initData();
-    this.initForm();
   }
 }
