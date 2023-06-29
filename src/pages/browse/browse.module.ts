@@ -33,6 +33,7 @@ import { ContactPointFormDetailsComponent } from './browse-data-products/browse-
 import { DistributionFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/distribution-form-details.component';
 import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
 import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
+import { OperationParametersComponent } from './browse-data-products/browse-data-products-item/operation-parameters/operation-parameters.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-
     DistributionFormDetailsComponent,
     WebserviceFormDetailsComponent,
     SpatialCoverageMapComponent,
+    OperationParametersComponent,
   ],
   imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor],
   exports: [],
