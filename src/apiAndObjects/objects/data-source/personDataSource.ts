@@ -2,7 +2,6 @@ import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 import { Address } from '../types/address.type';
-import { Affiliation } from '../types/affiliation.type';
 import { EntityDetail } from '../types/entityDetail.type';
 
 export class PersonDataSource extends BaseObject {
@@ -47,7 +46,7 @@ export class PersonDataSource extends BaseObject {
   public readonly groupIds: Array<string>;
   public readonly uid: string;
   public readonly address: Address;
-  public readonly affiliation: Array<Affiliation>;
+  public readonly affiliation: Array<EntityDetail>;
   public readonly email: Array<string>;
   public readonly familyName: string;
   public readonly givenName: string;

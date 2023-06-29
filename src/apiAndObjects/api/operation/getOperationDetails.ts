@@ -61,5 +61,4 @@ export class GetOperationDetails extends CacheableEndpoint<
 export interface GetOperationDetailsParams {
   singleOptionOnly?: boolean;
   instanceId: string;
-  // dataSource: IndexDetailDataSource;
 }
