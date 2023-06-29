@@ -1,6 +1,5 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
-import { ContactPoint } from '../entities/contactPoint.model';
 import { Distribution } from '../entities/distribution.model';
 import { Documentation } from '../types/documentation.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
@@ -45,7 +44,7 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly category: Array<string>;
   public readonly changeComment: string;
   public readonly changeTimestamp: Date;
-  public readonly contactPoint: Array<ContactPoint>;
+  public readonly contactPoint: Array<EntityDetail>;
   public readonly dateModified: Date;
   public readonly datePublished: Date;
   public readonly description: string;

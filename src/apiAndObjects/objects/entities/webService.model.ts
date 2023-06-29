@@ -2,7 +2,6 @@ import { State } from 'src/utility/enums/state.enum';
 import { Documentation } from '../types/documentation.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
-import { ContactPoint } from './contactPoint.model';
 import { Distribution } from './distribution.model';
 import { EntityDetail } from '../types/entityDetail.type';
 
@@ -13,7 +12,7 @@ export class WebService {
     public category?: Array<string>,
     public changeComment?: string,
     public changeTimestamp?: Date,
-    public contactPoint?: Array<ContactPoint>,
+    public contactPoint?: Array<EntityDetail>,
     public dateModified?: Date,
     public datePublished?: Date,
     public description?: string,

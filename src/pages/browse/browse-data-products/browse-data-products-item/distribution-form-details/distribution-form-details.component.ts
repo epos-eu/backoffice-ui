@@ -71,6 +71,15 @@ export class DistributionFormDetailsComponent {
       });
   }
 
+  private checkDataProductAccessibility(): string {
+    if (this.distribution) {
+      if (this.distribution.accessService.instanceId !== undefined) {
+        return 'webservice';
+      }
+    }
+    return 'download';
+  }
+
   private trackFormData(): void {
     this.form = this.formBuilder.group({
       accessService: this.accessService,
@@ -84,7 +93,7 @@ export class DistributionFormDetailsComponent {
       state: this.distribution?.state,
       modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],
-      dataProductAccessibility: '',
+      dataProductAccessibility: this.checkDataProductAccessibility(),
       format: this.distribution?.format,
       issued: this.distribution?.issued,
     });
