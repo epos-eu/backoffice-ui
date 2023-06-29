@@ -1,8 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
@@ -12,7 +15,9 @@ import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type'
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { HelpersService } from 'src/services/helpers.service';
+import { OperationsService } from 'src/services/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
@@ -22,7 +27,7 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
   templateUrl: './webservice-form-details.component.html',
   styleUrls: ['./webservice-form-details.component.scss'],
 })
-export class WebserviceFormDetailsComponent {
+export class WebserviceFormDetailsComponent implements OnInit {
   @Input() set accessService(webserviceDetails: EntityDetail) {
     if (null != webserviceDetails) {
       this.initData(webserviceDetails.instanceId);
@@ -32,9 +37,15 @@ export class WebserviceFormDetailsComponent {
   public options: UntypedFormGroup;
   private hideRequiredControl = new UntypedFormControl(false);
   public floatLabelControl = new UntypedFormControl('auto');
-  public webservice!: WebService | undefined;
+  public webservice!: WebserviceDetailDataSource | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
+  public serviceProviders: Array<OrganizationDataSource> = [];
+  public serviceProvidersLoading = false;
+  public selectedServiceProvider: EntityDetail | null = null;
+  public showContactPointSelect = false;
+  public contactPointDetails: Array<EntityDetail> = [];
+  public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
   public operation!: Operation | undefined;
 
   constructor(
@@ -44,12 +55,17 @@ export class WebserviceFormDetailsComponent {
     private formBuilder: UntypedFormBuilder,
     private apiService: ApiService,
     private persistorService: PersistorService,
+    private snackbarService: SnackbarService,
+    private operationsService: OperationsService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
     });
-    this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
+    // this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
+  }
+  ngOnInit(): void {
+    this.handleServiceProviders();
   }
 
   private initData(id: string): void {
@@ -63,16 +79,32 @@ export class WebserviceFormDetailsComponent {
       .then((data: Array<WebserviceDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
-          if (this.webservice && this.webservice.instanceId) {
-            this.trackFormData();
-            this.apiService.endpoints[Entity.OPERATION].get
-              .call({ instanceId: this.webservice.supportedOperation![0].instanceId }, false)
-              .then((data: Array<OperationDetailDataSource>) => {
-                this.operation = data.shift();
-              });
+          if (this.webservice) {
+            this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
+
+            this.selectedServiceProvider = this.webservice?.provider ?? null;
+            this.contactPointDetails = this.webservice?.contactPoint ?? [];
+            if (this.webservice && this.webservice.instanceId) {
+              this.trackFormData();
+              this.apiService.endpoints[Entity.OPERATION].get
+                .call({ instanceId: this.webservice.supportedOperation![0].instanceId }, false)
+                .then((data: Array<OperationDetailDataSource>) => {
+                  this.operation = data.shift();
+                });
+            }
           }
         }
       });
+  }
+
+  private getDocumentation(): string {
+    if (this.webservice?.documentation !== undefined) {
+      const documentation = this.webservice.documentation;
+      if (documentation.length > 0) {
+        return documentation[0].uri;
+      }
+    }
+    return '';
   }
 
   private trackFormData(): void {
@@ -82,6 +114,7 @@ export class WebserviceFormDetailsComponent {
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
       description: this.webservice?.description,
+      documentation: this.getDocumentation(),
       // datePublished: this.webservice?.datePublished,
       dateModified: this.webservice?.dateModified,
       changeComment: this.webservice?.changeComment,
@@ -154,5 +187,72 @@ export class WebserviceFormDetailsComponent {
       'auto',
       'revisions-dialog',
     );
+  }
+
+  /* public handleServiceProviderChange(event: Array<OrganizationDataSource>): void {
+    const mapped = event.map((item: OrganizationDataSource) => {
+      return {
+        uid: item.uid,
+        metaId: item.metaId,
+        instanceId: item.instanceId,
+        entityType: '',
+      };
+    });
+    mapped.forEach((provider: EntityDetail) => {
+      if (this.webservice) {
+        this.webservice.provider = provider;
+      }
+    });
+  } */
+
+  public compareWithFn(optionOne: any, optionTwo: any): boolean {
+    if (optionOne.metaId === optionTwo.metaId) {
+      return true;
+    }
+    return false;
+  }
+
+  public newContactPoint() {
+    this.apiService.endpoints.Contactpoint.getAll
+      .call()
+      .then((data: Array<ContactPointDetailDataSource>) => {
+        this.showContactPointSelect = true;
+        this.contactPointsFromCatalog = data;
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to request Contact Point entities.`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
+  }
+
+  public updateContactPointArray(event: MatSelectChange) {
+    const value: ContactPointDetailDataSource = event.value;
+    console.debug(value);
+    const entityDetail: EntityDetail = {
+      entityType: 'ContactPoint',
+      instanceId: value.instanceId,
+      uid: value.uid,
+      metaId: value.metaId,
+    };
+    const dataProduct = this.operationsService.getActiveDataProductValue();
+    /* this.contactPointDetails.push(entityDetail);
+    if (null != dataProduct) {
+      dataProduct.contactPoint = this.contactPointDetails;
+      this.operationsService.setActiveDataProduct(dataProduct);
+      this.showContactPointSelect = false;
+    } */
+  }
+
+  private handleServiceProviders(): void {
+    if (this.serviceProviders.length === 0) {
+      this.serviceProvidersLoading = true;
+      this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
+        this.serviceProviders = response;
+        this.serviceProvidersLoading = false;
+      });
+    }
   }
 }

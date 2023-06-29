@@ -31,6 +31,9 @@ export class OperationsService {
   private contactPoint = new BehaviorSubject<ContactPoint | null>(null);
   public contactPointObs = this.contactPoint.asObservable();
 
+  private webService = new BehaviorSubject<WebService | null>(null);
+  public webServiceObs = this.webService.asObservable();
+
   constructor(
     private persistorService: PersistorService,
     private apiService: ApiService,
@@ -79,6 +82,20 @@ export class OperationsService {
    */
   public getActiveContactPointValue(): ContactPoint | null {
     return this.contactPoint.getValue();
+  }
+
+  /**
+   * Sets active WebService
+   */
+  public setActiveWebService(webService: WebService): void {
+    this.webService.next(webService);
+  }
+
+  /**
+   * Gets active WebService
+   */
+  public getActiveWebServiceValue(): WebService | null {
+    return this.webService.getValue();
   }
 
   public convertToDataProduct(initial: DataProductDetailDataSource): DataProduct {
@@ -175,6 +192,42 @@ export class OperationsService {
       initial.role,
       initial.state,
       initial.telephone,
+      initial.toBeDelete,
+      initial.version,
+    );
+    return exportVar;
+  }
+
+  public convertToWebService(initial: WebserviceDetailDataSource): WebService {
+    const exportVar = new WebService(
+      initial.uid,
+      initial.aaaiTypes,
+      initial.category,
+      initial.changeComment,
+      initial.changeTimestamp,
+      initial.contactPoint,
+      initial.dateModified,
+      initial.datePublished,
+      initial.description,
+      initial.distribution,
+      initial.documentation,
+      initial.editorId,
+      initial.entryPoint,
+      initial.fileProvenance,
+      initial.identifier,
+      initial.instanceChangedId,
+      initial.instanceId,
+      initial.keywords,
+      initial.license,
+      initial.metaId,
+      initial.name,
+      initial.operation,
+      initial.provider,
+      initial.schemaIdentifier,
+      initial.spatialExtent,
+      initial.state,
+      initial.supportedOperation,
+      initial.temporalExtent,
       initial.toBeDelete,
       initial.version,
     );
