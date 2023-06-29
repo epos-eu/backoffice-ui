@@ -1,6 +1,5 @@
 import { State } from 'src/utility/enums/state.enum';
 import { Documentation } from '../types/documentation.type';
-import { Provider } from '../types/provider.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
 import { ContactPoint } from './contactPoint.model';
@@ -31,7 +30,7 @@ export class WebService {
     public metaId?: string,
     public name?: string,
     public operation?: string,
-    public provider?: Provider,
+    public provider?: EntityDetail,
     public schemaIdentifier?: string,
     public spatialExtent?: Array<SpatialExtent>,
     public state?: State,

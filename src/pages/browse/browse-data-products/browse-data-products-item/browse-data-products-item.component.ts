@@ -42,7 +42,6 @@ import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter
 import * as moment from 'moment';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
-import { Publisher } from 'src/apiAndObjects/objects/types/publisher.type';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
@@ -88,7 +87,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public typeOptions: Array<{ id: string; name: string }> = [];
   public dataProviders: Array<OrganizationDataSource> = [];
   public dataProvidersLoading = false;
-  public selectedDataProviders: Array<Publisher> = [];
+  public selectedDataProviders: Array<EntityDetail> = [];
 
   constructor(
     private dialogService: DialogService,
@@ -463,7 +462,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         entityType: '',
       };
     });
-    mapped.forEach((publisher: Publisher, index: number) => {
+    mapped.forEach((publisher: EntityDetail, index: number) => {
       if (this.dataProduct) {
         this.dataProduct.publisher[index] = publisher;
       }
