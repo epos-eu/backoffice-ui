@@ -2,25 +2,20 @@ import { Component, ElementRef, Input, QueryList, ViewChildren, OnInit } from '@
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
 import { HelpersService } from 'src/services/helpers.service';
 import { OperationsService } from 'src/services/operations.service';
-import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -53,11 +48,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private router: Router,
     private dialogService: DialogService,
     private formBuilder: UntypedFormBuilder,
     private apiService: ApiService,
-    private persistorService: PersistorService,
     private snackbarService: SnackbarService,
     private operationsService: OperationsService,
   ) {
@@ -123,6 +116,13 @@ export class WebserviceFormDetailsComponent implements OnInit {
       // temporalExtent: this.webservice?.temporalExtent,
       license: this.webservice?.license,
     });
+    this.form.valueChanges.subscribe((changes) => {
+      const updatingObject = this.operationsService.getActiveWebServiceValue();
+      if (updatingObject) {
+        updatingObject.description = changes['description'];
+        this.operationsService.setActiveWebService(updatingObject);
+      }
+    });
   }
 
   public handleChange(event: MatSlideToggleChange): void {
@@ -130,33 +130,27 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public handleSave() {
-    // this.form.value['description'] = [this.form.value['description']];
-    // this.form.value['title'] = [this.form.value['title']];
-    this.apiService.endpoints.Webservice.update
-      .call(this.form.value as WebService)
-      .then((data: WebserviceDetailDataSource) => {
-        const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
-        if (localStorage !== null) {
-          const entityDetail: EntityDetail = {
-            entityType: 'webservice',
-            metaId: data.metaId,
-            uid: data.uid,
-            instanceId: data.instanceId,
-          };
-          // this.snackbarService.openSnackbar(`Success: ${data.uid} created`, 'close', 'success', 6000, [
-          //   'snackbar',
-          //   'mat-toolbar',
-          //   'snackbar-success',
-          // ]);
-          const formData: DataProduct = JSON.parse(localStorage);
-          formData.distribution?.push(entityDetail);
-          this.persistorService.setValueInStorage(
-            StorageType.LOCAL_STORAGE,
-            StorageKey.FORM_DATA,
-            JSON.stringify(formData),
-          );
-        }
-      });
+    this.operationsService.handleWebserviceSave();
+    // this.apiService.endpoints.Webservice.update
+    //   .call(this.form.value as WebService)
+    //   .then((data: WebserviceDetailDataSource) => {
+    //     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    //     if (localStorage !== null) {
+    //       const entityDetail: EntityDetail = {
+    //         entityType: 'webservice',
+    //         metaId: data.metaId,
+    //         uid: data.uid,
+    //         instanceId: data.instanceId,
+    //       };
+    //       const formData: DataProduct = JSON.parse(localStorage);
+    //       formData.distribution?.push(entityDetail);
+    //       this.persistorService.setValueInStorage(
+    //         StorageType.LOCAL_STORAGE,
+    //         StorageKey.FORM_DATA,
+    //         JSON.stringify(formData),
+    //       );
+    //     }
+    //   });
   }
 
   public handleDelete(): void {

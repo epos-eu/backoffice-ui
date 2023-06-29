@@ -362,13 +362,8 @@ export class OperationsService {
   }
 
   public handleWebserviceSave(): void {
-    const localStorage = this.persistorService.getValueFromStorage(
-      StorageType.LOCAL_STORAGE,
-      StorageKey.ACTIVE_WEBSERVICE_FORM_DATA,
-    );
-    if (localStorage !== null) {
-      const formData: WebService = JSON.parse(localStorage);
-      // if (formData.state === State.DRAFT) {
+    const formData = this.getActiveWebServiceValue();
+    if (formData !== null) {
       this.apiService.endpoints[Entity.WEBSERVICE].update
         .call({
           ...formData,
