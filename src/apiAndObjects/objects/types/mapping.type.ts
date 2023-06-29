@@ -10,5 +10,5 @@ export type Mapping = {
   readOnlyValue?: string;
   required: string;
   valuePattern?: string;
-  variable: string;
+  variable?: string;
 };

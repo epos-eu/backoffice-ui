@@ -1,9 +1,9 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
-import { SupportedOperation } from '../types/supportedOperation.type';
 import { Address } from '../types/address.type';
 import { Affiliation } from '../types/affiliation.type';
+import { EntityDetail } from '../types/entityDetail.type';
 
 export class PersonDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -37,7 +37,7 @@ export class PersonDataSource extends BaseObject {
   public readonly metaId: string;
   public readonly instanceChangedId: string;
   public readonly changeTimestamp: Date;
-  public readonly operation: SupportedOperation;
+  public readonly operation: EntityDetail;
   public readonly editorId: string;
   public readonly changeComment: string;
   public readonly version: string;
@@ -65,7 +65,7 @@ export class PersonDataSource extends BaseObject {
     this.metaId = this._getString(PersonDataSource.KEYS.META_ID);
     this.instanceChangedId = this._getString(PersonDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.changeTimestamp = this._getDate(PersonDataSource.KEYS.CHANGE_TIMESTAMP);
-    this.operation = this._getValue(PersonDataSource.KEYS.OPERATION) as SupportedOperation;
+    this.operation = this._getValue(PersonDataSource.KEYS.OPERATION) as EntityDetail;
     this.editorId = this._getString(PersonDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(PersonDataSource.KEYS.CHANGE_COMMENT);
     this.version = this._getString(PersonDataSource.KEYS.VERSION);
