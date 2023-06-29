@@ -85,6 +85,12 @@
         font-size: 14px;
       }
     }
+
+    &.distribution {
+      label {
+        margin-bottom: 0;
+      }
+    }
   }
 
   mat-accordion {

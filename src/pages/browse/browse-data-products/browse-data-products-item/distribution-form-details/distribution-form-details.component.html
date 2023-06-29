@@ -1,180 +1,177 @@
 <ng-scrollbar [autoHeightDisabled]="false">
-  <div class="container">
-    <!-- <app-back-button path="/browse/{{ entityRoute }}"></app-back-button> -->
-    <div class="top-header">
-      <div class="flex-row">
-        <strong>{{ distribution?.uid }}</strong>
-      </div>
-      <div class="actions">
-        <div class="flex-col">
-          <button
-            mat-mini-fab
-            color="default"
-            aria-label="Load a revision"
-            (click)="handleGetRevisions()"
-          >
-            <mat-icon>replay</mat-icon>
-          </button>
-          <label>Revisions</label>
-        </div>
+  <!-- <app-back-button path="/browse/{{ entityRoute }}"></app-back-button> -->
+  <!-- <div class="top-header">
+    <div class="flex-row">
+      <strong>{{ distribution?.uid }}</strong>
+    </div>
+    <div class="actions">
+      <div class="flex-col">
+        <button
+          mat-mini-fab
+          color="default"
+          aria-label="Load a revision"
+          (click)="handleGetRevisions()"
+        >
+          <mat-icon>replay</mat-icon>
+        </button>
+        <label>Revisions</label>
       </div>
     </div>
-    <div class="body">
-      <form
-        [formGroup]="form"
-        *ngIf="form && distribution"
+  </div> -->
+  <div class="body">
+    <form
+      [formGroup]="form"
+      *ngIf="form && distribution"
+      class="distribution"
+    >
+      <mat-form-field
+        appearance="fill"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="100"
       >
-        <mat-form-field
-          appearance="fill"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="50"
-        >
-          <mat-label>Title</mat-label>
-          <input
-            matInput
-            placeholder="Title"
-            name="title"
-            formControlName="title"
-          />
-        </mat-form-field>
-        <mat-form-field
-          appearance="fill"
-          [floatLabel]="floatLabelControl.value"
-        >
-          <mat-label>Description</mat-label>
-          <textarea
-            matInput
-            name="description"
-            [ngStyle]="{ 'line-height': '1.4' }"
-            formControlName="description"
-            [value]="distribution.description[0]"
-            [disabled]="true"
-          ></textarea>
-        </mat-form-field>
-        <mat-form-field
-          appearance="fill"
-          [floatLabel]="floatLabelControl.value"
-          [style.width.%]="50"
-        >
-          <mat-label>Licence</mat-label>
-          <input
-            matInput
-            placeholder="Licence"
-            name="licence"
-            formControlName="licence"
-          />
-        </mat-form-field>
-        <!-- mat-form-field
-          appearance="fill"
-          [style.width.%]="50"
-        >
-          <mat-label>Changed</mat-label>
-          <input
-            matInput
-            placeholder="Choose a date & time"
-            name="changeTimestamp"
-            formControlName="changeTimestamp"
-            readonly
-          />
+        <mat-label>Title</mat-label>
+        <input
+          matInput
+          placeholder="Title"
+          name="title"
+          formControlName="title"
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        [floatLabel]="floatLabelControl.value"
+      >
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          name="description"
+          [ngStyle]="{ 'line-height': '1.4' }"
+          formControlName="description"
+          [value]="distribution.description[0]"
+          [disabled]="true"
+        ></textarea>
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        [floatLabel]="floatLabelControl.value"
+        [style.width.%]="100"
+      >
+        <mat-label>Licence</mat-label>
+        <input
+          matInput
+          placeholder="Licence"
+          name="licence"
+          formControlName="licence"
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        [style.width.%]="100"
+      >
+        <mat-label>Changed</mat-label>
+        <input
+          matInput
+          placeholder="Choose a date & time"
+          name="changeTimestamp"
+          formControlName="changeTimestamp"
+          readonly
+        />
 
-          <!-- <mat-datepicker-toggle
+        <!-- <mat-datepicker-toggle
             matSuffix
             [for]="$any(ChangedDate)"
           ></mat-datepicker-toggle> -->
 
-          <ngx-mat-datetime-picker #ChangedDate></ngx-mat-datetime-picker>
-        </mat-form-field>
-        <mat-form-field
-          appearance="fill"
-          [style.width.%]="50"
-        >
-          <mat-label>Modified</mat-label>
-          <input
-            matInput
-            placeholder="Choose a date & time"
-            name="Modified"
-            formControlName="modified"
-            readonly
-          />
+        <ngx-mat-datetime-picker #ChangedDate></ngx-mat-datetime-picker>
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        [style.width.%]="100"
+      >
+        <mat-label>Modified</mat-label>
+        <input
+          matInput
+          placeholder="Choose a date & time"
+          name="Modified"
+          formControlName="modified"
+          readonly
+        />
 
-          <!-- <mat-datepicker-toggle
+        <!-- <mat-datepicker-toggle
             matSuffix
             [for]="$any(modifiedDate)"
           ></mat-datepicker-toggle> -->
 
-          <ngx-mat-datetime-picker #modifiedDate></ngx-mat-datetime-picker>
-        </mat-form-field -->
+        <ngx-mat-datetime-picker #modifiedDate></ngx-mat-datetime-picker>
+      </mat-form-field>
 
-        <label id="example-radio-group-label">Data product accessible via: </label>
-        <mat-radio-group
-          #dataProductAccessibility
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group"
-          formControlName="dataProductAccessibility"
+      <label id="example-radio-group-label">Data product accessible via: </label>
+      <mat-radio-group
+        #dataProductAccessibility
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        formControlName="dataProductAccessibility"
+      >
+        <mat-radio-button value="download">Downloadable file (URL)</mat-radio-button>
+        <mat-radio-button value="webservice">Web Service</mat-radio-button>
+      </mat-radio-group>
+
+      <ng-container *ngIf="this.form?.get('dataProductAccessibility')?.value === 'download'">
+        <mat-form-field
+          appearance="fill"
+          [style.width.%]="100"
         >
-          <mat-radio-button value="download">Downloadable file (URL)</mat-radio-button>
-          <mat-radio-button value="webservice">Web Service</mat-radio-button>
-        </mat-radio-group>
-
-        <ng-container *ngIf="this.form?.get('dataProductAccessibility')?.value === 'download'">
-          <mat-form-field
-            appearance="fill"
-            [style.width.%]="50"
+          <input
+            matInput
+            placeholder="Select a format type below"
+            readonly
+            [value]="this.form.get('format')?.value"
+          />
+        </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          [style.width.%]="100"
+        >
+          <mat-label>Format</mat-label>
+          <select
+            matNativeControl
+            name="format"
+            formControlName="format"
           >
-            <input
-              matInput
-              placeholder="Select a format type below"
-              readonly
-              [value]="this.form.get('format')?.value"
-            />
-          </mat-form-field>
-          <mat-form-field
-            appearance="fill"
-            [style.width.%]="50"
-          >
-            <mat-label>Format</mat-label>
-            <select
-              matNativeControl
-              name="format"
-              formControlName="format"
+            <option
+              value=""
+              selected
+            ></option>
+            <option
+              *ngFor="let format of formats"
+              [value]="format.url"
             >
-              <option
-                value=""
-                selected
-              ></option>
-              <option
-                *ngFor="let format of formats"
-                [value]="format.url"
-              >
-                {{ format.format }}
-              </option>
-            </select>
-          </mat-form-field>
-        </ng-container>
-      </form>
+              {{ format.format }}
+            </option>
+          </select>
+        </mat-form-field>
+      </ng-container>
+    </form>
 
-      <div *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'">
-        <div class="entity-title">
-          <h1>Webservice</h1>
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="newWebservice()"
-            [hidden]="accessService"
-          >
-            New Webservice
-          </button>
-        </div>
-        <app-webservice-form-details [accessService]="accessService"></app-webservice-form-details>
-      </div>
+    <div *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'">
+      <p class="mat-subtitle-1">Webservice</p>
       <button
         mat-stroked-button
         color="primary"
-        (click)="handleSave()"
-        [disabled]="null == distribution"
+        (click)="newWebservice()"
+        [hidden]="accessService"
       >
-        Save
+        New Webservice
       </button>
+      <app-webservice-form-details [accessService]="accessService"></app-webservice-form-details>
     </div>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="handleSave()"
+      [disabled]="null == distribution"
+    >
+      Save
+    </button>
   </div>
 </ng-scrollbar>

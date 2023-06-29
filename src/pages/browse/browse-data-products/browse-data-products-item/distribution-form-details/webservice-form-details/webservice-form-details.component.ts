@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, QueryList, ViewChildren, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
+import { ReplaySubject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
@@ -33,6 +33,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       this.initData(webserviceDetails.instanceId);
     }
   }
+  @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
   public options: UntypedFormGroup;
   private hideRequiredControl = new UntypedFormControl(false);
@@ -47,6 +48,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public contactPointDetails: Array<EntityDetail> = [];
   public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
   public operation!: Operation | undefined;
+  public callOperationDetail = false;
+  public selectedPanelId: ReplaySubject<number> = new ReplaySubject();
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -81,16 +84,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
           this.webservice = data.shift();
           if (this.webservice) {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
-
             this.selectedServiceProvider = this.webservice?.provider ?? null;
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
             if (this.webservice && this.webservice.instanceId) {
               this.trackFormData();
-              this.apiService.endpoints[Entity.OPERATION].get
-                .call({ instanceId: this.webservice.supportedOperation![0].instanceId }, false)
-                .then((data: Array<OperationDetailDataSource>) => {
-                  this.operation = data.shift();
-                });
             }
           }
         }
@@ -254,5 +251,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
         this.serviceProvidersLoading = false;
       });
     }
+  }
+
+  public handleOperationParams(index: number): void {
+    const selectedPanel = this.panels.find((panel) => Number(panel.nativeElement.id) === index);
+    this.selectedPanelId.next(Number(selectedPanel?.nativeElement.id));
   }
 }

@@ -1,0 +1,16 @@
+<form
+  [formGroup]="paramsForm"
+  *ngIf="paramsForm"
+>
+  <mat-form-field
+    appearance="outline"
+    [style.width.%]="100"
+  >
+    <mat-label>Label</mat-label>
+    <input
+      matInput
+      placeholder="Label"
+      formControlName="label"
+    />
+  </mat-form-field>
+</form>
