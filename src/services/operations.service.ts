@@ -17,6 +17,8 @@ import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-sou
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { BehaviorSubject } from 'rxjs';
+import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
+import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +35,9 @@ export class OperationsService {
 
   private webService = new BehaviorSubject<WebService | null>(null);
   public webServiceObs = this.webService.asObservable();
+
+  private operation = new BehaviorSubject<Operation | null>(null);
+  public operationObs = this.operation.asObservable();
 
   constructor(
     private persistorService: PersistorService,
@@ -96,6 +101,20 @@ export class OperationsService {
    */
   public getActiveWebServiceValue(): WebService | null {
     return this.webService.getValue();
+  }
+
+  /**
+   * Sets active Operation
+   */
+  public setActiveOperation(operation: Operation): void {
+    this.operation.next(operation);
+  }
+
+  /**
+   * Gets active Operation
+   */
+  public getActiveOperation(): Operation | null {
+    return this.operation.getValue();
   }
 
   public convertToDataProduct(initial: DataProductDetailDataSource): DataProduct {
@@ -230,6 +249,30 @@ export class OperationsService {
       initial.temporalExtent,
       initial.toBeDelete,
       initial.version,
+    );
+    return exportVar;
+  }
+
+  public convertToOperation(initial: OperationDetailDataSource): Operation {
+    const exportVar = new Operation(
+      initial.uid,
+      initial.changeComment,
+      initial.changeTimestamp,
+      initial.editorId,
+      initial.fileProvenance,
+      initial.groups,
+      initial.instanceChangedId,
+      initial.instanceId,
+      initial.mapping,
+      initial.metaId,
+      initial.method,
+      initial.operation,
+      initial.returns,
+      initial.state,
+      initial.template,
+      initial.toBeDelete,
+      initial.version,
+      initial.webservice,
     );
     return exportVar;
   }
