@@ -34,6 +34,13 @@ import { DistributionFormDetailsComponent } from './browse-data-products/browse-
 import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
 import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
 import { OperationParametersComponent } from './browse-data-products/browse-data-products-item/operation-parameters/operation-parameters.component';
+import { OptionIntegerComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-integer/option-integer.component';
+import { OptionDatetimeComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-datetime/option-datetime.component';
+import { OptionStringComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-string/option-string.component';
+import { OptionDateComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-date/option-date.component';
+import { OptionCoordinateComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-coordinate/option-coordinate.component';
+import { OptionBooleanComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-boolean/option-boolean.component';
+import { OptionFloatComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-float/option-float.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +74,13 @@ import { OperationParametersComponent } from './browse-data-products/browse-data
     WebserviceFormDetailsComponent,
     SpatialCoverageMapComponent,
     OperationParametersComponent,
+    OptionIntegerComponent,
+    OptionDatetimeComponent,
+    OptionStringComponent,
+    OptionDateComponent,
+    OptionCoordinateComponent,
+    OptionBooleanComponent,
+    OptionFloatComponent,
   ],
   imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor],
   exports: [],
