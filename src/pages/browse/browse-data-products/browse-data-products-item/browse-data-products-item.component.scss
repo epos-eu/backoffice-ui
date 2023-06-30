@@ -127,12 +127,6 @@
         font-size: 15px;
       }
     }
-
-    mat-form-field {
-      &.indent {
-        margin-left: 1rem;
-      }
-    }
   }
 
   mat-accordion {
@@ -191,4 +185,8 @@
 
 .identifier-item {
   margin-bottom: 0.5rem;
+}
+
+.expansion-wrapper {
+  margin-top: -1rem;
 }

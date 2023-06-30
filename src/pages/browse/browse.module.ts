@@ -34,6 +34,7 @@ import { DistributionFormDetailsComponent } from './browse-data-products/browse-
 import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
 import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
 import { SideNavigationModule } from 'src/components/side-navigation/side-navigation.module';
+import { OperationParametersComponent } from './browse-data-products/browse-data-products-item/operation-parameters/operation-parameters.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { SideNavigationModule } from 'src/components/side-navigation/side-naviga
     DistributionFormDetailsComponent,
     WebserviceFormDetailsComponent,
     SpatialCoverageMapComponent,
+    OperationParametersComponent,
   ],
   imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [],

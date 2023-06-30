@@ -9,32 +9,6 @@
         [floatLabel]="floatLabelControl.value"
         [style.width.%]="100"
       >
-        <mat-label>UID</mat-label>
-        <input
-          matInput
-          placeholder="UID"
-          name="uid"
-          formControlName="uid"
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="fill"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="100"
-      >
-        <mat-label>Title</mat-label>
-        <input
-          matInput
-          placeholder="Name"
-          name="name"
-          formControlName="name"
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="fill"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="100"
-      >
         <mat-label>Description</mat-label>
         <textarea
           matInput
@@ -74,7 +48,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel class="contact-point">
         <mat-expansion-panel-header>
           <mat-panel-title>Contact Point</mat-panel-title>
         </mat-expansion-panel-header>
@@ -144,41 +118,60 @@
         />
       </mat-form-field -->
       <ng-container *ngIf="webservice.supportedOperation && webservice.supportedOperation.length > 0">
-        <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel
+          [expanded]="false"
+          class="supported-operation"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title>Supported operation</mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-container *ngFor="let item of webservice.supportedOperation">
-            <mat-form-field
-              appearance="outline"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="96"
-              class="indent"
-            >
-              <mat-label>UID</mat-label>
-              <input
-                matInput
-                placeholder="UID"
-                name="supportedOperation.uid"
-                [value]="item.uid"
-              />
-            </mat-form-field>
-            <mat-form-field
-              appearance="outline"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="96"
-              class="indent"
-            >
-              <mat-label>Entity</mat-label>
-              <input
-                matInput
-                placeholder="Entity"
-                name="supportedOperation.entityType"
-                [value]="item.entityType"
-                readonly
-              />
-            </mat-form-field>
-            {{ operation | json }}
+          <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
+            <div class="supported-operation-item">
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="96"
+              >
+                <mat-label>UID</mat-label>
+                <input
+                  matInput
+                  placeholder="UID"
+                  name="supportedOperation.uid"
+                  [value]="item.uid"
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="96"
+              >
+                <mat-label>Entity</mat-label>
+                <input
+                  matInput
+                  placeholder="Entity"
+                  name="supportedOperation.entityType"
+                  [value]="item.entityType"
+                  readonly
+                />
+              </mat-form-field>
+              <mat-expansion-panel
+                #expansionPanel
+                [expanded]="false"
+                class="supported-operation-params"
+                [style.width.%]="96"
+                [id]="i"
+                (afterExpand)="handleOperationParams(i)"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Parameters</mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-operation-parameters
+                  *ngIf="(selectedPanelId | async) === i"
+                  [instanceId]="item.instanceId"
+                ></app-operation-parameters>
+              </mat-expansion-panel>
+            </div>
+            <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
           </ng-container>
         </mat-expansion-panel>
       </ng-container>

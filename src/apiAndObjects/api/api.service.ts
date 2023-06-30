@@ -35,6 +35,7 @@ import { PutWebserviceDetail } from './webservice/putWebserviceDetail';
 import { PostUserDetail } from './user/postUserDetail';
 import { PutUserDetail } from './user/putUserDetail';
 import { PutContactPointDetail } from './contact-point/putContactPointDetail';
+import { PutOperationDetail } from './operation/putOperationDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -87,6 +88,7 @@ export class ApiService extends BaseApi {
       get: new GetOperationDetails(ApiService.USE_LIVE_API),
       getAll: new GetAllOperations(ApiService.USE_LIVE_API),
       create: new PostOperationDetail(ApiService.USE_LIVE_API),
+      update: new PutOperationDetail(ApiService.USE_LIVE_API),
     },
   };
 

@@ -59,7 +59,7 @@
             *ngIf="dataProduct"
             class="detail"
           >
-            <div class="label">Create:</div>
+            <div class="label">Created:</div>
             <div class="value">{{ dataProduct.created | date : 'full' }}</div>
           </div>
           <div
@@ -153,263 +153,273 @@
           </mat-form-field>
         </mat-expansion-panel>
 
-        <app-anchor-navigation [identifier]="'#spatialcoverage'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Spatial Coverage</mat-panel-title>
-          </mat-expansion-panel-header>
-          <ng-container
-            *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0 && spatialCoverageInput !== ''"
-          >
-            <ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
-              <div class="spatial-item">
-                <div
-                  class="spatial-type"
-                  [style.width.%]="20"
-                >
-                  <mat-radio-group
-                    aria-label="Select an option"
-                    formControlName="spatialExtentType"
-                  >
-                    <mat-radio-button [value]="spatialCoveragePolygon">Polygon</mat-radio-button>
-                    <mat-radio-button [value]="spatialCoveragePoint">Point</mat-radio-button>
-                  </mat-radio-group>
-                </div>
-                <div
-                  class="spatial-coverage-input"
-                  [style.width.%]="50"
-                >
-                  <mat-form-field
-                    appearance="fill"
-                    [floatLabel]="floatLabelControl.value"
-                    [style.width.%]="96"
-                    class="indent"
-                  >
-                    <mat-label>{{ labelSpatialCoverage }}</mat-label>
-                    <input
-                      matInput
-                      placeholder="Coordinates"
-                      name="item.location"
-                      [value]="item?.location"
-                      formControlName="spatialExtent"
-                    />
-                  </mat-form-field>
-                  <button
-                    mat-stroked-button
-                    color="primary"
-                    (click)="refreshPointsOnMap()"
-                  >
-                    Refresh the map
-                  </button>
-                </div>
-                <app-spatial-coverage-map
-                  [spatialRange]="spatialCoverageInput"
-                  [coordinatesChange]="spatialCoverageChange"
-                >
-                </app-spatial-coverage-map>
-              </div>
-            </ng-container>
-          </ng-container>
-          <ng-container
-            *ngIf="(dataProduct.spatialExtent && dataProduct.spatialExtent.length === 0) || spatialCoverageInput === ''"
-          >
-            <button
-              mat-stroked-button
-              color="primary"
-              (click)="newSpatialCoverage()"
+        <div class="expansion-wrapper">
+          <app-anchor-navigation [identifier]="'#spatialcoverage'"></app-anchor-navigation>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Spatial Coverage</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container
+              *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0 && spatialCoverageInput !== ''"
             >
-              Add Spatial Coverage
-            </button>
-          </ng-container>
-        </mat-expansion-panel>
-
-        <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Temporal Coverage</mat-panel-title>
-          </mat-expansion-panel-header>
-
-          <div class="fields-flex-col">
-            <mat-form-field appearance="fill">
-              <mat-label>Start date</mat-label>
-              <input
-                matInput
-                [ngxMatDatetimePicker]="pickerStartDate"
-                placeholder="Choose a date & time"
-                formControlName="temporalExtentStartDate"
-              />
-
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="$any(pickerStartDate)"
-              ></mat-datepicker-toggle>
-
-              <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
-              <mat-label>End date</mat-label>
-              <input
-                matInput
-                [ngxMatDatetimePicker]="pickerEndDate"
-                placeholder="Choose a date & time"
-                formControlName="temporalExtentEndDate"
-              />
-
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="$any(pickerEndDate)"
-              ></mat-datepicker-toggle>
-
-              <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
-            </mat-form-field>
-          </div>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title></mat-panel-title>
-          </mat-expansion-panel-header>
-          <ng-container>
-            <div class="fields-flex-row">
-              <mat-form-field
-                appearance="fill"
-                [style.width.%]="50"
-              >
-                <mat-label>Update frequency</mat-label>
-                <mat-select formControlName="accrualPeriodicity">
-                  <mat-option
-                    *ngFor="let item of accrualPeriodicityOptions"
-                    [value]="item.id"
+              <ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
+                <div class="spatial-item">
+                  <div
+                    class="spatial-type"
+                    [style.width.%]="20"
                   >
-                    {{ item.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field
-                appearance="fill"
-                [style.width.%]="50"
-              >
-                <mat-label>Type</mat-label>
-                <mat-select formControlName="type">
-                  <mat-option
-                    *ngFor="let item of typeOptions"
-                    [value]="item.id"
-                    >{{ item.name }}</mat-option
+                    <mat-radio-group
+                      aria-label="Select an option"
+                      formControlName="spatialExtentType"
+                    >
+                      <mat-radio-button [value]="spatialCoveragePolygon">Polygon</mat-radio-button>
+                      <mat-radio-button [value]="spatialCoveragePoint">Point</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div
+                    class="spatial-coverage-input"
+                    [style.width.%]="50"
                   >
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field
-                appearance="fill"
-                [style.width.%]="50"
+                    <mat-form-field
+                      appearance="fill"
+                      [floatLabel]="floatLabelControl.value"
+                      [style.width.%]="96"
+                      class="indent"
+                    >
+                      <mat-label>{{ labelSpatialCoverage }}</mat-label>
+                      <input
+                        matInput
+                        placeholder="Coordinates"
+                        name="item.location"
+                        [value]="item?.location"
+                        formControlName="spatialExtent"
+                      />
+                    </mat-form-field>
+                    <button
+                      mat-stroked-button
+                      color="primary"
+                      (click)="refreshPointsOnMap()"
+                    >
+                      Refresh the map
+                    </button>
+                  </div>
+                  <app-spatial-coverage-map
+                    [spatialRange]="spatialCoverageInput"
+                    [coordinatesChange]="spatialCoverageChange"
+                  >
+                  </app-spatial-coverage-map>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                (dataProduct.spatialExtent && dataProduct.spatialExtent.length === 0) || spatialCoverageInput === ''
+              "
+            >
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="newSpatialCoverage()"
               >
-                <mat-label>Issued</mat-label>
+                Add Spatial Coverage
+              </button>
+            </ng-container>
+          </mat-expansion-panel>
+        </div>
+
+        <div class="expansion-wrapper">
+          <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Temporal Coverage</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="fields-flex-col">
+              <mat-form-field appearance="fill">
+                <mat-label>Start date</mat-label>
                 <input
                   matInput
-                  [ngxMatDatetimePicker]="pickerIssued"
+                  [ngxMatDatetimePicker]="pickerStartDate"
                   placeholder="Choose a date & time"
-                  formControlName="issued"
+                  formControlName="temporalExtentStartDate"
                 />
 
                 <mat-datepicker-toggle
                   matSuffix
-                  [for]="$any(pickerIssued)"
+                  [for]="$any(pickerStartDate)"
                 ></mat-datepicker-toggle>
 
-                <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
+                <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
               </mat-form-field>
 
-              <mat-form-field
-                appearance="fill"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="100"
-              >
-                <mat-label>Quality assurance</mat-label>
+              <mat-form-field appearance="fill">
+                <mat-label>End date</mat-label>
                 <input
                   matInput
-                  placeholder="Quality assurance"
-                  name="qualityAssurance"
-                  formControlName="qualityAssurance"
+                  [ngxMatDatetimePicker]="pickerEndDate"
+                  placeholder="Choose a date & time"
+                  formControlName="temporalExtentEndDate"
                 />
+
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="$any(pickerEndDate)"
+                ></mat-datepicker-toggle>
+
+                <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
               </mat-form-field>
             </div>
-          </ng-container>
-        </mat-expansion-panel>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title></mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container>
+              <div class="fields-flex-row">
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Update frequency</mat-label>
+                  <mat-select formControlName="accrualPeriodicity">
+                    <mat-option
+                      *ngFor="let item of accrualPeriodicityOptions"
+                      [value]="item.id"
+                    >
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Type</mat-label>
+                  <mat-select formControlName="type">
+                    <mat-option
+                      *ngFor="let item of typeOptions"
+                      [value]="item.id"
+                      >{{ item.name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Issued</mat-label>
+                  <input
+                    matInput
+                    [ngxMatDatetimePicker]="pickerIssued"
+                    placeholder="Choose a date & time"
+                    formControlName="issued"
+                  />
+
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="$any(pickerIssued)"
+                  ></mat-datepicker-toggle>
+
+                  <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
+                </mat-form-field>
+
+                <mat-form-field
+                  appearance="fill"
+                  [floatLabel]="floatLabelControl.value"
+                  [style.width.%]="100"
+                >
+                  <mat-label>Quality assurance</mat-label>
+                  <input
+                    matInput
+                    placeholder="Quality assurance"
+                    name="qualityAssurance"
+                    formControlName="qualityAssurance"
+                  />
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </mat-expansion-panel>
+        </div>
 
         <app-anchor-navigation [identifier]="'#persistentidentifier'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>Persistent Identifier</mat-panel-title>
-          </mat-expansion-panel-header>
-          <ng-container formArrayName="identifier">
-            <ng-container
-              *ngFor="let control of getControls('identifier'); let i = index"
-              [formGroupName]="i"
-            >
-              <mat-form-field
-                appearance="fill"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="100"
+        <div class="expansion-wrapper">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Persistent Identifier</mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container formArrayName="identifier">
+              <ng-container
+                *ngFor="let control of getControls('identifier'); let i = index"
+                [formGroupName]="i"
               >
-                <mat-label>Identifier</mat-label>
-                <input
-                  matInput
-                  placeholder="Identifier"
-                  formControlName="identifier"
-                />
-              </mat-form-field>
-              <mat-form-field
-                appearance="fill"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="100"
-              >
-                <mat-label>Type</mat-label>
-                <input
-                  matInput
-                  placeholder="Type"
-                  formControlName="type"
-                />
-              </mat-form-field>
+                <mat-form-field
+                  appearance="fill"
+                  [floatLabel]="floatLabelControl.value"
+                  [style.width.%]="100"
+                >
+                  <mat-label>Identifier</mat-label>
+                  <input
+                    matInput
+                    placeholder="Identifier"
+                    formControlName="identifier"
+                  />
+                </mat-form-field>
+                <mat-form-field
+                  appearance="fill"
+                  [floatLabel]="floatLabelControl.value"
+                  [style.width.%]="100"
+                >
+                  <mat-label>Type</mat-label>
+                  <input
+                    matInput
+                    placeholder="Type"
+                    formControlName="type"
+                  />
+                </mat-form-field>
+              </ng-container>
             </ng-container>
-          </ng-container>
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="handleAddIdentifier()"
-          >
-            Add identifier
-          </button>
-        </mat-expansion-panel>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="handleAddIdentifier()"
+            >
+              Add identifier
+            </button>
+          </mat-expansion-panel>
+        </div>
 
         <app-anchor-navigation [identifier]="'#dataproviders'"></app-anchor-navigation>
-        <mat-expansion-panel
-          [expanded]="false"
-          (afterExpand)="handleDataProviders()"
-          *ngIf="dataProduct.publisher && dataProduct.publisher.length > 0"
-        >
-          <mat-expansion-panel-header>
-            <mat-panel-title>Data providers</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-form-field>
-            <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
-            <mat-select
-              [(ngModel)]="selectedDataProviders"
-              (ngModelChange)="handleDataProviderChange($event)"
-              [ngModelOptions]="{ standalone: true }"
-              [compareWith]="compareWithFn"
-              multiple
-            >
-              <mat-option
-                *ngFor="let provider of dataProviders"
-                [value]="provider"
+        <div class="expansion-wrapper">
+          <mat-expansion-panel
+            [expanded]="false"
+            (afterExpand)="handleDataProviders()"
+            *ngIf="dataProduct.publisher && dataProduct.publisher.length > 0"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>Data providers</mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field>
+              <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
+              <mat-select
+                [(ngModel)]="selectedDataProviders"
+                (ngModelChange)="handleDataProviderChange($event)"
+                [ngModelOptions]="{ standalone: true }"
+                [compareWith]="compareWithFn"
+                multiple
               >
-                {{ provider.legalName }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-expansion-panel>
+                <mat-option
+                  *ngFor="let provider of dataProviders"
+                  [value]="provider"
+                >
+                  {{ provider.legalName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-expansion-panel>
+        </div>
 
         <input
           matInput
@@ -435,7 +445,7 @@
           [hidden]="true"
         />
       </form>
-      <div>
+      <div class="expansion-wrapper">
         <app-anchor-navigation [identifier]="'#contactpoint'"></app-anchor-navigation>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
