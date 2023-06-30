@@ -30,6 +30,7 @@ import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [],
@@ -64,6 +65,7 @@ import {
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
     NgxMatTimepickerModule,
+    MatTreeModule,
   ],
   exports: [
     FormsModule,
@@ -96,6 +98,7 @@ import {
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
     NgxMatTimepickerModule,
+    MatTreeModule,
   ],
 })
 export class AngularMaterialModule {}

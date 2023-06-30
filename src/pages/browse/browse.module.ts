@@ -33,6 +33,7 @@ import { ContactPointFormDetailsComponent } from './browse-data-products/browse-
 import { DistributionFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/distribution-form-details.component';
 import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
 import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
+import { SideNavigationModule } from 'src/components/side-navigation/side-navigation.module';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-
     WebserviceFormDetailsComponent,
     SpatialCoverageMapComponent,
   ],
-  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor],
+  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [],
   providers: [
     {

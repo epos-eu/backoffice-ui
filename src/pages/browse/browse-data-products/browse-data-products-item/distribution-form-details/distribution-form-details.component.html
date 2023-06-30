@@ -155,6 +155,7 @@
       </form>
 
       <div *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'">
+        <app-anchor-navigation [identifier]="'#webservice'"></app-anchor-navigation>
         <div class="entity-title">
           <h1>Webservice</h1>
           <button

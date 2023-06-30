@@ -14,6 +14,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { FormatTypes } from './formats';
+import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 
 @Component({
   selector: 'app-distribution-form-details',
@@ -46,6 +47,7 @@ export class DistributionFormDetailsComponent {
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
     private operationsService: OperationsService,
+    private explorerService: ExplorerService,
   ) {}
 
   private initData(id: string): void {
@@ -97,6 +99,26 @@ export class DistributionFormDetailsComponent {
       format: this.distribution?.format,
       issued: this.distribution?.issued,
     });
+
+    this.explorerService.setFormSection(
+      '#dataproduct',
+      {
+        id: '#distribution',
+        name: 'Distribution',
+        children: [
+          {
+            id: '#webservice',
+            name: 'Web Service',
+            children: [],
+            expanded: false,
+          },
+        ],
+        expanded: true,
+      },
+
+      false,
+    );
+
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
       if (updatingObject) {

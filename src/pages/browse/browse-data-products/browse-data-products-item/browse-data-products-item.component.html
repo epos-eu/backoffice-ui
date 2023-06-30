@@ -3,6 +3,7 @@
     <app-back-button path="/browse/{{ entityRoute }}"></app-back-button>
     <div class="top-header">
       <div class="flex-col">
+        <app-anchor-navigation [identifier]="'#dataproduct'"></app-anchor-navigation>
         <h1 class="mat-headline-4">Data product</h1>
         <!-- <mat-chip-listbox
           aria-label="Status"
@@ -37,6 +38,7 @@
       </div>
     </div>
     <div class="body">
+      <app-anchor-navigation [identifier]="'#generalinformation'"></app-anchor-navigation>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>General Information</mat-panel-title>
@@ -74,6 +76,7 @@
         *ngIf="form && dataProduct"
         class="data-product"
       >
+        <app-anchor-navigation [identifier]="'#description'"></app-anchor-navigation>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Description</mat-panel-title>
@@ -150,6 +153,7 @@
           </mat-form-field>
         </mat-expansion-panel>
 
+        <app-anchor-navigation [identifier]="'#spatialcoverage'"></app-anchor-navigation>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Spatial Coverage</mat-panel-title>
@@ -219,6 +223,7 @@
           </ng-container>
         </mat-expansion-panel>
 
+        <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Temporal Coverage</mat-panel-title>
@@ -333,6 +338,7 @@
           </ng-container>
         </mat-expansion-panel>
 
+        <app-anchor-navigation [identifier]="'#persistentidentifier'"></app-anchor-navigation>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Persistent Identifier</mat-panel-title>
@@ -377,6 +383,7 @@
           </button>
         </mat-expansion-panel>
 
+        <app-anchor-navigation [identifier]="'#dataproviders'"></app-anchor-navigation>
         <mat-expansion-panel
           [expanded]="false"
           (afterExpand)="handleDataProviders()"
@@ -429,6 +436,7 @@
         />
       </form>
       <div>
+        <app-anchor-navigation [identifier]="'#contactpoint'"></app-anchor-navigation>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>Contact Point</mat-panel-title>
@@ -460,7 +468,8 @@
         </mat-expansion-panel>
       </div>
       <div>
-        <mat-expansion-panel>
+        <app-anchor-navigation [identifier]="'#distribution'"></app-anchor-navigation>
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>Distribution</mat-panel-title>
           </mat-expansion-panel-header>

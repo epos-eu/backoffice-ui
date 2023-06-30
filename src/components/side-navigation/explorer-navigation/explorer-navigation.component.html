@@ -1,0 +1,45 @@
+<h3 mat-subheader>Explorer</h3>
+
+<mat-tree
+  [dataSource]="dataSource"
+  [treeControl]="treeControl"
+>
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node
+    *matTreeNodeDef="let node"
+    matTreeNodePadding
+    [ngClass]="{ active: node.isActive }"
+  >
+    <!-- use a disabled button to provide padding for tree leaf -->
+    <button
+      mat-icon-button
+      disabled
+    ></button>
+    <span
+      class="action"
+      (click)="scrollOn(node.id)"
+      >{{ node.name }}</span
+    >
+  </mat-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-tree-node
+    *matTreeNodeDef="let node; when: hasChild"
+    matTreeNodePadding
+    [ngClass]="{ active: node.isActive }"
+  >
+    <button
+      mat-icon-button
+      matTreeNodeToggle
+      [attr.aria-label]="'Toggle ' + node.name"
+    >
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </button>
+    <span
+      class="action"
+      (click)="scrollOn(node.id)"
+      >{{ node.name }}</span
+    >
+  </mat-tree-node>
+</mat-tree>
