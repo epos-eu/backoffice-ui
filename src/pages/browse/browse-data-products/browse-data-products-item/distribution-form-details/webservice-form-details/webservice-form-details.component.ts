@@ -100,9 +100,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   private trackFormData(): void {
     this.form = this.formBuilder.group({
       instanceId: this.webservice?.instanceId as string,
-      uid: this.webservice?.uid,
       metaId: this.webservice?.metaId,
-      name: this.webservice?.name,
       description: this.webservice?.description,
       documentation: this.getDocumentation(),
       // datePublished: this.webservice?.datePublished,
