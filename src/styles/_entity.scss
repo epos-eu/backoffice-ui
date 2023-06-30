@@ -91,6 +91,15 @@
         margin-bottom: 0;
       }
     }
+
+    &.operation-params {
+      mat-slide-toggle {
+        label {
+          margin-bottom: 0;
+          margin-left: 0.5rem;
+        }
+      }
+    }
   }
 
   mat-accordion {

@@ -1,34 +1,101 @@
 <form
   [formGroup]="paramsForm"
   *ngIf="paramsForm && mapping"
+  class="operation-params"
 >
   <ng-container formArrayName="mapping">
     <ng-container
       *ngFor="let control of getControls('mapping'); let i = index"
       [formGroupName]="i"
     >
-      <mat-form-field
-        appearance="fill"
-        [style.width.%]="100"
-      >
-        <mat-label>{{ control.value.label }}</mat-label>
-        <input
-          matInput
-          placeholder="Default value"
-          formControlName="defaultValue"
-        />
-      </mat-form-field>
+      <ng-container [ngSwitch]="control.value.range">
+        <ng-container *ngSwitchCase="range.DATE_TIME">
+          <mat-form-field
+            appearance="fill"
+            [style.width.%]="100"
+          >
+            <mat-label>{{ control.value.label }}</mat-label>
+            <input
+              [ngxMatDatetimePicker]="picker"
+              matInput
+              placeholder="Choose a date & time"
+              formControlName="defaultValue"
+              [formControl]="getDateControl(control.value.defaultValue)"
+              [readonly]="control.value.readOnlyValue === 'true'"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="$any(picker)"
+            ></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="range.DATE">
+          <mat-form-field
+            appearance="fill"
+            [style.width.%]="100"
+          >
+            <mat-label>{{ control.value.label }}</mat-label>
+            <input
+              [matDatepicker]="picker"
+              matInput
+              placeholder="Choose a date & time"
+              formControlName="defaultValue"
+              [formControl]="getDateControl(control.value.defaultValue)"
+              [readonly]="control.value.readOnlyValue === 'true'"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="range.STRING">
+          <mat-form-field
+            appearance="fill"
+            [style.width.%]="100"
+          >
+            <mat-label>{{ control.value.label }}</mat-label>
+            <input
+              matInput
+              placeholder=""
+              formControlName="defaultValue"
+              [readonly]="control.value.readOnlyValue === 'true'"
+            />
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="range.INTEGER">
+          <mat-form-field>
+            <mat-label>{{ control.value.label }}</mat-label>
+            <input
+              type="number"
+              matInput
+              formControlName="defaultValue"
+              [readonly]="control.value.readOnlyValue === 'true'"
+              [max]="control.value.maxValue"
+              [min]="control.value.minValue"
+            />
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="range.FLOAT">
+          <mat-form-field>
+            <mat-label>{{ control.value.label }}</mat-label>
+            <input
+              matInput
+              formControlName="defaultValue"
+              [readonly]="control.value.readOnlyValue === 'true'"
+              [max]="control.value.maxValue"
+              [min]="control.value.minValue"
+            />
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngSwitchCase="range.BOOLEAN">
+          <mat-slide-toggle formControlName="defaultValue">
+            {{ control.value.label }}
+          </mat-slide-toggle>
+        </ng-container>
+      </ng-container>
     </ng-container>
   </ng-container>
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="100"
-  >
-    <mat-label>Template</mat-label>
-    <input
-      matInput
-      placeholder="Template"
-      formControlName="template"
-    />
-  </mat-form-field>
 </form>

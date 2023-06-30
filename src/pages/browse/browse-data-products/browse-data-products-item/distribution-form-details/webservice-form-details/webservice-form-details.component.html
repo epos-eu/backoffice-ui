@@ -48,7 +48,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel class="contact-point">
         <mat-expansion-panel-header>
           <mat-panel-title>Contact Point</mat-panel-title>
         </mat-expansion-panel-header>
@@ -131,7 +131,6 @@
                 appearance="outline"
                 [floatLabel]="floatLabelControl.value"
                 [style.width.%]="96"
-                class="indent"
               >
                 <mat-label>UID</mat-label>
                 <input
@@ -145,7 +144,6 @@
                 appearance="outline"
                 [floatLabel]="floatLabelControl.value"
                 [style.width.%]="96"
-                class="indent"
               >
                 <mat-label>Entity</mat-label>
                 <input
@@ -173,7 +171,7 @@
                 ></app-operation-parameters>
               </mat-expansion-panel>
             </div>
-            <mat-divider></mat-divider>
+            <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
           </ng-container>
         </mat-expansion-panel>
       </ng-container>

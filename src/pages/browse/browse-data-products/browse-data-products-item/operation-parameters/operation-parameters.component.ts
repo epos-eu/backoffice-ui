@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -17,8 +18,10 @@ export class OperationParametersComponent implements OnInit {
 
   private operation!: OperationDetailDataSource;
   private template!: string;
+  private mappingChanges: Array<Mapping> = [];
   public paramsForm!: UntypedFormGroup;
   public mapping!: Mapping[];
+  public range: typeof OperationParamsRange = OperationParamsRange;
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;
@@ -42,8 +45,15 @@ export class OperationParametersComponent implements OnInit {
 
   private createMappingFormGroup(mapping: Mapping): FormGroup {
     return this.formBuilder.group({
-      defaultValue: [mapping.defaultValue, mapping.required === 'true' ? Validators.required : ''],
+      defaultValue: [
+        {
+          value: mapping.defaultValue,
+          disabled: mapping.readOnlyValue === 'true' ? true : false,
+        },
+        mapping.required === 'true' ? Validators.required : '',
+      ],
       label: [mapping.label],
+      range: [mapping.range],
     });
   }
 
@@ -52,14 +62,23 @@ export class OperationParametersComponent implements OnInit {
     return transformed;
   }
 
+  private trackFormChanges(changes: any): void {
+    this.mappingChanges = changes.mapping;
+  }
+
   private initForm(): void {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
       template: this.template,
     });
+    this.paramsForm.valueChanges.subscribe((changes) => this.trackFormChanges(changes));
   }
 
   public ngOnInit(): void {
     this.initData();
+  }
+
+  public getDateControl(dateStr: string): FormControl {
+    return new FormControl(new Date(dateStr));
   }
 }

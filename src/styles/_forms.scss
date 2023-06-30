@@ -17,3 +17,10 @@
     }
   }
 }
+
+mat-form-field {
+  &.indent {
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+}
