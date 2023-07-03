@@ -44,6 +44,7 @@ import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodici
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
+import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -89,6 +90,50 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public dataProviders: Array<OrganizationDataSource> = [];
   public dataProvidersLoading = false;
   public selectedDataProviders: Array<EntityDetail> = [];
+
+  private formTree: FormTree = {
+    id: '#dataproduct',
+    name: 'Data Product',
+    active: true,
+    children: [
+      {
+        id: '#generalinformation',
+        name: 'General Information',
+        children: [],
+      },
+      {
+        id: '#description',
+        name: 'Description',
+        children: [],
+      },
+      {
+        id: '#spatialcoverage',
+        name: 'Spatial Coverage',
+        children: [],
+      },
+      {
+        id: '#temporalcoverage',
+        name: 'Temporal Coverage',
+        children: [],
+      },
+      {
+        id: '#persistentidentifier',
+        name: 'Persistent Identifier',
+        children: [],
+      },
+      {
+        id: '#dataproviders',
+        name: 'Data Providers',
+        children: [],
+      },
+      {
+        id: '#contactpoint',
+        name: 'Contact Point',
+        children: [],
+      },
+    ],
+    expanded: true,
+  };
 
   constructor(
     private dialogService: DialogService,
@@ -202,53 +247,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         type: this.dataProduct?.type,
       });
 
-      this.explorerService.setFormSection(
-        null,
-        {
-          id: '#dataproduct',
-          name: 'Data Product',
-          active: true,
-          children: [
-            {
-              id: '#generalinformation',
-              name: 'General Information',
-              children: [],
-            },
-            {
-              id: '#description',
-              name: 'Description',
-              children: [],
-            },
-            {
-              id: '#spatialcoverage',
-              name: 'Spatial Coverage',
-              children: [],
-            },
-            {
-              id: '#temporalcoverage',
-              name: 'Temporal Coverage',
-              children: [],
-            },
-            {
-              id: '#persistentidentifier',
-              name: 'Persistent Identifier',
-              children: [],
-            },
-            {
-              id: '#dataproviders',
-              name: 'Data Providers',
-              children: [],
-            },
-            {
-              id: '#contactpoint',
-              name: 'Contact Point',
-              children: [],
-            },
-          ],
-          expanded: true,
-        },
-        true,
-      );
+      this.explorerService.setFormSection(null, this.formTree, true);
 
       this.form.valueChanges.subscribe((changes) => {
         console.log(changes);
