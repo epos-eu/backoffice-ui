@@ -50,33 +50,35 @@
 
       <app-anchor-navigation [identifier]="'#wscontactpoint'"></app-anchor-navigation>
       <mat-expansion-panel class="contact-point">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#wscontactpoint' }">
           <mat-panel-title>Contact Point</mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-form-field
-          class="contact-select"
-          *ngIf="showContactPointSelect"
-        >
-          <mat-label>Select Contact Point</mat-label>
-          <mat-select (selectionChange)="updateContactPointArray($event)">
-            <mat-option
-              *ngFor="let contactPoint of contactPointsFromCatalog"
-              [value]="contactPoint"
-            >
-              {{ contactPoint.uid }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngFor="let detail of contactPointDetails">
-          <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
+        <div class="expansion-content-wrapper">
+          <mat-form-field
+            class="contact-select"
+            *ngIf="showContactPointSelect"
+          >
+            <mat-label>Select Contact Point</mat-label>
+            <mat-select (selectionChange)="updateContactPointArray($event)">
+              <mat-option
+                *ngFor="let contactPoint of contactPointsFromCatalog"
+                [value]="contactPoint"
+              >
+                {{ contactPoint.uid }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngFor="let detail of contactPointDetails">
+            <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
+          </div>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="newContactPoint()"
+          >
+            New Contact Point
+          </button>
         </div>
-        <button
-          mat-stroked-button
-          color="primary"
-          (click)="newContactPoint()"
-        >
-          New Contact Point
-        </button>
       </mat-expansion-panel>
 
       <!-- mat-form-field
@@ -124,43 +126,45 @@
           [expanded]="false"
           class="supported-operation"
         >
-          <mat-expansion-panel-header>
+          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#wssupportedoperation' }">
             <mat-panel-title>Supported operation</mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
-            <div class="supported-operation-item">
-              <mat-form-field
-                appearance="outline"
-                [floatLabel]="floatLabelControl.value"
-                [style.width.%]="96"
-              >
-                <mat-label>UID</mat-label>
-                <input
-                  matInput
-                  placeholder="UID"
-                  name="supportedOperation.uid"
-                  [value]="item.uid"
-                />
-              </mat-form-field>
-              <mat-expansion-panel
-                #expansionPanel
-                [expanded]="false"
-                class="supported-operation-params"
-                [style.width.%]="96"
-                [id]="i"
-                (afterExpand)="handleOperationParams(i)"
-              >
-                <mat-expansion-panel-header>
-                  <mat-panel-title>Parameters</mat-panel-title>
-                </mat-expansion-panel-header>
-                <app-operation-parameters
-                  *ngIf="(selectedPanelId | async) === i"
-                  [instanceId]="item.instanceId"
-                ></app-operation-parameters>
-              </mat-expansion-panel>
-            </div>
-            <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
-          </ng-container>
+          <div class="expansion-content-wrapper">
+            <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
+              <div class="supported-operation-item">
+                <mat-form-field
+                  appearance="outline"
+                  [floatLabel]="floatLabelControl.value"
+                  [style.width.%]="96"
+                >
+                  <mat-label>UID</mat-label>
+                  <input
+                    matInput
+                    placeholder="UID"
+                    name="supportedOperation.uid"
+                    [value]="item.uid"
+                  />
+                </mat-form-field>
+                <mat-expansion-panel
+                  #expansionPanel
+                  [expanded]="false"
+                  class="supported-operation-params"
+                  [style.width.%]="96"
+                  [id]="i"
+                  (afterExpand)="handleOperationParams(i)"
+                >
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>Parameters</mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <app-operation-parameters
+                    *ngIf="(selectedPanelId | async) === i"
+                    [instanceId]="item.instanceId"
+                  ></app-operation-parameters>
+                </mat-expansion-panel>
+              </div>
+              <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
+            </ng-container>
+          </div>
         </mat-expansion-panel>
       </ng-container>
       <ng-container *ngIf="webservice.spatialExtent && webservice.spatialExtent.length > 0">

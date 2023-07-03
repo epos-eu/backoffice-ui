@@ -107,7 +107,9 @@
       </mat-form-field>
 
       <app-anchor-navigation [identifier]="'#distaccessible'"></app-anchor-navigation>
-      <label id="example-radio-group-label">Data product accessible via: </label>
+      <div [ngClass]="{ title: true, active: selectedSection === '#distaccessible' }">
+        <label id="example-radio-group-label">Data product accessible via: </label>
+      </div>
       <mat-radio-group
         #dataProductAccessibility
         aria-labelledby="example-radio-group-label"
@@ -158,7 +160,9 @@
 
     <div *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'">
       <app-anchor-navigation [identifier]="'#distaccessiblewebservice'"></app-anchor-navigation>
-      <p class="mat-subtitle-1">Webservice</p>
+      <div [ngClass]="{ title: true, active: selectedSection === '#distaccessiblewebservice' }">
+        <p>Webservice</p>
+      </div>
       <button
         mat-stroked-button
         color="primary"

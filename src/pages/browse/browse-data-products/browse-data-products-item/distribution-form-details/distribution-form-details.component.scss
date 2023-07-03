@@ -7,3 +7,18 @@
 mat-radio-group {
   padding: 1rem 0;
 }
+
+.title {
+  font-weight: bold;
+  margin-top: 50px;
+  min-height: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding-left: 3em;
+  margin-bottom: 1em;
+
+  &.active {
+    background-color: #ccdbd4;
+  }
+}
