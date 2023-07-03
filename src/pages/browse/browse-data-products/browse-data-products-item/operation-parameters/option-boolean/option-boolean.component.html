@@ -1,3 +1,81 @@
-<p>
-  option-boolean works!
-</p>
+<form
+  [formGroup]="paramForm"
+  *ngIf="param"
+>
+  <div class="top-params">
+    <mat-form-field
+      appearance="fill"
+      [style.width.%]="50"
+    >
+      <mat-label>Variable</mat-label>
+      <input
+        matInput
+        placeholder="Variable"
+        formControlName="variable"
+      />
+    </mat-form-field>
+
+    <mat-form-field
+      appearance="fill"
+      [style.width.%]="50"
+    >
+      <mat-label>Range</mat-label>
+      <select
+        matNativeControl
+        name="range"
+        formControlName="range"
+      >
+        <option
+          *ngFor="let range of ranges"
+          [value]="range"
+        >
+          {{ range }}
+        </option>
+      </select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="50"
+  >
+    <mat-label>Label</mat-label>
+    <input
+      matInput
+      placeholder="Label"
+      formControlName="label"
+    />
+  </mat-form-field>
+
+  <mat-checkbox
+    formControlName="required"
+    labelPosition="before"
+    >Required</mat-checkbox
+  >
+
+  <mat-checkbox
+    formControlName="readOnlyValue"
+    labelPosition="before"
+    >Read Only</mat-checkbox
+  >
+
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="50"
+  >
+    <mat-label>Default Value</mat-label>
+    <input
+      matInput
+      [ngxMatDatetimePicker]="defaultValue"
+      placeholder="Default value"
+      formControlName="defaultValue"
+    />
+
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="$any(defaultValue)"
+    ></mat-datepicker-toggle>
+
+    <ngx-mat-datetime-picker #defaultValue></ngx-mat-datetime-picker>
+  </mat-form-field>
+</form>
