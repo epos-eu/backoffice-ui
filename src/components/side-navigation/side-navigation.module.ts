@@ -6,10 +6,24 @@ import { ImportNavigationComponent } from './import-navigation/import-navigation
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { EditNavigationComponent } from './edit-navigation/edit-navigation.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { ExplorerNavigationComponent } from './explorer-navigation/explorer-navigation.component';
+import { AnchorNavigationComponent } from './explorer-navigation/anchor-navigation/anchor-navigation.component';
 
 @NgModule({
-  declarations: [BrowseNavigationComponent, ImportNavigationComponent, EditNavigationComponent],
+  declarations: [
+    BrowseNavigationComponent,
+    ImportNavigationComponent,
+    EditNavigationComponent,
+    ExplorerNavigationComponent,
+    AnchorNavigationComponent,
+  ],
   imports: [CommonModule, RouterModule, AngularMaterialModule, MatChipsModule],
-  exports: [BrowseNavigationComponent, ImportNavigationComponent, EditNavigationComponent],
+  exports: [
+    BrowseNavigationComponent,
+    ImportNavigationComponent,
+    EditNavigationComponent,
+    ExplorerNavigationComponent,
+    AnchorNavigationComponent,
+  ],
 })
 export class SideNavigationModule {}

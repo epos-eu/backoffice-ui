@@ -141,6 +141,7 @@
     >
       <ng-scrollbar>
         <ng-container *ngIf="(liveChanges | async) === true">
+          <app-explorer-navigation></app-explorer-navigation>
           <app-edit-navigation></app-edit-navigation>
         </ng-container>
         <ng-container *ngIf="(liveChanges | async) === false">

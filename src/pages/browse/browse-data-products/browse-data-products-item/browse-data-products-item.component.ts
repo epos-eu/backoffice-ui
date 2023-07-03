@@ -43,6 +43,7 @@ import * as moment from 'moment';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
+import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -99,6 +100,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
     private operationsService: OperationsService,
+    private explorerService: ExplorerService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
@@ -199,6 +201,55 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         accrualPeriodicity: this.dataProduct?.accrualPeriodicity,
         type: this.dataProduct?.type,
       });
+
+      this.explorerService.setFormSection(
+        null,
+        {
+          id: '#dataproduct',
+          name: 'Data Product',
+          active: true,
+          children: [
+            {
+              id: '#generalinformation',
+              name: 'General Information',
+              children: [],
+            },
+            {
+              id: '#description',
+              name: 'Description',
+              children: [],
+            },
+            {
+              id: '#spatialcoverage',
+              name: 'Spatial Coverage',
+              children: [],
+            },
+            {
+              id: '#temporalcoverage',
+              name: 'Temporal Coverage',
+              children: [],
+            },
+            {
+              id: '#persistentidentifier',
+              name: 'Persistent Identifier',
+              children: [],
+            },
+            {
+              id: '#dataproviders',
+              name: 'Data Providers',
+              children: [],
+            },
+            {
+              id: '#contactpoint',
+              name: 'Contact Point',
+              children: [],
+            },
+          ],
+          expanded: true,
+        },
+        true,
+      );
+
       this.form.valueChanges.subscribe((changes) => {
         console.log(changes);
         const updatingObject = this.operationsService.getActiveDataProductValue();
