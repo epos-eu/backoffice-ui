@@ -1,5 +1,5 @@
 export enum SemanticTag {
   EMPTY = 'EMPTY',
-  START_DATA = 'startDate',
-  END_DATA = 'endDate',
+  START_DATA = 'schema:startDate',
+  END_DATA = 'schema:endDate',
 }

@@ -62,6 +62,7 @@ export class OperationParametersComponent implements OnInit {
       required: [mapping.required],
       valuePattern: [mapping.valuePattern],
       variable: [mapping.variable],
+      property: [mapping.property],
     });
   }
 
