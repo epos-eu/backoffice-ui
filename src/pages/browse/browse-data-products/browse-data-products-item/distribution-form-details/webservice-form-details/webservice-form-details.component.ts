@@ -11,6 +11,7 @@ import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
+import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { OperationsService } from 'src/services/operations.service';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -46,6 +47,26 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public callOperationDetail = false;
   public selectedPanelId: ReplaySubject<number> = new ReplaySubject();
 
+  private formTree = {
+    id: '#distaccessiblewebservice',
+    name: 'Web Service',
+    children: [
+      {
+        id: '#wscontactpoint',
+        name: 'Contact Point',
+        children: [],
+        expanded: false,
+      },
+      {
+        id: '#wssupportedoperation',
+        name: 'Supported operation',
+        children: [],
+        expanded: false,
+      },
+    ],
+    expanded: true,
+  };
+
   constructor(
     private fb: UntypedFormBuilder,
     private dialogService: DialogService,
@@ -53,6 +74,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private operationsService: OperationsService,
+    private explorerService: ExplorerService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -114,6 +136,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
       // temporalExtent: this.webservice?.temporalExtent,
       license: this.webservice?.license,
     });
+
+    this.explorerService.setFormSection('#distaccessible', this.formTree, false);
+
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveWebServiceValue();
       if (updatingObject) {

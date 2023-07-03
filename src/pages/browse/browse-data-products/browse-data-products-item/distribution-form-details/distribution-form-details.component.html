@@ -19,6 +19,7 @@
     </div>
   </div> -->
   <div class="body">
+    <app-anchor-navigation [identifier]="'#distgeneralinformation'"></app-anchor-navigation>
     <form
       [formGroup]="form"
       *ngIf="form && distribution"
@@ -105,6 +106,7 @@
         <ngx-mat-datetime-picker #modifiedDate></ngx-mat-datetime-picker>
       </mat-form-field>
 
+      <app-anchor-navigation [identifier]="'#distaccessible'"></app-anchor-navigation>
       <label id="example-radio-group-label">Data product accessible via: </label>
       <mat-radio-group
         #dataProductAccessibility
@@ -117,6 +119,7 @@
       </mat-radio-group>
 
       <ng-container *ngIf="this.form?.get('dataProductAccessibility')?.value === 'download'">
+        <app-anchor-navigation [identifier]="'#distaccessibledownload'"></app-anchor-navigation>
         <mat-form-field
           appearance="fill"
           [style.width.%]="100"
@@ -154,7 +157,7 @@
     </form>
 
     <div *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'">
-      <app-anchor-navigation [identifier]="'#webservice'"></app-anchor-navigation>
+      <app-anchor-navigation [identifier]="'#distaccessiblewebservice'"></app-anchor-navigation>
       <p class="mat-subtitle-1">Webservice</p>
       <button
         mat-stroked-button
