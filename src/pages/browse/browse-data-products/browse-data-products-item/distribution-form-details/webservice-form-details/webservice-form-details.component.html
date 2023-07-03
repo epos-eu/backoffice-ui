@@ -48,6 +48,7 @@
         </mat-select>
       </mat-form-field>
 
+      <app-anchor-navigation [identifier]="'#wscontactpoint'"></app-anchor-navigation>
       <mat-expansion-panel class="contact-point">
         <mat-expansion-panel-header>
           <mat-panel-title>Contact Point</mat-panel-title>
@@ -118,6 +119,7 @@
         />
       </mat-form-field -->
       <ng-container *ngIf="webservice.supportedOperation && webservice.supportedOperation.length > 0">
+        <app-anchor-navigation [identifier]="'#wssupportedoperation'"></app-anchor-navigation>
         <mat-expansion-panel
           [expanded]="false"
           class="supported-operation"

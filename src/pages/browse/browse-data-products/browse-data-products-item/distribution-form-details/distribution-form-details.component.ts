@@ -15,6 +15,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { State } from 'src/utility/enums/state.enum';
 import { FormatTypes } from './formats';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
+import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
 
 @Component({
   selector: 'app-distribution-form-details',
@@ -39,6 +40,34 @@ export class DistributionFormDetailsComponent {
   public dataProductAccessibilityOptions: string[] = ['download', 'webservice'];
   public formats = FormatTypes;
   public selectedFormat = '';
+
+  private formTree = {
+    id: '#distribution',
+    name: 'Distribution',
+    children: [
+      {
+        id: '#distgeneralinformation',
+        name: 'General Information',
+        children: [],
+        expanded: false,
+      },
+      {
+        id: '#distaccessible',
+        name: 'Accessible via',
+        children: [],
+        expanded: true,
+      },
+    ],
+    expanded: true,
+  };
+
+  private formTreeDownload: FormTree = { id: '#distaccessibledownload', name: 'Download', children: [] };
+  private formTreeWebService: FormTree = {
+    id: '#distaccessiblewebservice',
+    name: 'Web Service',
+    children: [],
+    expanded: true,
+  };
 
   constructor(
     private dialogService: DialogService,
@@ -76,9 +105,12 @@ export class DistributionFormDetailsComponent {
   private checkDataProductAccessibility(): string {
     if (this.distribution) {
       if (this.distribution.accessService.instanceId !== undefined) {
+        this.explorerService.setFormSection('#distaccessible', this.formTreeWebService, false);
         return 'webservice';
       }
     }
+
+    this.explorerService.setFormSection('#distaccessible', this.formTreeDownload, false);
     return 'download';
   }
 
@@ -100,27 +132,17 @@ export class DistributionFormDetailsComponent {
       issued: this.distribution?.issued,
     });
 
-    this.explorerService.setFormSection(
-      '#dataproduct',
-      {
-        id: '#distribution',
-        name: 'Distribution',
-        children: [
-          {
-            id: '#webservice',
-            name: 'Web Service',
-            children: [],
-            expanded: false,
-          },
-        ],
-        expanded: true,
-      },
-
-      false,
-    );
+    this.explorerService.setFormSection('#dataproduct', this.formTree, false);
 
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
+      if (changes['dataProductAccessibility'] === 'download') {
+        this.explorerService.setFormSection('#distaccessible', this.formTreeDownload, false);
+        this.explorerService.removeFormSection('#distaccessible', '#distaccessiblewebservice');
+      } else {
+        this.explorerService.removeFormSection('#distaccessible', '#distaccessibledownload');
+      }
+
       if (updatingObject) {
         updatingObject.format = changes['format'];
         updatingObject.licence = changes['licence'];
