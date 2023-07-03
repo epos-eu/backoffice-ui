@@ -21,7 +21,7 @@ export class OperationParametersComponent implements OnInit {
   private mappingChanges: Array<Mapping> = [];
   public paramsForm!: UntypedFormGroup;
   public mapping!: Mapping[];
-  public range: typeof OperationParamsRange = OperationParamsRange;
+  public rangeEnum = OperationParamsRange;
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;

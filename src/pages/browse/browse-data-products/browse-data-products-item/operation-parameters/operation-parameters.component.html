@@ -9,8 +9,9 @@
       [formGroupName]="i"
     >
       <ng-container [ngSwitch]="control.value.range">
-        <ng-container *ngSwitchCase="range.DATE_TIME">
-          <mat-form-field
+        <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
+          <app-option-datetime></app-option-datetime>
+          <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"
           >
@@ -28,10 +29,11 @@
               [for]="$any(picker)"
             ></mat-datepicker-toggle>
             <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
-          </mat-form-field>
+          </mat-form-field> -->
         </ng-container>
-        <ng-container *ngSwitchCase="range.DATE">
-          <mat-form-field
+        <ng-container *ngSwitchCase="rangeEnum.DATE">
+          <app-option-date></app-option-date>
+          <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"
           >
@@ -49,10 +51,11 @@
               [for]="picker"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+          </mat-form-field> -->
         </ng-container>
-        <ng-container *ngSwitchCase="range.STRING">
-          <mat-form-field
+        <ng-container *ngSwitchCase="rangeEnum.STRING">
+          <app-option-string></app-option-string>
+          <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"
           >
@@ -63,10 +66,11 @@
               formControlName="defaultValue"
               [readonly]="control.value.readOnlyValue === 'true'"
             />
-          </mat-form-field>
+          </mat-form-field> -->
         </ng-container>
-        <ng-container *ngSwitchCase="range.INTEGER">
-          <mat-form-field>
+        <ng-container *ngSwitchCase="rangeEnum.INTEGER">
+          <app-option-integer></app-option-integer>
+          <!-- <mat-form-field>
             <mat-label>{{ control.value.label }}</mat-label>
             <input
               type="number"
@@ -76,10 +80,11 @@
               [max]="control.value.maxValue"
               [min]="control.value.minValue"
             />
-          </mat-form-field>
+          </mat-form-field> -->
         </ng-container>
-        <ng-container *ngSwitchCase="range.FLOAT">
-          <mat-form-field>
+        <ng-container *ngSwitchCase="rangeEnum.FLOAT">
+          <app-option-float></app-option-float>
+          <!-- <mat-form-field>
             <mat-label>{{ control.value.label }}</mat-label>
             <input
               matInput
@@ -88,12 +93,13 @@
               [max]="control.value.maxValue"
               [min]="control.value.minValue"
             />
-          </mat-form-field>
+          </mat-form-field> -->
         </ng-container>
-        <ng-container *ngSwitchCase="range.BOOLEAN">
-          <mat-slide-toggle formControlName="defaultValue">
+        <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
+          <app-option-boolean></app-option-boolean>
+          <!-- <mat-slide-toggle formControlName="defaultValue">
             {{ control.value.label }}
-          </mat-slide-toggle>
+          </mat-slide-toggle> -->
         </ng-container>
       </ng-container>
     </ng-container>
