@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
 
 @Component({
@@ -13,17 +14,18 @@ export class OptionDatetimeComponent implements OnInit {
 
   public paramForm!: UntypedFormGroup;
   public semanticTags = Object.values(SemanticTag);
+  public ranges = Object.values(OperationParamsRange);
 
   constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
-    console.debug(this.param.property);
     this.initForm();
   }
   private initForm(): void {
     this.paramForm = this.formBuilder.group({
-      label: this.param.label,
-      variable: this.param.variable,
+      label: new FormControl(this.param.label),
+      range: new FormControl(this.param.range),
+      variable: new FormControl(this.param.variable),
       required: new FormControl(this.param.required === 'true' ? true : false),
       readOnlyValue: new FormControl(this.param.readOnlyValue === 'true' ? true : false),
       property: new FormControl(this.param.property),
