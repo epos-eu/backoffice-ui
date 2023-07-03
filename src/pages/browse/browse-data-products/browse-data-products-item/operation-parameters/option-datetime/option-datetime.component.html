@@ -1,3 +1,40 @@
-<p>
-  option-datetime works!
-</p>
+<form
+  [formGroup]="paramForm"
+  *ngIf="param"
+>
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="100"
+  >
+    <mat-label>{{ param.label }}</mat-label>
+    <input
+      matInput
+      placeholder="Label"
+      formControlName="label"
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="100"
+  >
+    <mat-label>{{ param.variable }}</mat-label>
+    <input
+      matInput
+      placeholder="Variable"
+      formControlName="variable"
+    />
+  </mat-form-field>
+
+  <mat-checkbox
+    formControlName="required"
+    labelPosition="before"
+    >Required</mat-checkbox
+  >
+
+  <mat-checkbox
+    formControlName="readOnlyValue"
+    labelPosition="before"
+    >Read Only</mat-checkbox
+  >
+</form>

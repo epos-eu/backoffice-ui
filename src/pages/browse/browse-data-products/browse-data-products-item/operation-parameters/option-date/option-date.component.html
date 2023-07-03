@@ -1,3 +1,11 @@
-<p>
-  option-date works!
-</p>
+<mat-form-field
+  appearance="fill"
+  [style.width.%]="100"
+>
+  <mat-label>{{ param.variable }}</mat-label>
+  <input
+    matInput
+    placeholder="Default Value"
+    formControlName="variable"
+  />
+</mat-form-field>

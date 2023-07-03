@@ -3,6 +3,28 @@
   *ngIf="paramsForm && mapping"
   class="operation-params"
 >
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="100"
+  >
+    <mat-label>Service URI template</mat-label>
+    <input
+      matInput
+      placeholder="Service URI template"
+      formControlName="template"
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="100"
+  >
+    <mat-label>Preview of the URI template with default values</mat-label>
+    <input
+      matInput
+      placeholder="Preview of the URI template with default values "
+    />
+  </mat-form-field>
   <ng-container formArrayName="mapping">
     <ng-container
       *ngFor="let control of getControls('mapping'); let i = index"
@@ -10,7 +32,7 @@
     >
       <ng-container [ngSwitch]="control.value.range">
         <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
-          <app-option-datetime></app-option-datetime>
+          <app-option-datetime [param]="control.value"></app-option-datetime>
           <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"
@@ -32,7 +54,7 @@
           </mat-form-field> -->
         </ng-container>
         <ng-container *ngSwitchCase="rangeEnum.DATE">
-          <app-option-date></app-option-date>
+          <app-option-date [param]="control.value"></app-option-date>
           <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"

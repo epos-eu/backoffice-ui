@@ -54,6 +54,14 @@ export class OperationParametersComponent implements OnInit {
       ],
       label: [mapping.label],
       range: [mapping.range],
+      maxValue: [mapping.maxValue],
+      minValue: [mapping.minValue],
+      multipleValues: [mapping.multipleValues],
+      paramValue: [mapping.paramValue],
+      readOnlyValue: [mapping.readOnlyValue],
+      required: [mapping.required],
+      valuePattern: [mapping.valuePattern],
+      variable: [mapping.variable],
     });
   }
 
