@@ -4,7 +4,7 @@ button {
 
 .parameters {
   margin: 1rem 0;
-  border: 1px solid #efefef;
+  border: 1px solid rgba(0, 0, 0, 0.38);
   box-shadow: none;
 }
 
@@ -12,7 +12,7 @@ button {
 .supported-operation-params,
 .contact-point {
   margin: 1rem 0;
-  border: 1px solid #efefef;
+  border: 1px solid rgba(0, 0, 0, 0.38);
   box-shadow: none;
 
   .supported-operation-item {

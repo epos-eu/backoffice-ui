@@ -35,103 +35,26 @@
         <mat-expansion-panel-header>
           <mat-panel-title>{{ control.value.variable }}</mat-panel-title>
         </mat-expansion-panel-header>
-
         <ng-container [ngSwitch]="control.value.range">
           <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
             <app-option-datetime [param]="control.value"></app-option-datetime>
-            <!-- <mat-form-field
-            appearance="fill"
-            [style.width.%]="100"
-          >
-            <mat-label>{{ control.value.label }}</mat-label>
-            <input
-              [ngxMatDatetimePicker]="picker"
-              matInput
-              placeholder="Choose a date & time"
-              formControlName="defaultValue"
-              [formControl]="getDateControl(control.value.defaultValue)"
-              [readonly]="control.value.readOnlyValue === 'true'"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="$any(picker)"
-            ></mat-datepicker-toggle>
-            <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
-          </mat-form-field> -->
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.DATE">
             <app-option-date [param]="control.value"></app-option-date>
-            <!-- <mat-form-field
-            appearance="fill"
-            [style.width.%]="100"
-          >
-            <mat-label>{{ control.value.label }}</mat-label>
-            <input
-              [matDatepicker]="picker"
-              matInput
-              placeholder="Choose a date & time"
-              formControlName="defaultValue"
-              [formControl]="getDateControl(control.value.defaultValue)"
-              [readonly]="control.value.readOnlyValue === 'true'"
-            />
-            <mat-datepicker-toggle
-              matIconSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field> -->
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.STRING">
-            <app-option-string></app-option-string>
-            <!-- <mat-form-field
-            appearance="fill"
-            [style.width.%]="100"
-          >
-            <mat-label>{{ control.value.label }}</mat-label>
-            <input
-              matInput
-              placeholder=""
-              formControlName="defaultValue"
-              [readonly]="control.value.readOnlyValue === 'true'"
-            />
-          </mat-form-field> -->
+            <app-option-string [param]="control.value"></app-option-string>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.INTEGER">
-            <app-option-integer></app-option-integer>
-            <!-- <mat-form-field>
-            <mat-label>{{ control.value.label }}</mat-label>
-            <input
-              type="number"
-              matInput
-              formControlName="defaultValue"
-              [readonly]="control.value.readOnlyValue === 'true'"
-              [max]="control.value.maxValue"
-              [min]="control.value.minValue"
-            />
-          </mat-form-field> -->
+            <app-option-integer [param]="control.value"></app-option-integer>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.FLOAT">
-            <app-option-float></app-option-float>
-            <!-- <mat-form-field>
-            <mat-label>{{ control.value.label }}</mat-label>
-            <input
-              matInput
-              formControlName="defaultValue"
-              [readonly]="control.value.readOnlyValue === 'true'"
-              [max]="control.value.maxValue"
-              [min]="control.value.minValue"
-            />
-          </mat-form-field> -->
+            <app-option-float [param]="control.value"></app-option-float>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
             <app-option-boolean [param]="control.value"></app-option-boolean>
-            <!-- <mat-slide-toggle formControlName="defaultValue">
-            {{ control.value.label }}
-          </mat-slide-toggle> -->
           </ng-container>
         </ng-container>
-
-        <!-- </ng-container> -->
       </mat-expansion-panel>
     </ng-container>
   </mat-accordion>
