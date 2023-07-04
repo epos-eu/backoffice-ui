@@ -1,61 +1,66 @@
-<form
-  [formGroup]="paramsForm"
-  *ngIf="paramsForm && mapping"
-  class="operation-params"
->
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="100"
+<ng-container *ngIf="fetchingOperation">
+  <mat-spinner [diameter]="35"></mat-spinner>
+</ng-container>
+<ng-container *ngIf="!fetchingOperation">
+  <form
+    [formGroup]="paramsForm"
+    *ngIf="paramsForm && mapping"
+    class="operation-params"
   >
-    <mat-label>Service URI template</mat-label>
-    <input
-      matInput
-      placeholder="Service URI template"
-      formControlName="template"
-    />
-  </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      [style.width.%]="100"
+    >
+      <mat-label>Service URI template</mat-label>
+      <input
+        matInput
+        placeholder="Service URI template"
+        formControlName="template"
+      />
+    </mat-form-field>
 
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="100"
-  >
-    <mat-label>Preview of the URI template with default values</mat-label>
-    <input
-      matInput
-      placeholder="Preview of the URI template with default values "
-    />
-  </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      [style.width.%]="100"
+    >
+      <mat-label>Preview of the URI template with default values</mat-label>
+      <input
+        matInput
+        placeholder="Preview of the URI template with default values "
+      />
+    </mat-form-field>
 
-  <mat-accordion>
-    <ng-container formArrayName="mapping">
-      <mat-expansion-panel
-        *ngFor="let control of getControls('mapping'); let i = index"
-        [formGroupName]="i"
-      >
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{ control.value.variable }}</mat-panel-title>
-        </mat-expansion-panel-header>
-        <ng-container [ngSwitch]="control.value.range">
-          <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
-            <app-option-datetime [param]="control.value"></app-option-datetime>
+    <mat-accordion>
+      <ng-container formArrayName="mapping">
+        <mat-expansion-panel
+          *ngFor="let control of getControls('mapping'); let i = index"
+          [formGroupName]="i"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ control.value.variable }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <ng-container [ngSwitch]="control.value.range">
+            <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
+              <app-option-datetime [param]="control.value"></app-option-datetime>
+            </ng-container>
+            <ng-container *ngSwitchCase="rangeEnum.DATE">
+              <app-option-date [param]="control.value"></app-option-date>
+            </ng-container>
+            <ng-container *ngSwitchCase="rangeEnum.STRING">
+              <app-option-string [param]="control.value"></app-option-string>
+            </ng-container>
+            <ng-container *ngSwitchCase="rangeEnum.INTEGER">
+              <app-option-integer [param]="control.value"></app-option-integer>
+            </ng-container>
+            <ng-container *ngSwitchCase="rangeEnum.FLOAT">
+              <app-option-float [param]="control.value"></app-option-float>
+            </ng-container>
+            <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
+              <app-option-boolean [param]="control.value"></app-option-boolean>
+            </ng-container>
           </ng-container>
-          <ng-container *ngSwitchCase="rangeEnum.DATE">
-            <app-option-date [param]="control.value"></app-option-date>
-          </ng-container>
-          <ng-container *ngSwitchCase="rangeEnum.STRING">
-            <app-option-string [param]="control.value"></app-option-string>
-          </ng-container>
-          <ng-container *ngSwitchCase="rangeEnum.INTEGER">
-            <app-option-integer [param]="control.value"></app-option-integer>
-          </ng-container>
-          <ng-container *ngSwitchCase="rangeEnum.FLOAT">
-            <app-option-float [param]="control.value"></app-option-float>
-          </ng-container>
-          <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
-            <app-option-boolean [param]="control.value"></app-option-boolean>
-          </ng-container>
-        </ng-container>
-      </mat-expansion-panel>
-    </ng-container>
-  </mat-accordion>
-</form>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  </form>
+</ng-container>

@@ -22,6 +22,7 @@ export class OperationParametersComponent implements OnInit {
   public paramsForm!: UntypedFormGroup;
   public mapping!: Mapping[];
   public rangeEnum = OperationParamsRange;
+  public fetchingOperation = false;
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;
@@ -29,9 +30,11 @@ export class OperationParametersComponent implements OnInit {
 
   private initData(): void {
     if (this.instanceId && !this.operation) {
+      this.fetchingOperation = true;
       this.apiService.endpoints[Entity.OPERATION].get
         .call({ instanceId: this.instanceId }, false)
         .then((data: Array<OperationDetailDataSource>) => {
+          this.fetchingOperation = false;
           const operation = data.shift();
           if (typeof operation !== 'undefined') {
             this.operation = operation;

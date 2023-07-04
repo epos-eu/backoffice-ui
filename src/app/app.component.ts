@@ -7,6 +7,7 @@ import { BarController, BarElement, Chart, CategoryScale, LinearScale, Title, To
 import { Router, NavigationEnd, Event as NavigationEvent } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
 import { ActionsService } from 'src/services/actions.service';
+import { RouteService } from 'src/services/route.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit {
     private aaai: AaaiService,
     private router: Router,
     private actionsService: ActionsService,
+    private routeService: RouteService,
   ) {
     this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
       if (null == user) {
@@ -39,6 +41,7 @@ export class AppComponent implements OnInit {
       )
       .subscribe(([prev, curr]: [NavigationEvent, NavigationEvent]) => {
         if (prev instanceof NavigationEnd && curr instanceof NavigationEnd) {
+          this.routeService.setPreviousRoute(prev.urlAfterRedirects);
           if (prev.urlAfterRedirects !== curr.urlAfterRedirects) {
             this.actionsService.clearFilters();
           }

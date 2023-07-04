@@ -14,8 +14,8 @@ import { TableComponent } from './table/table.component';
 import { TableFilterComponent } from './table-filter/table-filter.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { BackButtonComponent } from './back-button/back-button.component';
 import { SortingDirective } from 'src/directives/sorting-cache.directive';
+import { BackToTopButtonComponent } from './back-to-top-button/back-to-top-button.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +25,8 @@ import { SortingDirective } from 'src/directives/sorting-cache.directive';
     ChartComponent,
     TableComponent,
     TableFilterComponent,
-    BackButtonComponent,
     SortingDirective,
+    BackToTopButtonComponent,
   ],
   imports: [
     RouterModule,
@@ -39,6 +39,6 @@ import { SortingDirective } from 'src/directives/sorting-cache.directive';
     MatExpansionModule,
     MatIconModule,
   ],
-  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent, BackButtonComponent],
+  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent, BackToTopButtonComponent],
 })
 export class ComponentsModule {}

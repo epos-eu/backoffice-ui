@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -45,6 +45,8 @@ import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
+import { NgScrollbar } from 'ngx-scrollbar';
+import { scrollBackToTop } from 'src/helpers/scroll';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -68,6 +70,8 @@ const MY_DATE_FORMAT: NgxMatDateFormats = {
   ],
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
+  @ViewChild(NgScrollbar) scrollable!: NgScrollbar;
+
   public floatLabelControl = new UntypedFormControl('auto');
   public dataProduct!: DataProductDetailDataSource | undefined;
   public UID!: string | null;
@@ -471,6 +475,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getDate(val: string | Date): any {
     if (val === null) {
       return '';
@@ -524,6 +529,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public compareWithFn(optionOne: any, optionTwo: any): boolean {
     if (optionOne.metaId === optionTwo.metaId) {
       return true;
@@ -539,5 +545,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         type: new FormControl(''),
       }),
     );
+  }
+
+  public handleScrollToTop(): void {
+    scrollBackToTop(this.scrollable);
   }
 }
