@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, FormControl } from '@angular/forms';
+import { Subject } from 'rxjs/internal/Subject';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
@@ -11,6 +12,7 @@ import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
 })
 export class OptionBooleanComponent implements OnInit {
   @Input() param!: Mapping;
+  @Output() udpatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
   public semanticTags = Object.values(SemanticTag);

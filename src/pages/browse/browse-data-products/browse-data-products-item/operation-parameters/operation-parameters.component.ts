@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Valid
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { OperationsService } from 'src/services/operations.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 
@@ -14,7 +15,11 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 export class OperationParametersComponent implements OnInit {
   @Input() instanceId = '';
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private apiService: ApiService,
+    private operationsService: OperationsService,
+  ) {}
 
   private operation!: OperationDetailDataSource;
   private template!: string;
@@ -34,6 +39,7 @@ export class OperationParametersComponent implements OnInit {
         .then((data: Array<OperationDetailDataSource>) => {
           const operation = data.shift();
           if (typeof operation !== 'undefined') {
+            this.operationsService.setActiveOperation(operation);
             this.operation = operation;
             this.template = this.operation.template;
             this.mapping = this.operation.mapping;
@@ -63,7 +69,6 @@ export class OperationParametersComponent implements OnInit {
       valuePattern: [mapping.valuePattern],
       variable: [mapping.variable],
       property: [mapping.property],
-      readonly: [mapping.readOnlyValue],
     });
   }
 
@@ -91,5 +96,17 @@ export class OperationParametersComponent implements OnInit {
 
   public getDateControl(dateStr: string): FormControl {
     return new FormControl(new Date(dateStr));
+  }
+
+  public cacheParam(updatedMapping: Mapping) {
+    const activeSupportedOperation = this.operationsService.getActiveOperation();
+    const updatedMappingArray = activeSupportedOperation?.mapping?.map((item: Mapping) =>
+      /** Finds item in Mapping array and replaces the item in the array with the updated item */
+      item.variable === updatedMapping.variable ? updatedMapping : item,
+    );
+    if (null != activeSupportedOperation?.mapping) {
+      Object.assign(activeSupportedOperation?.mapping, updatedMappingArray);
+      this.operationsService.setActiveOperation(activeSupportedOperation);
+    }
   }
 }

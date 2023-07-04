@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 
 @Component({
   selector: 'app-option-float',
@@ -9,6 +11,7 @@ import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@an
 export class OptionFloatComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() param!: any;
+  @Output() udpatedParam = new Subject<Mapping>();
 
   constructor(private formBuilder: UntypedFormBuilder) {}
 

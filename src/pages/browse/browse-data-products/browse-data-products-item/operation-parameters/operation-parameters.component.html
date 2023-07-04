@@ -37,22 +37,46 @@
         </mat-expansion-panel-header>
         <ng-container [ngSwitch]="control.value.range">
           <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
-            <app-option-datetime [param]="control.value"></app-option-datetime>
+            <app-option-datetime
+              [param]="control.value"
+              (udpatedParam)="this.cacheParam($event)"
+            ></app-option-datetime>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.DATE">
-            <app-option-date [param]="control.value"></app-option-date>
+            <app-option-date
+              [param]="control.value"
+              (udpatedParam)="this.cacheParam($event)"
+            ></app-option-date>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.STRING">
-            <app-option-string [param]="control.value"></app-option-string>
+            <app-option-string
+              [param]="control.value"
+              (udpatedParam)="this.cacheParam($event)"
+            ></app-option-string>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.INTEGER">
-            <app-option-integer [param]="control.value"></app-option-integer>
+            <app-option-integer
+              [param]="control.value"
+              (udpatedParam)="this.cacheParam($event)"
+            ></app-option-integer>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.FLOAT">
-            <app-option-float [param]="control.value"></app-option-float>
+            <app-option-float
+              [param]="control.value"
+              (udpatedParam)="this.cacheParam($event)"
+            ></app-option-float>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
-            <app-option-boolean [param]="control.value"></app-option-boolean>
+            <app-option-boolean
+              [param]="control.value"
+              (udpatedParam)="this.cacheParam($event)"
+            ></app-option-boolean>
+          </ng-container>
+          <ng-container *ngSwitchCase="rangeEnum.COORDINATE">
+            <app-option-coordinate
+              [param]="control.value"
+              (udpatedParam)="this.cacheParam($event)"
+            ></app-option-coordinate>
           </ng-container>
         </ng-container>
       </mat-expansion-panel>

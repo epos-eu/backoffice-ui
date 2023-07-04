@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { CoordinateType } from 'src/utility/enums/coordinateType.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
@@ -11,6 +12,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 })
 export class OptionCoordinateComponent implements OnInit {
   @Input() param!: Mapping;
+  @Output() udpatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
   public coordinateTypes = Object.values(CoordinateType);
