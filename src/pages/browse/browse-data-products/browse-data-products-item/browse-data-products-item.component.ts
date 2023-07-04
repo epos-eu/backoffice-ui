@@ -91,6 +91,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public dataProvidersLoading = false;
   public selectedDataProviders: Array<EntityDetail> = [];
 
+  public selectedSection = '';
+
   private formTree: FormTree = {
     id: '#dataproduct',
     name: 'Data Product',
@@ -166,6 +168,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       if (null != obs.get('id')) {
         this.initData(obs.get('id') as string);
       }
+    });
+
+    this.explorerService.gotoObs.subscribe((obs) => {
+      this.selectedSection = obs;
     });
   }
 

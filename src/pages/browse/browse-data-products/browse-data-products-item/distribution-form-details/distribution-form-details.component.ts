@@ -40,6 +40,7 @@ export class DistributionFormDetailsComponent {
   public dataProductAccessibilityOptions: string[] = ['download', 'webservice'];
   public formats = FormatTypes;
   public selectedFormat = '';
+  public selectedSection = '';
 
   private formTree = {
     id: '#distribution',
@@ -100,6 +101,10 @@ export class DistributionFormDetailsComponent {
           }
         }
       });
+
+    this.explorerService.gotoObs.subscribe((obs) => {
+      this.selectedSection = obs;
+    });
   }
 
   private checkDataProductAccessibility(): string {

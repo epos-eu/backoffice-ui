@@ -26,3 +26,13 @@ button {
 .supported-operation-params {
   margin: 0 0 2rem 0 !important;
 }
+
+.mat-expansion-panel-header {
+  &.active {
+    background-color: #ccdbd4;
+  }
+}
+
+.expansion-content-wrapper {
+  padding-top: 1em;
+}

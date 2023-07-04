@@ -46,6 +46,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public operation!: Operation | undefined;
   public callOperationDetail = false;
   public selectedPanelId: ReplaySubject<number> = new ReplaySubject();
+  public selectedSection = '';
 
   private formTree = {
     id: '#distaccessiblewebservice',
@@ -84,6 +85,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.handleServiceProviders();
+
+    this.explorerService.gotoObs.subscribe((obs) => {
+      this.selectedSection = obs;
+    });
   }
 
   private initData(id: string): void {

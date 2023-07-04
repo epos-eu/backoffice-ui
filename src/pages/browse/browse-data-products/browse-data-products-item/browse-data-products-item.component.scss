@@ -102,6 +102,16 @@
   margin-right: 2rem;
   padding-bottom: 2rem;
 
+  .mat-expansion-panel-header {
+    &.active {
+      background-color: #ccdbd4;
+    }
+  }
+
+  .expansion-content-wrapper {
+    padding-top: 1em;
+  }
+
   .mat-expansion-panel-header-title {
     font-size: 15px;
   }
