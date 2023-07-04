@@ -30,7 +30,7 @@ export class OptionIntegerComponent implements OnInit {
     this.form = this.formBuilder.group({
       label: [this.param.label],
       required: [this.checkBool(this.param.required)],
-      readonly: [this.checkBool(this.param.readonly)],
+      readOnlyValue: [this.checkBool(this.param.readOnlyValue)],
       allowedValues: [this.param.paramValue.length > 0 ? 'controlled' : 'any'],
       defaultValue: [this.param.defaultValue],
       minValue: [this.param.minValue],
@@ -42,6 +42,19 @@ export class OptionIntegerComponent implements OnInit {
           asDefault: [false, Validators.required],
         }),
       ]),
+    });
+    this.form.valueChanges.subscribe((changes) => {
+      const changedObject = changes as Mapping;
+      this.param.label = changedObject.label;
+      this.param.range = changedObject.range;
+      this.param.required = changedObject.required;
+      this.param.readOnlyValue = changedObject.readOnlyValue;
+      this.param.property = changedObject.property;
+      this.param.minValue = changedObject.minValue;
+      this.param.maxValue = changedObject.maxValue;
+      this.param.defaultValue = changedObject.defaultValue;
+      this.param.multipleValues = changedObject.multipleValues;
+      this.udpatedParam.next(this.param);
     });
   }
 

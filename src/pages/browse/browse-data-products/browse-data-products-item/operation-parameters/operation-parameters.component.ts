@@ -107,6 +107,7 @@ export class OperationParametersComponent implements OnInit {
     if (null != activeSupportedOperation?.mapping) {
       Object.assign(activeSupportedOperation?.mapping, updatedMappingArray);
       this.operationsService.setActiveOperation(activeSupportedOperation);
+      console.debug(activeSupportedOperation);
     }
   }
 }

@@ -36,16 +36,16 @@ export class OptionDatetimeComponent implements OnInit {
       defaultValue: new FormControl(this.param.defaultValue),
     });
     this.paramForm.valueChanges.subscribe((changes) => {
-      const changess = changes as Mapping;
-      this.param.label = changess.label;
-      this.param.range = changess.range;
-      this.param.variable = changess.variable;
-      this.param.required = changess.required;
-      this.param.readOnlyValue = changess.readOnlyValue;
-      this.param.property = changess.property;
-      this.param.minValue = changess.minValue;
-      this.param.maxValue = changess.maxValue;
-      this.param.defaultValue = changess.defaultValue;
+      const changedObject = changes as Mapping;
+      this.param.label = changedObject.label;
+      this.param.range = changedObject.range;
+      this.param.variable = changedObject.variable;
+      this.param.required = changedObject.required;
+      this.param.readOnlyValue = changedObject.readOnlyValue;
+      this.param.property = changedObject.property;
+      this.param.minValue = changedObject.minValue;
+      this.param.maxValue = changedObject.maxValue;
+      this.param.defaultValue = changedObject.defaultValue;
       this.udpatedParam.next(this.param);
     });
   }

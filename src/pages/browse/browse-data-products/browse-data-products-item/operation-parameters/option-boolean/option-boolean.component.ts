@@ -33,5 +33,18 @@ export class OptionBooleanComponent implements OnInit {
       readOnlyValue: new FormControl(this.param.readOnlyValue === 'true' ? true : false),
       defaultValue: new FormControl(this.param.defaultValue),
     });
+    this.paramForm.valueChanges.subscribe((changes) => {
+      const changedObject = changes as Mapping;
+      this.param.label = changedObject.label;
+      this.param.range = changedObject.range;
+      this.param.variable = changedObject.variable;
+      this.param.required = changedObject.required;
+      this.param.readOnlyValue = changedObject.readOnlyValue;
+      this.param.property = changedObject.property;
+      this.param.minValue = changedObject.minValue;
+      this.param.maxValue = changedObject.maxValue;
+      this.param.defaultValue = changedObject.defaultValue;
+      this.udpatedParam.next(this.param);
+    });
   }
 }
