@@ -63,6 +63,7 @@ export class OperationParametersComponent implements OnInit {
       valuePattern: [mapping.valuePattern],
       variable: [mapping.variable],
       property: [mapping.property],
+      readonly: [mapping.readOnlyValue],
     });
   }
 
@@ -71,6 +72,7 @@ export class OperationParametersComponent implements OnInit {
     return transformed;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private trackFormChanges(changes: any): void {
     this.mappingChanges = changes.mapping;
   }

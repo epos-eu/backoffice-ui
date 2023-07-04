@@ -92,6 +92,12 @@
       }
     }
 
+    &.integer-form {
+      label {
+        margin-bottom: 0;
+      }
+    }
+
     &.operation-params {
       mat-slide-toggle {
         label {

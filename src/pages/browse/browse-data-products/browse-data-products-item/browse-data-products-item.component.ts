@@ -191,7 +191,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
-            console.log(this.dataProduct);
             this.selectedDataProviders = this.dataProduct.publisher;
             this.setSpatialCoverageVariables();
 

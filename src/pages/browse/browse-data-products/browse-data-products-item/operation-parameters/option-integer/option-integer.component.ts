@@ -1,8 +1,79 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-option-integer',
   templateUrl: './option-integer.component.html',
   styleUrls: ['./option-integer.component.scss'],
 })
-export class OptionIntegerComponent {}
+export class OptionIntegerComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Input() param!: any;
+
+  constructor(private formBuilder: UntypedFormBuilder) {}
+
+  private clickedIndex!: number;
+  public form!: UntypedFormGroup;
+
+  private checkBool(value: string | null): boolean {
+    if (!value) {
+      return false;
+    }
+    return value === 'false' ? false : true;
+  }
+
+  private initForm(): void {
+    this.form = this.formBuilder.group({
+      label: [this.param.label],
+      required: [this.checkBool(this.param.required)],
+      readonly: [this.checkBool(this.param.readonly)],
+      allowedValues: [this.param.paramValue.length > 0 ? 'controlled' : 'any'],
+      defaultValue: [this.param.defaultValue],
+      minValue: [this.param.minValue],
+      maxValue: [this.param.maxValue],
+      multipleValues: [this.checkBool(this.param.multipleValues)],
+      value: this.formBuilder.array([
+        this.formBuilder.group({
+          value: ['', Validators.required],
+          asDefault: [false, Validators.required],
+        }),
+      ]),
+    });
+  }
+
+  public ngOnInit(): void {
+    this.initForm();
+  }
+
+  public getControls(field: string) {
+    return (this.form.get(field) as FormArray).controls;
+  }
+
+  public disableSelect(index: number): boolean {
+    const canSelectMultiple = this.form.get('multipleValues')?.value === true;
+    const selectedAsDefaults = this.getControls('value').filter((item) => item.value.asDefault === true);
+
+    if (this.clickedIndex === index) {
+      return false;
+    }
+    return !canSelectMultiple || selectedAsDefaults.length > 0;
+  }
+
+  public handleAddNewValue(): void {
+    const value = this.form.get('value') as FormArray;
+    value.push(
+      this.formBuilder.group({
+        value: '',
+        asDefault: false,
+      }),
+    );
+  }
+
+  public handleDefaultToggleChange(event: MatSlideToggleChange): void {
+    const clickedIndex = Number(event.source._elementRef.nativeElement.id);
+    if (event.checked === true) {
+      this.clickedIndex = clickedIndex;
+    }
+  }
+}

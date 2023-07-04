@@ -97,7 +97,7 @@
           </mat-form-field> -->
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.INTEGER">
-            <app-option-integer></app-option-integer>
+            <app-option-integer [param]="control.value"></app-option-integer>
             <!-- <mat-form-field>
             <mat-label>{{ control.value.label }}</mat-label>
             <input
