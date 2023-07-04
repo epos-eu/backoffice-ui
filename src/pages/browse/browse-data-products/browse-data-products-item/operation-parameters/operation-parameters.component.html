@@ -27,14 +27,15 @@
   </mat-form-field>
 
   <mat-accordion>
-    <mat-expansion-panel
-      *ngFor="let control of getControls('mapping'); let i = index"
-      [formGroupName]="i"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>{{ control.value.variable }}</mat-panel-title>
-      </mat-expansion-panel-header>
-      <ng-container formArrayName="mapping">
+    <ng-container formArrayName="mapping">
+      <mat-expansion-panel
+        *ngFor="let control of getControls('mapping'); let i = index"
+        [formGroupName]="i"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ control.value.variable }}</mat-panel-title>
+        </mat-expansion-panel-header>
+
         <ng-container [ngSwitch]="control.value.range">
           <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
             <app-option-datetime [param]="control.value"></app-option-datetime>
@@ -129,8 +130,9 @@
           </mat-slide-toggle> -->
           </ng-container>
         </ng-container>
-      </ng-container>
-      <!-- </ng-container> -->
-    </mat-expansion-panel>
+
+        <!-- </ng-container> -->
+      </mat-expansion-panel>
+    </ng-container>
   </mat-accordion>
 </form>
