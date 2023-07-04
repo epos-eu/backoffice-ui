@@ -21,7 +21,7 @@ export class OperationParametersComponent implements OnInit {
   private mappingChanges: Array<Mapping> = [];
   public paramsForm!: UntypedFormGroup;
   public mapping!: Mapping[];
-  public range: typeof OperationParamsRange = OperationParamsRange;
+  public rangeEnum = OperationParamsRange;
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;
@@ -54,6 +54,15 @@ export class OperationParametersComponent implements OnInit {
       ],
       label: [mapping.label],
       range: [mapping.range],
+      maxValue: [mapping.maxValue],
+      minValue: [mapping.minValue],
+      multipleValues: [mapping.multipleValues],
+      paramValue: [mapping.paramValue],
+      readOnlyValue: [mapping.readOnlyValue],
+      required: [mapping.required],
+      valuePattern: [mapping.valuePattern],
+      variable: [mapping.variable],
+      property: [mapping.property],
     });
   }
 

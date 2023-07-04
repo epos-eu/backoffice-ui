@@ -31,6 +31,7 @@ import {
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -66,6 +67,7 @@ import { MatTreeModule } from '@angular/material/tree';
     NgxMatNativeDateModule,
     NgxMatTimepickerModule,
     MatTreeModule,
+    MatCheckboxModule,
   ],
   exports: [
     FormsModule,
@@ -99,6 +101,7 @@ import { MatTreeModule } from '@angular/material/tree';
     NgxMatNativeDateModule,
     NgxMatTimepickerModule,
     MatTreeModule,
+    MatCheckboxModule,
   ],
 })
 export class AngularMaterialModule {}

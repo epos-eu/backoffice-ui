@@ -3,14 +3,42 @@
   *ngIf="paramsForm && mapping"
   class="operation-params"
 >
-  <ng-container formArrayName="mapping">
-    <ng-container
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="100"
+  >
+    <mat-label>Service URI template</mat-label>
+    <input
+      matInput
+      placeholder="Service URI template"
+      formControlName="template"
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="fill"
+    [style.width.%]="100"
+  >
+    <mat-label>Preview of the URI template with default values</mat-label>
+    <input
+      matInput
+      placeholder="Preview of the URI template with default values "
+    />
+  </mat-form-field>
+
+  <mat-accordion>
+    <mat-expansion-panel
       *ngFor="let control of getControls('mapping'); let i = index"
       [formGroupName]="i"
     >
-      <ng-container [ngSwitch]="control.value.range">
-        <ng-container *ngSwitchCase="range.DATE_TIME">
-          <mat-form-field
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ control.value.variable }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-container formArrayName="mapping">
+        <ng-container [ngSwitch]="control.value.range">
+          <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
+            <app-option-datetime [param]="control.value"></app-option-datetime>
+            <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"
           >
@@ -28,10 +56,11 @@
               [for]="$any(picker)"
             ></mat-datepicker-toggle>
             <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
-          </mat-form-field>
-        </ng-container>
-        <ng-container *ngSwitchCase="range.DATE">
-          <mat-form-field
+          </mat-form-field> -->
+          </ng-container>
+          <ng-container *ngSwitchCase="rangeEnum.DATE">
+            <app-option-date [param]="control.value"></app-option-date>
+            <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"
           >
@@ -49,10 +78,11 @@
               [for]="picker"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-        </ng-container>
-        <ng-container *ngSwitchCase="range.STRING">
-          <mat-form-field
+          </mat-form-field> -->
+          </ng-container>
+          <ng-container *ngSwitchCase="rangeEnum.STRING">
+            <app-option-string></app-option-string>
+            <!-- <mat-form-field
             appearance="fill"
             [style.width.%]="100"
           >
@@ -63,10 +93,11 @@
               formControlName="defaultValue"
               [readonly]="control.value.readOnlyValue === 'true'"
             />
-          </mat-form-field>
-        </ng-container>
-        <ng-container *ngSwitchCase="range.INTEGER">
-          <mat-form-field>
+          </mat-form-field> -->
+          </ng-container>
+          <ng-container *ngSwitchCase="rangeEnum.INTEGER">
+            <app-option-integer></app-option-integer>
+            <!-- <mat-form-field>
             <mat-label>{{ control.value.label }}</mat-label>
             <input
               type="number"
@@ -76,10 +107,11 @@
               [max]="control.value.maxValue"
               [min]="control.value.minValue"
             />
-          </mat-form-field>
-        </ng-container>
-        <ng-container *ngSwitchCase="range.FLOAT">
-          <mat-form-field>
+          </mat-form-field> -->
+          </ng-container>
+          <ng-container *ngSwitchCase="rangeEnum.FLOAT">
+            <app-option-float></app-option-float>
+            <!-- <mat-form-field>
             <mat-label>{{ control.value.label }}</mat-label>
             <input
               matInput
@@ -88,14 +120,17 @@
               [max]="control.value.maxValue"
               [min]="control.value.minValue"
             />
-          </mat-form-field>
-        </ng-container>
-        <ng-container *ngSwitchCase="range.BOOLEAN">
-          <mat-slide-toggle formControlName="defaultValue">
+          </mat-form-field> -->
+          </ng-container>
+          <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
+            <app-option-boolean [param]="control.value"></app-option-boolean>
+            <!-- <mat-slide-toggle formControlName="defaultValue">
             {{ control.value.label }}
-          </mat-slide-toggle>
+          </mat-slide-toggle> -->
+          </ng-container>
         </ng-container>
       </ng-container>
-    </ng-container>
-  </ng-container>
+      <!-- </ng-container> -->
+    </mat-expansion-panel>
+  </mat-accordion>
 </form>
