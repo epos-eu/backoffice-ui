@@ -1,6 +1,8 @@
-<ng-scrollbar [autoHeightDisabled]="false">
+<ng-scrollbar
+  [autoHeightDisabled]="false"
+  #scrollable
+>
   <div class="container">
-    <app-back-button path="/browse/{{ entityRoute }}"></app-back-button>
     <div class="top-header">
       <div class="flex-col">
         <app-anchor-navigation [identifier]="'#dataproduct'"></app-anchor-navigation>
@@ -514,3 +516,4 @@
     </div>
   </div>
 </ng-scrollbar>
+<app-back-to-top-button (onScrollToTop)="handleScrollToTop()"></app-back-to-top-button>

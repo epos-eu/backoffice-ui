@@ -8,6 +8,7 @@ import { EditNavigationComponent } from './edit-navigation/edit-navigation.compo
 import { MatChipsModule } from '@angular/material/chips';
 import { ExplorerNavigationComponent } from './explorer-navigation/explorer-navigation.component';
 import { AnchorNavigationComponent } from './explorer-navigation/anchor-navigation/anchor-navigation.component';
+import { BackButtonComponent } from './back-button/back-button.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AnchorNavigationComponent } from './explorer-navigation/anchor-navigati
     EditNavigationComponent,
     ExplorerNavigationComponent,
     AnchorNavigationComponent,
+    BackButtonComponent,
   ],
   imports: [CommonModule, RouterModule, AngularMaterialModule, MatChipsModule],
   exports: [
