@@ -43,7 +43,7 @@
             <app-option-date [param]="control.value"></app-option-date>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.STRING">
-            <app-option-string></app-option-string>
+            <app-option-string [param]="control.value"></app-option-string>
           </ng-container>
           <ng-container *ngSwitchCase="rangeEnum.INTEGER">
             <app-option-integer [param]="control.value"></app-option-integer>

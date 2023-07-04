@@ -1,3 +1,70 @@
-<p>
-  option-string works!
-</p>
+<ng-container *ngIf="form && param">
+  <form
+    [formGroup]="form"
+    class="integer-form"
+  >
+    <mat-form-field>
+      <mat-label>Label</mat-label>
+      <input
+        matInput
+        placeholder="Label"
+        formControlName="label"
+      />
+    </mat-form-field>
+    <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
+    <mat-slide-toggle formControlName="readonly">Readonly</mat-slide-toggle>
+    <mat-radio-group
+      aria-label="Allowed values"
+      formControlName="allowedValues"
+    >
+      <mat-radio-button value="any">Any</mat-radio-button>
+      <mat-radio-button value="controlled">Controlled list of values</mat-radio-button>
+    </mat-radio-group>
+    <ng-container *ngIf="form.get('allowedValues')?.value === 'any'">
+      <mat-form-field>
+        <mat-label>Default value</mat-label>
+        <input
+          matInput
+          placeholder="Default value"
+          formControlName="defaultValue"
+        />
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="form.get('allowedValues')?.value === 'controlled'">
+      <mat-slide-toggle
+        formControlName="multipleValues"
+        class="allow-multiple"
+      >
+        Allows multiple selection
+      </mat-slide-toggle>
+      <ng-container formArrayName="value">
+        <div
+          *ngFor="let control of getControls('value'); let i = index"
+          [formGroupName]="i"
+          class="user-value"
+        >
+          <mat-form-field appearance="fill">
+            <mat-label>Value</mat-label>
+            <input
+              matInput
+              placeholder="Value"
+              formControlName="value"
+            />
+          </mat-form-field>
+          <mat-slide-toggle
+            formControlName="asDefault"
+            [id]="i.toString()"
+          >
+            As default value
+          </mat-slide-toggle>
+        </div>
+      </ng-container>
+      <button
+        mat-raised-button
+        color="primary"
+      >
+        Add new value
+      </button>
+    </ng-container>
+  </form>
+</ng-container>
