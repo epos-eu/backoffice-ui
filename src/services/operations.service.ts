@@ -113,7 +113,7 @@ export class OperationsService {
   /**
    * Gets active Operation
    */
-  public getActiveOperation(): Operation | null {
+  public getActiveOperationValue(): Operation | null {
     return this.operation.getValue();
   }
 
@@ -596,7 +596,7 @@ export class OperationsService {
   }
 
   public handleOperationSave(): void {
-    const formData: Operation = this.getActiveDistributionValue() as Operation;
+    const formData: Operation = this.getActiveOperationValue() as Operation;
     if (formData !== null) {
       // if (formData.state === State.DRAFT) {
       this.apiService.endpoints[Entity.OPERATION].update
