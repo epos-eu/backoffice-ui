@@ -41,6 +41,13 @@ import { ErrorNoticeComponent } from './error-notice/error-notice.component';
     MatExpansionModule,
     MatIconModule,
   ],
-  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent, ErrorNoticeComponent],
+  exports: [
+    LayoutComponent,
+    ActionsDataComponent,
+    ChartComponent,
+    TableComponent,
+    ErrorNoticeComponent,
+    BackToTopButtonComponent,
+  ],
 })
 export class ComponentsModule {}
