@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
+import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { OperationsService } from 'src/services/operations.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -21,9 +22,8 @@ export class OperationParametersComponent implements OnInit {
     private operationsService: OperationsService,
   ) {}
 
-  private operation!: OperationDetailDataSource;
+  private operation!: Operation;
   private template!: string;
-  private mappingChanges: Array<Mapping> = [];
   public paramsForm!: UntypedFormGroup;
   public mapping!: Mapping[];
   public rangeEnum = OperationParamsRange;
@@ -43,9 +43,10 @@ export class OperationParametersComponent implements OnInit {
           const operation = data.shift();
           if (typeof operation !== 'undefined') {
             this.operationsService.setActiveOperation(operation);
+            this.operation = this.operationsService.convertToOperation(operation);
             this.operation = operation;
-            this.template = this.operation.template;
-            this.mapping = this.operation.mapping;
+            this.template = this.operation.template!;
+            this.mapping = this.operation.mapping!;
             this.initForm();
           }
         });
@@ -80,17 +81,14 @@ export class OperationParametersComponent implements OnInit {
     return transformed;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private trackFormChanges(changes: any): void {
-    this.mappingChanges = changes.mapping;
-  }
-
   private initForm(): void {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
       template: this.template,
     });
-    this.paramsForm.valueChanges.subscribe((changes) => this.trackFormChanges(changes));
+    this.paramsForm.valueChanges.subscribe((changes) => {
+      this.updateTemplate(changes['template']);
+    });
   }
 
   public ngOnInit(): void {
@@ -99,6 +97,14 @@ export class OperationParametersComponent implements OnInit {
 
   public getDateControl(dateStr: string): FormControl {
     return new FormControl(new Date(dateStr));
+  }
+
+  public updateTemplate(template: string) {
+    const activeSupportedOperation = this.operationsService.getActiveOperationValue();
+    if (null != activeSupportedOperation) {
+      activeSupportedOperation.template = template;
+      this.operationsService.setActiveOperation(activeSupportedOperation);
+    }
   }
 
   /** Finds item in Mapping array and replaces the item in the array with the updated item */
@@ -112,4 +118,8 @@ export class OperationParametersComponent implements OnInit {
       this.operationsService.setActiveOperation(activeSupportedOperation);
     }
   }
+
+  // public handleSave(): void {
+  //   this.operationsService.handleOperationSave();
+  // }
 }
