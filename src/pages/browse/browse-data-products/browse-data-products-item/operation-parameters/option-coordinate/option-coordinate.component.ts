@@ -12,7 +12,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 })
 export class OptionCoordinateComponent implements OnInit {
   @Input() param!: Mapping;
-  @Output() udpatedParam = new Subject<Mapping>();
+  @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
   public coordinateTypes = Object.values(CoordinateType);
@@ -46,7 +46,7 @@ export class OptionCoordinateComponent implements OnInit {
       this.param.minValue = changedObject.minValue;
       this.param.maxValue = changedObject.maxValue;
       this.param.defaultValue = changedObject.defaultValue;
-      this.udpatedParam.next(this.param);
+      this.updatedParam.next(this.param);
     });
   }
 }

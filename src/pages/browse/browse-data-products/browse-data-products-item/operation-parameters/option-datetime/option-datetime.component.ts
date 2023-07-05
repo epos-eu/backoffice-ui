@@ -12,7 +12,7 @@ import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
 })
 export class OptionDatetimeComponent implements OnInit {
   @Input() param!: Mapping;
-  @Output() udpatedParam = new Subject<Mapping>();
+  @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
   public semanticTags = Object.values(SemanticTag);
@@ -23,6 +23,7 @@ export class OptionDatetimeComponent implements OnInit {
   public ngOnInit(): void {
     this.initForm();
   }
+
   private initForm(): void {
     this.paramForm = this.formBuilder.group({
       label: new FormControl(this.param.label),
@@ -46,7 +47,7 @@ export class OptionDatetimeComponent implements OnInit {
       this.param.minValue = changedObject.minValue;
       this.param.maxValue = changedObject.maxValue;
       this.param.defaultValue = changedObject.defaultValue;
-      this.udpatedParam.next(this.param);
+      this.updatedParam.next(this.param);
     });
   }
 }

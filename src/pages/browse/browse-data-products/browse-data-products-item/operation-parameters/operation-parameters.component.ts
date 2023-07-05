@@ -101,16 +101,15 @@ export class OperationParametersComponent implements OnInit {
     return new FormControl(new Date(dateStr));
   }
 
+  /** Finds item in Mapping array and replaces the item in the array with the updated item */
   public cacheParam(updatedMapping: Mapping) {
-    const activeSupportedOperation = this.operationsService.getActiveOperation();
+    const activeSupportedOperation = this.operationsService.getActiveOperationValue();
     const updatedMappingArray = activeSupportedOperation?.mapping?.map((item: Mapping) =>
-      /** Finds item in Mapping array and replaces the item in the array with the updated item */
       item.variable === updatedMapping.variable ? updatedMapping : item,
     );
     if (null != activeSupportedOperation?.mapping) {
       Object.assign(activeSupportedOperation?.mapping, updatedMappingArray);
       this.operationsService.setActiveOperation(activeSupportedOperation);
-      console.debug(activeSupportedOperation);
     }
   }
 }

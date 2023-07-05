@@ -12,7 +12,7 @@ import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 export class OptionIntegerComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() param!: any;
-  @Output() udpatedParam = new Subject<Mapping>();
+  @Output() updatedParam = new Subject<Mapping>();
 
   constructor(private formBuilder: UntypedFormBuilder) {}
 
@@ -46,15 +46,13 @@ export class OptionIntegerComponent implements OnInit {
     this.form.valueChanges.subscribe((changes) => {
       const changedObject = changes as Mapping;
       this.param.label = changedObject.label;
-      this.param.range = changedObject.range;
       this.param.required = changedObject.required;
       this.param.readOnlyValue = changedObject.readOnlyValue;
-      this.param.property = changedObject.property;
       this.param.minValue = changedObject.minValue;
       this.param.maxValue = changedObject.maxValue;
       this.param.defaultValue = changedObject.defaultValue;
       this.param.multipleValues = changedObject.multipleValues;
-      this.udpatedParam.next(this.param);
+      this.updatedParam.next(this.param);
     });
   }
 

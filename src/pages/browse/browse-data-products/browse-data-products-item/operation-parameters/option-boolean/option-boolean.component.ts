@@ -12,7 +12,7 @@ import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
 })
 export class OptionBooleanComponent implements OnInit {
   @Input() param!: Mapping;
-  @Output() udpatedParam = new Subject<Mapping>();
+  @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
   public semanticTags = Object.values(SemanticTag);
@@ -44,7 +44,7 @@ export class OptionBooleanComponent implements OnInit {
       this.param.minValue = changedObject.minValue;
       this.param.maxValue = changedObject.maxValue;
       this.param.defaultValue = changedObject.defaultValue;
-      this.udpatedParam.next(this.param);
+      this.updatedParam.next(this.param);
     });
   }
 }
