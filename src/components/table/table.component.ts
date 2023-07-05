@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Input, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
@@ -17,6 +17,7 @@ import { FilterEmit } from '../table-filter/table-filter.component';
 export class TableComponent implements AfterViewInit {
   @Input() sectionName!: Entity;
   @Output() rowClickDetailsEmit = new Subject<Array<string>>();
+  @Output() paginationChangeEmit = new EventEmitter<PageEvent>();
 
   public displayedColumns = ['uid', 'lastChange', 'status', 'changeComment', 'author'];
   public dataSource!: MatTableDataSource<TableDetail>;
@@ -78,5 +79,9 @@ export class TableComponent implements AfterViewInit {
       );
     };
     this.loading = false;
+  }
+
+  public handlePaginationChange(event: PageEvent): void {
+    this.paginationChangeEmit.emit(event);
   }
 }
