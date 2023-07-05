@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 
@@ -26,7 +26,7 @@ export class OptionFloatComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      label: [this.param.label],
+      label: new FormControl(this.param.label, Validators.required),
       required: [this.checkBool(this.param.required)],
       readOnlyValue: [this.checkBool(this.param.readOnlyValue)],
       allowedValues: [this.param.paramValue.length > 0 ? 'controlled' : 'any'],

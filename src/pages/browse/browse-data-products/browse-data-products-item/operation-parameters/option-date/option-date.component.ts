@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
@@ -25,7 +25,7 @@ export class OptionDateComponent implements OnInit {
   }
   private initForm(): void {
     this.paramForm = this.formBuilder.group({
-      label: new FormControl(this.param.label),
+      label: new FormControl(this.param.label, Validators.required),
       range: new FormControl(this.param.range),
       variable: new FormControl(this.param.variable),
       required: new FormControl(this.param.required === 'true' ? true : false),
