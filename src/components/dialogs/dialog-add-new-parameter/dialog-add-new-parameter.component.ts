@@ -25,12 +25,12 @@ export class DialogAddNewParameterComponent implements OnInit {
     this.form = this.formBuilder.group({
       variable: new FormControl(this.mapping.variable, Validators.required),
       range: new FormControl(this.mapping.range, Validators.required),
-      required: new FormControl(this.mapping.required === 'true' ? true : false),
+      required: new FormControl(false),
     });
     this.form.valueChanges.subscribe((changes) => {
       this.mapping.variable = changes['variable'];
       this.mapping.range = changes['range'];
-      this.mapping.required = changes['required'];
+      this.mapping.required = changes['required'].toString();
       this.data.dataOut = this.mapping;
     });
   }
