@@ -39,12 +39,11 @@ export class OperationParametersComponent implements OnInit {
       this.apiService.endpoints[Entity.OPERATION].get
         .call({ instanceId: this.instanceId }, false)
         .then((data: Array<OperationDetailDataSource>) => {
-          this.fetchingOperation = false;
           const operation = data.shift();
-          if (typeof operation !== 'undefined') {
-            this.operationsService.setActiveOperation(operation);
+          if (null != operation) {
+            this.fetchingOperation = false;
             this.operation = this.operationsService.convertToOperation(operation);
-            this.operation = operation;
+            this.operationsService.setActiveOperation(this.operation);
             this.template = this.operation.template!;
             this.mapping = this.operation.mapping!;
             this.initForm();
@@ -107,19 +106,27 @@ export class OperationParametersComponent implements OnInit {
     }
   }
 
-  /** Finds item in Mapping array and replaces the item in the array with the updated item */
   public cacheParam(updatedMapping: Mapping) {
     const activeSupportedOperation = this.operationsService.getActiveOperationValue();
-    const updatedMappingArray = activeSupportedOperation?.mapping?.map((item: Mapping) =>
-      item.variable === updatedMapping.variable ? updatedMapping : item,
-    );
-    if (null != activeSupportedOperation?.mapping) {
-      Object.assign(activeSupportedOperation?.mapping, updatedMappingArray);
+    if (null != activeSupportedOperation) {
+      const updatedMappingArray = activeSupportedOperation?.mapping?.map((item: Mapping) =>
+        item.variable === updatedMapping.variable ? updatedMapping : item,
+      );
+      activeSupportedOperation.mapping = updatedMappingArray as Array<Mapping>;
+      /** Sets all null values as undefined */
+      activeSupportedOperation?.mapping.map((mappingObj: Record<string, unknown>) => {
+        Object.keys(mappingObj).forEach((key) => {
+          if (null == mappingObj[key]) {
+            mappingObj[key] = undefined;
+          }
+        });
+        return mappingObj;
+      });
       this.operationsService.setActiveOperation(activeSupportedOperation);
     }
   }
 
-  // public handleSave(): void {
-  //   this.operationsService.handleOperationSave();
-  // }
+  public handleSave(): void {
+    this.operationsService.handleOperationSave();
+  }
 }

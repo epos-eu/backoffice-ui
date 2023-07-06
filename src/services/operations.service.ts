@@ -596,29 +596,31 @@ export class OperationsService {
   }
 
   public handleOperationSave(): void {
-    const formData: Operation = this.getActiveOperationValue() as Operation;
-    if (formData !== null) {
-      // if (formData.state === State.DRAFT) {
-      this.apiService.endpoints[Entity.OPERATION].update
-        .call({
-          ...formData,
-        })
-        .then((data: OperationDetailDataSource) => {
-          this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-success',
-          ]);
-          console.log('updated object', data);
-        })
-        .catch((err) => {
-          console.error(err);
-          this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-error',
-          ]);
-        });
+    const operationData = this.getActiveOperationValue();
+    console.debug(operationData);
+    if (operationData !== null) {
+      // if (bla.state === State.DRAFT) {
+      // this.apiService.endpoints[Entity.OPERATION].update
+      //   .call({
+      //     ...bla,
+      //   })
+      //   .then((data: OperationDetailDataSource) => {
+      //     this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+      //       'snackbar',
+      //       'mat-toolbar',
+      //       'snackbar-success',
+      //     ]);
+      //     console.log('updated object', data);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //     this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+      //       'snackbar',
+      //       'mat-toolbar',
+      //       'snackbar-error',
+      //     ]);
+      //   });
+      // }
     }
   }
 }

@@ -40,8 +40,8 @@ export class OptionDateComponent implements OnInit {
       this.param.label = changedObject.label;
       this.param.range = changedObject.range;
       this.param.variable = changedObject.variable;
-      this.param.required = changedObject.required;
-      this.param.readOnlyValue = changedObject.readOnlyValue;
+      this.param.required = changedObject.required.toString();
+      this.param.readOnlyValue = changedObject.readOnlyValue ? changedObject.readOnlyValue.toString() : '';
       this.param.property = changedObject.property;
       this.param.minValue = changedObject.minValue;
       this.param.maxValue = changedObject.maxValue;
