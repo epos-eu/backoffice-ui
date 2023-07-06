@@ -44,12 +44,12 @@ export class OptionFloatComponent implements OnInit {
     this.form.valueChanges.subscribe((changes) => {
       const changedObject = changes as Mapping;
       this.param.label = changedObject.label;
-      this.param.required = changedObject.required;
-      this.param.readOnlyValue = changedObject.readOnlyValue;
+      this.param.required = changedObject.required.toString();
+      this.param.readOnlyValue = changedObject.readOnlyValue ? changedObject.readOnlyValue.toString() : '';
       this.param.minValue = changedObject.minValue;
       this.param.maxValue = changedObject.maxValue;
       this.param.defaultValue = changedObject.defaultValue;
-      this.param.multipleValues = changedObject.multipleValues;
+      this.param.multipleValues = changedObject.multipleValues ? changedObject.multipleValues.toString() : '';
       this.updatedParam.next(this.param);
     });
   }

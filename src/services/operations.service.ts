@@ -596,12 +596,12 @@ export class OperationsService {
   }
 
   public handleOperationSave(): void {
-    const formData: Operation = this.getActiveOperationValue() as Operation;
-    if (formData !== null) {
-      // if (formData.state === State.DRAFT) {
+    const operationData = this.getActiveOperationValue();
+    console.debug(operationData);
+    if (operationData !== null) {
       this.apiService.endpoints[Entity.OPERATION].update
         .call({
-          ...formData,
+          ...operationData,
         })
         .then((data: OperationDetailDataSource) => {
           this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [

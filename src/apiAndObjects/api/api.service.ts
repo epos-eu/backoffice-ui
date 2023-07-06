@@ -68,6 +68,12 @@ export class ApiService extends BaseApi {
       create: new PostContactPointDetail(ApiService.USE_LIVE_API),
       update: new PutContactPointDetail(ApiService.USE_LIVE_API),
     },
+    Operation: {
+      get: new GetOperationDetails(ApiService.USE_LIVE_API),
+      getAll: new GetAllOperations(ApiService.USE_LIVE_API),
+      create: new PostOperationDetail(ApiService.USE_LIVE_API),
+      update: new PutOperationDetail(ApiService.USE_LIVE_API),
+    },
 
     /* Administrative Entities */
     Organization: {
@@ -83,12 +89,6 @@ export class ApiService extends BaseApi {
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
       create: new PostUserDetail(ApiService.USE_LIVE_API),
       update: new PutUserDetail(ApiService.USE_LIVE_API),
-    },
-    Operation: {
-      get: new GetOperationDetails(ApiService.USE_LIVE_API),
-      getAll: new GetAllOperations(ApiService.USE_LIVE_API),
-      create: new PostOperationDetail(ApiService.USE_LIVE_API),
-      update: new PutOperationDetail(ApiService.USE_LIVE_API),
     },
   };
 
