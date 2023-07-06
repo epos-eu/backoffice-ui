@@ -368,7 +368,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public newContactPoint() {
-    this.apiService.endpoints.Contactpoint.getAll
+    this.apiService.endpoints.ContactPoint.getAll
       .call()
       .then((data: Array<ContactPointDetailDataSource>) => {
         this.showContactPointSelect = true;

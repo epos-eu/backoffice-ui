@@ -3,8 +3,8 @@ export enum Entity {
   ORGANIZATION = 'Organization',
   USER = 'User',
   PERSON = 'Person',
-  CONTACT_POINT = 'Contactpoint',
-  WEBSERVICE = 'Webservice',
+  CONTACT_POINT = 'ContactPoint',
+  WEBSERVICE = 'WebService',
   DISTRIBUTION = 'Distribution',
   OPERATION = 'Operation',
 }

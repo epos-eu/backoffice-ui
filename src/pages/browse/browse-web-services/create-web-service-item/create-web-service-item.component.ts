@@ -42,7 +42,7 @@ export class CreateWebServiceItemComponent implements OnInit {
       dateModified: new Date(),
     };
 
-    this.apiService.endpoints.Webservice.create
+    this.apiService.endpoints.WebService.create
       .call(item)
       .then((value: WebserviceDetailDataSource) => {
         this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, value.instanceId]);

@@ -247,7 +247,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public newContactPoint() {
-    this.apiService.endpoints.Contactpoint.getAll
+    this.apiService.endpoints.ContactPoint.getAll
       .call()
       .then((data: Array<ContactPointDetailDataSource>) => {
         this.showContactPointSelect = true;
