@@ -16,11 +16,9 @@
   text-decoration: none;
   color: white;
   cursor: pointer;
-  font-family: 'Roboto Flex', sans-serif;
   font-weight: 400;
 
   h1 {
-    font-family: 'Roboto Flex', sans-serif;
     font-weight: 500;
     font-size: 20px;
   }
@@ -31,7 +29,6 @@
 }
 
 .navbar-main-navigation-item {
-  font-family: 'Roboto Flex', sans-serif;
   font-size: 16px;
   margin: 0 15%;
   text-decoration: none;
@@ -67,7 +64,6 @@
   p {
     margin: 0 0.5rem 0 0;
     font-size: 16px;
-    font-family: 'Roboto Flex', sans-serif;
 
     &:nth-of-type(2) {
       font-size: 14px;
@@ -123,7 +119,6 @@ mat-sidenav {
 }
 
 mat-sidenav-content {
-  font-family: 'Roboto Flex', sans-serif;
   overflow-x: hidden;
 }
 
@@ -185,7 +180,6 @@ button {
       text-align: center;
       font-weight: 800;
       color: $color-text-bg;
-      font-family: 'Roboto Flex', sans-serif;
     }
   }
 

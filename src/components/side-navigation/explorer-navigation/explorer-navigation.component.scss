@@ -1,10 +1,12 @@
+@import 'src/styles/_theme.scss';
+
 .mat-tree-node {
   height: 40px;
   min-height: 40px;
 }
 
 .active {
-  background-color: #ccdbd4;
+  background-color: $color-focus;
 }
 
 .action {
