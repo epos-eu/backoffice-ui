@@ -59,7 +59,7 @@ export class OperationDetailDataSource extends BaseObject {
     this.method = this._getString(OperationDetailDataSource.KEYS.METHOD);
     this.operation = this._getString(OperationDetailDataSource.KEYS.OPERATION);
     this.returns = this._getArray(OperationDetailDataSource.KEYS.RETURNS);
-    this.state = this._getEnumFromValue(OperationDetailDataSource.KEYS.STATE, State);
+    this.state = this._getValue(OperationDetailDataSource.KEYS.STATE) as State;
     this.template = this._getString(OperationDetailDataSource.KEYS.TEMPLATE);
     this.toBeDelete = this._getString(OperationDetailDataSource.KEYS.TO_BE_DELETE);
     this.uid = this._getString(OperationDetailDataSource.KEYS.UID);
