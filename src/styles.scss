@@ -12,6 +12,11 @@
 @import './styles/chart';
 @import './styles/entity';
 @import './styles/forms';
+@import './styles/expansion-theme';
+
+* {
+  font-family: 'Roboto Flex';
+}
 
 .container {
   margin-top: 10px;
@@ -87,7 +92,6 @@ app-browse-navigation {
   a,
   button {
     .mdc-button__label {
-      font-family: 'Roboto Flex', sans-serif;
       font-size: 14px;
       margin-right: 0.5rem;
       letter-spacing: initial;
