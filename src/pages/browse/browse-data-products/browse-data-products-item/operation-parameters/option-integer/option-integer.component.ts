@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Subject } from 'rxjs';
+import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 
 @Component({
   selector: 'app-option-integer',
@@ -10,6 +12,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 export class OptionIntegerComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() param!: any;
+  @Output() updatedParam = new Subject<Mapping>();
 
   constructor(private formBuilder: UntypedFormBuilder) {}
 
@@ -25,9 +28,9 @@ export class OptionIntegerComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      label: [this.param.label],
+      label: new FormControl(this.param.label, Validators.required),
       required: [this.checkBool(this.param.required)],
-      readonly: [this.checkBool(this.param.readonly)],
+      readOnlyValue: [this.checkBool(this.param.readOnlyValue)],
       allowedValues: [this.param.paramValue.length > 0 ? 'controlled' : 'any'],
       defaultValue: [this.param.defaultValue],
       minValue: [this.param.minValue],
@@ -39,6 +42,17 @@ export class OptionIntegerComponent implements OnInit {
           asDefault: [false, Validators.required],
         }),
       ]),
+    });
+    this.form.valueChanges.subscribe((changes) => {
+      const changedObject = changes as Mapping;
+      this.param.label = changedObject.label;
+      this.param.required = changedObject.required;
+      this.param.readOnlyValue = changedObject.readOnlyValue;
+      this.param.minValue = changedObject.minValue;
+      this.param.maxValue = changedObject.maxValue;
+      this.param.defaultValue = changedObject.defaultValue;
+      this.param.multipleValues = changedObject.multipleValues;
+      this.updatedParam.next(this.param);
     });
   }
 
