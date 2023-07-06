@@ -47,6 +47,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public callOperationDetail = false;
   public selectedPanelId: ReplaySubject<number> = new ReplaySubject();
   public selectedSection = '';
+  public supportedOperationSearchValue = '';
+  public supportedOperationFocusFirstRow = false;
 
   private formTree = {
     id: '#distaccessiblewebservice',
@@ -187,6 +189,19 @@ export class WebserviceFormDetailsComponent implements OnInit {
     }
   }
 
+  public addNewOperation(): void {
+    const webserviceEtityDetail: EntityDetail = {
+      entityType: Entity.WEBSERVICE,
+      instanceId: this.webservice?.instanceId ?? '',
+      uid: this.webservice?.uid ?? '',
+      metaId: this.webservice?.metaId ?? '',
+    };
+    this.dialogService.handleAddWebserviceOperation(webserviceEtityDetail).then((result) => {
+      console.debug(result);
+      // put result on supportedOperation array (first position and focused)
+    });
+  }
+
   public formatDate = (dateStr: string): string => {
     const date = new Date(dateStr);
     if (date instanceof Date && !isNaN(date.getTime())) {
@@ -232,7 +247,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public newContactPoint() {
-    this.apiService.endpoints.Contactpoint.getAll
+    this.apiService.endpoints.ContactPoint.getAll
       .call()
       .then((data: Array<ContactPointDetailDataSource>) => {
         this.showContactPointSelect = true;
@@ -278,5 +293,40 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public handleOperationParams(index: number): void {
     const selectedPanel = this.panels.find((panel) => Number(panel.nativeElement.id) === index);
     this.selectedPanelId.next(Number(selectedPanel?.nativeElement.id));
+  }
+
+  /**
+   * The function searches for a value in a list of supported operations and updates a flag indicating
+   * whether to focus on the first row.
+   * @param {any} event - The event parameter is an object that represents the event that triggered the
+   * search operation. It could be an input event, keyup event, or any other event that is used to
+   * capture user input.
+   */
+  public supportedOperationSearch(event: any): void {
+    const value = event.target.value;
+    if (value.length > 1) {
+      const supportedOperation = this.webservice?.supportedOperation ?? [];
+      const foundIndex = supportedOperation.findIndex((operation) =>
+        operation.uid.toUpperCase().includes(value.toUpperCase()),
+      );
+      if (foundIndex > -1) {
+        this.supportedOperationFocusFirstRow = true;
+        supportedOperation.push(...supportedOperation.splice(0, foundIndex));
+      } else {
+        this.supportedOperationFocusFirstRow = false;
+      }
+    } else {
+      this.supportedOperationFocusFirstRow = false;
+    }
+  }
+
+  /**
+   * The function `deleteOperation` calls a dialog service to handle the deletion of an operation entity
+   * identified by a given UID.
+   * @param {string} uid - The `uid` parameter is a string that represents the unique identifier of the
+   * operation that needs to be deleted.
+   */
+  public deleteOperation(uid: string): void {
+    this.dialogService.handleDelete(uid, EntityEndpointValue.OPERATION);
   }
 }

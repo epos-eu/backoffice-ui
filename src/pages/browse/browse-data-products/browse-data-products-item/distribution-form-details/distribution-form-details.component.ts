@@ -181,7 +181,7 @@ export class DistributionFormDetailsComponent {
       dateModified: new Date(),
     };
 
-    this.apiService.endpoints.Webservice.create
+    this.apiService.endpoints.WebService.create
       .call(item)
       .then((value: WebserviceDetailDataSource) => {
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [

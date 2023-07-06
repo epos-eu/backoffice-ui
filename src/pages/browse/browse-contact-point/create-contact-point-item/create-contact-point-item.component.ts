@@ -41,7 +41,7 @@ export class CreateContactPointItemComponent implements OnInit {
       uid: this.form.value['uid'],
     };
 
-    this.apiService.endpoints.Contactpoint.create
+    this.apiService.endpoints.ContactPoint.create
       .call(item)
       .then((value: ContactPointDetailDataSource) => {
         this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, value.instanceId]);

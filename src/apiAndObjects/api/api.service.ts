@@ -50,7 +50,7 @@ export class ApiService extends BaseApi {
       create: new PostDataProductDetails(ApiService.USE_LIVE_API),
       update: new PutDataProductDetail(ApiService.USE_LIVE_API),
     },
-    Webservice: {
+    WebService: {
       get: new GetWebserviceDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllWebservices(ApiService.USE_LIVE_API),
       create: new PostWebserviceDetail(ApiService.USE_LIVE_API),
@@ -62,7 +62,7 @@ export class ApiService extends BaseApi {
       create: new PostDistributionDetail(ApiService.USE_LIVE_API),
       update: new PutDistributionDetail(ApiService.USE_LIVE_API),
     },
-    Contactpoint: {
+    ContactPoint: {
       get: new GetContactPointDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllContactPoints(ApiService.USE_LIVE_API),
       create: new PostContactPointDetail(ApiService.USE_LIVE_API),
