@@ -19,6 +19,7 @@ import { WebserviceAddOperationComponent } from './webservice-add-operation/webs
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
+import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +94,20 @@ export class DialogService extends BaseDialogService {
         height: 'auto',
       },
       'user-permissions',
+    );
+  }
+
+  public openAddNewParameterDialog(): Promise<DialogData> {
+    return this.openDialog(
+      'changeUserRole',
+      DialogAddNewParameterComponent,
+      false,
+      null,
+      {
+        width: '30vw',
+        height: 'auto',
+      },
+      'add-param',
     );
   }
 

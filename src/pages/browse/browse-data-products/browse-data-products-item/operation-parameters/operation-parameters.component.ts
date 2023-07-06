@@ -4,6 +4,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { OperationsService } from 'src/services/operations.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
@@ -20,6 +21,7 @@ export class OperationParametersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private operationsService: OperationsService,
+    private dialogService: DialogService,
   ) {}
 
   private operation!: Operation;
@@ -128,5 +130,9 @@ export class OperationParametersComponent implements OnInit {
 
   public handleSave(): void {
     this.operationsService.handleOperationSave();
+  }
+
+  public handleAddParam(): void {
+    this.dialogService.openAddNewParameterDialog();
   }
 }

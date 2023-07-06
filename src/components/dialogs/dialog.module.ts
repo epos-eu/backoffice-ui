@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DialogSubmitDraftComponent } from './dialog-submit-draft/dialog-submit-draft.component';
 import { ServicesModule } from 'src/services/services.module';
 import { WebserviceAddOperationComponent } from './webservice-add-operation/webservice-add-operation.component';
+import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { WebserviceAddOperationComponent } from './webservice-add-operation/webs
     UserPermissionsComponent,
     DialogSubmitDraftComponent,
     WebserviceAddOperationComponent,
+    DialogAddNewParameterComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule, ServicesModule],
 })
