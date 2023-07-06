@@ -1,3 +1,5 @@
+@import 'src/styles/_theme.scss';
+
 button {
   margin-top: 1rem;
 }
@@ -15,11 +17,24 @@ button {
   border: 1px solid rgba(0, 0, 0, 0.38);
   box-shadow: none;
 
-  .supported-operation-item {
-    // background-color: #f9f9f9;
-    margin: 1rem 0;
-    padding: 2rem 0 0 2rem;
-    border-radius: 4px;
+  .supported-operation-wrapper {
+    &.focused {
+      border: 2px solid $color-focus;
+    }
+
+    .supported-operation-item {
+      // background-color: #f9f9f9;
+      padding: 2rem 0 0 2rem;
+      border-radius: 4px;
+    }
+
+    .supported-item-actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: right;
+      margin-right: 2em;
+      margin-bottom: 1em;
+    }
   }
 }
 
@@ -29,10 +44,22 @@ button {
 
 .mat-expansion-panel-header {
   &.active {
-    background-color: #ccdbd4;
+    // background-color: #ccdbd4;
+    background-color: $color-focus;
   }
 }
 
 .expansion-content-wrapper {
   padding-top: 1em;
+
+  .top-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding: 2rem 0 0 2rem;
+
+    .actions {
+      width: 100%;
+    }
+  }
 }

@@ -15,6 +15,10 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ActionsService } from 'src/services/actions.service';
+import { WebserviceAddOperationComponent } from './webservice-add-operation/webservice-add-operation.component';
+import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
+import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
+import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 
 @Injectable({
   providedIn: 'root',
@@ -161,5 +165,55 @@ export class DialogService extends BaseDialogService {
         // do stuff
       }
     });
+  }
+
+  /**
+   * The function `handleAddWebserviceOperation` opens a dialog to add a new webservice operation,
+   * creates the operation using an API call, and returns a promise with the operation details.
+   * @param {EntityDetail} webserviceEntityDetail - The `webserviceEntityDetail` parameter is an object
+   * that contains details about a webservice entity. It is used as a parameter to open a dialog and also
+   * passed as a property to the `WebserviceAddOperationComponent` component.
+   * @returns a Promise that resolves to either an OperationDetailDataSource object or an unknown value.
+   */
+  public handleAddWebserviceOperation(
+    webserviceEntityDetail: EntityDetail,
+  ): Promise<OperationDetailDataSource | unknown> {
+    const promise = new Promise((resolve) => {
+      this.openDialog('addWebserviceOperation', WebserviceAddOperationComponent, false, {
+        width: '450px',
+        height: '275px',
+        webservice: webserviceEntityDetail,
+      }).then((response: DialogData) => {
+        if (response.dataOut.action === 'add') {
+          const uid = response.dataOut.uid;
+
+          if (uid !== '' && uid !== undefined) {
+            const item: Operation = {
+              uid: uid,
+              webservice: [webserviceEntityDetail],
+            };
+
+            this.apiService.endpoints.Operation.create
+              .call(item)
+              .then((value: OperationDetailDataSource) => {
+                this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+                  'snackbar',
+                  'mat-toolbar',
+                  'snackbar-success',
+                ]);
+                resolve(value);
+              })
+              .catch(() =>
+                this.snackbarService.openSnackbar(`Error: failed to create new operation`, 'close', 'error', 6000, [
+                  'snackbar',
+                  'mat-toolbar',
+                  'snackbar-error',
+                ]),
+              );
+          }
+        }
+      });
+    });
+    return promise;
   }
 }

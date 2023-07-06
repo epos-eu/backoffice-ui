@@ -130,39 +130,85 @@
             <mat-panel-title>Supported operation</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
-            <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
-              <div class="supported-operation-item">
+            <div class="top-header">
+              <div class="actions">
+                Filter:
                 <mat-form-field
                   appearance="outline"
-                  [floatLabel]="floatLabelControl.value"
-                  [style.width.%]="96"
+                  [style.width.%]="80"
                 >
-                  <mat-label>UID</mat-label>
+                  <mat-label>Search by UID</mat-label>
                   <input
                     matInput
-                    placeholder="UID"
-                    name="supportedOperation.uid"
-                    [value]="item.uid"
+                    value=""
+                    (input)="supportedOperationSearch($event)"
                   />
                 </mat-form-field>
-                <mat-expansion-panel
-                  #expansionPanel
-                  [expanded]="false"
-                  class="supported-operation-params"
-                  [style.width.%]="96"
-                  [id]="i"
-                  (afterExpand)="handleOperationParams(i)"
-                >
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>Parameters</mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <app-operation-parameters
-                    *ngIf="(selectedPanelId | async) === i"
-                    [instanceId]="item.instanceId"
-                  ></app-operation-parameters>
-                </mat-expansion-panel>
+                <div class="flex-col">
+                  <button
+                    mat-mini-fab
+                    color="primary"
+                    aria-label="Add new operation"
+                    (click)="addNewOperation()"
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                  <mat-label>Add Operation</mat-label>
+                </div>
               </div>
-              <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
+            </div>
+            <mat-divider></mat-divider>
+            <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
+              <div
+                [ngClass]="{
+                  'supported-operation-wrapper': true,
+                  'mat-elevation-z8': supportedOperationFocusFirstRow && i === 0
+                }"
+              >
+                <div class="supported-operation-item">
+                  <mat-form-field
+                    appearance="outline"
+                    [floatLabel]="floatLabelControl.value"
+                    [style.width.%]="96"
+                  >
+                    <mat-label>UID</mat-label>
+                    <input
+                      matInput
+                      placeholder="UID"
+                      name="supportedOperation.uid"
+                      [value]="item.uid"
+                    />
+                  </mat-form-field>
+                  <mat-expansion-panel
+                    #expansionPanel
+                    [expanded]="false"
+                    class="supported-operation-params"
+                    [style.width.%]="96"
+                    [id]="i"
+                    (afterExpand)="handleOperationParams(i)"
+                  >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>Parameters</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <app-operation-parameters
+                      *ngIf="(selectedPanelId | async) === i"
+                      [instanceId]="item.instanceId"
+                    ></app-operation-parameters>
+                  </mat-expansion-panel>
+                </div>
+                <div class="supported-item-actions">
+                  <button
+                    mat-mini-fab
+                    color="warn"
+                    aria-label="delete operation"
+                    matTooltip="delete operation"
+                    (click)="deleteOperation(item.uid)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+                <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
+              </div>
             </ng-container>
           </div>
         </mat-expansion-panel>
