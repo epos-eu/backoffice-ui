@@ -87,11 +87,22 @@
       </ng-container>
     </mat-accordion>
   </form>
-  <button
-    mat-stroked-button
-    color="primary"
-    (click)="handleSave()"
-  >
-    Save Operation
-  </button>
+  <div class="button-wrapper">
+    <button
+      id="save"
+      mat-stroked-button
+      color="primary"
+      (click)="handleSave()"
+    >
+      Save Operation
+    </button>
+    <button
+      id="param"
+      mat-stroked-button
+      color="primary"
+      (click)="handleAddParam()"
+    >
+      Add Parameter
+    </button>
+  </div>
 </ng-container>

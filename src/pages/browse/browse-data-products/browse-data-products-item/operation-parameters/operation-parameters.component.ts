@@ -4,6 +4,8 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { OperationsService } from 'src/services/operations.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
@@ -20,6 +22,7 @@ export class OperationParametersComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private operationsService: OperationsService,
+    private dialogService: DialogService,
   ) {}
 
   private operation!: Operation;
@@ -128,5 +131,17 @@ export class OperationParametersComponent implements OnInit {
 
   public handleSave(): void {
     this.operationsService.handleOperationSave();
+  }
+
+  public handleAddParam(): void {
+    this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
+      const newMapping = data.dataOut as Mapping;
+      if (null != newMapping) {
+        const newMappingArr = this.operationsService.getActiveOperationValue()?.mapping;
+        newMappingArr?.push(newMapping);
+        this.mapping = newMappingArr as Array<Mapping>;
+        this.initForm();
+      }
+    });
   }
 }

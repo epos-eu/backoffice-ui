@@ -3,8 +3,6 @@ import { UntypedFormGroup, UntypedFormBuilder, FormControl, Validators } from '@
 import { Subject } from 'rxjs/internal/Subject';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
-import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
-
 @Component({
   selector: 'app-option-boolean',
   templateUrl: './option-boolean.component.html',
@@ -15,7 +13,6 @@ export class OptionBooleanComponent implements OnInit {
   @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
-  public semanticTags = Object.values(SemanticTag);
   public ranges = Object.values(OperationParamsRange);
 
   constructor(private formBuilder: UntypedFormBuilder) {}
@@ -27,8 +24,8 @@ export class OptionBooleanComponent implements OnInit {
   private initForm(): void {
     this.paramForm = this.formBuilder.group({
       label: new FormControl(this.param.label, Validators.required),
-      range: new FormControl(this.param.range),
-      variable: new FormControl(this.param.variable),
+      range: new FormControl({ value: this.param.range, disabled: true }),
+      variable: new FormControl({ value: this.param.variable, disabled: true }),
       required: new FormControl(this.param.required === 'true' ? true : false),
       readOnlyValue: new FormControl(this.param.readOnlyValue === 'true' ? true : false),
       defaultValue: new FormControl(this.param.defaultValue),
@@ -36,8 +33,6 @@ export class OptionBooleanComponent implements OnInit {
     this.paramForm.valueChanges.subscribe((changes) => {
       const changedObject = changes as Mapping;
       this.param.label = changedObject.label;
-      this.param.range = changedObject.range;
-      this.param.variable = changedObject.variable;
       this.param.required = changedObject.required.toString();
       this.param.readOnlyValue = changedObject.readOnlyValue ? changedObject.readOnlyValue.toString() : '';
       this.param.property = changedObject.property;

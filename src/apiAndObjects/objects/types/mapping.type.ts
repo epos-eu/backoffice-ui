@@ -1,6 +1,6 @@
 export type Mapping = {
-  defaultValue: string;
-  label: string;
+  defaultValue?: string;
+  label?: string;
   maxValue?: string;
   minValue?: string;
   multipleValues?: string;
@@ -10,5 +10,5 @@ export type Mapping = {
   readOnlyValue?: string;
   required: string;
   valuePattern?: string;
-  variable?: string;
+  variable: string;
 };
