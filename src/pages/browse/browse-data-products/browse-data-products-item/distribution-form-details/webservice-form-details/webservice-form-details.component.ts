@@ -334,12 +334,16 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   /**
-   * The function `deleteOperation` calls a dialog service to handle the deletion of an instance with a
-   * given ID.
+   * The `deleteOperation` function deletes an operation instance and updates the supported operations
+   * list.
    * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
-   * identifier of the instance that needs to be deleted.
+   * identifier of the operation instance that needs to be deleted.
    */
   public deleteOperation(instanceId: string): void {
-    this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION);
+    this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false);
+    this.webservice?.supportedOperation.splice(
+      this.webservice?.supportedOperation.findIndex((e) => e.instanceId === instanceId),
+      1,
+    );
   }
 }
