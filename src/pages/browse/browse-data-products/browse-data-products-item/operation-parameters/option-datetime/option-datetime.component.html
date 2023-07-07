@@ -20,18 +20,18 @@
       [style.width.%]="50"
     >
       <mat-label>Range</mat-label>
-      <select
+      <mat-select
         matNativeControl
         name="range"
         formControlName="range"
       >
-        <option
+        <mat-option
           *ngFor="let range of ranges"
           [value]="range"
         >
           {{ range }}
-        </option>
-      </select>
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
 
@@ -56,18 +56,18 @@
     [style.width.%]="50"
   >
     <mat-label>Semantic Tag</mat-label>
-    <select
+    <mat-select
       matNativeControl
       name="property"
       formControlName="property"
     >
-      <option
+      <mat-option
         *ngFor="let semanticTag of semanticTags"
         [value]="semanticTag"
       >
         {{ semanticTag }}
-      </option>
-    </select>
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
   <mat-form-field
