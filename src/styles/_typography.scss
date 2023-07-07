@@ -1,10 +1,12 @@
+@font-face {
+  font-family: 'Roboto Flex';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Flex'), url(../assets/fonts/RobotoFlex-Regular.ttf) format('truetype');
+}
+
 $custom-typography: mat.define-typography-config(
-  $font-family: '"Roboto Flex", sans-serif',
+  $font-family: 'Roboto Flex',
 );
 
 @include mat.all-component-typographies($custom-typography);
-
-.mat-toolbar {
-  font: initial;
-  font-family: 'Roboto Flex', sans-serif;
-}

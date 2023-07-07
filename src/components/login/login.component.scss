@@ -29,7 +29,6 @@ button.mat-mdc-unelevated-button {
   align-items: center;
   white-space: break-spaces;
   text-align: center;
-  font-family: 'Roboto Flex';
   font-weight: 400;
 
   & .manage-link {
@@ -48,7 +47,6 @@ button.mat-mdc-unelevated-button {
     button,
     a {
       padding: 0;
-      font-family: 'Roboto Flex', sans-serif;
       font-size: 14px;
       margin-right: 0.5rem;
       flex: auto;
