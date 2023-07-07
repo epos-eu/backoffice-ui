@@ -28,6 +28,8 @@ export class OptionIntegerComponent implements OnInit {
 
   private initForm(): void {
     this.form = this.formBuilder.group({
+      range: new FormControl({ value: this.param.range, disabled: true }),
+      variable: new FormControl({ value: this.param.variable, disabled: true }),
       label: new FormControl(this.param.label, Validators.required),
       required: [this.checkBool(this.param.required)],
       readOnlyValue: [this.checkBool(this.param.readOnlyValue)],
