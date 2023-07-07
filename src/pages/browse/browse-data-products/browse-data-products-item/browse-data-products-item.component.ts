@@ -97,6 +97,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public selectedSection = '';
 
+  public createdValue: string | null = null;
+  public modifiedValue: string | null = null;
+
   private formTree: FormTree = {
     id: '#dataproduct',
     name: 'Data Product',
@@ -197,6 +200,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           if (this.dataProduct) {
             this.selectedDataProviders = this.dataProduct.publisher;
             this.setSpatialCoverageVariables();
+
+            this.createdValue = this.getDate(this.dataProduct.created);
+            this.modifiedValue = this.getDate(this.dataProduct.modified);
 
             this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
             this.actionService.setLiveEdit();
