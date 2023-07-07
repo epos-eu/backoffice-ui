@@ -1,0 +1,46 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogData } from '../baseDialogService.abstract';
+import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
+import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-dialog-add-new-parameter',
+  templateUrl: './dialog-add-new-parameter.component.html',
+  styleUrls: ['./dialog-add-new-parameter.component.scss'],
+})
+export class DialogAddNewParameterComponent implements OnInit {
+  public ranges = Object.values(OperationParamsRange);
+  public form!: UntypedFormGroup;
+  private mapping: Mapping = { range: '', variable: '', required: '' };
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<Mapping>, private readonly formBuilder: FormBuilder) {}
+
+  public ngOnInit(): void {
+    this.createForm();
+  }
+
+  private createForm() {
+    this.form = this.formBuilder.group({
+      variable: new FormControl(this.mapping.variable, Validators.required),
+      range: new FormControl(this.mapping.range, Validators.required),
+      required: new FormControl(false),
+    });
+    this.form.valueChanges.subscribe((changes) => {
+      this.mapping.variable = changes['variable'];
+      this.mapping.range = changes['range'];
+      this.mapping.required = changes['required'].toString();
+      this.data.dataOut = this.mapping;
+    });
+  }
+
+  public handleCancel(): void {
+    this.data.dataOut = null;
+    this.data.close();
+  }
+
+  public handleAdd(): void {
+    this.data.close();
+  }
+}
