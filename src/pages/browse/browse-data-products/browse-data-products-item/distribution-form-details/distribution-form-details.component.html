@@ -137,22 +137,22 @@
           [style.width.%]="100"
         >
           <mat-label>Format</mat-label>
-          <select
+          <mat-select
             matNativeControl
             name="format"
             formControlName="format"
           >
-            <option
-              value=""
+            <mat-option
+              [value]=""
               selected
-            ></option>
-            <option
+            ></mat-option>
+            <mat-option
               *ngFor="let format of formats"
               [value]="format.url"
             >
               {{ format.format }}
-            </option>
-          </select>
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </ng-container>
     </form>

@@ -5,6 +5,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ReplaySubject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
@@ -196,10 +197,22 @@ export class WebserviceFormDetailsComponent implements OnInit {
       uid: this.webservice?.uid ?? '',
       metaId: this.webservice?.metaId ?? '',
     };
-    this.dialogService.handleAddWebserviceOperation(webserviceEtityDetail).then((result) => {
-      console.debug(result);
-      // put result on supportedOperation array (first position and focused)
-    });
+    this.dialogService
+      .handleAddWebserviceOperation(webserviceEtityDetail)
+      .then((result: OperationDetailDataSource | unknown) => {
+        if (result instanceof OperationDetailDataSource) {
+          // put result on supportedOperation array (first position and focused)
+          const operation: EntityDetail = {
+            entityType: Entity.OPERATION,
+            instanceId: result.instanceId,
+            uid: result.uid,
+            metaId: result.metaId,
+          };
+
+          this.webservice?.supportedOperation.unshift(operation);
+          this.supportedOperationFocusFirstRow = true;
+        }
+      });
   }
 
   public formatDate = (dateStr: string): string => {
@@ -321,12 +334,16 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   /**
-   * The function `deleteOperation` calls a dialog service to handle the deletion of an operation entity
-   * identified by a given UID.
-   * @param {string} uid - The `uid` parameter is a string that represents the unique identifier of the
-   * operation that needs to be deleted.
+   * The `deleteOperation` function deletes an operation instance and updates the supported operations
+   * list.
+   * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
+   * identifier of the operation instance that needs to be deleted.
    */
-  public deleteOperation(uid: string): void {
-    this.dialogService.handleDelete(uid, EntityEndpointValue.OPERATION);
+  public deleteOperation(instanceId: string): void {
+    this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false);
+    this.webservice?.supportedOperation.splice(
+      this.webservice?.supportedOperation.findIndex((e) => e.instanceId === instanceId),
+      1,
+    );
   }
 }

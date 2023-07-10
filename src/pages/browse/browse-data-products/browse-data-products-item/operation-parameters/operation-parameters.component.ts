@@ -93,6 +93,27 @@ export class OperationParametersComponent implements OnInit {
     });
   }
 
+  private foundListParametersOnTemplate(): string[] {
+    const template = this.paramsForm.get('template')?.value;
+    const regex = /{([^}]+)}/g;
+    const match = template.match(regex);
+
+    if (match) {
+      return match.map((m: any) => m.slice(1, -1));
+    } else {
+      return [];
+    }
+  }
+
+  private addMappingOnTemplate(mapping: Mapping) {
+    const groupParamsOnTemplate = this.foundListParametersOnTemplate();
+    if (groupParamsOnTemplate.length > 0) {
+      const newString = groupParamsOnTemplate[0] + ',' + mapping.variable;
+      const template = this.paramsForm.get('template')?.value as string;
+      this.paramsForm.get('template')?.setValue(template.replace(groupParamsOnTemplate[0], newString));
+    }
+  }
+
   public ngOnInit(): void {
     this.initData();
   }
@@ -141,6 +162,9 @@ export class OperationParametersComponent implements OnInit {
         newMappingArr?.push(newMapping);
         this.mapping = newMappingArr as Array<Mapping>;
         this.initForm();
+
+        // add new variable on template string
+        this.addMappingOnTemplate(newMapping);
       }
     });
   }

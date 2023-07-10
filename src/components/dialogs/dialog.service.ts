@@ -111,7 +111,7 @@ export class DialogService extends BaseDialogService {
     );
   }
 
-  public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue): void {
+  public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue, redirect = true): void {
     this.openDialog('delete', DialogDeleteComponent, false, {
       width: '450px',
       height: '275px',
@@ -129,7 +129,10 @@ export class DialogService extends BaseDialogService {
                 ['snackbar', 'mat-toolbar', 'snackbar-success'],
               );
               this.actionsService.deleteEditedItem(instanceId);
-              this.router.navigate([`/browse/${entityEndpoint}`]);
+
+              if (redirect) {
+                this.router.navigate([`/browse/${entityEndpoint}`]);
+              }
             })
             .catch((err) => {
               console.error(err);
