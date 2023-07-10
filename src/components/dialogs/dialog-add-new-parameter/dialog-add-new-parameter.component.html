@@ -5,10 +5,7 @@
 
   <div mat-dialog-content>
     <form [formGroup]="form">
-      <mat-form-field
-        appearance="fill"
-        [style.width.%]="50"
-      >
+      <mat-form-field appearance="fill">
         <mat-label>Variable</mat-label>
         <input
           matInput
@@ -16,6 +13,7 @@
           formControlName="variable"
         />
       </mat-form-field>
+      <mat-error *ngIf="duplicateName">Variable name already exists in this Operation</mat-error>
       <mat-form-field appearance="fill">
         <mat-label>Select Parameter Range</mat-label>
         <mat-select formControlName="range">
@@ -38,7 +36,7 @@
       Cancel
     </button>
     <button
-      [disabled]="!form.valid"
+      [disabled]="!form.valid || duplicateName"
       mat-flat-button
       color="primary"
       cdkFocusInitial

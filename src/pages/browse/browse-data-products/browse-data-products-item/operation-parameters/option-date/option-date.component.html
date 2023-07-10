@@ -12,6 +12,7 @@
         matInput
         placeholder="Variable"
         formControlName="variable"
+        readonly
       />
     </mat-form-field>
 
@@ -20,18 +21,12 @@
       [style.width.%]="50"
     >
       <mat-label>Range</mat-label>
-      <mat-select
-        matNativeControl
-        name="range"
+      <input
+        matInput
+        placeholder="Range"
         formControlName="range"
-      >
-        <mat-option
-          *ngFor="let range of ranges"
-          [value]="range"
-        >
-          {{ range }}
-        </mat-option>
-      </mat-select>
+        readonly
+      />
     </mat-form-field>
   </div>
 

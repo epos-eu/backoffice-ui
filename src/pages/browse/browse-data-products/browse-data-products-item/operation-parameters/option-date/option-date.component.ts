@@ -26,8 +26,8 @@ export class OptionDateComponent implements OnInit {
   private initForm(): void {
     this.paramForm = this.formBuilder.group({
       label: new FormControl(this.param.label, Validators.required),
-      range: new FormControl(this.param.range),
-      variable: new FormControl(this.param.variable),
+      range: new FormControl({ value: this.param.range, disabled: true }),
+      variable: new FormControl({ value: this.param.variable, disabled: true }),
       required: new FormControl(this.param.required === 'true' ? true : false),
       readOnlyValue: new FormControl(this.param.readOnlyValue === 'true' ? true : false),
       property: new FormControl(this.param.property),

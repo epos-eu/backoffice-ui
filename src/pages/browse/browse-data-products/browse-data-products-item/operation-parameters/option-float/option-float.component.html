@@ -3,6 +3,34 @@
     [formGroup]="form"
     class="integer-form"
   >
+    <div class="top-params">
+      <mat-form-field
+        appearance="fill"
+        [style.width.%]="50"
+      >
+        <mat-label>Variable</mat-label>
+        <input
+          matInput
+          placeholder="Variable"
+          formControlName="variable"
+          readonly
+        />
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="fill"
+        [style.width.%]="50"
+      >
+        <mat-label>Range</mat-label>
+        <input
+          matInput
+          placeholder="Range"
+          formControlName="range"
+          readonly
+        />
+      </mat-form-field>
+    </div>
+
     <mat-form-field>
       <mat-label>Label</mat-label>
       <input

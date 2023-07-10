@@ -107,7 +107,7 @@ export class DialogService extends BaseDialogService {
         width: '30vw',
         height: 'auto',
       },
-      'add-param',
+      'user-permissions',
     );
   }
 

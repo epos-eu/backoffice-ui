@@ -12,6 +12,7 @@
         matInput
         placeholder="Variable"
         formControlName="variable"
+        readonly
       />
     </mat-form-field>
 
@@ -20,18 +21,12 @@
       [style.width.%]="50"
     >
       <mat-label>Range</mat-label>
-      <mat-select
-        matNativeControl
-        name="range"
+      <input
+        matInput
+        placeholder="Range"
         formControlName="range"
-      >
-        <mat-option
-          *ngFor="let range of ranges"
-          [value]="range"
-        >
-          {{ range }}
-        </mat-option>
-      </mat-select>
+        readonly
+      />
     </mat-form-field>
   </div>
 
@@ -56,18 +51,10 @@
     [style.width.%]="50"
   >
     <mat-label>Default Value</mat-label>
-    <input
-      matInput
-      [ngxMatDatetimePicker]="defaultValue"
-      placeholder="Default value"
-      formControlName="defaultValue"
-    />
-
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="$any(defaultValue)"
-    ></mat-datepicker-toggle>
-
-    <ngx-mat-datetime-picker #defaultValue></ngx-mat-datetime-picker>
+    <mat-select formControlName="defaultValue">
+      <mat-option value=""></mat-option>
+      <mat-option value="true">true</mat-option>
+      <mat-option value="false">false</mat-option>
+    </mat-select>
   </mat-form-field>
 </form>
