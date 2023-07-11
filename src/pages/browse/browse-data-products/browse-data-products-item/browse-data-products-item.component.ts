@@ -83,12 +83,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public webserviceDetails: Array<EntityDetail> = [];
   public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
   public showContactPointSelect = false;
-  public labelSpatialCoverage = '';
+  public labelSpatialCoverage: Array<string> = [''];
   public spatialCoveragePoint = SpatialCoverageType.POINT as string;
   public spatialCoveragePolygon = SpatialCoverageType.POLYGON as string;
-  public spatialCoverageInput: string | undefined = '';
-  public spatialCoverageChange: Subject<string | undefined> = new Subject();
-  public spatialCoverageType = SpatialCoverageType.POLYGON;
+  public spatialCoverageInput: Array<string | undefined> = [];
+  public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
   public typeOptions: Array<{ id: string; name: string }> = [];
   public dataProviders: Array<OrganizationDataSource> = [];
@@ -186,6 +185,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.actionService.cancelLiveEdit();
   }
 
+  get spatialExtentGroupArray() {
+    return this.form.get('spatialExtentGroup') as FormArray;
+  }
+
   private initData(id: string): void {
     this.apiService.endpoints[Entity.DATA_PRODUCT].get
       .call(
@@ -235,6 +238,49 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return transformed;
   }
 
+  private createLocationCtrls() {
+    const formArrayCtrls = this.formBuilder.array([]);
+
+    if (this.dataProduct !== undefined) {
+      this.dataProduct.spatialExtent.forEach((se) => {
+        formArrayCtrls.push(
+          this.formBuilder.group({
+            type: se.location.includes(SpatialCoverageType.POINT)
+              ? SpatialCoverageType.POINT
+              : SpatialCoverageType.POLYGON,
+            coord: this.formatLocationFromObjectToString(se.location),
+          }),
+        );
+      });
+    }
+    return formArrayCtrls;
+  }
+
+  public newSpatialCoverage() {
+    this.dataProduct?.spatialExtent.push({ location: 'POINT(0 0)' });
+    this.spatialCoverageInput.push('0 0');
+    this.spatialExtentGroupArray.push(
+      this.formBuilder.group({
+        type: SpatialCoverageType.POINT,
+        coord: '0 0',
+      }),
+    );
+
+    setTimeout(() => {
+      this.refreshPointsOnMap();
+    }, 100);
+  }
+
+  public deleteSpatialCoverage(index: number) {
+    this.spatialCoverageInput.splice(index, 1);
+    this.dataProduct?.spatialExtent.splice(index, 1);
+    this.spatialExtentGroupArray.value.splice(index, 1);
+
+    setTimeout(() => {
+      this.refreshPointsOnMap();
+    }, 100);
+  }
+
   private trackFormData(): void {
     if (this.dataProduct) {
       this.form = this.formBuilder.group({
@@ -248,8 +294,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
         modified: this.dataProduct?.modified,
         versionInfo: this.dataProduct?.versionInfo,
-        spatialExtent: this.formatLocationFromObjectToString(),
-        spatialExtentType: [this.spatialCoverageType],
+        spatialExtentGroup: this.createLocationCtrls(),
         temporalExtentStartDate: this.getTemporalExtent('startDate'),
         temporalExtentEndDate: this.getTemporalExtent('endDate'),
         distribution: this.formBuilder.array([]),
@@ -273,11 +318,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.title = [changes['title']];
           updatingObject.description = [changes['description']];
           updatingObject.versionInfo = changes['versionInfo'];
-          updatingObject.spatialExtent = this.formatLocationFromStringToObject(
-            changes['spatialExtent'],
-            changes['spatialExtentType'],
-          );
-          this.changeSpatialCoverageLabel(changes['spatialExtentType']);
+          updatingObject.spatialExtent = this.formatLocationFromStringToObject(changes['spatialExtentGroup']);
 
           updatingObject.temporalExtent = [
             {
@@ -389,17 +430,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       );
   }
 
-  public newSpatialCoverage() {
-    // this.dataProduct?.spatialExtent.push({ location: '' });
-    this.spatialCoverageInput = '0 0';
-    this.form.get('spatialExtentType')?.setValue('POINT');
-    this.form.get('spatialExtent')?.setValue('0 0');
-
-    setTimeout(() => {
-      this.refreshPointsOnMap();
-    }, 100);
-  }
-
   public updateContactPointArray(event: MatSelectChange) {
     const value: ContactPointDetailDataSource = event.value;
     const entityDetail: EntityDetail = {
@@ -432,42 +462,45 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * The function refreshes points on a map by formatting the spatial extent from a string to an object
+   * and emitting the location values.
+   */
   public refreshPointsOnMap() {
     this.spatialCoverageChange.next(
-      this.locationToString(this.form.get('spatialExtent')?.value, this.form.get('spatialExtentType')?.value),
+      this.formatLocationFromStringToObject(this.form.get('spatialExtentGroup')?.value).map((se) => {
+        return se.location;
+      }),
     );
   }
 
+  /**
+   * The function sets spatial coverage variables based on the data product's spatial extent.
+   */
   private setSpatialCoverageVariables() {
-    this.dataProduct?.spatialExtent.forEach((item) => {
-      this.spatialCoverageType = item.location.includes(SpatialCoverageType.POINT)
-        ? SpatialCoverageType.POINT
-        : SpatialCoverageType.POLYGON;
-
-      this.changeSpatialCoverageLabel(this.spatialCoverageType);
-
-      this.spatialCoverageInput = item.location;
-      if (this.formatLocationFromObjectToString()[0] === 'null') {
-        this.spatialCoverageInput = '';
-      }
+    this.dataProduct?.spatialExtent.forEach((item, index) => {
+      this.changeSpatialCoverageLabel(
+        item.location.includes(SpatialCoverageType.POINT) ? SpatialCoverageType.POINT : SpatialCoverageType.POLYGON,
+        index,
+      );
+      this.spatialCoverageInput[index] = item.location;
     });
   }
 
-  private formatLocationFromObjectToString(): Array<string> {
-    const locationObject = this.dataProduct?.spatialExtent;
-    if (locationObject !== undefined) {
-      return locationObject.map((spatial: SpatialExtent) => {
-        let regex = /\(\((.*?)\)\)/g;
-        if (spatial.location.includes(SpatialCoverageType.POINT)) {
-          regex = /\((.*?)\)/g;
-        }
-
-        const match = regex.exec(spatial.location);
-        return match !== null ? match[1] : '';
-      });
-    } else {
-      return [''];
+  /**
+   * The function `formatLocationFromObjectToString` extracts a string representation of a location from
+   * an object.
+   * @param {string} location - The `location` parameter is a string that represents a location.
+   * @returns a string.
+   */
+  private formatLocationFromObjectToString(location: string): string {
+    let regex = /\(\((.*?)\)\)/g;
+    if (location.includes(SpatialCoverageType.POINT)) {
+      regex = /\((.*?)\)/g;
     }
+
+    const match = regex.exec(location);
+    return match !== null ? match[1] : '';
   }
 
   private getTemporalExtent(type = 'startDate'): Date | undefined | null {
@@ -496,17 +529,30 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return type + '(' + value + ')';
   }
 
-  private formatLocationFromStringToObject(value: string, type: string): Array<SpatialExtent> {
-    return [
-      {
-        location: this.locationToString(value, type),
-      },
-    ];
+  private changeSpatialCoverageLabel(pointType: string, index: number): void {
+    this.labelSpatialCoverage[index] =
+      pointType === SpatialCoverageType.POINT
+        ? 'Longitude Latitude'
+        : 'List of coordinates (Long Lat) separated by comma';
   }
 
-  private changeSpatialCoverageLabel(pointType: string): void {
-    this.labelSpatialCoverage =
-      pointType === SpatialCoverageType.POINT ? 'Longitude Latitude' : 'List of coordinates (separated by comma)';
+  /**
+   * The function "formatLocationFromStringToObject" takes an array of spatial groups and converts them
+   * into an array of spatial extents, while also changing the spatial coverage label.
+   * @param spatialExtentGroup - An array of objects representing spatial extent groups. Each object in
+   * the array should have the following properties:
+   * @returns an array of objects of type SpatialExtent.
+   */
+  private formatLocationFromStringToObject(spatialExtentGroup: Array<SpatialGroup>): Array<SpatialExtent> {
+    const result: Array<SpatialExtent> = [];
+    spatialExtentGroup.forEach((se, index) => {
+      result.push({
+        location: this.locationToString(se.coord, se.type),
+      });
+
+      this.changeSpatialCoverageLabel(se.type, index);
+    });
+    return result;
   }
 
   public handleDataProviders(): void {
@@ -557,3 +603,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     scrollBackToTop(this.scrollable);
   }
 }
+
+export type SpatialGroup = {
+  type: string;
+  coord: string;
+};

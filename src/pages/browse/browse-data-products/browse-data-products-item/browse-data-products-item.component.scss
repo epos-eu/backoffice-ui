@@ -189,16 +189,28 @@
   flex-direction: row;
 }
 
-.spatial-coverage-input {
-  button {
-    margin-left: 1em;
-  }
-}
-
 .identifier-item {
   margin-bottom: 0.5rem;
 }
 
 .expansion-wrapper {
   margin-top: -1rem;
+}
+
+.spatial-coverage-input {
+  display: flex;
+  align-items: center;
+  button {
+    margin-left: 1em;
+  }
+}
+
+.spatial-coverage-map-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.spatial-coverage-actions {
+  margin-bottom: 1em;
 }
