@@ -10,8 +10,8 @@ import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum'
   styleUrls: ['./spatial-coverage-map.component.scss'],
 })
 export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
-  @Input() spatialRange: string | undefined = '';
-  @Input() coordinatesChange: Subject<string | undefined> = new Subject();
+  @Input() spatialRange: Array<string | undefined> = [''];
+  @Input() coordinatesChange: Subject<Array<string | undefined>> = new Subject();
 
   private map: L.Map | undefined;
 
@@ -59,30 +59,36 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
   }
 
   private getDataOnMaps() {
-    if (this.spatialRange !== undefined && this.spatialRange !== '') {
-      this.getPolygonFromString(this.spatialRange).then((coordinates) => {
-        if (coordinates.length !== 0) {
-          if (this.spatialRange?.includes(SpatialCoverageType.POINT)) {
-            const icon = new L.Icon.Default();
-            icon.options.shadowSize = [0, 0];
-            icon.options.imagePath = 'assets/img/leaflet/';
-            icon.options.iconUrl = 'marker-icon.png';
-            icon.options.shadowUrl = 'marker-shadow.png';
-            const spatialPoint = new L.Marker({ lat: coordinates[0][1], lng: coordinates[0][0] }, { icon: icon });
-            if (this.map !== undefined) {
-              spatialPoint.addTo(this.map);
-              this.map.flyTo({ lat: coordinates[0][1], lng: coordinates[0][0] });
-            }
-          } else {
-            const globalBbox = new L.Polygon(coordinates as Array<L.LatLngTuple>);
+    this.spatialRange.forEach((block) => {
+      if (this.spatialRange !== undefined && block !== '') {
+        this.getPolygonFromString(block).then((coordinates) => {
+          if (coordinates.length !== 0) {
+            if (block?.includes(SpatialCoverageType.POINT)) {
+              const icon = new L.Icon.Default();
+              icon.options.shadowSize = [0, 0];
+              icon.options.imagePath = 'assets/img/leaflet/';
+              icon.options.iconUrl = 'marker-icon.png';
+              icon.options.shadowUrl = 'marker-shadow.png';
+              const spatialPoint = new L.Marker({ lat: coordinates[0][1], lng: coordinates[0][0] }, { icon: icon });
+              if (this.map !== undefined) {
+                spatialPoint.addTo(this.map);
+                this.map.flyTo({ lat: coordinates[0][1], lng: coordinates[0][0] });
+              }
+            } else {
+              const globalBbox = new L.Polygon(coordinates as Array<L.LatLngTuple>);
 
-            if (this.map !== undefined) {
-              globalBbox.addTo(this.map);
-              this.map.panTo(coordinates[0] as L.LatLngTuple);
+              if (this.map !== undefined) {
+                globalBbox.addTo(this.map);
+                this.map.panTo(coordinates[0] as L.LatLngTuple);
+              }
             }
           }
-        }
-      });
+        });
+      }
+    });
+
+    if (this.spatialRange.length > 1) {
+      this.map?.setZoom(0);
     }
   }
 

@@ -165,10 +165,11 @@
               <mat-panel-title>Spatial Coverage</mat-panel-title>
             </mat-expansion-panel-header>
             <div class="expansion-content-wrapper">
-              <ng-container
-                *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0 && spatialCoverageInput !== ''"
-              >
-                <ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
+              <ng-container formArrayName="spatialExtentGroup">
+                <ng-container
+                  *ngFor="let item of dataProduct.spatialExtent; let i = index"
+                  formGroupName="{{ i }}"
+                >
                   <div class="spatial-item">
                     <div
                       class="spatial-type"
@@ -176,7 +177,7 @@
                     >
                       <mat-radio-group
                         aria-label="Select an option"
-                        formControlName="spatialExtentType"
+                        formControlName="type"
                       >
                         <mat-radio-button [value]="spatialCoveragePolygon">Polygon</mat-radio-button>
                         <mat-radio-button [value]="spatialCoveragePoint">Point</mat-radio-button>
@@ -192,43 +193,60 @@
                         [style.width.%]="96"
                         class="indent"
                       >
-                        <mat-label>{{ labelSpatialCoverage }}</mat-label>
+                        <mat-label>{{ labelSpatialCoverage[i] }}</mat-label>
                         <input
                           matInput
                           placeholder="Coordinates"
                           name="item.location"
-                          [value]="item?.location"
-                          formControlName="spatialExtent"
+                          [value]="spatialCoverageInput[i]"
+                          formControlName="coord"
                         />
                       </mat-form-field>
+                    </div>
+                    <div
+                      class="spatial-coverage-input"
+                      [style.width.%]="20"
+                    >
                       <button
-                        mat-stroked-button
-                        color="primary"
-                        (click)="refreshPointsOnMap()"
+                        mat-mini-fab
+                        color="error"
+                        aria-label="delete location"
+                        matTooltip="delete location"
+                        (click)="deleteSpatialCoverage(i)"
                       >
-                        Refresh the map
+                        <mat-icon>delete</mat-icon>
                       </button>
                     </div>
-                    <app-spatial-coverage-map
-                      [spatialRange]="spatialCoverageInput"
-                      [coordinatesChange]="spatialCoverageChange"
-                    >
-                    </app-spatial-coverage-map>
                   </div>
                 </ng-container>
-              </ng-container>
-              <ng-container
-                *ngIf="
-                  (dataProduct.spatialExtent && dataProduct.spatialExtent.length === 0) || spatialCoverageInput === ''
-                "
-              >
-                <button
-                  mat-stroked-button
-                  color="primary"
-                  (click)="newSpatialCoverage()"
+
+                <div class="spatial-coverage-actions">
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    (click)="newSpatialCoverage()"
+                  >
+                    Add Spatial Coverage
+                  </button>
+                </div>
+
+                <div
+                  class="spatial-coverage-map-wrapper"
+                  *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0"
                 >
-                  Add Spatial Coverage
-                </button>
+                  <app-spatial-coverage-map
+                    [spatialRange]="spatialCoverageInput"
+                    [coordinatesChange]="spatialCoverageChange"
+                  >
+                  </app-spatial-coverage-map>
+                  <button
+                    mat-stroked-button
+                    color="primary"
+                    (click)="refreshPointsOnMap()"
+                  >
+                    Refresh the map
+                  </button>
+                </div>
               </ng-container>
             </div>
           </mat-expansion-panel>
