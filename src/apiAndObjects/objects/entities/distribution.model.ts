@@ -19,7 +19,7 @@ export class Distribution {
     public groups?: Array<Group>,
     public instanceChangedId?: string,
     public instanceId?: string,
-    public issued?: Date | undefined,
+    // public issued?: Date | undefined,
     public licence?: string,
     public metaId?: string,
     public modified?: string,

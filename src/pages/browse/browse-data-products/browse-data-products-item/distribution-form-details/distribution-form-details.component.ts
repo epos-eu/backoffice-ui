@@ -130,11 +130,11 @@ export class DistributionFormDetailsComponent {
       description: this.distribution?.description,
       changeTimestamp: this.distribution?.changeTimestamp,
       state: this.distribution?.state,
-      modified: this.distribution?.modified,
+      // modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],
       dataProductAccessibility: this.checkDataProductAccessibility(),
       format: this.distribution?.format,
-      issued: this.distribution?.issued,
+      // issued: this.distribution?.issued,
     });
 
     this.explorerService.setFormSection('#dataproduct', this.formTree, false);
