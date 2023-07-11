@@ -183,13 +183,25 @@
         </div>
       </mat-expansion-panel>
     </div>
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="handleSave()"
-      [disabled]="null == distribution"
-    >
-      Save Distribution
-    </button>
+    <div class="actions">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="handleSave()"
+        [disabled]="null == distribution"
+      >
+        Save Distribution
+      </button>
+
+      <button
+        mat-stroked-button
+        color="error"
+        (click)="deleteDistribution(distribution?.instanceId)"
+        [disabled]="null == distribution"
+      >
+        <mat-icon>delete</mat-icon>
+        Delete Distribution
+      </button>
+    </div>
   </div>
 </ng-scrollbar>

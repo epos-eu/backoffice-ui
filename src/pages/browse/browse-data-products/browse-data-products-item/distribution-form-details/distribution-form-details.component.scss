@@ -48,3 +48,9 @@ mat-radio-group {
   border: 1px solid rgba(0, 0, 0, 0.38);
   box-shadow: none;
 }
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}

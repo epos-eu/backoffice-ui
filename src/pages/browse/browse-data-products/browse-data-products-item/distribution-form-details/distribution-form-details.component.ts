@@ -177,6 +177,12 @@ export class DistributionFormDetailsComponent {
     this.operationsService.handleDistributionSave();
   }
 
+  public deleteDistribution(instanceId: string | undefined): void {
+    if (instanceId !== undefined) {
+      this.dialogService.handleDelete(instanceId, EntityEndpointValue.DISTRIBUTION, false);
+    }
+  }
+
   public newWebservice() {
     const item: WebService = {
       uid: 'new webservice',
