@@ -512,24 +512,24 @@
         </mat-expansion-panel>
       </div>
       <div>
-        <app-anchor-navigation [identifier]="'#distribution'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#distribution' }">
-            <mat-panel-title>Distribution</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="expansion-content-wrapper">
-            <div *ngFor="let detail of distributionDetails">
+        <div *ngFor="let detail of distributionDetails; let i = index">
+          <app-anchor-navigation [identifier]="'#distribution' + detail.instanceId"></app-anchor-navigation>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#distribution' + detail.instanceId }">
+              <mat-panel-title>Distribution</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="expansion-content-wrapper">
               <app-distribution-form-details [distributionDetails]="detail"></app-distribution-form-details>
             </div>
-            <button
-              mat-stroked-button
-              color="primary"
-              (click)="newDistribution()"
-            >
-              New Distribution
-            </button>
-          </div>
-        </mat-expansion-panel>
+          </mat-expansion-panel>
+        </div>
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="newDistribution()"
+        >
+          New Distribution
+        </button>
       </div>
     </div>
   </div>

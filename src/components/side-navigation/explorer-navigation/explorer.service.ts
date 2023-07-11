@@ -23,11 +23,14 @@ export class ExplorerService {
    * or not. If it is true, it means this is the first section of the form. If it is false, it means this
    * is not the first section and we need to find the parent section to add the new section as
    */
-  public setFormSection(parent: string | null, section: FormTree, start: boolean) {
+  public setFormSection(parent: string | null, section: FormTree, start: boolean, id = '') {
     let root: Array<FormTree> = [];
     if (start === false && parent !== null) {
-      root = this.recursiveSearch(this.formTree.getValue(), parent, section);
+      root = this.recursiveSearch(this.formTree.getValue(), parent, section, true, id);
     } else {
+      if (id !== '') {
+        section.id += id;
+      }
       root.push(section);
     }
 
@@ -69,7 +72,21 @@ export class ExplorerService {
     parent: string | null,
     node: FormTree,
     adding = true,
+    id = '',
   ): Array<FormTree> {
+    // add id to nodeId
+    if (id !== '') {
+      if (node.id.includes(id) === false) {
+        node.id += id;
+      }
+
+      node.children.forEach((child) => {
+        if (child.id.includes(id) === false) {
+          child.id += id;
+        }
+      });
+    }
+
     formTree.forEach((branch: FormTree) => {
       if (branch.id === parent) {
         if (adding === true) {
@@ -80,7 +97,7 @@ export class ExplorerService {
           });
         }
       } else {
-        this.recursiveSearch(branch.children, parent, node, adding);
+        this.recursiveSearch(branch.children, parent, node, adding, id);
       }
     });
     return formTree;

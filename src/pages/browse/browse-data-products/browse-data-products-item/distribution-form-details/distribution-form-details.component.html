@@ -18,7 +18,7 @@
     </div>
   </div> -->
   <div class="body">
-    <app-anchor-navigation [identifier]="'#distgeneralinformation'"></app-anchor-navigation>
+    <app-anchor-navigation [identifier]="'#distgeneralinformation' + instanceId"></app-anchor-navigation>
     <form
       [formGroup]="form"
       *ngIf="form && distribution"
@@ -99,8 +99,8 @@
         <ngx-mat-datetime-picker #modifiedDate></ngx-mat-datetime-picker>
       </mat-form-field -->
 
-      <app-anchor-navigation [identifier]="'#distaccessible'"></app-anchor-navigation>
-      <div [ngClass]="{ title: true, active: selectedSection === '#distaccessible' }">
+      <app-anchor-navigation [identifier]="'#distaccessible' + instanceId"></app-anchor-navigation>
+      <div [ngClass]="{ title: true, active: selectedSection === '#distaccessible' + instanceId }">
         <label id="example-radio-group-label">Data product accessible via: </label>
       </div>
       <mat-radio-group
@@ -114,7 +114,7 @@
       </mat-radio-group>
 
       <ng-container *ngIf="this.form?.get('dataProductAccessibility')?.value === 'download'">
-        <app-anchor-navigation [identifier]="'#distaccessibledownload'"></app-anchor-navigation>
+        <app-anchor-navigation [identifier]="'#distaccessibledownload' + instanceId"></app-anchor-navigation>
         <mat-form-field
           appearance="fill"
           [style.width.%]="100"
@@ -151,20 +151,37 @@
       </ng-container>
     </form>
 
-    <div *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'">
-      <app-anchor-navigation [identifier]="'#distaccessiblewebservice'"></app-anchor-navigation>
-      <div [ngClass]="{ title: true, active: selectedSection === '#distaccessiblewebservice' }">
-        <p>Webservice</p>
-      </div>
-      <button
-        mat-stroked-button
-        color="primary"
-        (click)="newWebservice()"
-        [hidden]="accessService"
+    <div
+      *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'"
+      class="expansion-wrapper"
+    >
+      <app-anchor-navigation
+        [identifier]="'#distaccessiblewebservice' + accessService.instanceId"
+      ></app-anchor-navigation>
+      <mat-expansion-panel
+        [expanded]="true"
+        class="web-service"
       >
-        New Webservice
-      </button>
-      <app-webservice-form-details [accessService]="accessService"></app-webservice-form-details>
+        <mat-expansion-panel-header
+          [ngClass]="{ active: selectedSection === '#distaccessiblewebservice' + accessService.instanceId }"
+        >
+          <mat-panel-title>Web Service</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="expansion-content-wrapper">
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="newWebservice()"
+            [hidden]="accessService"
+          >
+            New Web Service
+          </button>
+          <app-webservice-form-details
+            [accessService]="accessService"
+            [parentId]="instanceId"
+          ></app-webservice-form-details>
+        </div>
+      </mat-expansion-panel>
     </div>
     <button
       mat-stroked-button
@@ -172,7 +189,7 @@
       (click)="handleSave()"
       [disabled]="null == distribution"
     >
-      Save
+      Save Distribution
     </button>
   </div>
 </ng-scrollbar>
