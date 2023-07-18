@@ -42,6 +42,7 @@ import { OptionDateComponent } from './browse-data-products/browse-data-products
 import { OptionCoordinateComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-coordinate/option-coordinate.component';
 import { OptionBooleanComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-boolean/option-boolean.component';
 import { OptionFloatComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-float/option-float.component';
+import { ContactPointDetailComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-detail/contact-point-detail.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { OptionFloatComponent } from './browse-data-products/browse-data-product
     CreateContactPointItemComponent,
     BrowseContactPointItemComponent,
     ContactPointFormDetailsComponent,
+    ContactPointDetailComponent,
     DistributionFormDetailsComponent,
     WebserviceFormDetailsComponent,
     SpatialCoverageMapComponent,

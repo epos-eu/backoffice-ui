@@ -33,6 +33,7 @@ import {
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -70,6 +71,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTreeModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatAutocompleteModule,
   ],
   exports: [
     FormsModule,
@@ -105,6 +107,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTreeModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatAutocompleteModule,
   ],
 })
 export class AngularMaterialModule {}

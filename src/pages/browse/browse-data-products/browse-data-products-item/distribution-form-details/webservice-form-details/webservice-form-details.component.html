@@ -68,9 +68,7 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div *ngFor="let detail of contactPointDetails">
-            <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
-          </div>
+          <app-contact-point-form-details [contactPointDetails]="contactPointDetails"></app-contact-point-form-details>
           <button
             mat-stroked-button
             color="primary"

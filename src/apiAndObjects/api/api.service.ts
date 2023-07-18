@@ -36,6 +36,7 @@ import { PostUserDetail } from './user/postUserDetail';
 import { PutUserDetail } from './user/putUserDetail';
 import { PutContactPointDetail } from './contact-point/putContactPointDetail';
 import { PutOperationDetail } from './operation/putOperationDetail';
+import { GetPersonDetail } from './person/getPersonDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -81,6 +82,7 @@ export class ApiService extends BaseApi {
       create: new PostOrganizationDetail(ApiService.USE_LIVE_API),
     },
     Person: {
+      get: new GetPersonDetail(ApiService.USE_LIVE_API),
       getAll: new GetAllPeople(ApiService.USE_LIVE_API),
       create: new CreatePersonDetail(ApiService.USE_LIVE_API),
     },

@@ -356,7 +356,7 @@
                   <mat-form-field
                     appearance="fill"
                     [floatLabel]="floatLabelControl.value"
-                    [style.width.%]="100"
+                    [style.width.%]="50"
                   >
                     <mat-label>Quality assurance</mat-label>
                     <input
@@ -484,30 +484,11 @@
             <mat-panel-title>Contact Point</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
-            <mat-form-field
-              class="contact-select"
-              *ngIf="showContactPointSelect"
-            >
-              <mat-label>Select Contact Point</mat-label>
-              <mat-select (selectionChange)="updateContactPointArray($event)">
-                <mat-option
-                  *ngFor="let contactPoint of contactPointsFromCatalog"
-                  [value]="contactPoint"
-                >
-                  {{ contactPoint.uid }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div *ngFor="let detail of contactPointDetails">
-              <app-contact-point-form-details [contactPointDetails]="detail"></app-contact-point-form-details>
-            </div>
-            <button
-              mat-stroked-button
-              color="primary"
-              (click)="newContactPoint()"
-            >
-              New Contact Point
-            </button>
+            <app-contact-point-form-details
+              *ngIf="contactPointDetails.length > 0"
+              [contactPointDetails]="contactPointDetails"
+              (contactPointDetailsUpdated)="updateContactPointArray($event)"
+            ></app-contact-point-form-details>
           </div>
         </mat-expansion-panel>
       </div>
