@@ -178,7 +178,7 @@ export class OperationsService {
       initial.groups,
       initial.instanceChangedId,
       initial.instanceId,
-      initial.issued,
+      // initial.issued,
       initial.licence,
       initial.metaId,
       initial.modified,
@@ -281,7 +281,6 @@ export class OperationsService {
     const formData = this.getActiveDataProductValue();
     // const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (null != formData) {
-      console.debug(formData);
       formData.modified = new Date();
       formData.instanceChangedId = undefined;
       // const formData: DataProduct = JSON.parse(localStorage);

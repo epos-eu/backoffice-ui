@@ -21,13 +21,11 @@ import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationsService } from 'src/services/operations.service';
-import { MatSelectChange } from '@angular/material/select';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 import { Subject } from 'rxjs';
@@ -81,8 +79,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public contactPointDetails: Array<EntityDetail> = [];
   public distributionDetails: Array<EntityDetail> = [];
   public webserviceDetails: Array<EntityDetail> = [];
-  public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
-  public showContactPointSelect = false;
   public labelSpatialCoverage: Array<string> = [''];
   public spatialCoveragePoint = SpatialCoverageType.POINT as string;
   public spatialCoveragePolygon = SpatialCoverageType.POLYGON as string;
@@ -414,36 +410,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       );
   }
 
-  public newContactPoint() {
-    this.apiService.endpoints.ContactPoint.getAll
-      .call()
-      .then((data: Array<ContactPointDetailDataSource>) => {
-        this.showContactPointSelect = true;
-        this.contactPointsFromCatalog = data;
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to request Contact Point entities.`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
-  }
-
-  public updateContactPointArray(event: MatSelectChange) {
-    const value: ContactPointDetailDataSource = event.value;
-    const entityDetail: EntityDetail = {
-      entityType: 'ContactPoint',
-      instanceId: value.instanceId,
-      uid: value.uid,
-      metaId: value.metaId,
-    };
+  public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {
     const dataProduct = this.operationsService.getActiveDataProductValue();
-    this.contactPointDetails.push(entityDetail);
+    this.contactPointDetails = newContactPointDetails;
     if (null != dataProduct) {
       dataProduct.contactPoint = this.contactPointDetails;
       this.operationsService.setActiveDataProduct(dataProduct);
-      this.showContactPointSelect = false;
+
+      console.debug('in browser', dataProduct.contactPoint);
     }
   }
 

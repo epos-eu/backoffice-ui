@@ -24,3 +24,33 @@ mat-radio-group {
     background-color: $color-focus;
   }
 }
+
+.expansion-wrapper {
+  margin-top: -1rem;
+}
+
+.mat-expansion-panel-header {
+  &.active {
+    background-color: $color-focus;
+  }
+}
+
+.expansion-content-wrapper {
+  padding-top: 1em;
+}
+
+.mat-expansion-panel-header-title {
+  font-size: 15px;
+}
+
+.web-service {
+  margin: 1rem 0;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  box-shadow: none;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}

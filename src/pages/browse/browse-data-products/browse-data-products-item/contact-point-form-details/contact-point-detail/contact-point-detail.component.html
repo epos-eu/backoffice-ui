@@ -1,0 +1,3 @@
+<span *ngIf="person !== undefined">{{ person.givenName }} {{ person.familyName }} ({{ person.uid }})</span>
+<span *ngIf="person === undefined">{{ contactPoint?.email }}</span>
+<span> - Role: {{ getRoleName(contactPoint?.role) }}</span>

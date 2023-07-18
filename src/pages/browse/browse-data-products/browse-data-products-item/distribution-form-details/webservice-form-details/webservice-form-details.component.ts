@@ -27,9 +27,13 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 export class WebserviceFormDetailsComponent implements OnInit {
   @Input() set accessService(webserviceDetails: EntityDetail) {
     if (null != webserviceDetails) {
+      this.instanceId = webserviceDetails.instanceId;
       this.initData(webserviceDetails.instanceId);
     }
   }
+
+  @Input() parentId = '';
+
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
   public options: UntypedFormGroup;
@@ -51,6 +55,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public supportedOperationSearchValue = '';
   public supportedOperationFocusFirstRow = false;
 
+  public instanceId = '';
   private formTree = {
     id: '#distaccessiblewebservice',
     name: 'Web Service',
@@ -145,7 +150,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       license: this.webservice?.license,
     });
 
-    this.explorerService.setFormSection('#distaccessible', this.formTree, false);
+    this.explorerService.setFormSection('#distaccessible' + this.parentId, this.formTree, false, this.instanceId);
 
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveWebServiceValue();

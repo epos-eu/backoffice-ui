@@ -26,6 +26,7 @@ export class DistributionFormDetailsComponent {
   @Input() set distributionDetails(details: EntityDetail | undefined) {
     if (null != details) {
       this.initData(details.instanceId);
+      this.instanceId = details.instanceId;
     }
   }
 
@@ -42,6 +43,7 @@ export class DistributionFormDetailsComponent {
   public selectedFormat = '';
   public selectedSection = '';
 
+  public instanceId = '';
   private formTree = {
     id: '#distribution',
     name: 'Distribution',
@@ -109,13 +111,13 @@ export class DistributionFormDetailsComponent {
 
   private checkDataProductAccessibility(): string {
     if (this.distribution) {
-      if (this.distribution.accessService.instanceId !== undefined) {
-        this.explorerService.setFormSection('#distaccessible', this.formTreeWebService, false);
+      if (this.distribution.accessService?.instanceId !== undefined) {
+        this.explorerService.setFormSection('#distaccessible', this.formTreeWebService, false, this.instanceId);
         return 'webservice';
       }
     }
 
-    this.explorerService.setFormSection('#distaccessible', this.formTreeDownload, false);
+    this.explorerService.setFormSection('#distaccessible', this.formTreeDownload, false, this.instanceId);
     return 'download';
   }
 
@@ -130,14 +132,14 @@ export class DistributionFormDetailsComponent {
       description: this.distribution?.description,
       changeTimestamp: this.distribution?.changeTimestamp,
       state: this.distribution?.state,
-      modified: this.distribution?.modified,
+      // modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],
       dataProductAccessibility: this.checkDataProductAccessibility(),
       format: this.distribution?.format,
-      issued: this.distribution?.issued,
+      // issued: this.distribution?.issued,
     });
 
-    this.explorerService.setFormSection('#dataproduct', this.formTree, false);
+    this.explorerService.setFormSection('#dataproduct', this.formTree, false, this.instanceId);
 
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
@@ -173,6 +175,12 @@ export class DistributionFormDetailsComponent {
 
   public handleSave(): void {
     this.operationsService.handleDistributionSave();
+  }
+
+  public deleteDistribution(instanceId: string | undefined): void {
+    if (instanceId !== undefined) {
+      this.dialogService.handleDelete(instanceId, EntityEndpointValue.DISTRIBUTION, false);
+    }
   }
 
   public newWebservice() {
