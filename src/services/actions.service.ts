@@ -115,7 +115,7 @@ export class ActionsService {
     }
   }
 
-  public initEdit(updatedItem: IChangeItem): void {
+  private initEdit(updatedItem: IChangeItem): void {
     this.currentEdit.next(updatedItem);
   }
 

@@ -479,15 +479,16 @@
       </form>
       <div class="expansion-wrapper">
         <app-anchor-navigation [identifier]="'#contactpoint'"></app-anchor-navigation>
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#contactpoint' }">
             <mat-panel-title>Contact Point</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
             <app-contact-point-form-details
-              *ngIf="contactPointDetails.length > 0"
+              *ngIf="contactPointDetails !== null"
               [contactPointDetails]="contactPointDetails"
               (contactPointDetailsUpdated)="updateContactPointArray($event)"
+              [showSaveFormNotify]="contactPointShowSaveNotify"
             ></app-contact-point-form-details>
           </div>
         </mat-expansion-panel>

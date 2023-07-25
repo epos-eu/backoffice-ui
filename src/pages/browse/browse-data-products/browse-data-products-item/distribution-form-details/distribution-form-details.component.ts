@@ -136,6 +136,7 @@ export class DistributionFormDetailsComponent {
       dataProduct: [this.distribution?.dataProduct],
       dataProductAccessibility: this.checkDataProductAccessibility(),
       format: this.distribution?.format,
+      downloadURL: this.distribution?.downloadURL,
       // issued: this.distribution?.issued,
     });
 

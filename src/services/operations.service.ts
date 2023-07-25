@@ -363,6 +363,7 @@ export class OperationsService {
   public handleWebserviceSave(): void {
     const formData = this.getActiveWebServiceValue();
     if (formData !== null) {
+      formData.dateModified = new Date();
       this.apiService.endpoints[Entity.WEBSERVICE].update
         .call({
           ...formData,
