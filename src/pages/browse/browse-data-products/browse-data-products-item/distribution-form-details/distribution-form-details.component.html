@@ -121,9 +121,8 @@
         >
           <input
             matInput
-            placeholder="Select a format type below"
-            readonly
-            [value]="this.form.get('format')?.value"
+            placeholder="URL"
+            formControlName="downloadURL"
           />
         </mat-form-field>
         <mat-form-field
