@@ -45,6 +45,11 @@ export class ContactPointFormDetailsComponent implements OnInit {
       this.initData();
     }
 
+    // remove loading cause contactPointDetails is empty
+    if (this.contactPointDetails === null || this.contactPointDetails.length === 0) {
+      this.loading = false;
+    }
+
     this.personFromCatalogFilteredOptions = this.contactPointController.valueChanges.pipe(
       startWith(''),
       map((value) => {
@@ -69,8 +74,8 @@ export class ContactPointFormDetailsComponent implements OnInit {
               const array = this.contactPointArraySource.getValue();
               array.push(data[0]);
               this.contactPointArraySource.next(array);
-              this.loading = false;
             }
+            this.loading = false;
           });
       }
     }
