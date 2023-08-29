@@ -8,7 +8,7 @@ import { DialogModule } from './dialogs/dialog.module';
 import { LoginComponent } from './login/login.component';
 import { ActionsDataComponent } from './actions-data/actions-data.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { ChartjsModule } from '@ctrl/ngx-chartjs';
+// import { ChartjsModule } from '@ctrl/ngx-chartjs';
 import { ChartComponent } from './chart/chart.component';
 import { TableComponent } from './table/table.component';
 import { TableFilterComponent } from './table-filter/table-filter.component';
@@ -35,7 +35,7 @@ import { BackToTopButtonComponent } from './back-to-top-button/back-to-top-butto
     SideNavigationModule,
     DialogModule,
     MatChipsModule,
-    ChartjsModule,
+    // ChartjsModule,
     MatExpansionModule,
     MatIconModule,
   ],
