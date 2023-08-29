@@ -26,12 +26,12 @@ export class GetDataProductDetail extends CacheableEndpoint<
     };
 
     const callResponsePromise = this.apiCaller
-      .doCall(`dataproduct/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`dataproduct/meta_id/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(DataProductDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(params?: GetDataProductsDetailsParams | undefined): Promise<DataProductDetailDataSource[]> {
+  protected callMock(): Promise<DataProductDetailDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       DataProductDetailDataSource,

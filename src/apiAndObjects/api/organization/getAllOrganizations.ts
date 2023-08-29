@@ -17,7 +17,7 @@ export class GetAllOrganizations extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params?: GetAllOrganizationsParams): Promise<OrganizationDataSource[]> {
+  protected callLive(): Promise<OrganizationDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();

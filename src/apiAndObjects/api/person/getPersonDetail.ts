@@ -1,5 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersonDataSource } from 'src/apiAndObjects/objects/data-source/personDataSource';
@@ -26,7 +25,7 @@ export class GetPersonDetail extends CacheableEndpoint<
     };
 
     const callResponsePromise = this.apiCaller
-      .doCall(`person/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`person/meta_id/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(PersonDataSource, callResponsePromise);
   }
@@ -42,7 +41,7 @@ export class GetPersonDetail extends CacheableEndpoint<
       return params.singleOptionOnly === true ? dataAsArr.slice(0, 1) : dataAsArr;
     }
   }
-  protected override callMock(params?: GetPersonDetailsParams | undefined): Promise<PersonDataSource[]> {
+  protected override callMock(): Promise<PersonDataSource[]> {
     throw new Error('Method not implemented.');
   }
 }

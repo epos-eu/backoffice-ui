@@ -16,7 +16,7 @@ export class GetAllOperations extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllOperationParams): Promise<OperationDetailDataSource[]> {
+  protected callLive(): Promise<OperationDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();

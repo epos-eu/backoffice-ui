@@ -25,7 +25,7 @@ export class GetWebserviceDetail extends CacheableEndpoint<
       return authHeader;
     };
     const callResponsePromise = this.apiCaller
-      .doCall(`webservice/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`webservice/meta_id/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(WebserviceDetailDataSource, callResponsePromise);
   }
