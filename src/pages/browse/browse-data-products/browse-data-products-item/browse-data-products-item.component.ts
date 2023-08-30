@@ -337,7 +337,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           // value['description'] = [changes['description']];
           this.actionService.enableSave();
           this.operationsService.setActiveDataProduct(updatingObject);
-          // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+          this.persistorService.setValueInStorage(
+            StorageType.LOCAL_STORAGE,
+            StorageKey.FORM_DATA,
+            JSON.stringify(updatingObject),
+          );
         }
       });
     }

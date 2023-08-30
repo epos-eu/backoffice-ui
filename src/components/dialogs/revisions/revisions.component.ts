@@ -10,6 +10,7 @@ import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-sour
 import { State } from 'src/utility/enums/state.enum';
 import { Router } from '@angular/router';
 import { OperationsService } from 'src/services/operations.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 interface CurrentEntity {
   metaId: string;
@@ -40,7 +41,8 @@ export class RevisionsComponent implements OnInit {
   ) {}
 
   private revisions!: Array<Revision>;
-  public displayedColumns: string[] = ['instanceId', 'uid', 'version', 'state', 'created', 'editorId'];
+  public selection = new SelectionModel<Revision>(true, []);
+  public displayedColumns: string[] = ['select', 'instanceId', 'uid', 'version', 'state', 'created', 'editorId'];
   public dataSource!: MatTableDataSource<Revision>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
@@ -56,15 +58,17 @@ export class RevisionsComponent implements OnInit {
 
   private getRelatedEntities(): void {
     const metaId = this.data.dataIn.metaId;
-
     switch (true) {
       case this.data.dataIn.type === Entity.DATA_PRODUCT:
-        this.apiService.endpoints.DataProduct.getAll
-          .call({}, false)
+        this.apiService.endpoints.DataProduct.getAllVersions
+          .call(
+            {
+              metaId: metaId,
+            },
+            false,
+          )
           .then((data: Array<DataProductDetailDataSource>) => {
-            console.log(data);
-            const related = data.filter((item) => item.metaId === metaId);
-            const revisions: Revision[] = related.map((item) => {
+            const revisions: Revision[] = data.map((item) => {
               return {
                 instanceId: item.instanceId,
                 uid: item.uid,
@@ -77,6 +81,7 @@ export class RevisionsComponent implements OnInit {
             this.loading = false;
             this._initTable(revisions);
             this.revisions = revisions;
+            console.log(this.revisions);
           });
         break;
     }
@@ -88,8 +93,20 @@ export class RevisionsComponent implements OnInit {
   }
 
   public rowClicked(instanceId: string): void {
-    this.dialogRef.close();
-    this.router.navigate(['/browse/revisions/compare', instanceId]);
-    this.operationsService.setRevisions(this.revisions);
+    if (this.revisions.length > 1) {
+      this.dialogRef.close();
+      this.router.navigate(['/browse/revisions/compare', instanceId]);
+      this.operationsService.setRevisions(this.revisions);
+    }
+  }
+
+  public allSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  public masterToggle() {
+    this.allSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 }
