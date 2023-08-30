@@ -25,7 +25,7 @@ export class GetPersonDetail extends CacheableEndpoint<
     };
 
     const callResponsePromise = this.apiCaller
-      .doCall(`person/meta_id/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`person/${params.metaId}/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(PersonDataSource, callResponsePromise);
   }
@@ -48,5 +48,6 @@ export class GetPersonDetail extends CacheableEndpoint<
 
 export interface GetPersonDetailsParams {
   singleOptionOnly?: boolean;
+  metaId: string;
   instanceId: string;
 }

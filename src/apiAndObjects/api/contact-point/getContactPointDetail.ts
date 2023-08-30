@@ -26,7 +26,7 @@ export class GetContactPointDetail extends CacheableEndpoint<
     };
 
     const callResponsePromise = this.apiCaller
-      .doCall(`contactpoint/meta_id/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`contactpoint/${params.metaId}/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(ContactPointDetailDataSource, callResponsePromise);
   }
@@ -58,5 +58,6 @@ export class GetContactPointDetail extends CacheableEndpoint<
 
 export interface GetContactPointDetailsParams {
   singleOptionOnly?: boolean;
+  metaId: string;
   instanceId: string;
 }

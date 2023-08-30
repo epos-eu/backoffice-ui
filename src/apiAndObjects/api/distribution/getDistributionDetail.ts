@@ -25,7 +25,7 @@ export class GetDistributionDetail extends CacheableEndpoint<
       return authHeader;
     };
     const callResponsePromise = this.apiCaller
-      .doCall(`distribution/meta_id/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`distribution/${params.metaId}/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(DistributionDetailDataSource, callResponsePromise);
   }
@@ -60,5 +60,6 @@ export class GetDistributionDetail extends CacheableEndpoint<
 
 export interface GetDistributionDetailsParams {
   singleOptionOnly?: boolean;
+  metaId: string;
   instanceId: string;
 }

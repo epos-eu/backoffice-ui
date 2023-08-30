@@ -113,7 +113,7 @@
     <tr
       mat-row
       *matRowDef="let row; columns: displayedColumns"
-      (click)="rowClicked(row.instanceId)"
+      (click)="rowClicked(row.metaId, row.instanceId)"
     ></tr>
     <!-- No matching data -->
     <tr

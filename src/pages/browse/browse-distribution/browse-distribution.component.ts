@@ -12,8 +12,8 @@ export class BrowseDistributionComponent {
   public sectionName = Entity.DISTRIBUTION;
   constructor(private router: Router) {}
 
-  public rowClicked(rowClickDetails: Array<string>): void {
-    this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}/details`].concat(rowClickDetails));
+  public rowClicked(row: Record<string, string>): void {
+    this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}/details`].concat(row['instanceId']));
   }
 
   public createDistribution(): void {

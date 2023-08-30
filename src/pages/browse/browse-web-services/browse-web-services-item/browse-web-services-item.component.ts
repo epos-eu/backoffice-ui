@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
@@ -29,6 +29,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.WEBSERVICE;
   public currentEdit!: IChangeItem;
+  public state!: NavigationBehaviorOptions['state'];
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -46,6 +47,8 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
       floatLabel: this.floatLabelControl,
     });
     this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
+    const state = this.router.getCurrentNavigation()?.extras.state as NavigationBehaviorOptions['state'];
+    this.state = state;
   }
 
   ngOnInit(): void {
@@ -65,6 +68,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
         {
+          metaId: this.state?.['metaId'],
           instanceId: id,
         },
         false,

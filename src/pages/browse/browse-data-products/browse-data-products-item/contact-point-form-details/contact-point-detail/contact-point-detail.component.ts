@@ -22,7 +22,7 @@ export class ContactPointDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.contactPoint?.person !== null && this.contactPoint?.person.instanceId !== undefined) {
+    if (this.contactPoint?.person != null && this.contactPoint?.person.instanceId !== undefined) {
       this.getPerson(this.contactPoint?.person.instanceId);
     }
   }
@@ -31,6 +31,7 @@ export class ContactPointDetailComponent implements OnInit {
     this.apiService.endpoints[Entity.PERSON].get
       .call(
         {
+          metaId: this.contactPoint?.metaId as string,
           instanceId: id,
         },
         false,

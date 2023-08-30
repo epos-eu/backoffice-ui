@@ -13,8 +13,8 @@ export class BrowseWebServicesComponent {
 
   public sectionName = Entity.WEBSERVICE;
 
-  public rowClicked(rowClickDetails: Array<string>): void {
-    this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`].concat(rowClickDetails));
+  public rowClicked(row: Record<string, string>): void {
+    this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`].concat(row['instanceId']));
   }
 
   public createWebService(): void {

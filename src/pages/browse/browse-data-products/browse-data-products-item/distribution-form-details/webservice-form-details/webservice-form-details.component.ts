@@ -31,8 +31,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
       this.initData(webserviceDetails.instanceId);
     }
   }
-
   @Input() parentId = '';
+  @Input() metaId!: string;
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
@@ -103,6 +103,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
         {
+          metaId: this.metaId,
           instanceId: id,
         },
         false,

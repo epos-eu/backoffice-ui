@@ -191,6 +191,7 @@
                     <app-operation-parameters
                       *ngIf="(selectedPanelId | async) === i"
                       [instanceId]="item.instanceId"
+                      [metaId]="metaId"
                     ></app-operation-parameters>
                   </mat-expansion-panel>
                 </div>
