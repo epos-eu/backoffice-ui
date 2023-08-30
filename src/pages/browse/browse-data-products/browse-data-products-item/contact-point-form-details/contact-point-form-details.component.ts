@@ -9,6 +9,7 @@ import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type'
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { State } from 'src/utility/enums/state.enum';
 
 @Component({
@@ -18,9 +19,10 @@ import { State } from 'src/utility/enums/state.enum';
 })
 export class ContactPointFormDetailsComponent implements OnInit {
   @Input() contactPointDetails: Array<EntityDetail> = [];
+  @Input() showSaveFormNotify = false;
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<EntityDetail>>();
 
-  public showContactPointSelect = false;
+  public showContactPointForm = false;
   private contactPointArraySource: BehaviorSubject<Array<ContactPointDetailDataSource>> = new BehaviorSubject<
     Array<ContactPointDetailDataSource>
   >([]);
@@ -32,6 +34,8 @@ export class ContactPointFormDetailsComponent implements OnInit {
   public personFromCatalogFilteredOptions!: Observable<PersonDataSource[]>;
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
 
+  public loading = true;
+
   constructor(private apiService: ApiService, private snackbarService: SnackbarService) {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
   }
@@ -39,6 +43,11 @@ export class ContactPointFormDetailsComponent implements OnInit {
   ngOnInit(): void {
     if (this.contactPointDetails.length > 0) {
       this.initData();
+    }
+
+    // remove loading cause contactPointDetails is empty
+    if (this.contactPointDetails === null || this.contactPointDetails.length === 0) {
+      this.loading = false;
     }
 
     this.personFromCatalogFilteredOptions = this.contactPointController.valueChanges.pipe(
@@ -66,6 +75,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
               array.push(data[0]);
               this.contactPointArraySource.next(array);
             }
+            this.loading = false;
           });
       }
     }
@@ -87,11 +97,33 @@ export class ContactPointFormDetailsComponent implements OnInit {
     return user && user.givenName ? user.givenName + ' ' + user.familyName + ' - ' + user.uid : '';
   }
 
-  public removeContactPoint() {
-    // console.debug('remove ', this.contactPointArray);
+  /**
+   * The `removeContactPoint` function deletes a contact point entity from an array and displays an error
+   * message if the deletion fails.
+   * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
+   * identifier of a contact point entity.
+   */
+  public removeContactPoint(instanceId: string) {
+    this.apiService
+      .deleteEntity(EntityEndpointValue.CONTACT_POINT, instanceId)
+      .then(() => {
+        // remove from array
+        this.contactPointArraySource.next(
+          this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
+        );
+      })
+      .catch((err) => {
+        console.error(err);
+        this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      });
   }
 
   public saveContactPoint() {
+    this.loading = true;
     const personDataSource = this.contactPointController.value as PersonDataSource;
 
     const person: EntityDetail = {
@@ -111,11 +143,6 @@ export class ContactPointFormDetailsComponent implements OnInit {
     this.apiService.endpoints.ContactPoint.create
       .call(item)
       .then((value: ContactPointDetailDataSource) => {
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-success',
-        ]);
         const entityDetail: EntityDetail = {
           entityType: Entity.CONTACT_POINT,
           instanceId: value.instanceId,
@@ -126,6 +153,13 @@ export class ContactPointFormDetailsComponent implements OnInit {
 
         // send info to parent
         this.contactPointDetailsUpdated.emit(this.contactPointDetails);
+
+        // recall init form to retrieve new person information
+        this.contactPointArraySource.next([]);
+        this.initData();
+
+        // close edit format
+        this.showContactPointForm = false;
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
@@ -137,7 +171,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
   }
 
   public newContactPoint() {
-    this.showContactPointSelect = true;
+    this.showContactPointForm = true;
 
     this.apiService.endpoints.Person.getAll
       .call()

@@ -76,7 +76,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.DATA_PRODUCT;
-  public contactPointDetails: Array<EntityDetail> = [];
+  public contactPointDetails: Array<EntityDetail> | null = null;
+  public contactPointShowSaveNotify = false;
   public distributionDetails: Array<EntityDetail> = [];
   public webserviceDetails: Array<EntityDetail> = [];
   public labelSpatialCoverage: Array<string> = [''];
@@ -174,6 +175,13 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
     this.explorerService.gotoObs.subscribe((obs) => {
       this.selectedSection = obs;
+    });
+
+    this.actionService.formEditedObs.subscribe((value: boolean) => {
+      if (value === false) {
+        // reset notification
+        this.contactPointShowSaveNotify = false;
+      }
     });
   }
 
@@ -416,9 +424,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     if (null != dataProduct) {
       dataProduct.contactPoint = this.contactPointDetails;
       this.operationsService.setActiveDataProduct(dataProduct);
-
-      console.debug('in browser', dataProduct.contactPoint);
     }
+
+    // inform user that he has to save entire form
+    this.contactPointShowSaveNotify = true;
   }
 
   public updateDistributionArray(value: DistributionDetailDataSource) {

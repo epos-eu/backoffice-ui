@@ -1,23 +1,39 @@
-<div
-  *ngFor="let cp of contactPointArrayObs | async"
-  class="list"
->
-  <div class="item">
-    <app-contact-point-detail [contactPoint]="cp"></app-contact-point-detail>
-    <button
-      mat-flat-button
-      color="default"
-      matTooltip="Remove Contact Point"
-      (click)="removeContactPoint()"
+<div *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!loading">
+  <div
+    *ngFor="let cp of contactPointArrayObs | async"
+    class="list"
+  >
+    <div class="item">
+      <app-contact-point-detail [contactPoint]="cp"></app-contact-point-detail>
+      <button
+        mat-flat-button
+        color="default"
+        matTooltip="Remove Contact Point"
+        (click)="removeContactPoint(cp.instanceId)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="notify"
+    *ngIf="showSaveFormNotify"
+  >
+    <mat-icon>warning</mat-icon>
+    <span color="warning">
+      to make the modification of the contact point list effective, it is necessary to save the main form</span
     >
-      <mat-icon>delete</mat-icon>
-    </button>
   </div>
 </div>
 
 <div
   class="contactpoint-item"
-  *ngIf="showContactPointSelect"
+  *ngIf="showContactPointForm"
 >
   <mat-form-field
     class="contact-select"

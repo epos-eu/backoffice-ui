@@ -45,9 +45,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public serviceProviders: Array<OrganizationDataSource> = [];
   public serviceProvidersLoading = false;
   public selectedServiceProvider: EntityDetail | null = null;
-  public showContactPointSelect = false;
   public contactPointDetails: Array<EntityDetail> = [];
-  public contactPointsFromCatalog: Array<ContactPointDetailDataSource> = [];
+  public contactPointShowSaveNotify = false;
   public operation!: Operation | undefined;
   public callOperationDetail = false;
   public selectedPanelId: ReplaySubject<number> = new ReplaySubject();
@@ -264,38 +263,11 @@ export class WebserviceFormDetailsComponent implements OnInit {
     return false;
   }
 
-  public newContactPoint() {
-    this.apiService.endpoints.ContactPoint.getAll
-      .call()
-      .then((data: Array<ContactPointDetailDataSource>) => {
-        this.showContactPointSelect = true;
-        this.contactPointsFromCatalog = data;
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to request Contact Point entities.`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
-  }
+  public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {
+    this.contactPointDetails = newContactPointDetails;
 
-  public updateContactPointArray(event: MatSelectChange) {
-    const value: ContactPointDetailDataSource = event.value;
-    console.debug(value);
-    const entityDetail: EntityDetail = {
-      entityType: 'ContactPoint',
-      instanceId: value.instanceId,
-      uid: value.uid,
-      metaId: value.metaId,
-    };
-    const dataProduct = this.operationsService.getActiveDataProductValue();
-    /* this.contactPointDetails.push(entityDetail);
-    if (null != dataProduct) {
-      dataProduct.contactPoint = this.contactPointDetails;
-      this.operationsService.setActiveDataProduct(dataProduct);
-      this.showContactPointSelect = false;
-    } */
+    // inform user that he has to save entire form
+    this.contactPointShowSaveNotify = true;
   }
 
   private handleServiceProviders(): void {
