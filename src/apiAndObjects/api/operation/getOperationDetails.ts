@@ -25,7 +25,7 @@ export class GetOperationDetails extends CacheableEndpoint<
       return authHeader;
     };
     const callResponsePromise = this.apiCaller
-      .doCall(`operation/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`operation/${params.metaId}/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(OperationDetailDataSource, callResponsePromise);
   }
@@ -60,5 +60,6 @@ export class GetOperationDetails extends CacheableEndpoint<
 
 export interface GetOperationDetailsParams {
   singleOptionOnly?: boolean;
+  metaId: string;
   instanceId: string;
 }

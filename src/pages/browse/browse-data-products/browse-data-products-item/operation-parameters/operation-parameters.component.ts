@@ -17,6 +17,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 })
 export class OperationParametersComponent implements OnInit {
   @Input() instanceId = '';
+  @Input() metaId = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,7 +41,7 @@ export class OperationParametersComponent implements OnInit {
     if (this.instanceId && !this.operation) {
       this.fetchingOperation = true;
       this.apiService.endpoints[Entity.OPERATION].get
-        .call({ instanceId: this.instanceId }, false)
+        .call({ metaId: this.metaId, instanceId: this.instanceId }, false)
         .then((data: Array<OperationDetailDataSource>) => {
           const operation = data.shift();
           if (null != operation) {

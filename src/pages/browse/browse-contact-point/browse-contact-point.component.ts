@@ -12,8 +12,10 @@ export class BrowseContactPointComponent {
   public sectionName = Entity.CONTACT_POINT;
   constructor(private router: Router) {}
 
-  public rowClicked(rowClickDetails: Array<string>): void {
-    this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`].concat(rowClickDetails));
+  public rowClicked(row: Record<string, string>): void {
+    this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`].concat(row['instanceId']), {
+      state: { metaId: row['metaId'] },
+    });
   }
 
   public createContactPoint(): void {

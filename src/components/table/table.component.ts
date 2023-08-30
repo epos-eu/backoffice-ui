@@ -16,7 +16,7 @@ import { FilterEmit } from '../table-filter/table-filter.component';
 })
 export class TableComponent implements AfterViewInit {
   @Input() sectionName!: Entity;
-  @Output() rowClickDetailsEmit = new Subject<Array<string>>();
+  @Output() rowClickDetailsEmit = new Subject<Record<string, string>>();
   @Output() paginationChangeEmit = new EventEmitter<PageEvent>();
 
   public displayedColumns = ['uid', 'lastChange', 'status', 'changeComment', 'author'];
@@ -37,8 +37,8 @@ export class TableComponent implements AfterViewInit {
     });
   }
 
-  public rowClicked(instanceId: string): void {
-    this.rowClickDetailsEmit.next([instanceId]);
+  public rowClicked(metaId: string, instanceId: string): void {
+    this.rowClickDetailsEmit.next({ metaId, instanceId });
   }
 
   public handleFilter(filters: FilterEmit) {
@@ -61,6 +61,7 @@ export class TableComponent implements AfterViewInit {
         changeComment: item.changeComment,
         author: item.editorId,
         instanceId: item.instanceId,
+        metaId: item.metaId,
       };
       tableDetails.push(detail);
     });
@@ -71,7 +72,7 @@ export class TableComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(details);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = (data: any, filterValue: string) => {
+    this.dataSource.filterPredicate = (data: TableDetail, filterValue: string) => {
       const filters = JSON.parse(filterValue);
       return (
         data.status.trim().toLocaleLowerCase().indexOf(filters.status.trim().toLocaleLowerCase()) >= 0 &&

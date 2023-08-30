@@ -1,97 +1,171 @@
-<div class="mat-elevation-z8">
-  <h2 mat-dialog-title>Hello world!</h2>
-  <!-- <table
-    mat-table
-    [dataSource]="dataSource"
-    matSort
+<div class="wrapper">
+  <p class="title">Revisions</p>
+  <div
+    class="loading-wrapper"
+    *ngIf="loading"
   >
-    <ng-container matColumnDef="uid">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-      >
-        Uid
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let row"
-      >
-        {{ row.id }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="version">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-      >
-        Name
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let row"
-      >
-        {{ row.version }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="createdAt">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-      >
-        Created At
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let row"
-      >
-        {{ row._sourceObject.createdAt }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="createdBy">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        mat-sort-header
-      >
-        Created By
-      </th>
-      <td
-        mat-cell
-        *matCellDef="let row"
-      >
-        {{ row._sourceObject.createdBy }}
-      </td>
-    </ng-container>
-
-    <tr
-      mat-header-row
-      *matHeaderRowDef="displayedColumns"
-    ></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns"
-    ></tr>
-
-    <tr
-      class="mat-row"
-      *matNoDataRow
+    <mat-spinner></mat-spinner>
+  </div>
+  <div
+    class="table-wrapper"
+    *ngIf="!loading"
+  >
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
     >
-      <td
-        class="mat-cell"
-        colspan="4"
+      <ng-container matColumnDef="select">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+        >
+          <mat-checkbox
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && allSelected()"
+            [indeterminate]="selection.hasValue() && !allSelected()"
+          ></mat-checkbox>
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+          ></mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="instanceId">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          hidden
+        >
+          instanceId
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          hidden
+        >
+          {{ row.instanceId }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="uid">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          UID
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{ row.uid }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="version">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Version
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{ row.version ? row.version : '-' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="state"
+        >
+          State
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{ row.state.toLowerCase() }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="created">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Created At
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{ row.created | date : 'mediumDate' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="editorId">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Created By
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+        >
+          {{ row.editorId }}
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+
+      <tr
+        class="mat-row"
+        *matNoDataRow
       >
-        No data matching the filter
-      </td>
-    </tr>
-  </table>
-  <mat-paginator
-    [pageSizeOptions]="pageSizeOptions"
-    aria-label="Select page of revisions"
-  ></mat-paginator> -->
+        <td
+          class="mat-cell"
+          colspan="4"
+        >
+          No data matching the filter
+        </td>
+      </tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="pageSizeOptions"
+      aria-label="Select page of revisions"
+    ></mat-paginator>
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="this.selection.selected.length !== 2"
+  >
+    Compare selected revisions
+  </button>
 </div>

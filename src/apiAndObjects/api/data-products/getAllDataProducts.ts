@@ -16,7 +16,7 @@ export class GetAllDataProducts extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllDataProductsParams): Promise<DataProductDetailDataSource[]> {
+  protected callLive(): Promise<DataProductDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();

@@ -13,7 +13,7 @@ export class GetAllUsers extends CacheableEndpoint<Array<UserInfoDataSource>, Ge
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllUsersParams): Promise<UserInfoDataSource[]> {
+  protected callLive(): Promise<UserInfoDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();

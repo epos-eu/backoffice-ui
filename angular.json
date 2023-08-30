@@ -28,6 +28,8 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
+              "node_modules/jsondiffpatch/dist/formatters-styles/html.css",
+              "node_modules/jsondiffpatch/dist/formatters-styles/annotated.css",
               "./node_modules/leaflet/dist/leaflet.css",
               "./node_modules/material-icons-font/material-icons-font.css"
             ],

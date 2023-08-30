@@ -1,6 +1,6 @@
 /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
 /* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
-mat-chip {
+mat-chip-listbox {
   min-width: 200px;
   height: 45px;
   border-radius: 40px;
@@ -60,7 +60,7 @@ mat-chip {
       height: 26px;
       border-radius: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       padding: 0.125rem;
     }

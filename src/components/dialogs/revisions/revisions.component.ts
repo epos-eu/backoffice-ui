@@ -1,16 +1,29 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { RevisionsDataSource } from 'src/apiAndObjects/objects/data-source/revisionsDataSource';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { DialogData } from '../baseDialogService.abstract';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { State } from 'src/utility/enums/state.enum';
+import { Router } from '@angular/router';
+import { OperationsService } from 'src/services/operations.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
-interface Revision {
+interface CurrentEntity {
   metaId: string;
+  type: Entity;
+}
+
+export interface Revision {
+  instanceId: string;
+  uid: string;
+  version: string;
+  state: State;
+  created: Date;
+  editorId: string;
 }
 
 @Component({
@@ -19,64 +32,81 @@ interface Revision {
   styleUrls: ['./revisions.component.scss'],
 })
 export class RevisionsComponent implements OnInit {
-  constructor(private apiService: ApiService, @Inject(MAT_DIALOG_DATA) public data: DialogData<Revision>) {}
+  constructor(
+    private apiService: ApiService,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<CurrentEntity>,
+    private router: Router,
+    private dialogRef: MatDialogRef<RevisionsComponent>,
+    private operationsService: OperationsService,
+  ) {}
 
-  public displayedColumns: string[] = ['uid', 'version', 'createdAt', 'createdBy'];
-  public dataSource!: MatTableDataSource<RevisionsDataSource>;
+  private revisions!: Array<Revision>;
+  public selection = new SelectionModel<Revision>(true, []);
+  public displayedColumns: string[] = ['select', 'instanceId', 'uid', 'version', 'state', 'created', 'editorId'];
+  public dataSource!: MatTableDataSource<Revision>;
   public pageSizeOptions = [10, 25, 50, 100];
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  ngOnInit(): void {
+  private _initTable(data: Array<Revision>): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  private getRelatedEntities(): void {
     const metaId = this.data.dataIn.metaId;
-    this.apiService.endpoints[Entity.DATA_PRODUCT].getAll.call().then((data: Array<DataProductDetailDataSource>) => {
-      console.log(data.filter((item) => item.metaId === metaId));
-    });
-    // const obj = [
-    //   {
-    //     _sourceObject: {
-    //       uid: '1',
-    //       version: '4.0',
-    //       createdAt: '11/07/2021',
-    //       createdBy: 'John Smith',
-    //     },
-    //     id: '1',
-    //     name: '4.0',
-    //   },
-    //   {
-    //     _sourceObject: {
-    //       uid: '2',
-    //       version: '3.0',
-    //       createdAt: '12/07/2021',
-    //       createdBy: 'A Adams',
-    //     },
-    //     id: '2',
-    //     name: '3.0',
-    //   },
-    //   {
-    //     _sourceObject: {
-    //       uid: '3',
-    //       version: '2.0',
-    //       createdAt: '12/07/2021',
-    //       createdBy: 'A Adams',
-    //     },
-    //     id: '3',
-    //     name: '2.0',
-    //   },
-    //   {
-    //     _sourceObject: {
-    //       uid: '4',
-    //       version: '1.0',
-    //       createdAt: '12/07/2021',
-    //       createdBy: 'A Adams',
-    //     },
-    //     id: '4',
-    //     name: '1.0',
-    //   },
-    // ];
-    // this.dataSource = new MatTableDataSource(obj as unknown as RevisionsDataSource[]);
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+    switch (true) {
+      case this.data.dataIn.type === Entity.DATA_PRODUCT:
+        this.apiService.endpoints.DataProduct.getAllVersions
+          .call(
+            {
+              metaId: metaId,
+            },
+            false,
+          )
+          .then((data: Array<DataProductDetailDataSource>) => {
+            const revisions: Revision[] = data.map((item) => {
+              return {
+                instanceId: item.instanceId,
+                uid: item.uid,
+                version: item.version,
+                state: item.state,
+                created: item.created,
+                editorId: item.editorId,
+              };
+            });
+            this.loading = false;
+            this._initTable(revisions);
+            this.revisions = revisions;
+            console.log(this.revisions);
+          });
+        break;
+    }
+  }
+
+  ngOnInit(): void {
+    this.loading = true;
+    this.getRelatedEntities();
+  }
+
+  public rowClicked(instanceId: string): void {
+    if (this.revisions.length > 1) {
+      this.dialogRef.close();
+      this.router.navigate(['/browse/revisions/compare', instanceId]);
+      this.operationsService.setRevisions(this.revisions);
+    }
+  }
+
+  public allSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  public masterToggle() {
+    this.allSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 }

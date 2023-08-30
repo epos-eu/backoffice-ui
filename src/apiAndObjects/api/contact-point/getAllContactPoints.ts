@@ -17,7 +17,7 @@ export class GetAllContactPoints extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllContactPointsParams): Promise<ContactPointDetailDataSource[]> {
+  protected callLive(): Promise<ContactPointDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();

@@ -65,6 +65,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
         this.apiService.endpoints[Entity.CONTACT_POINT].get
           .call(
             {
+              metaId: this.contactPointDetails[i].metaId,
               instanceId: this.contactPointDetails[i].instanceId,
             },
             false,

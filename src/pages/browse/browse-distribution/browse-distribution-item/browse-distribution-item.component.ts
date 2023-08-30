@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
@@ -28,6 +28,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   public contactPoint!: Array<ContactPointDetailDataSource>;
   public contactPointLoaded = false;
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
+  public state!: NavigationBehaviorOptions['state'];
 
   constructor(
     private dialogService: DialogService,
@@ -36,8 +37,11 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private persistorService: PersistorService,
+    private router: Router,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
+    const state = this.router.getCurrentNavigation()?.extras.state as NavigationBehaviorOptions['state'];
+    this.state = state;
   }
 
   public ngOnInit(): void {
@@ -57,6 +61,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
     this.apiService.endpoints.Distribution.get
       .call(
         {
+          metaId: this.state?.['metaId'],
           instanceId: id,
         },
         false,

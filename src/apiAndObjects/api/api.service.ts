@@ -37,6 +37,7 @@ import { PutUserDetail } from './user/putUserDetail';
 import { PutContactPointDetail } from './contact-point/putContactPointDetail';
 import { PutOperationDetail } from './operation/putOperationDetail';
 import { GetPersonDetail } from './person/getPersonDetail';
+import { GetAllDataProductVersions } from './data-products/getAllDataProductVersions';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -50,6 +51,7 @@ export class ApiService extends BaseApi {
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
       create: new PostDataProductDetails(ApiService.USE_LIVE_API),
       update: new PutDataProductDetail(ApiService.USE_LIVE_API),
+      getAllVersions: new GetAllDataProductVersions(ApiService.USE_LIVE_API),
     },
     WebService: {
       get: new GetWebserviceDetail(ApiService.USE_LIVE_API),
@@ -75,7 +77,6 @@ export class ApiService extends BaseApi {
       create: new PostOperationDetail(ApiService.USE_LIVE_API),
       update: new PutOperationDetail(ApiService.USE_LIVE_API),
     },
-
     /* Administrative Entities */
     Organization: {
       getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),

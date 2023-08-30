@@ -17,7 +17,7 @@ export class GetAllDistributions extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetAllDistributionParams): Promise<DistributionDetailDataSource[]> {
+  protected callLive(): Promise<DistributionDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();

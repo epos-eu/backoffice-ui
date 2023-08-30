@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { SortingDirective } from 'src/directives/sorting-cache.directive';
 import { BackToTopButtonComponent } from './back-to-top-button/back-to-top-button.component';
+import { ErrorNoticeComponent } from './error-notice/error-notice.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { BackToTopButtonComponent } from './back-to-top-button/back-to-top-butto
     TableFilterComponent,
     SortingDirective,
     BackToTopButtonComponent,
+    ErrorNoticeComponent,
   ],
   imports: [
     RouterModule,
@@ -39,6 +41,13 @@ import { BackToTopButtonComponent } from './back-to-top-button/back-to-top-butto
     MatExpansionModule,
     MatIconModule,
   ],
-  exports: [LayoutComponent, ActionsDataComponent, ChartComponent, TableComponent, BackToTopButtonComponent],
+  exports: [
+    LayoutComponent,
+    ActionsDataComponent,
+    ChartComponent,
+    TableComponent,
+    ErrorNoticeComponent,
+    BackToTopButtonComponent,
+  ],
 })
 export class ComponentsModule {}

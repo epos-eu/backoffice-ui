@@ -29,6 +29,7 @@ export class DistributionFormDetailsComponent {
       this.instanceId = details.instanceId;
     }
   }
+  @Input() metaId!: string;
 
   public floatLabelControl = new UntypedFormControl('auto');
   public distribution!: DistributionDetailDataSource | undefined;
@@ -86,6 +87,7 @@ export class DistributionFormDetailsComponent {
     this.apiService.endpoints.Distribution.get
       .call(
         {
+          metaId: this?.metaId,
           instanceId: id,
         },
         false,

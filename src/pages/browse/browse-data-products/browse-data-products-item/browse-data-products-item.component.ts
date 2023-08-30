@@ -8,7 +8,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
@@ -139,6 +139,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     ],
     expanded: true,
   };
+  public state!: NavigationBehaviorOptions['state'];
 
   constructor(
     private dialogService: DialogService,
@@ -151,10 +152,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private actionsService: ActionsService,
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
+    private router: Router,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
+
+    const state = this.router.getCurrentNavigation()?.extras.state as NavigationBehaviorOptions['state'];
+    this.state = state;
   }
 
   private trackEdit(): void {
@@ -197,6 +202,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.apiService.endpoints[Entity.DATA_PRODUCT].get
       .call(
         {
+          metaId: this.state?.['metaId'],
           instanceId: id,
         },
         false,
@@ -345,7 +351,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           // value['description'] = [changes['description']];
           this.actionService.enableSave();
           this.operationsService.setActiveDataProduct(updatingObject);
-          // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA, JSON.stringify(value));
+          this.persistorService.setValueInStorage(
+            StorageType.LOCAL_STORAGE,
+            StorageKey.FORM_DATA,
+            JSON.stringify(updatingObject),
+          );
         }
       });
     }
@@ -361,8 +371,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       RevisionsComponent,
       {
         metaId: this.dataProduct?.metaId,
+        type: Entity.DATA_PRODUCT,
       },
-      '35vw',
+      '65vw',
       'auto',
       'revisions-dialog',
     );

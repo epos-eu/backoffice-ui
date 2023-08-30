@@ -19,8 +19,10 @@ export class BrowseDataProductsComponent {
 
   constructor(private router: Router) {}
 
-  public rowClicked(rowClickDetails: Array<string>): void {
-    this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`].concat(rowClickDetails));
+  public rowClicked(row: Record<string, string>): void {
+    this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`].concat(row['instanceId']), {
+      state: { metaId: row['metaId'] },
+    });
   }
 
   public createDataProduct(): void {

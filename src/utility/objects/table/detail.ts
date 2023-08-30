@@ -5,4 +5,5 @@ export interface TableDetail {
   changeComment: string;
   author: string;
   instanceId: string;
+  metaId: string;
 }

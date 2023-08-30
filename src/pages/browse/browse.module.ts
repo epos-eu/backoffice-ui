@@ -43,6 +43,7 @@ import { OptionCoordinateComponent } from './browse-data-products/browse-data-pr
 import { OptionBooleanComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-boolean/option-boolean.component';
 import { OptionFloatComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-float/option-float.component';
 import { ContactPointDetailComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-detail/contact-point-detail.component';
+import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { ContactPointDetailComponent } from './browse-data-products/browse-data-
     OptionCoordinateComponent,
     OptionBooleanComponent,
     OptionFloatComponent,
+    BrowseRevisionsComponent,
   ],
   imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [],

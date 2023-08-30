@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
@@ -24,6 +24,7 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.CONTACT_POINT;
+  public state!: NavigationBehaviorOptions['state'];
 
   constructor(
     private dialogService: DialogService,
@@ -35,6 +36,8 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
     private persistorService: PersistorService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
+    const state = this.router.getCurrentNavigation()?.extras.state as NavigationBehaviorOptions['state'];
+    this.state = state;
   }
 
   ngOnInit(): void {
@@ -54,6 +57,7 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
     this.apiService.endpoints[Entity.CONTACT_POINT].get
       .call(
         {
+          metaId: this.state?.['metaId'],
           instanceId: id,
         },
         false,

@@ -26,12 +26,12 @@ export class GetContactPointDetail extends CacheableEndpoint<
     };
 
     const callResponsePromise = this.apiCaller
-      .doCall(`contactpoint/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
+      .doCall(`contactpoint/${params.metaId}/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
     return this.buildObjectsFromResponse(ContactPointDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(params?: GetContactPointDetailsParams | undefined): Promise<ContactPointDetailDataSource[]> {
+  protected callMock(): Promise<ContactPointDetailDataSource[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       ContactPointDetailDataSource,
@@ -58,5 +58,6 @@ export class GetContactPointDetail extends CacheableEndpoint<
 
 export interface GetContactPointDetailsParams {
   singleOptionOnly?: boolean;
+  metaId: string;
   instanceId: string;
 }

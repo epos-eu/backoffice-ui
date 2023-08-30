@@ -26,6 +26,7 @@ import { CreateWebServiceItemComponent } from './browse-web-services/create-web-
 import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
 import { CreateContactPointItemComponent } from './browse-contact-point/create-contact-point-item/create-contact-point-item.component';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 
 const routes: Routes = [
   {
@@ -76,6 +77,11 @@ const routes: Routes = [
       { path: 'details/:id', component: BrowseDataProductsItemComponent },
       { path: 'new', component: CreateDataProductItemComponent },
     ],
+  },
+  {
+    path: 'revisions',
+    component: LayoutComponent,
+    children: [{ path: 'compare/:id', component: BrowseRevisionsComponent }],
   },
   {
     path: 'services',

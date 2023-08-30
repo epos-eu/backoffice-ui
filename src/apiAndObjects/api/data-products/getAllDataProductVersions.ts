@@ -1,23 +1,22 @@
 import { HttpHeaders } from '@angular/common/http';
-import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { GetAllDataProductsParams } from '../data-products/getAllDataProducts';
 
-export class GetAllOrganizations extends CacheableEndpoint<
-  Array<OrganizationDataSource>,
-  GetAllOrganizationsParams,
-  OrganizationDataSource
+export class GetAllDataProductVersions extends CacheableEndpoint<
+  Array<DataProductDetailDataSource>,
+  GetAllDataProductVersionsParams,
+  DataProductDetailDataSource
 > {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(params: GetAllDataProductsParams): string {
+  protected getCacheKey(params: GetAllDataProductVersionsParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(): Promise<OrganizationDataSource[]> {
+  protected callLive(params: GetAllDataProductVersionsParams): Promise<DataProductDetailDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -26,19 +25,20 @@ export class GetAllOrganizations extends CacheableEndpoint<
     };
 
     const callResponsePromise = this.apiCaller.doCall(
-      ['organization/all'],
+      [`dataproduct/${params.metaId}/all`],
       RequestMethod.GET,
       undefined,
       undefined,
       headers,
     );
-    return this.buildObjectsFromResponse(OrganizationDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(DataProductDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<OrganizationDataSource[]> {
+  protected callMock(): Promise<DataProductDetailDataSource[]> {
     throw new Error('Method not implemented.');
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface GetAllOrganizationsParams {}
+export interface GetAllDataProductVersionsParams {
+  metaId: string;
+}
