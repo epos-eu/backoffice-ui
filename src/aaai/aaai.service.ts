@@ -4,6 +4,9 @@ import { AuthenticationProvider } from './authProvider.interface';
 import { AAAIUser } from './aaaiUser.interface';
 import { OAuthAuthenticationProvider } from './impl/oAuthProvider';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { PersistorService, StorageType } from 'src/services/persistor.service';
+import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { Router } from '@angular/router';
 
 /**
  * This uses a plugin ({@link https://www.npmjs.com/package/angular-oauth2-oidc})
@@ -15,6 +18,8 @@ export class AaaiService {
   private readonly now = new Date();
   private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
   private readonly logoutTime = new Date(this.logOutAfterInactivityPeriod);
+  private readonly persistorService = new PersistorService();
+  private readonly router = new Router();
 
   private constructor(private readonly authProvider: AuthenticationProvider) {
     this.startLogoutInterval();
@@ -48,6 +53,20 @@ export class AaaiService {
 
   public getManageUrl(): string {
     return this.authProvider.getManageUrl();
+  }
+
+  public isAuthenticated(): boolean {
+    const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
+    return accessToken != null;
+  }
+
+  public checkForAuth(): boolean {
+    if (this.isAuthenticated()) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 
   private startLogoutInterval(): void {

@@ -1,10 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogState } from '@angular/material/dialog';
-import { AaaiService } from 'src/aaai/aaai.service';
-import { AAAIUser } from 'src/aaai/aaaiUser.interface';
-import { DialogService } from 'src/components/dialogs/dialog.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BarController, BarElement, Chart, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
-import { Router, NavigationEnd, Event as NavigationEvent } from '@angular/router';
+import { Router, NavigationEnd, Event as NavigationEvent, ActivationStart, RouterOutlet } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
 import { ActionsService } from 'src/services/actions.service';
 import { RouteService } from 'src/services/route.service';
@@ -14,26 +10,15 @@ import { RouteService } from 'src/services/route.service';
   template: `<router-outlet></router-outlet>`,
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private dialogService: DialogService,
-    private aaai: AaaiService,
-    private router: Router,
-    private actionsService: ActionsService,
-    private routeService: RouteService,
-  ) {
-    this.aaai.watchUser().subscribe((user: AAAIUser | null) => {
-      if (null == user) {
-        // Prevent app erroring from trying to open same dialog twice
-        if (this.dialogService.dialog.getDialogById('loginCopmonent')?.getState() !== MatDialogState.OPEN) {
-          this.dialogService.openLoginDialogComponent();
-        }
-      } else if (
-        null != user &&
-        this.dialogService.dialog.getDialogById('loginCopmonent')?.getState() === MatDialogState.OPEN
-      ) {
-        this.dialogService.dialog.getDialogById('loginCopmonent')?.close();
+  @ViewChild(RouterOutlet) outlet!: RouterOutlet;
+
+  constructor(private router: Router, private actionsService: ActionsService, private routeService: RouteService) {
+    this.router.events.subscribe((e) => {
+      if (e instanceof ActivationStart) {
+        this.outlet.deactivate();
       }
     });
+
     this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),

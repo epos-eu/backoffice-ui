@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ActivationStart, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { AAAIUser } from 'src/aaai/aaaiUser.interface';
@@ -25,6 +25,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @ViewChild('snav') sidenav!: MatSidenav;
   @ViewChild('dialog') dialog!: ElementRef<HTMLElement>;
+  @ViewChild(RouterOutlet) outlet!: RouterOutlet;
 
   public dropdown = '';
   public user: null | AAAIUser = null;
@@ -48,6 +49,12 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnInit(): void {
     this.initClick();
     this.navigationType = this.actRoute.parent?.snapshot.url[0].path || '';
+
+    this.router.events.subscribe((e) => {
+      if (e instanceof ActivationStart) {
+        this.outlet.deactivate();
+      }
+    });
 
     this.subscriptions.push(
       this.aaai.watchUser().subscribe((user: AAAIUser | null) => {

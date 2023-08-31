@@ -1,0 +1,38 @@
+<div class="content">
+  <img
+    [src]="imgUrl"
+    alt="EPOS Logo"
+    class="epos-logo"
+  />
+  <div class="content-wrapper">
+    <div class="header">
+      <p class="title">EPOS Backoffice</p>
+    </div>
+    <div class="main">
+      <div class="button-wrapper">
+        <a
+          mat-stroked-button
+          class="manage-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          [href]="manageUrl"
+          color="primary"
+        >
+          Manage account
+        </a>
+        <button
+          mat-flat-button
+          color="accent"
+          class="login-btn"
+          (click)="logIn()"
+        >
+          Login / Register
+        </button>
+      </div>
+      <div class="login-disclaimer">
+        <p>By using EPOS ICS portal you accept the EPOS terms and conditions.</p>
+        <a appShowDisclaimerDirective>More Details</a>
+      </div>
+    </div>
+  </div>
+</div>

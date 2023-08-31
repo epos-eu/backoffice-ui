@@ -8,7 +8,6 @@ import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dial
 import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
 import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
-import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -67,20 +66,6 @@ export class DialogService extends BaseDialogService {
 
   public openMetadataViewDialog(): Promise<DialogData> {
     return this.openDialog('metadataView', MetadataFileViewComponent);
-  }
-
-  public openLoginDialogComponent(): Promise<DialogData> {
-    return this.openDialog(
-      'loginCopmonent',
-      DialogLoginComponent,
-      false,
-      null,
-      {
-        width: '40vw',
-        height: 'auto',
-      },
-      'login-backdrop',
-    );
   }
 
   public openChangeUserRoleDialog(userData: TableUserDetail): Promise<DialogData> {
