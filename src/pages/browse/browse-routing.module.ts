@@ -39,7 +39,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseWebServicesComponent },
-      { path: 'details/:id', component: BrowseWebServicesItemComponent },
+      { path: 'details/:metaId/:id', component: BrowseWebServicesItemComponent },
       { path: 'new', component: CreateWebServiceItemComponent },
     ],
   },
@@ -48,7 +48,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseOrganizationComponent },
-      { path: 'details/:id', component: BrowseOrganizationItemComponent },
+      { path: 'details/:metaId/:id', component: BrowseOrganizationItemComponent },
     ],
   },
   {
@@ -56,7 +56,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseDistributionComponent },
-      { path: 'details/:id', component: BrowseDistributionItemComponent },
+      { path: 'details/:metaId/:id', component: BrowseDistributionItemComponent },
       { path: 'new', component: CreateDistributionItemComponent },
     ],
   },
@@ -65,7 +65,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseContactPointComponent },
-      { path: 'details/:id', component: BrowseContactPointItemComponent },
+      { path: 'details/:metaId/:id', component: BrowseContactPointItemComponent },
       { path: 'new', component: CreateContactPointItemComponent },
     ],
   },
@@ -74,7 +74,7 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: BrowseDataProductsComponent },
-      { path: 'details/:id', component: BrowseDataProductsItemComponent },
+      { path: 'details/:metaId/:id', component: BrowseDataProductsItemComponent },
       { path: 'new', component: CreateDataProductItemComponent },
     ],
   },

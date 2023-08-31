@@ -8,7 +8,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
@@ -90,11 +90,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public dataProviders: Array<OrganizationDataSource> = [];
   public dataProvidersLoading = false;
   public selectedDataProviders: Array<EntityDetail> = [];
-
   public selectedSection = '';
-
   public createdValue: string | null = null;
   public modifiedValue: string | null = null;
+  public metaId!: string;
 
   private formTree: FormTree = {
     id: '#dataproduct',
@@ -139,7 +138,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     ],
     expanded: true,
   };
-  public state!: NavigationBehaviorOptions['state'];
 
   constructor(
     private dialogService: DialogService,
@@ -152,14 +150,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private actionsService: ActionsService,
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
-    private router: Router,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
-
-    const state = this.router.getCurrentNavigation()?.extras.state as NavigationBehaviorOptions['state'];
-    this.state = state;
   }
 
   private trackEdit(): void {
@@ -173,8 +167,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
-      if (null != obs.get('id')) {
-        this.initData(obs.get('id') as string);
+      if (null != obs.get('id') && null != obs.get('metaId')) {
+        this.metaId = obs.get('metaId') as string;
+        this.initData(obs.get('id') as string, obs.get('metaId') as string);
       }
     });
 
@@ -198,11 +193,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return this.form.get('spatialExtentGroup') as FormArray;
   }
 
-  private initData(id: string): void {
+  private initData(id: string, metaId: string): void {
     this.apiService.endpoints[Entity.DATA_PRODUCT].get
       .call(
         {
-          metaId: this.state?.['metaId'],
+          metaId: metaId,
           instanceId: id,
         },
         false,

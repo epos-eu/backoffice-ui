@@ -20,9 +20,7 @@ export class BrowseDataProductsComponent {
   constructor(private router: Router) {}
 
   public rowClicked(row: Record<string, string>): void {
-    this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`].concat(row['instanceId']), {
-      state: { metaId: row['metaId'] },
-    });
+    this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, row['metaId'], row['instanceId']]);
   }
 
   public createDataProduct(): void {

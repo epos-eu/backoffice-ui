@@ -13,9 +13,7 @@ export class BrowseContactPointComponent {
   constructor(private router: Router) {}
 
   public rowClicked(row: Record<string, string>): void {
-    this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`].concat(row['instanceId']), {
-      state: { metaId: row['metaId'] },
-    });
+    this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, row['metaId'], row['instanceId']]);
   }
 
   public createContactPoint(): void {
