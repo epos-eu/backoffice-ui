@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
@@ -24,7 +24,6 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.CONTACT_POINT;
-  public state!: NavigationBehaviorOptions['state'];
 
   constructor(
     private dialogService: DialogService,
@@ -32,19 +31,16 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router,
     private persistorService: PersistorService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
-    const state = this.router.getCurrentNavigation()?.extras.state as NavigationBehaviorOptions['state'];
-    this.state = state;
   }
 
   ngOnInit(): void {
     // this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.CONTACT_POINT);
     this.route.paramMap.subscribe((obs) => {
-      if (null != obs.get('id')) {
-        this.initData(obs.get('id') as string);
+      if (null != obs.get('id') && null != obs.get('metaId')) {
+        this.initData(obs.get('id') as string, obs.get('metaId') as string);
       }
     });
   }
@@ -53,11 +49,11 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
     this.actionService.cancelLiveEdit();
   }
 
-  private initData(id: string): void {
+  private initData(id: string, metaId: string): void {
     this.apiService.endpoints[Entity.CONTACT_POINT].get
       .call(
         {
-          metaId: this.state?.['metaId'],
+          metaId: metaId,
           instanceId: id,
         },
         false,

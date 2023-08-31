@@ -23,6 +23,14 @@ mat-form-field {
     margin-left: 1rem;
     margin-top: 1rem;
   }
+
+  mat-input {
+    font-family: 'Roboto Flex', sans-serif !important;
+  }
+
+  .mat-mdc-input-element {
+    font-family: 'Roboto Flex', sans-serif !important;
+  }
 }
 
 .mat-mdc-form-field-input-control {
