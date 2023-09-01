@@ -352,7 +352,7 @@ export class OperationsService {
             ]);
             this.actionsService.saveCurrentEdit(data.instanceId);
             // this.itemsExist.next(true);
-            this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, data.instanceId]);
+            this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, data.metaId, data.instanceId]);
           })
           .catch((err) => {
             console.error(err);

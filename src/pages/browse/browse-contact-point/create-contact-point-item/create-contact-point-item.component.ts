@@ -44,7 +44,7 @@ export class CreateContactPointItemComponent implements OnInit {
     this.apiService.endpoints.ContactPoint.create
       .call(item)
       .then((value: ContactPointDetailDataSource) => {
-        this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, value.instanceId]);
+        this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
           'mat-toolbar',

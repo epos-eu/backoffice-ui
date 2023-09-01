@@ -163,7 +163,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
         this.showContactPointForm = false;
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
+        this.snackbarService.openSnackbar(`Error: failed to add new Contact Point.`, 'close', 'error', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
