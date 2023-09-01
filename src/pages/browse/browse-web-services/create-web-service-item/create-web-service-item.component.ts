@@ -45,7 +45,7 @@ export class CreateWebServiceItemComponent implements OnInit {
     this.apiService.endpoints.WebService.create
       .call(item)
       .then((value: WebserviceDetailDataSource) => {
-        this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, value.instanceId]);
+        this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar('Successfully created webservice.', 'close', 'success', 3000, [
           'snackbar',
           'mat-toolbar',

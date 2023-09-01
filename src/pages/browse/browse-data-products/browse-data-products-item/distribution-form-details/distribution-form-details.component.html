@@ -155,7 +155,7 @@
       class="expansion-wrapper"
     >
       <app-anchor-navigation
-        [identifier]="'#distaccessiblewebservice' + accessService.instanceId"
+        [identifier]="'#distaccessiblewebservice' + accessService.instanceId ? accessService.instanceId : ''"
       ></app-anchor-navigation>
       <mat-expansion-panel
         [expanded]="true"

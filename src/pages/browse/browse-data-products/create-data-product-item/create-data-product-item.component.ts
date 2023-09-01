@@ -46,7 +46,7 @@ export class CreateDataProductItemComponent implements OnInit {
     this.apiService.endpoints.DataProduct.create
       .call(item)
       .then((value: DataProductDetailDataSource) => {
-        this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.instanceId]);
+        this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
           'mat-toolbar',

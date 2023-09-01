@@ -13,6 +13,7 @@ import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.mo
 import { State } from 'src/utility/enums/state.enum';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { OperationsService } from 'src/services/operations.service';
 
 @Component({
   selector: 'app-dialog-submit',
@@ -30,6 +31,7 @@ export class DialogSubmitDraftComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
+    private operationsService: OperationsService,
   ) {}
 
   ngOnInit(): void {
@@ -66,18 +68,17 @@ export class DialogSubmitDraftComponent implements OnInit {
   }
 
   private handleDataProductSubmit() {
-    const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
+    const formData = this.operationsService.getActiveDataProductValue() as DataProduct;
     if (localStorage !== null) {
-      const formData: DataProduct = JSON.parse(localStorage);
-      this.apiService.endpoints[Entity.DATA_PRODUCT].update
+      this.apiService.endpoints[Entity.DATA_PRODUCT].updateState
         .call({
-          ...formData,
-          changeComment: this.comment.value as string,
+          instanceId: formData.instanceId as string,
+          justThisOne: true,
           state: State.SUBMITTED,
         })
         .then(() => {
           this.actionsService.submitCurrentEdit(this.currentEdit.id);
-          this.snackbarService.openSnackbar('New draft saved successfully', 'Close', 'success', 5000, [
+          this.snackbarService.openSnackbar('New draft submitted successfully', 'Close', 'success', 5000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -85,7 +86,7 @@ export class DialogSubmitDraftComponent implements OnInit {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error saving draft, please try again later.', 'Close', 'error', 5000, [
+          this.snackbarService.openSnackbar('Error submitted draft, please try again later.', 'Close', 'error', 5000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
