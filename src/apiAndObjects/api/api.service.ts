@@ -38,6 +38,7 @@ import { PutContactPointDetail } from './contact-point/putContactPointDetail';
 import { PutOperationDetail } from './operation/putOperationDetail';
 import { GetPersonDetail } from './person/getPersonDetail';
 import { GetAllDataProductVersions } from './data-products/getAllDataProductVersions';
+import { PutDataProductState } from './data-products/putDataProductState';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -51,6 +52,7 @@ export class ApiService extends BaseApi {
       getAll: new GetAllDataProducts(ApiService.USE_LIVE_API),
       create: new PostDataProductDetails(ApiService.USE_LIVE_API),
       update: new PutDataProductDetail(ApiService.USE_LIVE_API),
+      updateState: new PutDataProductState(ApiService.USE_LIVE_API),
       getAllVersions: new GetAllDataProductVersions(ApiService.USE_LIVE_API),
     },
     WebService: {
