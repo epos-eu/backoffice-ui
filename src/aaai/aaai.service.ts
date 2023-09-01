@@ -16,7 +16,8 @@ import { Router } from '@angular/router';
  */
 export class AaaiService {
   private readonly now = new Date();
-  private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
+  // private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
+  private readonly logOutAfterInactivityPeriod = this.now.setMinutes(this.now.getMinutes() + 1);
   private readonly logoutTime = new Date(this.logOutAfterInactivityPeriod);
   private readonly persistorService = new PersistorService();
   private readonly router = new Router();
@@ -74,6 +75,7 @@ export class AaaiService {
       if (null != this.getUser() && this.logoutTime < new Date()) {
         console.log('Time to log out');
         this.logout();
+        this.router.navigate(['/login']);
       }
     }, 60 * 1000); // 1 mins
   }

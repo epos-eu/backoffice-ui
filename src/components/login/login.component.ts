@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { AAAIUser } from 'src/aaai/aaaiUser.interface';
 import { ActiveUserService } from 'src/services/activeUser.service';
@@ -17,7 +18,11 @@ export class LoginComponent {
   @Input() public user!: null | AAAIUser;
   public manageUrl: string;
 
-  constructor(private readonly aaai: AaaiService, private readonly activeUserService: ActiveUserService) {
+  constructor(
+    private readonly aaai: AaaiService,
+    private readonly activeUserService: ActiveUserService,
+    private router: Router,
+  ) {
     this.manageUrl = this.aaai.getManageUrl();
   }
 
@@ -26,6 +31,7 @@ export class LoginComponent {
       this.activeUserService.setActiveUserInfo(null);
       this.aaai.logout();
       this.closeDropdown.emit();
+      this.router.navigate(['/login']);
     } else {
       this.aaai.login();
     }
