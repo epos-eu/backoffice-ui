@@ -41,38 +41,8 @@ export class BrowseRevisionsComponent implements OnInit {
     return undefined;
   }
 
-  private _fetchEntities(): void {
-    this.loading = true;
-
-    if (this.revisions.length === 0) {
-      this.loading = false;
-      this.error = true;
-      return;
-    }
-
-    // forkJoin([
-    //   this.apiService.endpoints.DataProduct.get.call(
-    //     {
-    //       instanceId: this.revisions[0].instanceId,
-    //     },
-    //     false,
-    //   ),
-    //   this.apiService.endpoints.DataProduct.get.call(
-    //     {
-    //       instanceId: this.revisions[1].instanceId,
-    //     },
-    //     false,
-    //   ),
-    // ]).subscribe((response: [DataProductDetailDataSource[], DataProductDetailDataSource[]]) => {
-    //   this.entities = response.map(this._mapResponse);
-    //   this.entities.sort((a) => (a?.state === State.PUBLISHED ? -1 : 1));
-    //   this.loading = false;
-    //   this.visualDiff = this._getVisualDiff();
-    // });
-  }
-
   private _getVisualDiff(): string | undefined {
-    const delta = jsondiffpatch.diff(this.entities[0], this.entities[1]);
+    const delta = jsondiffpatch.diff(this.revisions[0], this.revisions[1]);
     if (delta) {
       const html = jsondiffpatch.formatters.html.format(delta, this.entities[0]);
       return html;
@@ -86,20 +56,15 @@ export class BrowseRevisionsComponent implements OnInit {
         this.referrerId = obs.get('id') as string;
       }
     });
-    // if (this._getCachedRevisions()) {
-    //   const parsed = JSON.parse(this._getCachedRevisions() as string);
-    //   this.revisions = parsed;
-    //   this._fetchEntities();
-    // } else {
+
     this.operationsService.revisionsObs.subscribe((revisions: Array<Revision>) => {
       this.revisions = revisions;
+      console.log(this.revisions);
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.REVISIONS,
         JSON.stringify(revisions),
       );
-      this._fetchEntities();
     });
   }
-  // }
 }

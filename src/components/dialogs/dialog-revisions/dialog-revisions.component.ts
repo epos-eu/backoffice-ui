@@ -18,6 +18,7 @@ import * as moment from 'moment';
 interface CurrentEntity {
   metaId: string;
   type: Entity;
+  instanceId: string;
 }
 
 export interface Revision {
@@ -129,5 +130,11 @@ export class DialogRevisionsComponent implements OnInit {
   public handleNavigate(metaID: string, instanceId: string): void {
     this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, metaID, instanceId]);
     this.data.close();
+  }
+
+  public handleCompare(): void {
+    this.dialogRef.close();
+    this.router.navigate(['/browse/revisions/compare', this.data?.dataIn.instanceId]);
+    this.operationsService.setRevisions(this.revisions);
   }
 }

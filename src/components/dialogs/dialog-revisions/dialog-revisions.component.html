@@ -196,7 +196,8 @@
     class="compare"
     mat-raised-button
     color="primary"
-    [disabled]="true && this.selection.selected.length !== 2"
+    [disabled]="this.selection.selected.length !== 2"
+    (click)="handleCompare()"
   >
     Compare selected revisions
   </button>
