@@ -78,8 +78,6 @@ export class EditNavigationComponent implements OnInit {
 
   public handleSubmit(): void {
     const dialogRef = this.dialog.open(DialogSubmitDraftComponent, {
-      width: '450px',
-      height: '275px',
       panelClass: 'dialog-submit',
     });
     this.dialogService.setRef(dialogRef);
