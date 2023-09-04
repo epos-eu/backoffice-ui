@@ -21,6 +21,8 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 import { SpatialGroup } from '../../browse-data-products-item.component';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
+import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
+import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -61,6 +63,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public spatialCoveragePolygon = SpatialCoverageType.POLYGON as string;
   public spatialCoverageInput: Array<string | undefined> = [];
   public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
+  public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
+  public typeOptions: Array<{ id: string; name: string }> = [];
 
   public instanceId = '';
   private formTree = {
@@ -95,6 +99,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
     });
+    this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
+    this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
     // this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
   }
   ngOnInit(): void {
@@ -123,6 +129,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
           this.webservice = data.shift();
           if (this.webservice) {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
+            this.setSpatialCoverageVariables();
             this.selectedServiceProvider = this.webservice?.provider ?? null;
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
             if (this.webservice && this.webservice.instanceId) {
@@ -150,6 +157,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
       description: this.webservice?.description,
       documentation: this.getDocumentation(),
       spatialExtentGroup: this.createLocationCtrls(),
+      temporalExtentStartDate: this.getTemporalExtent('startDate'),
+      temporalExtentEndDate: this.getTemporalExtent('endDate'),
+      // accrualPeriodicity: this.webservice?.accrualPeriodicity,
+      // type: this.webservice?.type,
       // datePublished: this.webservice?.datePublished,
       dateModified: this.webservice?.dateModified,
       changeComment: this.webservice?.changeComment,
@@ -452,5 +463,16 @@ export class WebserviceFormDetailsComponent implements OnInit {
       return type + '((' + value + '))';
     }
     return type + '(' + value + ')';
+  }
+
+  private getTemporalExtent(type = 'startDate'): Date | undefined | null {
+    const temporalExtent = this.webservice?.temporalExtent;
+    if (temporalExtent !== undefined && temporalExtent.length > 0) {
+      if (type === 'startDate') {
+        return temporalExtent[0].startDate;
+      }
+      return temporalExtent[0].endDate;
+    }
+    return null;
   }
 }

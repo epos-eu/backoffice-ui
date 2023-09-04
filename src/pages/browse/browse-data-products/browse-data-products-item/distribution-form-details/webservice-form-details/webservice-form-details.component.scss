@@ -1,5 +1,17 @@
 @import 'src/styles/_theme.scss';
 
+.fields-flex-col {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.fields-flex-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 button {
   margin-top: 1rem;
 }

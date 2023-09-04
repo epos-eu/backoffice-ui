@@ -289,41 +289,87 @@
           </div>
         </mat-expansion-panel>
       </div>
-      <ng-container *ngIf="webservice.temporalExtent && webservice.temporalExtent.length > 0">
-        <mat-label class="heading">Temporal extent</mat-label>
-        <ng-container *ngFor="let item of webservice.temporalExtent">
-          <mat-form-field
-            appearance="outline"
-            [floatLabel]="floatLabelControl.value"
-            [style.width.%]="96"
-            class="indent"
-          >
-            <mat-label>Start date</mat-label>
-            <input
-              matInput
-              placeholder="Start date"
-              name="temporalExtent.startDate"
-              [value]="item.startDate"
-              readonly
-            />
-          </mat-form-field>
-          <mat-form-field
-            appearance="outline"
-            [floatLabel]="floatLabelControl.value"
-            [style.width.%]="96"
-            class="indent"
-          >
-            <mat-label>End date</mat-label>
-            <input
-              matInput
-              placeholder="End date"
-              name="temporalExtent.endDate"
-              [value]="item.endDate"
-              readonly
-            />
-          </mat-form-field>
-        </ng-container>
-      </ng-container>
+
+      <div class="expansion-wrapper">
+        <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#temporalcoverage' }">
+            <mat-panel-title>Temporal Coverage</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="expansion-content-wrapper">
+            <div class="fields-flex-col">
+              <mat-form-field appearance="fill">
+                <mat-label>Start date</mat-label>
+                <input
+                  matInput
+                  [ngxMatDatetimePicker]="pickerStartDate"
+                  placeholder="Choose a date & time"
+                  formControlName="temporalExtentStartDate"
+                />
+
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="$any(pickerStartDate)"
+                ></mat-datepicker-toggle>
+
+                <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>End date</mat-label>
+                <input
+                  matInput
+                  [ngxMatDatetimePicker]="pickerEndDate"
+                  placeholder="Choose a date & time"
+                  formControlName="temporalExtentEndDate"
+                />
+
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="$any(pickerEndDate)"
+                ></mat-datepicker-toggle>
+
+                <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="expansion-content-wrapper">
+            <ng-container>
+              <div class="fields-flex-row">
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Update frequency</mat-label>
+                  <mat-select formControlName="accrualPeriodicity">
+                    <mat-option
+                      *ngFor="let item of accrualPeriodicityOptions"
+                      [value]="item.id"
+                    >
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Type</mat-label>
+                  <mat-select formControlName="type">
+                    <mat-option
+                      *ngFor="let item of typeOptions"
+                      [value]="item.id"
+                      >{{ item.name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
       <input
         matInput
         placeholder="Instance ID"
