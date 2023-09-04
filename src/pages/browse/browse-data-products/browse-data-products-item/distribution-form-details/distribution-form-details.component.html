@@ -154,34 +154,59 @@
       *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'"
       class="expansion-wrapper"
     >
-      <app-anchor-navigation
-        [identifier]="'#distaccessiblewebservice' + accessService.instanceId ? accessService.instanceId : ''"
-      ></app-anchor-navigation>
-      <mat-expansion-panel
-        [expanded]="true"
-        class="web-service"
-      >
-        <mat-expansion-panel-header
-          [ngClass]="{ active: selectedSection === '#distaccessiblewebservice' + accessService.instanceId }"
+      <div *ngIf="null != accessService">
+        <app-anchor-navigation
+          [identifier]="'#distaccessiblewebservice' + accessService.instanceId"
+        ></app-anchor-navigation>
+        <mat-expansion-panel
+          [expanded]="true"
+          class="web-service"
         >
-          <mat-panel-title>Web Service</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="expansion-content-wrapper">
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="newWebservice()"
-            [hidden]="accessService"
+          <mat-expansion-panel-header
+            [ngClass]="{
+              active: selectedSection === '#distaccessiblewebservice' + accessService.instanceId
+            }"
           >
-            New Web Service
-          </button>
-          <app-webservice-form-details
-            [accessService]="accessService"
-            [parentId]="instanceId"
-            [metaId]="metaId"
-          ></app-webservice-form-details>
-        </div>
-      </mat-expansion-panel>
+            <mat-panel-title>Web Service</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="expansion-content-wrapper">
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="newWebservice()"
+              [hidden]="accessService"
+            >
+              New Web Service
+            </button>
+            <app-webservice-form-details
+              [accessService]="accessService"
+              [parentId]="instanceId"
+              [metaId]="metaId"
+            ></app-webservice-form-details>
+          </div>
+        </mat-expansion-panel>
+      </div>
+
+      <div *ngIf="null == accessService">
+        <mat-expansion-panel
+          [expanded]="true"
+          class="web-service"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>Web Service</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="expansion-content-wrapper">
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="newWebservice()"
+              [hidden]="accessService"
+            >
+              New Web Service
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </div>
     </div>
     <div class="actions">
       <button

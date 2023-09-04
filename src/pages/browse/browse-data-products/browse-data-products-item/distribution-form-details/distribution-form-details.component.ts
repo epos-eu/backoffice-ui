@@ -16,6 +16,7 @@ import { State } from 'src/utility/enums/state.enum';
 import { FormatTypes } from './formats';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 
 @Component({
   selector: 'app-distribution-form-details',
@@ -218,6 +219,11 @@ export class DistributionFormDetailsComponent {
           metaId: value.metaId,
         };
         this.accessService = entityDetail;
+        const distribution = this.operationsService.getActiveDistributionValue();
+        if (null != distribution) {
+          distribution.accessService = this.accessService;
+          this.operationsService.setActiveDistribution(distribution);
+        }
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [

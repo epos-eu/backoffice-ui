@@ -55,7 +55,6 @@
         </mat-expansion-panel-header>
         <div class="expansion-content-wrapper">
           <app-contact-point-form-details
-            *ngIf="contactPointDetails.length > 0"
             [contactPointDetails]="contactPointDetails"
             (contactPointDetailsUpdated)="updateContactPointArray($event)"
             [showSaveFormNotify]="contactPointShowSaveNotify"
@@ -102,7 +101,7 @@
           formControlName="license"
         />
       </mat-form-field -->
-      <ng-container *ngIf="webservice.supportedOperation && webservice.supportedOperation.length > 0">
+      <ng-container>
         <app-anchor-navigation [identifier]="'#wssupportedoperation' + instanceId"></app-anchor-navigation>
         <mat-expansion-panel
           [expanded]="false"
@@ -196,26 +195,100 @@
           </div>
         </mat-expansion-panel>
       </ng-container>
-      <ng-container *ngIf="webservice.spatialExtent && webservice.spatialExtent.length > 0">
-        <mat-label class="heading">Spatial extent</mat-label>
-        <ng-container *ngFor="let item of webservice.spatialExtent">
-          <mat-form-field
-            appearance="outline"
-            [floatLabel]="floatLabelControl.value"
-            [style.width.%]="96"
-            class="indent"
-          >
-            <mat-label>Location</mat-label>
-            <input
-              matInput
-              placeholder="Location"
-              name="temporalExtent.location"
-              [value]="item.location"
-              readonly
-            />
-          </mat-form-field>
-        </ng-container>
-      </ng-container>
+
+      <div class="expansion-wrapper">
+        <!-- <app-anchor-navigation [identifier]="'#wsspatialcoverage' + instanceId"></app-anchor-navigation> -->
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#wsspatialcoverage' + instanceId }">
+            <mat-panel-title>Spatial Coverage</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="expansion-content-wrapper">
+            <ng-container formArrayName="spatialExtentGroup">
+              <ng-container
+                *ngFor="let item of webservice.spatialExtent; let i = index"
+                formGroupName="{{ i }}"
+              >
+                <div class="spatial-item">
+                  <div
+                    class="spatial-type"
+                    [style.width.%]="20"
+                  >
+                    <mat-radio-group
+                      aria-label="Select an option"
+                      formControlName="type"
+                    >
+                      <mat-radio-button [value]="spatialCoveragePolygon">Polygon</mat-radio-button>
+                      <mat-radio-button [value]="spatialCoveragePoint">Point</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div
+                    class="spatial-coverage-input"
+                    [style.width.%]="50"
+                  >
+                    <mat-form-field
+                      appearance="fill"
+                      [floatLabel]="floatLabelControl.value"
+                      [style.width.%]="96"
+                      class="indent"
+                    >
+                      <mat-label>{{ labelSpatialCoverage[i] }}</mat-label>
+                      <input
+                        matInput
+                        placeholder="Coordinates"
+                        name="item.location"
+                        [value]="spatialCoverageInput[i]"
+                        formControlName="coord"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div
+                    class="spatial-coverage-input"
+                    [style.width.%]="20"
+                  >
+                    <button
+                      mat-mini-fab
+                      color="error"
+                      aria-label="delete location"
+                      matTooltip="delete location"
+                      (click)="deleteSpatialCoverage(i)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <div class="spatial-coverage-actions">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="newSpatialCoverage()"
+                >
+                  Add Spatial Coverage
+                </button>
+              </div>
+
+              <div
+                class="spatial-coverage-map-wrapper"
+                *ngIf="webservice.spatialExtent && webservice.spatialExtent.length > 0"
+              >
+                <app-spatial-coverage-map
+                  [spatialRange]="spatialCoverageInput"
+                  [coordinatesChange]="spatialCoverageChange"
+                >
+                </app-spatial-coverage-map>
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="refreshPointsOnMap()"
+                >
+                  Refresh the map
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </mat-expansion-panel>
+      </div>
       <ng-container *ngIf="webservice.temporalExtent && webservice.temporalExtent.length > 0">
         <mat-label class="heading">Temporal extent</mat-label>
         <ng-container *ngFor="let item of webservice.temporalExtent">

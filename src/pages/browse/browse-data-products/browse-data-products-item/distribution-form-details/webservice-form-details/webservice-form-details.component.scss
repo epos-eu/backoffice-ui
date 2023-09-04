@@ -62,3 +62,46 @@ button {
     }
   }
 }
+
+.mat-expansion-panel {
+  margin: 1em 0em 1em 0em;
+  // width: 97%;
+}
+
+.spatial-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.mat-radio-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.identifier-item {
+  margin-bottom: 0.5rem;
+}
+
+.expansion-wrapper {
+  margin-top: -1rem;
+}
+
+.spatial-coverage-input {
+  display: flex;
+  align-items: center;
+  button {
+    margin-left: 1em;
+  }
+}
+
+.spatial-coverage-map-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+.spatial-coverage-actions {
+  margin-bottom: 1em;
+}

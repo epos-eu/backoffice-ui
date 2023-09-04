@@ -22,7 +22,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
   @Input() showSaveFormNotify = false;
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<EntityDetail>>();
 
-  public showContactPointForm = false;
+  public showContactPointForm = true;
   private contactPointArraySource: BehaviorSubject<Array<ContactPointDetailDataSource>> = new BehaviorSubject<
     Array<ContactPointDetailDataSource>
   >([]);
