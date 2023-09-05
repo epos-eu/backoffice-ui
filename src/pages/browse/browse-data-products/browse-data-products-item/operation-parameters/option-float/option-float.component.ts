@@ -31,7 +31,7 @@ export class OptionFloatComponent implements OnInit {
       label: new FormControl(this.param.label, Validators.required),
       required: [this.checkBool(this.param.required)],
       readOnlyValue: [this.checkBool(this.param.readOnlyValue)],
-      allowedValues: [this.param.paramValue.length > 0 ? 'controlled' : 'any'],
+      allowedValues: [this.checkAllowedValues(this.param)],
       defaultValue: [this.param.defaultValue],
       minValue: [this.param.minValue],
       maxValue: [this.param.maxValue],
@@ -62,5 +62,14 @@ export class OptionFloatComponent implements OnInit {
 
   public getControls(field: string) {
     return (this.form.get(field) as FormArray).controls;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public checkAllowedValues(param: any): string {
+    if (param.paramValue) {
+      return param.paramValue.length > 0 ? 'controlled' : 'any';
+    } else {
+      return 'any';
+    }
   }
 }
