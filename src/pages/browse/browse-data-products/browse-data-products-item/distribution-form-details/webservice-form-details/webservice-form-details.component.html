@@ -9,13 +9,13 @@
         [floatLabel]="floatLabelControl.value"
         [style.width.%]="100"
       >
-        <mat-label>Description</mat-label>
-        <textarea
+        <mat-label>Title</mat-label>
+        <input
           matInput
-          name="description"
+          name="title"
           [ngStyle]="{ 'line-height': '1.4' }"
-          formControlName="description"
-        ></textarea>
+          formControlName="name"
+        />
       </mat-form-field>
 
       <mat-form-field
@@ -38,6 +38,7 @@
           [(ngModel)]="selectedServiceProvider"
           [ngModelOptions]="{ standalone: true }"
           [compareWith]="compareWithFn"
+          (selectionChange)="updateServicePoint()"
         >
           <mat-option
             *ngFor="let provider of serviceProviders"
@@ -62,45 +63,6 @@
         </div>
       </mat-expansion-panel>
 
-      <!-- mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="100"
-      >
-        <mat-label>Entry point</mat-label>
-        <input
-          matInput
-          placeholder="Entry point"
-          name="entryPoint"
-          formControlName="entryPoint"
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="100"
-      >
-        <mat-label>Keywords</mat-label>
-        <input
-          matInput
-          placeholder="Keywords"
-          name="keywords"
-          formControlName="keywords"
-        />
-      </mat-form-field>
-      <mat-form-field
-        appearance="outline"
-        [floatLabel]="floatLabelControl.value"
-        [style.width.%]="100"
-      >
-        <mat-label>License</mat-label>
-        <input
-          matInput
-          placeholder="License"
-          name="license"
-          formControlName="license"
-        />
-      </mat-form-field -->
       <ng-container>
         <app-anchor-navigation [identifier]="'#wssupportedoperation' + instanceId"></app-anchor-navigation>
         <mat-expansion-panel
@@ -333,7 +295,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="expansion-content-wrapper">
+          <!-- <div class="expansion-content-wrapper">
             <ng-container>
               <div class="fields-flex-row">
                 <mat-form-field
@@ -366,7 +328,7 @@
                 </mat-form-field>
               </div>
             </ng-container>
-          </div>
+          </div> -->
         </mat-expansion-panel>
       </div>
 

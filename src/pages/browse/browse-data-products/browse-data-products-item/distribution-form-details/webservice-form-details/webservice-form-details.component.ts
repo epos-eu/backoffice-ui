@@ -1,10 +1,8 @@
 import { Component, ElementRef, Input, QueryList, ViewChildren, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ReplaySubject, Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
@@ -15,7 +13,6 @@ import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.c
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { OperationsService } from 'src/services/operations.service';
-import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
@@ -23,6 +20,7 @@ import { SpatialGroup } from '../../browse-data-products-item.component';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -36,7 +34,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       this.initData(webserviceDetails.instanceId);
     }
   }
-  @Input() parentId = '';
+  @Input() parentEntity?: EntityDetail;
   @Input() metaId!: string;
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
@@ -49,7 +47,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public form!: UntypedFormGroup;
   public serviceProviders: Array<OrganizationDataSource> = [];
   public serviceProvidersLoading = false;
-  public selectedServiceProvider: EntityDetail | null = null;
+  public selectedServiceProvider: OrganizationDataSource | undefined;
   public contactPointDetails: Array<EntityDetail> = [];
   public contactPointShowSaveNotify = false;
   public operation!: Operation | undefined;
@@ -104,8 +102,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
     // this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
   }
   ngOnInit(): void {
-    this.handleServiceProviders();
-
     this.explorerService.gotoObs.subscribe((obs) => {
       this.selectedSection = obs;
     });
@@ -129,8 +125,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
           this.webservice = data.shift();
           if (this.webservice) {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
+            this.handleServiceProviders(this.webservice);
             this.setSpatialCoverageVariables();
-            this.selectedServiceProvider = this.webservice?.provider ?? null;
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
             if (this.webservice && this.webservice.instanceId) {
               this.trackFormData();
@@ -154,31 +150,40 @@ export class WebserviceFormDetailsComponent implements OnInit {
     this.form = this.formBuilder.group({
       instanceId: this.webservice?.instanceId as string,
       metaId: this.webservice?.metaId,
+      name: this.webservice?.name,
       description: this.webservice?.description,
       documentation: this.getDocumentation(),
       spatialExtentGroup: this.createLocationCtrls(),
       temporalExtentStartDate: this.getTemporalExtent('startDate'),
       temporalExtentEndDate: this.getTemporalExtent('endDate'),
-      // accrualPeriodicity: this.webservice?.accrualPeriodicity,
-      // type: this.webservice?.type,
-      // datePublished: this.webservice?.datePublished,
       dateModified: this.webservice?.dateModified,
       changeComment: this.webservice?.changeComment,
       changeTimestamp: this.webservice?.changeTimestamp,
-      // identifier: this.webservice?.identifier,
       entryPoint: this.webservice?.entryPoint,
       keywords: HelpersService.whiteSpaceReplace(this.webservice?.keywords),
-      // supportedOperation: this.webservice?.supportedOperation,
-      // temporalExtent: this.webservice?.temporalExtent,
       license: this.webservice?.license,
     });
 
-    this.explorerService.setFormSection('#distaccessible' + this.parentId, this.formTree, false, this.instanceId);
+    this.explorerService.setFormSection(
+      '#distaccessible' + this.parentEntity?.instanceId,
+      this.formTree,
+      false,
+      this.instanceId,
+    );
 
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveWebServiceValue();
       if (updatingObject) {
+        updatingObject.name = changes['name'];
         updatingObject.description = changes['description'];
+        updatingObject.spatialExtent = this.formatLocationFromStringToObject(changes['spatialExtentGroup']);
+        updatingObject.temporalExtent = [
+          {
+            startDate: this.getDate(changes['temporalExtentStartDate']),
+            endDate: this.getDate(changes['temporalExtentEndDate']),
+          },
+        ];
+        // updatingObject.distribution = [this.parentEntity as EntityDetail];
         this.operationsService.setActiveWebService(updatingObject);
       }
     });
@@ -190,26 +195,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
   public handleSave() {
     this.operationsService.handleWebserviceSave();
-    // this.apiService.endpoints.Webservice.update
-    //   .call(this.form.value as WebService)
-    //   .then((data: WebserviceDetailDataSource) => {
-    //     const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
-    //     if (localStorage !== null) {
-    //       const entityDetail: EntityDetail = {
-    //         entityType: 'webservice',
-    //         metaId: data.metaId,
-    //         uid: data.uid,
-    //         instanceId: data.instanceId,
-    //       };
-    //       const formData: DataProduct = JSON.parse(localStorage);
-    //       formData.distribution?.push(entityDetail);
-    //       this.persistorService.setValueInStorage(
-    //         StorageType.LOCAL_STORAGE,
-    //         StorageKey.FORM_DATA,
-    //         JSON.stringify(formData),
-    //       );
-    //     }
-    //   });
   }
 
   public handleDelete(): void {
@@ -264,22 +249,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     );
   }
 
-  /* public handleServiceProviderChange(event: Array<OrganizationDataSource>): void {
-    const mapped = event.map((item: OrganizationDataSource) => {
-      return {
-        uid: item.uid,
-        metaId: item.metaId,
-        instanceId: item.instanceId,
-        entityType: '',
-      };
-    });
-    mapped.forEach((provider: EntityDetail) => {
-      if (this.webservice) {
-        this.webservice.provider = provider;
-      }
-    });
-  } */
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public compareWithFn(optionOne: any, optionTwo: any): boolean {
     if (optionOne.metaId === optionTwo.metaId) {
       return true;
@@ -288,16 +258,42 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {
+    const webservice = this.operationsService.getActiveWebServiceValue();
     this.contactPointDetails = newContactPointDetails;
+    if (null != webservice) {
+      webservice.contactPoint = this.contactPointDetails;
+      this.operationsService.setActiveWebService(webservice);
+    }
 
     // inform user that he has to save entire form
     this.contactPointShowSaveNotify = true;
   }
 
-  private handleServiceProviders(): void {
+  public updateServicePoint() {
+    const webservice = this.operationsService.getActiveWebServiceValue();
+    console.debug(this.selectedServiceProvider);
+    if (null != webservice && null != this.selectedServiceProvider) {
+      const serviceProviderEntityDetail: EntityDetail = {
+        entityType: Entity.ORGANIZATION,
+        instanceId: this.selectedServiceProvider.instanceId,
+        uid: this.selectedServiceProvider.uid,
+        metaId: this.selectedServiceProvider.metaId,
+      };
+      webservice.provider = serviceProviderEntityDetail;
+      this.operationsService.setActiveWebService(webservice);
+      console.debug(this.operationsService.getActiveWebServiceValue());
+    }
+  }
+
+  private handleServiceProviders(webservice: WebserviceDetailDataSource): void {
     if (this.serviceProviders.length === 0) {
       this.serviceProvidersLoading = true;
       this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
+        if (webservice.provider) {
+          this.selectedServiceProvider = response.find(
+            (value: OrganizationDataSource) => value.uid === webservice.provider.uid,
+          );
+        }
         this.serviceProviders = response;
         this.serviceProvidersLoading = false;
       });
@@ -316,6 +312,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
    * search operation. It could be an input event, keyup event, or any other event that is used to
    * capture user input.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public supportedOperationSearch(event: any): void {
     const value = event.target.value;
     if (value.length > 1) {
@@ -474,5 +471,13 @@ export class WebserviceFormDetailsComponent implements OnInit {
       return temporalExtent[0].endDate;
     }
     return null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private getDate(val: string | Date): any {
+    if (val === null) {
+      return '';
+    }
+    return moment.isMoment(val) ? val.toISOString() : (val as string);
   }
 }

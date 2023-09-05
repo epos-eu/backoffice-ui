@@ -16,7 +16,6 @@ import { State } from 'src/utility/enums/state.enum';
 import { FormatTypes } from './formats';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 
 @Component({
   selector: 'app-distribution-form-details',
@@ -28,6 +27,7 @@ export class DistributionFormDetailsComponent {
     if (null != details) {
       this.initData(details.instanceId);
       this.instanceId = details.instanceId;
+      this.entityDetails = details;
     }
   }
   @Input() metaId!: string;
@@ -38,6 +38,7 @@ export class DistributionFormDetailsComponent {
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
   public accessService!: EntityDetail;
+  public entityDetails?: EntityDetail;
 
   public dataProductAccessibility?: string;
   public dataProductAccessibilityOptions: string[] = ['download', 'webservice'];

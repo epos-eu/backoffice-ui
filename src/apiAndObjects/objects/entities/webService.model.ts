@@ -2,7 +2,6 @@ import { State } from 'src/utility/enums/state.enum';
 import { Documentation } from '../types/documentation.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
-import { Distribution } from './distribution.model';
 import { EntityDetail } from '../types/entityDetail.type';
 
 export class WebService {
@@ -16,7 +15,7 @@ export class WebService {
     public dateModified?: Date,
     public datePublished?: Date,
     public description?: string,
-    public distribution?: Array<Distribution>,
+    public distribution?: Array<EntityDetail>,
     public documentation?: Array<Documentation>,
     public editorId?: string,
     public entryPoint?: string,
