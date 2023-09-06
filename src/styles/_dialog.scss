@@ -133,30 +133,30 @@ app-dialog {
   }
 }
 
-// .mat-mdc-text-field-wrapper {
-//   height: 40px !important;
-// }
-
 .mdc-dialog__actions {
   padding: 16px !important;
 }
 
 .dialog-submit {
   .mat-mdc-dialog-container {
-    height: 315px;
-    padding: 2rem 1.5rem !important;
+    padding: 0 !important;
 
     h1 {
       margin-bottom: 0;
     }
 
     p {
-      margin-top: 0.25rem;
+      margin-top: 0;
+      font-size: 14px;
     }
 
     form {
       margin-top: 2rem;
     }
+  }
+
+  .mat-mdc-dialog-content {
+    padding-bottom: 0 !important;
   }
 
   app-dialog-submit {

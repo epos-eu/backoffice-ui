@@ -35,12 +35,27 @@ export class ContactPointFormDetailsComponent implements OnInit {
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
 
   public loading = true;
+  public showFrom = false;
 
   constructor(private apiService: ApiService, private snackbarService: SnackbarService) {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
   }
 
   ngOnInit(): void {
+    this.apiService.endpoints.Person.getAll
+      .call()
+      .then((data: Array<PersonDataSource>) => {
+        this.personFromCatalog = data;
+        this.showContactPointForm = true;
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
+
     if (this.contactPointDetails.length > 0) {
       this.initData();
     }
@@ -160,27 +175,10 @@ export class ContactPointFormDetailsComponent implements OnInit {
         this.initData();
 
         // close edit format
-        this.showContactPointForm = false;
+        this.showContactPointForm = true;
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to add new Contact Point.`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
-  }
-
-  public newContactPoint() {
-    this.showContactPointForm = true;
-
-    this.apiService.endpoints.Person.getAll
-      .call()
-      .then((data: Array<PersonDataSource>) => {
-        this.personFromCatalog = data;
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to request Contact Point entities.`, 'close', 'error', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
