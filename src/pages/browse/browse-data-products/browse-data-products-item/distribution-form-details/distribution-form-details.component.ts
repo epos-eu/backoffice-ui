@@ -27,6 +27,7 @@ export class DistributionFormDetailsComponent {
     if (null != details) {
       this.initData(details.instanceId);
       this.instanceId = details.instanceId;
+      this.entityDetails = details;
     }
   }
   @Input() metaId!: string;
@@ -37,6 +38,7 @@ export class DistributionFormDetailsComponent {
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
   public accessService!: EntityDetail;
+  public entityDetails?: EntityDetail;
 
   public dataProductAccessibility?: string;
   public dataProductAccessibilityOptions: string[] = ['download', 'webservice'];
@@ -187,7 +189,14 @@ export class DistributionFormDetailsComponent {
   }
 
   public newWebservice() {
+    const relatedDistribution: EntityDetail = {
+      entityType: Entity.DISTRIBUTION,
+      instanceId: this.distribution?.instanceId as string,
+      uid: this.distribution?.uid as string,
+      metaId: this.distribution?.metaId as string,
+    };
     const item: WebService = {
+      distribution: [relatedDistribution],
       uid: 'new webservice',
       dateModified: new Date(),
     };
@@ -218,6 +227,11 @@ export class DistributionFormDetailsComponent {
           metaId: value.metaId,
         };
         this.accessService = entityDetail;
+        const distribution = this.operationsService.getActiveDistributionValue();
+        if (null != distribution) {
+          distribution.accessService = this.accessService;
+          this.operationsService.setActiveDistribution(distribution);
+        }
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [

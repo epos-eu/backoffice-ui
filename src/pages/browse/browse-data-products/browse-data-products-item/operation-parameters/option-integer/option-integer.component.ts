@@ -33,7 +33,7 @@ export class OptionIntegerComponent implements OnInit {
       label: new FormControl(this.param.label, Validators.required),
       required: [this.checkBool(this.param.required)],
       readOnlyValue: [this.checkBool(this.param.readOnlyValue)],
-      allowedValues: [this.param.paramValue.length > 0 ? 'controlled' : 'any'],
+      allowedValues: [this.checkAllowedValues(this.param)],
       defaultValue: [this.param.defaultValue],
       minValue: [this.param.minValue],
       maxValue: [this.param.maxValue],
@@ -90,6 +90,15 @@ export class OptionIntegerComponent implements OnInit {
     const clickedIndex = Number(event.source._elementRef.nativeElement.id);
     if (event.checked === true) {
       this.clickedIndex = clickedIndex;
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public checkAllowedValues(param: any): string {
+    if (param.paramValue) {
+      return param.paramValue.length > 0 ? 'controlled' : 'any';
+    } else {
+      return 'any';
     }
   }
 }

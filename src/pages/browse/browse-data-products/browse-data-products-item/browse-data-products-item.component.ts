@@ -94,6 +94,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public createdValue: string | null = null;
   public modifiedValue: string | null = null;
   public metaId!: string;
+  public entityEnum = Entity;
 
   private formTree: FormTree = {
     id: '#dataproduct',
@@ -322,6 +323,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.uid = changes['uid'];
           updatingObject.title = [changes['title']];
           updatingObject.description = [changes['description']];
+          updatingObject.keywords = changes['keywords'];
           updatingObject.versionInfo = changes['versionInfo'];
           updatingObject.spatialExtent = this.formatLocationFromStringToObject(changes['spatialExtentGroup']);
 

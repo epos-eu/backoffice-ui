@@ -27,7 +27,18 @@
     *ngIf="showSaveFormNotify"
   >
     <mat-icon>warning</mat-icon>
-    <span color="warning"> Please click 'Save' in the left-hand panel after making this change</span>
+    <span
+      color="warning"
+      *ngIf="relevantEntity === entityEnum.DATA_PRODUCT"
+    >
+      Please click 'Save' in the left-hand panel after making this change</span
+    >
+    <span
+      color="warning"
+      *ngIf="relevantEntity === entityEnum.WEBSERVICE"
+    >
+      Please click 'Save Web Service' at the bottom of the menu after making this change</span
+    >
   </div>
 </div>
 

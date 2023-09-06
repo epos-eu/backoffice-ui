@@ -1,6 +1,5 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { State } from 'src/utility/enums/state.enum';
-import { Distribution } from '../entities/distribution.model';
 import { Documentation } from '../types/documentation.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
@@ -48,7 +47,7 @@ export class WebserviceDetailDataSource extends BaseObject {
   public readonly dateModified: Date;
   public readonly datePublished: Date;
   public readonly description: string;
-  public readonly distribution: Array<Distribution>;
+  public readonly distribution: Array<EntityDetail>;
   public readonly documentation: Array<Documentation>;
   public readonly editorId: string;
   public readonly entryPoint: string;
