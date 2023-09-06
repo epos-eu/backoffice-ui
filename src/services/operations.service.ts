@@ -603,7 +603,6 @@ export class OperationsService {
 
   public handleOperationSave(): void {
     const operationData = this.getActiveOperationValue();
-    console.debug(operationData);
     if (operationData !== null) {
       this.apiService.endpoints[Entity.OPERATION].update
         .call({

@@ -283,7 +283,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
   public updateServicePoint() {
     const webservice = this.operationsService.getActiveWebServiceValue();
-    console.debug(this.selectedServiceProvider);
     if (null != webservice && null != this.selectedServiceProvider) {
       const serviceProviderEntityDetail: EntityDetail = {
         entityType: Entity.ORGANIZATION,
@@ -293,7 +292,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
       };
       webservice.provider = serviceProviderEntityDetail;
       this.operationsService.setActiveWebService(webservice);
-      console.debug(this.operationsService.getActiveWebServiceValue());
     }
   }
 
