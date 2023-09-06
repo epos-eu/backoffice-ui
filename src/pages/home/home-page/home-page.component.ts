@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { State } from 'src/utility/enums/state.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -49,15 +50,18 @@ export class HomePageComponent implements OnInit {
     },
   ];
 
-  constructor(private readonly activeUserService: ActiveUserService, private actionsService: ActionsService) {
+  constructor(
+    private readonly activeUserService: ActiveUserService,
+    private actionsService: ActionsService,
+    private router: Router,
+  ) {}
+
+  ngOnInit(): void {
     this.subscriptions.push(
       this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserBackofficeInfo | null) => {
         this.userInfo = userInfo as UserBackofficeInfo;
       }),
     );
-  }
-
-  ngOnInit(): void {
     this.actionsService.initEditedItems();
     this.actionsService.editedItemsObservable.subscribe((editedItems: Array<IChangeItem>) => {
       this.getCounts(editedItems);

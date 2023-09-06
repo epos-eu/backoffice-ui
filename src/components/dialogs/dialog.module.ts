@@ -6,7 +6,6 @@ import { DialogAddContactComponent } from './dialog-add-contact/dialog-add-conta
 import { MetadataFileViewComponent } from './metadata-file-view/metadata-file-view.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { RevisionsComponent } from './revisions/revisions.component';
-import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +21,6 @@ import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialo
     DialogAddContactComponent,
     MetadataFileViewComponent,
     RevisionsComponent,
-    DialogLoginComponent,
     UserPermissionsComponent,
     DialogSubmitDraftComponent,
     WebserviceAddOperationComponent,
