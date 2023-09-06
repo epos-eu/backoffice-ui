@@ -12,6 +12,8 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { OperationsService } from 'src/services/operations.service';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -26,6 +28,8 @@ export class EditNavigationComponent implements OnInit {
     public actionsService: ActionsService,
     private operationsService: OperationsService,
     private router: Router,
+    private apiService: ApiService,
+    private snackbarService: SnackbarService,
   ) {}
 
   private activeEntity = '';
@@ -76,7 +80,42 @@ export class EditNavigationComponent implements OnInit {
     }
   }
 
-  public handleSubmit(): void {
+  public handleSubmitPublish(): void {
+    const dialogRef = this.dialog.open(DialogSubmitDraftComponent, {
+      panelClass: 'dialog-submit',
+    });
+    this.dialogService.setRef(dialogRef);
+  }
+
+  private handleChangeDataProductState(instanceId: string, state: State) {
+    this.apiService.endpoints[Entity.DATA_PRODUCT].updateState
+      .call({
+        instanceId: instanceId,
+        justThisOne: true,
+        state: state,
+      })
+      .then(() => {
+        this.actionsService.submitCurrentEdit(this.currentEdit.id);
+        this.snackbarService.openSnackbar('New draft submitted successfully', 'Close', 'success', 5000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.snackbarService.openSnackbar('Error submitted draft, please try again later.', 'Close', 'error', 5000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      })
+      .finally(() => {
+        this.dialogService.closeDialog();
+      });
+  }
+
+  public handlePublish(): void {
     const dialogRef = this.dialog.open(DialogSubmitDraftComponent, {
       panelClass: 'dialog-submit',
     });

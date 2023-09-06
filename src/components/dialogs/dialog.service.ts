@@ -19,6 +19,7 @@ import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
+import { ConfirmDialogComponent, ConfirmationDataIn } from './confirmDialog/confirmDialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +62,23 @@ export class DialogService extends BaseDialogService {
       width,
       height,
       panelClass,
+    });
+  }
+
+  public openConfirmationDialog(
+    messageHtml = 'Confirm action',
+    closable = false,
+    confirmButtonHtml = 'OK',
+    confirmButtonCssClass = 'confirm',
+    cancelButtonHtml = 'Cancel',
+  ): Promise<boolean> {
+    return this.openDialog('confirm', ConfirmDialogComponent, closable, {
+      messageHtml: messageHtml,
+      confirmButtonHtml: confirmButtonHtml,
+      cancelButtonHtml: cancelButtonHtml,
+      confirmButtonCssClass: confirmButtonCssClass,
+    } as ConfirmationDataIn).then((data: DialogData<ConfirmationDataIn>) => {
+      return null != data && data.dataOut;
     });
   }
 

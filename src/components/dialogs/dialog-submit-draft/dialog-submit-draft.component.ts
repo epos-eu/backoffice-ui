@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
@@ -14,6 +14,8 @@ import { State } from 'src/utility/enums/state.enum';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { OperationsService } from 'src/services/operations.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogData } from '../baseDialogService.abstract';
 
 @Component({
   selector: 'app-dialog-submit',
@@ -23,9 +25,9 @@ import { OperationsService } from 'src/services/operations.service';
 export class DialogSubmitDraftComponent implements OnInit {
   public comment = new FormControl('', [Validators.required]);
   public currentEdit!: IChangeItem;
-  private activeEntity = '';
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<unknown>,
     private persistorService: PersistorService,
     private apiService: ApiService,
     private dialogService: DialogService,
@@ -35,20 +37,21 @@ export class DialogSubmitDraftComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activeEntity = this.persistorService.getValueFromStorage(
-      StorageType.LOCAL_STORAGE,
-      StorageKey.ACTIVE_ENTITY,
-    ) as Entity;
+    console.debug(this.data);
+    // this.activeEntity = this.persistorService.getValueFromStorage(
+    //   StorageType.LOCAL_STORAGE,
+    //   StorageKey.ACTIVE_ENTITY,
+    // ) as Entity;
     this.actionsService.currentEditObservable.subscribe((edit) => {
       this.currentEdit = edit;
     });
   }
 
-  public handleSubmit(): void {
+  public handleChangeProductState(entity: Entity, instanceId: string, state: State): void {
     if (this.comment.valid) {
-      switch (this.activeEntity as Entity) {
+      switch (entity) {
         case Entity.DATA_PRODUCT: {
-          this.handleDataProductSubmit();
+          this.handleChangeDataProductState(instanceId, state);
           break;
         }
         case Entity.DISTRIBUTION: {
@@ -96,6 +99,34 @@ export class DialogSubmitDraftComponent implements OnInit {
           this.dialogService.closeDialog();
         });
     }
+  }
+
+  private handleChangeDataProductState(instanceId: string, state: State) {
+    this.apiService.endpoints[Entity.DATA_PRODUCT].updateState
+      .call({
+        instanceId: instanceId,
+        justThisOne: true,
+        state: state,
+      })
+      .then(() => {
+        this.actionsService.submitCurrentEdit(this.currentEdit.id);
+        this.snackbarService.openSnackbar('New draft submitted successfully', 'Close', 'success', 5000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.snackbarService.openSnackbar('Error submitted draft, please try again later.', 'Close', 'error', 5000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      })
+      .finally(() => {
+        this.dialogService.closeDialog();
+      });
   }
 
   private handleWebserviceSubmit() {

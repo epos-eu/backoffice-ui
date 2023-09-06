@@ -1,0 +1,19 @@
+<!-- <app-base-dialog [data]="data" [dialogTitle]="data.dataIn.messageHtml"> -->
+<div class="buttons-wrapper">
+  <button
+    class="cancel"
+    mat-flat-button
+    color="primary"
+    (click)="cancel()"
+    [innerHTML]="data.dataIn.cancelButtonHtml"
+  ></button>
+  <button
+    type="submit"
+    [ngClass]="data.dataIn.confirmButtonCssClass"
+    mat-flat-button
+    [color]="data.dataIn.confirmButtonCssClass"
+    (click)="confirm()"
+    [innerHTML]="data.dataIn.confirmButtonHtml"
+  ></button>
+</div>
+<!-- </app-base-dialog> -->
