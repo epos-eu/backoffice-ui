@@ -13,6 +13,7 @@ import { DialogSubmitDraftComponent } from './dialog-submit-draft/dialog-submit-
 import { ServicesModule } from 'src/services/services.module';
 import { WebserviceAddOperationComponent } from './webservice-add-operation/webservice-add-operation.component';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
+import { DataproductAddDistributionComponent } from './dataproduct-add-distribution/dataproduct-add-distribution.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialo
     DialogSubmitDraftComponent,
     WebserviceAddOperationComponent,
     DialogAddNewParameterComponent,
+    DataproductAddDistributionComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule, ServicesModule],
 })
