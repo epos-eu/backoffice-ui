@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { State } from 'src/utility/enums/state.enum';
-import { DialogSubmitDraftComponent } from 'src/components/dialogs/dialog-submit-draft/dialog-submit-draft.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
@@ -14,6 +13,7 @@ import { OperationsService } from 'src/services/operations.service';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -30,13 +30,18 @@ export class EditNavigationComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
-  ) {}
+  ) {
+    this.operationsService.dataProductObs.subscribe((dp: DataProduct | null) => {
+      this.activeDataProduct = dp;
+    });
+  }
 
   private activeEntity = '';
   public itemsExist = new BehaviorSubject<boolean>(false);
   public currentEdit!: IChangeItem;
   public state = State;
   public formEdited = false;
+  public activeDataProduct?: DataProduct | null;
 
   ngOnInit(): void {
     this.actionsService.initEditedItems();
@@ -80,14 +85,72 @@ export class EditNavigationComponent implements OnInit {
     }
   }
 
-  public handleSubmitPublish(): void {
-    const dialogRef = this.dialog.open(DialogSubmitDraftComponent, {
-      panelClass: 'dialog-submit',
-    });
-    this.dialogService.setRef(dialogRef);
+  public handleSubmit(): void {
+    const activeDataProduct = this.operationsService.getActiveDataProductValue();
+    this.dialogService
+      .openConfirmationDialog(`Are you sure you'd like to Submit this draft?`, false)
+      .then((accept: boolean) => {
+        if (accept) {
+          this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.SUBMITTED, true);
+        }
+      });
   }
 
-  private handleChangeDataProductState(instanceId: string, state: State) {
+  public handlePublish(): void {
+    const activeDataProduct = this.operationsService.getActiveDataProductValue();
+    this.dialogService
+      .openConfirmationDialog(`Are you sure you'd like to publish this submission?`, false)
+      .then((accept: boolean) => {
+        if (accept) {
+          this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.PUBLISHED, true);
+        }
+      });
+  }
+
+  public handleDiscard(): void {
+    const activeDataProduct = this.operationsService.getActiveDataProductValue();
+    this.dialogService
+      .openConfirmationDialog(`Are you sure you'd like to discard this submission?`, false)
+      .then((accept: boolean) => {
+        if (accept) {
+          this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.DISCARDED, true);
+        }
+      });
+  }
+
+  public handleArchive(): void {
+    const activeDataProduct = this.operationsService.getActiveDataProductValue();
+    this.dialogService
+      .openConfirmationDialog(`Are you sure you'd like to archive this published instance?`, false)
+      .then((accept: boolean) => {
+        if (accept) {
+          this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.DISCARDED, true);
+        }
+      });
+  }
+
+  private handleChangeDataProductState(instanceId: string, state: State, refresh = false) {
+    let message = '';
+
+    switch (state) {
+      case State.SUBMITTED: {
+        message = 'Draft submitted successfully';
+        break;
+      }
+      case State.PUBLISHED: {
+        message = 'Submission published successfully';
+        break;
+      }
+      case State.DISCARDED: {
+        message = 'Submission discarded successfully';
+        break;
+      }
+      case State.ARCHIVED: {
+        message = 'Published instance archived successfully';
+        break;
+      }
+    }
+
     this.apiService.endpoints[Entity.DATA_PRODUCT].updateState
       .call({
         instanceId: instanceId,
@@ -96,30 +159,25 @@ export class EditNavigationComponent implements OnInit {
       })
       .then(() => {
         this.actionsService.submitCurrentEdit(this.currentEdit.id);
-        this.snackbarService.openSnackbar('New draft submitted successfully', 'Close', 'success', 5000, [
+        this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
+        if (refresh) {
+          location.reload();
+        }
       })
       .catch((err) => {
         console.error(err);
-        this.snackbarService.openSnackbar('Error submitted draft, please try again later.', 'Close', 'error', 5000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]);
-      })
-      .finally(() => {
-        this.dialogService.closeDialog();
+        this.snackbarService.openSnackbar(
+          'Error changing the state of this Data Product, please try again later.',
+          'Close',
+          'error',
+          5000,
+          ['snackbar', 'mat-toolbar', 'snackbar-error'],
+        );
       });
-  }
-
-  public handlePublish(): void {
-    const dialogRef = this.dialog.open(DialogSubmitDraftComponent, {
-      panelClass: 'dialog-submit',
-    });
-    this.dialogService.setRef(dialogRef);
   }
 
   public checkForItems(): void {
@@ -136,9 +194,5 @@ export class EditNavigationComponent implements OnInit {
 
   public handleClick(id: string, route: EntityEndpointValue): void {
     this.router.navigate([`/browse/${route}/details`, id]);
-  }
-
-  public logDataProduct() {
-    console.debug(this.operationsService.getActiveDataProductValue());
   }
 }
