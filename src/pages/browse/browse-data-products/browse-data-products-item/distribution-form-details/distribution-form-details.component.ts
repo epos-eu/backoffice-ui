@@ -189,7 +189,14 @@ export class DistributionFormDetailsComponent {
   }
 
   public newWebservice() {
+    const relatedDistribution: EntityDetail = {
+      entityType: Entity.DISTRIBUTION,
+      instanceId: this.distribution?.instanceId as string,
+      uid: this.distribution?.uid as string,
+      metaId: this.distribution?.metaId as string,
+    };
     const item: WebService = {
+      distribution: [relatedDistribution],
       uid: 'new webservice',
       dateModified: new Date(),
     };

@@ -21,6 +21,21 @@
       <mat-form-field
         appearance="fill"
         [floatLabel]="floatLabelControl.value"
+      >
+        <mat-label>Description</mat-label>
+        <textarea
+          matInput
+          name="description"
+          [ngStyle]="{ 'line-height': '1.4' }"
+          formControlName="description"
+          [value]="webservice.description"
+          [disabled]="true"
+        ></textarea>
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="fill"
+        [floatLabel]="floatLabelControl.value"
         [style.width.%]="100"
       >
         <mat-label>API Documentation (URL)</mat-label>
@@ -158,9 +173,8 @@
         </mat-expansion-panel>
       </ng-container>
 
-      <div class="expansion-wrapper">
-        <!-- <app-anchor-navigation [identifier]="'#wsspatialcoverage' + instanceId"></app-anchor-navigation> -->
-        <mat-expansion-panel [expanded]="true">
+      <ng-container>
+        <mat-expansion-panel class="extent">
           <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#wsspatialcoverage' + instanceId }">
             <mat-panel-title>Spatial Coverage</mat-panel-title>
           </mat-expansion-panel-header>
@@ -250,11 +264,11 @@
             </ng-container>
           </div>
         </mat-expansion-panel>
-      </div>
+      </ng-container>
 
-      <div class="expansion-wrapper">
+      <ng-container>
         <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel class="extent">
           <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#temporalcoverage' }">
             <mat-panel-title>Temporal Coverage</mat-panel-title>
           </mat-expansion-panel-header>
@@ -295,42 +309,8 @@
               </mat-form-field>
             </div>
           </div>
-          <!-- <div class="expansion-content-wrapper">
-            <ng-container>
-              <div class="fields-flex-row">
-                <mat-form-field
-                  appearance="fill"
-                  [style.width.%]="50"
-                >
-                  <mat-label>Update frequency</mat-label>
-                  <mat-select formControlName="accrualPeriodicity">
-                    <mat-option
-                      *ngFor="let item of accrualPeriodicityOptions"
-                      [value]="item.id"
-                    >
-                      {{ item.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field
-                  appearance="fill"
-                  [style.width.%]="50"
-                >
-                  <mat-label>Type</mat-label>
-                  <mat-select formControlName="type">
-                    <mat-option
-                      *ngFor="let item of typeOptions"
-                      [value]="item.id"
-                      >{{ item.name }}</mat-option
-                    >
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </ng-container>
-          </div> -->
         </mat-expansion-panel>
-      </div>
+      </ng-container>
 
       <input
         matInput
