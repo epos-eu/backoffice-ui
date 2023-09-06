@@ -432,13 +432,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               this.updateDistributionArray(value);
               this.actionsService.enableSave();
             })
-            .catch(() =>
+            .catch((err) => {
+              console.error(err);
               this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
                 'snackbar',
                 'mat-toolbar',
                 'snackbar-error',
-              ]),
-            );
+              ]);
+            });
         }
       });
   }
