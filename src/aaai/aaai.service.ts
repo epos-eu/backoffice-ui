@@ -16,8 +16,7 @@ import { Router } from '@angular/router';
  */
 export class AaaiService {
   private readonly now = new Date();
-  // private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
-  private readonly logOutAfterInactivityPeriod = this.now.setMinutes(this.now.getMinutes() + 1);
+  private readonly logOutAfterInactivityPeriod = this.now.setHours(this.now.getHours() + 1);
   private readonly logoutTime = new Date(this.logOutAfterInactivityPeriod);
   private readonly persistorService = new PersistorService();
   private readonly router = new Router();
