@@ -122,6 +122,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         children: [],
       },
       {
+        id: '#frequencytype',
+        name: 'Frequency & Type',
+        children: [],
+      },
+      {
         id: '#persistentidentifier',
         name: 'Persistent Identifier',
         children: [],
