@@ -6,6 +6,7 @@ import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-sou
 import { PersonDataSource } from 'src/apiAndObjects/objects/data-source/personDataSource';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
+import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -20,6 +21,7 @@ import { State } from 'src/utility/enums/state.enum';
 export class ContactPointFormDetailsComponent implements OnInit {
   @Input() contactPointDetails: Array<EntityDetail> = [];
   @Input() showSaveFormNotify = false;
+  @Input() relevantEntity?: Entity;
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<EntityDetail>>();
 
   public showContactPointForm = true;
@@ -37,7 +39,13 @@ export class ContactPointFormDetailsComponent implements OnInit {
   public loading = true;
   public showFrom = false;
 
-  constructor(private apiService: ApiService, private snackbarService: SnackbarService) {
+  public entityEnum = Entity;
+
+  constructor(
+    private apiService: ApiService,
+    private snackbarService: SnackbarService,
+    private actionsService: ActionsService,
+  ) {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
   }
 
@@ -176,6 +184,10 @@ export class ContactPointFormDetailsComponent implements OnInit {
 
         // close edit format
         this.showContactPointForm = true;
+
+        if (this.relevantEntity === Entity.DATA_PRODUCT) {
+          this.actionsService.enableSave();
+        }
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to add new Contact Point.`, 'close', 'error', 6000, [

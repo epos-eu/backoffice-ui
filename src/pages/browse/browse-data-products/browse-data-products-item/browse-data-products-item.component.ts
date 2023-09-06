@@ -94,6 +94,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public createdValue: string | null = null;
   public modifiedValue: string | null = null;
   public metaId!: string;
+  public entityEnum = Entity;
 
   private formTree: FormTree = {
     id: '#dataproduct',

@@ -63,6 +63,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
   public typeOptions: Array<{ id: string; name: string }> = [];
+  public entityEnum = Entity;
 
   public instanceId = '';
   private formTree = {
