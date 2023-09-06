@@ -81,6 +81,18 @@ export class WebserviceFormDetailsComponent implements OnInit {
         children: [],
         expanded: false,
       },
+      {
+        id: '#wsspatialcoverage',
+        name: 'Spatial Coverage',
+        children: [],
+        expanded: false,
+      },
+      {
+        id: '#wstemporalcoverage',
+        name: 'Temporal Coverage',
+        children: [],
+        expanded: false,
+      },
     ],
     expanded: true,
   };

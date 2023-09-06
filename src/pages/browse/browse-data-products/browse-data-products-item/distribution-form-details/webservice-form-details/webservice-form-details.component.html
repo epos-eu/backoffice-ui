@@ -174,6 +174,7 @@
       </ng-container>
 
       <ng-container>
+        <app-anchor-navigation [identifier]="'#wsspatialcoverage' + instanceId"></app-anchor-navigation>
         <mat-expansion-panel class="extent">
           <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#wsspatialcoverage' + instanceId }">
             <mat-panel-title>Spatial Coverage</mat-panel-title>
@@ -267,9 +268,9 @@
       </ng-container>
 
       <ng-container>
-        <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
+        <app-anchor-navigation [identifier]="'#wstemporalcoverage' + instanceId"></app-anchor-navigation>
         <mat-expansion-panel class="extent">
-          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#temporalcoverage' }">
+          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#wstemporalcoverage' + instanceId }">
             <mat-panel-title>Temporal Coverage</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
