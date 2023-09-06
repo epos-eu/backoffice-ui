@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <h2 class="mat-dialog-title">Add webservice</h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>UID</mat-label>
+        <input
+          matInput
+          formControlName="uid"
+        />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions [align]="'end'">
+    <button
+      mat-stroked-button
+      (click)="handleClose()"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      cdkFocusInitial
+      color="primary"
+      [disabled]="form.invalid"
+      (click)="handleCreate()"
+    >
+      Create
+    </button>
+  </mat-dialog-actions>
+</div>

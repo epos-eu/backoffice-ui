@@ -14,6 +14,7 @@ import { ServicesModule } from 'src/services/services.module';
 import { WebserviceAddOperationComponent } from './webservice-add-operation/webservice-add-operation.component';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 import { DataproductAddDistributionComponent } from './dataproduct-add-distribution/dataproduct-add-distribution.component';
+import { DataproductAddWebserviceComponent } from './dataproduct-add-webservice/dataproduct-add-webservice.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { DataproductAddDistributionComponent } from './dataproduct-add-distribut
     WebserviceAddOperationComponent,
     DialogAddNewParameterComponent,
     DataproductAddDistributionComponent,
+    DataproductAddWebserviceComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule, ServicesModule],
 })
