@@ -296,10 +296,13 @@
               </div>
             </div>
           </mat-expansion-panel>
+        </div>
 
+        <div class="expansion-wrapper">
+          <app-anchor-navigation [identifier]="'#frequencytype'"></app-anchor-navigation>
           <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-              <mat-panel-title></mat-panel-title>
+            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#frequencytype' }">
+              <mat-panel-title>Update Frequency & Type</mat-panel-title>
             </mat-expansion-panel-header>
             <div class="expansion-content-wrapper">
               <ng-container>
@@ -372,8 +375,8 @@
           </mat-expansion-panel>
         </div>
 
-        <app-anchor-navigation [identifier]="'#persistentidentifier'"></app-anchor-navigation>
         <div class="expansion-wrapper">
+          <app-anchor-navigation [identifier]="'#persistentidentifier'"></app-anchor-navigation>
           <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#persistentidentifier' }">
               <mat-panel-title>Persistent Identifier</mat-panel-title>
@@ -421,8 +424,8 @@
           </mat-expansion-panel>
         </div>
 
-        <app-anchor-navigation [identifier]="'#dataproviders'"></app-anchor-navigation>
         <div class="expansion-wrapper">
+          <app-anchor-navigation [identifier]="'#dataproviders'"></app-anchor-navigation>
           <mat-expansion-panel
             [expanded]="false"
             (afterExpand)="handleDataProviders()"
