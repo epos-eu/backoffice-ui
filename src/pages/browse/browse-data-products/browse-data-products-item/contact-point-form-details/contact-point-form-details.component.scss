@@ -4,11 +4,57 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+
+  .item {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .notify {
   display: flex;
   align-content: center;
   color: $color-danger;
-  margin-bottom: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.contact-select {
+  margin-right: 0.5rem;
+}
+
+.notify {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: 0.5rem;
+  }
+}
+
+button {
+  margin-left: 0.75rem;
+  box-shadow: none;
+
+  &.new-contact-point {
+    margin-left: 0;
+  }
+
+  &.mat-error {
+    background: rgb(240, 61, 62, 0.2);
+    color: #f03d3e;
+  }
+
+  &:hover {
+    &.mat-default {
+      background: rgba(224, 224, 224, 0.8);
+    }
+
+    &.mat-mdc-form-field-error {
+      background: rgb(240, 61, 62, 0.4);
+    }
+  }
+}
+
+.contactpoint-item {
+  margin-bottom: 1.5rem;
 }
