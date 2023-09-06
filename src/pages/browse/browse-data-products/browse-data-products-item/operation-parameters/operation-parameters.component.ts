@@ -100,6 +100,7 @@ export class OperationParametersComponent implements OnInit {
     const match = template.match(regex);
 
     if (match) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return match.map((m: any) => m.slice(1, -1));
     } else {
       return [];
