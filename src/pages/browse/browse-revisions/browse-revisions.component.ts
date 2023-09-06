@@ -21,7 +21,7 @@ export class BrowseRevisionsComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
 
-  public revisions: Array<Revision> = [];
+  public revisions: Array<unknown> = [];
   public entities: Array<DataProductDetailDataSource | undefined> = [];
   public visualDiff!: string | undefined;
   public loading = false;
@@ -32,7 +32,7 @@ export class BrowseRevisionsComponent implements OnInit {
     return this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.REVISIONS);
   }
 
-  private _mapResponse(entity: DataProductDetailDataSource[]): DataProductDetailDataSource | undefined {
+  private _mapResponse(entity: unknown[]): DataProductDetailDataSource | undefined {
     const item = entity.shift();
     if (item) {
       const mapped = Object.fromEntries(Object.entries(item).filter(([key]) => key !== '_sourceObject'));
@@ -57,9 +57,12 @@ export class BrowseRevisionsComponent implements OnInit {
       }
     });
 
-    this.operationsService.revisionsObs.subscribe((revisions: Array<Revision>) => {
+    this.operationsService.revisionsObs.subscribe((revisions: Array<unknown>) => {
       this.revisions = revisions;
       console.log(this.revisions);
+      // this._mapResponse(this.revisions);
+      this.visualDiff = this._getVisualDiff();
+
       this.persistorService.setValueInStorage(
         StorageType.LOCAL_STORAGE,
         StorageKey.REVISIONS,

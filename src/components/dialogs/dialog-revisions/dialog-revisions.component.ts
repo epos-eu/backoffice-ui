@@ -47,6 +47,7 @@ export class DialogRevisionsComponent implements OnInit {
   ) {}
 
   private revisions!: Array<Revision>;
+  private entities!: Array<DataProductDetailDataSource>;
   public selection = new SelectionModel<Revision>(true, []);
   public displayedColumns: string[] = [
     'select',
@@ -83,6 +84,7 @@ export class DialogRevisionsComponent implements OnInit {
             false,
           )
           .then((data: Array<DataProductDetailDataSource>) => {
+            this.entities = data;
             const revisions: Revision[] = data.map((item) => {
               return {
                 instanceId: item.instanceId,
@@ -97,8 +99,6 @@ export class DialogRevisionsComponent implements OnInit {
             });
             this.loading = false;
             this._initTable(revisions);
-            this.revisions = revisions;
-            console.log(this.revisions);
           });
         break;
     }
@@ -107,14 +107,6 @@ export class DialogRevisionsComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.getRelatedEntities();
-  }
-
-  public rowClicked(instanceId: string): void {
-    if (this.revisions.length > 1) {
-      this.dialogRef.close();
-      this.router.navigate(['/browse/revisions/compare', instanceId]);
-      this.operationsService.setRevisions(this.revisions);
-    }
   }
 
   public allSelected() {
@@ -133,8 +125,11 @@ export class DialogRevisionsComponent implements OnInit {
   }
 
   public handleCompare(): void {
+    const uids = this.selection.selected.map((item) => item.uid);
+    const selectedRevisions = this.entities.filter((item) => uids.includes(item.uid));
+
     this.dialogRef.close();
     this.router.navigate(['/browse/revisions/compare', this.data?.dataIn.instanceId]);
-    this.operationsService.setRevisions(this.revisions);
+    this.operationsService.setRevisions(selectedRevisions);
   }
 }

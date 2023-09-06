@@ -44,7 +44,7 @@ export class OperationsService {
   private operation = new BehaviorSubject<Operation | null>(null);
   public operationObs = this.operation.asObservable();
 
-  private revisions = new BehaviorSubject<Array<Revision>>([]);
+  private revisions = new BehaviorSubject<Array<unknown>>([]);
   public revisionsObs = this.revisions.asObservable();
 
   constructor(
@@ -644,7 +644,7 @@ export class OperationsService {
     }
   }
 
-  public setRevisions(revisions: Array<Revision>): void {
+  public setRevisions(revisions: Array<unknown>): void {
     this.revisions.next(revisions);
   }
 
