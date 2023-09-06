@@ -9,9 +9,11 @@
   >
     <div class="item">
       <app-contact-point-detail [contactPoint]="cp"></app-contact-point-detail>
+
       <button
-        mat-flat-button
-        color="default"
+        mat-mini-fab
+        color="error"
+        aria-label="Delete data product"
         matTooltip="Remove Contact Point"
         (click)="removeContactPoint(cp.instanceId)"
       >
@@ -25,9 +27,7 @@
     *ngIf="showSaveFormNotify"
   >
     <mat-icon>warning</mat-icon>
-    <span color="warning">
-      to make the modification of the contact point list effective, it is necessary to save the main form</span
-    >
+    <span color="warning"> Please click 'Save' in the left-hand panel after making this change</span>
   </div>
 </div>
 
@@ -39,13 +39,14 @@
     class="contact-select"
     [style.width.%]="60"
   >
-    <mat-label>Select Contact Point</mat-label>
+    <mat-label>Search contact points</mat-label>
     <input
       type="text"
       matInput
       [formControl]="contactPointController"
       [matAutocomplete]="auto"
     />
+    <mat-hint>Start typing to find a contact point</mat-hint>
     <mat-autocomplete
       #auto="matAutocomplete"
       [displayWith]="displayFn"
@@ -70,19 +71,11 @@
     </mat-select>
   </mat-form-field>
   <button
-    mat-mini-fab
-    color="default"
-    aria-label="save contact"
-    matTooltip="save contact point"
+    mat-raised-button
+    color="primary"
+    aria-label="Save contact point"
     (click)="saveContactPoint()"
   >
-    <mat-icon>check</mat-icon>
+    Save
   </button>
 </div>
-<button
-  mat-stroked-button
-  color="primary"
-  (click)="newContactPoint()"
->
-  New Contact Point
-</button>
