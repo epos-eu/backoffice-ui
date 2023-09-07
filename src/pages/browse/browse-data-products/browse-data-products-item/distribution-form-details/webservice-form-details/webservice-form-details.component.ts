@@ -21,6 +21,7 @@ import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.typ
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import * as moment from 'moment';
+import { Documentation } from 'src/apiAndObjects/objects/types/documentation.type';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -154,11 +155,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
       });
   }
 
-  private getDocumentation(): string {
-    if (this.webservice?.documentation !== undefined) {
-      const documentation = this.webservice.documentation;
+  private getDocumentation(documentation: Array<Documentation> | undefined): string {
+    if (documentation !== undefined) {
       if (documentation.length > 0) {
-        return documentation[0].uri;
+        return documentation[0].URI ? documentation[0].URI : '';
       }
     }
     return '';
@@ -170,7 +170,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
       description: this.webservice?.description,
-      documentation: this.getDocumentation(),
+      documentation: this.getDocumentation(this.webservice?.documentation),
       spatialExtentGroup: this.createLocationCtrls(),
       temporalExtentStartDate: this.getTemporalExtent('startDate'),
       temporalExtentEndDate: this.getTemporalExtent('endDate'),
@@ -199,6 +199,13 @@ export class WebserviceFormDetailsComponent implements OnInit {
           {
             startDate: this.getDate(changes['temporalExtentStartDate']),
             endDate: this.getDate(changes['temporalExtentEndDate']),
+          },
+        ];
+        updatingObject.documentation = [
+          {
+            description: '',
+            title: '',
+            uri: changes['documentation'],
           },
         ];
         // updatingObject.distribution = [this.parentEntity as EntityDetail];
