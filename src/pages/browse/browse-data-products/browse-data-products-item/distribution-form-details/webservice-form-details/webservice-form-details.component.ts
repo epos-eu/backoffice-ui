@@ -264,8 +264,11 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public compareWithFn(optionOne: any, optionTwo: any): boolean {
-    if (optionOne.metaId === optionTwo.metaId) {
-      return true;
+    if (optionOne && optionTwo) {
+      if (optionOne.metaId === optionTwo.metaId) {
+        return true;
+      }
+      return false;
     }
     return false;
   }
