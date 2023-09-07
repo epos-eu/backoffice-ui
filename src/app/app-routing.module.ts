@@ -21,16 +21,16 @@ const appRoutes: Routes = [
     path: 'login',
     loadChildren: () => import('../pages/login/login.module').then((m) => m.LoginModule),
   },
-  // {
-  //   path: 'last-page-redirect',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full',
-  // },
   {
-    path: '**',
+    path: 'last-page-redirect',
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  // {
+  //   path: '**',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full',
+  // },
 ];
 
 @NgModule({
