@@ -50,6 +50,7 @@ import {
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { StateChangeService } from 'src/services/stateChange.service';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -98,7 +99,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public selectedSection = '';
   public createdValue: string | null = null;
   public modifiedValue: string | null = null;
-  public metaId!: string;
+  public activeMetaId!: string;
+  public activeInstanceId!: string;
+
   public entityEnum = Entity;
 
   private formTree: FormTree = {
@@ -161,10 +164,18 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private actionsService: ActionsService,
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
+    private stateChangeService: StateChangeService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
+
+    this.stateChangeService.triggerReloadObs.subscribe((requiresRefresh: boolean) => {
+      if (requiresRefresh) {
+        console.debug('call');
+        this.initData(this.activeInstanceId, this.activeMetaId);
+      }
+    });
   }
 
   private trackEdit(): void {
@@ -176,11 +187,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.persistorService.setValueInStorage(StorageType.LOCAL_STORAGE, StorageKey.ACTIVE_ENTITY, Entity.DATA_PRODUCT);
+    this.operationsService.activeEntityType.next(Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id') && null != obs.get('metaId')) {
-        this.metaId = obs.get('metaId') as string;
-        this.initData(obs.get('id') as string, obs.get('metaId') as string);
+        this.activeInstanceId = obs.get('id') as string;
+        this.activeMetaId = obs.get('metaId') as string;
+        this.initData(this.activeInstanceId, this.activeMetaId);
       }
     });
 

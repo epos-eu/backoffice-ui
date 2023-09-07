@@ -3,14 +3,132 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { SnackbarService } from './snackbar.service';
+import { Subject } from 'rxjs';
+import { OperationsService } from './operations.service';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateChangeService {
-  constructor(private apiService: ApiService, private snackbarService: SnackbarService) {}
+  private triggerReload = new Subject<boolean>();
+  public triggerReloadObs = this.triggerReload.asObservable();
 
-  public handleChangeDataProductState(instanceId: string, state: State, refresh = false) {
+  constructor(
+    private apiService: ApiService,
+    private operationsService: OperationsService,
+    private dialogService: DialogService,
+    private snackbarService: SnackbarService,
+  ) {}
+
+  public handleStateChange(state: State, entity: Entity) {
+    let message = '';
+
+    switch (state) {
+      case State.SUBMITTED: {
+        message = `Are you sure you'd like to Submit this draft?`;
+        break;
+      }
+      case State.PUBLISHED: {
+        message = `Are you sure you'd like to publish this submission?`;
+        break;
+      }
+      case State.DISCARDED: {
+        message = `Are you sure you'd like to discard this submission?`;
+        break;
+      }
+      case State.ARCHIVED: {
+        message = `Are you sure you'd like to archive this published instance?`;
+        break;
+      }
+    }
+
+    this.dialogService.openConfirmationDialog(message, false).then((accept: boolean) => {
+      if (accept) {
+        switch (entity) {
+          case Entity.DATA_PRODUCT: {
+            this.handleChangeDataProductState(
+              this.operationsService.getActiveDataProductValue()?.instanceId as string,
+              state,
+              true,
+            );
+            break;
+          }
+          case Entity.DISTRIBUTION: {
+            break;
+          }
+          case Entity.WEBSERVICE: {
+            break;
+          }
+        }
+      }
+    });
+
+    // switch (state) {
+    //   case State.SUBMITTED: {
+    //     this.handleSubmit();
+    //     break;
+    //   }
+    //   case State.PUBLISHED: {
+    //     this.handlePublish();
+    //     break;
+    //   }
+    //   case State.DISCARDED: {
+    //     this.handleDiscard();
+    //     break;
+    //   }
+    //   case State.ARCHIVED: {
+    //     this.handleArchive();
+    //     break;
+    //   }
+    // }
+  }
+
+  // private handleChangeState(): void {
+  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
+  //   this.dialogService
+  //     .openConfirmationDialog(`Are you sure you'd like to Submit this draft?`, false)
+  //     .then((accept: boolean) => {
+  //       if (accept) {
+  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.SUBMITTED, true);
+  //       }
+  //     });
+  // }
+
+  // private handlePublish(): void {
+  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
+  //   this.dialogService
+  //     .openConfirmationDialog(`Are you sure you'd like to publish this submission?`, false)
+  //     .then((accept: boolean) => {
+  //       if (accept) {
+  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.PUBLISHED, true);
+  //       }
+  //     });
+  // }
+
+  // private handleDiscard(): void {
+  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
+  //   this.dialogService
+  //     .openConfirmationDialog(`Are you sure you'd like to discard this submission?`, false)
+  //     .then((accept: boolean) => {
+  //       if (accept) {
+  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.DISCARDED, true);
+  //       }
+  //     });
+  // }
+
+  // private handleArchive(): void {
+  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
+  //   this.dialogService
+  //     .openConfirmationDialog(`Are you sure you'd like to archive this published instance?`, false)
+  //     .then((accept: boolean) => {
+  //       if (accept) {
+  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.DISCARDED, true);
+  //       }
+  //     });
+  // }
+
+  private handleChangeDataProductState(instanceId: string, state: State, refresh = false) {
     let message = '';
 
     switch (state) {
@@ -39,15 +157,15 @@ export class StateChangeService {
         state: state,
       })
       .then(() => {
+        // Temporariliy disabled until further clarity on how to implement.
         // this.actionsService.submitCurrentEdit(this.currentEdit.id);
+
         this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
-        if (refresh) {
-          location.reload();
-        }
+        this.triggerReload.next(refresh);
       })
       .catch((err) => {
         console.error(err);

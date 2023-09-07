@@ -25,6 +25,9 @@ import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source
   providedIn: 'root',
 })
 export class OperationsService {
+  public activeEntityType = new BehaviorSubject<Entity | null>(null);
+  public activeEntityTypeObs = this.activeEntityType.asObservable();
+
   private dataProduct = new BehaviorSubject<DataProduct | null>(null);
   public dataProductObs = this.dataProduct.asObservable();
 

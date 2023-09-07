@@ -42,7 +42,7 @@
         *ngIf="activeDataProduct && activeDataProduct.state === state.DRAFT"
         mat-flat-button
         color="primary"
-        (click)="handleSubmit()"
+        (click)="handleChangeState(state.SUBMITTED)"
       >
         Submit
       </button>
@@ -50,7 +50,7 @@
         *ngIf="activeDataProduct && activeDataProduct.state === state.SUBMITTED"
         mat-flat-button
         color="primary"
-        (click)="handlePublish()"
+        (click)="handleChangeState(state.PUBLISHED)"
       >
         Publish
       </button>
@@ -59,7 +59,7 @@
         *ngIf="activeDataProduct && activeDataProduct.state === state.SUBMITTED"
         mat-flat-button
         color="warn"
-        (click)="handleDiscard()"
+        (click)="handleChangeState(state.DISCARDED)"
       >
         Discard
       </button>
