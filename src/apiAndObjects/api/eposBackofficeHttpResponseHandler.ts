@@ -60,6 +60,7 @@ export class EposBackOfficeHttpResponseHandler {
         errorMessage = res.message;
         break;
       case res.status === 404 && typeof body !== 'string':
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         returnValue = body;
         break; // just an empty dataset
       case typeof body !== 'string':

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RouteService } from 'src/services/route.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-back-button',
@@ -29,6 +30,7 @@ export class BackButtonComponent implements OnInit, OnDestroy {
   }
 
   public handleBack(): void {
-    this.router.navigate([this.prevRoute]);
+    // this.router.navigate([this.prevRoute]);
+    this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}`]);
   }
 }

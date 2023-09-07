@@ -9,6 +9,7 @@ interface MatSortData {
 }
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[sortingCache]',
 })
 export class SortingDirective implements OnInit {

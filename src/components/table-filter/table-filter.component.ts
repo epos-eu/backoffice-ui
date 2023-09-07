@@ -2,6 +2,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { ActionsService } from 'src/services/actions.service';
+import { State } from 'src/utility/enums/state.enum';
 
 const KEY = 'uidSearchText';
 
@@ -33,20 +34,24 @@ export class TableFilterComponent {
       label: 'Any',
     },
     {
-      option: 'DRAFT',
+      option: State.DRAFT,
       label: 'Draft',
     },
     {
-      option: 'SUBMITTED',
+      option: State.SUBMITTED,
       label: 'Submitted',
     },
     {
-      option: 'PUBLISHED',
+      option: State.PUBLISHED,
       label: 'Published',
     },
     {
-      option: 'DECLINED',
-      label: 'Declined',
+      option: State.DISCARDED,
+      label: 'Discarded',
+    },
+    {
+      option: State.ARCHIVED,
+      label: 'Archived',
     },
   ];
   public filters = {

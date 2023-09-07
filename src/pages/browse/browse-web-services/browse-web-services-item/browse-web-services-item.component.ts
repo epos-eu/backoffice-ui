@@ -14,6 +14,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -29,7 +30,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.WEBSERVICE;
   public currentEdit!: IChangeItem;
-  public state!: NavigationBehaviorOptions['state'];
+  public state?: NavigationBehaviorOptions['state'] | undefined;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -83,7 +84,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
               type: Entity.WEBSERVICE,
               route: EntityEndpointValue.WEBSERVICE,
               label: 'Webservice',
-              state: this.webservice.state!,
+              state: this.webservice.state ? this.webservice.state : State.DRAFT,
               color: 'draft',
               id: this.webservice.instanceId,
             });

@@ -39,19 +39,38 @@
         Save
       </button>
       <button
+        *ngIf="activeDataProduct && activeDataProduct.state === state.DRAFT"
         mat-flat-button
         color="primary"
-        (click)="handleSubmit()"
-        [disabled]="currentEdit && currentEdit.state !== state.DRAFT"
+        (click)="handleChangeState(state.SUBMITTED)"
       >
         Submit
       </button>
       <button
+        *ngIf="activeDataProduct && activeDataProduct.state === state.SUBMITTED"
         mat-flat-button
         color="primary"
-        (click)="logDataProduct()"
+        (click)="handleChangeState(state.PUBLISHED)"
       >
-        Log Data Product
+        Publish
+      </button>
+
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.state === state.SUBMITTED"
+        mat-flat-button
+        color="warn"
+        (click)="handleChangeState(state.DISCARDED)"
+      >
+        Discard
+      </button>
+
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.state === state.PUBLISHED"
+        mat-flat-button
+        color="warn"
+        (click)="handleChangeState(state.ARCHIVED)"
+      >
+        Archive
       </button>
     </div>
   </div>

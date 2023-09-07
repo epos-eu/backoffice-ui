@@ -1,0 +1,18 @@
+<h4 class="message">{{ data.dataIn.messageHtml }}</h4>
+<div class="buttons-wrapper">
+  <button
+    class="cancel"
+    mat-raised-button
+    color="primary"
+    (click)="cancel()"
+    [innerHTML]="data.dataIn.cancelButtonHtml"
+  ></button>
+  <button
+    type="submit"
+    [ngClass]="data.dataIn.confirmButtonCssClass"
+    mat-raised-button
+    [color]="data.dataIn.confirmButtonCssClass"
+    (click)="confirm()"
+    [innerHTML]="data.dataIn.confirmButtonHtml"
+  ></button>
+</div>

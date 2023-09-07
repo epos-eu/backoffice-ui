@@ -2,16 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { State } from 'src/utility/enums/state.enum';
-import { DialogSubmitDraftComponent } from 'src/components/dialogs/dialog-submit-draft/dialog-submit-draft.component';
-import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
 import { Entity } from 'src/utility/enums/entity.enum';
-import { PersistorService, StorageType } from 'src/services/persistor.service';
-import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { OperationsService } from 'src/services/operations.service';
 import { Router } from '@angular/router';
+import { StateChangeService } from 'src/services/stateChange.service';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -19,29 +17,34 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit-navigation.component.scss'],
 })
 export class EditNavigationComponent implements OnInit {
-  constructor(
-    private dialogService: DialogService,
-    private persistorService: PersistorService,
-    public dialog: MatDialog,
-    public actionsService: ActionsService,
-    private operationsService: OperationsService,
-    private router: Router,
-  ) {}
-
-  private activeEntity = '';
+  private activeEntity?: Entity;
   public itemsExist = new BehaviorSubject<boolean>(false);
   public currentEdit!: IChangeItem;
   public state = State;
   public formEdited = false;
+  public activeDataProduct?: DataProduct | null;
+
+  constructor(
+    public dialog: MatDialog,
+    public actionsService: ActionsService,
+    private operationsService: OperationsService,
+    private router: Router,
+    private stateChangeService: StateChangeService,
+  ) {
+    this.operationsService.dataProductObs.subscribe((dp: DataProduct | null) => {
+      this.activeDataProduct = dp;
+    });
+    this.operationsService.activeEntityTypeObs.subscribe((activeEntityType: Entity | null) => {
+      if (null != activeEntityType) {
+        this.activeEntity = activeEntityType;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.actionsService.initEditedItems();
     this.checkForItems();
     this.trackEdit();
-    this.activeEntity = this.persistorService.getValueFromStorage(
-      StorageType.LOCAL_STORAGE,
-      StorageKey.ACTIVE_ENTITY,
-    ) as Entity;
   }
 
   private trackEdit(): void {
@@ -76,11 +79,10 @@ export class EditNavigationComponent implements OnInit {
     }
   }
 
-  public handleSubmit(): void {
-    const dialogRef = this.dialog.open(DialogSubmitDraftComponent, {
-      panelClass: 'dialog-submit',
-    });
-    this.dialogService.setRef(dialogRef);
+  public handleChangeState(state: State) {
+    if (this.activeEntity) {
+      this.stateChangeService.handleStateChange(state, this.activeEntity);
+    }
   }
 
   public checkForItems(): void {
@@ -97,9 +99,5 @@ export class EditNavigationComponent implements OnInit {
 
   public handleClick(id: string, route: EntityEndpointValue): void {
     this.router.navigate([`/browse/${route}/details`, id]);
-  }
-
-  public logDataProduct() {
-    console.debug(this.operationsService.getActiveDataProductValue());
   }
 }

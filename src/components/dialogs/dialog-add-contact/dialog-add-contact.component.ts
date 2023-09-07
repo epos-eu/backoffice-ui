@@ -9,7 +9,7 @@ import { initEmptyContactObj } from 'src/helpers/contact';
 })
 export class DialogAddContactComponent implements OnInit {
   public data = [];
-  public formFields: ContactPoint = initEmptyContactObj() as ContactPoint;
+  public formFields?: ContactPoint = initEmptyContactObj() as ContactPoint;
   public types = [
     {
       label: 'Contact',
@@ -19,7 +19,7 @@ export class DialogAddContactComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data && this.data.length > 0) {
-      this.formFields = this.data.shift()!;
+      this.formFields = this.data.shift();
     }
   }
 }

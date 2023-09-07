@@ -25,6 +25,9 @@ import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source
   providedIn: 'root',
 })
 export class OperationsService {
+  public activeEntityType = new BehaviorSubject<Entity | null>(null);
+  public activeEntityTypeObs = this.activeEntityType.asObservable();
+
   private dataProduct = new BehaviorSubject<DataProduct | null>(null);
   public dataProductObs = this.dataProduct.asObservable();
 
@@ -292,7 +295,6 @@ export class OperationsService {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
-            // contactPoint: [bla],
           })
           .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [

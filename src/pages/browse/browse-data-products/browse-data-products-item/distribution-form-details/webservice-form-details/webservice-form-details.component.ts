@@ -21,6 +21,7 @@ import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.typ
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import * as moment from 'moment';
+import { Documentation } from 'src/apiAndObjects/objects/types/documentation.type';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -64,6 +65,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
   public typeOptions: Array<{ id: string; name: string }> = [];
   public entityEnum = Entity;
+
+  public datePublised: string | null = null;
+  public dateModified: string | null = null;
 
   public instanceId = '';
   private formTree = {
@@ -140,6 +144,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
             this.handleServiceProviders(this.webservice);
             this.setSpatialCoverageVariables();
+            this.datePublised = this.getDate(this.webservice.datePublished);
+            this.dateModified = this.getDate(this.webservice.dateModified);
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
             if (this.webservice && this.webservice.instanceId) {
               this.trackFormData();
@@ -149,11 +155,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
       });
   }
 
-  private getDocumentation(): string {
-    if (this.webservice?.documentation !== undefined) {
-      const documentation = this.webservice.documentation;
+  private getDocumentation(documentation: Array<Documentation> | undefined): string {
+    if (documentation !== undefined) {
       if (documentation.length > 0) {
-        return documentation[0].uri;
+        return documentation[0].URI ? documentation[0].URI : '';
       }
     }
     return '';
@@ -165,7 +170,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
       description: this.webservice?.description,
-      documentation: this.getDocumentation(),
+      documentation: this.getDocumentation(this.webservice?.documentation),
       spatialExtentGroup: this.createLocationCtrls(),
       temporalExtentStartDate: this.getTemporalExtent('startDate'),
       temporalExtentEndDate: this.getTemporalExtent('endDate'),
@@ -194,6 +199,13 @@ export class WebserviceFormDetailsComponent implements OnInit {
           {
             startDate: this.getDate(changes['temporalExtentStartDate']),
             endDate: this.getDate(changes['temporalExtentEndDate']),
+          },
+        ];
+        updatingObject.documentation = [
+          {
+            description: '',
+            title: '',
+            uri: changes['documentation'],
           },
         ];
         // updatingObject.distribution = [this.parentEntity as EntityDetail];
@@ -264,8 +276,11 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public compareWithFn(optionOne: any, optionTwo: any): boolean {
-    if (optionOne.metaId === optionTwo.metaId) {
-      return true;
+    if (optionOne && optionTwo) {
+      if (optionOne.metaId === optionTwo.metaId) {
+        return true;
+      }
+      return false;
     }
     return false;
   }
