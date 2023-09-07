@@ -292,7 +292,6 @@ export class OperationsService {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
-            // contactPoint: [bla],
           })
           .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
