@@ -22,8 +22,6 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { State } from 'src/utility/enums/state.enum';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationsService } from 'src/services/operations.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
@@ -45,6 +43,13 @@ import { ExplorerService } from 'src/components/side-navigation/explorer-navigat
 import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { scrollBackToTop } from 'src/helpers/scroll';
+import {
+  DataproductAddDistributionComponent,
+  NewDistribution,
+} from 'src/components/dialogs/dataproduct-add-distribution/dataproduct-add-distribution.component';
+import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
+import { State } from 'src/utility/enums/state.enum';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -395,40 +400,48 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       uid: this.dataProduct?.uid as string,
       metaId: this.dataProduct?.metaId as string,
     };
-
     const item: Distribution = {
-      uid: 'new distribution',
+      uid: '',
       modified: new Date().toISOString(),
       dataProduct: [relatedDataProduct],
     };
 
-    this.apiService.endpoints.Distribution.create
-      .call(item)
-      .then((value: DistributionDetailDataSource) => {
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-success',
-        ]);
-        this.actionsService.addEditedItems([
-          {
-            type: Entity.DISTRIBUTION,
-            route: EntityEndpointValue.DISTRIBUTION,
-            label: 'Distribution',
-            state: State.DRAFT,
-            color: 'draft',
-            id: value.instanceId,
-          },
-        ]);
-        this.updateDistributionArray(value);
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
+    this.dialogService
+      .openDialogForComponent(DataproductAddDistributionComponent, {}, '35vw', 'auto', 'add-distribution-dialog')
+      .then((data: DialogData<object, NewDistribution>) => {
+        if (data.dataOut.uid && data.dataOut.uid !== '') {
+          item.uid = data.dataOut.uid;
+          this.apiService.endpoints.Distribution.create
+            .call(item)
+            .then((value: DistributionDetailDataSource) => {
+              this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-success',
+              ]);
+              this.actionsService.addEditedItems([
+                {
+                  type: Entity.DISTRIBUTION,
+                  route: EntityEndpointValue.DISTRIBUTION,
+                  label: 'Distribution',
+                  state: State.DRAFT,
+                  color: 'draft',
+                  id: value.instanceId,
+                },
+              ]);
+              this.updateDistributionArray(value);
+              this.actionsService.enableSave();
+            })
+            .catch((err) => {
+              console.error(err);
+              this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]);
+            });
+        }
+      });
   }
 
   public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {

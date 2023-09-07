@@ -16,6 +16,11 @@ import { State } from 'src/utility/enums/state.enum';
 import { FormatTypes } from './formats';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
+import {
+  DataproductAddWebserviceComponent,
+  NewWebservice,
+} from 'src/components/dialogs/dataproduct-add-webservice/dataproduct-add-webservice.component';
+import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 
 @Component({
   selector: 'app-distribution-form-details',
@@ -197,48 +202,55 @@ export class DistributionFormDetailsComponent {
     };
     const item: WebService = {
       distribution: [relatedDistribution],
-      uid: 'new webservice',
+      uid: '',
       dateModified: new Date(),
     };
 
-    this.apiService.endpoints.WebService.create
-      .call(item)
-      .then((value: WebserviceDetailDataSource) => {
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-success',
-        ]);
-        this.actionsService.addEditedItems([
-          {
-            type: Entity.WEBSERVICE,
-            route: EntityEndpointValue.WEBSERVICE,
-            label: 'Webservice',
-            state: State.DRAFT,
-            color: 'draft',
-            id: value.instanceId,
-          },
-        ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
-        const entityDetail: EntityDetail = {
-          entityType: Entity.WEBSERVICE,
-          instanceId: value.instanceId,
-          uid: value.uid,
-          metaId: value.metaId,
-        };
-        this.accessService = entityDetail;
-        const distribution = this.operationsService.getActiveDistributionValue();
-        if (null != distribution) {
-          distribution.accessService = this.accessService;
-          this.operationsService.setActiveDistribution(distribution);
+    this.dialogService
+      .openDialogForComponent(DataproductAddWebserviceComponent, {}, '35vw', 'auto', 'add-webservice-dialog')
+      .then((data: DialogData<object, NewWebservice>) => {
+        if (data.dataOut.uid && data.dataOut.uid !== '') {
+          item.uid = data.dataOut.uid;
+          this.apiService.endpoints.WebService.create
+            .call(item)
+            .then((value: WebserviceDetailDataSource) => {
+              this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-success',
+              ]);
+              this.actionsService.addEditedItems([
+                {
+                  type: Entity.WEBSERVICE,
+                  route: EntityEndpointValue.WEBSERVICE,
+                  label: 'Webservice',
+                  state: State.DRAFT,
+                  color: 'draft',
+                  id: value.instanceId,
+                },
+              ]);
+              this.actionsService.saveCurrentEdit(value.instanceId);
+              const entityDetail: EntityDetail = {
+                entityType: Entity.WEBSERVICE,
+                instanceId: value.instanceId,
+                uid: value.uid,
+                metaId: value.metaId,
+              };
+              this.accessService = entityDetail;
+              const distribution = this.operationsService.getActiveDistributionValue();
+              if (null != distribution) {
+                distribution.accessService = this.accessService;
+                this.operationsService.setActiveDistribution(distribution);
+              }
+            })
+            .catch(() =>
+              this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]),
+            );
         }
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
+      });
   }
 }
