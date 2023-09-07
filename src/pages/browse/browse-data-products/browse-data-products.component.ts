@@ -24,7 +24,7 @@ export class BrowseDataProductsComponent {
   }
 
   public createDataProduct(): void {
-    this.router.navigate([`browse/${EntityEndpointValue.DATA_PRODUCT}/new`]);
+    this.router.navigate([`browse/dataproduct/new`]);
   }
 
   public handleScrollToTop(): void {
