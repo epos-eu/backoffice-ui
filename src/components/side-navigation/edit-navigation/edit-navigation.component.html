@@ -63,6 +63,15 @@
       >
         Discard
       </button>
+
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.state === state.PUBLISHED"
+        mat-flat-button
+        color="warn"
+        (click)="handleChangeState(state.ARCHIVED)"
+      >
+        Archive
+      </button>
     </div>
   </div>
 </mat-nav-list>

@@ -63,70 +63,7 @@ export class StateChangeService {
         }
       }
     });
-
-    // switch (state) {
-    //   case State.SUBMITTED: {
-    //     this.handleSubmit();
-    //     break;
-    //   }
-    //   case State.PUBLISHED: {
-    //     this.handlePublish();
-    //     break;
-    //   }
-    //   case State.DISCARDED: {
-    //     this.handleDiscard();
-    //     break;
-    //   }
-    //   case State.ARCHIVED: {
-    //     this.handleArchive();
-    //     break;
-    //   }
-    // }
   }
-
-  // private handleChangeState(): void {
-  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
-  //   this.dialogService
-  //     .openConfirmationDialog(`Are you sure you'd like to Submit this draft?`, false)
-  //     .then((accept: boolean) => {
-  //       if (accept) {
-  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.SUBMITTED, true);
-  //       }
-  //     });
-  // }
-
-  // private handlePublish(): void {
-  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
-  //   this.dialogService
-  //     .openConfirmationDialog(`Are you sure you'd like to publish this submission?`, false)
-  //     .then((accept: boolean) => {
-  //       if (accept) {
-  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.PUBLISHED, true);
-  //       }
-  //     });
-  // }
-
-  // private handleDiscard(): void {
-  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
-  //   this.dialogService
-  //     .openConfirmationDialog(`Are you sure you'd like to discard this submission?`, false)
-  //     .then((accept: boolean) => {
-  //       if (accept) {
-  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.DISCARDED, true);
-  //       }
-  //     });
-  // }
-
-  // private handleArchive(): void {
-  //   const activeDataProduct = this.operationsService.getActiveDataProductValue();
-  //   this.dialogService
-  //     .openConfirmationDialog(`Are you sure you'd like to archive this published instance?`, false)
-  //     .then((accept: boolean) => {
-  //       if (accept) {
-  //         this.handleChangeDataProductState(activeDataProduct?.instanceId as string, State.DISCARDED, true);
-  //       }
-  //     });
-  // }
 
   private handleChangeDataProductState(instanceId: string, state: State, refresh = false) {
     let message = '';

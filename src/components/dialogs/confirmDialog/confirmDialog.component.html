@@ -1,9 +1,8 @@
-<!-- <app-base-dialog [data]="data" [dialogTitle]="data.dataIn.messageHtml"> -->
+<h4 class="message">{{ data.dataIn.messageHtml }}</h4>
 <div class="buttons-wrapper">
-  <h4>{{ data.dataIn.messageHtml }}</h4>
   <button
     class="cancel"
-    mat-flat-button
+    mat-raised-button
     color="primary"
     (click)="cancel()"
     [innerHTML]="data.dataIn.cancelButtonHtml"
@@ -11,10 +10,9 @@
   <button
     type="submit"
     [ngClass]="data.dataIn.confirmButtonCssClass"
-    mat-flat-button
+    mat-raised-button
     [color]="data.dataIn.confirmButtonCssClass"
     (click)="confirm()"
     [innerHTML]="data.dataIn.confirmButtonHtml"
   ></button>
 </div>
-<!-- </app-base-dialog> -->
