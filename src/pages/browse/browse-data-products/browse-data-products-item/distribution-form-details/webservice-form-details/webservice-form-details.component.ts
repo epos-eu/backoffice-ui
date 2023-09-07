@@ -65,6 +65,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public typeOptions: Array<{ id: string; name: string }> = [];
   public entityEnum = Entity;
 
+  public datePublised: string | null = null;
+  public dateModified: string | null = null;
+
   public instanceId = '';
   private formTree = {
     id: '#distaccessiblewebservice',
@@ -140,6 +143,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
             this.handleServiceProviders(this.webservice);
             this.setSpatialCoverageVariables();
+            this.datePublised = this.getDate(this.webservice.datePublished);
+            this.dateModified = this.getDate(this.webservice.dateModified);
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
             if (this.webservice && this.webservice.instanceId) {
               this.trackFormData();

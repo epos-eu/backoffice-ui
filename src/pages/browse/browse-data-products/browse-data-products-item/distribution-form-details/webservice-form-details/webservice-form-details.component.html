@@ -1,5 +1,29 @@
 <ng-scrollbar [autoHeightDisabled]="false">
   <div class="body">
+    <div class="expansion-content-wrapper">
+      <div class="info">
+        <div class="detail">
+          <div class="label">Instance Id:</div>
+          <div class="value">{{ webservice?.instanceId }}</div>
+        </div>
+        <div
+          *ngIf="webservice"
+          class="detail"
+        >
+          <div class="label">Published:</div>
+          <div class="value">
+            {{ datePublised | date }}
+          </div>
+        </div>
+        <div
+          *ngIf="webservice"
+          class="detail"
+        >
+          <div class="label">Modified:</div>
+          <div class="value">{{ dateModified }}</div>
+        </div>
+      </div>
+    </div>
     <form
       [formGroup]="form"
       *ngIf="form && webservice"
