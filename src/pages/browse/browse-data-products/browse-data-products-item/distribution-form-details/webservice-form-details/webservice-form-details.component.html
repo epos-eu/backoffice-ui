@@ -12,7 +12,7 @@
         >
           <div class="label">Published:</div>
           <div class="value">
-            {{ datePublised | date }}
+            {{ datePublised?.toString() === 'Invalid Date' ? 'Unpublished' : datePublised }}
           </div>
         </div>
         <div
@@ -20,7 +20,7 @@
           class="detail"
         >
           <div class="label">Modified:</div>
-          <div class="value">{{ dateModified }}</div>
+          <div class="value">{{ dateModified?.toString() === 'Invalid Date' ? 'Never modified' : datePublised }}</div>
         </div>
       </div>
     </div>
