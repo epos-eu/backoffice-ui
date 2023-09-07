@@ -12,6 +12,7 @@ import { BaseObjectRequiresDictionaries } from './baseObjectRequiresDictionaries
  * BaseObject or BaseObjectRequiresDictionaries.
  */
 export class ObjectBuilder {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private static instanceSource = new BehaviorSubject<any>(null);
 
   private constructor(private apiService: BaseApi) {}

@@ -27,9 +27,9 @@ export class OperationParametersComponent implements OnInit {
   ) {}
 
   private operation!: Operation;
-  private template!: string;
+  private template?: string;
   public paramsForm!: UntypedFormGroup;
-  public mapping!: Mapping[];
+  public mapping?: Mapping[];
   public rangeEnum = OperationParamsRange;
   public fetchingOperation = false;
 
@@ -48,8 +48,8 @@ export class OperationParametersComponent implements OnInit {
             this.fetchingOperation = false;
             this.operation = this.operationsService.convertToOperation(operation);
             this.operationsService.setActiveOperation(this.operation);
-            this.template = this.operation.template!;
-            this.mapping = this.operation.mapping!;
+            this.template = this.operation.template;
+            this.mapping = this.operation.mapping;
             this.initForm();
           }
         });
@@ -79,9 +79,12 @@ export class OperationParametersComponent implements OnInit {
     });
   }
 
-  private loadMappingArray(mapping: Array<Mapping>): FormGroup[] {
-    const transformed = mapping.map((item: Mapping) => this.createMappingFormGroup(item));
-    return transformed;
+  private loadMappingArray(mapping: Array<Mapping> | undefined): FormGroup[] {
+    if (mapping) {
+      const transformed = mapping.map((item: Mapping) => this.createMappingFormGroup(item));
+      return transformed;
+    }
+    return [];
   }
 
   private initForm(): void {

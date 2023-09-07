@@ -9,7 +9,6 @@ import { RevisionsComponent } from './revisions/revisions.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogSubmitDraftComponent } from './dialog-submit-draft/dialog-submit-draft.component';
 import { ServicesModule } from 'src/services/services.module';
 import { WebserviceAddOperationComponent } from './webservice-add-operation/webservice-add-operation.component';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
@@ -25,7 +24,6 @@ import { DataproductAddWebserviceComponent } from './dataproduct-add-webservice/
     MetadataFileViewComponent,
     RevisionsComponent,
     UserPermissionsComponent,
-    DialogSubmitDraftComponent,
     WebserviceAddOperationComponent,
     DialogAddNewParameterComponent,
     ConfirmDialogComponent,

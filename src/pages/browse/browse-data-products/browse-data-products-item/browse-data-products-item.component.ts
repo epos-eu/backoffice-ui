@@ -172,7 +172,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
     this.stateChangeService.triggerReloadObs.subscribe((requiresRefresh: boolean) => {
       if (requiresRefresh) {
-        console.debug('call');
         this.initData(this.activeInstanceId, this.activeMetaId);
       }
     });

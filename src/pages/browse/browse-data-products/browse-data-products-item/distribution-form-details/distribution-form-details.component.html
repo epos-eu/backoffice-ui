@@ -154,7 +154,7 @@
       *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'"
       class="expansion-wrapper"
     >
-      <div *ngIf="null != accessService">
+      <div *ngIf="null !== accessService">
         <app-anchor-navigation
           [identifier]="'#distaccessiblewebservice' + accessService.instanceId"
         ></app-anchor-navigation>
@@ -187,7 +187,7 @@
         </mat-expansion-panel>
       </div>
 
-      <div *ngIf="null == accessService">
+      <div *ngIf="null === accessService">
         <mat-expansion-panel
           [expanded]="true"
           class="web-service"
@@ -213,7 +213,7 @@
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="null == distribution"
+        [disabled]="null === distribution"
       >
         Save Distribution
       </button>
@@ -222,7 +222,7 @@
         mat-stroked-button
         color="error"
         (click)="deleteDistribution(distribution?.instanceId)"
-        [disabled]="null == distribution"
+        [disabled]="null === distribution"
       >
         <mat-icon>delete</mat-icon>
         Delete Distribution
