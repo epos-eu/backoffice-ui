@@ -407,7 +407,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       metaId: this.dataProduct?.metaId as string,
     };
     const item: Distribution = {
-      // uid: '',
+      uid: '',
       modified: new Date().toISOString(),
       dataProduct: [relatedDataProduct],
     };
