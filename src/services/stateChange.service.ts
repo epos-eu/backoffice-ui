@@ -3,7 +3,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { SnackbarService } from './snackbar.service';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { OperationsService } from './operations.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 
@@ -14,12 +14,23 @@ export class StateChangeService {
   private triggerReload = new Subject<boolean>();
   public triggerReloadObs = this.triggerReload.asObservable();
 
+  private currentDataProductState = new BehaviorSubject<State | null>(null);
+  public currentDataProductStateObs = this.currentDataProductState.asObservable();
+
   constructor(
     private apiService: ApiService,
     private operationsService: OperationsService,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
   ) {}
+
+  public getCurrentDataProductState(): State | null {
+    return this.currentDataProductState.getValue();
+  }
+
+  public setCurrentDataProductState(state: State): void {
+    this.currentDataProductState.next(state);
+  }
 
   public handleStateChange(state: State, entity: Entity) {
     let message = '';
