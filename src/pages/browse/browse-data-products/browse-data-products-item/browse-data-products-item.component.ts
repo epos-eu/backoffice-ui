@@ -115,11 +115,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         children: [],
       },
       {
-        id: '#description',
-        name: 'Description',
-        children: [],
-      },
-      {
         id: '#spatialcoverage',
         name: 'Spatial Coverage',
         children: [],
@@ -127,11 +122,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       {
         id: '#temporalcoverage',
         name: 'Temporal Coverage',
-        children: [],
-      },
-      {
-        id: '#frequencytype',
-        name: 'Frequency & Type',
         children: [],
       },
       {

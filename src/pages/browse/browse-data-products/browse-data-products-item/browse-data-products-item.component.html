@@ -40,16 +40,20 @@
       </div>
     </div>
     <div class="body">
-      <app-anchor-navigation [identifier]="'#generalinformation'"></app-anchor-navigation>
-      <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#generalinformation' }">
-          <mat-panel-title>General Information</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="expansion-content-wrapper">
+      <form
+        [formGroup]="form"
+        *ngIf="form && dataProduct"
+        class="data-product"
+      >
+        <app-anchor-navigation [identifier]="'#generalinformation'"></app-anchor-navigation>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#generalinformation' }">
+            <mat-panel-title>General Information</mat-panel-title>
+          </mat-expansion-panel-header>
           <div class="info">
             <div class="detail">
               <div class="label">Instance Id:</div>
-              <div class="value">{{ dataProduct?.instanceId }}</div>
+              <div class="value">{{ dataProduct.instanceId }}</div>
             </div>
             <div
               *ngIf="dataProduct"
@@ -59,19 +63,7 @@
               <div class="value">{{ dataProduct.state }}</div>
             </div>
           </div>
-        </div>
-      </mat-expansion-panel>
-      <form
-        [formGroup]="form"
-        *ngIf="form && dataProduct"
-        class="data-product"
-      >
-        <app-anchor-navigation [identifier]="'#description'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#description' }">
-            <mat-panel-title>Description</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="expansion-content-wrapper">
+          <div>
             <div class="fields-flex-col">
               <mat-form-field
                 appearance="fill"
@@ -142,6 +134,98 @@
               />
             </mat-form-field>
           </div>
+          <ng-container>
+            <div class="fields-flex-row">
+              <div class="fields-flex-col">
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Update frequency</mat-label>
+                  <mat-select formControlName="accrualPeriodicity">
+                    <mat-option
+                      *ngFor="let item of accrualPeriodicityOptions"
+                      [value]="item.id"
+                    >
+                      {{ item.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Type</mat-label>
+                  <mat-select formControlName="type">
+                    <mat-option
+                      *ngFor="let item of typeOptions"
+                      [value]="item.id"
+                      >{{ item.name }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field
+                appearance="fill"
+                [style.width.%]="50"
+              >
+                <mat-label>Issued</mat-label>
+                <input
+                  matInput
+                  [ngxMatDatetimePicker]="pickerIssued"
+                  placeholder="Choose a date & time"
+                  formControlName="issued"
+                />
+
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="$any(pickerIssued)"
+                ></mat-datepicker-toggle>
+
+                <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
+              </mat-form-field>
+
+              <div class="fields-flex-col">
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Created</mat-label>
+                  <input
+                    matInput
+                    [value]="createdValue"
+                    readonly="true"
+                  />
+                </mat-form-field>
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Modified</mat-label>
+                  <input
+                    matInput
+                    [value]="modifiedValue"
+                    readonly="true"
+                  />
+                </mat-form-field>
+              </div>
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="50"
+              >
+                <mat-label>Quality assurance</mat-label>
+                <input
+                  matInput
+                  placeholder="Quality assurance"
+                  name="qualityAssurance"
+                  formControlName="qualityAssurance"
+                />
+              </mat-form-field>
+            </div>
+          </ng-container>
         </mat-expansion-panel>
 
         <div class="expansion-wrapper">
@@ -150,7 +234,7 @@
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#spatialcoverage' }">
               <mat-panel-title>Spatial Coverage</mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="expansion-content-wrapper">
+            <div>
               <ng-container formArrayName="spatialExtentGroup">
                 <ng-container
                   *ngFor="let item of dataProduct.spatialExtent; let i = index"
@@ -244,7 +328,7 @@
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#temporalcoverage' }">
               <mat-panel-title>Temporal Coverage</mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="expansion-content-wrapper">
+            <div>
               <div class="fields-flex-col">
                 <mat-form-field appearance="fill">
                   <mat-label>Start date</mat-label>
@@ -285,115 +369,12 @@
         </div>
 
         <div class="expansion-wrapper">
-          <app-anchor-navigation [identifier]="'#frequencytype'"></app-anchor-navigation>
-          <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#frequencytype' }">
-              <mat-panel-title>Update Frequency & Type</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div class="expansion-content-wrapper">
-              <ng-container>
-                <div class="fields-flex-row">
-                  <div class="fields-flex-col">
-                    <mat-form-field
-                      appearance="fill"
-                      [style.width.%]="50"
-                    >
-                      <mat-label>Update frequency</mat-label>
-                      <mat-select formControlName="accrualPeriodicity">
-                        <mat-option
-                          *ngFor="let item of accrualPeriodicityOptions"
-                          [value]="item.id"
-                        >
-                          {{ item.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field
-                      appearance="fill"
-                      [style.width.%]="50"
-                    >
-                      <mat-label>Type</mat-label>
-                      <mat-select formControlName="type">
-                        <mat-option
-                          *ngFor="let item of typeOptions"
-                          [value]="item.id"
-                          >{{ item.name }}</mat-option
-                        >
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-
-                  <mat-form-field
-                    appearance="fill"
-                    [style.width.%]="50"
-                  >
-                    <mat-label>Issued</mat-label>
-                    <input
-                      matInput
-                      [ngxMatDatetimePicker]="pickerIssued"
-                      placeholder="Choose a date & time"
-                      formControlName="issued"
-                    />
-
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="$any(pickerIssued)"
-                    ></mat-datepicker-toggle>
-
-                    <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
-                  </mat-form-field>
-
-                  <div class="fields-flex-col">
-                    <mat-form-field
-                      appearance="fill"
-                      [style.width.%]="50"
-                    >
-                      <mat-label>Created</mat-label>
-                      <input
-                        matInput
-                        [value]="createdValue"
-                        readonly="true"
-                      />
-                    </mat-form-field>
-                    <mat-form-field
-                      appearance="fill"
-                      [style.width.%]="50"
-                    >
-                      <mat-label>Modified</mat-label>
-                      <input
-                        matInput
-                        [value]="modifiedValue"
-                        readonly="true"
-                      />
-                    </mat-form-field>
-                  </div>
-                  <mat-form-field
-                    appearance="fill"
-                    [floatLabel]="floatLabelControl.value"
-                    [style.width.%]="50"
-                  >
-                    <mat-label>Quality assurance</mat-label>
-                    <input
-                      matInput
-                      placeholder="Quality assurance"
-                      name="qualityAssurance"
-                      formControlName="qualityAssurance"
-                    />
-                  </mat-form-field>
-                </div>
-              </ng-container>
-            </div>
-          </mat-expansion-panel>
-        </div>
-
-        <div class="expansion-wrapper">
           <app-anchor-navigation [identifier]="'#persistentidentifier'"></app-anchor-navigation>
           <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#persistentidentifier' }">
               <mat-panel-title>Persistent Identifier</mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="expansion-content-wrapper">
+            <div>
               <ng-container formArrayName="identifier">
                 <ng-container
                   *ngFor="let control of getControls('identifier'); let i = index"
@@ -446,7 +427,7 @@
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#dataproviders' }">
               <mat-panel-title>Data providers</mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="expansion-content-wrapper">
+            <div>
               <mat-form-field>
                 <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
                 <mat-select
@@ -498,7 +479,7 @@
           <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#contactpoint' }">
             <mat-panel-title>Contact Point</mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="expansion-content-wrapper">
+          <div>
             <app-contact-point-form-details
               *ngIf="contactPointDetails !== null"
               [contactPointDetails]="contactPointDetails"
@@ -516,7 +497,7 @@
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#distribution' + detail.instanceId }">
               <mat-panel-title>Distribution</mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="expansion-content-wrapper">
+            <div>
               <app-distribution-form-details
                 [distributionDetails]="detail"
                 [metaId]="activeMetaId"
