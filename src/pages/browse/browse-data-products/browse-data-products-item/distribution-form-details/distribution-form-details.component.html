@@ -64,44 +64,10 @@
           formControlName="licence"
         />
       </mat-form-field>
-      <mat-form-field
-        appearance="fill"
-        [style.width.%]="100"
-      >
-        <mat-label>Changed</mat-label>
-        <input
-          matInput
-          placeholder="Choose a date & time"
-          name="changeTimestamp"
-          formControlName="changeTimestamp"
-          readonly
-        />
-
-        <!-- <mat-datepicker-toggle
-            matSuffix
-            [for]="$any(ChangedDate)"
-          ></mat-datepicker-toggle> -->
-
-        <ngx-mat-datetime-picker #ChangedDate></ngx-mat-datetime-picker>
-      </mat-form-field>
-      <!-- mat-form-field
-        appearance="fill"
-        [style.width.%]="100"
-      >
-        <mat-label>Modified</mat-label>
-        <input
-          matInput
-          name="Modified"
-          formControlName="modified"
-          readonly
-        />
-
-        <ngx-mat-datetime-picker #modifiedDate></ngx-mat-datetime-picker>
-      </mat-form-field -->
 
       <app-anchor-navigation [identifier]="'#distaccessible' + instanceId"></app-anchor-navigation>
       <div [ngClass]="{ title: true, active: selectedSection === '#distaccessible' + instanceId }">
-        <label id="example-radio-group-label">Data product accessible via: </label>
+        <label id="example-radio-group-label">Data access: </label>
       </div>
       <mat-radio-group
         #dataProductAccessibility
