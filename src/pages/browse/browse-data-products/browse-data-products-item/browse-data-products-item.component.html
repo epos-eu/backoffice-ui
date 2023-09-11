@@ -283,6 +283,7 @@
                         aria-label="delete location"
                         matTooltip="delete location"
                         (click)="deleteSpatialCoverage(i)"
+                        [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                       >
                         <mat-icon>delete</mat-icon>
                       </button>
@@ -295,6 +296,7 @@
                     mat-stroked-button
                     color="primary"
                     (click)="newSpatialCoverage()"
+                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                   >
                     Add Spatial Coverage
                   </button>
@@ -313,6 +315,7 @@
                     mat-stroked-button
                     color="primary"
                     (click)="refreshPointsOnMap()"
+                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                   >
                     Refresh the map
                   </button>
@@ -436,6 +439,7 @@
                   [ngModelOptions]="{ standalone: true }"
                   [compareWith]="compareWithFn"
                   multiple
+                  [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                 >
                   <mat-option
                     *ngFor="let provider of dataProviders"
@@ -486,6 +490,7 @@
               (contactPointDetailsUpdated)="updateContactPointArray($event)"
               [showSaveFormNotify]="contactPointShowSaveNotify"
               [relevantEntity]="entityEnum.DATA_PRODUCT"
+              [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
             ></app-contact-point-form-details>
           </div>
         </mat-expansion-panel>

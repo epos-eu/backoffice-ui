@@ -103,6 +103,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public activeInstanceId!: string;
 
   public entityEnum = Entity;
+  public stateEnum = State;
 
   private formTree: FormTree = {
     id: '#dataproduct',
@@ -238,6 +239,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               id: this.dataProduct.instanceId,
             });
             this.trackEdit();
+            if (this.dataProduct.state === State.PUBLISHED) {
+              this.form.disable();
+            }
           }
         }
       });

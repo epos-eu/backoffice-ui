@@ -22,6 +22,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
   @Input() contactPointDetails: Array<EntityDetail> = [];
   @Input() showSaveFormNotify = false;
   @Input() relevantEntity?: Entity;
+  @Input() disabled = false;
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<EntityDetail>>();
 
   public showContactPointForm = true;
