@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <div class="navbar-container">
   <!-- Top navbar -->
   <mat-toolbar
@@ -46,7 +47,7 @@
 
     <div
       class="user-details"
-      *ngIf="null !== userInfo"
+      *ngIf="null != userInfo"
     >
       <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
       <p>({{ userInfo.role.toLowerCase() }})</p>

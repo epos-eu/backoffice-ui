@@ -12,6 +12,7 @@ import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
 })
 export class OptionDatetimeComponent implements OnInit {
   @Input() param!: Mapping;
+  @Input() disabled = false;
   @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
@@ -22,6 +23,7 @@ export class OptionDatetimeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    this.disabled ? this.paramForm.disable() : this.paramForm.enable();
   }
 
   private initForm(): void {

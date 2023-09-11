@@ -12,6 +12,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 })
 export class OptionCoordinateComponent implements OnInit {
   @Input() param!: Mapping;
+  @Input() disabled = false;
   @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
@@ -22,7 +23,9 @@ export class OptionCoordinateComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    this.disabled ? this.paramForm.disable() : this.paramForm.enable();
   }
+
   private initForm(): void {
     this.paramForm = this.formBuilder.group({
       label: new FormControl(this.param.label, Validators.required),

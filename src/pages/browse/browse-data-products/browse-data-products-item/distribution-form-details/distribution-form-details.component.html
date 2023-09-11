@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <ng-scrollbar [autoHeightDisabled]="false">
   <!-- <div class="top-header">
     <div class="flex-row">
@@ -120,9 +121,9 @@
       *ngIf="this.form?.get('dataProductAccessibility')?.value === 'webservice'"
       class="expansion-wrapper"
     >
-      <div *ngIf="null !== accessService">
+      <div *ngIf="null != accessService">
         <app-anchor-navigation
-          [identifier]="'#distaccessiblewebservice' + accessService.instanceId"
+          [identifier]="'#distaccessiblewebservice' + accessService.instanceId ? accessService.instanceId : ''"
         ></app-anchor-navigation>
         <mat-expansion-panel
           [expanded]="true"
@@ -153,7 +154,7 @@
         </mat-expansion-panel>
       </div>
 
-      <div *ngIf="null === accessService">
+      <div *ngIf="null == accessService">
         <mat-expansion-panel
           [expanded]="true"
           class="web-service"
@@ -179,7 +180,7 @@
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="disabled || null === distribution"
+        [disabled]="disabled || null == distribution"
       >
         Save Distribution
       </button>
@@ -188,7 +189,7 @@
         mat-stroked-button
         color="error"
         (click)="deleteDistribution(distribution?.instanceId)"
-        [disabled]="disabled || null === distribution"
+        [disabled]="disabled || null == distribution"
       >
         <mat-icon>delete</mat-icon>
         Delete Distribution

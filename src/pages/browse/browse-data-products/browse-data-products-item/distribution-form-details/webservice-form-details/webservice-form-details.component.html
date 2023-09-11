@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <ng-scrollbar [autoHeightDisabled]="false">
   <div class="body">
     <div class="expansion-content-wrapper">
@@ -126,6 +127,7 @@
                     matInput
                     value=""
                     (input)="supportedOperationSearch($event)"
+                    [disabled]="disabled"
                   />
                 </mat-form-field>
                 <div class="flex-col">
@@ -134,6 +136,7 @@
                     color="primary"
                     aria-label="Add new operation"
                     (click)="addNewOperation()"
+                    [disabled]="disabled"
                   >
                     <mat-icon>add</mat-icon>
                   </button>
@@ -187,6 +190,7 @@
                     color="warn"
                     aria-label="delete operation"
                     matTooltip="delete operation"
+                    [disabled]="disabled"
                     (click)="deleteOperation(item.instanceId)"
                   >
                     <mat-icon>delete</mat-icon>
@@ -360,7 +364,7 @@
       mat-stroked-button
       color="primary"
       (click)="handleSave()"
-      [disabled]="disabled || null === webservice"
+      [disabled]="disabled || null == webservice"
     >
       Save Web Service
     </button>
