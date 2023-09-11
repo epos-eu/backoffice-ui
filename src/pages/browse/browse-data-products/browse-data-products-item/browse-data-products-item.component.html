@@ -58,20 +58,6 @@
               <div class="label">Status:</div>
               <div class="value">{{ dataProduct.state }}</div>
             </div>
-            <div
-              *ngIf="dataProduct"
-              class="detail"
-            >
-              <div class="label">Created:</div>
-              <div class="value">{{ createdValue }}</div>
-            </div>
-            <div
-              *ngIf="dataProduct"
-              class="detail"
-            >
-              <div class="label">Modified:</div>
-              <div class="value">{{ modifiedValue }}</div>
-            </div>
           </div>
         </div>
       </mat-expansion-panel>
@@ -307,34 +293,36 @@
             <div class="expansion-content-wrapper">
               <ng-container>
                 <div class="fields-flex-row">
-                  <mat-form-field
-                    appearance="fill"
-                    [style.width.%]="50"
-                  >
-                    <mat-label>Update frequency</mat-label>
-                    <mat-select formControlName="accrualPeriodicity">
-                      <mat-option
-                        *ngFor="let item of accrualPeriodicityOptions"
-                        [value]="item.id"
-                      >
-                        {{ item.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
+                  <div class="fields-flex-col">
+                    <mat-form-field
+                      appearance="fill"
+                      [style.width.%]="50"
+                    >
+                      <mat-label>Update frequency</mat-label>
+                      <mat-select formControlName="accrualPeriodicity">
+                        <mat-option
+                          *ngFor="let item of accrualPeriodicityOptions"
+                          [value]="item.id"
+                        >
+                          {{ item.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
 
-                  <mat-form-field
-                    appearance="fill"
-                    [style.width.%]="50"
-                  >
-                    <mat-label>Type</mat-label>
-                    <mat-select formControlName="type">
-                      <mat-option
-                        *ngFor="let item of typeOptions"
-                        [value]="item.id"
-                        >{{ item.name }}</mat-option
-                      >
-                    </mat-select>
-                  </mat-form-field>
+                    <mat-form-field
+                      appearance="fill"
+                      [style.width.%]="50"
+                    >
+                      <mat-label>Type</mat-label>
+                      <mat-select formControlName="type">
+                        <mat-option
+                          *ngFor="let item of typeOptions"
+                          [value]="item.id"
+                          >{{ item.name }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
 
                   <mat-form-field
                     appearance="fill"
@@ -356,6 +344,30 @@
                     <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
                   </mat-form-field>
 
+                  <div class="fields-flex-col">
+                    <mat-form-field
+                      appearance="fill"
+                      [style.width.%]="50"
+                    >
+                      <mat-label>Created</mat-label>
+                      <input
+                        matInput
+                        [value]="createdValue"
+                        readonly="true"
+                      />
+                    </mat-form-field>
+                    <mat-form-field
+                      appearance="fill"
+                      [style.width.%]="50"
+                    >
+                      <mat-label>Modified</mat-label>
+                      <input
+                        matInput
+                        [value]="modifiedValue"
+                        readonly="true"
+                      />
+                    </mat-form-field>
+                  </div>
                   <mat-form-field
                     appearance="fill"
                     [floatLabel]="floatLabelControl.value"
