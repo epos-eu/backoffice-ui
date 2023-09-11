@@ -55,7 +55,6 @@ export class TableComponent implements AfterViewInit {
   private createTableObjects(items: TableItems) {
     const tableDetails = new Array<TableDetail>();
     items.forEach((item: TableItem) => {
-      console.debug(Object.keys(item).includes('title'));
       const detail: TableDetail = {
         uid: item.uid,
         title: item instanceof DataProductDetailDataSource ? item.title[0] : '',
