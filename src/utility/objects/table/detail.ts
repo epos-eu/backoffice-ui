@@ -1,5 +1,6 @@
 export interface TableDetail {
   uid: string;
+  title: string;
   lastChange: Date;
   status: string;
   changeComment: string;
