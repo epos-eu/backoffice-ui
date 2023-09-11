@@ -219,6 +219,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            this.stateChangeService.setCurrentDataProductState(this.dataProduct.state);
             this.selectedDataProviders = this.dataProduct.publisher;
             this.setSpatialCoverageVariables();
 
@@ -406,7 +407,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       metaId: this.dataProduct?.metaId as string,
     };
     const item: Distribution = {
-      uid: '',
+      // uid: '',
       modified: new Date().toISOString(),
       dataProduct: [relatedDataProduct],
     };
@@ -415,7 +416,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       .openDialogForComponent(DataproductAddDistributionComponent, {}, '35vw', 'auto', 'add-distribution-dialog')
       .then((data: DialogData<object, NewDistribution>) => {
         if (data.dataOut.uid && data.dataOut.uid !== '') {
-          item.uid = data.dataOut.uid;
+          item.uid = 'TEMP_UID_VALUE';
           this.apiService.endpoints.Distribution.create
             .call(item)
             .then((value: DistributionDetailDataSource) => {

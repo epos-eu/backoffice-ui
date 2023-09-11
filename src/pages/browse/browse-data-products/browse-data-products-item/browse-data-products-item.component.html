@@ -307,6 +307,7 @@
                   *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0"
                 >
                   <app-spatial-coverage-map
+                    [mapId]="'dataproductMap'"
                     [spatialRange]="spatialCoverageInput"
                     [coordinatesChange]="spatialCoverageChange"
                   >
@@ -413,6 +414,7 @@
                 mat-stroked-button
                 color="primary"
                 (click)="handleAddIdentifier()"
+                [disabled]="dataProduct.state === stateEnum.PUBLISHED"
               >
                 Add identifier
               </button>
@@ -490,7 +492,6 @@
               (contactPointDetailsUpdated)="updateContactPointArray($event)"
               [showSaveFormNotify]="contactPointShowSaveNotify"
               [relevantEntity]="entityEnum.DATA_PRODUCT"
-              [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
             ></app-contact-point-form-details>
           </div>
         </mat-expansion-panel>
@@ -513,6 +514,7 @@
         <button
           mat-stroked-button
           color="primary"
+          [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
           (click)="newDistribution()"
         >
           New Distribution

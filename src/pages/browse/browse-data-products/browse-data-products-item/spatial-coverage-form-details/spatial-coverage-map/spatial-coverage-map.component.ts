@@ -10,6 +10,7 @@ import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum'
   styleUrls: ['./spatial-coverage-map.component.scss'],
 })
 export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
+  @Input() mapId?: string;
   @Input() spatialRange: Array<string | undefined> = [''];
   @Input() coordinatesChange: Subject<Array<string | undefined>> = new Subject();
 
@@ -43,7 +44,7 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
         attribution: `| Powered by ${esriLink} | ${whoLink}`,
       },
     );
-    this.map = L.map('map', {
+    this.map = L.map('map' + this.mapId, {
       center: [45, 3],
       zoom: 3,
       zoomControl: true,
