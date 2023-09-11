@@ -1,4 +1,5 @@
 export enum AcrualPeriodicity {
+  '' = '', // Empty Option
   'http://purl.org/cld/freq/triennial' = 'Triennial',
   'http://purl.org/cld/freq/biennial' = 'Biennial',
   'http://purl.org/cld/freq/annual' = 'Annual',

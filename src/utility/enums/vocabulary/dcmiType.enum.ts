@@ -1,4 +1,5 @@
 export enum DcmiType {
+  '' = '', // Empty Option
   'http://purl.org/dc/dcmitype/Collection' = 'Collection',
   'http://purl.org/dc/dcmitype/Dataset' = 'Dataset',
   'http://purl.org/dc/dcmitype/Event' = 'Event',

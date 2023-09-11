@@ -8,6 +8,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { TableDetail } from 'src/utility/objects/table/detail';
 import { TableItem, TableItems } from 'src/utility/objects/table/items';
 import { FilterEmit } from '../table-filter/table-filter.component';
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 
 @Component({
   selector: 'app-table',
@@ -19,7 +20,7 @@ export class TableComponent implements AfterViewInit {
   @Output() rowClickDetailsEmit = new Subject<Record<string, string>>();
   @Output() paginationChangeEmit = new EventEmitter<PageEvent>();
 
-  public displayedColumns = ['uid', 'lastChange', 'status', 'changeComment', 'author'];
+  public displayedColumns = ['uid', 'title', 'lastChange', 'status', 'changeComment', 'author'];
   public dataSource!: MatTableDataSource<TableDetail>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
@@ -56,6 +57,7 @@ export class TableComponent implements AfterViewInit {
     items.forEach((item: TableItem) => {
       const detail: TableDetail = {
         uid: item.uid,
+        title: item instanceof DataProductDetailDataSource ? item.title[0] : '',
         lastChange: item.changeTimestamp,
         status: item.state,
         changeComment: item.changeComment,

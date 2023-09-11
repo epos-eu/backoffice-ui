@@ -64,7 +64,7 @@ export class DistributionFormDetailsComponent {
       },
       {
         id: '#distaccessible',
-        name: 'Accessible via',
+        name: 'Data access',
         children: [],
         expanded: true,
       },
@@ -139,7 +139,6 @@ export class DistributionFormDetailsComponent {
       metaId: this.distribution?.metaId,
       title: this.distribution?.title,
       description: this.distribution?.description,
-      changeTimestamp: this.distribution?.changeTimestamp,
       state: this.distribution?.state,
       // modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],

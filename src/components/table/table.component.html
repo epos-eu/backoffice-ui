@@ -32,8 +32,28 @@
       <td
         mat-cell
         *matCellDef="let row"
+        matTooltip="{{ row.uid }}"
       >
         {{ row.uid }}
+      </td>
+    </ng-container>
+
+    <!-- UID column -->
+    <ng-container matColumnDef="title">
+      <th
+        sortingCache
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+      >
+        Title
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        matTooltip="{{ row.title }}"
+      >
+        {{ row.title }}
       </td>
     </ng-container>
     <!-- Last change column -->
