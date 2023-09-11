@@ -4,4 +4,5 @@ export enum ContactPointRole {
   'scientificContact' = 'Scientific Contact',
   'manager' = 'Manager',
   'contactPoint' = 'Contact Point',
+  'technicalContact' = 'Technical Contact',
 }

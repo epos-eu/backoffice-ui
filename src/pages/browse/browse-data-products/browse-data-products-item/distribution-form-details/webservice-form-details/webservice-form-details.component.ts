@@ -76,7 +76,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     children: [
       {
         id: '#wscontactpoint',
-        name: 'Contact Point',
+        name: 'Contact Points',
         children: [],
         expanded: false,
       },

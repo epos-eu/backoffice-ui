@@ -136,7 +136,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       },
       {
         id: '#contactpoint',
-        name: 'Contact Point',
+        name: 'Contact Points',
         children: [],
       },
     ],
