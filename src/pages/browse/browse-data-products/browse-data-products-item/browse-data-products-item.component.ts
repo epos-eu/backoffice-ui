@@ -126,7 +126,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       },
       {
         id: '#persistentidentifier',
-        name: 'Persistent Identifier',
+        name: 'Identifiers',
         children: [],
       },
       {
