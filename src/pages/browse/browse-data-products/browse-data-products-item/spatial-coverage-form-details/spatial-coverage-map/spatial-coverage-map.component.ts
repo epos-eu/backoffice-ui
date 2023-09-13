@@ -106,7 +106,7 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
       while ((match = regex.exec(stringPolygon)) !== null) {
         match[1].split(',').map((value) => {
           const coord = value.trim().split(' ');
-          matches.push([Number(coord[0]), Number(coord[1])]);
+          matches.push([Number(coord[1]), Number(coord[0])]);
         });
       }
     }
