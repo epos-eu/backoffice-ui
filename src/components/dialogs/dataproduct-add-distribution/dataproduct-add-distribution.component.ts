@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
 
 export interface NewDistribution {
-  uid: string;
+  cancel: boolean;
 }
 
 @Component({
@@ -22,11 +22,12 @@ export class DataproductAddDistributionComponent implements OnInit {
   public form!: UntypedFormGroup;
 
   public handleClose(): void {
+    this.data.dataOut.cancel = true;
     this.data.close();
   }
 
   public handleCreate(): void {
-    this.data.dataOut.uid = this.form.get('uid')?.value;
+    this.data.dataOut.cancel = false;
     this.data.close();
   }
 

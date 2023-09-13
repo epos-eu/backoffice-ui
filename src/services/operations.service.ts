@@ -377,7 +377,7 @@ export class OperationsService {
           ...formData,
         })
         .then((data: WebserviceDetailDataSource) => {
-          this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+          this.snackbarService.openSnackbar('Successfully updated Webservice.', 'Close', 'success', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -398,7 +398,7 @@ export class OperationsService {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Webservice.', 'Close', 'error', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -458,7 +458,7 @@ export class OperationsService {
           ...formData,
         })
         .then((data: DistributionDetailDataSource) => {
-          this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+          this.snackbarService.openSnackbar('Successfully updated Distribution.', 'Close', 'success', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -479,7 +479,7 @@ export class OperationsService {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Distribution.', 'Close', 'error', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -537,7 +537,7 @@ export class OperationsService {
           ...formData,
         })
         .then((data: ContactPointDetailDataSource) => {
-          this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+          this.snackbarService.openSnackbar('Successfully updated Contact Point.', 'Close', 'success', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -558,7 +558,7 @@ export class OperationsService {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Contact Point.', 'Close', 'error', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -611,7 +611,7 @@ export class OperationsService {
           ...operationData,
         })
         .then((data: OperationDetailDataSource) => {
-          this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
+          this.snackbarService.openSnackbar('Successfully updated Operation.', 'Close', 'success', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -620,7 +620,7 @@ export class OperationsService {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Operation.', 'Close', 'error', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',

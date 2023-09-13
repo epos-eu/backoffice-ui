@@ -31,16 +31,16 @@
   <div class="bottom">
     <div class="actions">
       <button
-        *ngIf="activeDataProduct && currentEdit.state !== state.PUBLISHED"
+        *ngIf="activeDataProduct && activeDataProduct.state !== state.PUBLISHED"
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="currentEdit && currentEdit.state === state.DRAFT && !formEdited"
+        [disabled]="activeDataProduct && activeDataProduct.state === state.DRAFT && !formEdited"
       >
         Save
       </button>
       <button
-        *ngIf="activeDataProduct && currentEdit.state === state.PUBLISHED"
+        *ngIf="activeDataProduct && activeDataProduct.state === state.PUBLISHED"
         mat-stroked-button
         color="primary"
         (click)="handleSave()"

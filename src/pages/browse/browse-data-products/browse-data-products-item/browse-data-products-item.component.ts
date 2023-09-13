@@ -166,6 +166,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.initData(this.activeInstanceId, this.activeMetaId);
       }
     });
+
+    this.actionService.triggerDataProductReloadObs.subscribe((requiresRefresh: boolean) => {
+      if (requiresRefresh) {
+        this.initData(this.activeInstanceId, this.activeMetaId);
+      }
+    });
   }
 
   private trackEdit(): void {
@@ -407,7 +413,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       metaId: this.dataProduct?.metaId as string,
     };
     const item: Distribution = {
-      uid: '',
+      uid: 'TEMP_UID_VALUE',
       modified: new Date().toISOString(),
       dataProduct: [relatedDataProduct],
     };
@@ -415,8 +421,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.dialogService
       .openDialogForComponent(DataproductAddDistributionComponent, {}, '35vw', 'auto', 'add-distribution-dialog')
       .then((data: DialogData<object, NewDistribution>) => {
-        if (data.dataOut.uid && data.dataOut.uid !== '') {
-          item.uid = 'TEMP_UID_VALUE';
+        if (data.dataOut.cancel === false) {
           this.apiService.endpoints.Distribution.create
             .call(item)
             .then((value: DistributionDetailDataSource) => {
