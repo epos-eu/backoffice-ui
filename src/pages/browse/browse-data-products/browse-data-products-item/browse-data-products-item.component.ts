@@ -618,6 +618,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       }),
     );
   }
+  public handleDeleteIdentifier(index: number): void {
+    const identifier = this.form.get('identifier') as FormArray;
+    identifier.removeAt(index);
+  }
 
   public handleScrollToTop(): void {
     scrollBackToTop(this.scrollable);
