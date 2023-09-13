@@ -283,6 +283,7 @@
                         aria-label="delete location"
                         matTooltip="delete location"
                         (click)="deleteSpatialCoverage(i)"
+                        [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                       >
                         <mat-icon>delete</mat-icon>
                       </button>
@@ -295,6 +296,7 @@
                     mat-stroked-button
                     color="primary"
                     (click)="newSpatialCoverage()"
+                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                   >
                     Add Spatial Coverage
                   </button>
@@ -305,6 +307,7 @@
                   *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0"
                 >
                   <app-spatial-coverage-map
+                    [mapId]="'dataproductMap'"
                     [spatialRange]="spatialCoverageInput"
                     [coordinatesChange]="spatialCoverageChange"
                   >
@@ -313,6 +316,7 @@
                     mat-stroked-button
                     color="primary"
                     (click)="refreshPointsOnMap()"
+                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                   >
                     Refresh the map
                   </button>
@@ -410,6 +414,7 @@
                 mat-stroked-button
                 color="primary"
                 (click)="handleAddIdentifier()"
+                [disabled]="dataProduct.state === stateEnum.PUBLISHED"
               >
                 Add identifier
               </button>
@@ -436,6 +441,7 @@
                   [ngModelOptions]="{ standalone: true }"
                   [compareWith]="compareWithFn"
                   multiple
+                  [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                 >
                   <mat-option
                     *ngFor="let provider of dataProviders"
@@ -508,6 +514,7 @@
         <button
           mat-stroked-button
           color="primary"
+          [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
           (click)="newDistribution()"
         >
           New Distribution

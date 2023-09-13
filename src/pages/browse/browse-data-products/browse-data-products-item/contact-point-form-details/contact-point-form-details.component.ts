@@ -8,6 +8,7 @@ import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.mo
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { StateChangeService } from 'src/services/stateChange.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -24,6 +25,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
   @Input() relevantEntity?: Entity;
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<EntityDetail>>();
 
+  public disabled = false;
   public showContactPointForm = true;
   private contactPointArraySource: BehaviorSubject<Array<ContactPointDetailDataSource>> = new BehaviorSubject<
     Array<ContactPointDetailDataSource>
@@ -45,8 +47,16 @@ export class ContactPointFormDetailsComponent implements OnInit {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
+    private stateChangeService: StateChangeService,
   ) {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
+      if (state === null || state === State.PUBLISHED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    });
   }
 
   ngOnInit(): void {

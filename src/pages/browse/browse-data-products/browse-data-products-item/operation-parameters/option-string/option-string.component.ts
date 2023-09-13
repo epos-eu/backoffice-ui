@@ -11,6 +11,7 @@ import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 export class OptionStringComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() param!: any;
+  @Input() disabled = false;
   @Output() updatedParam = new Subject<Mapping>();
 
   constructor(private formBuilder: UntypedFormBuilder) {}
@@ -54,6 +55,7 @@ export class OptionStringComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    this.disabled ? this.form.disable() : this.form.enable();
   }
 
   public getControls(field: string) {
@@ -67,5 +69,15 @@ export class OptionStringComponent implements OnInit {
     } else {
       return 'any';
     }
+  }
+
+  public handleAddNewValue(): void {
+    const value = this.form.get('value') as FormArray;
+    value.push(
+      this.formBuilder.group({
+        value: '',
+        asDefault: false,
+      }),
+    );
   }
 }

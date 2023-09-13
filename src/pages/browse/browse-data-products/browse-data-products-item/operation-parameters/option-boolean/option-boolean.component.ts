@@ -10,6 +10,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 })
 export class OptionBooleanComponent implements OnInit {
   @Input() param!: Mapping;
+  @Input() disabled = false;
   @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
@@ -19,6 +20,7 @@ export class OptionBooleanComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initForm();
+    this.disabled ? this.paramForm.disable() : this.paramForm.enable();
   }
 
   private initForm(): void {

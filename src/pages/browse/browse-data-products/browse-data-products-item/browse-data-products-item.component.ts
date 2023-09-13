@@ -103,6 +103,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public activeInstanceId!: string;
 
   public entityEnum = Entity;
+  public stateEnum = State;
 
   private formTree: FormTree = {
     id: '#dataproduct',
@@ -218,6 +219,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            this.stateChangeService.setCurrentDataProductState(this.dataProduct.state);
             this.selectedDataProviders = this.dataProduct.publisher;
             this.setSpatialCoverageVariables();
 
@@ -238,6 +240,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               id: this.dataProduct.instanceId,
             });
             this.trackEdit();
+            if (this.dataProduct.state === State.PUBLISHED) {
+              this.form.disable();
+            }
           }
         }
       });
@@ -411,7 +416,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       .openDialogForComponent(DataproductAddDistributionComponent, {}, '35vw', 'auto', 'add-distribution-dialog')
       .then((data: DialogData<object, NewDistribution>) => {
         if (data.dataOut.uid && data.dataOut.uid !== '') {
-          item.uid = data.dataOut.uid;
+          item.uid = 'TEMP_UID_VALUE';
           this.apiService.endpoints.Distribution.create
             .call(item)
             .then((value: DistributionDetailDataSource) => {

@@ -7,8 +7,10 @@ import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { OperationsService } from 'src/services/operations.service';
+import { StateChangeService } from 'src/services/stateChange.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
+import { State } from 'src/utility/enums/state.enum';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -24,7 +26,16 @@ export class OperationParametersComponent implements OnInit {
     private apiService: ApiService,
     private operationsService: OperationsService,
     private dialogService: DialogService,
-  ) {}
+    private stateChangeService: StateChangeService,
+  ) {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
+      if (state === null || state === State.PUBLISHED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    });
+  }
 
   private operation!: Operation;
   private template?: string;
@@ -32,6 +43,7 @@ export class OperationParametersComponent implements OnInit {
   public mapping?: Mapping[];
   public rangeEnum = OperationParamsRange;
   public fetchingOperation = false;
+  public disabled = false;
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;
@@ -51,6 +63,7 @@ export class OperationParametersComponent implements OnInit {
             this.template = this.operation.template;
             this.mapping = this.operation.mapping;
             this.initForm();
+            this.disabled ? this.paramsForm.disable() : this.paramsForm.enable();
           }
         });
     }

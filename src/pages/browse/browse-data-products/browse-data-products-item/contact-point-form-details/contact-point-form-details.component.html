@@ -12,10 +12,11 @@
 
       <button
         mat-mini-fab
-        color="error"
+        color="{{ disabled ? '' : 'error' }}"
         aria-label="Delete data product"
         matTooltip="Remove Contact Point"
         (click)="removeContactPoint(cp.instanceId)"
+        [disabled]="disabled"
       >
         <mat-icon>delete</mat-icon>
       </button>
@@ -44,7 +45,7 @@
 
 <div
   class="contactpoint-item"
-  *ngIf="showContactPointForm"
+  *ngIf="showContactPointForm && !disabled"
 >
   <mat-form-field
     class="contact-select"

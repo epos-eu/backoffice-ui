@@ -90,6 +90,8 @@
       <button
         mat-raised-button
         color="primary"
+        (click)="handleAddNewValue()"
+        [disabled]="disabled"
       >
         Add new value
       </button>

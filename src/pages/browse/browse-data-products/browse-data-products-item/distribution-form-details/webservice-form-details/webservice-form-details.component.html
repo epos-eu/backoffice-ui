@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <ng-scrollbar [autoHeightDisabled]="false">
   <div class="body">
     <div class="expansion-content-wrapper">
@@ -78,6 +79,7 @@
           [ngModelOptions]="{ standalone: true }"
           [compareWith]="compareWithFn"
           (selectionChange)="updateServicePoint()"
+          [disabled]="disabled"
         >
           <mat-option
             *ngFor="let provider of serviceProviders"
@@ -125,6 +127,7 @@
                     matInput
                     value=""
                     (input)="supportedOperationSearch($event)"
+                    [disabled]="disabled"
                   />
                 </mat-form-field>
                 <div class="flex-col">
@@ -133,6 +136,7 @@
                     color="primary"
                     aria-label="Add new operation"
                     (click)="addNewOperation()"
+                    [disabled]="disabled"
                   >
                     <mat-icon>add</mat-icon>
                   </button>
@@ -186,6 +190,7 @@
                     color="warn"
                     aria-label="delete operation"
                     matTooltip="delete operation"
+                    [disabled]="disabled"
                     (click)="deleteOperation(item.instanceId)"
                   >
                     <mat-icon>delete</mat-icon>
@@ -218,6 +223,7 @@
                     <mat-radio-group
                       aria-label="Select an option"
                       formControlName="type"
+                      [disabled]="disabled"
                     >
                       <mat-radio-button [value]="spatialCoveragePolygon">Polygon</mat-radio-button>
                       <mat-radio-button [value]="spatialCoveragePoint">Point</mat-radio-button>
@@ -240,6 +246,7 @@
                         name="item.location"
                         [value]="spatialCoverageInput[i]"
                         formControlName="coord"
+                        [disabled]="disabled"
                       />
                     </mat-form-field>
                   </div>
@@ -252,6 +259,7 @@
                       color="error"
                       aria-label="delete location"
                       matTooltip="delete location"
+                      [disabled]="disabled"
                       (click)="deleteSpatialCoverage(i)"
                     >
                       <mat-icon>delete</mat-icon>
@@ -265,6 +273,7 @@
                   mat-stroked-button
                   color="primary"
                   (click)="newSpatialCoverage()"
+                  [disabled]="disabled"
                 >
                   Add Spatial Coverage
                 </button>
@@ -275,6 +284,7 @@
                 *ngIf="webservice.spatialExtent && webservice.spatialExtent.length > 0"
               >
                 <app-spatial-coverage-map
+                  [mapId]="'webserviceMap'"
                   [spatialRange]="spatialCoverageInput"
                   [coordinatesChange]="spatialCoverageChange"
                 >
@@ -283,6 +293,7 @@
                   mat-stroked-button
                   color="primary"
                   (click)="refreshPointsOnMap()"
+                  [disabled]="disabled"
                 >
                   Refresh the map
                 </button>
@@ -307,6 +318,7 @@
                   [ngxMatDatetimePicker]="pickerStartDate"
                   placeholder="Choose a date & time"
                   formControlName="temporalExtentStartDate"
+                  [disabled]="disabled"
                 />
 
                 <mat-datepicker-toggle
@@ -324,6 +336,7 @@
                   [ngxMatDatetimePicker]="pickerEndDate"
                   placeholder="Choose a date & time"
                   formControlName="temporalExtentEndDate"
+                  [disabled]="disabled"
                 />
 
                 <mat-datepicker-toggle
@@ -351,7 +364,7 @@
       mat-stroked-button
       color="primary"
       (click)="handleSave()"
-      [disabled]="null === webservice"
+      [disabled]="disabled || null == webservice"
     >
       Save Web Service
     </button>

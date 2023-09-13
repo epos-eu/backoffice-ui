@@ -22,6 +22,8 @@ import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodici
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import * as moment from 'moment';
 import { Documentation } from 'src/apiAndObjects/objects/types/documentation.type';
+import { State } from 'src/utility/enums/state.enum';
+import { StateChangeService } from 'src/services/stateChange.service';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -69,6 +71,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public datePublised: string | null = null;
   public dateModified: string | null = null;
 
+  public disabled = false;
+
   public instanceId = '';
   private formTree = {
     id: '#distaccessiblewebservice',
@@ -109,6 +113,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     private apiService: ApiService,
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
+    private stateChangeService: StateChangeService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -116,6 +121,14 @@ export class WebserviceFormDetailsComponent implements OnInit {
     });
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
+
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
+      if (state === null || state === State.PUBLISHED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    });
     // this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
   }
   ngOnInit(): void {
@@ -149,6 +162,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
             if (this.webservice && this.webservice.instanceId) {
               this.trackFormData();
+              this.disabled ? this.form.disable() : this.form.enable();
             }
           }
         }

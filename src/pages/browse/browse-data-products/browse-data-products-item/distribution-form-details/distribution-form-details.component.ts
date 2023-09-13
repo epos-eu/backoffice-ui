@@ -21,6 +21,7 @@ import {
   NewWebservice,
 } from 'src/components/dialogs/dataproduct-add-webservice/dataproduct-add-webservice.component';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
+import { StateChangeService } from 'src/services/stateChange.service';
 
 @Component({
   selector: 'app-distribution-form-details',
@@ -52,6 +53,9 @@ export class DistributionFormDetailsComponent {
   public selectedSection = '';
 
   public instanceId = '';
+
+  public disabled = false;
+
   private formTree = {
     id: '#distribution',
     name: 'Distribution',
@@ -88,7 +92,16 @@ export class DistributionFormDetailsComponent {
     private actionsService: ActionsService,
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
-  ) {}
+    private stateChangeService: StateChangeService,
+  ) {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
+      if (state === null || state === State.PUBLISHED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    });
+  }
 
   private initData(id: string): void {
     this.apiService.endpoints.Distribution.get
@@ -109,6 +122,7 @@ export class DistributionFormDetailsComponent {
             );
             this.accessService = this.distribution.accessService;
             this.trackFormData();
+            this.disabled ? this.form.disable() : this.form.enable();
           }
         }
       });
