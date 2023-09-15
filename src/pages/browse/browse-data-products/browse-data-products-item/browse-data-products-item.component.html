@@ -29,9 +29,10 @@
         <div class="flex-col">
           <button
             mat-mini-fab
-            color="error"
+            color="warn"
             aria-label="Delete data product"
             (click)="handleDelete()"
+            [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
           >
             <mat-icon>delete</mat-icon>
           </button>
@@ -279,7 +280,7 @@
                     >
                       <button
                         mat-mini-fab
-                        color="error"
+                        color="warn"
                         aria-label="delete location"
                         matTooltip="delete location"
                         (click)="deleteSpatialCoverage(i)"
@@ -384,30 +385,44 @@
                   *ngFor="let control of getControls('identifier'); let i = index"
                   [formGroupName]="i"
                 >
-                  <mat-form-field
-                    appearance="fill"
-                    [floatLabel]="floatLabelControl.value"
-                    [style.width.%]="100"
-                  >
-                    <mat-label>Identifier</mat-label>
-                    <input
-                      matInput
-                      placeholder="Identifier"
-                      formControlName="identifier"
-                    />
-                  </mat-form-field>
-                  <mat-form-field
-                    appearance="fill"
-                    [floatLabel]="floatLabelControl.value"
-                    [style.width.%]="100"
-                  >
-                    <mat-label>Type</mat-label>
-                    <input
-                      matInput
-                      placeholder="Type"
-                      formControlName="type"
-                    />
-                  </mat-form-field>
+                  <div class="fields-flex-col">
+                    <div class="indentifiers-flex-col">
+                      <mat-form-field
+                        appearance="fill"
+                        [floatLabel]="floatLabelControl.value"
+                        [style.width.%]="100"
+                      >
+                        <mat-label>Identifier</mat-label>
+                        <input
+                          matInput
+                          placeholder="Identifier"
+                          formControlName="identifier"
+                        />
+                      </mat-form-field>
+                      <mat-form-field
+                        appearance="fill"
+                        [floatLabel]="floatLabelControl.value"
+                        [style.width.%]="100"
+                      >
+                        <mat-label>Type</mat-label>
+                        <input
+                          matInput
+                          placeholder="Type"
+                          formControlName="type"
+                        />
+                      </mat-form-field>
+                    </div>
+                    <button
+                      mat-mini-fab
+                      color="{{ dataProduct.state === stateEnum.PUBLISHED ? '' : 'warn' }}"
+                      aria-label="Delete data product"
+                      matTooltip="Remove Contact Point"
+                      (click)="handleDeleteIdentifier(i)"
+                      [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
                 </ng-container>
               </ng-container>
               <button

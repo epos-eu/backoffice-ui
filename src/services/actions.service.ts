@@ -24,6 +24,9 @@ export class ActionsService {
   private formEdited = new BehaviorSubject<boolean>(false);
   public formEditedObs = this.formEdited.asObservable();
 
+  private handleDataProductReload = new BehaviorSubject<boolean>(false);
+  public triggerDataProductReloadObs = this.handleDataProductReload.asObservable();
+
   constructor(private persistorService: PersistorService) {}
 
   /**
@@ -39,6 +42,13 @@ export class ActionsService {
     }
     return [];
   };
+
+  /**
+   * Notifies Listeners of @triggerDataProductReloadObs to relaod DataProduct Data.
+   */
+  public triggerDataProductReload(reload = true): void {
+    this.handleDataProductReload.next(reload);
+  }
 
   /**
    * User has entered editing screen.
