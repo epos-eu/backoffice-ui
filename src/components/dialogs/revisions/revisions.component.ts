@@ -11,6 +11,7 @@ import { State } from 'src/utility/enums/state.enum';
 import { Router } from '@angular/router';
 import { OperationsService } from 'src/services/operations.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 interface CurrentEntity {
   metaId: string;
@@ -19,11 +20,13 @@ interface CurrentEntity {
 
 export interface Revision {
   instanceId: string;
+  metaId: string;
   uid: string;
   version: string;
   state: State;
   created: Date;
   editorId: string;
+  title: string;
 }
 
 @Component({
@@ -42,7 +45,16 @@ export class RevisionsComponent implements OnInit {
 
   private revisions!: Array<Revision>;
   public selection = new SelectionModel<Revision>(true, []);
-  public displayedColumns: string[] = ['select', 'instanceId', 'uid', 'version', 'state', 'created', 'editorId'];
+  public displayedColumns: string[] = [
+    'select',
+    'instanceId',
+    'uid',
+    'version',
+    'state',
+    'created',
+    'editorId',
+    'link',
+  ];
   public dataSource!: MatTableDataSource<Revision>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
@@ -71,11 +83,13 @@ export class RevisionsComponent implements OnInit {
             const revisions: Revision[] = data.map((item) => {
               return {
                 instanceId: item.instanceId,
+                metaId: item.metaId,
                 uid: item.uid,
-                version: item.version,
+                version: item.versionInfo,
                 state: item.state,
                 created: item.created,
                 editorId: item.editorId,
+                title: item.title[0],
               };
             });
             this.loading = false;
@@ -108,5 +122,10 @@ export class RevisionsComponent implements OnInit {
 
   public masterToggle() {
     this.allSelected() ? this.selection.clear() : this.dataSource.data.forEach((row) => this.selection.select(row));
+  }
+
+  public handleNavigate(metaID: string, instanceId: string): void {
+    this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, metaID, instanceId]);
+    this.data.close();
   }
 }
