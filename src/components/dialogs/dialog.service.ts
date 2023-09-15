@@ -209,32 +209,28 @@ export class DialogService extends BaseDialogService {
         webservice: webserviceEntityDetail,
       }).then((response: DialogData) => {
         if (response.dataOut.action === 'add') {
-          const uid = response.dataOut.uid;
+          const item: Operation = {
+            uid: 'TEMP_OPERATION_UID/TO_BE_HANDLED_BY_API',
+            webservice: [webserviceEntityDetail],
+          };
 
-          if (uid !== '' && uid !== undefined) {
-            const item: Operation = {
-              uid: uid,
-              webservice: [webserviceEntityDetail],
-            };
-
-            this.apiService.endpoints.Operation.create
-              .call(item)
-              .then((value: OperationDetailDataSource) => {
-                this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
-                  'snackbar',
-                  'mat-toolbar',
-                  'snackbar-success',
-                ]);
-                resolve(value);
-              })
-              .catch(() =>
-                this.snackbarService.openSnackbar(`Error: failed to create new operation`, 'close', 'error', 6000, [
-                  'snackbar',
-                  'mat-toolbar',
-                  'snackbar-error',
-                ]),
-              );
-          }
+          this.apiService.endpoints.Operation.create
+            .call(item)
+            .then((value: OperationDetailDataSource) => {
+              this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-success',
+              ]);
+              resolve(value);
+            })
+            .catch(() =>
+              this.snackbarService.openSnackbar(`Error: failed to create new operation`, 'close', 'error', 6000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]),
+            );
         }
       });
     });

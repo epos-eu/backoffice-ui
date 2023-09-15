@@ -127,21 +127,19 @@
                     matInput
                     value=""
                     (input)="supportedOperationSearch($event)"
-                    [disabled]="disabled"
                   />
                 </mat-form-field>
-                <div class="flex-col">
-                  <button
-                    mat-mini-fab
-                    color="primary"
-                    aria-label="Add new operation"
-                    (click)="addNewOperation()"
-                    [disabled]="disabled"
-                  >
-                    <mat-icon>add</mat-icon>
-                  </button>
-                  <mat-label>Add Operation</mat-label>
-                </div>
+                <button
+                  class="button-add"
+                  mat-mini-fab
+                  color="primary"
+                  aria-label="Add new operation"
+                  (click)="addNewOperation()"
+                  [disabled]="disabled"
+                  matTooltip="Add Operation"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
               </div>
             </div>
             <mat-divider></mat-divider>
@@ -164,6 +162,7 @@
                       placeholder="UID"
                       name="supportedOperation.uid"
                       [value]="item.uid"
+                      [disabled]="true"
                     />
                   </mat-form-field>
                   <mat-expansion-panel

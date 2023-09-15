@@ -413,7 +413,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       metaId: this.dataProduct?.metaId as string,
     };
     const item: Distribution = {
-      uid: 'TEMP_UID_VALUE',
+      uid: 'TEMP_DISTRIBTUION_UID/TO_BE_HANDLED_BY_API',
       modified: new Date().toISOString(),
       dataProduct: [relatedDataProduct],
     };

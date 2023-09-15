@@ -29,9 +29,10 @@
         <div class="flex-col">
           <button
             mat-mini-fab
-            color="error"
+            color="warn"
             aria-label="Delete data product"
             (click)="handleDelete()"
+            [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
           >
             <mat-icon>delete</mat-icon>
           </button>

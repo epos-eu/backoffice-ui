@@ -65,13 +65,16 @@ button {
   padding-top: 1em;
 
   .top-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
     padding: 2rem 0 0 2rem;
 
     .actions {
+      display: flex;
+      // flex-direction: row;
+      // justify-content: right;
       width: 100%;
+      .button-add {
+        margin-bottom: 3em;
+      }
     }
   }
 
