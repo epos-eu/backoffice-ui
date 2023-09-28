@@ -20,7 +20,6 @@ import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 import { ConfirmDialogComponent, ConfirmationDataIn } from './confirmDialog/confirmDialog.component';
-import { StateChangeService } from 'src/services/stateChange.service';
 
 @Injectable({
   providedIn: 'root',

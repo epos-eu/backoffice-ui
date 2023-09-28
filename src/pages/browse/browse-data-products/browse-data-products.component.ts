@@ -23,10 +23,6 @@ export class BrowseDataProductsComponent {
     this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, row['metaId'], row['instanceId']]);
   }
 
-  public createDataProduct(): void {
-    this.router.navigate([`browse/dataproduct/new`]);
-  }
-
   public handleScrollToTop(): void {
     scrollBackToTop(this.scrollable);
   }
