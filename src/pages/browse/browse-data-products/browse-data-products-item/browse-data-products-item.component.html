@@ -246,13 +246,16 @@
                       class="spatial-type"
                       [style.width.%]="20"
                     >
-                      <mat-radio-group
-                        aria-label="Select an option"
-                        formControlName="type"
-                      >
-                        <mat-radio-button [value]="spatialCoveragePolygon">Polygon</mat-radio-button>
-                        <mat-radio-button [value]="spatialCoveragePoint">Point</mat-radio-button>
-                      </mat-radio-group>
+                      <mat-form-field>
+                        <mat-select
+                          aria-label="Select an option"
+                          formControlName="type"
+                          #spatCovType
+                        >
+                          <mat-option [value]="spatialCoveragePoint">Point</mat-option>
+                          <mat-option [value]="spatialCoveragePolygon">Polygon</mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     </div>
                     <div
                       class="spatial-coverage-input"
@@ -273,6 +276,10 @@
                           formControlName="coord"
                         />
                       </mat-form-field>
+                      <app-simple-spatial-control
+                        [type]="spatCovType.value"
+                        [coords]="spatialCov"
+                      ></app-simple-spatial-control>
                     </div>
                     <div
                       class="spatial-coverage-input"
