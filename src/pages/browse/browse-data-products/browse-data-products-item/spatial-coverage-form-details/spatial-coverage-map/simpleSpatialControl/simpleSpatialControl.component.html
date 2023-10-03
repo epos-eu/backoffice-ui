@@ -13,6 +13,23 @@
  License for the specific language governing permissions and limitations under
  the License.
  -->
+
+<div
+  class="spatial-type"
+  [style.width.%]="20"
+>
+  <mat-form-field>
+    <mat-select [(ngModel)]="activeCoverageType">
+      <!-- <mat-option value="spatialCoveragePoint">Point</mat-option>
+     <mat-option value="spatialCoveragePolygon">Polygon</mat-option> -->
+      <mat-option
+        *ngFor="let item of spatCovArr"
+        [value]="item"
+        >{{ item }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</div>
 <div
   class="wrapper"
   [class.disabled]="inputsDisabled"
@@ -24,7 +41,9 @@
       matInput
       placeholder="Coordinates"
       name="item.location"
-      [value]="polygonCoverage"
+      matTooltip="Example: -56 28, -56 69, 41 69"
+      [(ngModel)]="polygonCoverage"
+      (ngModelChange)="formatLocation()"
     />
   </mat-form-field>
 </div>
@@ -37,27 +56,41 @@
   <mat-form-field>
     <input
       matInput
-      [(ngModel)]="latitude"
+      [(ngModel)]="longitude"
       [disabled]="inputsDisabled"
       type="number"
-      step="0.01"
-      min="-90"
-      max="90"
-      matTooltip="Latitude"
-      placeholder="Latitude"
+      step="1"
+      min="-180"
+      max="180"
+      matTooltip="&deg;Longitude"
+      placeholder="&deg;Longitude"
+      (ngModelChange)="formatLocation()"
     />
   </mat-form-field>
   <mat-form-field>
     <input
       matInput
-      [(ngModel)]="longitude"
+      [(ngModel)]="latitude"
       [disabled]="inputsDisabled"
       type="number"
-      step="0.01"
-      min="-180"
-      max="180"
-      matTooltip="&deg;Longitude"
-      placeholder="&deg;Longitude"
+      step="1"
+      min="-90"
+      max="90"
+      matTooltip="&deg;Latitude"
+      placeholder="&deg;Latitude"
+      (ngModelChange)="formatLocation()"
     />
   </mat-form-field>
+</div>
+<div>
+  <button
+    mat-mini-fab
+    color="warn"
+    aria-label="Remove Spatial Extent"
+    matTooltip="Remove Spatial Extent"
+    (click)="handleDelete()"
+    [disabled]="inputsDisabled"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
 </div>

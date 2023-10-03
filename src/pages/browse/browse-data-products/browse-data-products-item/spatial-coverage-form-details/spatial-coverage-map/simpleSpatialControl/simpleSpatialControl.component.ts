@@ -1,46 +1,33 @@
-/*
-         Copyright 2021 EPOS ERIC
-
- Licensed under the Apache License, Version 2.0 (the License); you may not
- use this file except in compliance with the License.  You may obtain a copy
- of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an AS IS BASIS, WITHOUT
- WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
- License for the specific language governing permissions and limitations under
- the License.
- */
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 
+export interface SpatialExtentLocationIndexObj {
+  location: string;
+  index: number;
+}
 @Component({
   selector: 'app-simple-spatial-control',
   templateUrl: './simpleSpatialControl.component.html',
   styleUrls: ['./simpleSpatialControl.component.scss'],
 })
 export class SimpleSpatialControlComponent {
+  @Input() index?: number;
   @Input() inputsDisabled = false;
-  @Input() showClearButton = false;
-
-  @Input()
-  set activeCoverage(type: SpatialCoverageType) {
-    if (type) {
-      this.activeCoverageType = type;
-    }
-  }
-
   @Input()
   set spatialExtent(value: SpatialExtent) {
     if (null != value) {
       this.setSpatialCoverageVariables(value);
+      value.location.includes(SpatialCoverageType.POINT)
+        ? (this.activeCoverageType = SpatialCoverageType.POINT)
+        : (this.activeCoverageType = SpatialCoverageType.POLYGON);
     }
   }
+  @Output() location = new Subject<SpatialExtentLocationIndexObj>();
+  @Output() delete = new Subject<number>();
 
   public floatLabelControl = new UntypedFormControl('auto');
   public clearButtonEnabled = false;
@@ -50,7 +37,12 @@ export class SimpleSpatialControlComponent {
   public latitude = 0;
   public longitude = 0;
 
+  public spatCovArr: Array<SpatialCoverageType>;
   public spatCovEnum = SpatialCoverageType;
+
+  constructor() {
+    this.spatCovArr = Object.values(SpatialCoverageType);
+  }
 
   /**
    * The function sets spatial coverage variables based on the data product's spatial extent.
@@ -59,8 +51,8 @@ export class SimpleSpatialControlComponent {
     if (extent.location.includes(SpatialCoverageType.POINT)) {
       const coordStringArr = this.formatLocationFromObjectToString(extent.location as string).split(' ');
       const coordNumArr = coordStringArr.map((coordString: string) => Number(coordString));
-      this.latitude = coordNumArr[0];
-      this.longitude = coordNumArr[1];
+      this.longitude = coordNumArr[0];
+      this.latitude = coordNumArr[1];
     } else {
       this.polygonCoverage = this.formatLocationFromObjectToString(extent.location);
     }
@@ -80,5 +72,30 @@ export class SimpleSpatialControlComponent {
 
     const match = regex.exec(location);
     return match !== null ? match[1] : '';
+  }
+
+  /**
+   * The function `formatLocation` extracts a string representation of a location from
+   * an object.
+   * @param {string} location - The `location` parameter is a string that represents a location.
+   * @returns a string.
+   */
+  public formatLocation() {
+    let spatialExtentLocation = '';
+    if (this.activeCoverageType === SpatialCoverageType.POLYGON) {
+      spatialExtentLocation = this.activeCoverageType + '((' + this.polygonCoverage + '))';
+    } else {
+      spatialExtentLocation =
+        this.activeCoverageType + '(' + this.longitude.toString() + ' ' + this.latitude.toString() + ')';
+    }
+    const emitObj: SpatialExtentLocationIndexObj = {
+      location: spatialExtentLocation,
+      index: this.index as number,
+    };
+    this.location.next(emitObj);
+  }
+
+  public handleDelete() {
+    this.delete.next(this.index as number);
   }
 }
