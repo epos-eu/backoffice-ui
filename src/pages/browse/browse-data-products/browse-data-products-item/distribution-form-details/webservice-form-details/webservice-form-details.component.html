@@ -249,11 +249,8 @@
             <mat-panel-title>Spatial Coverage</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
-            <ng-container formArrayName="spatialExtentGroup">
-              <ng-container
-                *ngFor="let item of webservice.spatialExtent; let i = index"
-                formGroupName="{{ i }}"
-              >
+            <ng-container>
+              <ng-container *ngFor="let item of webservice.spatialExtent; let i = index">
                 <div class="spatial-item">
                   <app-simple-spatial-control
                     [spatialExtent]="item"

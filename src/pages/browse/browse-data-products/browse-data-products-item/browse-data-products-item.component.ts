@@ -278,7 +278,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
         modified: this.dataProduct?.modified,
         versionInfo: this.dataProduct?.versionInfo,
-        // spatialExtentGroup: this.createLocationCtrls(),
         temporalExtentStartDate: this.getTemporalExtent('startDate'),
         temporalExtentEndDate: this.getTemporalExtent('endDate'),
         distribution: this.formBuilder.array([]),
