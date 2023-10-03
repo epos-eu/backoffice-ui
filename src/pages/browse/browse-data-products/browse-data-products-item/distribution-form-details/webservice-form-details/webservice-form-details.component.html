@@ -7,22 +7,53 @@
           <div class="label">Instance Id:</div>
           <div class="value">{{ webservice?.instanceId }}</div>
         </div>
-        <div
-          *ngIf="webservice"
-          class="detail"
+        <form
+          [formGroup]="dateForm"
+          *ngIf="dateForm && webservice"
         >
-          <div class="label">Published:</div>
-          <div class="value">
-            {{ datePublised?.toString() === 'Invalid Date' ? 'Unpublished' : datePublised }}
+          <div class="detail">
+            <ng-container *ngIf="webservice.datePublished.toString() !== 'Invalid Date'">
+              <mat-form-field>
+                <mat-label>Date published</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="datePublished"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngIf="webservice.datePublished.toString() === 'Invalid Date'">
+              <div class="label">Published:</div>
+              <div class="value">Unpublished</div>
+            </ng-container>
           </div>
-        </div>
-        <div
-          *ngIf="webservice"
-          class="detail"
-        >
-          <div class="label">Modified:</div>
-          <div class="value">{{ dateModified?.toString() === 'Invalid Date' ? 'Never modified' : dateModified }}</div>
-        </div>
+          <div class="detail">
+            <ng-container *ngIf="webservice.dateModified.toString() !== 'Invalid Date'">
+              <mat-form-field>
+                <mat-label>Date modified</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="dateModified"
+                />
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </ng-container>
+            <ng-container *ngIf="webservice.dateModified.toString() === 'Invalid Date'">
+              <div class="label">Modified:</div>
+              <div class="value">Never modified</div>
+            </ng-container>
+          </div>
+        </form>
       </div>
     </div>
     <form
@@ -70,6 +101,7 @@
           [ngStyle]="{ 'line-height': '1.4' }"
           formControlName="documentation"
         />
+        <mat-error *ngIf="form.get('documentation')?.invalid"> URL is not valid. </mat-error>
       </mat-form-field>
 
       <mat-form-field>
@@ -117,87 +149,95 @@
           <div class="expansion-content-wrapper">
             <div class="top-header">
               <div class="actions">
-                Filter:
-                <mat-form-field
-                  appearance="outline"
-                  [style.width.%]="80"
-                >
-                  <mat-label>Search by UID</mat-label>
-                  <input
-                    matInput
-                    value=""
-                    (input)="supportedOperationSearch($event)"
-                  />
-                </mat-form-field>
-                <button
-                  class="button-add"
-                  mat-mini-fab
-                  color="primary"
-                  aria-label="Add new operation"
-                  (click)="addNewOperation()"
-                  [disabled]="disabled"
-                  matTooltip="Add Operation"
-                >
-                  <mat-icon>add</mat-icon>
-                </button>
-              </div>
-            </div>
-            <mat-divider></mat-divider>
-            <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
-              <div
-                [ngClass]="{
-                  'supported-operation-wrapper': true,
-                  'mat-elevation-z8': supportedOperationFocusFirstRow && i === 0
-                }"
-              >
-                <div class="supported-operation-item">
+                <div class="flex-col filter">
+                  <mat-label>Filter</mat-label>
                   <mat-form-field
                     appearance="outline"
-                    [floatLabel]="floatLabelControl.value"
-                    [style.width.%]="96"
+                    [style.width.%]="100"
                   >
-                    <mat-label>UID</mat-label>
+                    <mat-label>Search by UID</mat-label>
                     <input
                       matInput
-                      placeholder="UID"
-                      name="supportedOperation.uid"
-                      [value]="item.uid"
-                      [disabled]="true"
+                      value=""
+                      (input)="supportedOperationSearch($event)"
                     />
                   </mat-form-field>
-                  <mat-expansion-panel
-                    #expansionPanel
-                    [expanded]="false"
-                    class="supported-operation-params"
-                    [style.width.%]="96"
-                    [id]="i"
-                    (afterExpand)="handleOperationParams(i)"
-                  >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>Parameters</mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <app-operation-parameters
-                      *ngIf="(selectedPanelId | async) === i"
-                      [instanceId]="item.instanceId"
-                      [metaId]="metaId"
-                    ></app-operation-parameters>
-                  </mat-expansion-panel>
-                </div>
-                <div class="supported-item-actions">
                   <button
-                    mat-mini-fab
-                    color="warn"
-                    aria-label="delete operation"
-                    matTooltip="delete operation"
+                    mat-flat-button
+                    color="primary"
                     [disabled]="disabled"
-                    (click)="deleteOperation(item.instanceId)"
+                    (click)="addNewOperation()"
+                    *ngIf="webservice.supportedOperation.length === 0"
                   >
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon>add</mat-icon>
+                    Add Operation
                   </button>
                 </div>
-                <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
               </div>
-            </ng-container>
+            </div>
+            <ng-scrollbar
+              [autoHeightDisabled]="true"
+              [style]="{ height: '600px' }"
+            >
+              <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
+                <div
+                  [ngClass]="{
+                    'supported-operation-wrapper': true,
+                    'mat-elevation-z8': supportedOperationFocusFirstRow && i === 0
+                  }"
+                >
+                  <div class="flex-row">
+                    <div class="supported-operation-item">
+                      <mat-form-field
+                        appearance="outline"
+                        [floatLabel]="floatLabelControl.value"
+                        [style.width.%]="100"
+                      >
+                        <mat-label>UID</mat-label>
+                        <input
+                          matInput
+                          placeholder="UID"
+                          name="supportedOperation.uid"
+                          [value]="item.uid"
+                          [disabled]="true"
+                        />
+                      </mat-form-field>
+                      <mat-expansion-panel
+                        #expansionPanel
+                        [expanded]="false"
+                        class="supported-operation-params"
+                        [style.width.%]="100"
+                        [id]="i"
+                        (afterExpand)="handleOperationParams(i)"
+                      >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>Parameters</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <app-operation-parameters
+                          *ngIf="(selectedPanelId | async) === i"
+                          [instanceId]="item.instanceId"
+                          [metaId]="metaId"
+                        ></app-operation-parameters>
+                      </mat-expansion-panel>
+                    </div>
+                    <div class="supported-item-actions">
+                      <button
+                        mat-mini-fab
+                        color="warn"
+                        aria-label="Delete operation"
+                        matTooltip="Delete operation"
+                        class="smaller"
+                        [disabled]="disabled"
+                        (click)="deleteOperation(item.instanceId)"
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
+                </div>
+              </ng-container>
+            </ng-scrollbar>
           </div>
         </mat-expansion-panel>
       </ng-container>
@@ -277,12 +317,15 @@
                   formControlName="temporalExtentStartDate"
                   [disabled]="disabled"
                 />
-
+                <app-clear-datepicker
+                  matSuffix
+                  [value]="pickerEndDate"
+                  (onClear)="handleClearDatePicker(form.controls['temporalExtentStartDate'])"
+                ></app-clear-datepicker>
                 <mat-datepicker-toggle
                   matSuffix
                   [for]="$any(pickerStartDate)"
                 ></mat-datepicker-toggle>
-
                 <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
               </mat-form-field>
 
@@ -295,12 +338,15 @@
                   formControlName="temporalExtentEndDate"
                   [disabled]="disabled"
                 />
-
+                <app-clear-datepicker
+                  matSuffix
+                  [value]="pickerEndDate"
+                  (onClear)="handleClearDatePicker(form.controls['temporalExtentEndDate'])"
+                ></app-clear-datepicker>
                 <mat-datepicker-toggle
                   matSuffix
                   [for]="$any(pickerEndDate)"
                 ></mat-datepicker-toggle>
-
                 <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
               </mat-form-field>
             </div>
@@ -321,7 +367,7 @@
       mat-stroked-button
       color="primary"
       (click)="handleSave()"
-      [disabled]="disabled || null == webservice"
+      [disabled]="disabled || null == webservice || form.invalid"
     >
       Save Web Service
     </button>

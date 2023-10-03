@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormControl,
   FormGroup,
@@ -32,6 +33,7 @@ import {
   NGX_MAT_DATE_FORMATS,
   NgxMatDateAdapter,
   NgxMatDateFormats,
+  NgxMatDatetimePicker,
 } from '@angular-material-components/datetime-picker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
@@ -52,6 +54,7 @@ import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from './spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -76,6 +79,8 @@ const MY_DATE_FORMAT: NgxMatDateFormats = {
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   @ViewChild(NgScrollbar) scrollable!: NgScrollbar;
+  @ViewChild(NgxMatDatetimePicker) public issuedPicker!: MatDatepicker<Date>;
+  @ViewChild(NgxMatDatetimePicker) public tempStartDatePicker!: MatDatepicker<Date>;
 
   public floatLabelControl = new UntypedFormControl('auto');
   public dataProduct!: DataProductDetailDataSource | undefined;
@@ -99,7 +104,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public modifiedValue: string | null = null;
   public activeMetaId!: string;
   public activeInstanceId!: string;
-
   public entityEnum = Entity;
   public stateEnum = State;
 
@@ -574,6 +578,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleScrollToTop(): void {
     scrollBackToTop(this.scrollable);
+  }
+
+  public handleClearDatePicker(control: AbstractControl): void {
+    this.operationsService.clearDatePicker(control);
   }
 }
 

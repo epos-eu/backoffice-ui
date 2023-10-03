@@ -21,7 +21,6 @@ import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
 import { CreatePersonDetail } from './person/createPersonDetail';
 import { PostDistributionDetail } from './distribution/postDistributionDetail';
-import { AaaiService } from 'src/aaai/aaai.service';
 import { RequestMethod } from '../_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
@@ -97,13 +96,8 @@ export class ApiService extends BaseApi {
     },
   };
 
-  constructor(
-    httpClient: HttpClient,
-    injector: Injector,
-    aaai: AaaiService,
-    private persistorService: PersistorService,
-  ) {
-    super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector, aaai), environment.apiBaseUrl);
+  constructor(httpClient: HttpClient, injector: Injector, private persistorService: PersistorService) {
+    super(injector, httpClient, new EposBackOfficeHttpResponseHandler(injector), environment.apiBaseUrl);
 
     // Add endpoints
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

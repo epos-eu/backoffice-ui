@@ -124,3 +124,22 @@ app-table-filter {
 .mat-column-state {
   text-transform: capitalize;
 }
+
+.hidden {
+  display: none !important;
+}
+
+button {
+  &.mat-mdc-mini-fab {
+    &.smaller {
+      width: 36px;
+      height: 36px;
+
+      mat-icon {
+        width: 22px;
+        font-size: 22px;
+        height: 22px;
+      }
+    }
+  }
+}

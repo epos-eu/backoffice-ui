@@ -1,5 +1,12 @@
 import { Component, ElementRef, Input, QueryList, ViewChildren, OnInit } from '@angular/core';
-import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ReplaySubject, Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
@@ -67,10 +74,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
   public typeOptions: Array<{ id: string; name: string }> = [];
   public entityEnum = Entity;
-
-  public datePublised: string | null = null;
-  public dateModified: string | null = null;
-
+  public dateForm!: UntypedFormGroup;
   public disabled = false;
 
   private updateMapTimeout?: NodeJS.Timeout;
@@ -107,6 +111,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     ],
     expanded: true,
   };
+  private updatingObject = this.operationsService.getActiveWebServiceValue();
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -155,20 +160,35 @@ export class WebserviceFormDetailsComponent implements OnInit {
       .then((data: Array<WebserviceDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
+          console.log(this.webservice);
           if (this.webservice) {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
             this.handleServiceProviders(this.webservice);
             this.setSpatialCoverageVariables();
-            this.datePublised = this.getDate(this.webservice.datePublished);
-            this.dateModified = this.getDate(this.webservice.dateModified);
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
             if (this.webservice && this.webservice.instanceId) {
               this.trackFormData();
-              this.disabled ? this.form.disable() : this.form.enable();
+              if (this.disabled) {
+                this.form.disable();
+                this.dateForm.disable();
+              } else {
+                this.form.enable();
+                this.dateForm.enable();
+              }
             }
           }
         }
       });
+  }
+
+  public isValidHttpUrl(urlToCheck: string) {
+    let url;
+    try {
+      url = new URL(urlToCheck);
+    } catch (_) {
+      return false;
+    }
+    return url.protocol === 'http:' || url.protocol === 'https:';
   }
 
   private getDocumentation(documentation: Array<Documentation> | undefined): string {
@@ -186,7 +206,18 @@ export class WebserviceFormDetailsComponent implements OnInit {
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
       description: this.webservice?.description,
-      documentation: this.getDocumentation(this.webservice?.documentation),
+      documentation: this.formBuilder.control(this.getDocumentation(this.webservice?.documentation), [
+        Validators.required,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (control: AbstractControl): { [key: string]: any } | null => {
+          if (this.isValidHttpUrl(control.value)) {
+            return null;
+          } else {
+            control.markAsTouched();
+            return { 'error-class': control.value };
+          }
+        },
+      ]),
       temporalExtentStartDate: this.getTemporalExtent('startDate'),
       temporalExtentEndDate: this.getTemporalExtent('endDate'),
       dateModified: this.webservice?.dateModified,
@@ -197,6 +228,11 @@ export class WebserviceFormDetailsComponent implements OnInit {
       license: this.webservice?.license,
     });
 
+    this.dateForm = this.formBuilder.group({
+      datePublished: [this.webservice?.datePublished],
+      dateModified: [this.webservice?.dateModified],
+    });
+
     this.explorerService.setFormSection(
       '#distaccessible' + this.parentEntity?.instanceId,
       this.formTree,
@@ -205,17 +241,16 @@ export class WebserviceFormDetailsComponent implements OnInit {
     );
 
     this.form.valueChanges.subscribe((changes) => {
-      const updatingObject = this.operationsService.getActiveWebServiceValue();
-      if (updatingObject) {
-        updatingObject.name = changes['name'];
-        updatingObject.description = changes['description'];
-        updatingObject.temporalExtent = [
+      if (this.updatingObject) {
+        this.updatingObject.name = changes['name'];
+        this.updatingObject.description = changes['description'];
+        this.updatingObject.temporalExtent = [
           {
             startDate: this.getDate(changes['temporalExtentStartDate']),
             endDate: this.getDate(changes['temporalExtentEndDate']),
           },
         ];
-        updatingObject.documentation = [
+        this.updatingObject.documentation = [
           {
             description: '',
             title: '',
@@ -223,7 +258,15 @@ export class WebserviceFormDetailsComponent implements OnInit {
           },
         ];
         // updatingObject.distribution = [this.parentEntity as EntityDetail];
-        this.operationsService.setActiveWebService(updatingObject);
+        this.operationsService.setActiveWebService(this.updatingObject);
+      }
+    });
+
+    this.dateForm.valueChanges.subscribe((changes) => {
+      if (this.updatingObject) {
+        this.updatingObject.dateModified = changes.dateModified;
+        this.updatingObject.datePublished = changes.datePublished;
+        this.operationsService.setActiveWebService(this.updatingObject);
       }
     });
   }
@@ -469,5 +512,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
       return '';
     }
     return moment.isMoment(val) ? val.toISOString() : (val as string);
+  }
+
+  public handleClearDatePicker(control: AbstractControl): void {
+    this.operationsService.clearDatePicker(control);
   }
 }

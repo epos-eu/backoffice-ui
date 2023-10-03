@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { State } from 'src/utility/enums/state.enum';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -50,11 +49,7 @@ export class HomePageComponent implements OnInit {
     },
   ];
 
-  constructor(
-    private readonly activeUserService: ActiveUserService,
-    private actionsService: ActionsService,
-    private router: Router,
-  ) {}
+  constructor(private readonly activeUserService: ActiveUserService, private actionsService: ActionsService) {}
 
   ngOnInit(): void {
     this.subscriptions.push(

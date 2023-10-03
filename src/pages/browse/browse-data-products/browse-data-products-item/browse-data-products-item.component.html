@@ -179,12 +179,15 @@
                   placeholder="Choose a date & time"
                   formControlName="issued"
                 />
-
+                <app-clear-datepicker
+                  matSuffix
+                  [value]="pickerIssued"
+                  (onClear)="handleClearDatePicker(form.controls['issued'])"
+                ></app-clear-datepicker>
                 <mat-datepicker-toggle
                   matSuffix
                   [for]="$any(pickerIssued)"
                 ></mat-datepicker-toggle>
-
                 <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
               </mat-form-field>
 
@@ -300,12 +303,16 @@
                     placeholder="Choose a date & time"
                     formControlName="temporalExtentStartDate"
                   />
-
+                  <app-clear-datepicker
+                    matSuffix
+                    [value]="pickerStartDate"
+                    (onClear)="handleClearDatePicker(form.controls['temporalExtentStartDate'])"
+                  ></app-clear-datepicker>
                   <mat-datepicker-toggle
                     matSuffix
                     [for]="$any(pickerStartDate)"
+                    matTooltip="Choose a date & time"
                   ></mat-datepicker-toggle>
-
                   <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
                 </mat-form-field>
 
@@ -317,6 +324,11 @@
                     placeholder="Choose a date & time"
                     formControlName="temporalExtentEndDate"
                   />
+                  <app-clear-datepicker
+                    matSuffix
+                    [value]="pickerEndDate"
+                    (onClear)="handleClearDatePicker(form.controls['temporalExtentEndDate'])"
+                  ></app-clear-datepicker>
 
                   <mat-datepicker-toggle
                     matSuffix
