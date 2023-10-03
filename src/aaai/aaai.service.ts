@@ -49,6 +49,7 @@ export class AaaiService {
 
   public logout(): void {
     this.authProvider.logout();
+    this.router.navigate(['/login']);
   }
 
   public getManageUrl(): string {

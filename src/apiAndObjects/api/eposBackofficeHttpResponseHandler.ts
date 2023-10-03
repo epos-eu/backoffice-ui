@@ -6,7 +6,9 @@ import { AaaiService } from 'src/aaai/aaai.service';
 
 export class EposBackOfficeHttpResponseHandler {
   private readonly notificationsService: SnackbarService;
-  constructor(private injector: Injector, private aaai: AaaiService) {
+  private aaaiService: AaaiService;
+  constructor(private injector: Injector) {
+    this.aaaiService = injector.get(AaaiService);
     this.notificationsService = injector.get<SnackbarService>(SnackbarService);
   }
 
@@ -56,6 +58,9 @@ export class EposBackOfficeHttpResponseHandler {
     let errorMessage = '';
 
     switch (true) {
+      case res.status === 401:
+        this.aaaiService.logout();
+        break;
       case res.ok === false:
         errorMessage = res.message;
         break;
