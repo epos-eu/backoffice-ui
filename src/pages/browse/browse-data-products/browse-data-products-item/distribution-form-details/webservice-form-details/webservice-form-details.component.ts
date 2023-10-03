@@ -144,10 +144,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
     });
   }
 
-  get spatialExtentGroupArray() {
-    return this.form.get('spatialExtentGroup') as FormArray;
-  }
-
   private initData(id: string): void {
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
