@@ -14,15 +14,6 @@
  the License.
  */
 
-export interface BoundingBox {
-  getMaxLat(): number;
-  getMaxLon(): number;
-  getMinLat(): number;
-  getMinLon(): number;
-  asArray(): [number, number, number, number];
-  isBounded(): boolean;
-}
-
 export interface PointCoord {
   getLat(): number;
   getLon(): number;

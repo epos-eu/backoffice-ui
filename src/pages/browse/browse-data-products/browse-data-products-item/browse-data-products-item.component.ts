@@ -51,9 +51,6 @@ import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { StateChangeService } from 'src/services/stateChange.service';
-import { SimpleBoundingBox } from 'src/utility/config/simpleBoundingBox';
-import { SimplePointCoord } from 'src/utility/config/simplePointCoord';
-import { BoundingBox, PointCoord } from 'src/utility/config/boundingBox.interface';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
@@ -92,7 +89,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public labelSpatialCoverage: Array<string> = [''];
   public spatialCoveragePoint = SpatialCoverageType.POINT as string;
   public spatialCoveragePolygon = SpatialCoverageType.POLYGON as string;
-  public spatialCov?: BoundingBox | PointCoord;
   public spatialCoverageInput: Array<string | undefined> = [];
   public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
@@ -509,13 +505,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       );
       this.spatialCoverageInput[index] = item.location;
     });
-    this.dataProduct?.spatialExtent;
-    const coordStringArr = this.formatLocationFromObjectToString(
-      this.dataProduct?.spatialExtent[0].location as string,
-    ).split(' ');
-    const coordNumArr = coordStringArr.map((coordString: string) => Number(coordString));
-    const spatialCoverage = new SimplePointCoord(coordNumArr[0], coordNumArr[1]);
-    this.spatialCov = spatialCoverage;
   }
 
   /**

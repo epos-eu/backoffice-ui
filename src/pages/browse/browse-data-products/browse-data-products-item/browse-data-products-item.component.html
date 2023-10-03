@@ -261,24 +261,9 @@
                       class="spatial-coverage-input"
                       [style.width.%]="50"
                     >
-                      <mat-form-field
-                        appearance="fill"
-                        [floatLabel]="floatLabelControl.value"
-                        [style.width.%]="96"
-                        class="indent"
-                      >
-                        <mat-label>{{ labelSpatialCoverage[i] }}</mat-label>
-                        <input
-                          matInput
-                          placeholder="Coordinates"
-                          name="item.location"
-                          [value]="spatialCoverageInput[i]"
-                          formControlName="coord"
-                        />
-                      </mat-form-field>
                       <app-simple-spatial-control
-                        [type]="spatCovType.value"
-                        [coords]="spatialCov"
+                        [spatialExtent]="item"
+                        [activeCoverage]="spatCovType.value"
                       ></app-simple-spatial-control>
                     </div>
                     <div
