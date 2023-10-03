@@ -19,6 +19,7 @@ export class OptionIntegerComponent implements OnInit {
 
   private clickedIndex!: number;
   public form!: UntypedFormGroup;
+  public hideAddNewValue = false;
 
   private checkBool(value: string | null): boolean {
     if (!value) {
@@ -46,8 +47,20 @@ export class OptionIntegerComponent implements OnInit {
         }),
       ]),
     });
+
+    if (this.checkBool(this.param.multipleValues)) {
+      this.hideAddNewValue = true;
+    }
+
     this.form.valueChanges.subscribe((changes) => {
       const changedObject = changes as Mapping;
+
+      if (changedObject.multipleValues && this.checkBool(changedObject.multipleValues)) {
+        this.hideAddNewValue = true;
+      } else {
+        this.hideAddNewValue = false;
+      }
+
       this.param.label = changedObject.label;
       this.param.required = changedObject.required.toString();
       this.param.readOnlyValue = changedObject.readOnlyValue ? changedObject.readOnlyValue.toString() : '';
