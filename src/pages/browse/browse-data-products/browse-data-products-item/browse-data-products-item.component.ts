@@ -52,7 +52,6 @@ import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from './spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 
 const MY_DATE_FORMAT: NgxMatDateFormats = {
   parse: {
