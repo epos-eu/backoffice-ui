@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SortingDirective } from 'src/directives/sorting-cache.directive';
 import { BackToTopButtonComponent } from './back-to-top-button/back-to-top-button.component';
 import { ErrorNoticeComponent } from './error-notice/error-notice.component';
+import { ClearDatepickerComponent } from './clear-datepicker/clear-datepicker.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ErrorNoticeComponent } from './error-notice/error-notice.component';
     SortingDirective,
     BackToTopButtonComponent,
     ErrorNoticeComponent,
+    ClearDatepickerComponent,
   ],
   imports: [
     RouterModule,
@@ -48,6 +50,7 @@ import { ErrorNoticeComponent } from './error-notice/error-notice.component';
     TableComponent,
     ErrorNoticeComponent,
     BackToTopButtonComponent,
+    ClearDatepickerComponent,
   ],
 })
 export class ComponentsModule {}
