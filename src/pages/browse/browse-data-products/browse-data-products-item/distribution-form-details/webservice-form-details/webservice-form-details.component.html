@@ -359,12 +359,15 @@
                   formControlName="temporalExtentStartDate"
                   [disabled]="disabled"
                 />
-
+                <app-clear-datepicker
+                  matSuffix
+                  [value]="pickerEndDate"
+                  (onClear)="handleClearDatePicker(form.controls['temporalExtentStartDate'])"
+                ></app-clear-datepicker>
                 <mat-datepicker-toggle
                   matSuffix
                   [for]="$any(pickerStartDate)"
                 ></mat-datepicker-toggle>
-
                 <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
               </mat-form-field>
 
@@ -377,12 +380,15 @@
                   formControlName="temporalExtentEndDate"
                   [disabled]="disabled"
                 />
-
+                <app-clear-datepicker
+                  matSuffix
+                  [value]="pickerEndDate"
+                  (onClear)="handleClearDatePicker(form.controls['temporalExtentEndDate'])"
+                ></app-clear-datepicker>
                 <mat-datepicker-toggle
                   matSuffix
                   [for]="$any(pickerEndDate)"
                 ></mat-datepicker-toggle>
-
                 <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
               </mat-form-field>
             </div>

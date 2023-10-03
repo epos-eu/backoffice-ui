@@ -20,6 +20,7 @@ import { Revision } from 'src/components/dialogs/revisions/revisions.component';
 import { BehaviorSubject } from 'rxjs';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
+import { AbstractControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -631,5 +632,9 @@ export class OperationsService {
 
   public setRevisions(revisions: Array<Revision>): void {
     this.revisions.next(revisions);
+  }
+
+  public clearDatePicker(control: AbstractControl): void {
+    control.reset();
   }
 }

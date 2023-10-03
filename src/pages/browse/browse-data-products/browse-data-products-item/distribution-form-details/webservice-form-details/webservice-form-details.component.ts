@@ -562,4 +562,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
     }
     return moment.isMoment(val) ? val.toISOString() : (val as string);
   }
+
+  public handleClearDatePicker(control: AbstractControl): void {
+    this.operationsService.clearDatePicker(control);
+  }
 }
