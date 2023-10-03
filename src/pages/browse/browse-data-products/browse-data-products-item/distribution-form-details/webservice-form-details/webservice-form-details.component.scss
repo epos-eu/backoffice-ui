@@ -36,17 +36,15 @@ button {
     }
 
     .supported-operation-item {
-      // background-color: #f9f9f9;
-      padding: 2rem 0 0 2rem;
-      border-radius: 4px;
+      width: 97.5%;
+      padding-right: 1rem;
     }
 
     .supported-item-actions {
       display: flex;
       flex-direction: row;
-      justify-content: right;
-      margin-right: 2em;
-      margin-bottom: 1em;
+      justify-content: flex-end;
+      width: 36px;
     }
   }
 }
@@ -65,13 +63,14 @@ button {
   padding-top: 1em;
 
   .top-header {
-    padding: 2rem 0 0 2rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-bottom: 1px solid #cecece;
 
     .actions {
       display: flex;
-      // flex-direction: row;
-      // justify-content: right;
       width: 100%;
+
       .button-add {
         margin-bottom: 3em;
       }
@@ -141,4 +140,29 @@ button {
 
 .spatial-coverage-actions {
   margin-bottom: 1em;
+}
+
+.flex-col {
+  &.filter {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    margin-left: 0;
+
+    mat-label {
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+
+    button {
+      margin-top: 0;
+    }
+  }
+}
+
+.flex-row {
+  display: flex;
+  align-items: baseline;
+  padding: 2rem;
 }
