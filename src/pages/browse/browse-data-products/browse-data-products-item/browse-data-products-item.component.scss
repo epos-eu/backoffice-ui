@@ -217,3 +217,11 @@
 .spatial-coverage-actions {
   margin-bottom: 1em;
 }
+
+ul {
+  &.selected-providers-list {
+    li {
+      margin-bottom: 0.25rem;
+    }
+  }
+}

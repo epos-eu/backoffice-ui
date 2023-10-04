@@ -45,6 +45,7 @@ import { OptionFloatComponent } from './browse-data-products/browse-data-product
 import { ContactPointDetailComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-detail/contact-point-detail.component';
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 import { SimpleSpatialControlComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
+import { OrderByPipe } from 'src/pipes/orderBy.pipe';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { SimpleSpatialControlComponent } from './browse-data-products/browse-dat
     OptionFloatComponent,
     BrowseRevisionsComponent,
     SimpleSpatialControlComponent,
+    OrderByPipe,
   ],
   imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [],
