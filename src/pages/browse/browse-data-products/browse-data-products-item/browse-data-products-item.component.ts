@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
+  AbstractControlOptions,
   FormArray,
   FormControl,
   FormGroup,
@@ -261,6 +262,31 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return transformed;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (group: FormGroup): { [key: string]: any } => {
+      const startCtrl = group.controls[start];
+      const endCtrl = group.controls[end];
+
+      if (endCtrl.value == null) {
+        return {
+          dates: 'If no end date is provided, it is assumed that this dataset is acquired continuously.',
+        };
+      }
+
+      if (moment(startCtrl.value).isAfter(endCtrl.value)) {
+        startCtrl.markAsTouched();
+        endCtrl.markAsTouched();
+
+        return {
+          dates: 'Start date needs to be before end date.',
+        };
+      }
+      return {};
+    };
+  }
+
   private trackFormData(): void {
     if (this.dataProduct) {
       this.form = this.formBuilder.group({
@@ -274,8 +300,13 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
         modified: this.dataProduct?.modified,
         versionInfo: this.dataProduct?.versionInfo,
-        temporalExtentStartDate: this.getTemporalExtent('startDate'),
-        temporalExtentEndDate: this.getTemporalExtent('endDate'),
+        temporalDates: this.formBuilder.group(
+          {
+            startDate: [this.getTemporalExtent('startDate')],
+            endDate: [this.getTemporalExtent('endDate')],
+          },
+          { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
+        ),
         distribution: this.formBuilder.array([]),
         contactPoint: this.formBuilder.array([]),
         issued: this.dataProduct?.issued,
@@ -314,8 +345,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
           updatingObject.temporalExtent = [
             {
-              startDate: this.getDate(changes['temporalExtentStartDate']),
-              endDate: this.getDate(changes['temporalExtentEndDate']),
+              startDate: this.getDate(changes.temporalDates['startDate']),
+              endDate: this.getDate(changes.temporalDates['endDate']),
             },
           ];
 
@@ -327,6 +358,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.type = changes['type'];
           updatingObject.identifier = changes.identifier;
           updatingObject.qualityAssurance = changes.qualityAssurance;
+
+          console.log(updatingObject);
 
           this.actionService.enableSave();
           this.operationsService.setActiveDataProduct(updatingObject);
@@ -591,8 +624,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     scrollBackToTop(this.scrollable);
   }
 
-  public handleClearDatePicker(control: AbstractControl): void {
-    this.operationsService.clearDatePicker(control);
+  public handleClearDatePicker(fieldName: string): void {
+    const control = this.form.get(fieldName);
+    if (control) {
+      this.operationsService.clearDatePicker(control);
+    }
   }
 
   public getDataProviderName(uid: string): string {

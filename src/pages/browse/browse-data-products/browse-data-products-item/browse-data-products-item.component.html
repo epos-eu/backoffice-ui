@@ -182,7 +182,7 @@
                 <app-clear-datepicker
                   matSuffix
                   [value]="pickerIssued"
-                  (onClear)="handleClearDatePicker(form.controls['issued'])"
+                  (onClear)="handleClearDatePicker('issued')"
                 ></app-clear-datepicker>
                 <mat-datepicker-toggle
                   matSuffix
@@ -294,7 +294,7 @@
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#temporalcoverage' }">
               <mat-panel-title>Temporal Coverage</mat-panel-title>
             </mat-expansion-panel-header>
-            <div>
+            <div formGroupName="temporalDates">
               <div class="fields-flex-col">
                 <mat-form-field appearance="fill">
                   <mat-label>Start date</mat-label>
@@ -302,12 +302,12 @@
                     matInput
                     [ngxMatDatetimePicker]="pickerStartDate"
                     placeholder="Choose a date & time"
-                    formControlName="temporalExtentStartDate"
+                    formControlName="startDate"
                   />
                   <app-clear-datepicker
                     matSuffix
                     [value]="pickerStartDate"
-                    (onClear)="handleClearDatePicker(form.controls['temporalExtentStartDate'])"
+                    (onClear)="handleClearDatePicker('temporalDates.startDate')"
                   ></app-clear-datepicker>
                   <mat-datepicker-toggle
                     matSuffix
@@ -323,12 +323,12 @@
                     matInput
                     [ngxMatDatetimePicker]="pickerEndDate"
                     placeholder="Choose a date & time"
-                    formControlName="temporalExtentEndDate"
+                    formControlName="endDate"
                   />
                   <app-clear-datepicker
                     matSuffix
                     [value]="pickerEndDate"
-                    (onClear)="handleClearDatePicker(form.controls['temporalExtentEndDate'])"
+                    (onClear)="handleClearDatePicker('temporalDates.endDate')"
                   ></app-clear-datepicker>
 
                   <mat-datepicker-toggle
@@ -339,6 +339,9 @@
                   <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
                 </mat-form-field>
               </div>
+              <mat-error>
+                {{ form.get('temporalDates')?.errors?.['dates'] }}
+              </mat-error>
             </div>
           </mat-expansion-panel>
         </div>
@@ -436,7 +439,10 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <ul class="selected-providers-list" *ngIf="selectedDataProviders.length > 0">
+              <ul
+                class="selected-providers-list"
+                *ngIf="selectedDataProviders.length > 0"
+              >
                 <li *ngFor="let provider of selectedDataProviders">
                   {{ provider.legalName }}
                 </li>
