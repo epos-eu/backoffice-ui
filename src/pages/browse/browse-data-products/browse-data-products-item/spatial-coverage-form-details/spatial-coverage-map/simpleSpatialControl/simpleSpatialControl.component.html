@@ -3,7 +3,10 @@
   [style.width.%]="20"
 >
   <mat-form-field>
-    <mat-select [(ngModel)]="activeCoverageType">
+    <mat-select
+      [(ngModel)]="activeCoverageType"
+      [disabled]="inputsDisabled"
+    >
       <!-- <mat-option value="spatialCoveragePoint">Point</mat-option>
      <mat-option value="spatialCoveragePolygon">Polygon</mat-option> -->
       <mat-option
@@ -27,6 +30,7 @@
       name="item.location"
       matTooltip="Example: -56 28, -56 69, 41 69"
       [(ngModel)]="polygonCoverage"
+      [disabled]="inputsDisabled"
       (ngModelChange)="formatLocation()"
     />
   </mat-form-field>
