@@ -44,6 +44,7 @@ import { OptionBooleanComponent } from './browse-data-products/browse-data-produ
 import { OptionFloatComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-float/option-float.component';
 import { ContactPointDetailComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-detail/contact-point-detail.component';
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
+import { SimpleSpatialControlComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.co
     OptionBooleanComponent,
     OptionFloatComponent,
     BrowseRevisionsComponent,
+    SimpleSpatialControlComponent,
   ],
   imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [],

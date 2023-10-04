@@ -1,12 +1,5 @@
 import { Component, ElementRef, Input, QueryList, ViewChildren, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ReplaySubject, Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
@@ -23,7 +16,6 @@ import { OperationsService } from 'src/services/operations.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
-import { SpatialGroup } from '../../browse-data-products-item.component';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
@@ -31,6 +23,7 @@ import * as moment from 'moment';
 import { Documentation } from 'src/apiAndObjects/objects/types/documentation.type';
 import { State } from 'src/utility/enums/state.enum';
 import { StateChangeService } from 'src/services/stateChange.service';
+import { SpatialExtentLocationIndexObj } from '../../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -76,6 +69,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public entityEnum = Entity;
   public dateForm!: UntypedFormGroup;
   public disabled = false;
+
+  private updateMapTimeout?: NodeJS.Timeout;
+
   public instanceId = '';
   private formTree = {
     id: '#distaccessiblewebservice',
@@ -141,10 +137,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
     });
   }
 
-  get spatialExtentGroupArray() {
-    return this.form.get('spatialExtentGroup') as FormArray;
-  }
-
   private initData(id: string): void {
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
@@ -157,7 +149,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
       .then((data: Array<WebserviceDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
-          console.log(this.webservice);
           if (this.webservice) {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
             this.handleServiceProviders(this.webservice);
@@ -215,7 +206,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
           }
         },
       ]),
-      spatialExtentGroup: this.createLocationCtrls(),
       temporalExtentStartDate: this.getTemporalExtent('startDate'),
       temporalExtentEndDate: this.getTemporalExtent('endDate'),
       dateModified: this.webservice?.dateModified,
@@ -242,7 +232,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
       if (this.updatingObject) {
         this.updatingObject.name = changes['name'];
         this.updatingObject.description = changes['description'];
-        this.updatingObject.spatialExtent = this.formatLocationFromStringToObject(changes['spatialExtentGroup']);
         this.updatingObject.temporalExtent = [
           {
             startDate: this.getDate(changes['temporalExtentStartDate']),
@@ -427,32 +416,13 @@ export class WebserviceFormDetailsComponent implements OnInit {
     );
   }
 
-  private createLocationCtrls() {
-    const formArrayCtrls = this.formBuilder.array([]);
-
-    if (this.webservice !== undefined) {
-      this.webservice.spatialExtent.forEach((se) => {
-        formArrayCtrls.push(
-          this.formBuilder.group({
-            type: se.location.includes(SpatialCoverageType.POINT)
-              ? SpatialCoverageType.POINT
-              : SpatialCoverageType.POLYGON,
-            coord: this.formatLocationFromObjectToString(se.location),
-          }),
-        );
-      });
-    }
-    return formArrayCtrls;
-  }
-
   public newSpatialCoverage() {
     this.webservice?.spatialExtent.push({ location: 'POINT(0 0)' });
     this.spatialCoverageInput.push('0 0');
-    this.spatialExtentGroupArray.push(
-      this.formBuilder.group({
-        type: SpatialCoverageType.POINT,
-        coord: '0 0',
-      }),
+
+    // Update Global Web Service after change to Spatial Extents Arr
+    this.operationsService.setActiveWebService(
+      this.operationsService.convertToWebService(this.webservice as WebserviceDetailDataSource),
     );
 
     setTimeout(() => {
@@ -461,9 +431,13 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public deleteSpatialCoverage(index: number) {
-    this.spatialCoverageInput.splice(index, 1);
     this.webservice?.spatialExtent.splice(index, 1);
-    this.spatialExtentGroupArray.value.splice(index, 1);
+    this.spatialCoverageInput.splice(index, 1);
+
+    // Update Global Web Service after change to Spatial Extents Arr
+    this.operationsService.setActiveWebService(
+      this.operationsService.convertToWebService(this.webservice as WebserviceDetailDataSource),
+    );
 
     setTimeout(() => {
       this.refreshPointsOnMap();
@@ -471,15 +445,40 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   /**
+   * This funtion is called by an ouput from @SimpleSpatialControlComponent whenever one of the Spatial Coverage Inputs is changed.
+   * It replaces the old value value at index @n and replaces the value with the updated one.
+   */
+  public updateSpatialCoverage(event: SpatialExtentLocationIndexObj) {
+    // Update global webservice Obj
+    const webservice = this.operationsService.getActiveWebServiceValue();
+    if (null != webservice?.spatialExtent) {
+      webservice.spatialExtent.map((spatialExtent: SpatialExtent, index) => {
+        if (event.index === index) {
+          spatialExtent.location = event.location;
+        }
+      });
+      this.operationsService.setActiveWebService(webservice);
+
+      // update points on map
+      const spatExtentsToUpdate: Array<string> = [];
+      webservice.spatialExtent.forEach((spatialExtent: SpatialExtent) => {
+        spatExtentsToUpdate.push(spatialExtent.location);
+      });
+      this.spatialCoverageInput = spatExtentsToUpdate;
+
+      clearTimeout(this.updateMapTimeout);
+      this.updateMapTimeout = setTimeout(() => {
+        this.refreshPointsOnMap();
+      }, 100);
+    }
+  }
+
+  /**
    * The function refreshes points on a map by formatting the spatial extent from a string to an object
    * and emitting the location values.
    */
   public refreshPointsOnMap() {
-    this.spatialCoverageChange.next(
-      this.formatLocationFromStringToObject(this.form.get('spatialExtentGroup')?.value).map((se) => {
-        return se.location;
-      }),
-    );
+    this.spatialCoverageChange.next(this.spatialCoverageInput);
   }
 
   /**
@@ -487,61 +486,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
    */
   private setSpatialCoverageVariables() {
     this.webservice?.spatialExtent.forEach((item, index) => {
-      this.changeSpatialCoverageLabel(
-        item.location.includes(SpatialCoverageType.POINT) ? SpatialCoverageType.POINT : SpatialCoverageType.POLYGON,
-        index,
-      );
       this.spatialCoverageInput[index] = item.location;
     });
-  }
-
-  /**
-   * The function `formatLocationFromObjectToString` extracts a string representation of a location from
-   * an object.
-   * @param {string} location - The `location` parameter is a string that represents a location.
-   * @returns a string.
-   */
-  private formatLocationFromObjectToString(location: string): string {
-    let regex = /\(\((.*?)\)\)/g;
-    if (location.includes(SpatialCoverageType.POINT)) {
-      regex = /\((.*?)\)/g;
-    }
-
-    const match = regex.exec(location);
-    return match !== null ? match[1] : '';
-  }
-
-  private changeSpatialCoverageLabel(pointType: string, index: number): void {
-    this.labelSpatialCoverage[index] =
-      pointType === SpatialCoverageType.POINT
-        ? 'Longitude Latitude'
-        : 'List of coordinates (Long Lat) separated by comma';
-  }
-
-  /**
-   * The function "formatLocationFromStringToObject" takes an array of spatial groups and converts them
-   * into an array of spatial extents, while also changing the spatial coverage label.
-   * @param spatialExtentGroup - An array of objects representing spatial extent groups. Each object in
-   * the array should have the following properties:
-   * @returns an array of objects of type SpatialExtent.
-   */
-  private formatLocationFromStringToObject(spatialExtentGroup: Array<SpatialGroup>): Array<SpatialExtent> {
-    const result: Array<SpatialExtent> = [];
-    spatialExtentGroup.forEach((se, index) => {
-      result.push({
-        location: this.locationToString(se.coord, se.type),
-      });
-
-      this.changeSpatialCoverageLabel(se.type, index);
-    });
-    return result;
-  }
-
-  private locationToString(value: string, type: string): string {
-    if (type === SpatialCoverageType.POLYGON) {
-      return type + '((' + value + '))';
-    }
-    return type + '(' + value + ')';
   }
 
   private getTemporalExtent(type = 'startDate'): Date | undefined | null {

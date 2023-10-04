@@ -249,61 +249,16 @@
             <mat-panel-title>Spatial Coverage</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
-            <ng-container formArrayName="spatialExtentGroup">
-              <ng-container
-                *ngFor="let item of webservice.spatialExtent; let i = index"
-                formGroupName="{{ i }}"
-              >
+            <ng-container>
+              <ng-container *ngFor="let item of webservice.spatialExtent; let i = index">
                 <div class="spatial-item">
-                  <div
-                    class="spatial-type"
-                    [style.width.%]="20"
-                  >
-                    <mat-radio-group
-                      aria-label="Select an option"
-                      formControlName="type"
-                      [disabled]="disabled"
-                    >
-                      <mat-radio-button [value]="spatialCoveragePolygon">Polygon</mat-radio-button>
-                      <mat-radio-button [value]="spatialCoveragePoint">Point</mat-radio-button>
-                    </mat-radio-group>
-                  </div>
-                  <div
-                    class="spatial-coverage-input"
-                    [style.width.%]="50"
-                  >
-                    <mat-form-field
-                      appearance="fill"
-                      [floatLabel]="floatLabelControl.value"
-                      [style.width.%]="96"
-                      class="indent"
-                    >
-                      <mat-label>{{ labelSpatialCoverage[i] }}</mat-label>
-                      <input
-                        matInput
-                        placeholder="Coordinates"
-                        name="item.location"
-                        [value]="spatialCoverageInput[i]"
-                        formControlName="coord"
-                        [disabled]="disabled"
-                      />
-                    </mat-form-field>
-                  </div>
-                  <div
-                    class="spatial-coverage-input"
-                    [style.width.%]="20"
-                  >
-                    <button
-                      mat-mini-fab
-                      color="error"
-                      aria-label="delete location"
-                      matTooltip="delete location"
-                      [disabled]="disabled"
-                      (click)="deleteSpatialCoverage(i)"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
+                  <app-simple-spatial-control
+                    [spatialExtent]="item"
+                    [index]="i"
+                    [inputsDisabled]="disabled"
+                    (location)="updateSpatialCoverage($event)"
+                    (delete)="this.deleteSpatialCoverage($event)"
+                  ></app-simple-spatial-control>
                 </div>
               </ng-container>
 
@@ -328,14 +283,14 @@
                   [coordinatesChange]="spatialCoverageChange"
                 >
                 </app-spatial-coverage-map>
-                <button
+                <!-- <button
                   mat-stroked-button
                   color="primary"
                   (click)="refreshPointsOnMap()"
                   [disabled]="disabled"
                 >
                   Refresh the map
-                </button>
+                </button> -->
               </div>
             </ng-container>
           </div>
