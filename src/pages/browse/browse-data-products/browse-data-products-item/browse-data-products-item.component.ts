@@ -26,7 +26,6 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationsService } from 'src/services/operations.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
-import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 import { Subject } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import {
@@ -98,7 +97,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public typeOptions: Array<{ id: string; name: string }> = [];
   public dataProviders: Array<OrganizationDataSource> = [];
   public dataProvidersLoading = false;
-  public selectedDataProviders: Array<EntityDetail> = [];
+  public selectedDataProviders: Array<OrganizationDataSource> = [];
   public selectedSection = '';
   public createdValue: string | null = null;
   public modifiedValue: string | null = null;
@@ -106,9 +105,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public activeInstanceId!: string;
   public entityEnum = Entity;
   public stateEnum = State;
-
   private updateMapTimeout?: NodeJS.Timeout;
-
   private formTree: FormTree = {
     id: '#dataproduct',
     name: 'Data Product',
@@ -226,7 +223,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
             this.stateChangeService.setCurrentDataProductState(this.dataProduct.state);
-            this.selectedDataProviders = this.dataProduct.publisher;
             this.createdValue = this.getDate(this.dataProduct.created);
             this.modifiedValue = this.getDate(this.dataProduct.modified);
 
@@ -545,6 +541,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
         this.dataProviders = response;
         this.dataProvidersLoading = false;
+        this.selectedDataProviders = this.dataProviders.filter((provider: OrganizationDataSource) => {
+          return provider.uid === this.dataProduct?.publisher[0].uid;
+        });
       });
     }
   }
@@ -556,6 +555,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         metaId: item.metaId,
         instanceId: item.instanceId,
         entityType: '',
+        name: item.legalName,
       };
     });
     mapped.forEach((publisher: EntityDetail, index: number) => {
@@ -593,6 +593,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleClearDatePicker(control: AbstractControl): void {
     this.operationsService.clearDatePicker(control);
+  }
+
+  public getDataProviderName(uid: string): string {
+    const provider = this.dataProviders.find((provider) => provider.uid === uid);
+    console.log(provider);
+    if (provider && provider.legalName.length > 0) {
+      return provider.legalName.shift() as string;
+    }
+    return '-';
   }
 }
 
