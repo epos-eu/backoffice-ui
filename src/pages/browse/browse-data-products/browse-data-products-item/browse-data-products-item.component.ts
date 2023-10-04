@@ -293,7 +293,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       this.explorerService.setFormSection(null, this.formTree, true);
 
       this.form.valueChanges.subscribe((changes) => {
-        console.log(changes);
         const updatingObject = this.operationsService.getActiveDataProductValue();
 
         if (updatingObject) {
@@ -461,7 +460,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
+  /**
+   * This funtion is called by an ouput from @SimpleSpatialControlComponent whenever one of the Spatial Coverage Inputs is changed.
+   * It replaces the old value value at index @n and replaces the value with the updated one.
+   */
   public updateSpatialCoverage(event: SpatialExtentLocationIndexObj) {
+    // Update global DataProduct Obj
     const dataProduct = this.operationsService.getActiveDataProductValue();
     if (null != dataProduct?.spatialExtent) {
       dataProduct.spatialExtent.map((spatialExtent: SpatialExtent, index) => {
@@ -469,6 +473,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           spatialExtent.location = event.location;
         }
       });
+      // Update points on map
       this.operationsService.setActiveDataProduct(dataProduct);
       const spatExtentsToUpdate: Array<string> = [];
       dataProduct.spatialExtent.forEach((spatialExtent: SpatialExtent) => {
@@ -518,13 +523,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       return '';
     }
     return moment.isMoment(val) ? val.toISOString() : (val as string);
-  }
-
-  private locationToString(value: string, type: string): string {
-    if (type === SpatialCoverageType.POLYGON) {
-      return type + '((' + value + '))';
-    }
-    return type + '(' + value + ')';
   }
 
   public handleDataProviders(): void {

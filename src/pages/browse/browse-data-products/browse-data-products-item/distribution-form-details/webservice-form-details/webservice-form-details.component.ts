@@ -1,12 +1,5 @@
 import { Component, ElementRef, Input, QueryList, ViewChildren, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ReplaySubject, Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
@@ -156,7 +149,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
       .then((data: Array<WebserviceDetailDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
-          console.log(this.webservice);
           if (this.webservice) {
             this.operationsService.setActiveWebService(this.operationsService.convertToWebService(this.webservice));
             this.handleServiceProviders(this.webservice);
@@ -452,7 +444,12 @@ export class WebserviceFormDetailsComponent implements OnInit {
     }, 100);
   }
 
+  /**
+   * This funtion is called by an ouput from @SimpleSpatialControlComponent whenever one of the Spatial Coverage Inputs is changed.
+   * It replaces the old value value at index @n and replaces the value with the updated one.
+   */
   public updateSpatialCoverage(event: SpatialExtentLocationIndexObj) {
+    // Update global webservice Obj
     const webservice = this.operationsService.getActiveWebServiceValue();
     if (null != webservice?.spatialExtent) {
       webservice.spatialExtent.map((spatialExtent: SpatialExtent, index) => {
@@ -461,6 +458,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
         }
       });
       this.operationsService.setActiveWebService(webservice);
+
+      // update points on map
       const spatExtentsToUpdate: Array<string> = [];
       webservice.spatialExtent.forEach((spatialExtent: SpatialExtent) => {
         spatExtentsToUpdate.push(spatialExtent.location);
