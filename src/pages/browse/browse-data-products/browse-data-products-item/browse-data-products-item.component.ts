@@ -268,7 +268,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   private trackFormData(): void {
     if (this.dataProduct) {
       this.form = this.formBuilder.group({
-        instanceId: this.dataProduct?.instanceId as string,
+        instanceId: this.dataProduct?.instanceId,
         uid: this.dataProduct?.uid,
         metaId: this.dataProduct?.metaId,
         title: this.dataProduct?.title,
@@ -284,7 +284,21 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         contactPoint: this.formBuilder.array([]),
         issued: this.dataProduct?.issued,
         identifier: this.formBuilder.array(this.loadIdentifierArray(this.dataProduct?.identifier)),
-        qualityAssurance: this.dataProduct?.qualityAssurance,
+        qualityAssurance: this.formBuilder.control(this.dataProduct.qualityAssurance, [
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (control: AbstractControl): { [key: string]: any } | null => {
+            if (control.value === '') {
+              return null;
+            }
+
+            if (this.operationsService.isValidHttpUrl(control.value)) {
+              return null;
+            } else {
+              control.markAsTouched();
+              return { 'error-class': control.value };
+            }
+          },
+        ]),
         publisher: this.dataProduct?.publisher,
         accrualPeriodicity: this.dataProduct?.accrualPeriodicity,
         type: this.dataProduct?.type,

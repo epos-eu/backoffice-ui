@@ -227,6 +227,7 @@
                   name="qualityAssurance"
                   formControlName="qualityAssurance"
                 />
+                <mat-error *ngIf="form.get('qualityAssurance')?.invalid"> URL is not valid. </mat-error>
               </mat-form-field>
             </div>
           </ng-container>
@@ -384,8 +385,8 @@
                     <button
                       mat-mini-fab
                       color="{{ dataProduct.state === stateEnum.PUBLISHED ? '' : 'warn' }}"
-                      aria-label="Delete data product"
                       matTooltip="Remove Identifier"
+                      class="smaller"
                       (click)="handleDeleteIdentifier(i)"
                       [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                     >

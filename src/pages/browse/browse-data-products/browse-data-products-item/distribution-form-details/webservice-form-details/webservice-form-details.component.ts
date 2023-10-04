@@ -169,16 +169,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
       });
   }
 
-  public isValidHttpUrl(urlToCheck: string) {
-    let url;
-    try {
-      url = new URL(urlToCheck);
-    } catch (_) {
-      return false;
-    }
-    return url.protocol === 'http:' || url.protocol === 'https:';
-  }
-
   private getDocumentation(documentation: Array<Documentation> | undefined): string {
     if (documentation !== undefined) {
       if (documentation.length > 0) {
@@ -198,7 +188,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
         Validators.required,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (control: AbstractControl): { [key: string]: any } | null => {
-          if (this.isValidHttpUrl(control.value)) {
+          if (this.operationsService.isValidHttpUrl(control.value)) {
             return null;
           } else {
             control.markAsTouched();

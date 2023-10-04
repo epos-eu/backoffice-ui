@@ -637,4 +637,14 @@ export class OperationsService {
   public clearDatePicker(control: AbstractControl): void {
     control.reset();
   }
+
+  public isValidHttpUrl(urlToCheck: string) {
+    let url;
+    try {
+      url = new URL(urlToCheck);
+    } catch (_) {
+      return false;
+    }
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  }
 }
