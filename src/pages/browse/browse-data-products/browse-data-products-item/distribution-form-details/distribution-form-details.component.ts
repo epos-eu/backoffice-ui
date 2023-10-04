@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
@@ -154,12 +154,21 @@ export class DistributionFormDetailsComponent {
       title: this.distribution?.title,
       description: this.distribution?.description,
       state: this.distribution?.state,
-      // modified: this.distribution?.modified,
       dataProduct: [this.distribution?.dataProduct],
       dataProductAccessibility: this.checkDataProductAccessibility(),
       format: this.distribution?.format,
-      downloadURL: this.distribution?.downloadURL,
-      // issued: this.distribution?.issued,
+      downloadURL: this.formBuilder.control(this.distribution?.downloadURL, [
+        Validators.required,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (control: AbstractControl): { [key: string]: any } | null => {
+          if (this.operationsService.isValidHttpUrl(control.value)) {
+            return null;
+          } else {
+            control.markAsTouched();
+            return { 'error-class': control.value };
+          }
+        },
+      ]),
     });
 
     this.explorerService.setFormSection('#dataproduct', this.formTree, false, this.instanceId);
