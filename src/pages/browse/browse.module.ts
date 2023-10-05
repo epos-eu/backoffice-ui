@@ -46,6 +46,7 @@ import { ContactPointDetailComponent } from './browse-data-products/browse-data-
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 import { SimpleSpatialControlComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { OrderByPipe } from 'src/pipes/orderBy.pipe';
+import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { OrderByPipe } from 'src/pipes/orderBy.pipe';
       provide: MatDialogRef,
       useValue: {},
     },
+    FormatRangePipe,
   ],
 })
 export class BrowseModule {}
