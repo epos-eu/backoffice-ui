@@ -18,6 +18,7 @@
     mat-table
     [dataSource]="dataSource"
     matSort
+    class="resizable"
   >
     <!-- UID column -->
     <ng-container matColumnDef="uid">
@@ -26,6 +27,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [resizeColumn]="true"
       >
         UID
       </th>
@@ -45,6 +47,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [resizeColumn]="true"
       >
         Title
       </th>
@@ -63,6 +66,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [resizeColumn]="true"
       >
         Last Change
       </th>
@@ -80,6 +84,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [resizeColumn]="true"
       >
         Status
       </th>
@@ -98,6 +103,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [resizeColumn]="true"
       >
         Comment
       </th>
@@ -115,6 +121,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [resizeColumn]="true"
       >
         Author
       </th>
