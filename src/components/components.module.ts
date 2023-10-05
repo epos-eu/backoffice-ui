@@ -18,6 +18,7 @@ import { SortingDirective } from 'src/directives/sorting-cache.directive';
 import { BackToTopButtonComponent } from './back-to-top-button/back-to-top-button.component';
 import { ErrorNoticeComponent } from './error-notice/error-notice.component';
 import { ClearDatepickerComponent } from './clear-datepicker/clear-datepicker.component';
+import { ResizeColumnDirective } from 'src/directives/resize-table-column.directive';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ClearDatepickerComponent } from './clear-datepicker/clear-datepicker.co
     BackToTopButtonComponent,
     ErrorNoticeComponent,
     ClearDatepickerComponent,
+    ResizeColumnDirective,
   ],
   imports: [
     RouterModule,
@@ -51,6 +53,7 @@ import { ClearDatepickerComponent } from './clear-datepicker/clear-datepicker.co
     ErrorNoticeComponent,
     BackToTopButtonComponent,
     ClearDatepickerComponent,
+    ResizeColumnDirective,
   ],
 })
 export class ComponentsModule {}
