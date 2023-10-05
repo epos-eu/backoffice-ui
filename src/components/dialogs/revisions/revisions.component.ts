@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { OperationsService } from 'src/services/operations.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
+import * as moment from 'moment';
 
 interface CurrentEntity {
   metaId: string;
@@ -24,7 +26,7 @@ export interface Revision {
   uid: string;
   version: string;
   state: State;
-  created: Date;
+  created: Date | string;
   editorId: string;
   title: string;
 }
@@ -87,7 +89,7 @@ export class RevisionsComponent implements OnInit {
                 uid: item.uid,
                 version: item.versionInfo,
                 state: item.state,
-                created: item.created,
+                created: moment(item.created).format(CUSTOM_DATE_FORMAT.display.dateInput),
                 editorId: item.editorId,
                 title: item.title[0],
               };
