@@ -1,3 +1,4 @@
+/// <reference types='@runette/leaflet-fullscreen' />
 import { NgModule } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { BrowseHomeComponent } from './browse-home/browse-home.component';
@@ -47,6 +48,7 @@ import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.co
 import { SimpleSpatialControlComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { OrderByPipe } from 'src/pipes/orderBy.pipe';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
+import { NgxLeafletFullscreenModule } from '@runette/ngx-leaflet-fullscreen';
 
 @NgModule({
   declarations: [
@@ -92,7 +94,15 @@ import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
     SimpleSpatialControlComponent,
     OrderByPipe,
   ],
-  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor, SideNavigationModule],
+  imports: [
+    CommonModule,
+    BrowseRoutingModule,
+    AngularMaterialModule,
+    ComponentsModule,
+    NgFor,
+    SideNavigationModule,
+    NgxLeafletFullscreenModule,
+  ],
   exports: [],
   providers: [
     {

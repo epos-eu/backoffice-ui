@@ -14,9 +14,10 @@
 @import './styles/forms';
 @import './styles/expansion-theme';
 @import './styles/diff';
+@import '@runette/leaflet-fullscreen/dist/leaflet.fullscreen.css';
 
 * {
-  font-family: 'Roboto Flex';
+  font-family: 'Roboto Flex', sans-serif;
 }
 
 html,
