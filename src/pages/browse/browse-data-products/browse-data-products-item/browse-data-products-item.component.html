@@ -199,9 +199,12 @@
                   <mat-label>Created</mat-label>
                   <input
                     matInput
-                    [value]="createdValue"
-                    readonly="true"
+                    [ngxMatDatetimePicker]="pickerCreated"
+                    placeholder="Choose a date & time"
+                    formControlName="created"
+                    readonly
                   />
+                  <ngx-mat-datetime-picker #pickerCreated></ngx-mat-datetime-picker>
                 </mat-form-field>
                 <mat-form-field
                   appearance="fill"
@@ -210,9 +213,12 @@
                   <mat-label>Modified</mat-label>
                   <input
                     matInput
-                    [value]="modifiedValue"
-                    readonly="true"
+                    [ngxMatDatetimePicker]="pickerModified"
+                    placeholder="Choose a date & time"
+                    formControlName="modified"
+                    readonly
                   />
+                  <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
                 </mat-form-field>
               </div>
               <mat-form-field
