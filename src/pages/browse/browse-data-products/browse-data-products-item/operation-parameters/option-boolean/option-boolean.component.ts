@@ -2,7 +2,8 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/internal/Subject';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
-import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
+import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
+
 @Component({
   selector: 'app-option-boolean',
   templateUrl: './option-boolean.component.html',
@@ -14,9 +15,8 @@ export class OptionBooleanComponent implements OnInit {
   @Output() updatedParam = new Subject<Mapping>();
 
   public paramForm!: UntypedFormGroup;
-  public ranges = Object.values(OperationParamsRange);
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder, private rangePipe: FormatRangePipe) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -26,10 +26,10 @@ export class OptionBooleanComponent implements OnInit {
   private initForm(): void {
     this.paramForm = this.formBuilder.group({
       label: new FormControl(this.param.label, Validators.required),
-      range: new FormControl({ value: this.param.range, disabled: true }),
+      range: new FormControl({ value: this.rangePipe.transform(this.param.range), disabled: true }),
       variable: new FormControl({ value: this.param.variable, disabled: true }),
-      required: new FormControl(this.param.required === 'true' ? true : false),
-      readOnlyValue: new FormControl(this.param.readOnlyValue === 'true' ? true : false),
+      required: new FormControl(this.param.required === 'true'),
+      readOnlyValue: new FormControl(this.param.readOnlyValue === 'true'),
       defaultValue: new FormControl(this.param.defaultValue),
     });
     this.paramForm.valueChanges.subscribe((changes) => {

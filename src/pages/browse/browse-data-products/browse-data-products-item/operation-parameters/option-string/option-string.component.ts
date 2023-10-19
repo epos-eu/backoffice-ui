@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
 
 @Component({
   selector: 'app-option-string',
@@ -14,7 +15,7 @@ export class OptionStringComponent implements OnInit {
   @Input() disabled = false;
   @Output() updatedParam = new Subject<Mapping>();
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder, private rangePipe: FormatRangePipe) {}
 
   public form!: UntypedFormGroup;
   public hideAddNewValue = false;
@@ -23,12 +24,12 @@ export class OptionStringComponent implements OnInit {
     if (!value) {
       return false;
     }
-    return value === 'false' ? false : true;
+    return value !== 'false';
   }
 
   private initForm(): void {
     this.form = this.formBuilder.group({
-      range: new FormControl({ value: this.param.range, disabled: true }),
+      range: new FormControl({ value: this.rangePipe.transform(this.param.range), disabled: true }),
       variable: new FormControl({ value: this.param.variable, disabled: true }),
       label: new FormControl(this.param.label, Validators.required),
       required: [this.checkBool(this.param.required)],

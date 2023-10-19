@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
+  AbstractControlOptions,
   FormArray,
   FormControl,
   FormGroup,
@@ -26,17 +27,9 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationsService } from 'src/services/operations.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
-import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 import { Subject } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
-import {
-  NGX_MAT_DATE_FORMATS,
-  NgxMatDateAdapter,
-  NgxMatDateFormats,
-  NgxMatDatetimePicker,
-} from '@angular-material-components/datetime-picker';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
+import { NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
 import * as moment from 'moment';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
@@ -56,26 +49,10 @@ import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from './spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 
-const MY_DATE_FORMAT: NgxMatDateFormats = {
-  parse: {
-    dateInput: 'DD/MM/YYYY HH:mm',
-  },
-  display: {
-    dateInput: 'DD/MM/YYYY HH:mm',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
 @Component({
   selector: 'app-browse-data-products-item',
   templateUrl: './browse-data-products-item.component.html',
   styleUrls: ['./browse-data-products-item.component.scss'],
-  providers: [
-    { provide: NgxMatDateAdapter, useClass: NgxMatMomentAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: NGX_MAT_DATE_FORMATS, useValue: MY_DATE_FORMAT },
-  ],
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   @ViewChild(NgScrollbar) scrollable!: NgScrollbar;
@@ -98,17 +75,13 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public typeOptions: Array<{ id: string; name: string }> = [];
   public dataProviders: Array<OrganizationDataSource> = [];
   public dataProvidersLoading = false;
-  public selectedDataProviders: Array<EntityDetail> = [];
+  public selectedDataProviders: Array<OrganizationDataSource> = [];
   public selectedSection = '';
-  public createdValue: string | null = null;
-  public modifiedValue: string | null = null;
   public activeMetaId!: string;
   public activeInstanceId!: string;
   public entityEnum = Entity;
   public stateEnum = State;
-
   private updateMapTimeout?: NodeJS.Timeout;
-
   private formTree: FormTree = {
     id: '#dataproduct',
     name: 'Data Product',
@@ -226,10 +199,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
             this.stateChangeService.setCurrentDataProductState(this.dataProduct.state);
-            this.selectedDataProviders = this.dataProduct.publisher;
-            this.createdValue = this.getDate(this.dataProduct.created);
-            this.modifiedValue = this.getDate(this.dataProduct.modified);
-
             this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
             this.actionService.setLiveEdit();
             this.trackFormData();
@@ -265,6 +234,31 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return transformed;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (group: FormGroup): { [key: string]: any } => {
+      const startCtrl = group.controls[start];
+      const endCtrl = group.controls[end];
+
+      if (endCtrl.value == null) {
+        return {
+          dates: 'If no end date is provided, it is assumed that this dataset is acquired continuously.',
+        };
+      }
+
+      if (moment(startCtrl.value).isAfter(endCtrl.value)) {
+        startCtrl.markAsTouched();
+        endCtrl.markAsTouched();
+
+        return {
+          dates: 'Start date needs to be before end date.',
+        };
+      }
+      return {};
+    };
+  }
+
   private trackFormData(): void {
     if (this.dataProduct) {
       this.form = this.formBuilder.group({
@@ -276,10 +270,16 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         changeTimestamp: this.dataProduct?.changeTimestamp,
         state: this.dataProduct?.state,
         keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
+        created: this.dataProduct?.created,
         modified: this.dataProduct?.modified,
         versionInfo: this.dataProduct?.versionInfo,
-        temporalExtentStartDate: this.getTemporalExtent('startDate'),
-        temporalExtentEndDate: this.getTemporalExtent('endDate'),
+        temporalDates: this.formBuilder.group(
+          {
+            startDate: [this.getTemporalExtent('startDate')],
+            endDate: [this.getTemporalExtent('endDate')],
+          },
+          { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
+        ),
         distribution: this.formBuilder.array([]),
         contactPoint: this.formBuilder.array([]),
         issued: this.dataProduct?.issued,
@@ -318,19 +318,21 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
           updatingObject.temporalExtent = [
             {
-              startDate: this.getDate(changes['temporalExtentStartDate']),
-              endDate: this.getDate(changes['temporalExtentEndDate']),
+              startDate: changes.temporalDates['startDate'],
+              endDate: changes.temporalDates['endDate'],
             },
           ];
 
           if (changes['issued'] !== null) {
-            updatingObject.issued = this.getDate(changes['issued']);
+            updatingObject.issued = changes['issued'];
           }
 
           updatingObject.accrualPeriodicity = changes['accrualPeriodicity'];
           updatingObject.type = changes['type'];
           updatingObject.identifier = changes.identifier;
           updatingObject.qualityAssurance = changes.qualityAssurance;
+
+          console.log(updatingObject);
 
           this.actionService.enableSave();
           this.operationsService.setActiveDataProduct(updatingObject);
@@ -349,7 +351,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public handleGetRevisions(): void {
-    // Todo: pass revisions data to component
     this.dialogService.openDialogForComponent(
       RevisionsComponent,
       {
@@ -363,7 +364,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public handleDelete(): void {
-    // Todo: delete item from DB
     if (this.dataProduct?.instanceId) {
       this.dialogService.handleDelete(this.dataProduct?.instanceId, EntityEndpointValue.DATA_PRODUCT);
     }
@@ -482,7 +482,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     // Update global DataProduct Obj
     const dataProduct = this.operationsService.getActiveDataProductValue();
     if (null != dataProduct?.spatialExtent) {
-      dataProduct.spatialExtent.map((spatialExtent: SpatialExtent, index) => {
+      dataProduct.spatialExtent.forEach((spatialExtent: SpatialExtent, index) => {
         if (event.index === index) {
           spatialExtent.location = event.location;
         }
@@ -531,20 +531,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private getDate(val: string | Date): any {
-    if (val === null) {
-      return '';
-    }
-    return moment.isMoment(val) ? val.toISOString() : (val as string);
-  }
-
   public handleDataProviders(): void {
     if (this.dataProviders.length === 0) {
       this.dataProvidersLoading = true;
       this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
         this.dataProviders = response;
         this.dataProvidersLoading = false;
+        this.selectedDataProviders = this.dataProviders.filter((provider: OrganizationDataSource) => {
+          return provider.uid === this.dataProduct?.publisher[0].uid;
+        });
       });
     }
   }
@@ -556,6 +551,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         metaId: item.metaId,
         instanceId: item.instanceId,
         entityType: '',
+        name: item.legalName,
       };
     });
     mapped.forEach((publisher: EntityDetail, index: number) => {
@@ -591,8 +587,20 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     scrollBackToTop(this.scrollable);
   }
 
-  public handleClearDatePicker(control: AbstractControl): void {
-    this.operationsService.clearDatePicker(control);
+  public handleClearDatePicker(fieldName: string): void {
+    const control = this.form.get(fieldName);
+    if (control) {
+      this.operationsService.clearDatePicker(control);
+    }
+  }
+
+  public getDataProviderName(uid: string): string {
+    const provider = this.dataProviders.find((provider) => provider.uid === uid);
+    console.log(provider);
+    if (provider && provider.legalName.length > 0) {
+      return provider.legalName.shift() as string;
+    }
+    return '-';
   }
 }
 

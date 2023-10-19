@@ -1,30 +1,34 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <ng-scrollbar [autoHeightDisabled]="false">
   <div class="body">
-    <div class="expansion-content-wrapper">
-      <div class="info">
-        <div class="detail">
-          <div class="label">Instance Id:</div>
-          <div class="value">{{ webservice?.instanceId }}</div>
-        </div>
-        <form
-          [formGroup]="dateForm"
-          *ngIf="dateForm && webservice"
+    <form
+      [formGroup]="form"
+      *ngIf="form && webservice"
+    >
+      <div class="expansion-content-wrapper">
+        <div
+          class="info"
+          formGroupName="date"
         >
+          <div class="detail">
+            <div class="label">Instance Id:</div>
+            <div class="value">{{ webservice.instanceId }}</div>
+          </div>
+
           <div class="detail">
             <ng-container *ngIf="webservice.datePublished.toString() !== 'Invalid Date'">
               <mat-form-field>
                 <mat-label>Date published</mat-label>
                 <input
                   matInput
-                  [matDatepicker]="picker"
-                  formControlName="datePublished"
+                  [ngxMatDatetimePicker]="pickerPublished"
+                  formControlName="published"
                 />
                 <mat-datepicker-toggle
-                  matIconSuffix
-                  [for]="picker"
+                  matSuffix
+                  [for]="$any(pickerPublished)"
                 ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <ngx-mat-datetime-picker #pickerPublished></ngx-mat-datetime-picker>
               </mat-form-field>
             </ng-container>
             <ng-container *ngIf="webservice.datePublished.toString() === 'Invalid Date'">
@@ -38,14 +42,14 @@
                 <mat-label>Date modified</mat-label>
                 <input
                   matInput
-                  [matDatepicker]="picker"
-                  formControlName="dateModified"
+                  [ngxMatDatetimePicker]="pickerModified"
+                  formControlName="modified"
                 />
                 <mat-datepicker-toggle
-                  matIconSuffix
-                  [for]="picker"
+                  matSuffix
+                  [for]="$any(pickerModified)"
                 ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
               </mat-form-field>
             </ng-container>
             <ng-container *ngIf="webservice.dateModified.toString() === 'Invalid Date'">
@@ -53,13 +57,8 @@
               <div class="value">Never modified</div>
             </ng-container>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
-    <form
-      [formGroup]="form"
-      *ngIf="form && webservice"
-    >
       <mat-form-field
         appearance="fill"
         [floatLabel]="floatLabelControl.value"

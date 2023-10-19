@@ -15,6 +15,11 @@ import { AngularMaterialModule } from './angular-material.module';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { aaaiServiceProvider } from 'src/aaai/aaai.service';
+import { NgxMatDateAdapter, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
+import { NgxMatMomentAdapter } from '@angular-material-components/moment-adapter';
+import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 
 @NgModule({
   declarations: [AppComponent, DialogComponent],
@@ -41,6 +46,11 @@ import { aaaiServiceProvider } from 'src/aaai/aaai.service';
     DialogService,
     SnackbarService,
     aaaiServiceProvider,
+    { provide: NgxMatDateAdapter, useClass: NgxMatMomentAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMAT },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    { provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMAT },
   ],
   bootstrap: [AppComponent],
 })

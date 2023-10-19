@@ -9,6 +9,8 @@ import { TableDetail } from 'src/utility/objects/table/detail';
 import { TableItem, TableItems } from 'src/utility/objects/table/items';
 import { FilterEmit } from '../table-filter/table-filter.component';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-table',
@@ -58,7 +60,7 @@ export class TableComponent implements AfterViewInit {
       const detail: TableDetail = {
         uid: item.uid,
         title: item instanceof DataProductDetailDataSource ? item.title[0] : '',
-        lastChange: item.changeTimestamp,
+        lastChange: moment(item.changeTimestamp).format(CUSTOM_DATE_FORMAT.display.dateInput),
         status: item.state,
         changeComment: item.changeComment,
         author: item.editorId,

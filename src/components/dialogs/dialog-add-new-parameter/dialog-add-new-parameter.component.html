@@ -21,7 +21,7 @@
             *ngFor="let range of ranges"
             [value]="range"
           >
-            {{ range }}
+            {{ range | formatRange }}
           </mat-option>
         </mat-select>
       </mat-form-field>

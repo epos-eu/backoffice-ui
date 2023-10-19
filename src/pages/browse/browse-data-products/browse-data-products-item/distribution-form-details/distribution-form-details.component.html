@@ -91,6 +91,7 @@
             placeholder="URL"
             formControlName="downloadURL"
           />
+          <mat-error *ngIf="form.get('downloadURL')?.invalid"> URL is not valid. </mat-error>
         </mat-form-field>
         <mat-form-field
           appearance="fill"
@@ -185,7 +186,6 @@
       >
         Save Distribution
       </button>
-
       <button
         mat-stroked-button
         color="warn"

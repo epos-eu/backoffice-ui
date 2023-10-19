@@ -182,7 +182,7 @@
                 <app-clear-datepicker
                   matSuffix
                   [value]="pickerIssued"
-                  (onClear)="handleClearDatePicker(form.controls['issued'])"
+                  (onClear)="handleClearDatePicker('issued')"
                 ></app-clear-datepicker>
                 <mat-datepicker-toggle
                   matSuffix
@@ -199,9 +199,12 @@
                   <mat-label>Created</mat-label>
                   <input
                     matInput
-                    [value]="createdValue"
-                    readonly="true"
+                    [ngxMatDatetimePicker]="pickerCreated"
+                    placeholder="Choose a date & time"
+                    formControlName="created"
+                    readonly
                   />
+                  <ngx-mat-datetime-picker #pickerCreated></ngx-mat-datetime-picker>
                 </mat-form-field>
                 <mat-form-field
                   appearance="fill"
@@ -210,9 +213,12 @@
                   <mat-label>Modified</mat-label>
                   <input
                     matInput
-                    [value]="modifiedValue"
-                    readonly="true"
+                    [ngxMatDatetimePicker]="pickerModified"
+                    placeholder="Choose a date & time"
+                    formControlName="modified"
+                    readonly
                   />
+                  <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
                 </mat-form-field>
               </div>
               <mat-form-field
@@ -294,7 +300,7 @@
             <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#temporalcoverage' }">
               <mat-panel-title>Temporal Coverage</mat-panel-title>
             </mat-expansion-panel-header>
-            <div>
+            <div formGroupName="temporalDates">
               <div class="fields-flex-col">
                 <mat-form-field appearance="fill">
                   <mat-label>Start date</mat-label>
@@ -302,12 +308,12 @@
                     matInput
                     [ngxMatDatetimePicker]="pickerStartDate"
                     placeholder="Choose a date & time"
-                    formControlName="temporalExtentStartDate"
+                    formControlName="startDate"
                   />
                   <app-clear-datepicker
                     matSuffix
                     [value]="pickerStartDate"
-                    (onClear)="handleClearDatePicker(form.controls['temporalExtentStartDate'])"
+                    (onClear)="handleClearDatePicker('temporalDates.startDate')"
                   ></app-clear-datepicker>
                   <mat-datepicker-toggle
                     matSuffix
@@ -323,12 +329,12 @@
                     matInput
                     [ngxMatDatetimePicker]="pickerEndDate"
                     placeholder="Choose a date & time"
-                    formControlName="temporalExtentEndDate"
+                    formControlName="endDate"
                   />
                   <app-clear-datepicker
                     matSuffix
                     [value]="pickerEndDate"
-                    (onClear)="handleClearDatePicker(form.controls['temporalExtentEndDate'])"
+                    (onClear)="handleClearDatePicker('temporalDates.endDate')"
                   ></app-clear-datepicker>
 
                   <mat-datepicker-toggle
@@ -339,6 +345,9 @@
                   <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
                 </mat-form-field>
               </div>
+              <mat-error>
+                {{ form.get('temporalDates')?.errors?.['dates'] }}
+              </mat-error>
             </div>
           </mat-expansion-panel>
         </div>
@@ -429,13 +438,21 @@
                   [disabled]="dataProduct.state === stateEnum.PUBLISHED"
                 >
                   <mat-option
-                    *ngFor="let provider of dataProviders"
+                    *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
                     [value]="provider"
                   >
                     {{ provider.legalName }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+              <ul
+                class="selected-providers-list"
+                *ngIf="selectedDataProviders.length > 0"
+              >
+                <li *ngFor="let provider of selectedDataProviders">
+                  {{ provider.legalName }}
+                </li>
+              </ul>
             </div>
           </mat-expansion-panel>
         </div>

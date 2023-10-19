@@ -43,37 +43,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
-  public options: UntypedFormGroup;
   private hideRequiredControl = new UntypedFormControl(false);
-  public floatLabelControl = new UntypedFormControl('auto');
-  public webservice!: WebserviceDetailDataSource | undefined;
-  public editModeEnabled = false;
-  public form!: UntypedFormGroup;
-  public serviceProviders: Array<OrganizationDataSource> = [];
-  public serviceProvidersLoading = false;
-  public selectedServiceProvider: OrganizationDataSource | undefined;
-  public contactPointDetails: Array<EntityDetail> = [];
-  public contactPointShowSaveNotify = false;
-  public operation!: Operation | undefined;
-  public callOperationDetail = false;
-  public selectedPanelId: ReplaySubject<number> = new ReplaySubject();
-  public selectedSection = '';
-  public supportedOperationSearchValue = '';
-  public supportedOperationFocusFirstRow = false;
-  public labelSpatialCoverage: Array<string> = [''];
-  public spatialCoveragePoint = SpatialCoverageType.POINT as string;
-  public spatialCoveragePolygon = SpatialCoverageType.POLYGON as string;
-  public spatialCoverageInput: Array<string | undefined> = [];
-  public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
-  public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
-  public typeOptions: Array<{ id: string; name: string }> = [];
-  public entityEnum = Entity;
-  public dateForm!: UntypedFormGroup;
-  public disabled = false;
-
   private updateMapTimeout?: NodeJS.Timeout;
-
-  public instanceId = '';
   private formTree = {
     id: '#distaccessiblewebservice',
     name: 'Web Service',
@@ -106,6 +77,32 @@ export class WebserviceFormDetailsComponent implements OnInit {
     expanded: true,
   };
   private updatingObject = this.operationsService.getActiveWebServiceValue();
+  public options: UntypedFormGroup;
+  public floatLabelControl = new UntypedFormControl('auto');
+  public webservice!: WebserviceDetailDataSource | undefined;
+  public editModeEnabled = false;
+  public form!: UntypedFormGroup;
+  public serviceProviders: Array<OrganizationDataSource> = [];
+  public serviceProvidersLoading = false;
+  public selectedServiceProvider: OrganizationDataSource | undefined;
+  public contactPointDetails: Array<EntityDetail> = [];
+  public contactPointShowSaveNotify = false;
+  public operation!: Operation | undefined;
+  public callOperationDetail = false;
+  public selectedPanelId: ReplaySubject<number> = new ReplaySubject();
+  public selectedSection = '';
+  public supportedOperationSearchValue = '';
+  public supportedOperationFocusFirstRow = false;
+  public labelSpatialCoverage: Array<string> = [''];
+  public spatialCoveragePoint = SpatialCoverageType.POINT as string;
+  public spatialCoveragePolygon = SpatialCoverageType.POLYGON as string;
+  public spatialCoverageInput: Array<string | undefined> = [];
+  public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
+  public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
+  public typeOptions: Array<{ id: string; name: string }> = [];
+  public entityEnum = Entity;
+  public disabled = false;
+  public instanceId = '';
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -130,9 +127,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
         this.disabled = false;
       }
     });
-    // this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
   }
-  ngOnInit(): void {
+
+  public ngOnInit(): void {
     this.explorerService.gotoObs.subscribe((obs) => {
       this.selectedSection = obs;
     });
@@ -155,14 +152,12 @@ export class WebserviceFormDetailsComponent implements OnInit {
             this.handleServiceProviders(this.webservice);
             this.setSpatialCoverageVariables();
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
-            if (this.webservice && this.webservice.instanceId) {
+            if (this.webservice?.instanceId) {
               this.trackFormData();
               if (this.disabled) {
                 this.form.disable();
-                this.dateForm.disable();
               } else {
                 this.form.enable();
-                this.dateForm.enable();
               }
             }
           }
@@ -200,17 +195,15 @@ export class WebserviceFormDetailsComponent implements OnInit {
       ]),
       temporalExtentStartDate: this.getTemporalExtent('startDate'),
       temporalExtentEndDate: this.getTemporalExtent('endDate'),
-      dateModified: this.webservice?.dateModified,
+      date: this.formBuilder.group({
+        published: [this.webservice?.datePublished],
+        modified: [this.webservice?.datePublished],
+      }),
       changeComment: this.webservice?.changeComment,
       changeTimestamp: this.webservice?.changeTimestamp,
       entryPoint: this.webservice?.entryPoint,
       keywords: HelpersService.whiteSpaceReplace(this.webservice?.keywords),
       license: this.webservice?.license,
-    });
-
-    this.dateForm = this.formBuilder.group({
-      datePublished: [this.webservice?.datePublished],
-      dateModified: [this.webservice?.dateModified],
     });
 
     this.explorerService.setFormSection(
@@ -237,14 +230,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
             uri: changes['documentation'],
           },
         ];
-        this.operationsService.setActiveWebService(this.updatingObject);
-      }
-    });
-
-    this.dateForm.valueChanges.subscribe((changes) => {
-      if (this.updatingObject) {
-        this.updatingObject.dateModified = changes.dateModified;
-        this.updatingObject.datePublished = changes.datePublished;
+        this.updatingObject.datePublished = changes.date.published;
+        this.updatingObject.dateModified = changes.date.modified;
         this.operationsService.setActiveWebService(this.updatingObject);
       }
     });
@@ -261,7 +248,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public handleDelete(): void {
-    if (this.webservice && this.webservice.instanceId) {
+    if (this.webservice?.instanceId) {
       this.dialogService.handleDelete(this.webservice.instanceId, EntityEndpointValue.WEBSERVICE);
     }
   }
@@ -290,14 +277,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
         }
       });
   }
-
-  public formatDate = (dateStr: string): string => {
-    const date = new Date(dateStr);
-    if (date instanceof Date && !isNaN(date.getTime())) {
-      return date.toLocaleString('en-GB', { timeZone: 'UTC' });
-    }
-    return 'Invalid date';
-  };
 
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
@@ -443,7 +422,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     // Update global webservice Obj
     const webservice = this.operationsService.getActiveWebServiceValue();
     if (null != webservice?.spatialExtent) {
-      webservice.spatialExtent.map((spatialExtent: SpatialExtent, index) => {
+      webservice.spatialExtent.forEach((spatialExtent: SpatialExtent, index) => {
         if (event.index === index) {
           spatialExtent.location = event.location;
         }

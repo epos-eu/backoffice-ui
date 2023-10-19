@@ -26,7 +26,7 @@ export class DialogAddNewParameterComponent implements OnInit {
     private operationService: OperationsService,
   ) {
     this.operationService.operationObs.subscribe((operation: Operation | null) => {
-      if (operation && operation.mapping) {
+      if (operation?.mapping) {
         this.activeMappingArr = operation.mapping.map((mapping: Mapping) => mapping.variable);
       }
     });

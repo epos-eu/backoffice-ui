@@ -14,7 +14,10 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
   @Input() spatialRange: Array<string | undefined> = [''];
   @Input() coordinatesChange: Subject<Array<string | undefined>> = new Subject();
 
-  private map: L.Map | undefined;
+  public map: L.Map | undefined;
+  public fullscreenOptions: L.FullscreenOptions = {
+    position: 'topleft',
+  };
 
   ngAfterViewInit(): void {
     this.initMap();

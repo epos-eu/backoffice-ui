@@ -77,7 +77,7 @@ export class OperationParametersComponent implements OnInit {
       defaultValue: [
         {
           value: mapping.defaultValue,
-          disabled: mapping.readOnlyValue === 'true' ? true : false,
+          disabled: mapping.readOnlyValue === 'true',
         },
         mapping.required === 'true' ? Validators.required : '',
       ],
