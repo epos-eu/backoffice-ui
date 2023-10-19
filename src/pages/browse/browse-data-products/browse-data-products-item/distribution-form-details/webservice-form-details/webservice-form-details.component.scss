@@ -166,3 +166,13 @@ button {
   align-items: baseline;
   padding: 2rem;
 }
+
+.notify {
+  display: flex;
+  align-items: center;
+  color: $color-danger;
+  margin-top: 1em;
+  span {
+    margin-left: 0.5rem;
+  }
+}

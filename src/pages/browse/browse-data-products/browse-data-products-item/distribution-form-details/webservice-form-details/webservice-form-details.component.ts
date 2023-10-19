@@ -40,6 +40,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   @Input() parentEntity?: EntityDetail;
   @Input() metaId!: string;
   @Input() supportedOperations: Array<EntityDetail> = [];
+  @Input() showSaveFormNotify = false;
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
@@ -271,6 +272,14 @@ export class WebserviceFormDetailsComponent implements OnInit {
             uid: result.uid,
             metaId: result.metaId,
           };
+
+          // Sets 'accessURL' on Distribution to newly created Operation.
+          const activeDistribution = this.operationsService.getActiveDistributionValue();
+          activeDistribution?.accessURL?.push(operation);
+          if (activeDistribution != null) {
+            this.operationsService.setActiveDistribution(activeDistribution);
+            this.showSaveFormNotify = true;
+          }
 
           this.webservice?.supportedOperation.unshift(operation);
           this.supportedOperationFocusFirstRow = true;
