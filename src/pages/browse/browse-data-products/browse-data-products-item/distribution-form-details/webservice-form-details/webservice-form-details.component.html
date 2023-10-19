@@ -147,7 +147,7 @@
             <mat-panel-title>Supported operation</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
-            <div class="top-header">
+            <!-- <div class="top-header">
               <div class="actions">
                 <div class="flex-col filter">
                   <mat-label>Filter</mat-label>
@@ -162,24 +162,14 @@
                       (input)="supportedOperationSearch($event)"
                     />
                   </mat-form-field>
-                  <button
-                    mat-flat-button
-                    color="primary"
-                    [disabled]="disabled"
-                    (click)="addNewOperation()"
-                    *ngIf="webservice.supportedOperation.length === 0"
-                  >
-                    <mat-icon>add</mat-icon>
-                    Add Operation
-                  </button>
                 </div>
               </div>
-            </div>
+            </div> -->
             <ng-scrollbar
               [autoHeightDisabled]="true"
               [style]="{ height: '600px' }"
             >
-              <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
+              <ng-container *ngFor="let item of supportedOperations; let i = index">
                 <div
                   [ngClass]="{
                     'supported-operation-wrapper': true,
@@ -188,7 +178,7 @@
                 >
                   <div class="flex-row">
                     <div class="supported-operation-item">
-                      <mat-form-field
+                      <!-- <mat-form-field
                         appearance="outline"
                         [floatLabel]="floatLabelControl.value"
                         [style.width.%]="100"
@@ -201,26 +191,48 @@
                           [value]="item.uid"
                           [disabled]="true"
                         />
+                      </mat-form-field> -->
+                      <mat-form-field
+                        appearance="fill"
+                        [style.width.%]="100"
+                      >
+                        <mat-label>Service URI template</mat-label>
+                        <input
+                          matInput
+                          placeholder="Service URI template"
+                          formControlName="template"
+                        />
                       </mat-form-field>
+
+                      <mat-form-field
+                        appearance="fill"
+                        [style.width.%]="100"
+                      >
+                        <mat-label>Preview of the URI template with default values</mat-label>
+                        <input
+                          matInput
+                          placeholder="Preview of the URI template with default values "
+                        />
+                      </mat-form-field>
+
                       <mat-expansion-panel
                         #expansionPanel
-                        [expanded]="false"
+                        [expanded]="true"
                         class="supported-operation-params"
                         [style.width.%]="100"
                         [id]="i"
-                        (afterExpand)="handleOperationParams(i)"
                       >
                         <mat-expansion-panel-header>
                           <mat-panel-title>Parameters</mat-panel-title>
                         </mat-expansion-panel-header>
                         <app-operation-parameters
-                          *ngIf="(selectedPanelId | async) === i"
                           [instanceId]="item.instanceId"
                           [metaId]="metaId"
+                          (template)="handleTemplate($event)"
                         ></app-operation-parameters>
                       </mat-expansion-panel>
                     </div>
-                    <div class="supported-item-actions">
+                    <!-- <div class="supported-item-actions">
                       <button
                         mat-mini-fab
                         color="warn"
@@ -232,9 +244,19 @@
                       >
                         <mat-icon>delete</mat-icon>
                       </button>
-                    </div>
+                    </div> -->
                   </div>
-                  <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    [disabled]="disabled"
+                    (click)="addNewOperation()"
+                    *ngIf="supportedOperations.length === 0"
+                  >
+                    <mat-icon>add</mat-icon>
+                    Add Operation
+                  </button>
+                  <mat-divider *ngIf="supportedOperations.length > 1"></mat-divider>
                 </div>
               </ng-container>
             </ng-scrollbar>

@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
@@ -9,6 +10,7 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
 import { OperationsService } from 'src/services/operations.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { State } from 'src/utility/enums/state.enum';
 
@@ -20,6 +22,8 @@ import { State } from 'src/utility/enums/state.enum';
 export class OperationParametersComponent implements OnInit {
   @Input() instanceId = '';
   @Input() metaId = '';
+  @Output() template = new Subject<string>();
+  @Input() templateUpdate = new Subject<string>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,7 +42,6 @@ export class OperationParametersComponent implements OnInit {
   }
 
   private operation!: Operation;
-  private template?: string;
   public paramsForm!: UntypedFormGroup;
   public mapping?: Mapping[];
   public rangeEnum = OperationParamsRange;
@@ -60,7 +63,7 @@ export class OperationParametersComponent implements OnInit {
             this.fetchingOperation = false;
             this.operation = this.operationsService.convertToOperation(operation);
             this.operationsService.setActiveOperation(this.operation);
-            this.template = this.operation.template;
+            this.template?.next(this.operation.template ? this.operation.template : '');
             this.mapping = this.operation.mapping;
             this.initForm();
             this.disabled ? this.paramsForm.disable() : this.paramsForm.enable();
@@ -103,11 +106,11 @@ export class OperationParametersComponent implements OnInit {
   private initForm(): void {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
-      template: this.template,
+      // template: this.template,
     });
-    this.paramsForm.valueChanges.subscribe((changes) => {
-      this.updateTemplate(changes['template']);
-    });
+    // this.paramsForm.valueChanges.subscribe((changes) => {
+    //   // this.updateTemplate(changes['template']);
+    // });
   }
 
   private foundListParametersOnTemplate(): string[] {
@@ -138,14 +141,6 @@ export class OperationParametersComponent implements OnInit {
 
   public getDateControl(dateStr: string): FormControl {
     return new FormControl(new Date(dateStr));
-  }
-
-  public updateTemplate(template: string) {
-    const activeSupportedOperation = this.operationsService.getActiveOperationValue();
-    if (null != activeSupportedOperation) {
-      activeSupportedOperation.template = template;
-      this.operationsService.setActiveOperation(activeSupportedOperation);
-    }
   }
 
   public cacheParam(updatedMapping: Mapping) {
@@ -183,6 +178,38 @@ export class OperationParametersComponent implements OnInit {
 
         // add new variable on template string
         this.addMappingOnTemplate(newMapping);
+      }
+    });
+  }
+
+  /**
+   * The `deleteOperation` function deletes an operation instance and updates the supported operations
+   * list.
+   * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
+   * identifier of the operation instance that needs to be deleted.
+   */
+  public deleteOperation(instanceId: string): void {
+    this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false).then((toDelete: boolean) => {
+      if (toDelete) {
+        // Delete from SupportedOperation array on @Webservice
+        const activeWebservice = this.operationsService.getActiveWebServiceValue();
+        if (null != activeWebservice) {
+          activeWebservice.supportedOperation?.splice(
+            activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
+            1,
+          );
+          this.operationsService.setActiveWebService(activeWebservice);
+        }
+
+        // Delete from accessURL array on @Distribution
+        const activeDistribution = this.operationsService.getActiveDistributionValue();
+        if (null != activeDistribution) {
+          activeDistribution.accessURL?.splice(
+            activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
+            1,
+          );
+          this.operationsService.setActiveDistribution(activeDistribution);
+        }
       }
     });
   }

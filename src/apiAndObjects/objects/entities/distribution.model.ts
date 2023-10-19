@@ -5,7 +5,7 @@ export class Distribution {
   constructor(
     public uid: string,
     public accessService?: EntityDetail,
-    public accessURL?: Array<string>,
+    public accessURL?: Array<EntityDetail>,
     public changeComment?: string,
     public changeTimestamp?: Date | undefined,
     public conformsTo?: string,

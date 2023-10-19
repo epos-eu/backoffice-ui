@@ -39,6 +39,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
   @Input() parentEntity?: EntityDetail;
   @Input() metaId!: string;
+  @Input() supportedOperations: Array<EntityDetail> = [];
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
@@ -183,6 +184,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       instanceId: this.webservice?.instanceId as string,
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
+      template: '',
       description: this.webservice?.description,
       documentation: this.formBuilder.control(this.getDocumentation(this.webservice?.documentation), [
         Validators.required,
@@ -235,7 +237,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
             uri: changes['documentation'],
           },
         ];
-        // updatingObject.distribution = [this.parentEntity as EntityDetail];
         this.operationsService.setActiveWebService(this.updatingObject);
       }
     });
@@ -247,6 +248,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
         this.operationsService.setActiveWebService(this.updatingObject);
       }
     });
+
+    this.form.get('template')?.valueChanges.subscribe((changes: string) => this.updateTemplate(changes));
   }
 
   public handleChange(event: MatSlideToggleChange): void {
@@ -392,18 +395,16 @@ export class WebserviceFormDetailsComponent implements OnInit {
     }
   }
 
-  /**
-   * The `deleteOperation` function deletes an operation instance and updates the supported operations
-   * list.
-   * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
-   * identifier of the operation instance that needs to be deleted.
-   */
-  public deleteOperation(instanceId: string): void {
-    this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false);
-    this.webservice?.supportedOperation.splice(
-      this.webservice?.supportedOperation.findIndex((e) => e.instanceId === instanceId),
-      1,
-    );
+  public handleTemplate(template: string): void {
+    this.form.get('template')?.setValue(template);
+  }
+
+  public updateTemplate(template: string) {
+    const activeSupportedOperation = this.operationsService.getActiveOperationValue();
+    if (null != activeSupportedOperation) {
+      activeSupportedOperation.template = template;
+      this.operationsService.setActiveOperation(activeSupportedOperation);
+    }
   }
 
   public newSpatialCoverage() {
