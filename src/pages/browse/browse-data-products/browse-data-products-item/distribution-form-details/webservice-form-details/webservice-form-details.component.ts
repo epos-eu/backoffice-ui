@@ -24,6 +24,7 @@ import { Documentation } from 'src/apiAndObjects/objects/types/documentation.typ
 import { State } from 'src/utility/enums/state.enum';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from '../../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
+import { ActionsService } from 'src/services/actions.service';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -40,7 +41,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
   @Input() parentEntity?: EntityDetail;
   @Input() metaId!: string;
   @Input() supportedOperations: Array<EntityDetail> = [];
-  @Input() showSaveFormNotify = false;
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
@@ -104,6 +104,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public entityEnum = Entity;
   public disabled = false;
   public instanceId = '';
+  public showNotify = false;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -113,6 +114,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
+    private actionsService: ActionsService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -127,6 +129,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
       } else {
         this.disabled = false;
       }
+    });
+
+    this.actionsService.operationAddedObs.subscribe((showMessage: boolean) => {
+      this.showNotify = showMessage;
     });
   }
 
@@ -278,7 +284,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
           activeDistribution?.accessURL?.push(operation);
           if (activeDistribution != null) {
             this.operationsService.setActiveDistribution(activeDistribution);
-            this.showSaveFormNotify = true;
+            this.actionsService.showSaveDistributionMessage(true);
           }
 
           this.webservice?.supportedOperation.unshift(operation);

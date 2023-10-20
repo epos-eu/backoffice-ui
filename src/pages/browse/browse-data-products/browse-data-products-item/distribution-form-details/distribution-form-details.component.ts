@@ -52,8 +52,6 @@ export class DistributionFormDetailsComponent {
   public selectedFormat = '';
   public selectedSection = '';
 
-  public showSaveFormNotify = false;
-
   public instanceId = '';
 
   public disabled = false;
@@ -208,8 +206,8 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
-    this.showSaveFormNotify = false;
-    this.operationsService.handleDistributionSave();
+    this.actionsService.showSaveDistributionMessage(false);
+    // this.operationsService.handleDistributionSave();
   }
 
   public deleteDistribution(instanceId: string | undefined): void {
