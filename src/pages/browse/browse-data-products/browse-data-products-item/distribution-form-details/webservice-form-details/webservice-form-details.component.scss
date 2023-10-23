@@ -164,7 +164,6 @@ button {
 .flex-row {
   display: flex;
   align-items: baseline;
-  padding: 2rem;
 }
 
 .notify {
@@ -175,4 +174,8 @@ button {
   span {
     margin-left: 0.5rem;
   }
+}
+
+.uri-info {
+  margin-left: 1em;
 }
