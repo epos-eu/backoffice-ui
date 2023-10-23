@@ -287,11 +287,10 @@ export class OperationsService {
 
   public handleDataProductSave(): void {
     const formData = this.getActiveDataProductValue();
-    // const localStorage = this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.FORM_DATA);
     if (null != formData) {
       formData.modified = new Date();
       formData.instanceChangedId = undefined;
-      // const formData: DataProduct = JSON.parse(localStorage);
+
       if (formData.state === State.DRAFT) {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
@@ -317,6 +316,15 @@ export class OperationsService {
               ]);
               this.actionsService.saveCurrentEdit(data.instanceId);
             }
+
+            // Timeout for more consistent navigation
+            setTimeout(() => {
+              this.router.navigate([
+                `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
+                data.metaId,
+                data.instanceId,
+              ]);
+            }, 100);
           })
           .catch((err) => {
             console.error(err);
@@ -327,8 +335,6 @@ export class OperationsService {
             ]);
           });
       } else {
-        // formData.instanceId = undefined;
-        // formData.metaId = undefined;
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...formData,
@@ -354,8 +360,15 @@ export class OperationsService {
               },
             ]);
             this.actionsService.saveCurrentEdit(data.instanceId);
-            // this.itemsExist.next(true);
-            this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, data.metaId, data.instanceId]);
+
+            // Timeout for more consistent navigation
+            setTimeout(() => {
+              this.router.navigate([
+                `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
+                data.metaId,
+                data.instanceId,
+              ]);
+            }, 100);
           })
           .catch((err) => {
             console.error(err);
