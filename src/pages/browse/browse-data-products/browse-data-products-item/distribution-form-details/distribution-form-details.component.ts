@@ -206,7 +206,8 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
-    this.operationsService.handleDistributionSave();
+    this.actionsService.showSaveDistributionMessage(false);
+    // this.operationsService.handleDistributionSave();
   }
 
   public deleteDistribution(instanceId: string | undefined): void {
@@ -231,8 +232,8 @@ export class DistributionFormDetailsComponent {
     this.dialogService
       .openDialogForComponent(DataproductAddWebserviceComponent, {}, '35vw', 'auto', 'add-webservice-dialog')
       .then((data: DialogData<object, NewWebservice>) => {
-        if (data.dataOut.uid && data.dataOut.uid !== '') {
-          item.uid = data.dataOut.uid;
+        if (data.dataOut.create) {
+          item.uid = 'dummy-webservice-uid-to-generate';
           this.apiService.endpoints.WebService.create
             .call(item)
             .then((value: WebserviceDetailDataSource) => {

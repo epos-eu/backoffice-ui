@@ -477,6 +477,7 @@ export class OperationsService {
             'mat-toolbar',
             'snackbar-success',
           ]);
+          this.actionsService.showSaveDistributionMessage(false);
           if (!this.actionsService.itemExists(data.instanceId)) {
             this.actionsService.addEditedItems([
               {
