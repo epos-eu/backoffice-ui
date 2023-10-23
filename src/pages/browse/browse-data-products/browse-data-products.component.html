@@ -2,14 +2,14 @@
   <div class="container">
     <div class="title mat-table-margin">
       <h1 class="mat-headline-4">Data products</h1>
-      <a
+      <button
         mat-stroked-button
-        [routerLink]="['/browse/dataproduct/new']"
-        routerLinkActive="active"
+        color="primary"
+        (click)="handleNewDataProduct()"
       >
         <mat-icon color="primary">add_circle</mat-icon>
-        New Data Product
-      </a>
+        New data product
+      </button>
     </div>
 
     <app-table

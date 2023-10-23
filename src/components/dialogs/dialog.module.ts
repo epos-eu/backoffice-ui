@@ -16,6 +16,7 @@ import { ConfirmDialogComponent } from './confirmDialog/confirmDialog.component'
 import { DataproductAddDistributionComponent } from './dataproduct-add-distribution/dataproduct-add-distribution.component';
 import { DataproductAddWebserviceComponent } from './dataproduct-add-webservice/dataproduct-add-webservice.component';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
+import { NewDataproductComponent } from './new-dataproduct/new-dataproduct.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
     DataproductAddDistributionComponent,
     DataproductAddWebserviceComponent,
     FormatRangePipe,
+    NewDataproductComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule, ServicesModule],
 })
