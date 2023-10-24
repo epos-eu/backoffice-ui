@@ -4,7 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { ActionsService } from 'src/services/actions.service';
 import { State } from 'src/utility/enums/state.enum';
 
-const KEY = 'uidSearchText';
+const KEY = 'titleSearchText';
 
 interface FilterItem {
   option: string;
@@ -13,7 +13,7 @@ interface FilterItem {
 
 export interface FilterEmit {
   status: any;
-  uid: string;
+  title: string;
 }
 
 @Component({
@@ -56,22 +56,22 @@ export class TableFilterComponent {
   ];
   public filters = {
     status: '',
-    uid: '',
+    title: '',
   };
 
   public handleFilterByStatus(event: MatSelectChange): void {
     this.filters.status = event.value;
   }
 
-  public handleUidSearch(event: Event): void {
+  public handleTitleSearch(event: Event): void {
     const target = event.target as HTMLInputElement;
-    this.filters.uid = target.value;
+    this.filters.title = target.value;
     sessionStorage.setItem(KEY, target.value);
   }
 
   public handleClearFilters(): void {
     this.filters.status = '';
-    this.filters.uid = '';
+    this.filters.title = '';
     this.onClear.emit();
   }
 
