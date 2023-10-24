@@ -164,5 +164,18 @@ button {
 .flex-row {
   display: flex;
   align-items: baseline;
-  padding: 2rem;
+}
+
+.notify {
+  display: flex;
+  align-items: center;
+  color: $color-danger;
+  margin-top: 1em;
+  span {
+    margin-left: 0.5rem;
+  }
+}
+
+.uri-info {
+  margin-left: 1em;
 }

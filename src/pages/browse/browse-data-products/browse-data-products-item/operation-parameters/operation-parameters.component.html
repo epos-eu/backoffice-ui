@@ -7,29 +7,6 @@
     *ngIf="paramsForm && mapping"
     class="operation-params"
   >
-    <mat-form-field
-      appearance="fill"
-      [style.width.%]="100"
-    >
-      <mat-label>Service URI template</mat-label>
-      <input
-        matInput
-        placeholder="Service URI template"
-        formControlName="template"
-      />
-    </mat-form-field>
-
-    <mat-form-field
-      appearance="fill"
-      [style.width.%]="100"
-    >
-      <mat-label>Preview of the URI template with default values</mat-label>
-      <input
-        matInput
-        placeholder="Preview of the URI template with default values "
-      />
-    </mat-form-field>
-
     <mat-accordion>
       <ng-container formArrayName="mapping">
         <mat-expansion-panel
@@ -95,15 +72,27 @@
     </mat-accordion>
   </form>
   <div class="button-wrapper">
-    <button
-      id="save"
-      mat-stroked-button
-      color="primary"
-      [disabled]="disabled"
-      (click)="handleSave()"
-    >
-      Save Operation
-    </button>
+    <div>
+      <button
+        class="action"
+        mat-stroked-button
+        color="primary"
+        [disabled]="disabled"
+        (click)="handleSave()"
+      >
+        Save Operation
+      </button>
+      <button
+        class="action"
+        mat-stroked-button
+        color="warn"
+        (click)="deleteOperation(instanceId)"
+        [disabled]="disabled"
+      >
+        <mat-icon>delete</mat-icon>
+        Delete Operation
+      </button>
+    </div>
     <button
       id="param"
       mat-stroked-button

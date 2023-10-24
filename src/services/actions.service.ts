@@ -24,6 +24,9 @@ export class ActionsService {
   private formEdited = new BehaviorSubject<boolean>(false);
   public formEditedObs = this.formEdited.asObservable();
 
+  private operationAdded = new BehaviorSubject<boolean>(false);
+  public operationAddedObs = this.operationAdded.asObservable();
+
   private handleDataProductReload = new BehaviorSubject<boolean>(false);
   public triggerDataProductReloadObs = this.handleDataProductReload.asObservable();
 
@@ -101,6 +104,10 @@ export class ActionsService {
 
   public disableSave(): void {
     this.formEdited.next(false);
+  }
+
+  public showSaveDistributionMessage(value: boolean): void {
+    this.operationAdded.next(value);
   }
 
   /**

@@ -146,7 +146,7 @@
             <mat-panel-title>Supported operation</mat-panel-title>
           </mat-expansion-panel-header>
           <div class="expansion-content-wrapper">
-            <div class="top-header">
+            <!-- <div class="top-header">
               <div class="actions">
                 <div class="flex-col filter">
                   <mat-label>Filter</mat-label>
@@ -159,36 +159,25 @@
                       matInput
                       value=""
                       (input)="supportedOperationSearch($event)"
-                      [disabled]="true"
                     />
                   </mat-form-field>
-                  <button
-                    mat-flat-button
-                    color="primary"
-                    [disabled]="disabled"
-                    (click)="addNewOperation()"
-                    *ngIf="webservice.supportedOperation.length === 0"
-                  >
-                    <mat-icon>add</mat-icon>
-                    Add Operation
-                  </button>
                 </div>
               </div>
-            </div>
-            <ng-scrollbar
+            </div> -->
+            <!-- <ng-scrollbar
               [autoHeightDisabled]="true"
               [style]="{ height: '600px' }"
-            >
-              <ng-container *ngFor="let item of webservice.supportedOperation; let i = index">
-                <div
-                  [ngClass]="{
-                    'supported-operation-wrapper': true,
-                    'mat-elevation-z8': supportedOperationFocusFirstRow && i === 0
-                  }"
-                >
-                  <div class="flex-row">
-                    <div class="supported-operation-item">
-                      <!-- <mat-form-field
+            > -->
+            <ng-container *ngFor="let item of supportedOperations; let i = index">
+              <div
+                [ngClass]="{
+                  'supported-operation-wrapper': true,
+                  'mat-elevation-z8': supportedOperationFocusFirstRow && i === 0
+                }"
+              >
+                <div class="flex-row">
+                  <div class="supported-operation-item">
+                    <!-- <mat-form-field
                         appearance="outline"
                         [floatLabel]="floatLabelControl.value"
                         [style.width.%]="100"
@@ -202,39 +191,60 @@
                           [disabled]="true"
                         />
                       </mat-form-field> -->
+                    <div class="flex-row">
                       <mat-form-field
-                        appearance="outline"
-                        [floatLabel]="floatLabelControl.value"
+                        appearance="fill"
                         [style.width.%]="100"
                       >
-                        <mat-label>Instance ID</mat-label>
+                        <mat-label>Service URI template</mat-label>
                         <input
                           matInput
-                          placeholder="UID"
-                          name="supportedOperation.instanceId"
-                          [value]="item.instanceId"
-                          [disabled]="true"
+                          placeholder="Service URI template"
+                          formControlName="template"
                         />
                       </mat-form-field>
-                      <mat-expansion-panel
-                        #expansionPanel
-                        [expanded]="false"
-                        class="supported-operation-params"
-                        [style.width.%]="100"
-                        [id]="i"
-                        (afterExpand)="handleOperationParams(i)"
+                      <a
+                        mat-mini-fab
+                        aria-label="URI template information"
+                        matTooltip="URI template information"
+                        class="uri-info"
+                        color="primary"
+                        href="https://datatracker.ietf.org/doc/html/rfc6570"
+                        target="_blank"
                       >
-                        <mat-expansion-panel-header>
-                          <mat-panel-title>Parameters</mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <app-operation-parameters
-                          *ngIf="(selectedPanelId | async) === i"
-                          [instanceId]="item.instanceId"
-                          [metaId]="metaId"
-                        ></app-operation-parameters>
-                      </mat-expansion-panel>
+                        <mat-icon>info</mat-icon>
+                      </a>
                     </div>
-                    <div class="supported-item-actions">
+
+                    <mat-form-field
+                      appearance="fill"
+                      [style.width.%]="100"
+                    >
+                      <mat-label>Preview of the URI template with default values</mat-label>
+                      <input
+                        matInput
+                        placeholder="Preview of the URI template with default values "
+                      />
+                    </mat-form-field>
+
+                    <mat-expansion-panel
+                      #expansionPanel
+                      [expanded]="true"
+                      class="supported-operation-params"
+                      [style.width.%]="100"
+                      [id]="i"
+                    >
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>Parameters</mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <app-operation-parameters
+                        [instanceId]="item.instanceId"
+                        [metaId]="metaId"
+                        (template)="handleTemplate($event)"
+                      ></app-operation-parameters>
+                    </mat-expansion-panel>
+                  </div>
+                  <!-- <div class="supported-item-actions">
                       <button
                         mat-mini-fab
                         color="warn"
@@ -246,12 +256,28 @@
                       >
                         <mat-icon>delete</mat-icon>
                       </button>
-                    </div>
-                  </div>
-                  <mat-divider *ngIf="webservice.supportedOperation.length > 1"></mat-divider>
+                    </div> -->
                 </div>
-              </ng-container>
-            </ng-scrollbar>
+              </div>
+            </ng-container>
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="disabled"
+              (click)="addNewOperation()"
+              *ngIf="supportedOperations.length === 0"
+            >
+              <mat-icon>add</mat-icon>
+              Add Operation
+            </button>
+            <div
+              class="notify"
+              *ngIf="showNotify"
+            >
+              <mat-icon>warning</mat-icon>
+              <span> Please click 'Save Distribution' to complete this action.</span>
+            </div>
+            <!-- </ng-scrollbar> -->
           </div>
         </mat-expansion-panel>
       </ng-container>
