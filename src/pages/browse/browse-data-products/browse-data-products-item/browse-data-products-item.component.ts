@@ -29,7 +29,7 @@ import { OperationsService } from 'src/services/operations.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { Subject } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
-import { NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
+import { NgxMatDatetimepicker } from '@angular-material-components/datetime-picker';
 import * as moment from 'moment';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
@@ -56,8 +56,8 @@ import { MatDatepicker } from '@angular/material/datepicker';
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   @ViewChild(NgScrollbar) scrollable!: NgScrollbar;
-  @ViewChild(NgxMatDatetimePicker) public issuedPicker!: MatDatepicker<Date>;
-  @ViewChild(NgxMatDatetimePicker) public tempStartDatePicker!: MatDatepicker<Date>;
+  @ViewChild(NgxMatDatetimepicker) public issuedPicker!: MatDatepicker<Date>;
+  @ViewChild(NgxMatDatetimepicker) public tempStartDatePicker!: MatDatepicker<Date>;
 
   public floatLabelControl = new UntypedFormControl('auto');
   public dataProduct!: DataProductDetailDataSource | undefined;
