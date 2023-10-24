@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
 
 export interface NewWebservice {
-  uid: string;
+  create: boolean;
 }
 
 @Component({
@@ -12,9 +12,8 @@ export interface NewWebservice {
   templateUrl: './dataproduct-add-webservice.component.html',
   styleUrls: ['./dataproduct-add-webservice.component.scss'],
 })
-export class DataproductAddWebserviceComponent implements OnInit {
+export class DataproductAddWebserviceComponent {
   constructor(
-    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<DataproductAddWebserviceComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData<null, NewWebservice>,
   ) {}
@@ -26,13 +25,7 @@ export class DataproductAddWebserviceComponent implements OnInit {
   }
 
   public handleCreate(): void {
-    this.data.dataOut.uid = this.form.get('uid')?.value;
+    this.data.dataOut.create = true;
     this.data.close();
-  }
-
-  public ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      uid: ['', Validators.required],
-    });
   }
 }
