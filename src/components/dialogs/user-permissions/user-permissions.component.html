@@ -58,7 +58,10 @@
     </div>
     <mat-form-field appearance="outline">
       <mat-label>Role</mat-label>
-      <mat-select [(ngModel)]="currentRole">
+      <mat-select
+        [(ngModel)]="currentRole"
+        [disabled]="true"
+      >
         <mat-option
           *ngFor="let role of userRole | keyvalue"
           [value]="role.value"
@@ -68,6 +71,10 @@
       </mat-select>
     </mat-form-field>
   </div>
+
+  <span class="role-disabled">
+    <p>Role functionality is currently disabled.</p>
+  </span>
 
   <div
     mat-dialog-actions
@@ -84,6 +91,7 @@
       color="primary"
       cdkFocusInitial
       (click)="setNewUserRole(currentRole)"
+      [disabled]="true"
     >
       Save
     </button>

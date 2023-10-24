@@ -53,3 +53,13 @@ mat-form-field {
     }
   }
 }
+
+.role-disabled {
+  display: flex;
+  justify-content: center;
+  font-style: italic;
+  border: solid 0.5px;
+  border-radius: 5px;
+  opacity: 0.5;
+  margin: 0 5em;
+}
