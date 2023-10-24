@@ -223,9 +223,19 @@
                       <mat-label>Preview of the URI template with default values</mat-label>
                       <input
                         matInput
-                        placeholder="Preview of the URI template with default values "
+                        placeholder="Preview of the URI template with default values"
+                        formControlName="preview"
                       />
                     </mat-form-field>
+
+                    <button
+                      mat-stroked-button
+                      color="primary"
+                      class="uri-preview"
+                      (click)="handleCreateURIPreview()"
+                    >
+                      Create URI preview
+                    </button>
 
                     <mat-expansion-panel
                       #expansionPanel
@@ -241,6 +251,7 @@
                         [instanceId]="item.instanceId"
                         [metaId]="metaId"
                         (template)="handleTemplate($event)"
+                        (mappingVals)="handleMappingVals($event)"
                       ></app-operation-parameters>
                     </mat-expansion-panel>
                   </div>
