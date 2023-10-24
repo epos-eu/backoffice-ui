@@ -15,7 +15,7 @@ import { TableUserDetail } from 'src/utility/objects/table/userDetail';
   styleUrls: ['./browse-users.component.scss'],
 })
 export class BrowseUsersComponent implements OnInit {
-  public displayedColumns = ['name', 'surname', 'email', 'role'];
+  public displayedColumns = ['name', 'surname', 'email', 'metaId', 'role'];
   public dataSource!: MatTableDataSource<TableUserDetail>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
@@ -48,6 +48,7 @@ export class BrowseUsersComponent implements OnInit {
           name: user.firstName,
           surname: user.lastName,
           email: user.email,
+          metaId: user.metaId,
           role: user.role,
           instanceId: user.instanceId,
         };
