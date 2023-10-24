@@ -159,6 +159,7 @@
                       matInput
                       value=""
                       (input)="supportedOperationSearch($event)"
+                      [disabled]="true"
                     />
                   </mat-form-field>
                   <button
@@ -187,7 +188,7 @@
                 >
                   <div class="flex-row">
                     <div class="supported-operation-item">
-                      <mat-form-field
+                      <!-- <mat-form-field
                         appearance="outline"
                         [floatLabel]="floatLabelControl.value"
                         [style.width.%]="100"
@@ -198,6 +199,20 @@
                           placeholder="UID"
                           name="supportedOperation.uid"
                           [value]="item.uid"
+                          [disabled]="true"
+                        />
+                      </mat-form-field> -->
+                      <mat-form-field
+                        appearance="outline"
+                        [floatLabel]="floatLabelControl.value"
+                        [style.width.%]="100"
+                      >
+                        <mat-label>Instance ID</mat-label>
+                        <input
+                          matInput
+                          placeholder="UID"
+                          name="supportedOperation.instanceId"
+                          [value]="item.instanceId"
                           [disabled]="true"
                         />
                       </mat-form-field>

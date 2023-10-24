@@ -20,7 +20,7 @@ export class CreateDataProductItemComponent implements OnInit {
   public dataProduct!: DataProductDetailDataSource | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
-  public enableSave = false;
+  public enableSave = true;
   public entityRoute = EntityEndpointValue.DATA_PRODUCT;
 
   constructor(
@@ -76,7 +76,7 @@ export class CreateDataProductItemComponent implements OnInit {
 
   private trackFormData(): void {
     this.form = this.formBuilder.group({
-      uid: this.dataProduct?.uid,
+      uid: this.dataProduct?.uid ?? 'dummy-uid-to-be-replaced',
     });
     this.form.valueChanges.subscribe(() => {
       this.enableSave = this.form.valid;

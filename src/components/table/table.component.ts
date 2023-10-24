@@ -22,7 +22,7 @@ export class TableComponent implements AfterViewInit {
   @Output() rowClickDetailsEmit = new Subject<Record<string, string>>();
   @Output() paginationChangeEmit = new EventEmitter<PageEvent>();
 
-  public displayedColumns = ['uid', 'title', 'lastChange', 'status', 'changeComment', 'author'];
+  public displayedColumns = ['title', 'lastChange', 'status', 'changeComment', 'author'];
   public dataSource!: MatTableDataSource<TableDetail>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
