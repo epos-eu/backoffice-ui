@@ -6,7 +6,7 @@ import { Group } from '../entities/group.model';
 export class DistributionDetailDataSource extends BaseObject {
   public static readonly KEYS = {
     ACCESS_SERVICE: 'accessService',
-    ACCESS_URL: 'accessUrl',
+    ACCESS_URL: 'accessURL',
     CHANGE_COMMENT: 'changeComment',
     CHANGE_TIMESTAMP: 'changeTimestamp',
     CONFORMS_TO: 'conformsTo',
@@ -34,7 +34,7 @@ export class DistributionDetailDataSource extends BaseObject {
   };
 
   public readonly accessService: EntityDetail;
-  public readonly accessURL: Array<string>;
+  public readonly accessURL: Array<EntityDetail>;
   public readonly changeComment: string;
   public readonly changeTimestamp: Date;
   public readonly conformsTo: string;

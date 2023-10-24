@@ -114,42 +114,47 @@ export class DialogService extends BaseDialogService {
     );
   }
 
-  public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue, redirect = true): void {
-    this.openDialog('delete', DialogDeleteComponent, false, {
-      width: '450px',
-      height: '275px',
-    })
-      .then((response: DialogData) => {
-        if (response.dataOut === 'delete') {
-          this.apiService
-            .deleteEntity(entityEndpoint, instanceId)
-            .then(() => {
-              this.snackbarService.openSnackbar(
-                `Successfully deleted entity: ${instanceId}`,
-                'Close',
-                'success',
-                3000,
-                ['snackbar', 'mat-toolbar', 'snackbar-success'],
-              );
-              this.actionsService.deleteEditedItem(instanceId);
-
-              if (redirect) {
-                this.router.navigate([`/browse/${entityEndpoint}`]);
-              } else {
-                this.actionsService.triggerDataProductReload();
-              }
-            })
-            .catch((err) => {
-              console.error(err);
-              this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-error',
-              ]);
-            });
-        }
+  public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue, redirect = true): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.openDialog('delete', DialogDeleteComponent, false, {
+        width: '450px',
+        height: '275px',
       })
-      .catch((err) => console.error(err));
+        .then((response: DialogData) => {
+          if (response.dataOut === 'delete') {
+            this.apiService
+              .deleteEntity(entityEndpoint, instanceId)
+              .then(() => {
+                this.snackbarService.openSnackbar(
+                  `Successfully deleted entity: ${instanceId}`,
+                  'Close',
+                  'success',
+                  3000,
+                  ['snackbar', 'mat-toolbar', 'snackbar-success'],
+                );
+                this.actionsService.deleteEditedItem(instanceId);
+
+                if (redirect) {
+                  this.router.navigate([`/browse/${entityEndpoint}`]);
+                } else {
+                  this.actionsService.triggerDataProductReload();
+                }
+                return resolve(true);
+              })
+              .catch((err) => {
+                console.error(err);
+                this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
+                  'snackbar',
+                  'mat-toolbar',
+                  'snackbar-error',
+                ]);
+              });
+          } else {
+            return resolve(false);
+          }
+        })
+        .catch((err) => console.error(err));
+    });
   }
 
   public handleAddContact(): void {

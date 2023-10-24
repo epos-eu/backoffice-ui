@@ -206,7 +206,8 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
-    this.operationsService.handleDistributionSave();
+    this.actionsService.showSaveDistributionMessage(false);
+    // this.operationsService.handleDistributionSave();
   }
 
   public deleteDistribution(instanceId: string | undefined): void {

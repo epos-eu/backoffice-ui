@@ -10,7 +10,8 @@ button {
   display: flex;
   justify-content: space-between;
   width: 99%;
-  #save {
+  .action {
     margin-top: 4em;
+    margin-right: 1em;
   }
 }

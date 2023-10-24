@@ -24,6 +24,7 @@ import { Documentation } from 'src/apiAndObjects/objects/types/documentation.typ
 import { State } from 'src/utility/enums/state.enum';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from '../../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
+import { ActionsService } from 'src/services/actions.service';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -39,6 +40,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
   @Input() parentEntity?: EntityDetail;
   @Input() metaId!: string;
+  @Input() supportedOperations: Array<EntityDetail> = [];
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
@@ -102,6 +104,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public entityEnum = Entity;
   public disabled = false;
   public instanceId = '';
+  public showNotify = false;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -111,6 +114,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
+    private actionsService: ActionsService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -125,6 +129,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
       } else {
         this.disabled = false;
       }
+    });
+
+    this.actionsService.operationAddedObs.subscribe((showMessage: boolean) => {
+      this.showNotify = showMessage;
     });
   }
 
@@ -178,6 +186,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       instanceId: this.webservice?.instanceId as string,
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
+      template: '',
       description: this.webservice?.description,
       documentation: this.formBuilder.control(this.getDocumentation(this.webservice?.documentation), [
         Validators.required,
@@ -233,6 +242,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
         this.operationsService.setActiveWebService(this.updatingObject);
       }
     });
+
+    this.form.get('template')?.valueChanges.subscribe((changes: string) => this.updateTemplate(changes));
   }
 
   public handleChange(event: MatSlideToggleChange): void {
@@ -267,6 +278,14 @@ export class WebserviceFormDetailsComponent implements OnInit {
             uid: result.uid,
             metaId: result.metaId,
           };
+
+          // Sets 'accessURL' on Distribution to newly created Operation.
+          const activeDistribution = this.operationsService.getActiveDistributionValue();
+          activeDistribution?.accessURL?.push(operation);
+          if (activeDistribution != null) {
+            this.operationsService.setActiveDistribution(activeDistribution);
+            this.actionsService.showSaveDistributionMessage(true);
+          }
 
           this.webservice?.supportedOperation.unshift(operation);
           this.supportedOperationFocusFirstRow = true;
@@ -370,18 +389,16 @@ export class WebserviceFormDetailsComponent implements OnInit {
     }
   }
 
-  /**
-   * The `deleteOperation` function deletes an operation instance and updates the supported operations
-   * list.
-   * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
-   * identifier of the operation instance that needs to be deleted.
-   */
-  public deleteOperation(instanceId: string): void {
-    this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false);
-    this.webservice?.supportedOperation.splice(
-      this.webservice?.supportedOperation.findIndex((e) => e.instanceId === instanceId),
-      1,
-    );
+  public handleTemplate(template: string): void {
+    this.form.get('template')?.setValue(template);
+  }
+
+  public updateTemplate(template: string) {
+    const activeSupportedOperation = this.operationsService.getActiveOperationValue();
+    if (null != activeSupportedOperation) {
+      activeSupportedOperation.template = template;
+      this.operationsService.setActiveOperation(activeSupportedOperation);
+    }
   }
 
   public newSpatialCoverage() {
