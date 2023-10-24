@@ -45,7 +45,6 @@ export class TableComponent implements AfterViewInit {
   }
 
   public handleFilter(filters: FilterEmit) {
-    console.debug(filters);
     this.dataSource.filter = JSON.stringify(filters);
   }
 
