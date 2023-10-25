@@ -48,6 +48,7 @@ import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.mo
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from './spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -81,6 +82,17 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public activeInstanceId!: string;
   public entityEnum = Entity;
   public stateEnum = State;
+  public shouldDisplay = {
+    [EntityFieldValue.GENERAL_INFORMATION]: true,
+    [EntityFieldValue.SPATIAL_COVERAGE]: false,
+    [EntityFieldValue.TEMPORAL_COVERAGE]: false,
+    [EntityFieldValue.PERSISTENT_IDENTIFIER]: false,
+    [EntityFieldValue.DATA_PROVIDERS]: false,
+    [EntityFieldValue.CONTACT_POINT]: false,
+    [EntityFieldValue.DISTRIBUTION]: false,
+  };
+  public entityFieldEnum = EntityFieldValue;
+
   private updateMapTimeout?: NodeJS.Timeout;
   private formTree: FormTree = {
     id: '#dataproduct',
@@ -578,6 +590,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       }),
     );
   }
+
   public handleDeleteIdentifier(index: number): void {
     const identifier = this.form.get('identifier') as FormArray;
     identifier.removeAt(index);
@@ -596,11 +609,17 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public getDataProviderName(uid: string): string {
     const provider = this.dataProviders.find((provider) => provider.uid === uid);
-    console.log(provider);
     if (provider && provider.legalName.length > 0) {
       return provider.legalName.shift() as string;
     }
     return '-';
+  }
+
+  public handlePanelOpened(id: EntityFieldValue): void {
+    this.shouldDisplay[id] = true;
+    if (id === EntityFieldValue.DATA_PROVIDERS) {
+      this.handleDataProviders();
+    }
   }
 }
 

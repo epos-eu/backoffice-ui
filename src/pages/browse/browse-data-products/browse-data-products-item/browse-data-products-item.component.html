@@ -7,12 +7,6 @@
       <div class="flex-col">
         <app-anchor-navigation [identifier]="'#dataproduct'"></app-anchor-navigation>
         <h1 class="mat-headline-4">Data product</h1>
-        <!-- <mat-chip-listbox
-          aria-label="Status"
-          *ngIf="currentEdit"
-        >
-          <mat-chip-option [color]="currentEdit.color">{{ currentEdit.state }}</mat-chip-option>
-        </mat-chip-listbox> -->
       </div>
       <div class="actions">
         <div class="flex-col">
@@ -48,259 +42,235 @@
         class="data-product"
       >
         <app-anchor-navigation [identifier]="'#generalinformation'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#generalinformation' }">
-            <mat-panel-title>General Information</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="info">
-            <div class="detail">
-              <div class="label">Instance Id:</div>
-              <div class="value">{{ dataProduct.instanceId }}</div>
+        <app-lazy-load-panel
+          [expanded]="true"
+          title="General information"
+          [headerClass]="{ active: selectedSection === '#generalinformation' }"
+          (afterOpened)="handlePanelOpened(entityFieldEnum.GENERAL_INFORMATION)"
+        >
+          <ng-container *ngIf="shouldDisplay['generalinformation']">
+            <div class="info">
+              <div class="detail">
+                <div class="label">Instance Id:</div>
+                <div class="value">{{ dataProduct.instanceId }}</div>
+              </div>
+              <div
+                *ngIf="dataProduct"
+                class="detail"
+              >
+                <div class="label">Status:</div>
+                <div class="value">{{ dataProduct.state }}</div>
+              </div>
             </div>
-            <div
-              *ngIf="dataProduct"
-              class="detail"
-            >
-              <div class="label">Status:</div>
-              <div class="value">{{ dataProduct.state }}</div>
-            </div>
-          </div>
-          <div>
-            <!-- <div class="fields-flex-col">
+            <div>
               <mat-form-field
                 appearance="fill"
                 [floatLabel]="floatLabelControl.value"
                 [style.width.%]="100"
               >
-                <mat-label>UID</mat-label>
+                <mat-label>Title</mat-label>
                 <input
                   matInput
-                  placeholder="UID"
-                  name="uid"
-                  formControlName="uid"
+                  placeholder="Title"
+                  name="title"
+                  formControlName="title"
                 />
               </mat-form-field>
-            </div> -->
-            <mat-form-field
-              appearance="fill"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="100"
-            >
-              <mat-label>Title</mat-label>
-              <input
-                matInput
-                placeholder="Title"
-                name="title"
-                formControlName="title"
-              />
-            </mat-form-field>
-            <mat-form-field
-              appearance="fill"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="100"
-            >
-              <mat-label>Description</mat-label>
-              <textarea
-                matInput
-                name="description"
-                [ngStyle]="{ 'line-height': '1.4' }"
-                formControlName="description"
-                [value]="dataProduct.description[0]"
-              ></textarea>
-            </mat-form-field>
-
-            <mat-form-field
-              appearance="fill"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="100"
-            >
-              <mat-label>Keywords</mat-label>
-              <textarea
-                matInput
-                placeholder="Keywords"
-                name="keywords"
-                formControlName="keywords"
-              ></textarea>
-            </mat-form-field>
-            <mat-form-field
-              appearance="fill"
-              [floatLabel]="floatLabelControl.value"
-              [style.width.%]="100"
-            >
-              <mat-label>Version Info</mat-label>
-              <input
-                matInput
-                placeholder="Version Info"
-                name="versionInfo"
-                formControlName="versionInfo"
-              />
-            </mat-form-field>
-          </div>
-          <ng-container>
-            <div class="fields-flex-row">
-              <div class="fields-flex-col">
-                <mat-form-field
-                  appearance="fill"
-                  [style.width.%]="50"
-                >
-                  <mat-label>Update frequency</mat-label>
-                  <mat-select formControlName="accrualPeriodicity">
-                    <mat-option
-                      *ngFor="let item of accrualPeriodicityOptions"
-                      [value]="item.id"
-                    >
-                      {{ item.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field
-                  appearance="fill"
-                  [style.width.%]="50"
-                >
-                  <mat-label>Type</mat-label>
-                  <mat-select formControlName="type">
-                    <mat-option
-                      *ngFor="let item of typeOptions"
-                      [value]="item.id"
-                      >{{ item.name }}</mat-option
-                    >
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-              <mat-form-field
-                appearance="fill"
-                [style.width.%]="50"
-              >
-                <mat-label>Issued</mat-label>
-                <input
-                  matInput
-                  [ngxMatDatetimePicker]="pickerIssued"
-                  placeholder="Choose a date & time"
-                  formControlName="issued"
-                />
-                <app-clear-datepicker
-                  matSuffix
-                  [value]="pickerIssued"
-                  (onClear)="handleClearDatePicker('issued')"
-                ></app-clear-datepicker>
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="$any(pickerIssued)"
-                ></mat-datepicker-toggle>
-                <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
-              </mat-form-field>
-
-              <div class="fields-flex-col">
-                <mat-form-field
-                  appearance="fill"
-                  [style.width.%]="50"
-                >
-                  <mat-label>Created</mat-label>
-                  <input
-                    matInput
-                    [ngxMatDatetimePicker]="pickerCreated"
-                    placeholder="Choose a date & time"
-                    formControlName="created"
-                    readonly
-                  />
-                  <ngx-mat-datetime-picker #pickerCreated></ngx-mat-datetime-picker>
-                </mat-form-field>
-                <mat-form-field
-                  appearance="fill"
-                  [style.width.%]="50"
-                >
-                  <mat-label>Modified</mat-label>
-                  <input
-                    matInput
-                    [ngxMatDatetimePicker]="pickerModified"
-                    placeholder="Choose a date & time"
-                    formControlName="modified"
-                    readonly
-                  />
-                  <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
-                </mat-form-field>
-              </div>
               <mat-form-field
                 appearance="fill"
                 [floatLabel]="floatLabelControl.value"
-                [style.width.%]="50"
+                [style.width.%]="100"
               >
-                <mat-label>Quality assurance</mat-label>
+                <mat-label>Description</mat-label>
+                <textarea
+                  matInput
+                  name="description"
+                  [ngStyle]="{ 'line-height': '1.4' }"
+                  formControlName="description"
+                  [value]="dataProduct.description[0]"
+                ></textarea>
+              </mat-form-field>
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="100"
+              >
+                <mat-label>Keywords</mat-label>
+                <textarea
+                  matInput
+                  placeholder="Keywords"
+                  name="keywords"
+                  formControlName="keywords"
+                ></textarea>
+              </mat-form-field>
+              <mat-form-field
+                appearance="fill"
+                [floatLabel]="floatLabelControl.value"
+                [style.width.%]="100"
+              >
+                <mat-label>Version Info</mat-label>
                 <input
                   matInput
-                  placeholder="Quality assurance"
-                  name="qualityAssurance"
-                  formControlName="qualityAssurance"
+                  placeholder="Version Info"
+                  name="versionInfo"
+                  formControlName="versionInfo"
                 />
-                <mat-error *ngIf="form.get('qualityAssurance')?.invalid"> URL is not valid. </mat-error>
               </mat-form-field>
             </div>
-          </ng-container>
-        </mat-expansion-panel>
-
-        <div class="expansion-wrapper">
-          <app-anchor-navigation [identifier]="'#spatialcoverage'"></app-anchor-navigation>
-          <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#spatialcoverage' }">
-              <mat-panel-title>Spatial Coverage</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-              <ng-container>
-                <ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
-                  <div class="spatial-item">
-                    <app-simple-spatial-control
-                      [spatialExtent]="item"
-                      [index]="i"
-                      [inputsDisabled]="dataProduct.state === stateEnum.PUBLISHED"
-                      (location)="updateSpatialCoverage($event)"
-                      (delete)="this.deleteSpatialCoverage($event)"
-                    ></app-simple-spatial-control>
-                  </div>
-                </ng-container>
-
-                <div class="spatial-coverage-actions">
-                  <button
-                    mat-stroked-button
-                    color="primary"
-                    (click)="newSpatialCoverage()"
-                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+            <ng-container>
+              <div class="fields-flex-row">
+                <div class="fields-flex-col">
+                  <mat-form-field
+                    appearance="fill"
+                    [style.width.%]="50"
                   >
-                    Add Spatial Coverage
-                  </button>
+                    <mat-label>Update frequency</mat-label>
+                    <mat-select formControlName="accrualPeriodicity">
+                      <mat-option
+                        *ngFor="let item of accrualPeriodicityOptions"
+                        [value]="item.id"
+                      >
+                        {{ item.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field
+                    appearance="fill"
+                    [style.width.%]="50"
+                  >
+                    <mat-label>Type</mat-label>
+                    <mat-select formControlName="type">
+                      <mat-option
+                        *ngFor="let item of typeOptions"
+                        [value]="item.id"
+                        >{{ item.name }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
                 </div>
 
-                <div
-                  class="spatial-coverage-map-wrapper"
-                  *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0"
+                <mat-form-field
+                  appearance="fill"
+                  [style.width.%]="50"
                 >
-                  <app-spatial-coverage-map
-                    [mapId]="'dataproductMap'"
-                    [spatialRange]="spatialCoverageInput"
-                    [coordinatesChange]="spatialCoverageChange"
-                  >
-                  </app-spatial-coverage-map>
-                  <!-- <button
-                    mat-stroked-button
-                    color="primary"
-                    (click)="refreshPointsOnMap()"
-                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
-                  >
-                    Refresh the map
-                  </button> -->
-                </div>
-              </ng-container>
-            </div>
-          </mat-expansion-panel>
-        </div>
+                  <mat-label>Issued</mat-label>
+                  <input
+                    matInput
+                    [ngxMatDatetimePicker]="pickerIssued"
+                    placeholder="Choose a date & time"
+                    formControlName="issued"
+                  />
+                  <app-clear-datepicker
+                    matSuffix
+                    [value]="pickerIssued"
+                    (onClear)="handleClearDatePicker('issued')"
+                  ></app-clear-datepicker>
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="$any(pickerIssued)"
+                  ></mat-datepicker-toggle>
+                  <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
+                </mat-form-field>
 
-        <div class="expansion-wrapper">
-          <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
-          <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#temporalcoverage' }">
-              <mat-panel-title>Temporal Coverage</mat-panel-title>
-            </mat-expansion-panel-header>
+                <div class="fields-flex-col">
+                  <mat-form-field
+                    appearance="fill"
+                    [style.width.%]="50"
+                  >
+                    <mat-label>Created</mat-label>
+                    <input
+                      matInput
+                      [ngxMatDatetimePicker]="pickerCreated"
+                      placeholder="Choose a date & time"
+                      formControlName="created"
+                      readonly
+                    />
+                    <ngx-mat-datetime-picker #pickerCreated></ngx-mat-datetime-picker>
+                  </mat-form-field>
+                  <mat-form-field
+                    appearance="fill"
+                    [style.width.%]="50"
+                  >
+                    <mat-label>Modified</mat-label>
+                    <input
+                      matInput
+                      [ngxMatDatetimePicker]="pickerModified"
+                      placeholder="Choose a date & time"
+                      formControlName="modified"
+                      readonly
+                    />
+                    <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
+                  </mat-form-field>
+                </div>
+                <mat-form-field
+                  appearance="fill"
+                  [floatLabel]="floatLabelControl.value"
+                  [style.width.%]="50"
+                >
+                  <mat-label>Quality assurance</mat-label>
+                  <input
+                    matInput
+                    placeholder="Quality assurance"
+                    name="qualityAssurance"
+                    formControlName="qualityAssurance"
+                  />
+                  <mat-error *ngIf="form.get('qualityAssurance')?.invalid"> URL is not valid. </mat-error>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </ng-container>
+        </app-lazy-load-panel>
+
+        <app-lazy-load-panel
+          title="Spatial coverage"
+          [headerClass]="{ active: selectedSection === '#spatialcoverage' }"
+          (afterOpened)="handlePanelOpened(entityFieldEnum.SPATIAL_COVERAGE)"
+        >
+          <ng-container *ngIf="shouldDisplay['spatialcoverage']">
+            <ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
+              <div class="spatial-item">
+                <app-simple-spatial-control
+                  [spatialExtent]="item"
+                  [index]="i"
+                  [inputsDisabled]="dataProduct.state === stateEnum.PUBLISHED"
+                  (location)="updateSpatialCoverage($event)"
+                  (delete)="this.deleteSpatialCoverage($event)"
+                ></app-simple-spatial-control>
+              </div>
+            </ng-container>
+
+            <div class="spatial-coverage-actions">
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="newSpatialCoverage()"
+                [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+              >
+                Add Spatial Coverage
+              </button>
+            </div>
+
+            <div
+              class="spatial-coverage-map-wrapper"
+              *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0"
+            >
+              <app-spatial-coverage-map
+                [mapId]="'dataproductMap'"
+                [spatialRange]="spatialCoverageInput"
+                [coordinatesChange]="spatialCoverageChange"
+              >
+              </app-spatial-coverage-map>
+            </div>
+          </ng-container>
+        </app-lazy-load-panel>
+
+        <app-lazy-load-panel
+          title="Temporal coverage"
+          [headerClass]="{ active: selectedSection === '#temporalcoverage' }"
+          (afterOpened)="handlePanelOpened(entityFieldEnum.TEMPORAL_COVERAGE)"
+        >
+          <ng-container *ngIf="shouldDisplay['temporalcoverage']">
             <div formGroupName="temporalDates">
               <div class="fields-flex-col">
                 <mat-form-field appearance="fill">
@@ -350,113 +320,107 @@
                 {{ form.get('temporalDates')?.errors?.['dates'] }}
               </mat-error>
             </div>
-          </mat-expansion-panel>
-        </div>
+          </ng-container>
+        </app-lazy-load-panel>
 
-        <div class="expansion-wrapper">
-          <app-anchor-navigation [identifier]="'#persistentidentifier'"></app-anchor-navigation>
-          <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#persistentidentifier' }">
-              <mat-panel-title>Identifiers</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-              <ng-container formArrayName="identifier">
-                <ng-container
-                  *ngFor="let control of getControls('identifier'); let i = index"
-                  [formGroupName]="i"
-                >
-                  <div class="fields-flex-col">
-                    <div class="indentifiers-flex-col">
-                      <mat-form-field
-                        appearance="fill"
-                        [floatLabel]="floatLabelControl.value"
-                        [style.width.%]="100"
-                      >
-                        <mat-label>Identifier</mat-label>
-                        <input
-                          matInput
-                          placeholder="Identifier"
-                          formControlName="identifier"
-                        />
-                      </mat-form-field>
-                      <mat-form-field
-                        appearance="fill"
-                        [floatLabel]="floatLabelControl.value"
-                        [style.width.%]="100"
-                      >
-                        <mat-label>Type</mat-label>
-                        <input
-                          matInput
-                          placeholder="Type"
-                          formControlName="type"
-                        />
-                      </mat-form-field>
-                    </div>
-                    <button
-                      mat-mini-fab
-                      color="{{ dataProduct.state === stateEnum.PUBLISHED ? '' : 'warn' }}"
-                      matTooltip="Remove Identifier"
-                      class="smaller"
-                      (click)="handleDeleteIdentifier(i)"
-                      [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+        <app-anchor-navigation [identifier]="'#persistentidentifier'"></app-anchor-navigation>
+        <app-lazy-load-panel
+          title="Identifiers"
+          [headerClass]="{ active: selectedSection === '#persistentidentifier' }"
+          (afterOpened)="handlePanelOpened(entityFieldEnum.PERSISTENT_IDENTIFIER)"
+        >
+          <ng-container *ngIf="shouldDisplay['persistentidentifier']">
+            <ng-container formArrayName="identifier">
+              <ng-container
+                *ngFor="let control of getControls('identifier'); let i = index"
+                [formGroupName]="i"
+              >
+                <div class="fields-flex-col">
+                  <div class="indentifiers-flex-col">
+                    <mat-form-field
+                      appearance="fill"
+                      [floatLabel]="floatLabelControl.value"
+                      [style.width.%]="100"
                     >
-                      <mat-icon>delete</mat-icon>
-                    </button>
+                      <mat-label>Identifier</mat-label>
+                      <input
+                        matInput
+                        placeholder="Identifier"
+                        formControlName="identifier"
+                      />
+                    </mat-form-field>
+                    <mat-form-field
+                      appearance="fill"
+                      [floatLabel]="floatLabelControl.value"
+                      [style.width.%]="100"
+                    >
+                      <mat-label>Type</mat-label>
+                      <input
+                        matInput
+                        placeholder="Type"
+                        formControlName="type"
+                      />
+                    </mat-form-field>
                   </div>
-                </ng-container>
+                  <button
+                    mat-mini-fab
+                    color="{{ dataProduct.state === stateEnum.PUBLISHED ? '' : 'warn' }}"
+                    matTooltip="Remove Identifier"
+                    class="smaller"
+                    (click)="handleDeleteIdentifier(i)"
+                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
               </ng-container>
-              <button
-                mat-stroked-button
-                color="primary"
-                (click)="handleAddIdentifier()"
+            </ng-container>
+            <button
+              mat-stroked-button
+              color="primary"
+              (click)="handleAddIdentifier()"
+              [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+            >
+              Add identifier
+            </button>
+          </ng-container>
+        </app-lazy-load-panel>
+
+        <app-anchor-navigation [identifier]="'#dataproviders'"></app-anchor-navigation>
+        <app-lazy-load-panel
+          title="Data providers"
+          [headerClass]="{ active: selectedSection === '#dataproviders' }"
+          (afterOpened)="handlePanelOpened(entityFieldEnum.DATA_PROVIDERS)"
+        >
+          <ng-container *ngIf="shouldDisplay['dataproviders']">
+            <mat-form-field>
+              <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
+              <mat-select
+                [(ngModel)]="selectedDataProviders"
+                (ngModelChange)="handleDataProviderChange($event)"
+                [ngModelOptions]="{ standalone: true }"
+                [compareWith]="compareWithFn"
+                multiple
                 [disabled]="dataProduct.state === stateEnum.PUBLISHED"
               >
-                Add identifier
-              </button>
-            </div>
-          </mat-expansion-panel>
-        </div>
-
-        <div class="expansion-wrapper">
-          <app-anchor-navigation [identifier]="'#dataproviders'"></app-anchor-navigation>
-          <mat-expansion-panel
-            [expanded]="false"
-            (afterExpand)="handleDataProviders()"
-            *ngIf="dataProduct.publisher && dataProduct.publisher.length > 0"
-          >
-            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#dataproviders' }">
-              <mat-panel-title>Data providers</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-              <mat-form-field>
-                <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
-                <mat-select
-                  [(ngModel)]="selectedDataProviders"
-                  (ngModelChange)="handleDataProviderChange($event)"
-                  [ngModelOptions]="{ standalone: true }"
-                  [compareWith]="compareWithFn"
-                  multiple
-                  [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+                <mat-option
+                  *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
+                  [value]="provider"
                 >
-                  <mat-option
-                    *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
-                    [value]="provider"
-                  >
-                    {{ provider.legalName }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <ul
-                class="selected-providers-list"
-                *ngIf="selectedDataProviders.length > 0"
-              >
-                <li *ngFor="let provider of selectedDataProviders">
                   {{ provider.legalName }}
-                </li>
-              </ul>
-            </div>
-          </mat-expansion-panel>
-        </div>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <ul
+              class="selected-providers-list"
+              *ngIf="selectedDataProviders.length > 0"
+            >
+              <li *ngFor="let provider of selectedDataProviders">
+                {{ provider.legalName }}
+              </li>
+            </ul>
+          </ng-container>
+        </app-lazy-load-panel>
 
         <input
           matInput
@@ -482,47 +446,45 @@
           [hidden]="true"
         />
       </form>
-      <div class="expansion-wrapper">
-        <app-anchor-navigation [identifier]="'#contactpoint'"></app-anchor-navigation>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#contactpoint' }">
-            <mat-panel-title>Contact Points</mat-panel-title>
-          </mat-expansion-panel-header>
-          <div>
-            <app-contact-point-form-details
-              *ngIf="contactPointDetails !== null"
-              [contactPointDetails]="contactPointDetails"
-              (contactPointDetailsUpdated)="updateContactPointArray($event)"
-              [showSaveFormNotify]="contactPointShowSaveNotify"
-              [relevantEntity]="entityEnum.DATA_PRODUCT"
-            ></app-contact-point-form-details>
-          </div>
-        </mat-expansion-panel>
-      </div>
-      <div>
-        <div *ngFor="let detail of distributionDetails; let i = index">
-          <app-anchor-navigation [identifier]="'#distribution' + detail.instanceId"></app-anchor-navigation>
-          <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#distribution' + detail.instanceId }">
-              <mat-panel-title>Distribution</mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-              <app-distribution-form-details
-                [distributionDetails]="detail"
-                [metaId]="activeMetaId"
-              ></app-distribution-form-details>
-            </div>
-          </mat-expansion-panel>
-        </div>
-        <button
-          mat-stroked-button
-          color="primary"
-          [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
-          (click)="newDistribution()"
+      <app-anchor-navigation [identifier]="'#contactpoint'"></app-anchor-navigation>
+      <app-lazy-load-panel
+        title="Contact points"
+        [headerClass]="{ active: selectedSection === '#contactpoint' }"
+        (afterOpened)="handlePanelOpened(entityFieldEnum.CONTACT_POINT)"
+      >
+        <ng-container *ngIf="shouldDisplay['contactpoint']">
+          <app-contact-point-form-details
+            *ngIf="contactPointDetails !== null"
+            [contactPointDetails]="contactPointDetails"
+            (contactPointDetailsUpdated)="updateContactPointArray($event)"
+            [showSaveFormNotify]="contactPointShowSaveNotify"
+            [relevantEntity]="entityEnum.DATA_PRODUCT"
+          ></app-contact-point-form-details>
+        </ng-container>
+      </app-lazy-load-panel>
+      <ng-container *ngFor="let detail of distributionDetails; let i = index">
+        <app-anchor-navigation [identifier]="'#distribution' + detail.instanceId"></app-anchor-navigation>
+        <app-lazy-load-panel
+          title="Distribution"
+          [headerClass]="{ active: selectedSection === '#distribution' + detail.instanceId }"
+          (afterOpened)="handlePanelOpened(entityFieldEnum.DISTRIBUTION)"
         >
-          New Distribution
-        </button>
-      </div>
+          <ng-container *ngIf="shouldDisplay['distribution']">
+            <app-distribution-form-details
+              [distributionDetails]="detail"
+              [metaId]="activeMetaId"
+            ></app-distribution-form-details>
+          </ng-container>
+        </app-lazy-load-panel>
+      </ng-container>
+      <button
+        mat-stroked-button
+        color="primary"
+        [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
+        (click)="newDistribution()"
+      >
+        New Distribution
+      </button>
     </div>
   </div>
 </ng-scrollbar>
