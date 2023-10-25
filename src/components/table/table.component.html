@@ -97,7 +97,7 @@
       </td>
     </ng-container>
     <!-- Comment column -->
-    <ng-container matColumnDef="changeComment">
+    <ng-container matColumnDef="versionInfo">
       <th
         sortingCache
         mat-header-cell
@@ -105,13 +105,13 @@
         mat-sort-header
         [resizeColumn]="true"
       >
-        Comment
+        Version
       </th>
       <td
         mat-cell
         *matCellDef="let row"
       >
-        {{ row.changeComment }}
+        {{ row.versionInfo }}
       </td>
     </ng-container>
     <!-- Author column -->

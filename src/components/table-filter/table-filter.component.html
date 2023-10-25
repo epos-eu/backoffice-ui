@@ -25,18 +25,17 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <!-- <mat-form-field
+      <mat-form-field
         appearance="fill"
         color="primary"
       >
-        <mat-label>UID</mat-label>
         <input
           matInput
-          placeholder="Search by UID"
-          (input)="handleUidSearch($event)"
-          [value]="filters.uid"
+          placeholder="Search by Title"
+          (input)="handleTitleSearch($event)"
+          [value]="filters.title"
         />
-      </mat-form-field> -->
+      </mat-form-field>
     </div>
     <button
       mat-stroked-button

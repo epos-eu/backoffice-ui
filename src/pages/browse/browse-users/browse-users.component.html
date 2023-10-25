@@ -68,6 +68,24 @@
           </td>
         </ng-container>
 
+        <!-- Email column -->
+        <ng-container matColumnDef="metaId">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+          >
+            Meta ID
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            class="column-status"
+          >
+            {{ row.metaId }}
+          </td>
+        </ng-container>
+
         <!-- Role column -->
         <ng-container matColumnDef="role">
           <th

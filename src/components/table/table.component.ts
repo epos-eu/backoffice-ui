@@ -22,7 +22,7 @@ export class TableComponent implements AfterViewInit {
   @Output() rowClickDetailsEmit = new Subject<Record<string, string>>();
   @Output() paginationChangeEmit = new EventEmitter<PageEvent>();
 
-  public displayedColumns = ['title', 'lastChange', 'status', 'changeComment', 'author'];
+  public displayedColumns = ['title', 'lastChange', 'status', 'versionInfo', 'author'];
   public dataSource!: MatTableDataSource<TableDetail>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
@@ -63,6 +63,7 @@ export class TableComponent implements AfterViewInit {
         lastChange: moment(item.changeTimestamp).format(CUSTOM_DATE_FORMAT.display.dateInput),
         status: item.state,
         changeComment: item.changeComment,
+        versionInfo: item instanceof DataProductDetailDataSource ? item.versionInfo : '',
         author: item.editorId,
         instanceId: item.instanceId,
         metaId: item.metaId,
@@ -80,7 +81,7 @@ export class TableComponent implements AfterViewInit {
       const filters = JSON.parse(filterValue);
       return (
         data.status.trim().toLocaleLowerCase().indexOf(filters.status.trim().toLocaleLowerCase()) >= 0 &&
-        data.uid.trim().toLocaleLowerCase().indexOf(filters.uid.trim().toLocaleLowerCase()) >= 0
+        data.title.trim().toLocaleLowerCase().indexOf(filters.title.trim().toLocaleLowerCase()) >= 0
       );
     };
     this.loading = false;

@@ -7,4 +7,5 @@ export interface TableDetail {
   author: string;
   instanceId: string;
   metaId: string;
+  versionInfo: string;
 }
