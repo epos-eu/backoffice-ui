@@ -13,7 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
+import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
@@ -39,9 +39,9 @@ import { FormTree } from 'src/components/side-navigation/explorer-navigation/for
 import { NgScrollbar } from 'ngx-scrollbar';
 import { scrollBackToTop } from 'src/helpers/scroll';
 import {
-  DataproductAddDistributionComponent,
+  DialogDataproductAddDistributionComponent,
   NewDistribution,
-} from 'src/components/dialogs/dataproduct-add-distribution/dataproduct-add-distribution.component';
+} from 'src/components/dialogs/dialog-dataproduct-add-distribution/dialog-dataproduct-add-distribution.component';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
@@ -352,7 +352,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public handleGetRevisions(): void {
     this.dialogService.openDialogForComponent(
-      RevisionsComponent,
+      DialogRevisionsComponent,
       {
         metaId: this.dataProduct?.metaId,
         type: Entity.DATA_PRODUCT,
@@ -383,7 +383,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     };
 
     this.dialogService
-      .openDialogForComponent(DataproductAddDistributionComponent, {}, '35vw', 'auto', 'add-distribution-dialog')
+      .openDialogForComponent(DialogDataproductAddDistributionComponent, {}, 'add-distribution-dialog')
       .then((data: DialogData<object, NewDistribution>) => {
         if (data.dataOut.cancel === false) {
           this.apiService.endpoints.Distribution.create

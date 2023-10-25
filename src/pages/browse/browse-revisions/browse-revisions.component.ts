@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-// import { forkJoin } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { Revision } from 'src/components/dialogs/revisions/revisions.component';
+import { Revision } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { OperationsService } from 'src/services/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import * as jsondiffpatch from 'jsondiffpatch';
-// import { State } from 'src/utility/enums/state.enum';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

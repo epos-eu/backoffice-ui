@@ -7,11 +7,11 @@ interface NewDataProductDialog {
 }
 
 @Component({
-  selector: 'app-new-dataproduct',
-  templateUrl: './new-dataproduct.component.html',
-  styleUrls: ['./new-dataproduct.component.scss'],
+  selector: 'app-dialog-new-dataproduct',
+  templateUrl: './dialog-new-dataproduct.component.html',
+  styleUrls: ['./dialog-new-dataproduct.component.scss'],
 })
-export class NewDataproductComponent {
+export class DialogNewDataproductComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<null, NewDataProductDialog>) {}
 
   public handleCancel(): void {

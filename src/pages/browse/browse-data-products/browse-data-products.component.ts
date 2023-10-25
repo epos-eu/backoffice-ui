@@ -6,7 +6,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { NewDataproductComponent } from 'src/components/dialogs/new-dataproduct/new-dataproduct.component';
+import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new-dataproduct/dialog-new-dataproduct.component';
 import { scrollBackToTop } from 'src/helpers/scroll';
 import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -91,7 +91,7 @@ export class BrowseDataProductsComponent {
 
   public handleNewDataProduct(): void {
     this.dialogService
-      .openDialogForComponent(NewDataproductComponent, {}, '35vw', 'auto', 'new-dataproduct-dialog')
+      .openDialogForComponent(DialogNewDataproductComponent, {}, 'new-dataproduct-dialog')
       .then((response) => {
         if (response.dataOut.create) {
           this.handleCreate();

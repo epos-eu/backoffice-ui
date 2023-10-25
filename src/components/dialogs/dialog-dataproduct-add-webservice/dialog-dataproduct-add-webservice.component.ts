@@ -8,13 +8,13 @@ export interface NewWebservice {
 }
 
 @Component({
-  selector: 'app-dataproduct-add-webservice',
-  templateUrl: './dataproduct-add-webservice.component.html',
-  styleUrls: ['./dataproduct-add-webservice.component.scss'],
+  selector: 'app-dialog-dataproduct-add-webservice',
+  templateUrl: './dialog-dataproduct-add-webservice.component.html',
+  styleUrls: ['./dialog-dataproduct-add-webservice.component.scss'],
 })
-export class DataproductAddWebserviceComponent {
+export class DialogDataproductAddWebserviceComponent {
   constructor(
-    public dialogRef: MatDialogRef<DataproductAddWebserviceComponent>,
+    public dialogRef: MatDialogRef<DialogDataproductAddWebserviceComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData<null, NewWebservice>,
   ) {}
 

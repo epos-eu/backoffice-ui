@@ -13,11 +13,11 @@ export interface ConfirmationDataIn {
  * General purpose confirmation dialog
  */
 @Component({
-  selector: 'app-confirm-dialog',
-  templateUrl: './confirmDialog.component.html',
-  styleUrls: ['./confirmDialog.component.scss'],
+  selector: 'app-dialog-confirm',
+  templateUrl: './dialog-confirm.component.html',
+  styleUrls: ['./dialog-confirm.component.scss'],
 })
-export class ConfirmDialogComponent {
+export class DialogConfirmComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<ConfirmationDataIn, boolean>) {}
 
   public confirm(): void {
