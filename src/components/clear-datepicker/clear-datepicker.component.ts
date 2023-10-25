@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @angular-eslint/no-output-on-prefix */
-import { NgxMatDatetimePicker } from '@angular-material-components/datetime-picker';
+import { NgxMatDatetimepicker } from '@angular-material-components/datetime-picker';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -9,7 +9,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./clear-datepicker.component.scss'],
 })
 export class ClearDatepickerComponent {
-  @Input() value!: NgxMatDatetimePicker<any>;
+  @Input() value!: NgxMatDatetimepicker<any>;
   @Output() onClear = new EventEmitter<unknown>();
 
   constructor() {}

@@ -25,6 +25,8 @@ import { State } from 'src/utility/enums/state.enum';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from '../../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { ActionsService } from 'src/services/actions.service';
+import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -78,6 +80,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     expanded: true,
   };
   private updatingObject = this.operationsService.getActiveWebServiceValue();
+  private mapping: Array<Mapping> = [];
   public options: UntypedFormGroup;
   public floatLabelControl = new UntypedFormControl('auto');
   public webservice!: WebserviceDetailDataSource | undefined;
@@ -186,7 +189,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       instanceId: this.webservice?.instanceId as string,
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
-      template: '',
+      template: [{ value: '', disabled: true }],
       description: this.webservice?.description,
       documentation: this.formBuilder.control(this.getDocumentation(this.webservice?.documentation), [
         Validators.required,
@@ -211,6 +214,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       entryPoint: this.webservice?.entryPoint,
       keywords: HelpersService.whiteSpaceReplace(this.webservice?.keywords),
       license: this.webservice?.license,
+      preview: [''],
     });
 
     this.explorerService.setFormSection(
@@ -494,7 +498,53 @@ export class WebserviceFormDetailsComponent implements OnInit {
     return moment.isMoment(val) ? val.toISOString() : (val as string);
   }
 
+  private mapParams(submatch: string, paramName: string): string {
+    const match = this.mapping.find((param: Mapping) => param.variable === paramName);
+    if (match) {
+      const regex = new RegExp(`${paramName}`, 'g');
+      if (match.defaultValue) {
+        if (match.range === OperationParamsRange.DATE_TIME) {
+          // get only the date from datetime string
+          const dateStr = match.defaultValue.split('T').shift();
+          if (dateStr) {
+            submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(dateStr));
+          }
+        } else {
+          submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
+        }
+      } else {
+        submatch = '';
+      }
+    }
+    return submatch;
+  }
+
   public handleClearDatePicker(control: AbstractControl): void {
     this.operationsService.clearDatePicker(control);
+  }
+
+  public handleMappingVals(mapping: Array<Mapping> | undefined): void {
+    if (mapping) {
+      this.mapping = mapping;
+    }
+  }
+
+  public handleCreateURIPreview(): void {
+    const template = this.form.get('template')?.value;
+
+    if (template) {
+      const templateParams = template.match(/\{(.*?)\}/);
+      let submatch = templateParams[1];
+      const paramsArr = submatch.replace('?', '').split(',');
+
+      if (paramsArr.length > 0 && this.mapping.length > 0) {
+        paramsArr.forEach((paramName: string) => {
+          submatch = this.mapParams(submatch, paramName);
+        });
+        submatch = submatch.replace(/,/g, '&');
+        const finalTemplateURI = template.split('{').shift() + `${submatch}`;
+        this.form.get('preview')?.setValue(finalTemplateURI);
+      }
+    }
   }
 }

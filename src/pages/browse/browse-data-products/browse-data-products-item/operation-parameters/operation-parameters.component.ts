@@ -22,8 +22,9 @@ import { State } from 'src/utility/enums/state.enum';
 export class OperationParametersComponent implements OnInit {
   @Input() instanceId = '';
   @Input() metaId = '';
-  @Output() template = new Subject<string>();
   @Input() templateUpdate = new Subject<string>();
+  @Output() template = new Subject<string>();
+  @Output() mappingVals = new Subject<Array<Mapping> | undefined>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,6 +66,7 @@ export class OperationParametersComponent implements OnInit {
             this.operationsService.setActiveOperation(this.operation);
             this.template?.next(this.operation.template ? this.operation.template : '');
             this.mapping = this.operation.mapping;
+            this.mappingVals.next(this.operation.mapping);
             this.initForm();
             this.disabled ? this.paramsForm.disable() : this.paramsForm.enable();
           }
