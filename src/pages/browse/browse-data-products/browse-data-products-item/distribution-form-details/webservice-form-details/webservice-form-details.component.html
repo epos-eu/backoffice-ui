@@ -164,10 +164,6 @@
                 </div>
               </div>
             </div> -->
-            <!-- <ng-scrollbar
-              [autoHeightDisabled]="true"
-              [style]="{ height: '600px' }"
-            > -->
             <ng-container *ngFor="let item of supportedOperations; let i = index">
               <div
                 [ngClass]="{
@@ -177,20 +173,6 @@
               >
                 <div class="flex-row">
                   <div class="supported-operation-item">
-                    <!-- <mat-form-field
-                        appearance="outline"
-                        [floatLabel]="floatLabelControl.value"
-                        [style.width.%]="100"
-                      >
-                        <mat-label>UID</mat-label>
-                        <input
-                          matInput
-                          placeholder="UID"
-                          name="supportedOperation.uid"
-                          [value]="item.uid"
-                          [disabled]="true"
-                        />
-                      </mat-form-field> -->
                     <div class="flex-row">
                       <mat-form-field
                         appearance="fill"
@@ -201,6 +183,7 @@
                           matInput
                           placeholder="Service URI template"
                           formControlName="template"
+                          readonly
                         />
                       </mat-form-field>
                       <a
@@ -226,6 +209,10 @@
                         placeholder="Preview of the URI template with default values"
                         formControlName="preview"
                       />
+                      <app-copy-to-clipboard
+                        matSuffix
+                        [textVal]="this.form.get('preview')?.value"
+                      ></app-copy-to-clipboard>
                     </mat-form-field>
 
                     <button
@@ -255,19 +242,6 @@
                       ></app-operation-parameters>
                     </mat-expansion-panel>
                   </div>
-                  <!-- <div class="supported-item-actions">
-                      <button
-                        mat-mini-fab
-                        color="warn"
-                        aria-label="Delete operation"
-                        matTooltip="Delete operation"
-                        class="smaller"
-                        [disabled]="disabled"
-                        (click)="deleteOperation(item.instanceId)"
-                      >
-                        <mat-icon>delete</mat-icon>
-                      </button>
-                    </div> -->
                 </div>
               </div>
             </ng-container>
@@ -288,7 +262,6 @@
               <mat-icon>warning</mat-icon>
               <span> Please click 'Save Distribution' to complete this action.</span>
             </div>
-            <!-- </ng-scrollbar> -->
           </div>
         </mat-expansion-panel>
       </ng-container>
