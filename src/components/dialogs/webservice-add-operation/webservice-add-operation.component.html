@@ -1,37 +1,22 @@
 <div class="wrapper">
-  <ng-container *ngIf="formFields">
-    <h1 mat-dialog-title>Add new operation</h1>
-    <!-- <form [formGroup]="form">
-      <h4 class="mat-subtitle-1">Identifier</h4>
-      <div class="inline-fields">
-        <mat-form-field
-          appearance="outline"
-          [style.width.%]="96"
-        >
-          <mat-label>UID</mat-label>
-          <input
-            matInput
-            placeholder="UID"
-            formControlName="uid"
-          />
-        </mat-form-field>
-      </div>
-    </form> -->
-  </ng-container>
+  <h1 mat-dialog-title>Confirm</h1>
+  <div mat-dialog-content>
+    <p>Are you sure you want to create a new operation?</p>
+  </div>
   <div mat-dialog-actions>
     <button
-      mat-button
+      mat-stroked-button
       (click)="handleCancel()"
     >
       Cancel
     </button>
     <button
-      mat-flat-button
+      mat-button
       color="primary"
       cdkFocusInitial
       (click)="handleAdd()"
     >
-      Add
+      Create
     </button>
   </div>
 </div>

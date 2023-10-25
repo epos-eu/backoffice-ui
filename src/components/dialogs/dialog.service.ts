@@ -107,7 +107,7 @@ export class DialogService extends BaseDialogService {
       false,
       null,
       {
-        width: '30vw',
+        width: '35vw',
         height: 'auto',
       },
       'user-permissions',
@@ -116,10 +116,7 @@ export class DialogService extends BaseDialogService {
 
   public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue, redirect = true): Promise<boolean> {
     return new Promise((resolve) => {
-      this.openDialog('delete', DialogDeleteComponent, false, {
-        width: '450px',
-        height: '275px',
-      })
+      this.openDialog('delete', DialogDeleteComponent, false, {}, { width: '35vw', height: 'auto' })
         .then((response: DialogData) => {
           if (response.dataOut === 'delete') {
             this.apiService
@@ -207,11 +204,15 @@ export class DialogService extends BaseDialogService {
     webserviceEntityDetail: EntityDetail,
   ): Promise<OperationDetailDataSource | unknown> {
     const promise = new Promise((resolve) => {
-      this.openDialog('addWebserviceOperation', WebserviceAddOperationComponent, false, {
-        width: '450px',
-        height: '275px',
-        webservice: webserviceEntityDetail,
-      }).then((response: DialogData) => {
+      this.openDialog(
+        'addWebserviceOperation',
+        WebserviceAddOperationComponent,
+        false,
+        {
+          webservice: webserviceEntityDetail,
+        },
+        { width: '35vw', height: 'auto' },
+      ).then((response: DialogData) => {
         if (response.dataOut.action === 'add') {
           const item: Operation = {
             uid: 'TEMP_OPERATION_UID/TO_BE_HANDLED_BY_API',
