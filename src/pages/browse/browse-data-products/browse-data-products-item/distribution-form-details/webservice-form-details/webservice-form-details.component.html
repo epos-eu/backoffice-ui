@@ -14,49 +14,46 @@
             <div class="label">Instance Id:</div>
             <div class="value">{{ webservice.instanceId }}</div>
           </div>
+        </div>
 
-          <div class="detail">
-            <ng-container *ngIf="webservice.datePublished.toString() !== 'Invalid Date'">
-              <mat-form-field>
-                <mat-label>Date published</mat-label>
-                <input
-                  matInput
-                  [ngxMatDatetimePicker]="pickerPublished"
-                  formControlName="published"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="$any(pickerPublished)"
-                ></mat-datepicker-toggle>
-                <ngx-mat-datetime-picker #pickerPublished></ngx-mat-datetime-picker>
-              </mat-form-field>
-            </ng-container>
-            <ng-container *ngIf="webservice.datePublished.toString() === 'Invalid Date'">
-              <div class="label">Published:</div>
-              <div class="value">Unpublished</div>
-            </ng-container>
-          </div>
-          <div class="detail">
-            <ng-container *ngIf="webservice.dateModified.toString() !== 'Invalid Date'">
-              <mat-form-field>
-                <mat-label>Date modified</mat-label>
-                <input
-                  matInput
-                  [ngxMatDatetimePicker]="pickerModified"
-                  formControlName="modified"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="$any(pickerModified)"
-                ></mat-datepicker-toggle>
-                <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
-              </mat-form-field>
-            </ng-container>
-            <ng-container *ngIf="webservice.dateModified.toString() === 'Invalid Date'">
-              <div class="label">Modified:</div>
-              <div class="value">Never modified</div>
-            </ng-container>
-          </div>
+        <div class="fields-flex-col">
+          <mat-form-field>
+            <mat-label>Date published</mat-label>
+            <input
+              matInput
+              [ngxMatDatetimePicker]="pickerPublished"
+              formControlName="published"
+            />
+            <app-clear-datepicker
+              matSuffix
+              [value]="pickerEndDate"
+              (onClear)="handleClearDatePicker(form.controls['published'])"
+            ></app-clear-datepicker>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="$any(pickerPublished)"
+            ></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #pickerPublished></ngx-mat-datetime-picker>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Date modified</mat-label>
+            <input
+              matInput
+              [ngxMatDatetimePicker]="pickerModified"
+              formControlName="modified"
+            />
+            <app-clear-datepicker
+              matSuffix
+              [value]="pickerEndDate"
+              (onClear)="handleClearDatePicker(form.controls['modified'])"
+            ></app-clear-datepicker>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="$any(pickerModified)"
+            ></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
+          </mat-form-field>
         </div>
       </div>
       <mat-form-field
