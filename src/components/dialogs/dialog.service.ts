@@ -5,21 +5,21 @@ import { BehaviorSubject } from 'rxjs';
 import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-contact/dialog-add-contact.component';
 import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-person/dialog-add-person.component';
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
-import { MetadataFileViewComponent } from 'src/components/dialogs/metadata-file-view/metadata-file-view.component';
+import { DialogMetadataFileViewComponent } from 'src/components/dialogs/dialog-metadata-file-view/dialog-metadata-file-view.component';
 import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
-import { UserPermissionsComponent } from './user-permissions/user-permissions.component';
+import { DialogUserPermissionsComponent } from './dialog-user-permissions/dialog-user-permissions.component';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ActionsService } from 'src/services/actions.service';
-import { WebserviceAddOperationComponent } from './webservice-add-operation/webservice-add-operation.component';
+import { DialogWebserviceAddOperationComponent } from './dialog-webservice-add-operation/dialog-webservice-add-operation.component';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
-import { ConfirmDialogComponent, ConfirmationDataIn } from './confirmDialog/confirmDialog.component';
+import { DialogConfirmComponent, ConfirmationDataIn } from './dialog-confirm/dialog-confirm.component';
 
 @Injectable({
   providedIn: 'root',
@@ -54,8 +54,8 @@ export class DialogService extends BaseDialogService {
   public openDialogForComponent<T = unknown>(
     contentComponent: ComponentType<unknown>,
     data?: T,
-    width = '80vw',
-    height = '80vh',
+    width = '35vw',
+    height = 'auto',
     panelClass?: string,
   ): Promise<DialogData<T>> {
     return this.openDialog('anyDialog', contentComponent, true, data, {
@@ -72,7 +72,7 @@ export class DialogService extends BaseDialogService {
     confirmButtonCssClass = 'confirm',
     cancelButtonHtml = 'Cancel',
   ): Promise<boolean> {
-    return this.openDialog('confirm', ConfirmDialogComponent, closable, {
+    return this.openDialog('confirm', DialogConfirmComponent, closable, {
       messageHtml: messageHtml,
       confirmButtonHtml: confirmButtonHtml,
       cancelButtonHtml: cancelButtonHtml,
@@ -83,43 +83,20 @@ export class DialogService extends BaseDialogService {
   }
 
   public openMetadataViewDialog(): Promise<DialogData> {
-    return this.openDialog('metadataView', MetadataFileViewComponent);
+    return this.openDialog('metadataView', DialogMetadataFileViewComponent);
   }
 
   public openChangeUserRoleDialog(userData: TableUserDetail): Promise<DialogData> {
-    return this.openDialog(
-      'changeUserRole',
-      UserPermissionsComponent,
-      false,
-      userData,
-      {
-        width: '30vw',
-        height: 'auto',
-      },
-      'user-permissions',
-    );
+    return this.openDialog('changeUserRole', DialogUserPermissionsComponent, false, userData, {}, 'user-permissions');
   }
 
   public openAddNewParameterDialog(): Promise<DialogData> {
-    return this.openDialog(
-      'changeUserRole',
-      DialogAddNewParameterComponent,
-      false,
-      null,
-      {
-        width: '30vw',
-        height: 'auto',
-      },
-      'user-permissions',
-    );
+    return this.openDialog('changeUserRole', DialogAddNewParameterComponent, false, null, {}, 'user-permissions');
   }
 
   public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue, redirect = true): Promise<boolean> {
     return new Promise((resolve) => {
-      this.openDialog('delete', DialogDeleteComponent, false, {
-        width: '450px',
-        height: '275px',
-      })
+      this.openDialog('delete', DialogDeleteComponent, false, {})
         .then((response: DialogData) => {
           if (response.dataOut === 'delete') {
             this.apiService
@@ -162,10 +139,6 @@ export class DialogService extends BaseDialogService {
       'addContact',
       DialogAddContactComponent,
       true,
-      {
-        width: '700px',
-        height: '650px',
-      },
       // initEmptyContactObj(),
     );
     this.dialogStateObservable.subscribe((result) => {
@@ -181,10 +154,6 @@ export class DialogService extends BaseDialogService {
       'addPerson',
       DialogAddPersonComponent,
       true,
-      {
-        width: '700px',
-        height: '700px',
-      },
       // initEmptyPersonObj(),
     );
     this.dialogStateObservable.subscribe((result) => {
@@ -207,9 +176,7 @@ export class DialogService extends BaseDialogService {
     webserviceEntityDetail: EntityDetail,
   ): Promise<OperationDetailDataSource | unknown> {
     const promise = new Promise((resolve) => {
-      this.openDialog('addWebserviceOperation', WebserviceAddOperationComponent, false, {
-        width: '450px',
-        height: '275px',
+      this.openDialog('addWebserviceOperation', DialogWebserviceAddOperationComponent, false, {
         webservice: webserviceEntityDetail,
       }).then((response: DialogData) => {
         if (response.dataOut.action === 'add') {

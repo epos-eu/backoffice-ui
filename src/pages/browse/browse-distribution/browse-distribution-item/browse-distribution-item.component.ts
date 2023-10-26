@@ -5,7 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
+import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
@@ -110,7 +110,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
 
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
-    this.dialogService.openDialogForComponent(RevisionsComponent, {}, '35vw', 'auto', 'revisions-dialog');
+    this.dialogService.openDialogForComponent(DialogRevisionsComponent, {}, 'revisions-dialog');
   }
 
   public handleDelete(): void {

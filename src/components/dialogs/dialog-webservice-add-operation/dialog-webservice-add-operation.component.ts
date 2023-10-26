@@ -5,11 +5,11 @@ import { DialogData } from '../baseDialogService.abstract';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-webservice-add-operation',
-  templateUrl: './webservice-add-operation.component.html',
-  styleUrls: ['./webservice-add-operation.component.scss'],
+  selector: 'app-dialog-webservice-add-operation',
+  templateUrl: './dialog-webservice-add-operation.component.html',
+  styleUrls: ['./dialog-webservice-add-operation.component.scss'],
 })
-export class WebserviceAddOperationComponent implements OnInit {
+export class DialogWebserviceAddOperationComponent implements OnInit {
   public formFields: Operation = { uid: '' };
   public form!: UntypedFormGroup;
 

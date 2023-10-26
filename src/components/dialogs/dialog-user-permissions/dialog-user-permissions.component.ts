@@ -11,11 +11,11 @@ import { DialogData } from '../baseDialogService.abstract';
 import { SetUserRoleParams } from 'src/apiAndObjects/api/user/putUserDetail';
 
 @Component({
-  selector: 'app-user-permissions',
-  templateUrl: './user-permissions.component.html',
-  styleUrls: ['./user-permissions.component.scss'],
+  selector: 'app-dialog-user-permissions',
+  templateUrl: './dialog-user-permissions.component.html',
+  styleUrls: ['./dialog-user-permissions.component.scss'],
 })
-export class UserPermissionsComponent implements OnInit {
+export class DialogUserPermissionsComponent implements OnInit {
   public userDetails?: ListObject;
   public userRole = UserRole;
   public currentRole = '';

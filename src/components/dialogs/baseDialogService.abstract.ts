@@ -51,8 +51,8 @@ export abstract class BaseDialogService {
       const dialogData = this.makeDialogData<DataInType, DataOutType>(dialogId, closable, customData);
 
       const config = {
-        maxHeight: '95vh',
-        maxWidth: '90vw',
+        maxHeight: configIn?.height,
+        maxWidth: configIn.width,
         panelClass: 'base-dialog',
         data: dialogData,
         id: dialogId,

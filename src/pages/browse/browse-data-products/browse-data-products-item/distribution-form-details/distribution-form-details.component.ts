@@ -6,7 +6,7 @@ import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-sourc
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
+import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ActionsService } from 'src/services/actions.service';
 import { OperationsService } from 'src/services/operations.service';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -17,9 +17,9 @@ import { FormatTypes } from './formats';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
 import {
-  DataproductAddWebserviceComponent,
+  DialogDataproductAddWebserviceComponent,
   NewWebservice,
-} from 'src/components/dialogs/dataproduct-add-webservice/dataproduct-add-webservice.component';
+} from 'src/components/dialogs/dialog-dataproduct-add-webservice/dialog-dataproduct-add-webservice.component';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { StateChangeService } from 'src/services/stateChange.service';
 
@@ -195,12 +195,10 @@ export class DistributionFormDetailsComponent {
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
     this.dialogService.openDialogForComponent(
-      RevisionsComponent,
+      DialogRevisionsComponent,
       {
         metaId: this.distribution?.metaId,
       },
-      '35vw',
-      'auto',
       'revisions-dialog',
     );
   }
@@ -230,7 +228,7 @@ export class DistributionFormDetailsComponent {
     };
 
     this.dialogService
-      .openDialogForComponent(DataproductAddWebserviceComponent, {}, '35vw', 'auto', 'add-webservice-dialog')
+      .openDialogForComponent(DialogDataproductAddWebserviceComponent, {}, 'add-webservice-dialog')
       .then((data: DialogData<object, NewWebservice>) => {
         if (data.dataOut.create) {
           item.uid = 'dummy-webservice-uid-to-generate';

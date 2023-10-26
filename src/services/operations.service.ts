@@ -16,7 +16,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
-import { Revision } from 'src/components/dialogs/revisions/revisions.component';
+import { Revision } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { BehaviorSubject } from 'rxjs';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';

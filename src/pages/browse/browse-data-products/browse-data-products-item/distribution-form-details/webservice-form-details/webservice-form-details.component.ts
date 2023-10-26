@@ -9,7 +9,7 @@ import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-sourc
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { RevisionsComponent } from 'src/components/dialogs/revisions/revisions.component';
+import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { OperationsService } from 'src/services/operations.service';
@@ -300,12 +300,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public handleGetRevisions(): void {
     // Todo: pass revisions data to component
     this.dialogService.openDialogForComponent(
-      RevisionsComponent,
+      DialogRevisionsComponent,
       {
         metaId: this.webservice?.metaId,
       },
-      '35vw',
-      'auto',
       'revisions-dialog',
     );
   }

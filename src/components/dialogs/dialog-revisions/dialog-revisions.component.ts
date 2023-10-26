@@ -32,16 +32,16 @@ export interface Revision {
 }
 
 @Component({
-  selector: 'app-revisions',
-  templateUrl: './revisions.component.html',
-  styleUrls: ['./revisions.component.scss'],
+  selector: 'app-dialog-revisions',
+  templateUrl: './dialog-revisions.component.html',
+  styleUrls: ['./dialog-revisions.component.scss'],
 })
-export class RevisionsComponent implements OnInit {
+export class DialogRevisionsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData<CurrentEntity>,
     private router: Router,
-    private dialogRef: MatDialogRef<RevisionsComponent>,
+    private dialogRef: MatDialogRef<DialogRevisionsComponent>,
     private operationsService: OperationsService,
   ) {}
 

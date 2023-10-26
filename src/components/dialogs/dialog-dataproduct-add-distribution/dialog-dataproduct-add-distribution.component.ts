@@ -8,14 +8,14 @@ export interface NewDistribution {
 }
 
 @Component({
-  selector: 'app-dataproduct-add-distribution',
-  templateUrl: './dataproduct-add-distribution.component.html',
-  styleUrls: ['./dataproduct-add-distribution.component.scss'],
+  selector: 'app-dialog-dataproduct-add-distribution',
+  templateUrl: './dialog-dataproduct-add-distribution.component.html',
+  styleUrls: ['./dialog-dataproduct-add-distribution.component.scss'],
 })
-export class DataproductAddDistributionComponent implements OnInit {
+export class DialogDataproductAddDistributionComponent implements OnInit {
   constructor(
     private formBuilder: UntypedFormBuilder,
-    public dialogRef: MatDialogRef<DataproductAddDistributionComponent>,
+    public dialogRef: MatDialogRef<DialogDataproductAddDistributionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData<null, NewDistribution>,
   ) {}
 

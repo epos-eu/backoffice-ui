@@ -1,7 +1,7 @@
 <div class="wrapper">
   <h1 mat-dialog-title>Confirm</h1>
   <div mat-dialog-content>
-    <p>Are you sure you want to delete this item?</p>
+    <p>Are you sure you want to create a new data product?</p>
   </div>
   <div mat-dialog-actions>
     <button
@@ -12,9 +12,9 @@
     </button>
     <button
       mat-raised-button
-      color="warn"
+      color="primary"
       cdkFocusInitial
-      (click)="handleDelete()"
+      (click)="handleCreate()"
     >
       Create
     </button>
