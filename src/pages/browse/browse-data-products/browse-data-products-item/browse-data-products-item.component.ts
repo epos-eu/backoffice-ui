@@ -49,6 +49,7 @@ import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from './spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
+import { IFormTree } from './distribution-form-details/distribution-form-details.component';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -92,7 +93,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     [EntityFieldValue.DISTRIBUTION]: false,
   };
   public entityFieldEnum = EntityFieldValue;
-
   private updateMapTimeout?: NodeJS.Timeout;
   private formTree: FormTree = {
     id: '#dataproduct',
@@ -128,6 +128,25 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         id: '#contactpoint',
         name: 'Contact Points',
         children: [],
+      },
+    ],
+    expanded: true,
+  };
+  private formTreeDist = {
+    id: '#distribution',
+    name: 'Distribution',
+    children: [
+      {
+        id: '#distgeneralinformation',
+        name: 'General Information',
+        children: [],
+        expanded: false,
+      },
+      {
+        id: '#distaccessible',
+        name: 'Data access',
+        children: [],
+        expanded: true,
       },
     ],
     expanded: true,
@@ -191,6 +210,29 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.contactPointShowSaveNotify = false;
       }
     });
+    this.explorerService.setFormSection(
+      '#dataproduct',
+      {
+        id: '#distribution',
+        name: 'Distribution',
+        children: [
+          {
+            id: '#distgeneralinformation',
+            name: 'General Information',
+            children: [],
+            expanded: false,
+          },
+          {
+            id: '#distaccessible',
+            name: 'Data access',
+            children: [],
+            expanded: true,
+          },
+        ],
+        expanded: true,
+      },
+      false,
+    );
   }
 
   ngOnDestroy(): void {
@@ -620,6 +662,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     if (id === EntityFieldValue.DATA_PROVIDERS) {
       this.handleDataProviders();
     }
+  }
+
+  public handleFormTreeUpdate(formTree: IFormTree, instanceId: string): void {
+    this.explorerService.setFormSection(formTree.parent, formTree.section, false, instanceId);
+  }
+
+  public handleLoad(instanceId: string): void {
+    this.explorerService.setFormSection('#dataproduct', this.formTreeDist, false, instanceId);
   }
 }
 

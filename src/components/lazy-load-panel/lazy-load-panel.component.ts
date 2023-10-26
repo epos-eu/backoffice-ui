@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 interface HeaderClass {
   active: boolean;
@@ -9,12 +9,17 @@ interface HeaderClass {
   templateUrl: './lazy-load-panel.component.html',
   styleUrls: ['./lazy-load-panel.component.scss'],
 })
-export class LazyLoadPanelComponent {
+export class LazyLoadPanelComponent implements OnInit {
   @Input() expanded = false;
   @Input() title = '';
   @Input() headerClass!: HeaderClass;
+  @Output() afterLoad = new EventEmitter();
   @Output() afterOpened = new EventEmitter();
   @Output() afterClosed = new EventEmitter();
+
+  public ngOnInit(): void {
+    this.afterLoad.emit();
+  }
 
   public handleOpened(): void {
     this.afterOpened.emit();

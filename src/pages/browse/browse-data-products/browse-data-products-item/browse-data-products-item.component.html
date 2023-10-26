@@ -222,6 +222,7 @@
           </ng-container>
         </app-lazy-load-panel>
 
+        <app-anchor-navigation [identifier]="'#spatialcoverage'"></app-anchor-navigation>
         <app-lazy-load-panel
           title="Spatial coverage"
           [headerClass]="{ active: selectedSection === '#spatialcoverage' }"
@@ -265,6 +266,7 @@
           </ng-container>
         </app-lazy-load-panel>
 
+        <app-anchor-navigation [identifier]="'#temporalcoverage'"></app-anchor-navigation>
         <app-lazy-load-panel
           title="Temporal coverage"
           [headerClass]="{ active: selectedSection === '#temporalcoverage' }"
@@ -467,12 +469,14 @@
         <app-lazy-load-panel
           title="Distribution"
           [headerClass]="{ active: selectedSection === '#distribution' + detail.instanceId }"
+          (afterLoad)="handleLoad(detail.instanceId)"
           (afterOpened)="handlePanelOpened(entityFieldEnum.DISTRIBUTION)"
         >
           <ng-container *ngIf="shouldDisplay['distribution']">
             <app-distribution-form-details
               [distributionDetails]="detail"
               [metaId]="activeMetaId"
+              (formTreeUpdate)="handleFormTreeUpdate($event, detail.instanceId)"
             ></app-distribution-form-details>
           </ng-container>
         </app-lazy-load-panel>

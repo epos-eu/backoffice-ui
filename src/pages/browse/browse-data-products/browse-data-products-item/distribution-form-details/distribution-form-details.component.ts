@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
@@ -23,6 +23,11 @@ import {
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { StateChangeService } from 'src/services/stateChange.service';
 
+export interface IFormTree {
+  parent: string;
+  section: FormTree;
+}
+
 @Component({
   selector: 'app-distribution-form-details',
   templateUrl: './distribution-form-details.component.html',
@@ -37,6 +42,7 @@ export class DistributionFormDetailsComponent {
     }
   }
   @Input() metaId!: string;
+  @Output() formTreeUpdate = new EventEmitter<IFormTree>();
 
   public floatLabelControl = new UntypedFormControl('auto');
   public distribution!: DistributionDetailDataSource | undefined;
@@ -45,37 +51,13 @@ export class DistributionFormDetailsComponent {
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
   public accessService!: EntityDetail;
   public entityDetails?: EntityDetail;
-
   public dataProductAccessibility?: string;
   public dataProductAccessibilityOptions: string[] = ['download', 'webservice'];
   public formats = FormatTypes;
   public selectedFormat = '';
   public selectedSection = '';
-
   public instanceId = '';
-
   public disabled = false;
-
-  private formTree = {
-    id: '#distribution',
-    name: 'Distribution',
-    children: [
-      {
-        id: '#distgeneralinformation',
-        name: 'General Information',
-        children: [],
-        expanded: false,
-      },
-      {
-        id: '#distaccessible',
-        name: 'Data access',
-        children: [],
-        expanded: true,
-      },
-    ],
-    expanded: true,
-  };
-
   private formTreeDownload: FormTree = { id: '#distaccessibledownload', name: 'Download', children: [] };
   private formTreeWebService: FormTree = {
     id: '#distaccessiblewebservice',
@@ -135,12 +117,18 @@ export class DistributionFormDetailsComponent {
   private checkDataProductAccessibility(): string {
     if (this.distribution) {
       if (this.distribution.accessService?.instanceId !== undefined) {
-        this.explorerService.setFormSection('#distaccessible', this.formTreeWebService, false, this.instanceId);
+        this.formTreeUpdate.emit({
+          parent: '#distaccessible',
+          section: this.formTreeWebService,
+        });
         return 'webservice';
       }
     }
 
-    this.explorerService.setFormSection('#distaccessible', this.formTreeDownload, false, this.instanceId);
+    this.formTreeUpdate.emit({
+      parent: '#distaccessible',
+      section: this.formTreeDownload,
+    });
     return 'download';
   }
 
@@ -171,12 +159,13 @@ export class DistributionFormDetailsComponent {
       ]),
     });
 
-    this.explorerService.setFormSection('#dataproduct', this.formTree, false, this.instanceId);
-
     this.form.valueChanges.subscribe((changes) => {
       const updatingObject = this.operationsService.getActiveDistributionValue();
       if (changes['dataProductAccessibility'] === 'download') {
-        this.explorerService.setFormSection('#distaccessible', this.formTreeDownload, false);
+        this.formTreeUpdate.emit({
+          parent: '#distaccessible',
+          section: this.formTreeDownload,
+        });
         this.explorerService.removeFormSection('#distaccessible', '#distaccessiblewebservice');
       } else {
         this.explorerService.removeFormSection('#distaccessible', '#distaccessibledownload');
@@ -193,7 +182,6 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleGetRevisions(): void {
-    // Todo: pass revisions data to component
     this.dialogService.openDialogForComponent(
       DialogRevisionsComponent,
       {
@@ -205,7 +193,6 @@ export class DistributionFormDetailsComponent {
 
   public handleSave(): void {
     this.actionsService.showSaveDistributionMessage(false);
-    // this.operationsService.handleDistributionSave();
   }
 
   public deleteDistribution(instanceId: string | undefined): void {
