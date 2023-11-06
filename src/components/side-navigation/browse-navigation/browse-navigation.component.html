@@ -11,7 +11,7 @@
           <mat-icon mat-list-icon>perm_media</mat-icon>
           <span>Data products</span>
         </a>
-        <a
+        <!-- <a
           mat-list-item
           [routerLink]="['/browse/webservice']"
           routerLinkActive="active"
@@ -19,17 +19,16 @@
         >
           <mat-icon mat-list-icon>layers</mat-icon>
           <span>Webservices</span>
-        </a>
+        </a> -->
         <a
           mat-list-item
           [routerLink]="['/browse/distribution']"
           routerLinkActive="active"
-          [disabled]="true"
         >
           <mat-icon mat-list-icon>share</mat-icon>
           <span>Distribution</span>
         </a>
-        <a
+        <!-- <a
           mat-list-item
           [routerLink]="['/browse/contactpoint']"
           routerLinkActive="active"
@@ -37,10 +36,10 @@
         >
           <mat-icon mat-list-icon>contact_support</mat-icon>
           <span>Contact point</span>
-        </a>
+        </a> -->
         <mat-divider></mat-divider>
         <h3 mat-subheader>Administrative</h3>
-        <a
+        <!-- <a
           mat-list-item
           [routerLink]="['/browse/organization']"
           routerLinkActive="active"
@@ -48,8 +47,8 @@
         >
           <mat-icon mat-list-icon>business</mat-icon>
           <span>Organisations</span>
-        </a>
-        <a
+        </a> -->
+        <!-- <a
           mat-list-item
           [routerLink]="['/browse/people']"
           routerLinkActive="active"
@@ -57,7 +56,7 @@
         >
           <mat-icon mat-list-icon>portrait</mat-icon>
           <span>People</span>
-        </a>
+        </a> -->
         <a
           mat-list-item
           [routerLink]="['/browse/users']"
@@ -66,7 +65,7 @@
           <mat-icon mat-list-icon>person</mat-icon>
           <span>Users</span>
         </a>
-        <a
+        <!-- <a
           mat-list-item
           [routerLink]="['/browse/groups']"
           routerLinkActive="active"
@@ -74,10 +73,10 @@
         >
           <mat-icon mat-list-icon>group</mat-icon>
           <span>Groups</span>
-        </a>
+        </a> -->
         <mat-divider></mat-divider>
-        <h3 mat-subheader>Data</h3>
-        <a
+        <!-- <h3 mat-subheader>Data</h3> -->
+        <!-- <a
           [disabled]="true"
           mat-list-item
           [routerLink]="['/browse/statistics']"
@@ -86,7 +85,7 @@
         >
           <mat-icon mat-list-icon>bar_chart</mat-icon>
           <span>Statistics</span>
-        </a>
+        </a> -->
       </mat-nav-list>
     </ng-container>
 
@@ -103,21 +102,29 @@
         </a>
         <a
           mat-list-item
+          [routerLink]="['/browse/distribution']"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon>share</mat-icon>
+          <span>Distribution</span>
+        </a>
+        <!-- <a
+          mat-list-item
           [routerLink]="['/browse/organization']"
           routerLinkActive="active"
         >
           <mat-icon mat-list-icon>business</mat-icon>
           <span>Organisations</span>
-        </a>
-        <a
+        </a> -->
+        <!-- <a
           mat-list-item
           [routerLink]="['/browse/people']"
           routerLinkActive="active"
         >
           <mat-icon mat-list-icon>portrait</mat-icon>
           <span>People</span>
-        </a>
-        <a
+        </a> -->
+        <!-- <a
           [disabled]="true"
           mat-list-item
           [routerLink]="['/browse/software']"
@@ -125,8 +132,8 @@
         >
           <mat-icon mat-list-icon>desktop_windows</mat-icon>
           <span>Software</span>
-        </a>
-        <a
+        </a> -->
+        <!-- <a
           [disabled]="true"
           mat-list-item
           [routerLink]="['/browse/source-code']"
@@ -134,7 +141,7 @@
         >
           <mat-icon mat-list-icon>code</mat-icon>
           <span>Source code</span>
-        </a>
+        </a> -->
       </mat-nav-list>
     </ng-container>
 
@@ -148,6 +155,14 @@
         >
           <mat-icon mat-list-icon>perm_media</mat-icon>
           <span>Data products</span>
+        </a>
+        <a
+          mat-list-item
+          [routerLink]="['/browse/distribution']"
+          routerLinkActive="active"
+        >
+          <mat-icon mat-list-icon>share</mat-icon>
+          <span>Distribution</span>
         </a>
       </mat-nav-list>
     </ng-container>
