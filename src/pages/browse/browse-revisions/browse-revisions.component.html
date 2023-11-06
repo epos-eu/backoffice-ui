@@ -19,17 +19,17 @@
   >
     <ng-container *ngIf="!error">
       <div class="labels">
-        <div class="flex-horizontal">
-          <div class="box previous">
-            <p>Previous</p>
+        <div
+          class="flex-horizontal"
+          *ngFor="let revision of revisions; let i = index"
+        >
+          <div
+            class="box"
+            [ngClass]="i === 0 ? 'previous' : 'current'"
+          >
+            <p>{{ i === 0 ? 'Previous' : 'Current' }}</p>
           </div>
-          <p>v1.0.0</p>
-        </div>
-        <div class="flex-horizontal">
-          <div class="box current">
-            <p>Current</p>
-          </div>
-          <p>v1.0.1</p>
+          <p>{{ revision.versionInfo }}</p>
         </div>
       </div>
       <div [innerHTML]="visualDiff"></div>
