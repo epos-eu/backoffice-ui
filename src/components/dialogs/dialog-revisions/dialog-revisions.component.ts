@@ -14,6 +14,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import * as moment from 'moment';
+import { compareVersions } from 'compare-versions';
 
 interface CurrentEntity {
   metaId: string;
@@ -127,6 +128,16 @@ export class DialogRevisionsComponent implements OnInit {
   public handleCompare(): void {
     const uids = this.selection.selected.map((item) => item.uid);
     const selectedRevisions = this.entities.filter((item) => uids.includes(item.uid));
+
+    selectedRevisions.sort((a, b) => {
+      if (a.versionInfo === '' || b.versionInfo === '') {
+        return 1;
+      }
+      if (a.versionInfo !== '' && b.versionInfo !== '') {
+        return compareVersions(a.versionInfo, b.versionInfo);
+      }
+      return 0;
+    });
 
     this.dialogRef.close();
     this.router.navigate(['/browse/revisions/compare', this.data?.dataIn.instanceId]);

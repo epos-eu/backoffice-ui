@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { Revision } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { OperationsService } from 'src/services/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
@@ -17,11 +15,10 @@ export class BrowseRevisionsComponent implements OnInit {
   constructor(
     private operationsService: OperationsService,
     private persistorService: PersistorService,
-    private apiService: ApiService,
     private route: ActivatedRoute,
   ) {}
 
-  public revisions: Array<unknown> = [];
+  public revisions: Array<DataProductDetailDataSource> = [];
   public entities: Array<DataProductDetailDataSource | undefined> = [];
   public visualDiff!: string | undefined;
   public loading = false;
@@ -32,13 +29,11 @@ export class BrowseRevisionsComponent implements OnInit {
     return this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.REVISIONS);
   }
 
-  private _mapResponse(entity: unknown[]): DataProductDetailDataSource | undefined {
-    const item = entity.shift();
-    if (item) {
-      const mapped = Object.fromEntries(Object.entries(item).filter(([key]) => key !== '_sourceObject'));
-      return mapped as DataProductDetailDataSource;
-    }
-    return undefined;
+  private _mapResponse(revisions: DataProductDetailDataSource[]): void {
+    const mapped = revisions.map((revision) =>
+      Object.fromEntries(Object.entries(revision).filter(([key]) => key !== '_sourceObject')),
+    ) as DataProductDetailDataSource[];
+    this.revisions = mapped;
   }
 
   private _getVisualDiff(): string | undefined {
@@ -57,17 +52,23 @@ export class BrowseRevisionsComponent implements OnInit {
       }
     });
 
-    this.operationsService.revisionsObs.subscribe((revisions: Array<unknown>) => {
-      this.revisions = revisions;
-      console.log(this.revisions);
-      // this._mapResponse(this.revisions);
-      this.visualDiff = this._getVisualDiff();
+    const parsed = JSON.parse(this._getCachedRevisions() as string);
 
-      this.persistorService.setValueInStorage(
-        StorageType.LOCAL_STORAGE,
-        StorageKey.REVISIONS,
-        JSON.stringify(revisions),
-      );
-    });
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      this.revisions = JSON.parse(this._getCachedRevisions() as string);
+      this._mapResponse(this.revisions);
+      this.visualDiff = this._getVisualDiff();
+    } else {
+      this.operationsService.revisionsObs.subscribe((revisions: Array<DataProductDetailDataSource>) => {
+        this.revisions = revisions;
+        this._mapResponse(this.revisions);
+        this.visualDiff = this._getVisualDiff();
+        this.persistorService.setValueInStorage(
+          StorageType.LOCAL_STORAGE,
+          StorageKey.REVISIONS,
+          JSON.stringify(revisions),
+        );
+      });
+    }
   }
 }
