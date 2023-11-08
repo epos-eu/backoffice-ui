@@ -1,5 +1,22 @@
+.mat-mdc-nav-list {
+  // &.mat-mdc-list-base {
+  //   .mdc-list-item__content {
+  //     pointer-events: none !important;
+  //   }
+
+  .mat-mdc-list-item > {
+    pointer-events: none !important;
+  }
+}
 .active {
   background-color: rgba(0, 73, 38, 0.2);
+}
+// }
+
+.mat-mdc-list-base {
+  .mdc-list-item__content {
+    pointer-events: none !important;
+  }
 }
 
 .spinner-wrapper {

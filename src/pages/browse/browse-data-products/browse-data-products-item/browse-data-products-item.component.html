@@ -469,10 +469,11 @@
         <app-lazy-load-panel
           title="Distribution"
           [headerClass]="{ active: selectedSection === '#distribution' + detail.instanceId }"
+          [expanded]="shouldDisplayDist['#distribution' + detail.instanceId]"
           (afterLoad)="handleLoad(detail.instanceId)"
-          (afterOpened)="handlePanelOpened(entityFieldEnum.DISTRIBUTION)"
+          (afterOpened)="handlePanelOpened(entityFieldEnum.DISTRIBUTION, detail.instanceId)"
         >
-          <ng-container *ngIf="shouldDisplay['distribution']">
+          <ng-container *ngIf="shouldDisplayDist['#distribution' + detail.instanceId]">
             <app-distribution-form-details
               [distributionDetails]="detail"
               [metaId]="activeMetaId"

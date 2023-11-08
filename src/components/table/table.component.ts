@@ -11,6 +11,8 @@ import { FilterEmit } from '../table-filter/table-filter.component';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import * as moment from 'moment';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 
 @Component({
   selector: 'app-table',
@@ -34,14 +36,13 @@ export class TableComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.loading = true;
-
     this.apiService.endpoints[this.sectionName].getAll.call().then((tableItems) => {
       this.createTableObjects(tableItems as TableItems);
     });
   }
 
-  public rowClicked(metaId: string, instanceId: string): void {
-    this.rowClickDetailsEmit.next({ metaId, instanceId });
+  public rowClicked(row: Record<string, string>): void {
+    this.rowClickDetailsEmit.next(row);
   }
 
   public handleFilter(filters: FilterEmit) {
@@ -59,7 +60,7 @@ export class TableComponent implements AfterViewInit {
     items.forEach((item: TableItem) => {
       const detail: TableDetail = {
         uid: item.uid,
-        title: item instanceof DataProductDetailDataSource ? item.title[0] : '',
+        title: '',
         lastChange: moment(item.changeTimestamp).format(CUSTOM_DATE_FORMAT.display.dateInput),
         status: item.state,
         changeComment: item.changeComment,
@@ -67,7 +68,17 @@ export class TableComponent implements AfterViewInit {
         author: item.editorId,
         instanceId: item.instanceId,
         metaId: item.metaId,
+        dataProduct: item instanceof DistributionDetailDataSource ? item.dataProduct[0] : null,
       };
+
+      if (item instanceof WebserviceDetailDataSource) {
+        detail.title = item.name;
+      } else if (item instanceof DataProductDetailDataSource || item instanceof DistributionDetailDataSource) {
+        detail.title = item.title[0];
+      } else {
+        detail.title = '';
+      }
+
       tableDetails.push(detail);
     });
     this.initialiseTable(tableDetails);
