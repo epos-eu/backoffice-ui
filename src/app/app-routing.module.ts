@@ -5,32 +5,28 @@ const appRoutes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('../pages/home/home.module').then((m) => m.HomeModule),
-    // canMatch: [() => inject(AaaiService).isAuthenticated()],
   },
   {
     path: 'browse',
     loadChildren: () => import('../pages/browse/browse.module').then((m) => m.BrowseModule),
-    // canMatch: [() => inject(AaaiService).checkForAuth()],
   },
   {
     path: 'import',
     loadChildren: () => import('../pages/import/import.module').then((m) => m.ImportModule),
-    // canMatch: [() => inject(AaaiService).checkForAuth()],
   },
   {
     path: 'login',
     loadChildren: () => import('../pages/login/login.module').then((m) => m.LoginModule),
   },
   {
+    path: 'error',
+    loadChildren: () => import('../pages/error/error.module').then((m) => m.ErrorModule),
+  },
+  {
     path: 'last-page-redirect',
     redirectTo: 'home',
     pathMatch: 'full',
   },
-  // {
-  //   path: '**',
-  //   redirectTo: 'home',
-  //   pathMatch: 'full',
-  // },
 ];
 
 @NgModule({
