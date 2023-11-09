@@ -1,3 +1,6 @@
+import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
+
 export interface TableDetail {
   uid: string;
   title: string;
@@ -8,4 +11,5 @@ export interface TableDetail {
   instanceId: string;
   metaId: string;
   versionInfo: string;
+  dataProduct?: EntityDetail | null;
 }

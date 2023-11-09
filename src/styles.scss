@@ -144,3 +144,15 @@ button {
     }
   }
 }
+
+.mat-mdc-nav-list {
+  .mat-mdc-list-item > {
+    pointer-events: none !important;
+  }
+}
+
+.mat-mdc-list-base {
+  .mdc-list-item__content {
+    pointer-events: none !important;
+  }
+}

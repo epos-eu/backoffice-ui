@@ -27,7 +27,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationsService } from 'src/services/operations.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { NgxMatDatetimepicker } from '@angular-material-components/datetime-picker';
 import * as moment from 'moment';
@@ -50,6 +50,7 @@ import { SpatialExtentLocationIndexObj } from './spatial-coverage-form-details/s
 import { MatDatepicker } from '@angular/material/datepicker';
 import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
 import { IFormTree } from './distribution-form-details/distribution-form-details.component';
+import { EntityService } from 'src/services/entity.service';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -90,8 +91,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     [EntityFieldValue.PERSISTENT_IDENTIFIER]: false,
     [EntityFieldValue.DATA_PROVIDERS]: false,
     [EntityFieldValue.CONTACT_POINT]: false,
-    [EntityFieldValue.DISTRIBUTION]: false,
   };
+  public shouldDisplayDist: Record<string, boolean> = {};
   public entityFieldEnum = EntityFieldValue;
   private updateMapTimeout?: NodeJS.Timeout;
   private formTree: FormTree = {
@@ -164,6 +165,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
+    private entityService: EntityService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
@@ -191,6 +193,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.entityService.focusedDistributionObs.pipe(take(1)).subscribe((distributionId: string) => {
+      if (distributionId !== '') {
+        setTimeout(() => {
+          this.explorerService.setFormTreeActive('#distribution' + distributionId);
+          this.explorerService.goTo('#distribution' + distributionId);
+          this.shouldDisplayDist['#distribution' + distributionId] = true;
+        }, 500);
+      }
+    });
     this.operationsService.activeEntityType.next(Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id') && null != obs.get('metaId')) {
@@ -385,8 +396,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.type = changes['type'];
           updatingObject.identifier = changes.identifier;
           updatingObject.qualityAssurance = changes.qualityAssurance;
-
-          console.log(updatingObject);
 
           this.actionService.enableSave();
           this.operationsService.setActiveDataProduct(updatingObject);
@@ -658,10 +667,14 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     return '-';
   }
 
-  public handlePanelOpened(id: EntityFieldValue): void {
-    this.shouldDisplay[id] = true;
-    if (id === EntityFieldValue.DATA_PROVIDERS) {
-      this.handleDataProviders();
+  public handlePanelOpened(id: EntityFieldValue, instanceId?: string): void {
+    if (id === EntityFieldValue.DISTRIBUTION) {
+      this.shouldDisplayDist['#distribution' + instanceId] = true;
+    } else {
+      this.shouldDisplay[id] = true;
+      if (id === EntityFieldValue.DATA_PROVIDERS) {
+        this.handleDataProviders();
+      }
     }
   }
 
