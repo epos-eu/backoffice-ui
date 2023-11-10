@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpErrorResponse,
+  HttpStatusCode,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -19,7 +26,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         } else {
           console.log('Server side error...');
           errorMsg = `Error Code: ${error.status}, Message: ${error.message}`;
-          this.router.navigate(['/error']);
+          if (error.status === HttpStatusCode.NotFound) {
+            this.router.navigate(['/error']);
+          }
         }
         return throwError(errorMsg);
       }),
