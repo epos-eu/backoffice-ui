@@ -206,8 +206,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
       temporalExtentStartDate: this.getTemporalExtent('startDate'),
       temporalExtentEndDate: this.getTemporalExtent('endDate'),
       date: this.formBuilder.group({
-        published: [this.webservice?.datePublished],
-        modified: [this.webservice?.datePublished],
+        published: this.webservice?.datePublished ? [this.webservice?.datePublished] : [''],
+        modified: this.webservice?.dateModified ? [this.webservice?.dateModified] : [''],
       }),
       changeComment: this.webservice?.changeComment,
       changeTimestamp: this.webservice?.changeTimestamp,

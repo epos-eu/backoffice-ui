@@ -193,15 +193,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.entityService.focusedDistributionObs.pipe(take(1)).subscribe((distributionId: string) => {
-      if (distributionId !== '') {
-        setTimeout(() => {
-          this.explorerService.setFormTreeActive('#distribution' + distributionId);
-          this.explorerService.goTo('#distribution' + distributionId);
-          this.shouldDisplayDist['#distribution' + distributionId] = true;
-        }, 500);
-      }
-    });
     this.operationsService.activeEntityType.next(Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id') && null != obs.get('metaId')) {
@@ -263,6 +254,15 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
           if (this.dataProduct) {
+            this.entityService.focusedDistributionObs.pipe(take(1)).subscribe((distributionId: string) => {
+              if (distributionId !== '') {
+                setTimeout(() => {
+                  this.explorerService.setFormTreeActive('#distribution' + distributionId);
+                  this.explorerService.goTo('#distribution' + distributionId);
+                  this.shouldDisplayDist['#distribution' + distributionId] = true;
+                });
+              }
+            });
             this.stateChangeService.setCurrentDataProductState(this.dataProduct.state);
             this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
             this.actionService.setLiveEdit();
