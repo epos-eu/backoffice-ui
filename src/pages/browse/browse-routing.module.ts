@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    children: [{ path: '', component: BrowseHomeComponent }],
+    children: [{ path: 'home', component: BrowseHomeComponent }],
   },
   {
     path: EntityEndpointValue.WEBSERVICE,
