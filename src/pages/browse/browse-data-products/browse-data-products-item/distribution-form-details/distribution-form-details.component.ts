@@ -192,6 +192,7 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
+    this.operationsService.handleDistributionSave();
     this.actionsService.showSaveDistributionMessage(false);
   }
 

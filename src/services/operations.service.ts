@@ -125,6 +125,14 @@ export class OperationsService {
     return this.operation.getValue();
   }
 
+  /**
+   * The function `convertToDataProduct` takes an initial `DataProductDetailDataSource` object and
+   * converts it into a `DataProduct` object.
+   * @param {DataProductDetailDataSource} initial - The `initial` parameter is an object of type
+   * `DataProductDetailDataSource`. It contains various properties that are used to initialize a new
+   * instance of the `DataProduct` class.
+   * @returns an instance of the `DataProduct` class.
+   */
   public convertToDataProduct(initial: DataProductDetailDataSource): DataProduct {
     const exportVar = new DataProduct(
       initial.uid,
@@ -168,6 +176,14 @@ export class OperationsService {
     return exportVar;
   }
 
+  /**
+   * The function `convertToDistribution` takes an initial `DistributionDetailDataSource` object and
+   * returns a new `Distribution` object with the same properties.
+   * @param {DistributionDetailDataSource} initial - The `initial` parameter is of type
+   * `DistributionDetailDataSource`. It is an object that contains various properties representing the
+   * details of a distribution.
+   * @returns an instance of the `Distribution` class.
+   */
   public convertToDistribution(initial: DistributionDetailDataSource): Distribution {
     const exportVar = new Distribution(
       initial.uid,
@@ -200,6 +216,15 @@ export class OperationsService {
     return exportVar;
   }
 
+  /**
+   * The function converts an initial ContactPointDetailDataSource object into a ContactPoint object and
+   * returns it.
+   * @param {ContactPointDetailDataSource} initial - The `initial` parameter is an object of type
+   * `ContactPointDetailDataSource`. It contains various properties such as `uid`, `changeComment`,
+   * `changeTimestamp`, `editorId`, `email`, `fileProvenance`, `groups`, `instanceChangedId`,
+   * `instanceId`, `language
+   * @returns an instance of the `ContactPoint` class.
+   */
   public convertToContactPoint(initial: ContactPointDetailDataSource): ContactPoint {
     const exportVar = new ContactPoint(
       initial.uid,
@@ -225,6 +250,14 @@ export class OperationsService {
     return exportVar;
   }
 
+  /**
+   * The function converts an initial WebserviceDetailDataSource object into a WebService object and
+   * returns it.
+   * @param {WebserviceDetailDataSource} initial - The `initial` parameter is of type
+   * `WebserviceDetailDataSource`. It is an object that contains various properties representing the
+   * details of a web service.
+   * @returns an instance of the WebService class.
+   */
   public convertToWebService(initial: WebserviceDetailDataSource): WebService {
     const exportVar = new WebService(
       initial.uid,
@@ -261,6 +294,14 @@ export class OperationsService {
     return exportVar;
   }
 
+  /**
+   * The function converts an initial OperationDetailDataSource object into an Operation object.
+   * @param {OperationDetailDataSource} initial - The `initial` parameter is an object of type
+   * `OperationDetailDataSource`. It contains various properties that are used to create a new instance
+   * of the `Operation` class.
+   * @returns an instance of the `Operation` class with properties set based on the values of the
+   * `initial` object passed as a parameter.
+   */
   public convertToOperation(initial: OperationDetailDataSource): Operation {
     const exportVar = new Operation(
       initial.uid,

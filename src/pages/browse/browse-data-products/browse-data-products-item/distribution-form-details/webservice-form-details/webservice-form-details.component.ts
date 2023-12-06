@@ -225,25 +225,26 @@ export class WebserviceFormDetailsComponent implements OnInit {
     );
 
     this.form.valueChanges.subscribe((changes) => {
-      if (this.updatingObject) {
-        this.updatingObject.name = changes['name'];
-        this.updatingObject.description = changes['description'];
-        this.updatingObject.temporalExtent = [
+      const updatingObject = this.operationsService.getActiveWebServiceValue();
+      if (updatingObject) {
+        updatingObject.name = changes['name'];
+        updatingObject.description = changes['description'];
+        updatingObject.temporalExtent = [
           {
             startDate: this.getDate(changes['temporalExtentStartDate']),
             endDate: this.getDate(changes['temporalExtentEndDate']),
           },
         ];
-        this.updatingObject.documentation = [
+        updatingObject.documentation = [
           {
             description: '',
             title: '',
             uri: changes['documentation'],
           },
         ];
-        this.updatingObject.datePublished = changes.date.published;
-        this.updatingObject.dateModified = changes.date.modified;
-        this.operationsService.setActiveWebService(this.updatingObject);
+        updatingObject.datePublished = changes.date.published;
+        updatingObject.dateModified = changes.date.modified;
+        this.operationsService.setActiveWebService(updatingObject);
       }
     });
 
