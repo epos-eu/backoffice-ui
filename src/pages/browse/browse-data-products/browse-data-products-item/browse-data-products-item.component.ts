@@ -602,20 +602,22 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.dataProviders = response;
         this.dataProvidersLoading = false;
         this.selectedDataProviders = this.dataProviders.filter((provider: OrganizationDataSource) => {
-          return provider.uid === this.dataProduct?.publisher[0]?.uid;
+          return this.dataProduct?.publisher.some((value: EntityDetail) => {
+            return provider.uid === value.uid;
+          });
         });
       });
     }
   }
 
   public handleDataProviderChange(event: Array<OrganizationDataSource>): void {
+    this.actionsService.enableSave();
     const mapped = event.map((item: OrganizationDataSource) => {
       return {
         uid: item.uid,
         metaId: item.metaId,
         instanceId: item.instanceId,
-        entityType: '',
-        name: item.legalName,
+        entityType: Entity.ORGANIZATION,
       };
     });
     mapped.forEach((publisher: EntityDetail, index: number) => {
@@ -623,6 +625,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.dataProduct.publisher[index] = publisher;
       }
     });
+    // console.debug(this.dataProduct?.publisher);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
