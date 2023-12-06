@@ -602,7 +602,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.dataProviders = response;
         this.dataProvidersLoading = false;
         this.selectedDataProviders = this.dataProviders.filter((provider: OrganizationDataSource) => {
-          return provider.uid === this.dataProduct?.publisher[0].uid;
+          return provider.uid === this.dataProduct?.publisher[0]?.uid;
         });
       });
     }
