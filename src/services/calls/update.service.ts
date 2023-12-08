@@ -21,7 +21,7 @@ import { CallHelper } from './callHelper';
 @Injectable({
   providedIn: 'root',
 })
-export class OperationsService extends CallHelper {
+export class UpdateService extends CallHelper {
   constructor(
     private persistorService: PersistorService,
     private apiService: ApiService,

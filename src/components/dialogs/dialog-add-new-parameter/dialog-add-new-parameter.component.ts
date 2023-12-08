@@ -4,7 +4,7 @@ import { DialogData } from '../baseDialogService.abstract';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { OperationsService } from 'src/services/calls/operations.service';
+import { UpdateService } from 'src/services/calls/update.service';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 
 @Component({
@@ -23,7 +23,7 @@ export class DialogAddNewParameterComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData<Mapping>,
     private readonly formBuilder: FormBuilder,
-    private operationService: OperationsService,
+    private operationService: UpdateService,
   ) {
     this.operationService.operationObs.subscribe((operation: Operation | null) => {
       if (operation?.mapping) {
