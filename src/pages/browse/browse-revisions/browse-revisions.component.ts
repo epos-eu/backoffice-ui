@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { OperationsService } from 'src/services/operations.service';
+import { OperationsService } from 'src/services/calls/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import * as jsondiffpatch from 'jsondiffpatch';

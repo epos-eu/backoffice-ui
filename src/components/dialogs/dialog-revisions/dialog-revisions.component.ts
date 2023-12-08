@@ -9,12 +9,13 @@ import { DialogData } from '../baseDialogService.abstract';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { State } from 'src/utility/enums/state.enum';
 import { Router } from '@angular/router';
-import { OperationsService } from 'src/services/operations.service';
+import { OperationsService } from 'src/services/calls/operations.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import * as moment from 'moment';
 import { compareVersions } from 'compare-versions';
+import { HelpersService } from 'src/services/helpers.service';
 
 interface CurrentEntity {
   metaId: string;
@@ -44,7 +45,7 @@ export class DialogRevisionsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData<CurrentEntity>,
     private router: Router,
     private dialogRef: MatDialogRef<DialogRevisionsComponent>,
-    private operationsService: OperationsService,
+    private helpersService: HelpersService,
   ) {}
 
   private revisions!: Array<Revision>;
@@ -141,6 +142,6 @@ export class DialogRevisionsComponent implements OnInit {
 
     this.dialogRef.close();
     this.router.navigate(['/browse/revisions/compare', this.data?.dataIn.instanceId]);
-    this.operationsService.setRevisions(selectedRevisions);
+    this.helpersService.setRevisions(selectedRevisions);
   }
 }

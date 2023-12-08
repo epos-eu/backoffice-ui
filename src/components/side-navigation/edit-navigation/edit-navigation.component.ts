@@ -6,10 +6,11 @@ import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { OperationsService } from 'src/services/operations.service';
+import { OperationsService } from 'src/services/calls/operations.service';
 import { Router } from '@angular/router';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { HelpersService } from 'src/services/helpers.service';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -30,11 +31,12 @@ export class EditNavigationComponent implements OnInit {
     private operationsService: OperationsService,
     private router: Router,
     private stateChangeService: StateChangeService,
+    private helpersService: HelpersService,
   ) {
     this.operationsService.dataProductObs.subscribe((dp: DataProduct | null) => {
       this.activeDataProduct = dp;
     });
-    this.operationsService.activeEntityTypeObs.subscribe((activeEntityType: Entity | null) => {
+    this.helpersService.activeEntityTypeObs.subscribe((activeEntityType: Entity | null) => {
       if (null != activeEntityType) {
         this.activeEntity = activeEntityType;
       }

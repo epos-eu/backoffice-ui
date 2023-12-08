@@ -25,7 +25,7 @@ import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-sour
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { OperationsService } from 'src/services/operations.service';
+import { OperationsService } from 'src/services/calls/operations.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { Subject, take } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
@@ -166,6 +166,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private entityService: EntityService,
+    private helpersService: HelpersService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
@@ -193,7 +194,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.operationsService.activeEntityType.next(Entity.DATA_PRODUCT);
+    this.helpersService.activeEntityType.next(Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id') && null != obs.get('metaId')) {
         this.activeInstanceId = obs.get('id') as string;
@@ -356,7 +357,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               return null;
             }
 
-            if (this.operationsService.isValidHttpUrl(control.value)) {
+            if (this.helpersService.isValidHttpUrl(control.value)) {
               return null;
             } else {
               control.markAsTouched();
@@ -658,7 +659,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public handleClearDatePicker(fieldName: string): void {
     const control = this.form.get(fieldName);
     if (control) {
-      this.operationsService.clearDatePicker(control);
+      this.helpersService.clearDatePicker(control);
     }
   }
 

@@ -8,7 +8,7 @@ import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type'
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ActionsService } from 'src/services/actions.service';
-import { OperationsService } from 'src/services/operations.service';
+import { OperationsService } from 'src/services/calls/operations.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -22,6 +22,7 @@ import {
 } from 'src/components/dialogs/dialog-dataproduct-add-webservice/dialog-dataproduct-add-webservice.component';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { StateChangeService } from 'src/services/stateChange.service';
+import { HelpersService } from 'src/services/helpers.service';
 
 export interface IFormTree {
   parent: string;
@@ -75,6 +76,7 @@ export class DistributionFormDetailsComponent {
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
+    private helpersService: HelpersService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
       if (state === null || state === State.PUBLISHED) {
@@ -149,7 +151,7 @@ export class DistributionFormDetailsComponent {
         Validators.required,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (control: AbstractControl): { [key: string]: any } | null => {
-          if (this.operationsService.isValidHttpUrl(control.value)) {
+          if (this.helpersService.isValidHttpUrl(control.value)) {
             return null;
           } else {
             control.markAsTouched();

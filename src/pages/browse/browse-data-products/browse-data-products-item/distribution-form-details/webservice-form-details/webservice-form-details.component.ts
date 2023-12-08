@@ -12,7 +12,7 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { HelpersService } from 'src/services/helpers.service';
-import { OperationsService } from 'src/services/operations.service';
+import { OperationsService } from 'src/services/calls/operations.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
@@ -79,7 +79,6 @@ export class WebserviceFormDetailsComponent implements OnInit {
     ],
     expanded: true,
   };
-  private updatingObject = this.operationsService.getActiveWebServiceValue();
   private mapping: Array<Mapping> = [];
   public options: UntypedFormGroup;
   public floatLabelControl = new UntypedFormControl('auto');
@@ -118,6 +117,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private actionsService: ActionsService,
+    private helpersService: HelpersService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -195,7 +195,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
         Validators.required,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (control: AbstractControl): { [key: string]: any } | null => {
-          if (this.operationsService.isValidHttpUrl(control.value)) {
+          if (this.helpersService.isValidHttpUrl(control.value)) {
             return null;
           } else {
             control.markAsTouched();
@@ -519,7 +519,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public handleClearDatePicker(control: AbstractControl): void {
-    this.operationsService.clearDatePicker(control);
+    this.helpersService.clearDatePicker(control);
   }
 
   public handleMappingVals(mapping: Array<Mapping> | undefined): void {

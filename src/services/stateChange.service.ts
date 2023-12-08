@@ -4,7 +4,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { SnackbarService } from './snackbar.service';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { OperationsService } from './operations.service';
+import { OperationsService } from './calls/operations.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 
 @Injectable({

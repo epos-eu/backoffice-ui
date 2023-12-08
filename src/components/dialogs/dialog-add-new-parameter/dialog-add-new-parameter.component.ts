@@ -4,7 +4,7 @@ import { DialogData } from '../baseDialogService.abstract';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { OperationsService } from 'src/services/operations.service';
+import { OperationsService } from 'src/services/calls/operations.service';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 
 @Component({
