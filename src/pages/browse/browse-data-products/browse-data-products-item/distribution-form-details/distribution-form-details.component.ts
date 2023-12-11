@@ -22,6 +22,7 @@ import {
 } from 'src/components/dialogs/dialog-dataproduct-add-webservice/dialog-dataproduct-add-webservice.component';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { StateChangeService } from 'src/services/stateChange.service';
+import { LoadingService } from 'src/services/loading.service';
 
 export interface IFormTree {
   parent: string;
@@ -75,6 +76,7 @@ export class DistributionFormDetailsComponent {
     private operationsService: OperationsService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
+    private loadingService: LoadingService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
       if (state === null || state === State.PUBLISHED) {
@@ -192,6 +194,7 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
+    this.loadingService.setShowSpinner(true);
     this.actionsService.showSaveDistributionMessage(false);
   }
 

@@ -21,6 +21,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { AbstractControl } from '@angular/forms';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,7 @@ export class OperationsService {
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
     private router: Router,
+    private loadingService: LoadingService,
   ) {}
 
   /**
@@ -291,6 +293,7 @@ export class OperationsService {
       formData.modified = new Date();
       formData.instanceChangedId = undefined;
 
+      this.loadingService.setShowSpinner(true);
       if (formData.state === State.DRAFT) {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
@@ -333,6 +336,9 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-error',
             ]);
+          })
+          .finally(() => {
+            this.loadingService.setShowSpinner(false);
           });
       } else {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
@@ -377,6 +383,9 @@ export class OperationsService {
               'mat-toolbar',
               'snackbar-error',
             ]);
+          })
+          .finally(() => {
+            this.loadingService.setShowSpinner(false);
           });
       }
     }
@@ -385,6 +394,7 @@ export class OperationsService {
   public handleWebserviceSave(): void {
     const formData = this.getActiveWebServiceValue();
     if (formData !== null) {
+      this.loadingService.setShowSpinner(true);
       formData.dateModified = new Date();
       this.apiService.endpoints[Entity.WEBSERVICE].update
         .call({
@@ -417,6 +427,9 @@ export class OperationsService {
             'mat-toolbar',
             'snackbar-error',
           ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
         });
       // } else {
       //   this.apiService.endpoints.Webservice.create
@@ -464,6 +477,7 @@ export class OperationsService {
   public handleDistributionSave(): void {
     const formData: Distribution = this.getActiveDistributionValue() as Distribution;
     if (formData) {
+      this.loadingService.setShowSpinner(true);
       // if (formData.state === State.DRAFT) {
       formData.modified = new Date().toISOString();
       formData.instanceChangedId = undefined;
@@ -499,6 +513,9 @@ export class OperationsService {
             'mat-toolbar',
             'snackbar-error',
           ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
         });
     }
     // } else {
@@ -547,6 +564,7 @@ export class OperationsService {
     if (localStorage !== null) {
       const formData: ContactPoint = JSON.parse(localStorage);
       // if (formData.state === State.DRAFT) {
+      this.loadingService.setShowSpinner(true);
       this.apiService.endpoints[Entity.CONTACT_POINT].update
         .call({
           ...formData,
@@ -578,6 +596,9 @@ export class OperationsService {
             'mat-toolbar',
             'snackbar-error',
           ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
         });
       // } else {
       // this.apiService.endpoints[Entity.CONTACT_POINT].create
@@ -621,6 +642,7 @@ export class OperationsService {
   public handleOperationSave(): void {
     const operationData = this.getActiveOperationValue();
     if (operationData !== null) {
+      this.loadingService.setShowSpinner(true);
       this.apiService.endpoints[Entity.OPERATION].update
         .call({
           ...operationData,
@@ -640,6 +662,9 @@ export class OperationsService {
             'mat-toolbar',
             'snackbar-error',
           ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
         });
     }
   }

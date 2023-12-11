@@ -27,6 +27,7 @@ import { SpatialExtentLocationIndexObj } from '../../spatial-coverage-form-detai
 import { ActionsService } from 'src/services/actions.service';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
+import { LoadingService } from 'src/services/loading.service';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -118,6 +119,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private actionsService: ActionsService,
+    private loadingService: LoadingService,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
@@ -136,6 +138,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
     this.actionsService.operationAddedObs.subscribe((showMessage: boolean) => {
       this.showNotify = showMessage;
+      this.loadingService.setShowSpinner(false);
     });
   }
 
