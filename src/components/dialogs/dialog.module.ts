@@ -9,7 +9,6 @@ import { DialogRevisionsComponent } from './dialog-revisions/dialog-revisions.co
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DialogUserPermissionsComponent } from './dialog-user-permissions/dialog-user-permissions.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ServicesModule } from 'src/services/services.module';
 import { DialogWebserviceAddOperationComponent } from './dialog-webservice-add-operation/dialog-webservice-add-operation.component';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
@@ -34,6 +33,6 @@ import { DialogNewDataproductComponent } from './dialog-new-dataproduct/dialog-n
     FormatRangePipe,
     DialogNewDataproductComponent,
   ],
-  imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule, ServicesModule],
+  imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule],
 })
 export class DialogModule {}

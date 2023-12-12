@@ -12,7 +12,7 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { HelpersService } from 'src/services/helpers.service';
-import { UpdateService } from 'src/services/calls/update.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
@@ -113,7 +113,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     private dialogService: DialogService,
     private formBuilder: UntypedFormBuilder,
     private apiService: ApiService,
-    private updateService: UpdateService,
+    private entityExecutionService: EntityExecutionService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private actionsService: ActionsService,
@@ -127,7 +127,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
 
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED) {
+      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;
@@ -158,7 +158,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
           if (this.webservice) {
-            this.updateService.setActiveWebService(this.updateService.convertToWebService(this.webservice));
+            this.entityExecutionService.setActiveWebService(
+              this.entityExecutionService.convertToWebService(this.webservice),
+            );
             this.handleServiceProviders(this.webservice);
             this.setSpatialCoverageVariables();
             this.contactPointDetails = this.webservice?.contactPoint ?? [];
@@ -225,7 +227,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     );
 
     this.form.valueChanges.subscribe((changes) => {
-      const updatingObject = this.updateService.getActiveWebServiceValue();
+      const updatingObject = this.entityExecutionService.getActiveWebServiceValue();
       if (updatingObject) {
         updatingObject.name = changes['name'];
         updatingObject.description = changes['description'];
@@ -244,7 +246,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
         ];
         updatingObject.datePublished = changes.date.published;
         updatingObject.dateModified = changes.date.modified;
-        this.updateService.setActiveWebService(updatingObject);
+        this.entityExecutionService.setActiveWebService(updatingObject);
       }
     });
 
@@ -256,7 +258,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public handleSave() {
-    this.updateService.handleWebserviceSave();
+    this.entityExecutionService.handleWebserviceSave();
   }
 
   public handleDelete(): void {
@@ -285,10 +287,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
           };
 
           // Sets 'accessURL' on Distribution to newly created Operation.
-          const activeDistribution = this.updateService.getActiveDistributionValue();
+          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
           activeDistribution?.accessURL?.push(operation);
           if (activeDistribution != null) {
-            this.updateService.setActiveDistribution(activeDistribution);
+            this.entityExecutionService.setActiveDistribution(activeDistribution);
             this.actionsService.showSaveDistributionMessage(true);
           }
 
@@ -321,11 +323,11 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {
-    const webservice = this.updateService.getActiveWebServiceValue();
+    const webservice = this.entityExecutionService.getActiveWebServiceValue();
     this.contactPointDetails = newContactPointDetails;
     if (null != webservice) {
       webservice.contactPoint = this.contactPointDetails;
-      this.updateService.setActiveWebService(webservice);
+      this.entityExecutionService.setActiveWebService(webservice);
     }
 
     // inform user that he has to save entire form
@@ -333,7 +335,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public updateServicePoint() {
-    const webservice = this.updateService.getActiveWebServiceValue();
+    const webservice = this.entityExecutionService.getActiveWebServiceValue();
     if (null != webservice && null != this.selectedServiceProvider) {
       const serviceProviderEntityDetail: EntityDetail = {
         entityType: Entity.ORGANIZATION,
@@ -342,7 +344,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
         metaId: this.selectedServiceProvider.metaId,
       };
       webservice.provider = serviceProviderEntityDetail;
-      this.updateService.setActiveWebService(webservice);
+      this.entityExecutionService.setActiveWebService(webservice);
     }
   }
 
@@ -397,10 +399,10 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public updateTemplate(template: string) {
-    const activeSupportedOperation = this.updateService.getActiveOperationValue();
+    const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
     if (null != activeSupportedOperation) {
       activeSupportedOperation.template = template;
-      this.updateService.setActiveOperation(activeSupportedOperation);
+      this.entityExecutionService.setActiveOperation(activeSupportedOperation);
     }
   }
 
@@ -409,8 +411,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
     this.spatialCoverageInput.push('0 0');
 
     // Update Global Web Service after change to Spatial Extents Arr
-    this.updateService.setActiveWebService(
-      this.updateService.convertToWebService(this.webservice as WebserviceDetailDataSource),
+    this.entityExecutionService.setActiveWebService(
+      this.entityExecutionService.convertToWebService(this.webservice as WebserviceDetailDataSource),
     );
 
     setTimeout(() => {
@@ -423,8 +425,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
     this.spatialCoverageInput.splice(index, 1);
 
     // Update Global Web Service after change to Spatial Extents Arr
-    this.updateService.setActiveWebService(
-      this.updateService.convertToWebService(this.webservice as WebserviceDetailDataSource),
+    this.entityExecutionService.setActiveWebService(
+      this.entityExecutionService.convertToWebService(this.webservice as WebserviceDetailDataSource),
     );
 
     setTimeout(() => {
@@ -438,14 +440,14 @@ export class WebserviceFormDetailsComponent implements OnInit {
    */
   public updateSpatialCoverage(event: SpatialExtentLocationIndexObj) {
     // Update global webservice Obj
-    const webservice = this.updateService.getActiveWebServiceValue();
+    const webservice = this.entityExecutionService.getActiveWebServiceValue();
     if (null != webservice?.spatialExtent) {
       webservice.spatialExtent.forEach((spatialExtent: SpatialExtent, index) => {
         if (event.index === index) {
           spatialExtent.location = event.location;
         }
       });
-      this.updateService.setActiveWebService(webservice);
+      this.entityExecutionService.setActiveWebService(webservice);
 
       // update points on map
       const spatExtentsToUpdate: Array<string> = [];

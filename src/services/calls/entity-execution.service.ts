@@ -1,29 +1,25 @@
 import { Injectable } from '@angular/core';
-import { PersistorService, StorageType } from '../persistor.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { State } from 'src/utility/enums/state.enum';
-import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from '../snackbar.service';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
-import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { ActionsService } from '../actions.service';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
-import { CallHelper } from './callHelper';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { EntityStateManager } from './entityStateManager';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UpdateService extends CallHelper {
+export class EntityExecutionService extends EntityStateManager {
   constructor(
-    private persistorService: PersistorService,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
@@ -32,16 +28,19 @@ export class UpdateService extends CallHelper {
     super();
   }
 
+  /**
+   * The `handleDataProductSave` function updates or creates a draft of a data product and performs
+   * various actions based on the result.
+   */
   public handleDataProductSave(): void {
-    const formData = this.getActiveDataProductValue();
-    if (null != formData) {
-      formData.modified = new Date();
-      formData.instanceChangedId = undefined;
+    const activeDataProduct = this.getActiveDataProductValue();
+    if (null != activeDataProduct) {
+      activeDataProduct.modified = new Date();
 
-      if (formData.state === State.DRAFT) {
+      if (activeDataProduct.state === State.DRAFT) {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
-            ...formData,
+            ...activeDataProduct,
           })
           .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
@@ -84,10 +83,9 @@ export class UpdateService extends CallHelper {
       } else {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
-            ...formData,
+            ...activeDataProduct,
             state: State.DRAFT,
-            instanceChangedId: formData.instanceId,
-            metaId: formData.metaId,
+            instanceChangedId: activeDataProduct.instanceId,
           })
           .then((data: DataProductDetailDataSource) => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
@@ -130,18 +128,16 @@ export class UpdateService extends CallHelper {
   }
 
   public handleWebserviceSave(): void {
-    const formData = this.getActiveWebServiceValue();
-    if (formData !== null) {
-      formData.dateModified = new Date();
-      if (formData.state !== State.DRAFT) {
-        formData.instanceChangedId = formData.instanceId;
-        formData.instanceId = undefined;
-      } else {
-        (formData.state = State.DRAFT), (formData.instanceChangedId = formData.instanceId);
+    const activeWebservice = this.getActiveWebServiceValue();
+    if (activeWebservice !== null) {
+      activeWebservice.dateModified = new Date();
+      if (activeWebservice.state !== State.DRAFT) {
+        activeWebservice.state = State.DRAFT;
+        activeWebservice.instanceChangedId = activeWebservice.instanceId;
       }
       this.apiService.endpoints[Entity.WEBSERVICE].update
         .call({
-          ...formData,
+          ...activeWebservice,
         })
         .then((data: WebserviceDetailDataSource) => {
           this.snackbarService.openSnackbar('Successfully updated Webservice.', 'Close', 'success', 3000, [
@@ -175,18 +171,16 @@ export class UpdateService extends CallHelper {
   }
 
   public handleDistributionSave(): void {
-    const formData: Distribution = this.getActiveDistributionValue() as Distribution;
-    if (formData) {
-      if (formData.state === State.DRAFT) {
-        formData.instanceChangedId = undefined;
-        // formData.instanceId = undefined;
-      } else {
-        (formData.state = State.DRAFT), (formData.instanceChangedId = formData.instanceId);
+    const activeDistribution: Distribution = this.getActiveDistributionValue() as Distribution;
+    if (activeDistribution) {
+      activeDistribution.modified = new Date().toISOString();
+      if (activeDistribution.state !== State.DRAFT) {
+        activeDistribution.state = State.DRAFT;
+        activeDistribution.instanceChangedId = activeDistribution.instanceId;
       }
-      formData.modified = new Date().toISOString();
       this.apiService.endpoints[Entity.DISTRIBUTION].update
         .call({
-          ...formData,
+          ...activeDistribution,
         })
         .then((data: DistributionDetailDataSource) => {
           this.snackbarService.openSnackbar('Successfully updated Distribution.', 'Close', 'success', 3000, [
@@ -220,92 +214,10 @@ export class UpdateService extends CallHelper {
     }
   }
 
-  public handleContactPointSave(): void {
-    const localStorage = this.persistorService.getValueFromStorage(
-      StorageType.LOCAL_STORAGE,
-      StorageKey.ACTIVE_CONTACT_FORM_DATA,
-    );
-    if (localStorage !== null) {
-      const formData: ContactPoint = JSON.parse(localStorage);
-      // if (formData.state === State.DRAFT) {
-      this.apiService.endpoints[Entity.CONTACT_POINT].update
-        .call({
-          ...formData,
-        })
-        .then((data: ContactPointDetailDataSource) => {
-          this.snackbarService.openSnackbar('Successfully updated Contact Point.', 'Close', 'success', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-success',
-          ]);
-          if (!this.actionsService.itemExists(data.instanceId)) {
-            this.actionsService.addEditedItems([
-              {
-                type: Entity.CONTACT_POINT,
-                route: EntityEndpointValue.CONTACT_POINT,
-                label: 'Contact Point',
-                state: State.DRAFT,
-                color: 'draft',
-                id: data.instanceId,
-              },
-            ]);
-            this.actionsService.saveCurrentEdit(data.instanceId);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          this.snackbarService.openSnackbar('Error updating Contact Point.', 'Close', 'error', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-error',
-          ]);
-        });
-      // } else {
-      // this.apiService.endpoints[Entity.CONTACT_POINT].create
-      //   .call({
-      //     ...formData,
-      //     state: State.DRAFT,
-      //   })
-      //   .then((data: ContactPointDetailDataSource) => {
-      //     this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
-      //       'snackbar',
-      //       'mat-toolbar',
-      //       'snackbar-success',
-      //     ]);
-      //     this.actionsService.addEditedItems([
-      //       {
-      //         type: Entity.CONTACT_POINT,
-      //         route: EntityEndpointValue.CONTACT_POINT,
-      //         label: 'Contact Point',
-      //         state: State.DRAFT,
-      //         color: 'draft',
-      //         id: data.instanceId,
-      //       },
-      //     ]);
-      //     this.actionsService.saveCurrentEdit(data.instanceId);
-      //     // this.itemsExist.next(true);
-      //     this.actionsService.disableSave();
-      //     this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, data.instanceId]);
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //     this.snackbarService.openSnackbar('Error creating new draft', 'Close', 'error', 3000, [
-      //       'snackbar',
-      //       'mat-toolbar',
-      //       'snackbar-error',
-      //     ]);
-      //   });
-      // }
-    }
-  }
-
   public handleOperationSave(): void {
     const operationData = this.getActiveOperationValue();
     if (operationData !== null) {
-      if (operationData.state === State.DRAFT) {
-        operationData.instanceChangedId = undefined;
-        // formData.instanceId = undefined;
-      } else {
+      if (operationData.state !== State.DRAFT) {
         operationData.state = State.DRAFT;
         operationData.instanceChangedId = operationData.instanceId;
       }
@@ -350,6 +262,82 @@ export class UpdateService extends CallHelper {
             'snackbar-error',
           ]);
         });
+    }
+  }
+
+  public handleCreateDataProduct(): void {
+    const item: DataProduct = {
+      uid: 'temp-uid-to-be-generated',
+      modified: new Date(),
+      created: new Date(),
+    };
+
+    this.apiService.endpoints.DataProduct.create
+      .call(item)
+      .then((value: DataProductDetailDataSource) => {
+        this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+        this.actionsService.addEditedItems([
+          {
+            type: Entity.DATA_PRODUCT,
+            route: EntityEndpointValue.DATA_PRODUCT,
+            label: 'Data product',
+            state: State.DRAFT,
+            color: 'draft',
+            id: value.instanceId,
+          },
+        ]);
+        this.actionsService.saveCurrentEdit(value.instanceId);
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
+  }
+
+  public handleCreateDataProductFromPublishedOrArchivedEntity(): void {
+    const publishedOrArchivedEntity = this.getActiveDataProductValue();
+
+    if (publishedOrArchivedEntity) {
+      publishedOrArchivedEntity.instanceChangedId = publishedOrArchivedEntity.instanceId;
+      publishedOrArchivedEntity.instanceId = undefined; // Handled by backend
+      publishedOrArchivedEntity.state = State.DRAFT;
+
+      this.apiService.endpoints.DataProduct.create
+        .call(publishedOrArchivedEntity)
+        .then((value: DataProductDetailDataSource) => {
+          this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
+          this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-success',
+          ]);
+          this.actionsService.addEditedItems([
+            {
+              type: Entity.DATA_PRODUCT,
+              route: EntityEndpointValue.DATA_PRODUCT,
+              label: 'Data product',
+              state: State.DRAFT,
+              color: 'draft',
+              id: value.instanceId,
+            },
+          ]);
+          this.actionsService.saveCurrentEdit(value.instanceId);
+        })
+        .catch(() =>
+          this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]),
+        );
     }
   }
 }

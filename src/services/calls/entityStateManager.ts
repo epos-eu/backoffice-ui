@@ -10,7 +10,7 @@ import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.mo
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 
-export class CallHelper {
+export class EntityStateManager {
   public readonly dataProduct = new BehaviorSubject<DataProduct | null>(null);
   public dataProductObs = this.dataProduct.asObservable();
 
@@ -268,10 +268,9 @@ export class CallHelper {
   /**
    * The function converts an initial OperationDetailDataSource object into an Operation object.
    * @param {OperationDetailDataSource} initial - The `initial` parameter is an object of type
-   * `OperationDetailDataSource`. It contains various properties that are used to create a new instance
-   * of the `Operation` class.
-   * @returns an instance of the `Operation` class with properties set based on the values of the
-   * `initial` object passed as a parameter.
+   * `OperationDetailDataSource`. It contains various properties that are used to initialize a new
+   * `Operation` object.
+   * @returns an instance of the `Operation` class.
    */
   public convertToOperation(initial: OperationDetailDataSource): Operation {
     const exportVar = new Operation(

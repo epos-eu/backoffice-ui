@@ -7,7 +7,7 @@ import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { UpdateService } from 'src/services/calls/update.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -29,12 +29,12 @@ export class OperationParametersComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private updateService: UpdateService,
+    private entityExecutionService: EntityExecutionService,
     private dialogService: DialogService,
     private stateChangeService: StateChangeService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED) {
+      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;
@@ -62,8 +62,8 @@ export class OperationParametersComponent implements OnInit {
           const operation = data.shift();
           if (null != operation) {
             this.fetchingOperation = false;
-            this.operation = this.updateService.convertToOperation(operation);
-            this.updateService.setActiveOperation(this.operation);
+            this.operation = this.entityExecutionService.convertToOperation(operation);
+            this.entityExecutionService.setActiveOperation(this.operation);
             this.template?.next(this.operation.template ? this.operation.template : '');
             this.mapping = this.operation.mapping;
             this.mappingVals.next(this.operation.mapping);
@@ -146,7 +146,7 @@ export class OperationParametersComponent implements OnInit {
   }
 
   public cacheParam(updatedMapping: Mapping) {
-    const activeSupportedOperation = this.updateService.getActiveOperationValue();
+    const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
     if (null != activeSupportedOperation) {
       const updatedMappingArray = activeSupportedOperation?.mapping?.map((item: Mapping) =>
         item.variable === updatedMapping.variable ? updatedMapping : item,
@@ -161,19 +161,19 @@ export class OperationParametersComponent implements OnInit {
         });
         return mappingObj;
       });
-      this.updateService.setActiveOperation(activeSupportedOperation);
+      this.entityExecutionService.setActiveOperation(activeSupportedOperation);
     }
   }
 
   public handleSave(): void {
-    this.updateService.handleOperationSave();
+    this.entityExecutionService.handleOperationSave();
   }
 
   public handleAddParam(): void {
     this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
       const newMapping = data.dataOut as Mapping;
       if (null != newMapping) {
-        const newMappingArr = this.updateService.getActiveOperationValue()?.mapping;
+        const newMappingArr = this.entityExecutionService.getActiveOperationValue()?.mapping;
         newMappingArr?.push(newMapping);
         this.mapping = newMappingArr as Array<Mapping>;
         this.initForm();
@@ -194,23 +194,23 @@ export class OperationParametersComponent implements OnInit {
     this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false).then((toDelete: boolean) => {
       if (toDelete) {
         // Delete from SupportedOperation array on @Webservice
-        const activeWebservice = this.updateService.getActiveWebServiceValue();
+        const activeWebservice = this.entityExecutionService.getActiveWebServiceValue();
         if (null != activeWebservice) {
           activeWebservice.supportedOperation?.splice(
             activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
             1,
           );
-          this.updateService.setActiveWebService(activeWebservice);
+          this.entityExecutionService.setActiveWebService(activeWebservice);
         }
 
         // Delete from accessURL array on @Distribution
-        const activeDistribution = this.updateService.getActiveDistributionValue();
+        const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
         if (null != activeDistribution) {
           activeDistribution.accessURL?.splice(
             activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
             1,
           );
-          this.updateService.setActiveDistribution(activeDistribution);
+          this.entityExecutionService.setActiveDistribution(activeDistribution);
         }
       }
     });

@@ -6,7 +6,7 @@ import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { UpdateService } from 'src/services/calls/update.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Router } from '@angular/router';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
@@ -28,12 +28,12 @@ export class EditNavigationComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public actionsService: ActionsService,
-    private updateService: UpdateService,
+    private entityExecutionService: EntityExecutionService,
     private router: Router,
     private stateChangeService: StateChangeService,
     private helpersService: HelpersService,
   ) {
-    this.updateService.dataProductObs.subscribe((dp: DataProduct | null) => {
+    this.entityExecutionService.dataProductObs.subscribe((dp: DataProduct | null) => {
       this.activeDataProduct = dp;
     });
     this.helpersService.activeEntityTypeObs.subscribe((activeEntityType: Entity | null) => {
@@ -63,22 +63,22 @@ export class EditNavigationComponent implements OnInit {
   public handleSave(): void {
     switch (this.activeEntity as Entity) {
       case Entity.DATA_PRODUCT: {
-        this.updateService.handleDataProductSave();
+        this.entityExecutionService.handleDataProductSave();
         break;
       }
       case Entity.DISTRIBUTION: {
-        this.updateService.handleDistributionSave();
+        this.entityExecutionService.handleDistributionSave();
         break;
       }
       case Entity.WEBSERVICE: {
-        this.updateService.handleWebserviceSave();
-        break;
-      }
-      case Entity.CONTACT_POINT: {
-        this.updateService.handleContactPointSave();
+        this.entityExecutionService.handleWebserviceSave();
         break;
       }
     }
+  }
+
+  public handleCreateEntityFromPublishedOrArchived(): void {
+    this.entityExecutionService.handleCreateDataProductFromPublishedOrArchivedEntity();
   }
 
   public handleChangeState(state: State) {

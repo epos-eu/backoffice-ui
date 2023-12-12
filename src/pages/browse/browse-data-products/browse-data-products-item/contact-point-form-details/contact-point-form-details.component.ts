@@ -51,7 +51,7 @@ export class ContactPointFormDetailsComponent implements OnInit {
   ) {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED) {
+      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;

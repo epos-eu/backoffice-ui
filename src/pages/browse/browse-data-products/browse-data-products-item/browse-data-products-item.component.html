@@ -164,6 +164,9 @@
                   <app-clear-datepicker
                     matSuffix
                     [value]="pickerIssued"
+                    [inputDisabled]="
+                      dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED
+                    "
                     (onClear)="handleClearDatePicker('issued')"
                   ></app-clear-datepicker>
                   <mat-datepicker-toggle
@@ -234,7 +237,9 @@
                 <app-simple-spatial-control
                   [spatialExtent]="item"
                   [index]="i"
-                  [inputsDisabled]="dataProduct.state === stateEnum.PUBLISHED"
+                  [inputsDisabled]="
+                    dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED
+                  "
                   (location)="updateSpatialCoverage($event)"
                   (delete)="this.deleteSpatialCoverage($event)"
                 ></app-simple-spatial-control>
@@ -246,7 +251,7 @@
                 mat-stroked-button
                 color="primary"
                 (click)="newSpatialCoverage()"
-                [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+                [disabled]="dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED"
               >
                 Add Spatial Coverage
               </button>
@@ -370,7 +375,7 @@
                     matTooltip="Remove Identifier"
                     class="smaller"
                     (click)="handleDeleteIdentifier(i)"
-                    [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+                    [disabled]="dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED"
                   >
                     <mat-icon>delete</mat-icon>
                   </button>
@@ -381,7 +386,7 @@
               mat-stroked-button
               color="primary"
               (click)="handleAddIdentifier()"
-              [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+              [disabled]="dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED"
             >
               Add identifier
             </button>
@@ -403,7 +408,7 @@
                 [ngModelOptions]="{ standalone: true }"
                 [compareWith]="compareWithFn"
                 multiple
-                [disabled]="dataProduct.state === stateEnum.PUBLISHED"
+                [disabled]="dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED"
               >
                 <mat-option
                   *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
@@ -485,7 +490,7 @@
       <button
         mat-stroked-button
         color="primary"
-        [disabled]="dataProduct?.state === stateEnum.PUBLISHED"
+        [disabled]="dataProduct?.state === stateEnum.PUBLISHED || dataProduct?.state === stateEnum.ARCHIVED"
         (click)="newDistribution()"
       >
         New Distribution

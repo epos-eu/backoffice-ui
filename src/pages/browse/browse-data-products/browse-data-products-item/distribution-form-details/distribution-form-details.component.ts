@@ -8,7 +8,7 @@ import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type'
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ActionsService } from 'src/services/actions.service';
-import { UpdateService } from 'src/services/calls/update.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -73,13 +73,13 @@ export class DistributionFormDetailsComponent {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
-    private updateService: UpdateService,
+    private entityExecutionService: EntityExecutionService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private helpersService: HelpersService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED) {
+      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;
@@ -101,7 +101,9 @@ export class DistributionFormDetailsComponent {
           this.distribution = data.shift();
           if (this.distribution) {
             this.selectedFormat = this.distribution.format;
-            this.updateService.setActiveDistribution(this.updateService.convertToDistribution(this.distribution));
+            this.entityExecutionService.setActiveDistribution(
+              this.entityExecutionService.convertToDistribution(this.distribution),
+            );
             this.accessService = this.distribution.accessService;
             this.trackFormData();
             this.disabled ? this.form.disable() : this.form.enable();
@@ -160,7 +162,7 @@ export class DistributionFormDetailsComponent {
     });
 
     this.form.valueChanges.subscribe((changes) => {
-      const updatingObject = this.updateService.getActiveDistributionValue();
+      const updatingObject = this.entityExecutionService.getActiveDistributionValue();
       if (changes['dataProductAccessibility'] === 'download') {
         this.formTreeUpdate.emit({
           parent: '#distaccessible',
@@ -176,7 +178,7 @@ export class DistributionFormDetailsComponent {
         updatingObject.licence = changes['licence'];
         updatingObject.title = [changes['title']];
         updatingObject.description = [changes['description']];
-        this.updateService.setActiveDistribution(updatingObject);
+        this.entityExecutionService.setActiveDistribution(updatingObject);
       }
     });
   }
@@ -192,7 +194,7 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
-    this.updateService.handleDistributionSave();
+    this.entityExecutionService.handleDistributionSave();
     this.actionsService.showSaveDistributionMessage(false);
   }
 
@@ -246,10 +248,10 @@ export class DistributionFormDetailsComponent {
                 metaId: value.metaId,
               };
               this.accessService = entityDetail;
-              const distribution = this.updateService.getActiveDistributionValue();
+              const distribution = this.entityExecutionService.getActiveDistributionValue();
               if (null != distribution) {
                 distribution.accessService = this.accessService;
-                this.updateService.setActiveDistribution(distribution);
+                this.entityExecutionService.setActiveDistribution(distribution);
               }
             })
             .catch(() =>

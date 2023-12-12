@@ -31,7 +31,9 @@
   <div class="bottom">
     <div class="actions">
       <button
-        *ngIf="activeDataProduct && activeDataProduct.state !== state.PUBLISHED"
+        *ngIf="
+          activeDataProduct && (activeDataProduct.state === state.DRAFT || activeDataProduct.state === state.SUBMITTED)
+        "
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
@@ -40,12 +42,15 @@
         Save
       </button>
       <button
-        *ngIf="activeDataProduct && activeDataProduct.state === state.PUBLISHED"
+        *ngIf="
+          activeDataProduct &&
+          (activeDataProduct.state === state.PUBLISHED || activeDataProduct.state === state.ARCHIVED)
+        "
         mat-stroked-button
         color="primary"
-        (click)="handleSave()"
+        (click)="handleCreateEntityFromPublishedOrArchived()"
       >
-        Edit
+        Create New Draft From Entity
       </button>
       <button
         *ngIf="activeDataProduct && activeDataProduct.state === state.DRAFT"

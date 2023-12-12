@@ -9,7 +9,7 @@ import { DialogData } from '../baseDialogService.abstract';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { State } from 'src/utility/enums/state.enum';
 import { Router } from '@angular/router';
-import { UpdateService } from 'src/services/calls/update.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';

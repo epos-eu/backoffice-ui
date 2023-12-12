@@ -25,7 +25,7 @@ import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-sour
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { UpdateService } from 'src/services/calls/update.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { Subject, take } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
@@ -162,7 +162,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private persistorService: PersistorService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
-    private updateService: UpdateService,
+    private entityExecutionService: EntityExecutionService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private entityService: EntityService,
@@ -265,7 +265,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               }
             });
             this.stateChangeService.setCurrentDataProductState(this.dataProduct.state);
-            this.updateService.setActiveDataProduct(this.updateService.convertToDataProduct(this.dataProduct));
+            this.entityExecutionService.setActiveDataProduct(
+              this.entityExecutionService.convertToDataProduct(this.dataProduct),
+            );
             this.actionService.setLiveEdit();
             this.trackFormData();
             this.contactPointDetails = this.dataProduct.contactPoint;
@@ -280,7 +282,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               id: this.dataProduct.instanceId,
             });
             this.trackEdit();
-            if (this.dataProduct.state === State.PUBLISHED) {
+            if (this.dataProduct.state === State.PUBLISHED || this.dataProduct.state === State.ARCHIVED) {
               this.form.disable();
             }
           }
@@ -373,7 +375,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       this.explorerService.setFormSection(null, this.formTree, true);
 
       this.form.valueChanges.subscribe((changes) => {
-        const updatingObject = this.updateService.getActiveDataProductValue();
+        const updatingObject = this.entityExecutionService.getActiveDataProductValue();
 
         if (updatingObject) {
           updatingObject.uid = changes['uid'];
@@ -399,7 +401,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.qualityAssurance = changes.qualityAssurance;
 
           this.actionService.enableSave();
-          this.updateService.setActiveDataProduct(updatingObject);
+          this.entityExecutionService.setActiveDataProduct(updatingObject);
           this.persistorService.setValueInStorage(
             StorageType.LOCAL_STORAGE,
             StorageKey.FORM_DATA,
@@ -485,11 +487,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {
-    const dataProduct = this.updateService.getActiveDataProductValue();
+    const dataProduct = this.entityExecutionService.getActiveDataProductValue();
     this.contactPointDetails = newContactPointDetails;
     if (null != dataProduct) {
       dataProduct.contactPoint = this.contactPointDetails;
-      this.updateService.setActiveDataProduct(dataProduct);
+      this.entityExecutionService.setActiveDataProduct(dataProduct);
     }
 
     // inform user that he has to save entire form
@@ -503,11 +505,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       uid: value.uid,
       metaId: value.metaId,
     };
-    const dataProduct = this.updateService.getActiveDataProductValue();
+    const dataProduct = this.entityExecutionService.getActiveDataProductValue();
     this.distributionDetails.push(entityDetail);
     if (null != dataProduct) {
       dataProduct.distribution = this.distributionDetails;
-      this.updateService.setActiveDataProduct(dataProduct);
+      this.entityExecutionService.setActiveDataProduct(dataProduct);
     }
   }
 
@@ -516,8 +518,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.spatialCoverageInput.push('0 0');
 
     // Update Global Dataproduct after change to Spatial Extents Arr
-    this.updateService.setActiveDataProduct(
-      this.updateService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
+    this.entityExecutionService.setActiveDataProduct(
+      this.entityExecutionService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
     );
 
     setTimeout(() => {
@@ -530,8 +532,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.dataProduct?.spatialExtent.splice(index, 1);
 
     // Update Global Dataproduct after change to Spatial Extents Arr
-    this.updateService.setActiveDataProduct(
-      this.updateService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
+    this.entityExecutionService.setActiveDataProduct(
+      this.entityExecutionService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
     );
 
     setTimeout(() => {
@@ -545,7 +547,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
    */
   public updateSpatialCoverage(event: SpatialExtentLocationIndexObj) {
     // Update global DataProduct Obj
-    const dataProduct = this.updateService.getActiveDataProductValue();
+    const dataProduct = this.entityExecutionService.getActiveDataProductValue();
     if (null != dataProduct?.spatialExtent) {
       dataProduct.spatialExtent.forEach((spatialExtent: SpatialExtent, index) => {
         if (event.index === index) {
@@ -553,7 +555,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         }
       });
       // Update points on map
-      this.updateService.setActiveDataProduct(dataProduct);
+      this.entityExecutionService.setActiveDataProduct(dataProduct);
       const spatExtentsToUpdate: Array<string> = [];
       dataProduct.spatialExtent.forEach((spatialExtent: SpatialExtent) => {
         spatExtentsToUpdate.push(spatialExtent.location);

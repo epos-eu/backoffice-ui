@@ -10,9 +10,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ClearDatepickerComponent {
   @Input() value!: NgxMatDatetimepicker<any>;
+  @Input() inputDisabled = false;
   @Output() onClear = new EventEmitter<unknown>();
-
-  constructor() {}
 
   public handleClearDate(): void {
     this.onClear.emit();
