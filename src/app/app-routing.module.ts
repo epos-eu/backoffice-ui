@@ -22,10 +22,10 @@ const appRoutes: Routes = [
     path: 'login',
     loadChildren: () => import('../pages/login/login.module').then((m) => m.LoginModule),
   },
-  {
-    path: 'error',
-    loadChildren: () => import('../pages/error/error.module').then((m) => m.ErrorModule),
-  },
+  // {
+  //   path: 'error',
+  //   loadChildren: () => import('../pages/error/error.module').then((m) => m.ErrorModule),
+  // },
   {
     path: 'last-page-redirect',
     redirectTo: 'home',

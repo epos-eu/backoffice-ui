@@ -21,6 +21,7 @@ import { ClearDatepickerComponent } from './clear-datepicker/clear-datepicker.co
 import { ResizeColumnDirective } from 'src/directives/resize-table-column.directive';
 import { CopyToClipboardComponent } from './copy-to-clipboard/copy-to-clipboard.component';
 import { LazyLoadPanelComponent } from './lazy-load-panel/lazy-load-panel.component';
+import { LoadingSpinnerFullPageComponent } from './loading-spinner-full-page/loading-spinner-full-page.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { LazyLoadPanelComponent } from './lazy-load-panel/lazy-load-panel.compon
     ResizeColumnDirective,
     CopyToClipboardComponent,
     LazyLoadPanelComponent,
+    LoadingSpinnerFullPageComponent,
   ],
   imports: [
     RouterModule,
@@ -60,6 +62,7 @@ import { LazyLoadPanelComponent } from './lazy-load-panel/lazy-load-panel.compon
     ResizeColumnDirective,
     CopyToClipboardComponent,
     LazyLoadPanelComponent,
+    LoadingSpinnerFullPageComponent,
   ],
 })
 export class ComponentsModule {}

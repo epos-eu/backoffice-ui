@@ -23,6 +23,7 @@ import {
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { HelpersService } from 'src/services/helpers.service';
+import { LoadingService } from 'src/services/loading.service';
 
 export interface IFormTree {
   parent: string;
@@ -77,6 +78,7 @@ export class DistributionFormDetailsComponent {
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private helpersService: HelpersService,
+    private loadingService: LoadingService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
       if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {

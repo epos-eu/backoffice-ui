@@ -14,6 +14,7 @@ import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityStateManager } from './entityStateManager';
+import { LoadingService } from '../loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class EntityExecutionService extends EntityStateManager {
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
     private router: Router,
+    private loadingService: LoadingService,
   ) {
     super();
   }
@@ -178,6 +180,7 @@ export class EntityExecutionService extends EntityStateManager {
         activeDistribution.state = State.DRAFT;
         activeDistribution.instanceChangedId = activeDistribution.instanceId;
       }
+      this.loadingService.setShowSpinner(true);
       this.apiService.endpoints[Entity.DISTRIBUTION].update
         .call({
           ...activeDistribution,
@@ -210,7 +213,8 @@ export class EntityExecutionService extends EntityStateManager {
             'mat-toolbar',
             'snackbar-error',
           ]);
-        });
+        })
+        .finally(() => this.loadingService.setShowSpinner(false));
     }
   }
 
