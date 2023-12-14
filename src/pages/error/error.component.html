@@ -9,12 +9,22 @@
     <p class="subtitle">
       We encountered an error. Please try again later or try to load the interface again using the button below.
     </p>
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="handleRetry()"
-    >
-      Retry
-    </button>
+    <div class="button-wrapper">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleRetry()"
+      >
+        Retry
+      </button>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleReturnHome()"
+      >
+        Return Home
+      </button>
+    </div>
   </div>
 </div>

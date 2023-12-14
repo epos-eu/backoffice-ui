@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { OperationsService } from 'src/services/operations.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import * as jsondiffpatch from 'jsondiffpatch';
 import { ActivatedRoute } from '@angular/router';
+import { HelpersService } from 'src/services/helpers.service';
 
 @Component({
   selector: 'app-browse-revisions',
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BrowseRevisionsComponent implements OnInit {
   constructor(
-    private operationsService: OperationsService,
+    private helpersService: HelpersService,
     private persistorService: PersistorService,
     private route: ActivatedRoute,
   ) {}
@@ -59,7 +59,7 @@ export class BrowseRevisionsComponent implements OnInit {
       this._mapResponse(this.revisions);
       this.visualDiff = this._getVisualDiff();
     } else {
-      this.operationsService.revisionsObs.subscribe((revisions: Array<DataProductDetailDataSource>) => {
+      this.helpersService.revisionsObs.subscribe((revisions: Array<DataProductDetailDataSource>) => {
         this.revisions = revisions;
         this._mapResponse(this.revisions);
         this.visualDiff = this._getVisualDiff();

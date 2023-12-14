@@ -8,7 +8,7 @@ import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type'
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ActionsService } from 'src/services/actions.service';
-import { OperationsService } from 'src/services/operations.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -22,6 +22,8 @@ import {
 } from 'src/components/dialogs/dialog-dataproduct-add-webservice/dialog-dataproduct-add-webservice.component';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { StateChangeService } from 'src/services/stateChange.service';
+import { HelpersService } from 'src/services/helpers.service';
+import { LoadingService } from 'src/services/loading.service';
 
 export interface IFormTree {
   parent: string;
@@ -72,12 +74,14 @@ export class DistributionFormDetailsComponent {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
-    private operationsService: OperationsService,
+    private entityExecutionService: EntityExecutionService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
+    private helpersService: HelpersService,
+    private loadingService: LoadingService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED) {
+      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;
@@ -99,8 +103,8 @@ export class DistributionFormDetailsComponent {
           this.distribution = data.shift();
           if (this.distribution) {
             this.selectedFormat = this.distribution.format;
-            this.operationsService.setActiveDistribution(
-              this.operationsService.convertToDistribution(this.distribution),
+            this.entityExecutionService.setActiveDistribution(
+              this.entityExecutionService.convertToDistribution(this.distribution),
             );
             this.accessService = this.distribution.accessService;
             this.trackFormData();
@@ -149,7 +153,7 @@ export class DistributionFormDetailsComponent {
         Validators.required,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (control: AbstractControl): { [key: string]: any } | null => {
-          if (this.operationsService.isValidHttpUrl(control.value)) {
+          if (this.helpersService.isValidHttpUrl(control.value)) {
             return null;
           } else {
             control.markAsTouched();
@@ -160,7 +164,7 @@ export class DistributionFormDetailsComponent {
     });
 
     this.form.valueChanges.subscribe((changes) => {
-      const updatingObject = this.operationsService.getActiveDistributionValue();
+      const updatingObject = this.entityExecutionService.getActiveDistributionValue();
       if (changes['dataProductAccessibility'] === 'download') {
         this.formTreeUpdate.emit({
           parent: '#distaccessible',
@@ -176,7 +180,7 @@ export class DistributionFormDetailsComponent {
         updatingObject.licence = changes['licence'];
         updatingObject.title = [changes['title']];
         updatingObject.description = [changes['description']];
-        this.operationsService.setActiveDistribution(updatingObject);
+        this.entityExecutionService.setActiveDistribution(updatingObject);
       }
     });
   }
@@ -192,6 +196,7 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
+    this.entityExecutionService.handleDistributionSave();
     this.actionsService.showSaveDistributionMessage(false);
   }
 
@@ -245,10 +250,10 @@ export class DistributionFormDetailsComponent {
                 metaId: value.metaId,
               };
               this.accessService = entityDetail;
-              const distribution = this.operationsService.getActiveDistributionValue();
+              const distribution = this.entityExecutionService.getActiveDistributionValue();
               if (null != distribution) {
                 distribution.accessService = this.accessService;
-                this.operationsService.setActiveDistribution(distribution);
+                this.entityExecutionService.setActiveDistribution(distribution);
               }
             })
             .catch(() =>

@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
   {
+    path: '',
+    loadChildren: () => import('../pages/login/login.module').then((m) => m.LoginModule),
+  },
+  {
     path: 'home',
     loadChildren: () => import('../pages/home/home.module').then((m) => m.HomeModule),
   },
@@ -18,10 +22,10 @@ const appRoutes: Routes = [
     path: 'login',
     loadChildren: () => import('../pages/login/login.module').then((m) => m.LoginModule),
   },
-  {
-    path: 'error',
-    loadChildren: () => import('../pages/error/error.module').then((m) => m.ErrorModule),
-  },
+  // {
+  //   path: 'error',
+  //   loadChildren: () => import('../pages/error/error.module').then((m) => m.ErrorModule),
+  // },
   {
     path: 'last-page-redirect',
     redirectTo: 'home',

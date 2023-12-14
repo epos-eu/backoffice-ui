@@ -23,4 +23,8 @@ export class ErrorComponent implements OnInit {
       this.router.navigate([this.previousRoute]);
     }
   }
+
+  public handleReturnHome(): void {
+    this.router.navigate(['/home']);
+  }
 }

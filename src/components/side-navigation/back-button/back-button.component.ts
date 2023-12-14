@@ -11,13 +11,12 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 })
 export class BackButtonComponent implements OnInit, OnDestroy {
   constructor(private routeService: RouteService, private router: Router) {}
-
-  private prevRoute!: string;
   private subscription!: Subscription;
+  private distributionVisited = false;
 
   private initRouteObs(): void {
-    this.subscription = this.routeService.previousRouteObs.subscribe((prevRoute: string) => {
-      this.prevRoute = prevRoute;
+    this.subscription = this.routeService.distributionAllVisitedObs.subscribe((visited: boolean) => {
+      this.distributionVisited = visited;
     });
   }
 
@@ -30,7 +29,10 @@ export class BackButtonComponent implements OnInit, OnDestroy {
   }
 
   public handleBack(): void {
-    this.router.navigate([this.prevRoute]);
-    // this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}`]);
+    if (this.distributionVisited === false) {
+      this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}`]);
+    } else {
+      this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}`]);
+    }
   }
 }

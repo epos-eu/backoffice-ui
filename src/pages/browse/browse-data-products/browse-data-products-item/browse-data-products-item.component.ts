@@ -25,7 +25,7 @@ import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-sour
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { OperationsService } from 'src/services/operations.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { Subject, take } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
@@ -162,10 +162,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private persistorService: PersistorService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
-    private operationsService: OperationsService,
+    private entityExecutionService: EntityExecutionService,
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private entityService: EntityService,
+    private helpersService: HelpersService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
@@ -193,7 +194,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.operationsService.activeEntityType.next(Entity.DATA_PRODUCT);
+    this.helpersService.activeEntityType.next(Entity.DATA_PRODUCT);
     this.route.paramMap.subscribe((obs) => {
       if (null != obs.get('id') && null != obs.get('metaId')) {
         this.activeInstanceId = obs.get('id') as string;
@@ -264,7 +265,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               }
             });
             this.stateChangeService.setCurrentDataProductState(this.dataProduct.state);
-            this.operationsService.setActiveDataProduct(this.operationsService.convertToDataProduct(this.dataProduct));
+            this.entityExecutionService.setActiveDataProduct(
+              this.entityExecutionService.convertToDataProduct(this.dataProduct),
+            );
             this.actionService.setLiveEdit();
             this.trackFormData();
             this.contactPointDetails = this.dataProduct.contactPoint;
@@ -279,7 +282,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               id: this.dataProduct.instanceId,
             });
             this.trackEdit();
-            if (this.dataProduct.state === State.PUBLISHED) {
+            if (this.dataProduct.state === State.PUBLISHED || this.dataProduct.state === State.ARCHIVED) {
               this.form.disable();
             }
           }
@@ -356,7 +359,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
               return null;
             }
 
-            if (this.operationsService.isValidHttpUrl(control.value)) {
+            if (this.helpersService.isValidHttpUrl(control.value)) {
               return null;
             } else {
               control.markAsTouched();
@@ -372,7 +375,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       this.explorerService.setFormSection(null, this.formTree, true);
 
       this.form.valueChanges.subscribe((changes) => {
-        const updatingObject = this.operationsService.getActiveDataProductValue();
+        const updatingObject = this.entityExecutionService.getActiveDataProductValue();
 
         if (updatingObject) {
           updatingObject.uid = changes['uid'];
@@ -398,7 +401,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.qualityAssurance = changes.qualityAssurance;
 
           this.actionService.enableSave();
-          this.operationsService.setActiveDataProduct(updatingObject);
+          this.entityExecutionService.setActiveDataProduct(updatingObject);
           this.persistorService.setValueInStorage(
             StorageType.LOCAL_STORAGE,
             StorageKey.FORM_DATA,
@@ -484,11 +487,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {
-    const dataProduct = this.operationsService.getActiveDataProductValue();
+    const dataProduct = this.entityExecutionService.getActiveDataProductValue();
     this.contactPointDetails = newContactPointDetails;
     if (null != dataProduct) {
       dataProduct.contactPoint = this.contactPointDetails;
-      this.operationsService.setActiveDataProduct(dataProduct);
+      this.entityExecutionService.setActiveDataProduct(dataProduct);
     }
 
     // inform user that he has to save entire form
@@ -502,11 +505,11 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       uid: value.uid,
       metaId: value.metaId,
     };
-    const dataProduct = this.operationsService.getActiveDataProductValue();
+    const dataProduct = this.entityExecutionService.getActiveDataProductValue();
     this.distributionDetails.push(entityDetail);
     if (null != dataProduct) {
       dataProduct.distribution = this.distributionDetails;
-      this.operationsService.setActiveDataProduct(dataProduct);
+      this.entityExecutionService.setActiveDataProduct(dataProduct);
     }
   }
 
@@ -515,8 +518,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.spatialCoverageInput.push('0 0');
 
     // Update Global Dataproduct after change to Spatial Extents Arr
-    this.operationsService.setActiveDataProduct(
-      this.operationsService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
+    this.entityExecutionService.setActiveDataProduct(
+      this.entityExecutionService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
     );
 
     setTimeout(() => {
@@ -529,8 +532,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.dataProduct?.spatialExtent.splice(index, 1);
 
     // Update Global Dataproduct after change to Spatial Extents Arr
-    this.operationsService.setActiveDataProduct(
-      this.operationsService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
+    this.entityExecutionService.setActiveDataProduct(
+      this.entityExecutionService.convertToDataProduct(this.dataProduct as DataProductDetailDataSource),
     );
 
     setTimeout(() => {
@@ -544,7 +547,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
    */
   public updateSpatialCoverage(event: SpatialExtentLocationIndexObj) {
     // Update global DataProduct Obj
-    const dataProduct = this.operationsService.getActiveDataProductValue();
+    const dataProduct = this.entityExecutionService.getActiveDataProductValue();
     if (null != dataProduct?.spatialExtent) {
       dataProduct.spatialExtent.forEach((spatialExtent: SpatialExtent, index) => {
         if (event.index === index) {
@@ -552,7 +555,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         }
       });
       // Update points on map
-      this.operationsService.setActiveDataProduct(dataProduct);
+      this.entityExecutionService.setActiveDataProduct(dataProduct);
       const spatExtentsToUpdate: Array<string> = [];
       dataProduct.spatialExtent.forEach((spatialExtent: SpatialExtent) => {
         spatExtentsToUpdate.push(spatialExtent.location);
@@ -602,20 +605,22 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.dataProviders = response;
         this.dataProvidersLoading = false;
         this.selectedDataProviders = this.dataProviders.filter((provider: OrganizationDataSource) => {
-          return provider.uid === this.dataProduct?.publisher[0].uid;
+          return this.dataProduct?.publisher.some((value: EntityDetail) => {
+            return provider.uid === value.uid;
+          });
         });
       });
     }
   }
 
   public handleDataProviderChange(event: Array<OrganizationDataSource>): void {
+    this.actionsService.enableSave();
     const mapped = event.map((item: OrganizationDataSource) => {
       return {
         uid: item.uid,
         metaId: item.metaId,
         instanceId: item.instanceId,
-        entityType: '',
-        name: item.legalName,
+        entityType: Entity.ORGANIZATION,
       };
     });
     mapped.forEach((publisher: EntityDetail, index: number) => {
@@ -623,6 +628,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.dataProduct.publisher[index] = publisher;
       }
     });
+    // console.debug(this.dataProduct?.publisher);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -655,7 +661,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public handleClearDatePicker(fieldName: string): void {
     const control = this.form.get(fieldName);
     if (control) {
-      this.operationsService.clearDatePicker(control);
+      this.helpersService.clearDatePicker(control);
     }
   }
 
