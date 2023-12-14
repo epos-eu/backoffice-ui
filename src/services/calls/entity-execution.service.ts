@@ -40,6 +40,7 @@ export class EntityExecutionService extends EntityStateManager {
       activeDataProduct.modified = new Date();
 
       if (activeDataProduct.state === State.DRAFT) {
+        this.loadingService.setShowSpinner(true);
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...activeDataProduct,
@@ -81,8 +82,12 @@ export class EntityExecutionService extends EntityStateManager {
               'mat-toolbar',
               'snackbar-error',
             ]);
+          })
+          .finally(() => {
+            this.loadingService.setShowSpinner(false);
           });
       } else {
+        this.loadingService.setShowSpinner(true);
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...activeDataProduct,
@@ -124,6 +129,9 @@ export class EntityExecutionService extends EntityStateManager {
               'mat-toolbar',
               'snackbar-error',
             ]);
+          })
+          .finally(() => {
+            this.loadingService.setShowSpinner(false);
           });
       }
     }
@@ -137,6 +145,7 @@ export class EntityExecutionService extends EntityStateManager {
         activeWebservice.state = State.DRAFT;
         activeWebservice.instanceChangedId = activeWebservice.instanceId;
       }
+      this.loadingService.setShowSpinner(true);
       this.apiService.endpoints[Entity.WEBSERVICE].update
         .call({
           ...activeWebservice,
@@ -168,6 +177,9 @@ export class EntityExecutionService extends EntityStateManager {
             'mat-toolbar',
             'snackbar-error',
           ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
         });
     }
   }
@@ -214,7 +226,9 @@ export class EntityExecutionService extends EntityStateManager {
             'snackbar-error',
           ]);
         })
-        .finally(() => this.loadingService.setShowSpinner(false));
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
+        });
     }
   }
 
@@ -225,6 +239,7 @@ export class EntityExecutionService extends EntityStateManager {
         operationData.state = State.DRAFT;
         operationData.instanceChangedId = operationData.instanceId;
       }
+      this.loadingService.setShowSpinner(true);
       this.apiService.endpoints[Entity.OPERATION].update
         .call({
           ...operationData,
@@ -246,7 +261,6 @@ export class EntityExecutionService extends EntityStateManager {
             activeWebservice.supportedOperation = [];
             activeWebservice.supportedOperation.push(newOperation);
             this.setActiveWebService(activeWebservice);
-            this.actionsService;
           }
 
           // Sets 'accessURL' on Distribution to newly created Operation.
@@ -265,6 +279,9 @@ export class EntityExecutionService extends EntityStateManager {
             'mat-toolbar',
             'snackbar-error',
           ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
         });
     }
   }
@@ -276,6 +293,7 @@ export class EntityExecutionService extends EntityStateManager {
       created: new Date(),
     };
 
+    this.loadingService.setShowSpinner(true);
     this.apiService.endpoints.DataProduct.create
       .call(item)
       .then((value: DataProductDetailDataSource) => {
@@ -303,7 +321,10 @@ export class EntityExecutionService extends EntityStateManager {
           'mat-toolbar',
           'snackbar-error',
         ]),
-      );
+      )
+      .finally(() => {
+        this.loadingService.setShowSpinner(false);
+      });
   }
 
   public handleCreateDataProductFromPublishedOrArchivedEntity(): void {
@@ -314,6 +335,7 @@ export class EntityExecutionService extends EntityStateManager {
       publishedOrArchivedEntity.instanceId = undefined; // Handled by backend
       publishedOrArchivedEntity.state = State.DRAFT;
 
+      this.loadingService.setShowSpinner(true);
       this.apiService.endpoints.DataProduct.create
         .call(publishedOrArchivedEntity)
         .then((value: DataProductDetailDataSource) => {
@@ -341,7 +363,10 @@ export class EntityExecutionService extends EntityStateManager {
             'mat-toolbar',
             'snackbar-error',
           ]),
-        );
+        )
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
+        });
     }
   }
 }
