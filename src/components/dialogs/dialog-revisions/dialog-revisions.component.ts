@@ -55,9 +55,10 @@ export class DialogRevisionsComponent implements OnInit {
     'select',
     'instanceId',
     'uid',
-    'version',
+    // 'version',
     'state',
     'created',
+    'modified',
     'editorId',
     'link',
   ];
@@ -69,6 +70,7 @@ export class DialogRevisionsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   private _initTable(data: Array<Revision>): void {
+    console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -97,6 +99,7 @@ export class DialogRevisionsComponent implements OnInit {
                 created: moment(item.created).format(CUSTOM_DATE_FORMAT.display.dateInput),
                 editorId: item.editorId,
                 title: item.title[0],
+                modified: moment(item.modified).format(CUSTOM_DATE_FORMAT.display.dateInput),
               };
             });
             this.loading = false;
