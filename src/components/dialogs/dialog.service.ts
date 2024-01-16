@@ -186,6 +186,7 @@ export class DialogService extends BaseDialogService {
         webservice: webserviceEntityDetail,
       }).then((response: DialogData) => {
         if (response.dataOut.action === 'add') {
+          this.loadingService.setShowSpinner(true);
           const item: Operation = {
             webservice: [webserviceEntityDetail],
           };
@@ -206,7 +207,10 @@ export class DialogService extends BaseDialogService {
                 'mat-toolbar',
                 'snackbar-error',
               ]),
-            );
+            )
+            .finally(() => {
+              this.loadingService.setShowSpinner(false);
+            });
         }
       });
     });
