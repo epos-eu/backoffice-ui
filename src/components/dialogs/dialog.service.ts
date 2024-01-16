@@ -181,14 +181,13 @@ export class DialogService extends BaseDialogService {
       }).then((response: DialogData) => {
         if (response.dataOut.action === 'add') {
           const item: Operation = {
-            uid: 'TEMP_OPERATION_UID/TO_BE_HANDLED_BY_API',
             webservice: [webserviceEntityDetail],
           };
 
           this.apiService.endpoints.Operation.create
             .call(item)
             .then((value: OperationDetailDataSource) => {
-              this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+              this.snackbarService.openSnackbar(`Success: Operation created`, 'close', 'success', 6000, [
                 'snackbar',
                 'mat-toolbar',
                 'snackbar-success',

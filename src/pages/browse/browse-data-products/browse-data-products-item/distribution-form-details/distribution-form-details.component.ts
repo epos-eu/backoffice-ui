@@ -215,7 +215,6 @@ export class DistributionFormDetailsComponent {
     };
     const item: WebService = {
       distribution: [relatedDistribution],
-      uid: '',
       dateModified: new Date(),
     };
 
@@ -223,11 +222,10 @@ export class DistributionFormDetailsComponent {
       .openDialogForComponent(DialogDataproductAddWebserviceComponent, {}, 'add-webservice-dialog')
       .then((data: DialogData<object, NewWebservice>) => {
         if (data.dataOut.create) {
-          item.uid = 'dummy-webservice-uid-to-generate';
           this.apiService.endpoints.WebService.create
             .call(item)
             .then((value: WebserviceDetailDataSource) => {
-              this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+              this.snackbarService.openSnackbar(`Success: Web service created`, 'close', 'success', 6000, [
                 'snackbar',
                 'mat-toolbar',
                 'snackbar-success',
@@ -257,7 +255,7 @@ export class DistributionFormDetailsComponent {
               }
             })
             .catch(() =>
-              this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
+              this.snackbarService.openSnackbar(`Error: failed to create new Web service`, 'close', 'error', 6000, [
                 'snackbar',
                 'mat-toolbar',
                 'snackbar-error',

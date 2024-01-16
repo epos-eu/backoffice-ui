@@ -38,8 +38,6 @@ export class BrowseNavigationComponent implements OnInit {
   private handleCreate(): void {
     // this.loading = true;
     const item: DataProduct = {
-      uid: 'temp-uid-to-be-generated',
-      modified: new Date(),
       created: new Date(),
     };
 

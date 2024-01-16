@@ -444,7 +444,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       metaId: this.dataProduct?.metaId as string,
     };
     const item: Distribution = {
-      uid: 'TEMP_DISTRIBTUION_UID/TO_BE_HANDLED_BY_API',
       modified: new Date().toISOString(),
       dataProduct: [relatedDataProduct],
     };
@@ -456,7 +455,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.apiService.endpoints.Distribution.create
             .call(item)
             .then((value: DistributionDetailDataSource) => {
-              this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+              this.snackbarService.openSnackbar(`Success: Asset created`, 'close', 'success', 6000, [
                 'snackbar',
                 'mat-toolbar',
                 'snackbar-success',
@@ -476,7 +475,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
             })
             .catch((err) => {
               console.error(err);
-              this.snackbarService.openSnackbar(`Error: failed to create new Distribution.`, 'close', 'error', 6000, [
+              this.snackbarService.openSnackbar(`Error: failed to create new Asset.`, 'close', 'error', 6000, [
                 'snackbar',
                 'mat-toolbar',
                 'snackbar-error',

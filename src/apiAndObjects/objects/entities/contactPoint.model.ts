@@ -4,7 +4,7 @@ import { EntityDetail } from '../types/entityDetail.type';
 
 export class ContactPoint {
   constructor(
-    public uid: string,
+    public uid?: string,
     public changeComment?: string,
     public changeTimestamp?: Date | undefined | null,
     public editorId?: string,

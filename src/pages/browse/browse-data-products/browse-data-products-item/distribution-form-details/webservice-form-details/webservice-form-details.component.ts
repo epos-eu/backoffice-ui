@@ -183,7 +183,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   private getDocumentation(documentation: Array<Documentation> | undefined): string {
     if (documentation !== undefined) {
       if (documentation.length > 0) {
-        return documentation[0].URI ? documentation[0].URI : '';
+        return documentation[0].uri ? documentation[0].uri : '';
       }
     }
     return '';
