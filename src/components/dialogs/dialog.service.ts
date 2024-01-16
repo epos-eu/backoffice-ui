@@ -20,6 +20,7 @@ import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 import { DialogConfirmComponent, ConfirmationDataIn } from './dialog-confirm/dialog-confirm.component';
+import { LoadingService } from 'src/services/loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,7 @@ export class DialogService extends BaseDialogService {
     private snackbarService: SnackbarService,
     private router: Router,
     private actionsService: ActionsService,
+    private loadingService: LoadingService,
   ) {
     super(dialog);
   }
@@ -99,6 +101,7 @@ export class DialogService extends BaseDialogService {
       this.openDialog('delete', DialogDeleteComponent, false, {})
         .then((response: DialogData) => {
           if (response.dataOut === 'delete') {
+            this.loadingService.setShowSpinner(true);
             this.apiService
               .deleteEntity(entityEndpoint, instanceId)
               .then(() => {
@@ -125,6 +128,9 @@ export class DialogService extends BaseDialogService {
                   'mat-toolbar',
                   'snackbar-error',
                 ]);
+              })
+              .finally(() => {
+                this.loadingService.setShowSpinner(false);
               });
           } else {
             return resolve(false);
