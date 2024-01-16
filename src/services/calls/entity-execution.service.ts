@@ -113,14 +113,14 @@ export class EntityExecutionService extends EntityStateManager {
             ]);
             this.actionsService.saveCurrentEdit(data.instanceId);
 
-            // Timeout for more consistent navigation
-            setTimeout(() => {
-              this.router.navigate([
-                `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
-                data.metaId,
-                data.instanceId,
-              ]);
-            }, 100);
+            // // Timeout for more consistent navigation
+            // setTimeout(() => {
+            //   this.router.navigate([
+            //     `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
+            //     data.metaId,
+            //     data.instanceId,
+            //   ]);
+            // }, 100);
           })
           .catch((err) => {
             console.error(err);
