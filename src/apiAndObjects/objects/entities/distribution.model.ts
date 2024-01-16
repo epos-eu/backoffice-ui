@@ -3,7 +3,7 @@ import { Group } from './group.model';
 import { EntityDetail } from '../types/entityDetail.type';
 export class Distribution {
   constructor(
-    public uid: string,
+    public uid?: string,
     public accessService?: EntityDetail,
     public accessURL?: Array<EntityDetail>,
     public changeComment?: string,

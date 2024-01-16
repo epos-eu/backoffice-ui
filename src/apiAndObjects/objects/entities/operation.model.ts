@@ -4,7 +4,7 @@ import { Mapping } from '../types/mapping.type';
 
 export class Operation {
   constructor(
-    public uid: string,
+    public uid?: string,
     public changeComment?: string,
     public changeTimestamp?: Date,
     public editorId?: string,

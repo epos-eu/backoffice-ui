@@ -6,7 +6,7 @@ import { EntityDetail } from '../types/entityDetail.type';
 
 export class DataProduct {
   constructor(
-    public uid: string,
+    public uid?: string,
     public changeComment?: string,
     public changeTimestamp?: Date,
     public contactPoint?: Array<EntityDetail>,

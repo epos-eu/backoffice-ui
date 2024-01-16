@@ -6,7 +6,7 @@ import { EntityDetail } from '../types/entityDetail.type';
 
 export class WebService {
   constructor(
-    public uid: string,
+    public uid?: string,
     public aaaiTypes?: string,
     public category?: Array<string>,
     public changeComment?: string,
