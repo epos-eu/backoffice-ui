@@ -305,27 +305,23 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } {
+  private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } | null {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (group: FormGroup): { [key: string]: any } => {
+    return (group: FormGroup): { [key: string]: any } | null => {
       const startCtrl = group.controls[start];
       const endCtrl = group.controls[end];
 
-      if (endCtrl.value == null) {
-        return {
-          dates: 'If no end date is provided, it is assumed that this dataset is acquired continuously.',
-        };
-      }
+      if (startCtrl.value && endCtrl.value) {
+        if (moment(startCtrl.value).isAfter(endCtrl.value)) {
+          startCtrl.markAsTouched();
+          endCtrl.markAsTouched();
 
-      if (moment(startCtrl.value).isAfter(endCtrl.value)) {
-        startCtrl.markAsTouched();
-        endCtrl.markAsTouched();
-
-        return {
-          dates: 'Start date needs to be before end date.',
-        };
+          return {
+            dates: 'Start date needs to be before end date.',
+          };
+        }
       }
-      return {};
+      return null;
     };
   }
 
@@ -335,7 +331,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         instanceId: this.dataProduct?.instanceId,
         uid: this.dataProduct?.uid,
         metaId: this.dataProduct?.metaId,
-        title: this.dataProduct?.title,
+        title: [this.dataProduct?.title, Validators.required],
         description: this.dataProduct?.description,
         changeTimestamp: this.dataProduct?.changeTimestamp,
         state: this.dataProduct?.state,
@@ -350,9 +346,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           },
           { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
         ),
-        distribution: this.formBuilder.array([]),
+        distribution: [this.formBuilder.array([]), Validators.minLength(1)],
         contactPoint: this.formBuilder.array([]),
-        issued: this.dataProduct?.issued,
+        issued: [this.dataProduct?.issued, Validators.required],
         identifier: this.formBuilder.array(this.loadIdentifierArray(this.dataProduct?.identifier)),
         qualityAssurance: this.formBuilder.control(this.dataProduct.qualityAssurance, [
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -377,6 +373,12 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       this.explorerService.setFormSection(null, this.formTree, true);
 
       this.form.valueChanges.subscribe((changes) => {
+        if (this.form.valid) {
+          this.actionsService.enableSave();
+        } else {
+          this.actionsService.disableSave();
+        }
+
         const updatingObject = this.entityExecutionService.getActiveDataProductValue();
 
         if (updatingObject) {
@@ -402,7 +404,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           updatingObject.identifier = changes.identifier;
           updatingObject.qualityAssurance = changes.qualityAssurance;
 
-          this.actionService.enableSave();
           this.entityExecutionService.setActiveDataProduct(updatingObject);
           this.persistorService.setValueInStorage(
             StorageType.LOCAL_STORAGE,
@@ -474,7 +475,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
                 },
               ]);
               this.updateDistributionArray(value);
-              this.actionsService.enableSave();
             })
             .catch((err) => {
               console.error(err);
@@ -580,7 +580,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
    */
   public refreshPointsOnMap() {
     this.spatialCoverageChange.next(this.spatialCoverageInput);
-    this.actionService.enableSave();
   }
 
   /**
@@ -619,7 +618,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public handleDataProviderChange(event: Array<OrganizationDataSource>): void {
-    this.actionsService.enableSave();
     const mapped = event.map((item: OrganizationDataSource) => {
       return {
         uid: item.uid,
@@ -633,7 +631,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         this.dataProduct.publisher[index] = publisher;
       }
     });
-    // console.debug(this.dataProduct?.publisher);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

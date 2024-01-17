@@ -214,3 +214,13 @@ ul {
     }
   }
 }
+
+mat-hint {
+  display: flex;
+  align-items: center;
+  color: #f39c12;
+
+  span {
+    margin-left: 0.5rem;
+  }
+}

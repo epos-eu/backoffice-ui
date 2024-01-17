@@ -23,7 +23,6 @@ import {
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { HelpersService } from 'src/services/helpers.service';
-import { LoadingService } from 'src/services/loading.service';
 
 export interface IFormTree {
   parent: string;
@@ -78,7 +77,6 @@ export class DistributionFormDetailsComponent {
     private explorerService: ExplorerService,
     private stateChangeService: StateChangeService,
     private helpersService: HelpersService,
-    private loadingService: LoadingService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
       if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
@@ -143,7 +141,7 @@ export class DistributionFormDetailsComponent {
       uid: this.distribution?.uid,
       licence: this.distribution?.licence,
       metaId: this.distribution?.metaId,
-      title: this.distribution?.title,
+      title: [this.distribution?.title, Validators.required],
       description: this.distribution?.description,
       state: this.distribution?.state,
       dataProduct: [this.distribution?.dataProduct],
@@ -164,6 +162,13 @@ export class DistributionFormDetailsComponent {
     });
 
     this.form.valueChanges.subscribe((changes) => {
+      console.log('DIST FORM INVALID', this.form.invalid);
+      if (this.form.invalid) {
+        this.actionsService.disableSave();
+      } else {
+        this.actionsService.enableSave();
+      }
+
       const updatingObject = this.entityExecutionService.getActiveDistributionValue();
       if (changes['dataProductAccessibility'] === 'download') {
         this.formTreeUpdate.emit({

@@ -13,6 +13,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { State } from 'src/utility/enums/state.enum';
 import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
+
 @Component({
   selector: 'app-browse-navigation',
   templateUrl: './browse-navigation.component.html',
@@ -20,6 +21,7 @@ import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 })
 export class BrowseNavigationComponent implements OnInit {
   public userInfo: UserBackofficeInfo | null = null;
+
   constructor(
     private router: Router,
     private activeUserService: ActiveUserService,
@@ -29,7 +31,7 @@ export class BrowseNavigationComponent implements OnInit {
     private actionsService: ActionsService,
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserBackofficeInfo | null) => {
       this.userInfo = userInfo as UserBackofficeInfo;
     });
@@ -62,13 +64,14 @@ export class BrowseNavigationComponent implements OnInit {
         ]);
         this.actionsService.saveCurrentEdit(value.instanceId);
       })
-      .catch(() =>
+      .catch((err) => {
+        console.error(err);
         this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
-        ]),
-      );
+        ]);
+      });
     // .finally(() => (this.loading = false));
   }
 
