@@ -92,7 +92,7 @@ export class TableComponent implements AfterViewInit {
       const filters = JSON.parse(filterValue);
       return (
         data.status.trim().toLocaleLowerCase().indexOf(filters.status.trim().toLocaleLowerCase()) >= 0 &&
-        data.title.trim().toLocaleLowerCase().indexOf(filters.title.trim().toLocaleLowerCase()) >= 0
+        data.title?.trim().toLocaleLowerCase().indexOf(filters.title.trim().toLocaleLowerCase()) >= 0
       );
     };
     this.loading = false;
