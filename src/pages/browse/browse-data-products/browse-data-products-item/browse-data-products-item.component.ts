@@ -346,7 +346,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           },
           { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
         ),
-        distribution: [this.formBuilder.array([]), Validators.minLength(1)],
+        distribution: this.formBuilder.array([]),
         contactPoint: this.formBuilder.array([]),
         issued: [this.dataProduct?.issued, Validators.required],
         identifier: this.formBuilder.array(this.loadIdentifierArray(this.dataProduct?.identifier)),
@@ -373,6 +373,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       this.explorerService.setFormSection(null, this.formTree, true);
 
       this.form.valueChanges.subscribe((changes) => {
+        if (this.dataProduct?.state === State.DRAFT && changes.distribution.length === 0) {
+          this.actionsService.disableSave();
+        }
+
         if (this.form.valid) {
           this.actionsService.enableSave();
         } else {
@@ -514,7 +518,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.distributionDetails.push(entityDetail);
     if (null != dataProduct) {
       dataProduct.distribution = this.distributionDetails;
+      this.actionsService.enableSave();
       this.entityExecutionService.setActiveDataProduct(dataProduct);
+      this.shouldDisplayDist['#distribution' + value.instanceId] = true;
     }
   }
 
