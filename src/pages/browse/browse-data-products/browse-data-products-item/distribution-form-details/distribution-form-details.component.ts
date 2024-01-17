@@ -38,7 +38,7 @@ export interface IFormTree {
 export class DistributionFormDetailsComponent {
   @Input() set distributionDetails(details: EntityDetail | undefined) {
     if (null != details) {
-      this.initData(details.instanceId);
+      this.initData(details);
       this.instanceId = details.instanceId;
       this.entityDetails = details;
     }
@@ -89,12 +89,12 @@ export class DistributionFormDetailsComponent {
     });
   }
 
-  private initData(id: string): void {
+  private initData(details: EntityDetail): void {
     this.apiService.endpoints.Distribution.get
       .call(
         {
-          metaId: this?.metaId,
-          instanceId: id,
+          metaId: details.metaId,
+          instanceId: details.instanceId,
         },
         false,
       )

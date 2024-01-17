@@ -38,7 +38,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   @Input() set accessService(webserviceDetails: EntityDetail) {
     if (null != webserviceDetails) {
       this.instanceId = webserviceDetails.instanceId;
-      this.initData(webserviceDetails.instanceId);
+      this.initData(webserviceDetails);
     }
   }
   @Input() parentEntity?: EntityDetail;
@@ -148,12 +148,12 @@ export class WebserviceFormDetailsComponent implements OnInit {
     });
   }
 
-  private initData(id: string): void {
+  private initData(details: EntityDetail): void {
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
         {
-          metaId: this.metaId,
-          instanceId: id,
+          metaId: details.metaId,
+          instanceId: details.instanceId,
         },
         false,
       )
