@@ -4,7 +4,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { ActionsService } from 'src/services/actions.service';
 import { State } from 'src/utility/enums/state.enum';
 
-const KEY = 'titleSearchText';
+const TITLE_KEY = 'titleSearchText';
+const COMMENT_KEY = 'commentSearchText';
 
 interface FilterItem {
   option: string;
@@ -14,6 +15,7 @@ interface FilterItem {
 export interface FilterEmit {
   status: any;
   title: string;
+  changeComment: any;
 }
 
 @Component({
@@ -57,6 +59,7 @@ export class TableFilterComponent {
   public filters = {
     status: '',
     title: '',
+    changeComment: '',
   };
 
   public handleFilterByStatus(event: MatSelectChange): void {
@@ -66,12 +69,19 @@ export class TableFilterComponent {
   public handleTitleSearch(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.filters.title = target.value;
-    sessionStorage.setItem(KEY, target.value);
+    sessionStorage.setItem(TITLE_KEY, target.value);
+  }
+
+  public handleCommentSearch(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.filters.changeComment = target.value;
+    sessionStorage.setItem(COMMENT_KEY, target.value);
   }
 
   public handleClearFilters(): void {
     this.filters.status = '';
     this.filters.title = '';
+    this.filters.changeComment = '';
     this.onClear.emit();
   }
 
