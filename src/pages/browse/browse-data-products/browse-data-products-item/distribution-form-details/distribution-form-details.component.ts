@@ -222,6 +222,7 @@ export class DistributionFormDetailsComponent {
       .openDialogForComponent(DialogDataproductAddWebserviceComponent, {}, 'add-webservice-dialog')
       .then((data: DialogData<object, NewWebservice>) => {
         if (data.dataOut.create) {
+          this.loadingService.setShowSpinner(true);
           this.apiService.endpoints.WebService.create
             .call(item)
             .then((value: WebserviceDetailDataSource) => {
@@ -260,7 +261,10 @@ export class DistributionFormDetailsComponent {
                 'mat-toolbar',
                 'snackbar-error',
               ]),
-            );
+            )
+            .finally(() => {
+              this.loadingService.setShowSpinner(false);
+            });
         }
       });
   }

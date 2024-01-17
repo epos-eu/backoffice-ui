@@ -51,6 +51,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
 import { IFormTree } from './distribution-form-details/distribution-form-details.component';
 import { EntityService } from 'src/services/entity.service';
+import { LoadingService } from 'src/services/loading.service';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -167,6 +168,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private stateChangeService: StateChangeService,
     private entityService: EntityService,
     private helpersService: HelpersService,
+    private loadingService: LoadingService,
   ) {
     this.UID = this.route.snapshot.paramMap.get('id');
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
@@ -452,6 +454,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       .openDialogForComponent(DialogDataproductAddDistributionComponent, {}, 'add-distribution-dialog')
       .then((data: DialogData<object, NewDistribution>) => {
         if (data.dataOut.cancel === false) {
+          this.loadingService.setShowSpinner(true);
           this.apiService.endpoints.Distribution.create
             .call(item)
             .then((value: DistributionDetailDataSource) => {
@@ -480,6 +483,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
                 'mat-toolbar',
                 'snackbar-error',
               ]);
+            })
+            .finally(() => {
+              this.loadingService.setShowSpinner(false);
             });
         }
       });
