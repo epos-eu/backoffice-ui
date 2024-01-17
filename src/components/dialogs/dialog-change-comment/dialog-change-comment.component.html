@@ -1,0 +1,41 @@
+<div class="wrapper">
+  <h1 mat-dialog-title>Enter Save Message</h1>
+  <div mat-dialog-content>
+    <p>Please enter a message to be associated to this save.</p>
+
+    <form
+      [formGroup]="form"
+      *ngIf="form"
+    >
+      <mat-form-field
+        appearance="fill"
+        [style.width.%]="100"
+      >
+        <mat-label>Save Comment</mat-label>
+        <input
+          matInput
+          placeholder="Save Comment"
+          name="changeComment"
+          formControlName="changeComment"
+        />
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-stroked-button
+      (click)="handleClose()"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      cdkFocusInitial
+      [disabled]="newChangeComment === currentComment"
+      (click)="handleSave()"
+    >
+      Save
+    </button>
+  </div>
+</div>

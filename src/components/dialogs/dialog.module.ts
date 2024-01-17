@@ -16,6 +16,7 @@ import { DialogDataproductAddDistributionComponent } from './dialog-dataproduct-
 import { DialogDataproductAddWebserviceComponent } from './dialog-dataproduct-add-webservice/dialog-dataproduct-add-webservice.component';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
 import { DialogNewDataproductComponent } from './dialog-new-dataproduct/dialog-new-dataproduct.component';
+import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DialogNewDataproductComponent } from './dialog-new-dataproduct/dialog-n
     DialogDataproductAddWebserviceComponent,
     FormatRangePipe,
     DialogNewDataproductComponent,
+    DialogChangeCommentComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule],
 })

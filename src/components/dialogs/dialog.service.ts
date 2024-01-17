@@ -21,6 +21,7 @@ import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type'
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 import { DialogConfirmComponent, ConfirmationDataIn } from './dialog-confirm/dialog-confirm.component';
 import { LoadingService } from 'src/services/loading.service';
+import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
 
 @Injectable({
   providedIn: 'root',
@@ -215,5 +216,16 @@ export class DialogService extends BaseDialogService {
       });
     });
     return promise;
+  }
+
+  public handleUpdateChangeComment(changeComment: string): Promise<DialogData> {
+    return this.openDialog(
+      'changeCommentDialog',
+      DialogChangeCommentComponent,
+      false,
+      changeComment,
+      {},
+      'user-permissions',
+    );
   }
 }
