@@ -36,7 +36,20 @@
           [value]="filters.title"
         />
       </mat-form-field>
+
+      <mat-form-field
+        appearance="fill"
+        color="primary"
+      >
+        <input
+          matInput
+          placeholder="Search by Save Comment"
+          (input)="handleCommentSearch($event)"
+          [value]="filters.changeComment"
+        />
+      </mat-form-field>
     </div>
+
     <button
       mat-stroked-button
       (click)="handleClearFilters()"

@@ -202,7 +202,19 @@ export class DistributionFormDetailsComponent {
   }
 
   public handleSave(): void {
-    this.entityExecutionService.handleDistributionSave();
+    this.dialogService
+      .handleUpdateChangeComment(this.distribution?.changeComment ? this.distribution?.changeComment : '')
+      .then((data: DialogData) => {
+        if (data.dataOut != null) {
+          const changeComment = data.dataOut;
+          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+          if (null != activeDistribution) {
+            activeDistribution.changeComment = changeComment;
+            this.entityExecutionService.setActiveDistribution(activeDistribution);
+            this.entityExecutionService.handleDistributionSave();
+          }
+        }
+      });
     this.actionsService.showSaveDistributionMessage(false);
     this.actionsService.enableSave();
   }
