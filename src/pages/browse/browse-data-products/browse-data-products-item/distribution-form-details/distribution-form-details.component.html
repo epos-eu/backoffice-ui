@@ -1,23 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <ng-scrollbar [autoHeightDisabled]="false">
-  <!-- <div class="top-header">
-    <div class="flex-row">
-      <strong>{{ distribution?.uid }}</strong>
-    </div>
-    <div class="actions">
-      <div class="flex-col">
-        <button
-          mat-mini-fab
-          color="default"
-          aria-label="Load a revision"
-          (click)="handleGetRevisions()"
-        >
-          <mat-icon>replay</mat-icon>
-        </button>
-        <label>Revisions</label>
-      </div>
-    </div>
-  </div> -->
   <div class="body">
     <app-anchor-navigation [identifier]="'#distgeneralinformation' + instanceId"></app-anchor-navigation>
     <form

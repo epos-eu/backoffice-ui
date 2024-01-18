@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, combineLatest, filter, takeUntil } from 'rxjs';
 import { State } from 'src/utility/enums/state.enum';
 import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
@@ -17,13 +17,15 @@ import { HelpersService } from 'src/services/helpers.service';
   templateUrl: './edit-navigation.component.html',
   styleUrls: ['./edit-navigation.component.scss'],
 })
-export class EditNavigationComponent implements OnInit {
+export class EditNavigationComponent implements OnInit, OnDestroy {
   private activeEntity?: Entity;
+  private stop$ = new Subject<void>();
   public itemsExist = new BehaviorSubject<boolean>(false);
   public currentEdit!: IChangeItem;
   public state = State;
   public formEdited = false;
   public activeDataProduct?: DataProduct | null;
+  public disableSave = false;
 
   constructor(
     public dialog: MatDialog,
@@ -32,32 +34,47 @@ export class EditNavigationComponent implements OnInit {
     private router: Router,
     private stateChangeService: StateChangeService,
     private helpersService: HelpersService,
-  ) {
-    this.entityExecutionService.dataProductObs.subscribe((dp: DataProduct | null) => {
-      this.activeDataProduct = dp;
-    });
-    this.helpersService.activeEntityTypeObs.subscribe((activeEntityType: Entity | null) => {
-      if (null != activeEntityType) {
-        this.activeEntity = activeEntityType;
-      }
-    });
-  }
+  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.actionsService.initEditedItems();
-    this.checkForItems();
-    this.trackEdit();
+    this.initWatchers();
   }
 
-  private trackEdit(): void {
-    this.actionsService.currentEditObservable.subscribe((item: IChangeItem) => {
-      if (item) {
+  public ngOnDestroy(): void {
+    this.stop$.next();
+    this.stop$.complete();
+  }
+
+  private initWatchers(): void {
+    this.actionsService.currentEditObservable
+      .pipe(
+        filter((item): item is IChangeItem => !!item),
+        takeUntil(this.stop$),
+      )
+      .subscribe((item: IChangeItem) => {
         this.currentEdit = item;
+      });
+    this.actionsService.editedItemsObservable.pipe(takeUntil(this.stop$)).subscribe((items) => {
+      if (items.length > 0) {
+        this.itemsExist.next(true);
       }
     });
-    this.actionsService.formEditedObs.subscribe((formEdited: boolean) => {
-      this.formEdited = formEdited;
-    });
+    this.helpersService.activeEntityTypeObs
+      .pipe(
+        filter((activeEntityType): activeEntityType is Entity => !!activeEntityType),
+        takeUntil(this.stop$),
+      )
+      .subscribe((activeEntityType: Entity) => {
+        this.activeEntity = activeEntityType;
+      });
+    combineLatest([this.entityExecutionService.dataProductObs, this.actionsService.formEditedObs])
+      .pipe(takeUntil(this.stop$))
+      .subscribe(([dataProduct, formEdited]) => {
+        this.activeDataProduct = dataProduct;
+        this.formEdited = formEdited;
+        this.disableSave = this.activeDataProduct?.state === State.DRAFT && !this.formEdited;
+      });
   }
 
   public handleSave(): void {
@@ -85,14 +102,6 @@ export class EditNavigationComponent implements OnInit {
     if (this.activeEntity) {
       this.stateChangeService.handleStateChange(state, this.activeEntity);
     }
-  }
-
-  public checkForItems(): void {
-    this.actionsService.editedItemsObservable.subscribe((items) => {
-      if (items.length > 0) {
-        this.itemsExist.next(true);
-      }
-    });
   }
 
   public isActive(id: string): boolean {

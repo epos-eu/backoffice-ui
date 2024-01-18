@@ -1,33 +1,4 @@
 <mat-nav-list>
-  <!-- div class="wrapper">
-    <h3 mat-subheader>Current changes</h3>
-    <mat-chip-listbox
-      class="mat-chip-list-stacked"
-      aria-label="Current changes"
-      *ngIf="(itemsExist | async) === true"
-    >
-      <mat-chip
-        *ngFor="let change of actionsService.editedItemsObservable | async"
-        [color]="change.color"
-        [ngClass]="isActive(change.id) ? 'active' : ''"
-        (click)="handleClick(change.id, change.route)"
-      >
-        <div class="top">
-          <span>{{ change.label }}</span>
-          <span>{{ change.state }}</span>
-        </div>
-        <div class="bottom">
-          <p>ID: {{ change.id }}</p>
-        </div>
-      </mat-chip>
-    </mat-chip-listbox>
-    <p
-      *ngIf="(itemsExist | async) === false"
-      [ngStyle]="{ margin: '1rem' }"
-    >
-      No changes made yet.
-    </p>
-  </div -->
   <div class="bottom">
     <div class="actions">
       <button
@@ -37,7 +8,7 @@
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="activeDataProduct && activeDataProduct.state === state.DRAFT && !formEdited"
+        [disabled]="disableSave"
       >
         Save
       </button>

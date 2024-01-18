@@ -195,9 +195,9 @@ export class ContactPointFormDetailsComponent implements OnInit {
         // close edit format
         this.showContactPointForm = true;
 
-        if (this.relevantEntity === Entity.DATA_PRODUCT) {
-          this.actionsService.enableSave();
-        }
+        // if (this.relevantEntity === Entity.DATA_PRODUCT) {
+        //   this.actionsService.enableSave();
+        // }
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to add new Contact Point.`, 'close', 'error', 6000, [

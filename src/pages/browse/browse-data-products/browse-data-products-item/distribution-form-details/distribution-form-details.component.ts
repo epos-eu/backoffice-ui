@@ -143,7 +143,7 @@ export class DistributionFormDetailsComponent {
       uid: this.distribution?.uid,
       licence: this.distribution?.licence,
       metaId: this.distribution?.metaId,
-      title: this.distribution?.title,
+      title: [this.distribution?.title, Validators.required],
       description: this.distribution?.description,
       state: this.distribution?.state,
       dataProduct: [this.distribution?.dataProduct],
@@ -164,6 +164,12 @@ export class DistributionFormDetailsComponent {
     });
 
     this.form.valueChanges.subscribe((changes) => {
+      if (this.form.invalid) {
+        this.actionsService.disableSave();
+      } else {
+        this.actionsService.enableSave();
+      }
+
       const updatingObject = this.entityExecutionService.getActiveDistributionValue();
       if (changes['dataProductAccessibility'] === 'download') {
         this.formTreeUpdate.emit({
@@ -198,6 +204,7 @@ export class DistributionFormDetailsComponent {
   public handleSave(): void {
     this.entityExecutionService.handleDistributionSave();
     this.actionsService.showSaveDistributionMessage(false);
+    this.actionsService.enableSave();
   }
 
   public deleteDistribution(instanceId: string | undefined): void {
