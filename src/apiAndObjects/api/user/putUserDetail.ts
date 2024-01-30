@@ -20,11 +20,12 @@ export class PutUserDetail extends CacheableEndpoint<NewUserRoleDataSource, SetU
       return authHeader;
     };
     const callResponsePromise = this.apiCaller.doCall(
-      ['user', params.instanceId, 'role'],
+      ['user'],
       RequestMethod.PUT,
       undefined,
       {
-        newRole: params.role,
+        instanceId: params.instanceId,
+        role: params.role,
       },
       headers,
     );

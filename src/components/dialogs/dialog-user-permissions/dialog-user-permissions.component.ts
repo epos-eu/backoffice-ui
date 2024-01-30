@@ -64,6 +64,7 @@ export class DialogUserPermissionsComponent implements OnInit {
       instanceId: this.data.dataIn.instanceId,
       role: currentRole as UserRole,
     };
+    console.debug(params);
     this.apiService.endpoints[Entity.USER].update
       .call(params)
       .then(() => {
