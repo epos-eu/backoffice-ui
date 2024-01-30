@@ -19,6 +19,11 @@
           formControlName="changeComment"
         />
       </mat-form-field>
+      <p class="original-comment">
+        <strong>Last Save Comment:</strong> <span>{{ currentComment }}</span>
+      </p>
+      <mat-error *ngIf="newChangeComment === currentComment"> Comments cannot match. </mat-error>
+      <mat-error *ngIf="newChangeComment === ''"> You must enter a comment. </mat-error>
     </form>
   </div>
   <div mat-dialog-actions>
@@ -32,7 +37,7 @@
       mat-raised-button
       color="primary"
       cdkFocusInitial
-      [disabled]="newChangeComment === currentComment"
+      [disabled]="newChangeComment === currentComment || newChangeComment === ''"
       (click)="handleSave()"
     >
       Save

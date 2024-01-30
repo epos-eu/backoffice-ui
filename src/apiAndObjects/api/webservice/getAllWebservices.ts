@@ -1,10 +1,10 @@
 import { HttpHeaders } from '@angular/common/http';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
-import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
+import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 
 export class GetAllWebservices extends CacheableEndpoint<
   Array<WebserviceDetailDataSource>,
