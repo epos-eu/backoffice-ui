@@ -23,7 +23,7 @@ export class DialogChangeCommentComponent implements OnInit {
   }
 
   public handleSave(): void {
-    this.data.dataOut = this.form.get('changeComment')?.value;
+    this.data.dataOut = this.newChangeComment;
     this.data.close();
   }
 

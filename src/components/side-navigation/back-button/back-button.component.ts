@@ -29,11 +29,8 @@ export class BackButtonComponent implements OnInit, OnDestroy {
   }
 
   public handleBack(): void {
-    // if (this.distributionVisited === false) {
-    //   this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}`]);
-    // } else {
-    //   this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}`]);
-    // }
+    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
     this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}`]);
+    // });
   }
 }

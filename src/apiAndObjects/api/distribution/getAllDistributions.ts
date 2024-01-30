@@ -1,12 +1,12 @@
 import { HttpHeaders } from '@angular/common/http';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { GetAllDataProductsParams } from '../data-products/getAllDataProducts';
+import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
 
-export class GetAllDistributions extends CacheableEndpoint<
+export class GetAllDistributions extends Endpoint<
   Array<DistributionDetailDataSource>,
   GetAllDistributionParams,
   DistributionDetailDataSource
