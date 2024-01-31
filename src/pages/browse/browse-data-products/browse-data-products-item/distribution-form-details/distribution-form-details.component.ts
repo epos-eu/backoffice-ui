@@ -184,7 +184,7 @@ export class DistributionFormDetailsComponent {
       if (updatingObject) {
         updatingObject.format = changes['format'];
         updatingObject.licence = changes['licence'];
-        updatingObject.title = [changes['title']];
+        updatingObject.title = this.helpersService.formatArrayVal(changes['title']);
         updatingObject.description = [changes['description']];
         this.entityExecutionService.setActiveDistribution(updatingObject);
       }
