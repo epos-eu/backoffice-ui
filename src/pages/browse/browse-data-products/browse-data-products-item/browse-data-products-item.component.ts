@@ -387,7 +387,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
         if (updatingObject) {
           updatingObject.uid = changes['uid'];
-          updatingObject.title = [changes['title']];
+          updatingObject.title = this.helpersService.formatArrayVal(changes['title']);
           updatingObject.description = [changes['description']];
           updatingObject.keywords = changes['keywords'];
           updatingObject.versionInfo = changes['versionInfo'];
