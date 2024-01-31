@@ -16,7 +16,7 @@ export class PutUserDetail extends CacheableEndpoint<NewUserRoleDataSource, SetU
   protected callLive(params: SetUserRoleParams): Promise<NewUserRoleDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
-      const authHeader = new HttpHeaders().set('Authorization', accessToken ? accessToken : '');
+      const authHeader = new HttpHeaders().set('Authorization', accessToken ? 'Bearer ' + accessToken : '');
       return authHeader;
     };
     const callResponsePromise = this.apiCaller.doCall(
