@@ -64,4 +64,12 @@ export class HelpersService {
     }
     return true;
   }
+
+  public formatArrayVal(testValue: string | Array<string>): Array<string> {
+    if (typeof testValue === 'string' || testValue instanceof String) {
+      return [testValue as string];
+    } else {
+      return testValue;
+    }
+  }
 }

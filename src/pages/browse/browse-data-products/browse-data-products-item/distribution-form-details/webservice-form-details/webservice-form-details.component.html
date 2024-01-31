@@ -105,23 +105,29 @@
         <mat-error *ngIf="form.get('documentation')?.invalid"> URL is not valid. </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>Service Provider</mat-label>
-        <mat-select
-          [(ngModel)]="selectedServiceProvider"
-          [ngModelOptions]="{ standalone: true }"
-          [compareWith]="compareWithFn"
-          (selectionChange)="updateServicePoint()"
-          [disabled]="disabled"
-        >
-          <mat-option
-            *ngFor="let provider of serviceProviders"
-            [value]="provider"
+      <app-anchor-navigation [identifier]="'#wsserviceProvider' + instanceId"></app-anchor-navigation>
+      <mat-expansion-panel class="contact-point">
+        <mat-expansion-panel-header [ngClass]="{ active: selectedSection === '#wsserviceprovider' + instanceId }">
+          <mat-panel-title>Service Provider</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field>
+          <mat-label>Service Provider</mat-label>
+          <mat-select
+            [(ngModel)]="selectedServiceProvider"
+            [ngModelOptions]="{ standalone: true }"
+            [compareWith]="compareWithFn"
+            (selectionChange)="updateServicePoint()"
+            [disabled]="disabled"
           >
-            {{ provider.legalName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+            <mat-option
+              *ngFor="let provider of serviceProviders"
+              [value]="provider"
+            >
+              {{ provider.legalName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-expansion-panel>
 
       <app-anchor-navigation [identifier]="'#wscontactpoint' + instanceId"></app-anchor-navigation>
       <mat-expansion-panel class="contact-point">
@@ -170,7 +176,6 @@
               <div
                 [ngClass]="{
                   'supported-operation-wrapper': true,
-                  'mat-elevation-z8': supportedOperationFocusFirstRow && i === 0
                 }"
               >
                 <div class="flex-row">
