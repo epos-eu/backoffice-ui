@@ -4,6 +4,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { Subscription } from 'rxjs';
 import { ExplorerService } from './explorer.service';
 import { FormTree } from './formTree';
+import { StateChangeService } from 'src/services/stateChange.service';
 
 /** Flat node with expandable and level information */
 interface FormTreeNode {
@@ -48,7 +49,7 @@ export class ExplorerNavigationComponent implements OnInit {
 
   public dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(private explorerService: ExplorerService) {}
+  constructor(private explorerService: ExplorerService, private stateChangeService: StateChangeService) {}
 
   ngOnInit(): void {
     this.subscriptions.push(

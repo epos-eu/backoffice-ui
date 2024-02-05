@@ -45,7 +45,7 @@ export class StateChangeService {
         break;
       }
       case State.DISCARDED: {
-        message = `Are you sure you'd like to discard this submission?`;
+        message = `Are you sure you'd like to reject this submission?`;
         break;
       }
       case State.ARCHIVED: {

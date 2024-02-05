@@ -46,7 +46,16 @@
         color="warn"
         (click)="handleChangeState(state.DISCARDED)"
       >
-        Discard
+        Reject
+      </button>
+
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.state === state.DISCARDED"
+        mat-flat-button
+        color="primary"
+        (click)="handleChangeState(state.DRAFT)"
+      >
+        Revert to Draft
       </button>
 
       <button
