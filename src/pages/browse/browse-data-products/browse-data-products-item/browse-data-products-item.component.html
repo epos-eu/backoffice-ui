@@ -59,7 +59,9 @@
                 class="detail"
               >
                 <div class="label">Status:</div>
-                <div class="value">{{ dataProduct.state }}</div>
+                <div class="value">
+                  {{ dataProduct.state === stateEnum.DISCARDED ? 'REJECTED' : dataProduct.state }}
+                </div>
               </div>
             </div>
             <div>

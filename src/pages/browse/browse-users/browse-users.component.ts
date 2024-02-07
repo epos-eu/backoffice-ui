@@ -35,7 +35,7 @@ export class BrowseUsersComponent implements OnInit {
   public rowClicked(row: TableUserDetail): void {
     this.dialogService.openChangeUserRoleDialog(row).then((data: DialogData) => {
       if (data.dataOut) {
-        this.loading = true;
+        // this.loading = true;
       }
     });
   }
