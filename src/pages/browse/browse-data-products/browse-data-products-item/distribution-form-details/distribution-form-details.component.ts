@@ -206,6 +206,7 @@ export class DistributionFormDetailsComponent {
       .handleUpdateChangeComment(this.distribution?.changeComment ? this.distribution?.changeComment : '')
       .then((data: DialogData) => {
         if (data.dataOut != null) {
+          // this.actionsService.enableSave();
           const changeComment = data.dataOut;
           const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
           if (null != activeDistribution) {
@@ -216,7 +217,6 @@ export class DistributionFormDetailsComponent {
         }
       });
     this.actionsService.showSaveDistributionMessage(false);
-    this.actionsService.enableSave();
   }
 
   public deleteDistribution(instanceId: string | undefined): void {
