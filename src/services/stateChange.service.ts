@@ -6,6 +6,8 @@ import { SnackbarService } from './snackbar.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EntityExecutionService } from './calls/entity-execution.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
+import { Router } from '@angular/router';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +20,7 @@ export class StateChangeService {
   public currentDataProductStateObs = this.currentDataProductState.asObservable();
 
   constructor(
+    private router: Router,
     private apiService: ApiService,
     private entityExecutionService: EntityExecutionService,
     private dialogService: DialogService,
@@ -52,6 +55,10 @@ export class StateChangeService {
         message = `Are you sure you'd like to archive this published instance?`;
         break;
       }
+      case State.DRAFT: {
+        message = `Are you sure you'd like to revert this rejected instance back to draft?`;
+        break;
+      }
     }
 
     this.dialogService.openConfirmationDialog(message, false).then((accept: boolean) => {
@@ -61,7 +68,6 @@ export class StateChangeService {
             this.handleChangeDataProductState(
               this.entityExecutionService.getActiveDataProductValue()?.instanceId as string,
               state,
-              true,
             );
             break;
           }
@@ -76,7 +82,7 @@ export class StateChangeService {
     });
   }
 
-  private handleChangeDataProductState(instanceId: string, state: State, refresh = false) {
+  private handleChangeDataProductState(instanceId: string, state: State) {
     let message = '';
 
     switch (state) {
@@ -89,11 +95,15 @@ export class StateChangeService {
         break;
       }
       case State.DISCARDED: {
-        message = 'Submission discarded successfully';
+        message = 'Submission rejected successfully';
         break;
       }
       case State.ARCHIVED: {
         message = 'Published instance archived successfully';
+        break;
+      }
+      case State.DRAFT: {
+        message = 'Reverted to Draft successfully';
         break;
       }
     }
@@ -107,13 +117,24 @@ export class StateChangeService {
       .then(() => {
         // Temporariliy disabled until further clarity on how to implement.
         // this.actionsService.submitCurrentEdit(this.currentEdit.id);
-
-        this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-success',
-        ]);
-        this.triggerReload.next(refresh);
+        // this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
+        //   'snackbar',
+        //   'mat-toolbar',
+        //   'snackbar-success',
+        // ]);
+        this.router
+          .navigate([
+            `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
+            this.entityExecutionService.getActiveDataProductValue()?.metaId as string,
+            this.entityExecutionService.getActiveDataProductValue()?.instanceId as string,
+          ])
+          .then(() => {
+            this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          });
       })
       .catch((err) => {
         console.error(err);
