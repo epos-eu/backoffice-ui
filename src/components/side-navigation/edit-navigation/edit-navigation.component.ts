@@ -66,6 +66,7 @@ export class EditNavigationComponent implements OnInit, OnDestroy {
         takeUntil(this.stop$),
       )
       .subscribe((activeEntityType: Entity) => {
+        console.debug(activeEntityType);
         this.activeEntity = activeEntityType;
       });
     combineLatest([this.entityExecutionService.dataProductObs, this.actionsService.formEditedObs])
@@ -99,6 +100,7 @@ export class EditNavigationComponent implements OnInit, OnDestroy {
   }
 
   public handleChangeState(state: State) {
+    console.debug(state);
     if (this.activeEntity) {
       this.stateChangeService.handleStateChange(state, this.activeEntity);
     }

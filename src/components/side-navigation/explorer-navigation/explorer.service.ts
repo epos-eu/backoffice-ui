@@ -91,9 +91,10 @@ export class ExplorerService {
       if (branch.id === parent) {
         if (adding === true) {
           const index = branch.children.findIndex((object) => object.id === node.id);
-          if (index === -1) {
-            branch.children.push(node);
-          }
+          // if (index === -1) {
+          //   console.debug('//no push')
+          branch.children.push(node);
+          // }
         } else {
           branch.children.forEach((child: FormTree, index) => {
             branch.children.splice(index, 1);
