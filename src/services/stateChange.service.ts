@@ -83,7 +83,6 @@ export class StateChangeService {
   }
 
   private handleChangeDataProductState(instanceId: string, state: State) {
-    console.debug('instanceId ere', instanceId);
     let message = '';
 
     switch (state) {
@@ -115,9 +114,7 @@ export class StateChangeService {
         justThisOne: true,
         state: state,
       })
-      .then((res) => {
-        console.debug('bod:', instanceId, state);
-        console.debug('res:', res);
+      .then(() => {
         // Temporariliy disabled until further clarity on how to implement.
         // this.actionsService.submitCurrentEdit(this.currentEdit.id);
         // this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [

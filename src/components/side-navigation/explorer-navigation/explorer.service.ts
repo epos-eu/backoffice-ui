@@ -90,7 +90,7 @@ export class ExplorerService {
     formTree.forEach((branch: FormTree) => {
       if (branch.id === parent) {
         if (adding === true) {
-          const index = branch.children.findIndex((object) => object.id === node.id);
+          // const index = branch.children.findIndex((object) => object.id === node.id);
           // if (index === -1) {
           //   console.debug('//no push')
           branch.children.push(node);
