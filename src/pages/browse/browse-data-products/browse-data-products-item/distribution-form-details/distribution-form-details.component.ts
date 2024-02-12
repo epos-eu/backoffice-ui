@@ -246,11 +246,13 @@ export class DistributionFormDetailsComponent {
           this.apiService.endpoints.WebService.create
             .call(item)
             .then((value: WebserviceDetailDataSource) => {
-              this.snackbarService.openSnackbar(`Success: Web service created`, 'close', 'success', 6000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-success',
-              ]);
+              this.snackbarService.openSnackbar(
+                `Please click 'Save Web Service' followed by 'Save Distribution'.`,
+                'close',
+                'warning',
+                100000,
+                ['snackbar', 'mat-toolbar', 'snackbar-warning'],
+              );
               this.actionsService.addEditedItems([
                 {
                   type: Entity.WEBSERVICE,
