@@ -182,6 +182,7 @@ export class DistributionFormDetailsComponent {
       }
 
       if (updatingObject) {
+        updatingObject.downloadURL = this.helpersService.formatArrayVal(changes['downloadURL']);
         updatingObject.format = changes['format'];
         updatingObject.licence = changes['licence'];
         updatingObject.title = this.helpersService.formatArrayVal(changes['title']);
