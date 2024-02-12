@@ -9,7 +9,6 @@ import { UserRole } from 'src/utility/enums/UserRole.enum';
 import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 import { DialogData } from '../baseDialogService.abstract';
 import { SetUserRoleParams } from 'src/apiAndObjects/api/user/putUserDetail';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dialog-user-permissions',
@@ -28,7 +27,6 @@ export class DialogUserPermissionsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData<TableUserDetail>,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
