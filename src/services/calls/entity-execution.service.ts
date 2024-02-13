@@ -260,7 +260,6 @@ export class EntityExecutionService extends EntityStateManager {
             activeDistribution.accessURL = [];
             activeDistribution?.accessURL?.push(newOperation);
             this.setActiveDistribution(activeDistribution);
-            this.actionsService.showSaveDistributionMessage(true);
           }
         })
         .catch((err) => {

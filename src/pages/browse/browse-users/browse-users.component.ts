@@ -26,17 +26,21 @@ export class BrowseUsersComponent implements OnInit {
   constructor(private dialogService: DialogService, private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.loading = true;
-    this.apiService.endpoints[Entity.USER].getAll.call().then((users: Array<UserInfoDataSource>) => {
-      this.createUserTableObjects(users);
-    });
+    this.initData();
   }
 
   public rowClicked(row: TableUserDetail): void {
     this.dialogService.openChangeUserRoleDialog(row).then((data: DialogData) => {
       if (data.dataOut) {
-        // this.loading = true;
+        this.initData();
       }
+    });
+  }
+
+  private initData() {
+    this.loading = true;
+    this.apiService.endpoints[Entity.USER].getAll.call().then((users: Array<UserInfoDataSource>) => {
+      this.createUserTableObjects(users);
     });
   }
 

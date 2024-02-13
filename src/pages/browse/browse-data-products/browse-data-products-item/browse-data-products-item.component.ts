@@ -463,11 +463,13 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.apiService.endpoints.Distribution.create
             .call(item)
             .then((value: DistributionDetailDataSource) => {
-              this.snackbarService.openSnackbar(`Success: Asset created`, 'close', 'success', 6000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-success',
-              ]);
+              this.snackbarService.openSnackbar(
+                'Please add a Distribution title then click "Save Distribution" followed by "Save" using the Explorer.',
+                'close',
+                'warning',
+                10000000,
+                ['snackbar', 'mat-toolbar', 'snackbar-warning'],
+              );
               this.actionsService.addEditedItems([
                 {
                   type: Entity.DISTRIBUTION,

@@ -67,11 +67,19 @@ export class DialogUserPermissionsComponent implements OnInit {
     this.apiService.endpoints[Entity.USER].update
       .call(params)
       .then(() => {
-        this.snackbarService.openSnackbar(`User Successfully changed to ${currentRole}`, 'close', 'success');
         this.data.dataOut = true;
+        this.snackbarService.openSnackbar(`User Successfully changed to ${currentRole}`, 'close', 'success', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
       })
       .catch(() => {
-        this.snackbarService.openSnackbar(`Error: failed to change user role`, 'close', 'error');
+        this.snackbarService.openSnackbar(`Error: failed to change user role`, 'close', 'error', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
         this.data.dataOut = false;
       })
       .finally(() => this.data.close());

@@ -195,11 +195,13 @@ export class DialogService extends BaseDialogService {
           this.apiService.endpoints.Operation.create
             .call(item)
             .then((value: OperationDetailDataSource) => {
-              this.snackbarService.openSnackbar(`Success: Operation created`, 'close', 'success', 6000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-success',
-              ]);
+              this.snackbarService.openSnackbar(
+                `Please click 'Save Web Service' followed by 'Save Distribution' to complete this action.`,
+                'close',
+                'warning',
+                6000,
+                ['snackbar', 'mat-toolbar', 'snackbar-warning'],
+              );
               resolve(value);
             })
             .catch(() =>
