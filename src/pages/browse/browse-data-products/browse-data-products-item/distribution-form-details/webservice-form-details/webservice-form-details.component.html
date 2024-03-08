@@ -102,7 +102,10 @@
           [ngStyle]="{ 'line-height': '1.4' }"
           formControlName="documentation"
         />
-        <mat-error *ngIf="form.get('documentation')?.invalid"> URL is not valid. </mat-error>
+        <mat-error *ngIf="form.get('documentation')?.invalid">
+          URL is not valid. <strong> Example:</strong>
+          <i> https://docs.cyfronet.pl/display/ISDOC/Accessing+through+EPOS+ICS-C </i>
+        </mat-error>
       </mat-form-field>
 
       <app-anchor-navigation [identifier]="'#wsserviceProvider' + instanceId"></app-anchor-navigation>
@@ -395,7 +398,7 @@
       mat-stroked-button
       color="primary"
       (click)="handleSave()"
-      [disabled]="disabled || null == webservice || form.invalid"
+      [disabled]="disabled || null == webservice || form.controls['documentation'].invalid"
     >
       Save Web Service
     </button>

@@ -77,7 +77,7 @@
         class="action"
         mat-raised-button
         color="primary"
-        [disabled]="disabled"
+        [disabled]="disabled || disableOperationSave"
         (click)="handleSave()"
       >
         Save Operation

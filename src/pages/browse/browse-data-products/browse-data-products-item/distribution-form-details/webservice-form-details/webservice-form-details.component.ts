@@ -200,7 +200,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       instanceId: this.webservice?.instanceId as string,
       metaId: this.webservice?.metaId,
       name: this.webservice?.name,
-      template: [{ value: '', disabled: true }],
+      template: [{ value: '', disabled: true }, Validators.required],
       description: this.webservice?.description,
       documentation: this.formBuilder.control(this.getDocumentation(this.webservice?.documentation), [
         Validators.required,
