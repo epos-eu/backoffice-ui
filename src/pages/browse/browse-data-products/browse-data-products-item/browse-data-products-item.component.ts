@@ -332,7 +332,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         uid: this.dataProduct?.uid,
         metaId: this.dataProduct?.metaId,
         title: [this.dataProduct?.title, Validators.required],
-        description: this.dataProduct?.description,
+        description: [this.dataProduct?.description, Validators.required],
         changeTimestamp: this.dataProduct?.changeTimestamp,
         state: this.dataProduct?.state,
         keywords: HelpersService.whiteSpaceReplace(this.dataProduct?.keywords),
@@ -348,7 +348,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         ),
         distribution: this.formBuilder.array([]),
         contactPoint: this.formBuilder.array([]),
-        issued: [this.dataProduct?.issued, Validators.required],
+        issued: this.dataProduct?.issued,
         identifier: this.formBuilder.array(this.loadIdentifierArray(this.dataProduct?.identifier)),
         qualityAssurance: this.formBuilder.control(this.dataProduct.qualityAssurance, [
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -388,7 +388,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
         if (updatingObject) {
           updatingObject.uid = changes['uid'];
           updatingObject.title = this.helpersService.formatArrayVal(changes['title']);
-          updatingObject.description = [changes['description']];
+          updatingObject.description = this.helpersService.formatArrayVal(changes['description']);
           updatingObject.keywords = changes['keywords'];
           updatingObject.versionInfo = changes['versionInfo'];
 

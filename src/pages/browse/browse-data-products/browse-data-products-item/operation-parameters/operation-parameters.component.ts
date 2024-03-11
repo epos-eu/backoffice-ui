@@ -48,6 +48,7 @@ export class OperationParametersComponent implements OnInit {
   public rangeEnum = OperationParamsRange;
   public fetchingOperation = false;
   public disabled = false;
+  public disableOperationSave = true;
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;
@@ -152,6 +153,10 @@ export class OperationParametersComponent implements OnInit {
         item.variable === updatedMapping.variable ? updatedMapping : item,
       );
       activeSupportedOperation.mapping = updatedMappingArray as Array<Mapping>;
+
+      const nullsOrEmptyExist = (map: Mapping) => map.label == null || map.label === '';
+      this.disableOperationSave = activeSupportedOperation.mapping.some(nullsOrEmptyExist);
+
       /** Sets all null values as undefined */
       activeSupportedOperation?.mapping.map((mappingObj: Record<string, unknown>) => {
         Object.keys(mappingObj).forEach((key) => {

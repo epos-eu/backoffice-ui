@@ -1,5 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
@@ -60,6 +68,7 @@ export class DistributionFormDetailsComponent {
   public selectedSection = '';
   public instanceId = '';
   public disabled = false;
+  public saveDisabled = false;
   private formTreeDownload: FormTree = { id: '#distaccessibledownload', name: 'Download', children: [] };
   private formTreeWebService: FormTree = {
     id: '#distaccessiblewebservice',
@@ -164,6 +173,7 @@ export class DistributionFormDetailsComponent {
     });
 
     this.form.valueChanges.subscribe((changes) => {
+      this.enableDistributionSave();
       if (this.form.invalid) {
         this.actionsService.disableSave();
       } else {
@@ -190,6 +200,18 @@ export class DistributionFormDetailsComponent {
         this.entityExecutionService.setActiveDistribution(updatingObject);
       }
     });
+  }
+
+  private enableDistributionSave() {
+    if (this.disabled || null == this.distribution) {
+      this.saveDisabled = true;
+    } else if (this.accessService && this.form.controls['title'].valid) {
+      this.saveDisabled = false;
+    } else if (!this.accessService && this.form.valid) {
+      this.saveDisabled = false;
+    } else {
+      this.saveDisabled = true;
+    }
   }
 
   public handleGetRevisions(): void {
@@ -271,6 +293,7 @@ export class DistributionFormDetailsComponent {
                 metaId: value.metaId,
               };
               this.accessService = entityDetail;
+              this.enableDistributionSave();
               const distribution = this.entityExecutionService.getActiveDistributionValue();
               if (null != distribution) {
                 distribution.accessService = this.accessService;

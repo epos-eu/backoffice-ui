@@ -164,7 +164,7 @@
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="disabled || null == distribution"
+        [disabled]="disabled || null == distribution || saveDisabled"
       >
         Save Distribution
       </button>
