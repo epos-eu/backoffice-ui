@@ -8,6 +8,7 @@ import { EntityExecutionService } from './calls/entity-execution.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,7 @@ export class StateChangeService {
     private entityExecutionService: EntityExecutionService,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
+    private loadingService: LoadingService,
   ) {}
 
   public getCurrentDataProductState(): State | null {
@@ -63,6 +65,7 @@ export class StateChangeService {
 
     this.dialogService.openConfirmationDialog(message, false).then((accept: boolean) => {
       if (accept) {
+        this.loadingService.setShowSpinner(true);
         switch (entity) {
           case Entity.DATA_PRODUCT: {
             this.handleChangeDataProductState(
@@ -115,13 +118,6 @@ export class StateChangeService {
         state: state,
       })
       .then(() => {
-        // Temporariliy disabled until further clarity on how to implement.
-        // this.actionsService.submitCurrentEdit(this.currentEdit.id);
-        // this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
-        //   'snackbar',
-        //   'mat-toolbar',
-        //   'snackbar-success',
-        // ]);
         this.router
           .navigate([
             `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
@@ -145,6 +141,8 @@ export class StateChangeService {
           5000,
           ['snackbar', 'mat-toolbar', 'snackbar-error'],
         );
-      });
+      }).finally(() => {
+        this.loadingService.setShowSpinner(false);
+      })
   }
 }
