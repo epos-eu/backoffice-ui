@@ -2,6 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new-dataproduct/dialog-new-dataproduct.component';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { scrollBackToTop } from 'src/helpers/scroll';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -17,7 +20,7 @@ export class BrowseDataProductsComponent {
   public sectionName = Entity.DATA_PRODUCT;
   public showButton = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private dialogService: DialogService) { }
 
   public rowClicked(row: Record<string, string>): void {
     this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, row['metaId'], row['instanceId']]);
@@ -33,5 +36,21 @@ export class BrowseDataProductsComponent {
     } else {
       this.showButton = false;
     }
+  }
+
+  public createAsset(): void {
+    this.dialogService
+      .openDialogForComponent(DialogNewDataproductComponent, {}, 'new-dataproduct-dialog')
+      .then((response) => {
+        if (response.dataOut.create) {
+          this.handleCreate();
+        }
+      });
+  }
+
+  private handleCreate(): void {
+    const item: DataProduct = {
+      created: new Date(),
+    };
   }
 }
