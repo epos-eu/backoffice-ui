@@ -11,7 +11,7 @@ variables:
 
 include:
   - project: 'epos/k8s-epos-deploy'
-    ref: backoffice-test-env #apis-newgui
+    ref: master #apis-newgui
     file: '.gitlab-kube-include.yml'
 
 stages:
