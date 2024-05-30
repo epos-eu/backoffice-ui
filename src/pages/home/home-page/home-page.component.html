@@ -14,7 +14,7 @@
   </div>
 
   <div class="details-wrapper">
-    <h1 id="backoffice-service">Backoffice Service</h1>
+    <h1 class="flex-row" id="backoffice-service">Backoffice Service Information</h1>
     <h2 id="concept">Concept</h2>
     <p> We want to improve how TCSs manage and edit metadata they produce for the EPOS Data Portal. Currently, they
       undertake the task of creating .ttl files,
@@ -26,17 +26,7 @@
       Thanks to the Backoffice metadata curators will be able to use this interface to create, edit and publish an EPOS
       Data Model Entity directly to the Data Portal.
     <h2 id="glossary">Glossary</h2>
-    <p>Three different concepts will be met in this document:</p>
-    <ol>
-      <li>Instance: is a specific version of a Epos Data Model object. Each instance have its instanceId.</li>
-      <li>Entity: is used to identify a object that can have different version. For the same entity may exist numeros
-        instance with different state, but only one is published. (e.g. can exist five instance of the same entity
-        archived,
-        three draft, two submitted and one published.)</li>
-      <li>Entity Type: is a Epos Data Model different class of objects, an entity type can be a Dataproduct or a
-        Distribution.</li>
-    </ol>
-    <h2 id="possible-state">Possible State</h2>
+    <h3 id="possible-state">Possible State</h3>
     <p>Each instance have a specific state:</p>
     <ul>
       <li><strong>Draft</strong>
@@ -50,7 +40,7 @@
       <li><strong>Archived</strong>
         This instance is no longer used.</li>
     </ul>
-    <h2 id="role">Role</h2>
+    <h3 id="role">Role</h3>
     <p>Every person who interacts with the system is associated to one user.
       Every user can have one role for each user group.</p>
     <ul>
@@ -81,10 +71,10 @@
     </ul>
     <h3 id="permission-matrix">Permission matrix</h3>
     <p>Type of operation that a user can do:</p>
-    <p><img class="resize" src="./assets/img/guide/permissions.png" alt=""></p>
+    <span class="flex-row"><img class="resize" src="./assets/img/guide/permissions.png" alt=""></span>
     <p>These action implicitly refear only to every entity which belong to the same user group as the user.</p>
     <h2 id="life-cycle-of-an-entity">Life cycle of an entity</h2>
-    <p><img src="./assets/img/guide/sequenze.png" alt=""></p>
+    <span class="flex-row"><img src="./assets/img/guide/sequenze.png" alt=""></span>
     <p>In order to be Published an instance need:</p>
     <ul>
       <li>First the editor draft a new entity or edit an already existing one. The Draft can be edit freely or even
@@ -103,6 +93,6 @@
         An
         editor can create a new draft from this.</li>
     </ul>
-    <p><img class="resize" src="./assets/img/guide/approvalFlow.png" alt=""></p>
+    <span class="flex-row"><img class="resize" src="./assets/img/guide/approvalFlow.png" alt=""></span>
   </div>
 </ng-scrollbar>
