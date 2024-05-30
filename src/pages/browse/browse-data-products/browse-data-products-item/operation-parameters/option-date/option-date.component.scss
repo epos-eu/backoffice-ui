@@ -8,3 +8,11 @@
 mat-slide-toggle {
   padding: 1em;
 }
+
+.readonly {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    margin-left: 0.5em;
+  }
+}
