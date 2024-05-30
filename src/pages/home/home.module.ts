@@ -5,10 +5,11 @@ import { ApiModule } from 'src/apiAndObjects/api.module';
 import { ComponentsModule } from 'src/components/components.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HomeRoutingModule } from './home-routing.module';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 @NgModule({
   declarations: [HomePageComponent],
-  imports: [CommonModule, HomeRoutingModule, ComponentsModule, OAuthModule, ApiModule],
+  imports: [CommonModule, HomeRoutingModule, ComponentsModule, OAuthModule, ApiModule, NgScrollbarModule ],
   providers: [],
 })
 export class HomeModule {}

@@ -1,6 +1,6 @@
 .flex-row {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   width: 100%;
 }
@@ -13,4 +13,12 @@ h1 {
   font-size: 90px;
   font-weight: 300;
   margin-left: 1rem;
+}
+
+.details-wrapper {
+  padding: 2em;
+}
+
+.resize {
+  width: 50%;
 }
