@@ -1,8 +1,8 @@
 .flex-row {
   display: flex;
-  justify-content: center;
   align-items: center;
   width: 100%;
+  text-align: left;
 }
 
 .wave {
@@ -16,9 +16,27 @@ h1 {
 }
 
 .details-wrapper {
-  padding: 2em;
+  padding: 0 2em 2em 2em;
 }
 
 .resize {
   width: 50%;
+}
+
+.loading-wrapper {
+  padding: 4rem;
+}
+
+ul {
+  li {
+    margin-bottom: 0.5rem;
+  }
+}
+
+p {
+  line-height: 1.4;
+
+  &#backoffice-service {
+    font-size: 40px;
+  }
 }

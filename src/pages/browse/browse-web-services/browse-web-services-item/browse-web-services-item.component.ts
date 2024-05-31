@@ -15,6 +15,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { State } from 'src/utility/enums/state.enum';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -30,7 +31,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.WEBSERVICE;
   public currentEdit!: IChangeItem;
-  public state?: NavigationBehaviorOptions['state'] | undefined;
+  public state!: NavigationBehaviorOptions['state'] | undefined;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -42,14 +43,14 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
     private apiService: ApiService,
     private actionService: ActionsService,
     private persistorService: PersistorService,
+    private location: Location,
   ) {
     this.options = this.fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
     });
-    this.webservice = this.router.getCurrentNavigation()?.extras.state as WebService;
-    const state = this.router.getCurrentNavigation()?.extras.state as NavigationBehaviorOptions['state'];
-    this.state = state;
+    this.webservice = this.location.getState() as WebService;
+    this.state = this.location.getState() as NavigationBehaviorOptions['state'];
   }
 
   ngOnInit(): void {

@@ -3,6 +3,7 @@ import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-sour
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import * as jsondiffpatch from 'jsondiffpatch';
+import * as htmlFormatter from 'jsondiffpatch/formatters/html';
 import { ActivatedRoute } from '@angular/router';
 import { HelpersService } from 'src/services/helpers.service';
 
@@ -39,7 +40,7 @@ export class BrowseRevisionsComponent implements OnInit {
   private _getVisualDiff(): string | undefined {
     const delta = jsondiffpatch.diff(this.revisions[0], this.revisions[1]);
     if (delta) {
-      const html = jsondiffpatch.formatters.html.format(delta, this.entities[0]);
+      const html = htmlFormatter.format(delta, this.entities[0]);
       return html;
     }
     return undefined;

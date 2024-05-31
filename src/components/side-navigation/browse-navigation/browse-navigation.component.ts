@@ -5,13 +5,11 @@ import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-sour
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new-dataproduct/dialog-new-dataproduct.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
-import { ActionsService } from 'src/services/actions.service';
 import { ActiveUserService } from 'src/services/activeUser.service';
+import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
-import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { State } from 'src/utility/enums/state.enum';
 import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 
 @Component({
@@ -22,13 +20,15 @@ import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 export class BrowseNavigationComponent implements OnInit {
   public userInfo: UserBackofficeInfo | null = null;
 
+  public loading$ = this.loadingService.loadingObs;
+
   constructor(
     private router: Router,
     private activeUserService: ActiveUserService,
     private dialogService: DialogService,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
-    private actionsService: ActionsService,
+    private loadingService: LoadingService,
   ) {}
 
   public ngOnInit(): void {
@@ -38,7 +38,6 @@ export class BrowseNavigationComponent implements OnInit {
   }
 
   private handleCreate(): void {
-    // this.loading = true;
     const item: DataProduct = {
       created: new Date(),
     };
@@ -47,22 +46,11 @@ export class BrowseNavigationComponent implements OnInit {
       .call(item)
       .then((value: DataProductDetailDataSource) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'View', 'success', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
-        this.actionsService.addEditedItems([
-          {
-            type: Entity.DATA_PRODUCT,
-            route: EntityEndpointValue.DATA_PRODUCT,
-            label: 'Data product',
-            state: State.DRAFT,
-            color: 'draft',
-            id: value.instanceId,
-          },
-        ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
       })
       .catch((err) => {
         console.error(err);
@@ -72,7 +60,6 @@ export class BrowseNavigationComponent implements OnInit {
           'snackbar-error',
         ]);
       });
-    // .finally(() => (this.loading = false));
   }
 
   public isAdmin(userRole: string): boolean {

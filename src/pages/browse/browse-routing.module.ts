@@ -73,7 +73,7 @@ const routes: Routes = [
     path: EntityEndpointValue.DATA_PRODUCT,
     component: LayoutComponent,
     children: [
-      { path: '', component: BrowseDataProductsComponent },
+      { path: '', component: BrowseDataProductsComponent, pathMatch: 'full' },
       { path: 'details/:metaId/:id', component: BrowseDataProductsItemComponent },
       { path: 'new', component: CreateDataProductItemComponent },
     ],

@@ -1,7 +1,4 @@
-<ng-scrollbar
-  [autoHeightDisabled]="false"
-  #scrollable
->
+<ng-scrollbar #scrollable>
   <div class="container">
     <div class="top-header">
       <div class="flex-col">
@@ -157,25 +154,17 @@
                   [style.width.%]="50"
                 >
                   <mat-label>Issued</mat-label>
+                  <mtx-datetimepicker #pickerIssued></mtx-datetimepicker>
                   <input
-                    matInput
-                    [ngxMatDatetimePicker]="pickerIssued"
-                    placeholder="Choose a date & time"
+                    [mtxDatetimepicker]="pickerIssued"
                     formControlName="issued"
+                    matInput
+                    required
                   />
-                  <app-clear-datepicker
+                  <mtx-datetimepicker-toggle
+                    [for]="pickerIssued"
                     matSuffix
-                    [value]="pickerIssued"
-                    [inputDisabled]="
-                      dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED
-                    "
-                    (onClear)="handleClearDatePicker('issued')"
-                  ></app-clear-datepicker>
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="$any(pickerIssued)"
-                  ></mat-datepicker-toggle>
-                  <ngx-mat-datetime-picker #pickerIssued></ngx-mat-datetime-picker>
+                  ></mtx-datetimepicker-toggle>
                 </mat-form-field>
 
                 <div class="fields-flex-col">
@@ -184,27 +173,34 @@
                     [style.width.%]="50"
                   >
                     <mat-label>Created</mat-label>
+                    <mtx-datetimepicker #pickerCreated></mtx-datetimepicker>
                     <input
-                      matInput
-                      [ngxMatDatetimePicker]="pickerCreated"
-                      placeholder="Choose a date & time"
+                      [mtxDatetimepicker]="pickerCreated"
                       formControlName="created"
+                      matInput
+                      required
                     />
-                    <ngx-mat-datetime-picker #pickerCreated></ngx-mat-datetime-picker>
+                    <mtx-datetimepicker-toggle
+                      [for]="pickerCreated"
+                      matSuffix
+                    ></mtx-datetimepicker-toggle>
                   </mat-form-field>
                   <mat-form-field
                     appearance="fill"
                     [style.width.%]="50"
                   >
                     <mat-label>Modified</mat-label>
+                    <mtx-datetimepicker #pickerModified></mtx-datetimepicker>
                     <input
-                      matInput
-                      [ngxMatDatetimePicker]="pickerModified"
-                      placeholder="Choose a date & time"
+                      [mtxDatetimepicker]="pickerModified"
                       formControlName="modified"
-                      readonly
+                      matInput
+                      required
                     />
-                    <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
+                    <mtx-datetimepicker-toggle
+                      [for]="pickerModified"
+                      matSuffix
+                    ></mtx-datetimepicker-toggle>
                   </mat-form-field>
                 </div>
                 <mat-form-field
@@ -283,45 +279,32 @@
               <div class="fields-flex-col">
                 <mat-form-field appearance="fill">
                   <mat-label>Start date</mat-label>
+                  <mtx-datetimepicker #pickerStartDate></mtx-datetimepicker>
                   <input
-                    matInput
-                    [ngxMatDatetimePicker]="pickerStartDate"
-                    placeholder="Choose a date & time"
+                    [mtxDatetimepicker]="pickerStartDate"
                     formControlName="startDate"
+                    matInput
+                    required
                   />
-                  <app-clear-datepicker
+                  <mtx-datetimepicker-toggle
+                    [for]="pickerStartDate"
                     matSuffix
-                    [value]="pickerStartDate"
-                    (onClear)="handleClearDatePicker('temporalDates.startDate')"
-                  ></app-clear-datepicker>
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="$any(pickerStartDate)"
-                    matTooltip="Choose a date & time"
-                  ></mat-datepicker-toggle>
-                  <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
+                  ></mtx-datetimepicker-toggle>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill">
                   <mat-label>End date</mat-label>
+                  <mtx-datetimepicker #pickerEndDate></mtx-datetimepicker>
                   <input
-                    matInput
-                    [ngxMatDatetimePicker]="pickerEndDate"
-                    placeholder="Choose a date & time"
+                    [mtxDatetimepicker]="pickerEndDate"
                     formControlName="endDate"
+                    matInput
+                    required
                   />
-                  <app-clear-datepicker
+                  <mtx-datetimepicker-toggle
+                    [for]="pickerEndDate"
                     matSuffix
-                    [value]="pickerEndDate"
-                    (onClear)="handleClearDatePicker('temporalDates.endDate')"
-                  ></app-clear-datepicker>
-
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="$any(pickerEndDate)"
-                  ></mat-datepicker-toggle>
-
-                  <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
+                  ></mtx-datetimepicker-toggle>
                 </mat-form-field>
               </div>
               <mat-error>

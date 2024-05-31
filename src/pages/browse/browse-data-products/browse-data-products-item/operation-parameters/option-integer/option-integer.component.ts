@@ -103,7 +103,7 @@ export class OptionIntegerComponent implements OnInit {
   }
 
   public handleDefaultToggleChange(event: MatSlideToggleChange): void {
-    const clickedIndex = Number(event.source._elementRef.nativeElement.id);
+    const clickedIndex = Number(event.source._switchElement.nativeElement.id);
     if (event.checked === true) {
       this.clickedIndex = clickedIndex;
     }

@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
-<ng-scrollbar [autoHeightDisabled]="false">
+<ng-scrollbar>
   <div class="body">
     <form
       [formGroup]="form"
@@ -19,17 +19,18 @@
             <ng-container *ngIf="webservice.datePublished.toString() !== 'Invalid Date'">
               <mat-form-field>
                 <mat-label>Date published</mat-label>
+                <mtx-datetimepicker #pickerPublished></mtx-datetimepicker>
                 <input
-                  matInput
-                  [ngxMatDatetimePicker]="pickerPublished"
+                  [mtxDatetimepicker]="pickerPublished"
                   formControlName="published"
+                  matInput
+                  required
                   [disabled]="disabled"
                 />
-                <mat-datepicker-toggle
+                <mtx-datetimepicker-toggle
+                  [for]="pickerPublished"
                   matSuffix
-                  [for]="$any(pickerPublished)"
-                ></mat-datepicker-toggle>
-                <ngx-mat-datetime-picker #pickerPublished></ngx-mat-datetime-picker>
+                ></mtx-datetimepicker-toggle>
               </mat-form-field>
             </ng-container>
             <ng-container *ngIf="webservice.datePublished.toString() === 'Invalid Date'">
@@ -41,17 +42,18 @@
             <ng-container *ngIf="webservice.dateModified.toString() !== 'Invalid Date'">
               <mat-form-field>
                 <mat-label>Date modified</mat-label>
+                <mtx-datetimepicker #pickerModified></mtx-datetimepicker>
                 <input
-                  matInput
-                  [ngxMatDatetimePicker]="pickerModified"
+                  [mtxDatetimepicker]="pickerModified"
                   formControlName="modified"
+                  matInput
+                  required
                   [disabled]="disabled"
                 />
-                <mat-datepicker-toggle
+                <mtx-datetimepicker-toggle
+                  [for]="pickerModified"
                   matSuffix
-                  [for]="$any(pickerModified)"
-                ></mat-datepicker-toggle>
-                <ngx-mat-datetime-picker #pickerModified></ngx-mat-datetime-picker>
+                ></mtx-datetimepicker-toggle>
               </mat-form-field>
             </ng-container>
             <ng-container *ngIf="webservice.dateModified.toString() === 'Invalid Date'">
@@ -341,44 +343,34 @@
             <div class="fields-flex-col">
               <mat-form-field appearance="fill">
                 <mat-label>Start date</mat-label>
+                <mtx-datetimepicker #pickerStartDate></mtx-datetimepicker>
                 <input
-                  matInput
-                  [ngxMatDatetimePicker]="pickerStartDate"
-                  placeholder="Choose a date & time"
+                  [mtxDatetimepicker]="pickerStartDate"
                   formControlName="temporalExtentStartDate"
+                  matInput
+                  required
                   [disabled]="disabled"
                 />
-                <app-clear-datepicker
+                <mtx-datetimepicker-toggle
+                  [for]="pickerStartDate"
                   matSuffix
-                  [value]="pickerEndDate"
-                  (onClear)="handleClearDatePicker(form.controls['temporalExtentStartDate'])"
-                ></app-clear-datepicker>
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="$any(pickerStartDate)"
-                ></mat-datepicker-toggle>
-                <ngx-mat-datetime-picker #pickerStartDate></ngx-mat-datetime-picker>
+                ></mtx-datetimepicker-toggle>
               </mat-form-field>
 
               <mat-form-field appearance="fill">
                 <mat-label>End date</mat-label>
+                <mtx-datetimepicker #pickerEndDate></mtx-datetimepicker>
                 <input
-                  matInput
-                  [ngxMatDatetimePicker]="pickerEndDate"
-                  placeholder="Choose a date & time"
+                  [mtxDatetimepicker]="pickerEndDate"
                   formControlName="temporalExtentEndDate"
+                  matInput
+                  required
                   [disabled]="disabled"
                 />
-                <app-clear-datepicker
+                <mtx-datetimepicker-toggle
+                  [for]="pickerEndDate"
                   matSuffix
-                  [value]="pickerEndDate"
-                  (onClear)="handleClearDatePicker(form.controls['temporalExtentEndDate'])"
-                ></app-clear-datepicker>
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="$any(pickerEndDate)"
-                ></mat-datepicker-toggle>
-                <ngx-mat-datetime-picker #pickerEndDate></ngx-mat-datetime-picker>
+                ></mtx-datetimepicker-toggle>
               </mat-form-field>
             </div>
           </div>

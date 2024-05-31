@@ -19,7 +19,7 @@ import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum'
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Documentation } from 'src/apiAndObjects/objects/types/documentation.type';
 import { State } from 'src/utility/enums/state.enum';
 import { StateChangeService } from 'src/services/stateChange.service';

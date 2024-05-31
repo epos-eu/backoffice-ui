@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '@ng-matero/extensions' as mtx;
 
 @include mat.core();
 
@@ -117,6 +118,7 @@ $app-theme: mat.define-light-theme(
 
 @include mat.all-component-themes($app-theme);
 @include mat.all-component-typographies();
+@include mtx.all-component-themes($app-theme);
 
 $color-main-content: #ffffff;
 $color-primary: #004926;

@@ -29,8 +29,7 @@ import { EntityExecutionService } from 'src/services/calls/entity-execution.serv
 import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { Subject, take } from 'rxjs';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
-import { NgxMatDatetimepicker } from '@angular-material-components/datetime-picker';
-import * as moment from 'moment';
+import moment from 'moment';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
@@ -47,7 +46,6 @@ import { State } from 'src/utility/enums/state.enum';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from './spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
 import { IFormTree } from './distribution-form-details/distribution-form-details.component';
 import { EntityService } from 'src/services/entity.service';
@@ -60,8 +58,8 @@ import { LoadingService } from 'src/services/loading.service';
 })
 export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   @ViewChild(NgScrollbar) scrollable!: NgScrollbar;
-  @ViewChild(NgxMatDatetimepicker) public issuedPicker!: MatDatepicker<Date>;
-  @ViewChild(NgxMatDatetimepicker) public tempStartDatePicker!: MatDatepicker<Date>;
+  // @ViewChild(NgxMatDatetimepicker) public issuedPicker!: MatDatepicker<Date>;
+  // @ViewChild(NgxMatDatetimepicker) public tempStartDatePicker!: MatDatepicker<Date>;
 
   public floatLabelControl = new UntypedFormControl('auto');
   public dataProduct!: DataProductDetailDataSource | undefined;

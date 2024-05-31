@@ -11,7 +11,7 @@ variables:
 
 include:
   - project: 'epos/k8s-epos-deploy'
-    ref: master #apis-newgui
+    ref: master
     file: '.gitlab-kube-include.yml'
 
 stages:
@@ -23,9 +23,12 @@ build:
   stage: build
   image: node:lts-alpine
   script:
-    - npm install -g @angular/cli@15.2.7
-    - npm install
-    - ng build
+    - corepack prepare pnpm@latest --activate
+    - corepack enable
+    - pnpm config set store-dir /root/.pnpm-store/v3
+    - export NODE_OPTIONS='--max-old-space-size=8192'
+    - pnpm i
+    - pnpm run build
   artifacts:
     paths:
       - dist/
