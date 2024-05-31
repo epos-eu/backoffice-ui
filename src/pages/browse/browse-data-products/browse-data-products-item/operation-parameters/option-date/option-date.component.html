@@ -70,39 +70,34 @@
     [style.width.%]="50"
   >
     <mat-label>Minimum Value</mat-label>
+    <mtx-datetimepicker #minValue></mtx-datetimepicker>
     <input
-      matInput
-      [ngxMatDatetimePicker]="minValue"
+      [mtxDatetimepicker]="minValue"
       placeholder="Minimum value"
       formControlName="minValue"
+      matInput
     />
-
-    <mat-datepicker-toggle
+    <mtx-datetimepicker-toggle
+      [for]="minValue"
       matSuffix
-      [for]="$any(minValue)"
-    ></mat-datepicker-toggle>
-
-    <ngx-mat-datetime-picker #minValue></ngx-mat-datetime-picker>
+    ></mtx-datetimepicker-toggle>
   </mat-form-field>
 
   <mat-form-field
     appearance="fill"
     [style.width.%]="50"
   >
-    <mat-label>Maximum Value</mat-label>
+    <mtx-datetimepicker #maxValue></mtx-datetimepicker>
     <input
-      matInput
-      [ngxMatDatetimePicker]="maxValue"
+      [mtxDatetimepicker]="maxValue"
       placeholder="Maximum value"
       formControlName="maxValue"
+      matInput
     />
-
-    <mat-datepicker-toggle
+    <mtx-datetimepicker-toggle
+      [for]="maxValue"
       matSuffix
-      [for]="$any(maxValue)"
-    ></mat-datepicker-toggle>
-
-    <ngx-mat-datetime-picker #maxValue></ngx-mat-datetime-picker>
+    ></mtx-datetimepicker-toggle>
   </mat-form-field>
 
   <mat-form-field
@@ -110,18 +105,16 @@
     [style.width.%]="50"
   >
     <mat-label>Default Value</mat-label>
+    <mtx-datetimepicker #defaultValue></mtx-datetimepicker>
     <input
-      matInput
-      [ngxMatDatetimePicker]="defaultValue"
+      [mtxDatetimepicker]="defaultValue"
       placeholder="Default value"
       formControlName="defaultValue"
+      matInput
     />
-
-    <mat-datepicker-toggle
+    <mtx-datetimepicker-toggle
+      [for]="defaultValue"
       matSuffix
-      [for]="$any(defaultValue)"
-    ></mat-datepicker-toggle>
-
-    <ngx-mat-datetime-picker #defaultValue></ngx-mat-datetime-picker>
+    ></mtx-datetimepicker-toggle>
   </mat-form-field>
 </form>

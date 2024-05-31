@@ -25,15 +25,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {
-  NgxMatDatetimePickerModule,
-  NgxMatNativeDateModule,
-  NgxMatTimepickerModule,
-} from '@angular-material-components/datetime-picker';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 
 @NgModule({
   declarations: [],
@@ -65,13 +61,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-    NgxMatTimepickerModule,
     MatTreeModule,
     MatCheckboxModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    MtxDatetimepickerModule,
   ],
   exports: [
     FormsModule,
@@ -101,13 +95,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-    NgxMatTimepickerModule,
     MatTreeModule,
     MatCheckboxModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    MtxDatetimepickerModule,
   ],
 })
 export class AngularMaterialModule {}

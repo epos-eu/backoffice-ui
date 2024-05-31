@@ -7,24 +7,39 @@
   <div class="text">
     <h1>Something went wrong...</h1>
     <p class="subtitle">
-      We encountered an error. Please try again later or try to load the interface again using the button below.
+      {{
+        type !== 'user'
+          ? 'We encountered an error. Please try again later or try to load the interface again using the button below.'
+          : 'We encountered an error. Please try again later.'
+      }}
     </p>
     <div class="button-wrapper">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="handleRetry()"
-      >
-        Retry
-      </button>
+      <ng-container *ngIf="type !== 'user'">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="handleRetry()"
+        >
+          Retry
+        </button>
 
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="handleReturnHome()"
-      >
-        Return Home
-      </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="handleReturnHome()"
+        >
+          Return home
+        </button>
+      </ng-container>
+      <ng-container *ngIf="type === 'user'">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="handleReturnToLogin()"
+        >
+          Return to login
+        </button>
+      </ng-container>
     </div>
   </div>
 </div>

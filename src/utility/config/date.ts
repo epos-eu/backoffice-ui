@@ -1,6 +1,4 @@
-import { NgxMatDateFormats } from '@angular-material-components/datetime-picker';
-
-export const CUSTOM_DATE_FORMAT: NgxMatDateFormats = {
+export const CUSTOM_DATE_FORMAT = {
   parse: {
     dateInput: 'DD/MM/YYYY HH:mm',
   },

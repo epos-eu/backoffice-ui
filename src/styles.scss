@@ -14,7 +14,6 @@
 @import './styles/forms';
 @import './styles/expansion-theme';
 @import './styles/diff';
-@import '@runette/leaflet-fullscreen/dist/leaflet.fullscreen.css';
 
 * {
   font-family: 'Roboto Flex', sans-serif;
@@ -95,7 +94,6 @@ app-browse-navigation {
   button {
     .mdc-button__label {
       font-size: 14px;
-      margin-right: 0.5rem;
       letter-spacing: initial;
     }
   }
@@ -155,4 +153,8 @@ button {
   .mdc-list-item__content {
     pointer-events: none !important;
   }
+}
+
+.mat-drawer-inner-container {
+  overflow: hidden !important;
 }

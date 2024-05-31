@@ -8,9 +8,15 @@ import { RouteService } from 'src/services/route.service';
   styleUrls: ['./error.component.scss'],
 })
 export class ErrorComponent implements OnInit {
-  constructor(private routeService: RouteService, private router: Router) {}
+  constructor(private routeService: RouteService, private router: Router) {
+    this.router.routerState.root.queryParams.subscribe((params) => {
+      this.type = params['type'];
+    });
+  }
 
   private previousRoute!: string;
+
+  public type: string = '';
 
   public ngOnInit(): void {
     this.routeService.previousRouteObs.subscribe((previousRoute: string) => {
@@ -26,5 +32,9 @@ export class ErrorComponent implements OnInit {
 
   public handleReturnHome(): void {
     this.router.navigate(['/home']);
+  }
+
+  public handleReturnToLogin(): void {
+    // this.router.navigate(['/login']);
   }
 }

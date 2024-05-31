@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
 
 @Injectable({
@@ -14,8 +14,8 @@ export class SnackbarService {
     type: string,
     duration?: number,
     panelClass?: Array<string>,
-  ): void {
-    this.snackBar.openFromComponent(SnackbarComponent, {
+  ): MatSnackBarRef<SnackbarComponent> {
+    return this.snackBar.openFromComponent(SnackbarComponent, {
       duration: duration ? duration : 5000,
       data: {
         title,

@@ -27,7 +27,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           console.log('Server side error...');
           errorMsg = `Error Code: ${error.status}, Message: ${error.message}`;
           if (error.status === HttpStatusCode.NotFound) {
-            this.router.navigate(['/error']);
+            // this.router.navigate(['/error']);
           }
         }
         return throwError(errorMsg);

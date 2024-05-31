@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Organization } from 'src/apiAndObjects/objects/entities/organization.model';
 import { DialogService } from 'src/components/dialogs/dialog.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-browse-organization-item',
@@ -24,12 +25,13 @@ export class BrowseOrganizationItemComponent {
     private router: Router,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
+    private location: Location,
   ) {
     this.options = fb.group({
       hideRequired: this.hideRequiredControl,
       floatLabel: this.floatLabelControl,
     });
-    this.organization = this.router.getCurrentNavigation()?.extras.state as Organization;
+    this.organization = this.location.getState() as Organization;
   }
 
   public handleChange(event: MatSlideToggleChange): void {

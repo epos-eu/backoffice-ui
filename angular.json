@@ -18,21 +18,18 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
-              "node_modules/jsondiffpatch/dist/formatters-styles/html.css",
-              "node_modules/jsondiffpatch/dist/formatters-styles/annotated.css",
+              "node_modules/jsondiffpatch/lib/formatters/styles/annotated.css",
+              "node_modules/jsondiffpatch/lib/formatters/styles/html.css",
               "./node_modules/leaflet/dist/leaflet.css",
               "./node_modules/material-icons-font/material-icons-font.css"
             ],
@@ -61,9 +58,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -74,16 +69,16 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "epos:build",
             "servePath": "testpath",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json",
+            "buildTarget": "epos:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "epos-back-office:build:production"
+              "buildTarget": "epos-back-office:build:production"
             },
             "development": {
-              "browserTarget": "epos-back-office:build:development"
+              "buildTarget": "epos-back-office:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -91,20 +86,17 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "epos-back-office:build"
+            "buildTarget": "epos-back-office:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.css",
               "./node_modules/leaflet/dist/leaflet.css",
@@ -116,10 +108,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -127,8 +116,6 @@
   },
   "cli": {
     "analytics": "a933cab8-c383-4e04-b6c1-489f04ddc30d",
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }
