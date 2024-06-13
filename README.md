@@ -1,10 +1,35 @@
 # EposBackOffice
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.3.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.3. This project has been updated to angular version 17.3.10
 
 ## IDE Setup
 
 Install ESLint and Prettier
+
+### Prerequisites
+
+> Note: this project uses `pnpm` instead of `npm`.
+
+- Angular
+- PNPM
+
+### Local Development
+
+To run the Backoffice GUI locally you can run the application with the following commands
+
+```bash
+# Clone the Backoffice GUI repo
+git clone https://epos-ci.brgm.fr/epos/epos-backoffice-gui.git
+
+# Navigate to project directory
+cd epos-backoffice-gui
+
+# Install dependencies
+pnpm install
+
+# Run the VDR
+pnpm run start
+```
 
 ## Development server
 
