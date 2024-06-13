@@ -4,15 +4,13 @@
       <ng-container *ngSwitchCase="isAdmin(userInfo.role)">
         <mat-nav-list>
           <h3 mat-subheader>DDSS</h3>
-          <!-- <a
+          <a
             mat-list-item
             [routerLink]="['/browse/dataproduct']"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
           >
             <mat-icon mat-list-icon>perm_media</mat-icon>
-            <span>Data products</span>
-          </a> -->
+            <span>Data Products</span>
+          </a>
           <!-- <a
             mat-list-item
             [routerLink]="['/browse/webservice']"
