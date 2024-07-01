@@ -40,13 +40,19 @@
       />
     </mat-form-field>
     <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
-    <span class="readonly"> <mat-slide-toggle formControlName="readOnlyValue">Read Only</mat-slide-toggle> <mat-icon matTooltip="Parameters that are set as 'Read Only' will not be visible in the Data Portal" color="primary">info</mat-icon> </span>
+    <span class="readonly">
+      <mat-slide-toggle formControlName="readOnlyValue">Read Only</mat-slide-toggle>
+      <mat-icon
+        matTooltip="Parameters that are set as 'Read Only' will not be visible in the Data Portal"
+        color="primary"
+        >info</mat-icon
+      >
+    </span>
     <mat-radio-group
       aria-label="Allowed values"
       formControlName="allowedValues"
     >
       <mat-radio-button value="any">Any</mat-radio-button>
-      <mat-radio-button value="controlled">Controlled list of values</mat-radio-button>
     </mat-radio-group>
     <ng-container *ngIf="form.get('allowedValues')?.value === 'any'">
       <mat-form-field>
