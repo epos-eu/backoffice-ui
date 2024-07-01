@@ -188,7 +188,6 @@ export class ActionsService {
   public addEditedItems(items: Array<IChangeItem>): void {
     if (this.itemDiff(this.editedItems.getValue(), items).length > 0) {
       // Item already exists..
-      console.log('Already tracking: ', this.itemDiff(this.editedItems.getValue(), items));
     } else {
       // Track new item being edited
       const merged = [...this.editedItems.getValue(), ...items];

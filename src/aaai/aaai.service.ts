@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Injector } from '@angular/core';
+import { Injector, inject } from '@angular/core';
 import { AuthenticationProvider } from './authProvider.interface';
 import { AAAIUser } from './aaaiUser.interface';
 import { OAuthAuthenticationProvider } from './impl/oAuthProvider';
@@ -7,6 +7,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Router } from '@angular/router';
+import { LogService } from 'src/services/log.service';
 
 /**
  * This uses a plugin ({@link https://www.npmjs.com/package/angular-oauth2-oidc})
@@ -20,6 +21,7 @@ export class AaaiService {
   private readonly logoutTime = new Date(this.logOutAfterInactivityPeriod);
   private readonly persistorService = new PersistorService();
   private readonly router = new Router();
+  private readonly logger = inject(LogService);
 
   private constructor(private readonly authProvider: AuthenticationProvider) {
     this.startLogoutInterval();
@@ -73,7 +75,7 @@ export class AaaiService {
   private startLogoutInterval(): void {
     setInterval(() => {
       if (null != this.getUser() && this.logoutTime < new Date()) {
-        console.log('Time to log out');
+        this.logger.info('Time to log out');
         this.logout();
         this.router.navigate(['/login']);
       }

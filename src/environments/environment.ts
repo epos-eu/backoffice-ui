@@ -2,12 +2,15 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { LogLevel } from 'src/utility/enums/log.enum';
+
 export const environment = {
   production: false,
   server: 'http://localhost:4200',
   apiBaseUrl: 'http://localhost:4200/api',
   useLiveApi: true,
   apiMockUrl: 'http://localhost:4200/assets/data',
+  logLevel: LogLevel.debug,
 };
 
 /*

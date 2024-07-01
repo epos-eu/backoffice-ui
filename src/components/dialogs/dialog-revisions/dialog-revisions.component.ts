@@ -70,7 +70,6 @@ export class DialogRevisionsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   private _initTable(data: Array<Revision>): void {
-    console.log(data);
     this.dataSource = new MatTableDataSource(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

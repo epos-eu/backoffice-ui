@@ -10,9 +10,12 @@ import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.mo
 import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
+import { inject } from '@angular/core';
+import { LogService } from 'src/services/log.service';
 
 export class ApiCaller {
   private headers = new HttpHeaders();
+  private logger = inject(LogService);
 
   /**
    * @param http An HttpClient object used to make the http calls.
@@ -76,7 +79,7 @@ export class ApiCaller {
       return lastValueFrom(response)
         .then((data: unknown) => this.httpCallErrorHandler.handleSuccess(data))
         .catch((res: unknown) => {
-          console.log('doCall handleError', res);
+          this.logger.error('doCall handleError', res);
           return null != this.httpCallErrorHandler ? this.httpCallErrorHandler.handleError(res) : res;
         });
     }

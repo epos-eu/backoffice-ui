@@ -1,10 +1,13 @@
 import { ComponentType } from '@angular/cdk/portal';
+import { inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
+import { LogService } from 'src/services/log.service';
 
 export abstract class BaseDialogService {
   private customBackdropCounts? = new Map<HTMLElement, number>();
   private customBackdrop: HTMLElement;
+  private logger = inject(LogService);
 
   constructor(public dialog: MatDialog) {
     this.customBackdrop = document.createElement('div');
@@ -22,7 +25,7 @@ export abstract class BaseDialogService {
       close: () => {
         const dialogRef = this.dialog.getDialogById(id);
         if (null == dialogRef) {
-          console.log(`Attempt to close non-existent dialog with id "${id}."`);
+          this.logger.warn(`Attempt to close non-existent dialog with id "${id}."`);
         } else {
           dialogRef.close(data);
         }

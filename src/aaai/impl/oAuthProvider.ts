@@ -6,8 +6,9 @@ import { AuthenticationProvider } from '../authProvider.interface';
 import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
 import { AAAIUser } from '../aaaiUser.interface';
 import { BasicUser } from './basicUser';
-import { Injector } from '@angular/core';
+import { Injector, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LogService } from 'src/services/log.service';
 
 /** OAuth provider implementation */
 export class OAuthAuthenticationProvider implements AuthenticationProvider {
@@ -71,12 +72,13 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
         const base = String(router['location']._basePath); // e.g. /testpath
         const origin = window.location.origin; // e.g. http://localhost:4200
 
-        console.log('base', base);
-        console.log('origin', origin);
+        const logger = inject(LogService);
+        logger.info('base', base);
+        logger.info('origin', origin);
 
         // e.g. http://localhost:4200/testpath/last-page-redirect
         const redirect = origin + base + OAuthAuthenticationProvider.REDIRECTION_PAGE;
-        console.log('Redirect ' + window.location.href + ' => ' + redirect);
+        logger.info('Redirect ' + window.location.href + ' => ' + redirect);
         return redirect;
       },
 
@@ -102,15 +104,16 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     this.configure();
     this.oAuthService.setupAutomaticSilentRefresh();
     this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
+    const logger = inject(LogService);
     void this.oAuthService
       .loadDiscoveryDocumentAndTryLogin()
       // maybe we should do this like this
       // https://www.linkedin.com/pulse/implicit-flow-authentication-using-angular-ghanshyam-shukla
       .catch((e) => {
-        console.warn('Caught Error - Failed to contact Authentication Server.', e);
+        logger.warn('Caught error - Failed to contact authentication server.', e);
       })
       .then(() => {
-        console.log('Successfully Contacted Authentication Server.');
+        logger.info('Successfully contacted authentication server.');
       });
 
     this.oAuthService.events.subscribe((e) => {
@@ -132,6 +135,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     this.updateUserProfileTimeout = setTimeout(() => {
       const token = this.getUserToken();
       const currentProfile = this.userProfileSource.getValue();
+      const logger = inject(LogService);
       // only if the token has changed
       if (currentProfile == null || currentProfile.getToken() !== token) {
         // Try protects against a promise not being returned from "loadUserProfile" function.
@@ -140,7 +144,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
             .loadUserProfile()
             .then((object: object): void => {
               const userInfo = object as UserInfo;
-              console.log('loadUserProfile response', userInfo);
+              logger.info('loadUserProfile response', userInfo);
               this.userProfileSource.next(BasicUser.makeFromProfileResponse(token, userInfo));
 
               // console.debug('scopes', this.oAuthService.getGrantedScopes());
@@ -153,7 +157,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
               this.userProfileSource.next(user);
             });
         } catch (error) {
-          console.log('loadUserProfile - no token');
+          logger.info('loadUserProfile - no token');
           this.userProfileSource.next(null);
         }
       }
@@ -190,7 +194,8 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
 
   private getUserId(): null | string {
     const claims = this.oAuthService.getIdentityClaims() as Record<string, unknown>;
-    console.log('getIdentityClaims', claims);
+    const logger = inject(LogService);
+    logger.info('getIdentityClaims', claims);
     if (claims) {
       return String(claims['sub']);
     }
