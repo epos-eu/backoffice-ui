@@ -2,6 +2,8 @@ import { AAAIUser } from '../aaaiUser.interface';
 import { UserInfo } from 'angular-oauth2-oidc';
 import { User } from '../user.interface';
 import { SimpleUser } from '../simpleUser';
+import { LogService } from 'src/services/log.service';
+import { inject } from '@angular/core';
 
 export class BasicUser implements AAAIUser {
   private constructor(private readonly id: string, private readonly username: string, private readonly token: string) {}
@@ -23,7 +25,8 @@ export class BasicUser implements AAAIUser {
   // }
 
   public static makeFromProfileResponse(token: string, profileObject: UserInfo): null | AAAIUser {
-    console.log(profileObject);
+    const logger = inject(LogService);
+    logger.info(profileObject);
     // Needs updating when we know what the object looks like
     return BasicUser.make(profileObject['info'].email, profileObject['info'].email, token);
   }

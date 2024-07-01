@@ -14,7 +14,6 @@ export class DialogAddPersonComponent implements OnInit {
   ngOnInit(): void {
     if (this.data && this.data.length > 0) {
       this.formFields = this.data.shift()!;
-      console.log(this.formFields);
     }
   }
 }
