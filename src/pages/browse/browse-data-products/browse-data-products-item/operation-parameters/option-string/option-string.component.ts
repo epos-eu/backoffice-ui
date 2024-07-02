@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Subject } from 'rxjs';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
+import { ActiveToggle } from '../toggle.interface';
 
 @Component({
   selector: 'app-option-string',
@@ -19,6 +21,7 @@ export class OptionStringComponent implements OnInit {
 
   public form!: UntypedFormGroup;
   public hideAddNewValue = false;
+  public activeToggles: ActiveToggle[] = [];
 
   private checkBool(value: string | null): boolean {
     if (!value) {
@@ -93,5 +96,17 @@ export class OptionStringComponent implements OnInit {
         asDefault: false,
       }),
     );
+  }
+
+  public handleDefaultValue(event: MatSlideToggleChange, index: number): void {
+    this.activeToggles = [];
+    this.activeToggles.push({
+      id: index,
+      active: event.checked,
+    });
+  }
+
+  public allowChecked(index: number): boolean {
+    return this.activeToggles.find((item) => item.id === index) != null;
   }
 }

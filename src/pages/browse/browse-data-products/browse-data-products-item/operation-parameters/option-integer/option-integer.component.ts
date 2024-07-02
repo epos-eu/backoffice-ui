@@ -4,6 +4,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Subject } from 'rxjs';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
+import { ActiveToggle } from '../toggle.interface';
 
 @Component({
   selector: 'app-option-integer',
@@ -21,6 +22,7 @@ export class OptionIntegerComponent implements OnInit {
   private clickedIndex!: number;
   public form!: UntypedFormGroup;
   public hideAddNewValue = false;
+  public activeToggles: ActiveToggle[] = [];
 
   private checkBool(value: string | null): boolean {
     if (!value) {
@@ -102,11 +104,17 @@ export class OptionIntegerComponent implements OnInit {
     );
   }
 
-  public handleDefaultToggleChange(event: MatSlideToggleChange): void {
+  public handleDefaultToggleChange(event: MatSlideToggleChange, index: number): void {
     const clickedIndex = Number(event.source._switchElement.nativeElement.id);
     if (event.checked === true) {
       this.clickedIndex = clickedIndex;
     }
+
+    this.activeToggles = [];
+    this.activeToggles.push({
+      id: index,
+      active: event.checked,
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -116,5 +124,9 @@ export class OptionIntegerComponent implements OnInit {
     } else {
       return 'any';
     }
+  }
+
+  public allowChecked(index: number): boolean {
+    return this.activeToggles.find((item) => item.id === index) != null;
   }
 }
