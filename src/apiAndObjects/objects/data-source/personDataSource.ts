@@ -1,5 +1,5 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 import { Address } from '../types/address.type';
 import { EntityDetail } from '../types/entityDetail.type';
@@ -40,7 +40,7 @@ export class PersonDataSource extends BaseObject {
   public readonly editorId: string;
   public readonly changeComment: string;
   public readonly version: string;
-  public readonly state: State;
+  public readonly state: Status;
   public readonly toBeDelete: string;
   public readonly fileProvenance: string;
   public readonly groupIds: Array<string>;
@@ -68,7 +68,7 @@ export class PersonDataSource extends BaseObject {
     this.editorId = this._getString(PersonDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(PersonDataSource.KEYS.CHANGE_COMMENT);
     this.version = this._getString(PersonDataSource.KEYS.VERSION);
-    this.state = this._getValue(PersonDataSource.KEYS.STATE) as State;
+    this.state = this._getValue(PersonDataSource.KEYS.STATE) as Status;
     this.toBeDelete = this._getString(PersonDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(PersonDataSource.KEYS.FILE_PROVENANCE);
     this.groupIds = this._getArray(PersonDataSource.KEYS.GROUP_IDS);

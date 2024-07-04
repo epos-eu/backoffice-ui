@@ -62,7 +62,7 @@ export class TableComponent implements AfterViewInit {
         uid: item.uid,
         title: '',
         lastChange: moment(item.changeTimestamp).format(CUSTOM_DATE_FORMAT.display.dateInput),
-        status: item.state,
+        status: item.status as string,
         changeComment: item.changeComment,
         versionInfo: item instanceof DataProductDetailDataSource ? item.versionInfo : '',
         author: item.editorId,

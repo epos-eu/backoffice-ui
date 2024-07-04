@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { DataProduct } from 'generated/backofficeSchemas';
 import { BehaviorSubject } from 'rxjs';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { Entity } from 'src/utility/enums/entity.enum';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class HelpersService {
   public activeEntityType = new BehaviorSubject<Entity | null>(null);
   public activeEntityTypeObs = this.activeEntityType.asObservable();
 
-  private revisions = new BehaviorSubject<Array<DataProductDetailDataSource>>([]);
+  private revisions = new BehaviorSubject<Array<DataProduct>>([]);
   public revisionsObs = this.revisions.asObservable();
 
   public static formatTimestamp(timestamp: string): string {
@@ -31,7 +31,7 @@ export class HelpersService {
     return '';
   }
 
-  public setRevisions(revisions: Array<DataProductDetailDataSource>): void {
+  public setRevisions(revisions: Array<DataProduct>): void {
     this.revisions.next(revisions);
   }
 
@@ -65,11 +65,15 @@ export class HelpersService {
     return true;
   }
 
-  public formatArrayVal(testValue: string | Array<string>): Array<string> {
-    if (typeof testValue === 'string' || testValue instanceof String) {
-      return [testValue as string];
-    } else {
-      return testValue;
+  public formatArrayVal(testValue: string | Array<string> | undefined): Array<string> {
+    let toReturn: string[] = [];
+    if (testValue) {
+      if (typeof testValue === 'string' || testValue instanceof String) {
+        toReturn = [testValue as string];
+      } else {
+        toReturn = testValue;
+      }
     }
+    return toReturn;
   }
 }

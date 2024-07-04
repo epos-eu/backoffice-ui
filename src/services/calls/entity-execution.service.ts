@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Entity } from 'src/utility/enums/entity.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from '../snackbar.service';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
@@ -37,9 +37,9 @@ export class EntityExecutionService extends EntityStateManager {
   public handleDataProductSave(): void {
     const activeDataProduct = this.getActiveDataProductValue();
     if (null != activeDataProduct) {
-      activeDataProduct.modified = new Date();
+      activeDataProduct.modified = '';
 
-      if (activeDataProduct.state === State.DRAFT) {
+      if (activeDataProduct.status === Status.DRAFT) {
         this.loadingService.setShowSpinner(true);
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
@@ -58,7 +58,7 @@ export class EntityExecutionService extends EntityStateManager {
                   type: Entity.DATA_PRODUCT,
                   route: EntityEndpointValue.DATA_PRODUCT,
                   label: 'Data product',
-                  state: State.DRAFT,
+                  state: Status.DRAFT,
                   color: 'draft',
                   id: data.instanceId,
                 },
@@ -91,7 +91,7 @@ export class EntityExecutionService extends EntityStateManager {
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...activeDataProduct,
-            state: State.DRAFT,
+            status: Status.DRAFT,
             instanceChangedId: activeDataProduct.instanceId,
           })
           .then((data: DataProductDetailDataSource) => {
@@ -106,7 +106,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.DATA_PRODUCT,
                 route: EntityEndpointValue.DATA_PRODUCT,
                 label: 'Data product',
-                state: State.DRAFT,
+                state: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId,
               },
@@ -132,8 +132,8 @@ export class EntityExecutionService extends EntityStateManager {
     const activeWebservice = this.getActiveWebServiceValue();
     if (activeWebservice !== null) {
       activeWebservice.dateModified = new Date();
-      if (activeWebservice.state !== State.DRAFT) {
-        activeWebservice.state = State.DRAFT;
+      if (activeWebservice.state !== Status.DRAFT) {
+        activeWebservice.state = Status.DRAFT;
         activeWebservice.instanceChangedId = activeWebservice.instanceId;
       }
       this.loadingService.setShowSpinner(true);
@@ -153,7 +153,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.WEBSERVICE,
                 route: EntityEndpointValue.WEBSERVICE,
                 label: 'Webservice',
-                state: State.DRAFT,
+                state: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId,
               },
@@ -179,8 +179,8 @@ export class EntityExecutionService extends EntityStateManager {
     const activeDistribution: Distribution = this.getActiveDistributionValue() as Distribution;
     if (activeDistribution) {
       activeDistribution.modified = new Date().toISOString();
-      if (activeDistribution.state !== State.DRAFT) {
-        activeDistribution.state = State.DRAFT;
+      if (activeDistribution.state !== Status.DRAFT) {
+        activeDistribution.state = Status.DRAFT;
         activeDistribution.instanceChangedId = activeDistribution.instanceId;
       }
       this.loadingService.setShowSpinner(true);
@@ -201,7 +201,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.DISTRIBUTION,
                 route: EntityEndpointValue.DISTRIBUTION,
                 label: 'Distribution',
-                state: State.DRAFT,
+                state: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId,
               },
@@ -226,8 +226,8 @@ export class EntityExecutionService extends EntityStateManager {
   public handleOperationSave(): void {
     const operationData = this.getActiveOperationValue();
     if (operationData !== null) {
-      if (operationData.state !== State.DRAFT) {
-        operationData.state = State.DRAFT;
+      if (operationData.state !== Status.DRAFT) {
+        operationData.state = Status.DRAFT;
         operationData.instanceChangedId = operationData.instanceId;
       }
       this.loadingService.setShowSpinner(true);
@@ -279,8 +279,8 @@ export class EntityExecutionService extends EntityStateManager {
   public handleCreateDataProduct(): void {
     const item: DataProduct = {
       uid: 'temp-uid-to-be-generated',
-      modified: new Date(),
-      created: new Date(),
+      modified: '',
+      created: '',
     };
 
     this.loadingService.setShowSpinner(true);
@@ -298,7 +298,7 @@ export class EntityExecutionService extends EntityStateManager {
             type: Entity.DATA_PRODUCT,
             route: EntityEndpointValue.DATA_PRODUCT,
             label: 'Data product',
-            state: State.DRAFT,
+            state: Status.DRAFT,
             color: 'draft',
             id: value.instanceId,
           },
@@ -323,7 +323,7 @@ export class EntityExecutionService extends EntityStateManager {
     if (publishedOrArchivedEntity) {
       publishedOrArchivedEntity.instanceChangedId = publishedOrArchivedEntity.instanceId;
       publishedOrArchivedEntity.instanceId = undefined; // Handled by backend
-      publishedOrArchivedEntity.state = State.DRAFT;
+      publishedOrArchivedEntity.status = Status.DRAFT;
 
       this.loadingService.setShowSpinner(true);
       this.apiService.endpoints.DataProduct.create
@@ -344,7 +344,7 @@ export class EntityExecutionService extends EntityStateManager {
               type: Entity.DATA_PRODUCT,
               route: EntityEndpointValue.DATA_PRODUCT,
               label: 'Data product',
-              state: State.DRAFT,
+              state: Status.DRAFT,
               color: 'draft',
               id: value.instanceId,
             },

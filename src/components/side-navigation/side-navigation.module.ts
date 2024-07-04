@@ -9,6 +9,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ExplorerNavigationComponent } from './explorer-navigation/explorer-navigation.component';
 import { AnchorNavigationComponent } from './explorer-navigation/anchor-navigation/anchor-navigation.component';
 import { BackButtonComponent } from './back-button/back-button.component';
+import { DataproductNavigationComponent } from './dataproduct-navigation/dataproduct-navigation.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { BackButtonComponent } from './back-button/back-button.component';
     ExplorerNavigationComponent,
     AnchorNavigationComponent,
     BackButtonComponent,
+    DataproductNavigationComponent,
   ],
   imports: [CommonModule, RouterModule, AngularMaterialModule, MatChipsModule],
   exports: [
@@ -26,6 +28,7 @@ import { BackButtonComponent } from './back-button/back-button.component';
     EditNavigationComponent,
     ExplorerNavigationComponent,
     AnchorNavigationComponent,
+    DataproductNavigationComponent,
   ],
 })
 export class SideNavigationModule {}

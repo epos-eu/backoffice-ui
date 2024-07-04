@@ -2,7 +2,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { ActionsService } from 'src/services/actions.service';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 const TITLE_KEY = 'titleSearchText';
 const COMMENT_KEY = 'commentSearchText';
@@ -36,23 +36,23 @@ export class TableFilterComponent {
       label: 'Any',
     },
     {
-      option: State.DRAFT,
+      option: Status.DRAFT,
       label: 'Draft',
     },
     {
-      option: State.SUBMITTED,
+      option: Status.SUBMITTED,
       label: 'Submitted',
     },
     {
-      option: State.PUBLISHED,
+      option: Status.PUBLISHED,
       label: 'Published',
     },
     {
-      option: State.DISCARDED,
+      option: Status.DISCARDED,
       label: 'Discarded',
     },
     {
-      option: State.ARCHIVED,
+      option: Status.ARCHIVED,
       label: 'Archived',
     },
   ];

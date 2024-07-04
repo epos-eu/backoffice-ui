@@ -1,4 +1,4 @@
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { Documentation } from '../types/documentation.type';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
@@ -31,7 +31,7 @@ export class WebService {
     public provider?: EntityDetail,
     public schemaIdentifier?: string,
     public spatialExtent?: Array<SpatialExtent>,
-    public state?: State,
+    public state?: Status,
     public supportedOperation?: Array<EntityDetail>,
     public temporalExtent?: Array<TemporalExtent>,
     public toBeDelete?: string,

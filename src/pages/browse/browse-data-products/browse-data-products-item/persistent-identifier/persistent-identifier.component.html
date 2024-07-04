@@ -1,0 +1,57 @@
+<form
+  [formGroup]="formGroup"
+  *ngIf="formGroup && dataProduct"
+>
+  <div formArrayName="identifier">
+    <div
+      class="fields-flex-col"
+      *ngFor="let control of getControls('identifier'); let i = index"
+      [formGroupName]="i"
+    >
+      <div class="identifiers-flex-col">
+        <mat-form-field
+          appearance="fill"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="50"
+        >
+          <mat-label>Identifier</mat-label>
+          <input
+            matInput
+            placeholder="Identifier"
+            formControlName="identifier"
+          />
+        </mat-form-field>
+        <mat-form-field
+          appearance="fill"
+          [floatLabel]="floatLabelControl.value"
+          [style.width.%]="50"
+        >
+          <mat-label>Type</mat-label>
+          <input
+            matInput
+            placeholder="Type"
+            formControlName="type"
+          />
+        </mat-form-field>
+        <button
+          mat-mini-fab
+          color="{{ dataProduct.status === stateEnum.PUBLISHED ? '' : 'warn' }}"
+          matTooltip="Remove Identifier"
+          class="smaller"
+          (click)="handleDeleteIdentifier(i)"
+          [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+<button
+  mat-stroked-button
+  color="primary"
+  (click)="handleAddIdentifier()"
+  [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+>
+  Add identifier
+</button>

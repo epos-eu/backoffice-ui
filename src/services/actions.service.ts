@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { PersistorService, StorageType } from './persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
@@ -82,7 +82,7 @@ export class ActionsService {
    * @param {number} id
    */
   public saveCurrentEdit(id: string): void {
-    this.dispatchEditAction(id, State.DRAFT);
+    this.dispatchEditAction(id, Status.DRAFT);
   }
 
   /**
@@ -91,11 +91,11 @@ export class ActionsService {
    * @param {number} id
    */
   public submitCurrentEdit(id: string): void {
-    this.dispatchEditAction(id, State.SUBMITTED);
+    this.dispatchEditAction(id, Status.SUBMITTED);
   }
 
   public resetToDraft(id: string): void {
-    this.dispatchEditAction(id, State.DRAFT);
+    this.dispatchEditAction(id, Status.DRAFT);
   }
 
   public enableSave(): void {
@@ -116,7 +116,7 @@ export class ActionsService {
    * @param {number} id
    * @param {string} type
    */
-  public dispatchEditAction(id: string, type: State): void {
+  public dispatchEditAction(id: string, type: Status): void {
     const copy = [...this.editedItems.getValue()];
     const currentItem = copy.filter((item) => item.id === id);
 

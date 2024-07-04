@@ -14,7 +14,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { Location } from '@angular/common';
 
 @Component({
@@ -85,7 +85,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
               type: Entity.WEBSERVICE,
               route: EntityEndpointValue.WEBSERVICE,
               label: 'Webservice',
-              state: this.webservice.state ? this.webservice.state : State.DRAFT,
+              state: this.webservice.state ? this.webservice.state : Status.DRAFT,
               color: 'draft',
               id: this.webservice.instanceId,
             });

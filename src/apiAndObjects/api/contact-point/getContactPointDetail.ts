@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ContactPoint } from 'generated/backofficeSchemas';
 import { lastValueFrom } from 'rxjs';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
@@ -7,9 +8,9 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
 export class GetContactPointDetail extends CacheableEndpoint<
-  Array<ContactPointDetailDataSource>,
+  Array<ContactPoint>,
   GetContactPointDetailsParams,
-  ContactPointDetailDataSource
+  ContactPoint
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -17,7 +18,7 @@ export class GetContactPointDetail extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetContactPointDetailsParams): Promise<ContactPointDetailDataSource[]> {
+  protected callLive(params: GetContactPointDetailsParams): Promise<ContactPoint[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -31,7 +32,7 @@ export class GetContactPointDetail extends CacheableEndpoint<
     return this.buildObjectsFromResponse(ContactPointDetailDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<ContactPointDetailDataSource[]> {
+  protected callMock(): Promise<ContactPoint[]> {
     const httpClient = this.injector.get<HttpClient>(HttpClient);
     return this.buildObjectsFromResponse(
       ContactPointDetailDataSource,

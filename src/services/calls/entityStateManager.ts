@@ -1,14 +1,13 @@
+import { DataProduct, WebService } from 'generated/backofficeSchemas';
 import { BehaviorSubject } from 'rxjs';
 import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { DataProduct as DataProductModel } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
+import { WebService as WebServiceModel } from 'src/apiAndObjects/objects/entities/webService.model';
 
 export class EntityStateManager {
   public readonly dataProduct = new BehaviorSubject<DataProduct | null>(null);
@@ -104,8 +103,8 @@ export class EntityStateManager {
    * instance of the `DataProduct` class.
    * @returns an instance of the `DataProduct` class.
    */
-  public convertToDataProduct(initial: DataProductDetailDataSource): DataProduct {
-    const exportVar = new DataProduct(
+  public convertToDataProduct(initial: DataProduct): DataProductModel {
+    const exportVar = new DataProductModel(
       initial.uid,
       initial.changeComment,
       initial.changeTimestamp,
@@ -123,7 +122,6 @@ export class EntityStateManager {
       initial.accrualPeriodicity,
       initial.category,
       initial.created,
-      initial.dctIdentifier,
       initial.documentation,
       initial.editorId,
       initial.fileProvenance,
@@ -139,7 +137,7 @@ export class EntityStateManager {
       initial.qualityAssurance,
       initial.relation,
       initial.spatialExtent,
-      initial.state,
+      initial.status,
       initial.toBeDelete,
       initial.type,
       initial.version,
@@ -229,8 +227,8 @@ export class EntityStateManager {
    * details of a web service.
    * @returns an instance of the WebService class.
    */
-  public convertToWebService(initial: WebserviceDetailDataSource): WebService {
-    const exportVar = new WebService(
+  public convertToWebService(initial: WebService): WebService {
+    const exportVar = new WebServiceModel(
       initial.uid,
       initial.aaaiTypes,
       initial.category,

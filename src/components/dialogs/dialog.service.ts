@@ -6,7 +6,6 @@ import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-con
 import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-person/dialog-add-person.component';
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { DialogMetadataFileViewComponent } from 'src/components/dialogs/dialog-metadata-file-view/dialog-metadata-file-view.component';
-import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { DialogUserPermissionsComponent } from './dialog-user-permissions/dialog-user-permissions.component';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
@@ -17,12 +16,12 @@ import { ActionsService } from 'src/services/actions.service';
 import { DialogWebserviceAddOperationComponent } from './dialog-webservice-add-operation/dialog-webservice-add-operation.component';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
-import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 import { DialogConfirmComponent, ConfirmationDataIn } from './dialog-confirm/dialog-confirm.component';
 import { LoadingService } from 'src/services/loading.service';
 import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
 import { DialogSpatialCoverageHelpComponent } from './dialog-spatial-coverage-help/dialog-spatial-coverage-help.component';
+import { LinkedEntity, User } from 'generated/backofficeSchemas';
 
 @Injectable({
   providedIn: 'root',
@@ -82,7 +81,7 @@ export class DialogService extends BaseDialogService {
       cancelButtonHtml: cancelButtonHtml,
       confirmButtonCssClass: confirmButtonCssClass,
     } as ConfirmationDataIn).then((data: DialogData<ConfirmationDataIn>) => {
-      return null != data && data.dataOut;
+      return data?.dataOut;
     });
   }
 
@@ -90,7 +89,7 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('metadataView', DialogMetadataFileViewComponent);
   }
 
-  public openChangeUserRoleDialog(userData: TableUserDetail): Promise<DialogData> {
+  public openChangeUserRoleDialog(userData: User): Promise<DialogData> {
     return this.openDialog('changeUserRole', DialogUserPermissionsComponent, false, userData, {}, 'user-permissions');
   }
 
@@ -185,7 +184,7 @@ export class DialogService extends BaseDialogService {
    * @returns a Promise that resolves to either an OperationDetailDataSource object or an unknown value.
    */
   public handleAddWebserviceOperation(
-    webserviceEntityDetail: EntityDetail,
+    webserviceEntityDetail: LinkedEntity,
   ): Promise<OperationDetailDataSource | unknown> {
     const promise = new Promise((resolve) => {
       this.openDialog('addWebserviceOperation', DialogWebserviceAddOperationComponent, false, {

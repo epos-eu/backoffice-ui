@@ -8,7 +8,7 @@ import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-create-contact-point-item',
@@ -55,7 +55,7 @@ export class CreateContactPointItemComponent implements OnInit {
             type: Entity.CONTACT_POINT,
             route: EntityEndpointValue.CONTACT_POINT,
             label: 'Contact Point',
-            state: State.DRAFT,
+            state: Status.DRAFT,
             color: 'draft',
             id: value.instanceId,
           },

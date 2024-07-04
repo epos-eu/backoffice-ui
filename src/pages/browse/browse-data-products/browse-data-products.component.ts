@@ -60,7 +60,7 @@ export class BrowseDataProductsComponent {
 
   private handleCreate(): void {
     const item: DataProduct = {
-      created: new Date(),
+      created: '',
     };
 
     this.apiService.endpoints.DataProduct.create

@@ -21,13 +21,14 @@ import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodici
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import moment from 'moment';
 import { Documentation } from 'src/apiAndObjects/objects/types/documentation.type';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from '../../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { ActionsService } from 'src/services/actions.service';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { LoadingService } from 'src/services/loading.service';
+import { DataProduct, LinkedEntity, WebService } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -134,8 +135,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
 
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
+      if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;
@@ -277,7 +278,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public addNewOperation(): void {
-    const webserviceEtityDetail: EntityDetail = {
+    const webserviceEtityDetail: LinkedEntity = {
       entityType: Entity.WEBSERVICE,
       instanceId: this.webservice?.instanceId ?? '',
       uid: this.webservice?.uid ?? '',
@@ -390,7 +391,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     if (value.length > 1) {
       const supportedOperation = this.webservice?.supportedOperation ?? [];
       const foundIndex = supportedOperation.findIndex((operation) =>
-        operation.uid.toUpperCase().includes(value.toUpperCase()),
+        operation.uid?.toUpperCase().includes(value.toUpperCase()),
       );
       if (foundIndex > -1) {
         this.supportedOperationFocusFirstRow = true;
@@ -421,7 +422,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
     // Update Global Web Service after change to Spatial Extents Arr
     this.entityExecutionService.setActiveWebService(
-      this.entityExecutionService.convertToWebService(this.webservice as WebserviceDetailDataSource),
+      this.entityExecutionService.convertToWebService(this.webservice as WebService),
     );
 
     setTimeout(() => {
@@ -435,7 +436,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
     // Update Global Web Service after change to Spatial Extents Arr
     this.entityExecutionService.setActiveWebService(
-      this.entityExecutionService.convertToWebService(this.webservice as WebserviceDetailDataSource),
+      this.entityExecutionService.convertToWebService(this.webservice as WebService),
     );
 
     setTimeout(() => {

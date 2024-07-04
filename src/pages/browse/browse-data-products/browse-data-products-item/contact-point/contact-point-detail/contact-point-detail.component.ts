@@ -22,7 +22,7 @@ export class ContactPointDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.contactPoint?.person != null && this.contactPoint?.person.instanceId !== undefined) {
+    if (this.contactPoint?.person.instanceId !== undefined) {
       this.getPerson(this.contactPoint?.person.instanceId);
     }
   }
@@ -39,7 +39,6 @@ export class ContactPointDetailComponent implements OnInit {
       .then((data: Array<PersonDataSource>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.person = data.shift();
-          // console.debug(this.person);
         }
       });
   }

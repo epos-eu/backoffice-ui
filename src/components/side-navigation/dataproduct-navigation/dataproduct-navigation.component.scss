@@ -1,0 +1,12 @@
+.top {
+  display: flex;
+  align-self: flex-end;
+}
+
+mat-list {
+  margin: 1rem;
+
+  mat-list-item {
+    cursor: pointer;
+  }
+}

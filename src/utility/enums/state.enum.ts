@@ -1,7 +1,0 @@
-export enum State {
-  DRAFT = 'DRAFT',
-  SUBMITTED = 'SUBMITTED',
-  PUBLISHED = 'PUBLISHED',
-  DISCARDED = 'DISCARDED',
-  ARCHIVED = 'ARCHIVED',
-}

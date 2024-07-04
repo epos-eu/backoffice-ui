@@ -10,7 +10,8 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+// import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
+import { ContactPoint } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-browse-contact-point-item',
@@ -19,7 +20,7 @@ import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-sou
 })
 export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new UntypedFormControl('auto');
-  public contactPoint!: ContactPointDetailDataSource | undefined;
+  public contactPoint!: ContactPoint | undefined;
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
@@ -58,7 +59,7 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
         },
         false,
       )
-      .then((data: Array<ContactPointDetailDataSource>) => {
+      .then((data: Array<ContactPoint>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.contactPoint = data.shift();
 
@@ -67,14 +68,14 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
             this.trackFormData();
             // this.patch('spatialExtent');
             // this.patch('temporalExtent');
-            this.actionService.trackCurrentEdit({
-              type: Entity.CONTACT_POINT,
-              route: EntityEndpointValue.CONTACT_POINT,
-              label: 'Contact Point',
-              state: this.contactPoint.state,
-              color: 'draft',
-              id: this.contactPoint.instanceId,
-            });
+            // this.actionService.trackCurrentEdit({
+            //   type: Entity.CONTACT_POINT,
+            //   route: EntityEndpointValue.CONTACT_POINT,
+            //   label: 'Contact Point',
+            //   state: this.contactPoint.state,
+            //   color: 'draft',
+            //   id: this.contactPoint.instanceId,
+            // });
           }
         }
       });

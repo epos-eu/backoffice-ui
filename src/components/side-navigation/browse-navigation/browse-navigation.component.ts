@@ -39,7 +39,7 @@ export class BrowseNavigationComponent implements OnInit {
 
   private handleCreate(): void {
     const item: DataProduct = {
-      created: new Date(),
+      created: '',
     };
 
     this.apiService.endpoints.DataProduct.create

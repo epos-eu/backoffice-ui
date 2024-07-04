@@ -1,0 +1,14 @@
+<div class="top">
+  <app-back-button></app-back-button>
+</div>
+<mat-list role="list">
+  <mat-list-item
+    [id]="item.id"
+    role="listitem"
+    [ngClass]="activeListItem === item.id ? 'active' : ''"
+    *ngFor="let item of menuListItems"
+    (click)="handleClick(item.id)"
+  >
+    {{ item.name }}
+  </mat-list-item>
+</mat-list>

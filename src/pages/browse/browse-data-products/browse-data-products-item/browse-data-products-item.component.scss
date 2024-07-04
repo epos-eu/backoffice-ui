@@ -1,42 +1,13 @@
 @import 'src/styles/_theme.scss';
 
-.fields-flex-col {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+.container {
+  overflow-x: hidden;
 }
 
 .fields-flex-row {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.indentifiers-flex-col {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-}
-
-.info {
-  margin-bottom: 2em;
-  .detail {
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    font-size: 14px;
-    background-color: white;
-    margin-bottom: 0.5rem;
-
-    .label {
-      flex: 0 0 10%;
-      color: #000000;
-    }
-
-    .value {
-      color: #595959;
-    }
-  }
 }
 
 .top-header {
@@ -215,15 +186,5 @@ ul {
     li {
       margin-bottom: 0.25rem;
     }
-  }
-}
-
-mat-hint {
-  display: flex;
-  align-items: center;
-  color: #f39c12;
-
-  span {
-    margin-left: 0.5rem;
   }
 }

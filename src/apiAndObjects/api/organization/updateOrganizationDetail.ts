@@ -3,7 +3,7 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { Address } from 'src/apiAndObjects/objects/types/address.type';
 import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
@@ -61,7 +61,7 @@ export interface SaveOrganizationBody {
   metaId: string;
   operation: string;
   owns: Array<string>;
-  state: State;
+  state: Status;
   telephone: Array<string>;
   toBeDelete: string;
   type: string;

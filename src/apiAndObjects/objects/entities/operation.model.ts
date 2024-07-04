@@ -1,26 +1,25 @@
-import { State } from 'src/utility/enums/state.enum';
-import { EntityDetail } from '../types/entityDetail.type';
-import { Mapping } from '../types/mapping.type';
+import { DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
 
 export class Operation {
   constructor(
-    public uid?: string,
     public changeComment?: string,
-    public changeTimestamp?: Date,
+    public changeTimestamp?: string,
     public editorId?: string,
     public fileProvenance?: string,
-    public groups?: Array<EntityDetail>,
+    public groups?: Array<LinkedEntity>,
     public instanceChangedId?: string,
     public instanceId?: string,
-    public mapping?: Array<Mapping>,
+    public mapping?: Array<LinkedEntity>,
+    public maturity?: Array<LinkedEntity>,
     public metaId?: string,
     public method?: string,
     public operation?: string,
     public returns?: Array<string>,
-    public state?: State,
+    public state?: DataProduct['status'],
     public template?: string,
     public toBeDelete?: string,
+    public uid?: string,
     public version?: string,
-    public webservice?: Array<EntityDetail>,
+    public versionId?: string,
   ) {}
 }

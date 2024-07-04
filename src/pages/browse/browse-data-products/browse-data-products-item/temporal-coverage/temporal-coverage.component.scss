@@ -1,0 +1,15 @@
+mat-hint {
+  display: flex;
+  align-items: center;
+  color: #f39c12;
+
+  span {
+    margin-left: 0.5rem;
+  }
+}
+
+.fields-flex-col {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

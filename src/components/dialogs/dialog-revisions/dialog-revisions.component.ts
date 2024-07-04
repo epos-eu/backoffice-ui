@@ -6,16 +6,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { DialogData } from '../baseDialogService.abstract';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { State } from 'src/utility/enums/state.enum';
 import { Router } from '@angular/router';
-import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import moment from 'moment';
 import { compareVersions } from 'compare-versions';
 import { HelpersService } from 'src/services/helpers.service';
+import { DataProduct } from 'generated/backofficeSchemas';
 
 interface CurrentEntity {
   metaId: string;
@@ -28,7 +26,7 @@ export interface Revision {
   metaId: string;
   uid: string;
   version: string;
-  state: State;
+  state: DataProduct['status'];
   created: Date | string;
   editorId: string;
   title: string;
@@ -49,7 +47,7 @@ export class DialogRevisionsComponent implements OnInit {
   ) {}
 
   private revisions!: Array<Revision>;
-  private entities!: Array<DataProductDetailDataSource>;
+  private entities!: Array<DataProduct>;
   public selection = new SelectionModel<Revision>(true, []);
   public displayedColumns: string[] = [
     'select',
@@ -86,18 +84,18 @@ export class DialogRevisionsComponent implements OnInit {
             },
             false,
           )
-          .then((data: Array<DataProductDetailDataSource>) => {
+          .then((data: Array<DataProduct>) => {
             this.entities = data;
             const revisions: Revision[] = data.map((item) => {
               return {
-                instanceId: item.instanceId,
-                metaId: item.metaId,
-                uid: item.uid,
-                version: item.versionInfo,
-                state: item.state,
+                instanceId: item.instanceId as string,
+                metaId: item.metaId as string,
+                uid: item.uid as string,
+                version: item.versionInfo as string,
+                state: item.status,
                 created: moment(item.created).format(CUSTOM_DATE_FORMAT.display.dateInput),
-                editorId: item.editorId,
-                title: item.title[0],
+                editorId: item.editorId as string,
+                title: item.title?.[0] as string,
                 modified: moment(item.modified).format(CUSTOM_DATE_FORMAT.display.dateInput),
               };
             });
@@ -130,14 +128,14 @@ export class DialogRevisionsComponent implements OnInit {
 
   public handleCompare(): void {
     const uids = this.selection.selected.map((item) => item.uid);
-    const selectedRevisions = this.entities.filter((item) => uids.includes(item.uid));
+    const selectedRevisions = this.entities.filter((item) => uids.includes(item.uid as string));
 
     selectedRevisions.sort((a, b) => {
       if (a.versionInfo === '' || b.versionInfo === '') {
         return 1;
       }
       if (a.versionInfo !== '' && b.versionInfo !== '') {
-        return compareVersions(a.versionInfo, b.versionInfo);
+        return compareVersions(a.versionInfo as string, b.versionInfo as string);
       }
       return 0;
     });

@@ -3,8 +3,8 @@ import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enu
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { State } from 'src/utility/enums/state.enum';
 import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
+import { DataProduct } from 'generated/backofficeSchemas';
 
 export class PutDataProductState extends Endpoint<
   DataProductDetailDataSource,
@@ -50,5 +50,5 @@ export class PutDataProductState extends Endpoint<
 export interface UpdateStateObject {
   instanceId: string;
   justThisOne: boolean;
-  state: State;
+  state: DataProduct['status'];
 }
