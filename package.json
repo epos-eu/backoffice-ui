@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
+    "start": "pnpm run codegen && ng serve --open",
     "build": "ng build",
     "lint": "eslint \"*/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"*/**/*.{ts,tsx}\" --fix",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "codegen": "openapi-codegen gen backoffice"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,8 @@
     "@angular-eslint/template-parser": "^17.5.1",
     "@angular/cli": "^17.3.8",
     "@angular/compiler-cli": "^17.3.10",
+    "@openapi-codegen/cli": "^2.0.2",
+    "@openapi-codegen/typescript": "^8.0.2",
     "@types/jasmine": "^5.1.4",
     "@types/leaflet": "^1.9.3",
     "@types/node": "^20.12.12",

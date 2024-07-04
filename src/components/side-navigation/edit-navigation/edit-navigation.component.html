@@ -22,11 +22,11 @@
           activeDataProduct &&
           (activeDataProduct.state === state.PUBLISHED || activeDataProduct.state === state.ARCHIVED)
         "
-        mat-stroked-button
+        mat-raised-button
         color="primary"
         (click)="handleCreateEntityFromPublishedOrArchived()"
       >
-        Create New Draft From Entity
+        Create New Draft
       </button>
       <button
         *ngIf="activeDataProduct && activeDataProduct.state === state.DRAFT"
