@@ -17,6 +17,7 @@ import { DialogDataproductAddWebserviceComponent } from './dialog-dataproduct-ad
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
 import { DialogNewDataproductComponent } from './dialog-new-dataproduct/dialog-new-dataproduct.component';
 import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
+import { DialogSpatialCoverageHelpComponent } from './dialog-spatial-coverage-help/dialog-spatial-coverage-help.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-cha
     FormatRangePipe,
     DialogNewDataproductComponent,
     DialogChangeCommentComponent,
+    DialogSpatialCoverageHelpComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule],
 })

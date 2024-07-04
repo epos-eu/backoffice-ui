@@ -22,6 +22,7 @@ import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialo
 import { DialogConfirmComponent, ConfirmationDataIn } from './dialog-confirm/dialog-confirm.component';
 import { LoadingService } from 'src/services/loading.service';
 import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
+import { DialogSpatialCoverageHelpComponent } from './dialog-spatial-coverage-help/dialog-spatial-coverage-help.component';
 
 @Injectable({
   providedIn: 'root',
@@ -94,7 +95,11 @@ export class DialogService extends BaseDialogService {
   }
 
   public openAddNewParameterDialog(): Promise<DialogData> {
-    return this.openDialog('changeUserRole', DialogAddNewParameterComponent, false, null, {}, 'user-permissions');
+    return this.openDialog('addNewParam', DialogAddNewParameterComponent, false, null, {});
+  }
+
+  public openSpatialCoverageHelpDialog(): Promise<DialogData> {
+    return this.openDialog('spatialCoverageHelp', DialogSpatialCoverageHelpComponent, true, null, {});
   }
 
   public handleDelete(instanceId: string, entityEndpoint: EntityEndpointValue, redirect = true): Promise<boolean> {

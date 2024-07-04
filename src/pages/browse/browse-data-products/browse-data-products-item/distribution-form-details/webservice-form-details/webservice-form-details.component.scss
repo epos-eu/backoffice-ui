@@ -144,6 +144,9 @@ button {
 
 .spatial-coverage-actions {
   margin-bottom: 1em;
+  button:nth-child(2) {
+    margin-left: 1em;
+  }
 }
 
 .flex-col {
