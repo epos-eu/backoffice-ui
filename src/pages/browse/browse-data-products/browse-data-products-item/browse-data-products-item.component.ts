@@ -699,6 +699,10 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public handleLoad(instanceId: string): void {
     this.explorerService.setFormSection('#dataproduct', this.formTreeDist, false, instanceId);
   }
+
+  public openSpatialCoverageHelp() {
+    this.dialogService.openSpatialCoverageHelpDialog();
+  }
 }
 
 export type SpatialGroup = {

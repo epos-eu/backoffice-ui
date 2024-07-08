@@ -557,4 +557,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
       }
     }
   }
+
+  public openSpatialCoverageHelp() {
+    this.dialogService.openSpatialCoverageHelpDialog();
+  }
 }

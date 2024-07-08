@@ -252,6 +252,15 @@
               >
                 Add Spatial Coverage
               </button>
+
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="openSpatialCoverageHelp()"
+                *ngIf="dataProduct.state !== stateEnum.PUBLISHED && dataProduct.state !== stateEnum.ARCHIVED"
+              >
+                <span>Help</span> <mat-icon>help</mat-icon>
+              </button>
             </div>
 
             <div
