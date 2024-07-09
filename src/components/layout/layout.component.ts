@@ -125,4 +125,12 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.cdr.detectChanges();
     });
   }
+
+  public createNewGroup() {}
+
+  public getAllGroups() {
+    this.apiService.endpoints.Group.getAll.call().then((items) => {
+      console.debug(items);
+    });
+  }
 }
