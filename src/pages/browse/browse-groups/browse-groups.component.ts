@@ -2,8 +2,8 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { GroupsDataSource } from 'src/apiAndObjects/objects/data-source/groupsDataSource';
 import { groups } from './dummyData';
+import { Group } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-browse-groups',
@@ -12,7 +12,7 @@ import { groups } from './dummyData';
 })
 export class BrowseGroupsComponent implements AfterViewInit {
   public displayedColumns: string[] = ['name', 'description'];
-  public dataSource!: MatTableDataSource<GroupsDataSource>;
+  public dataSource!: MatTableDataSource<Group>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
 
@@ -20,7 +20,7 @@ export class BrowseGroupsComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   public ngAfterViewInit(): void {
-    this.dataSource = new MatTableDataSource(groups as Array<GroupsDataSource>);
+    this.dataSource = new MatTableDataSource(groups as Array<Group>);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

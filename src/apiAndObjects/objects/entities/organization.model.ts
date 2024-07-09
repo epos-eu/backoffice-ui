@@ -1,31 +1,28 @@
-import { Status } from 'src/utility/enums/status.enum';
-import { Address } from '../types/address.type';
-import { EntityDetail } from '../types/entityDetail.type';
-import { Identifier } from '../types/identifier.type';
+import { LinkedEntity, Organization as OrganizationType } from 'generated/backofficeSchemas';
 
-export class Organization {
+export class Organization implements OrganizationType {
   constructor(
     public uid: string,
     public acronym: string,
-    public address: Address,
+    public address: LinkedEntity,
     public changeComment: string,
-    public changeTimestamp: Date,
-    public contactPoint: Array<EntityDetail>,
+    public changeTimestamp: string,
+    public contactPoint: Array<LinkedEntity>,
     public editorId: string,
     public email: Array<string>,
     public fileProvenance: string,
-    public identifier: Array<Identifier>,
+    public identifier: Array<LinkedEntity>,
     public instanceChangedId: string,
     public instanceId: string,
-    public legalName: Array<string>,
+    public legalName: Array<LinkedEntity>,
     public leiCode: string,
     public logo: string,
     public maturity: string,
-    public memberOf: Array<EntityDetail>,
+    public memberOf: Array<LinkedEntity>,
     public metaId: string,
     public operation: string,
-    public owns: Array<string>,
-    public state: Status,
+    public owns: Array<LinkedEntity>,
+    public state: OrganizationType['status'],
     public telephone: Array<string>,
     public toBeDelete: string,
     public type: string,

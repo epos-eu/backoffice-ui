@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { DataProduct, LinkedEntity, ContactPoint } from 'generated/backofficeSchemas';
 import { BehaviorSubject, Observable, map, startWith } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { PersonDataSource } from 'src/apiAndObjects/objects/data-source/personDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
@@ -30,19 +29,19 @@ export class ContactPointSearchComponent implements OnInit {
 
   private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
 
-  public contactPointControl = new FormControl<string | PersonDataSource>('');
+  public contactPointControl = new FormControl<any>('');
 
   public showContactPointForm = true;
 
   public loading = true;
 
-  public personFromCatalogFilteredOptions!: Observable<PersonDataSource[]>;
+  public personFromCatalogFilteredOptions!: Observable<any[]>;
 
   public contactPointRole = new FormControl<string>('');
 
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
 
-  public personFromCatalog: Array<PersonDataSource> = [];
+  public personFromCatalog: Array<any> = [];
 
   public disabled = false;
 
@@ -105,7 +104,7 @@ export class ContactPointSearchComponent implements OnInit {
       );
   }
 
-  private _filter(name: string): PersonDataSource[] {
+  private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
 
     return this.personFromCatalog.filter(
@@ -126,19 +125,19 @@ export class ContactPointSearchComponent implements OnInit {
         this.disabled = false;
       }
     });
-    this.apiService.endpoints.Person.getAll
-      .call()
-      .then((data: Array<PersonDataSource>) => {
-        this.personFromCatalog = data;
-        this.showContactPointForm = true;
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
+    // this.apiService.endpoints.Person.getAll
+    //   .call()
+    //   .then((data: Array<any>) => {
+    //     this.personFromCatalog = data;
+    //     this.showContactPointForm = true;
+    //   })
+    //   .catch(() =>
+    //     this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 6000, [
+    //       'snackbar',
+    //       'mat-toolbar',
+    //       'snackbar-error',
+    //     ]),
+    //   );
 
     if (this.contactPointDetails && this.contactPointDetails.length > 0) {
       this.initData();
@@ -158,16 +157,16 @@ export class ContactPointSearchComponent implements OnInit {
     );
   }
 
-  public displayFn(user: PersonDataSource): string {
+  public displayFn(user: any): string {
     return user?.givenName + ' ' + user.familyName + ' - ' + user.uid;
   }
 
   public saveContactPoint() {
     this.loading = true;
-    const personDataSource = this.contactPointControl.value as PersonDataSource;
+    const personDataSource = this.contactPointControl.value;
 
     const person: LinkedEntity = {
-      entityType: Entity.PERSON,
+      // entityType: Entity.PERSON,
       instanceId: personDataSource.instanceId,
       uid: personDataSource.uid,
       metaId: personDataSource.metaId,

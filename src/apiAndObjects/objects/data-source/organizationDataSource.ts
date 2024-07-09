@@ -1,7 +1,7 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
-import { DataProduct, Group, LinkedEntity } from 'generated/backofficeSchemas';
+import { Group, LinkedEntity, Organization } from 'generated/backofficeSchemas';
 
-export class OrganizationDataSource extends BaseObject {
+export class OrganizationDataSource extends BaseObject implements Organization {
   public static readonly KEYS = {
     ACRONYM: 'acronym',
     ADDRESS: 'address',
@@ -53,7 +53,7 @@ export class OrganizationDataSource extends BaseObject {
   public metaId: string;
   public operation?: string;
   public owns: Array<LinkedEntity>;
-  public status: DataProduct['status'];
+  public status: Organization['status'];
   public telephone: Array<string>;
   public toBeDelete: string;
   public type: string;
@@ -85,7 +85,7 @@ export class OrganizationDataSource extends BaseObject {
     this.metaId = this._getString(OrganizationDataSource.KEYS.META_ID);
     this.operation = this._getString(OrganizationDataSource.KEYS.OPERATION);
     this.owns = this._getArray(OrganizationDataSource.KEYS.OWNS);
-    this.status = this._getValue(OrganizationDataSource.KEYS.STATE) as DataProduct['status'];
+    this.status = this._getValue(OrganizationDataSource.KEYS.STATE) as Organization['status'];
     this.telephone = this._getArray(OrganizationDataSource.KEYS.TELEPHONE);
     this.toBeDelete = this._getString(OrganizationDataSource.KEYS.TO_BE_DELETE);
     this.type = this._getString(OrganizationDataSource.KEYS.TYPE);

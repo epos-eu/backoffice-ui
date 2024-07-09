@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { WebService, DataProduct } from 'generated/backofficeSchemas';
-import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
+import { WebService, DataProduct, LinkedEntity, Distribution } from 'generated/backofficeSchemas';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ActionsService } from 'src/services/actions.service';
@@ -35,10 +33,10 @@ export interface IFormTree {
   styleUrls: ['./distribution-form-details.component.scss'],
 })
 export class DistributionFormDetailsComponent {
-  @Input() set distributionDetails(details: EntityDetail | undefined) {
+  @Input() set distributionDetails(details: LinkedEntity | undefined) {
     if (null != details) {
       this.initData(details);
-      this.instanceId = details.instanceId;
+      this.instanceId = details.instanceId as string;
       this.entityDetails = details;
     }
   }
@@ -46,12 +44,12 @@ export class DistributionFormDetailsComponent {
   @Output() formTreeUpdate = new EventEmitter<IFormTree>();
 
   public floatLabelControl = new UntypedFormControl('auto');
-  public distribution!: DistributionDetailDataSource | undefined;
+  public distribution!: Distribution | undefined;
   public UID!: string | null;
   public form!: UntypedFormGroup;
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
-  public accessService!: EntityDetail;
-  public entityDetails?: EntityDetail;
+  public accessService!: LinkedEntity;
+  public entityDetails?: LinkedEntity;
   public dataProductAccessibility?: string;
   public dataProductAccessibilityOptions: string[] = ['download', 'webservice'];
   public formats = FormatTypes;
@@ -89,12 +87,12 @@ export class DistributionFormDetailsComponent {
     });
   }
 
-  private initData(details: EntityDetail): void {
+  private initData(details: LinkedEntity): void {
     this.apiService.endpoints.Distribution.get
       .call(
         {
-          metaId: details.metaId,
-          instanceId: details.instanceId,
+          metaId: details.metaId as string,
+          instanceId: details.instanceId as string,
         },
         false,
       )
@@ -145,7 +143,7 @@ export class DistributionFormDetailsComponent {
       metaId: this.distribution?.metaId,
       title: [this.distribution?.title, Validators.required],
       description: this.distribution?.description,
-      state: this.distribution?.state,
+      status: this.distribution?.status,
       dataProduct: [this.distribution?.dataProduct],
       dataProductAccessibility: this.checkDataProductAccessibility(),
       format: this.distribution?.format,
@@ -240,7 +238,7 @@ export class DistributionFormDetailsComponent {
   }
 
   public newWebservice() {
-    const relatedDistribution: EntityDetail = {
+    const relatedDistribution: LinkedEntity = {
       entityType: Entity.DISTRIBUTION,
       instanceId: this.distribution?.instanceId as string,
       uid: this.distribution?.uid as string,
@@ -277,7 +275,7 @@ export class DistributionFormDetailsComponent {
                 },
               ]);
               this.actionsService.saveCurrentEdit(value.instanceId as string);
-              const entityDetail: EntityDetail = {
+              const entityDetail: LinkedEntity = {
                 entityType: Entity.WEBSERVICE,
                 instanceId: value.instanceId as string,
                 uid: value.uid as string,

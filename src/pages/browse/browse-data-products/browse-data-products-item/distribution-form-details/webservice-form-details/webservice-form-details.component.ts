@@ -3,11 +3,7 @@ import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGro
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ReplaySubject, Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
-import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
-import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
@@ -16,19 +12,16 @@ import { EntityExecutionService } from 'src/services/calls/entity-execution.serv
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
-import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import moment from 'moment';
-import { Documentation } from 'src/apiAndObjects/objects/types/documentation.type';
 import { Status } from 'src/utility/enums/status.enum';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { SpatialExtentLocationIndexObj } from '../../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { ActionsService } from 'src/services/actions.service';
-import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { LoadingService } from 'src/services/loading.service';
-import { DataProduct, LinkedEntity, WebService } from 'generated/backofficeSchemas';
+import { DataProduct, LinkedEntity, Organization, WebService } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-webservice-form-details',
@@ -36,15 +29,15 @@ import { DataProduct, LinkedEntity, WebService } from 'generated/backofficeSchem
   styleUrls: ['./webservice-form-details.component.scss'],
 })
 export class WebserviceFormDetailsComponent implements OnInit {
-  @Input() set accessService(webserviceDetails: EntityDetail) {
+  @Input() set accessService(webserviceDetails: LinkedEntity) {
     if (null != webserviceDetails) {
-      this.instanceId = webserviceDetails.instanceId;
+      this.instanceId = webserviceDetails.instanceId as string;
       this.initData(webserviceDetails);
     }
   }
-  @Input() parentEntity?: EntityDetail;
+  @Input() parentEntity?: LinkedEntity;
   @Input() metaId!: string;
-  @Input() supportedOperations: Array<EntityDetail> = [];
+  @Input() supportedOperations: Array<LinkedEntity> = [];
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 
@@ -90,13 +83,13 @@ export class WebserviceFormDetailsComponent implements OnInit {
   private mapping: Array<Mapping> = [];
   public options: UntypedFormGroup;
   public floatLabelControl = new UntypedFormControl('auto');
-  public webservice!: WebserviceDetailDataSource | undefined;
+  public webservice!: WebService | undefined;
   public editModeEnabled = false;
   public form!: UntypedFormGroup;
-  public serviceProviders: Array<OrganizationDataSource> = [];
+  public serviceProviders: Array<Organization> = [];
   public serviceProvidersLoading = false;
-  public selectedServiceProvider: OrganizationDataSource | undefined;
-  public contactPointDetails: Array<EntityDetail> = [];
+  public selectedServiceProvider: Organization | undefined;
+  public contactPointDetails: Array<LinkedEntity> = [];
   public contactPointShowSaveNotify = false;
   public operation!: Operation | undefined;
   public callOperationDetail = false;
@@ -155,16 +148,16 @@ export class WebserviceFormDetailsComponent implements OnInit {
     });
   }
 
-  private initData(details: EntityDetail): void {
+  private initData(details: LinkedEntity): void {
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
         {
-          metaId: details.metaId,
-          instanceId: details.instanceId,
+          metaId: details.metaId as string,
+          instanceId: details.instanceId as string,
         },
         false,
       )
-      .then((data: Array<WebserviceDetailDataSource>) => {
+      .then((data: Array<WebService>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
           if (this.webservice) {
@@ -187,12 +180,12 @@ export class WebserviceFormDetailsComponent implements OnInit {
       });
   }
 
-  private getDocumentation(documentation: Array<Documentation> | undefined): string {
-    if (documentation !== undefined) {
-      if (documentation.length > 0) {
-        return documentation[0].uri ? documentation[0].uri : '';
-      }
-    }
+  private getDocumentation(documentation: Array<LinkedEntity> | undefined): string {
+    // if (documentation !== undefined) {
+    //   if (documentation.length > 0) {
+    //     return documentation[0].uri ? documentation[0].uri : '';
+    //   }
+    // }
     return '';
   }
 
@@ -284,30 +277,26 @@ export class WebserviceFormDetailsComponent implements OnInit {
       uid: this.webservice?.uid ?? '',
       metaId: this.webservice?.metaId ?? '',
     };
-    this.dialogService
-      .handleAddWebserviceOperation(webserviceEtityDetail)
-      .then((result: OperationDetailDataSource | unknown) => {
-        if (result instanceof OperationDetailDataSource) {
-          // put result on supportedOperation array (first position and focused)
-          const operation: EntityDetail = {
-            entityType: Entity.OPERATION,
-            instanceId: result.instanceId,
-            uid: result.uid,
-            metaId: result.metaId,
-          };
+    this.dialogService.handleAddWebserviceOperation(webserviceEtityDetail).then((result: Operation | unknown) => {
+      // put result on supportedOperation array (first position and focused)
+      const operation: LinkedEntity = {
+        entityType: Entity.OPERATION,
+        instanceId: result.instanceId,
+        uid: result.uid,
+        metaId: result.metaId,
+      };
 
-          // Sets 'accessURL' on Distribution to newly created Operation.
-          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-          activeDistribution?.accessURL?.push(operation);
-          if (activeDistribution != null) {
-            this.entityExecutionService.setActiveDistribution(activeDistribution);
-            this.actionsService.showSaveDistributionMessage(true);
-          }
+      // Sets 'accessURL' on Distribution to newly created Operation.
+      const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+      activeDistribution?.accessURL?.push(operation);
+      if (activeDistribution != null) {
+        this.entityExecutionService.setActiveDistribution(activeDistribution);
+        this.actionsService.showSaveDistributionMessage(true);
+      }
 
-          this.webservice?.supportedOperation.unshift(operation);
-          this.supportedOperationFocusFirstRow = true;
-        }
-      });
+      this.webservice?.supportedOperation?.unshift(operation);
+      this.supportedOperationFocusFirstRow = true;
+    });
   }
 
   public handleGetRevisions(): void {
@@ -332,7 +321,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     return false;
   }
 
-  public updateContactPointArray(newContactPointDetails: Array<EntityDetail>) {
+  public updateContactPointArray(newContactPointDetails: Array<LinkedEntity>) {
     const webservice = this.entityExecutionService.getActiveWebServiceValue();
     this.contactPointDetails = newContactPointDetails;
     if (null != webservice) {
@@ -347,7 +336,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   public updateServicePoint() {
     const webservice = this.entityExecutionService.getActiveWebServiceValue();
     if (null != webservice && null != this.selectedServiceProvider) {
-      const serviceProviderEntityDetail: EntityDetail = {
+      const serviceProviderEntityDetail: LinkedEntity = {
         entityType: Entity.ORGANIZATION,
         instanceId: this.selectedServiceProvider.instanceId,
         uid: this.selectedServiceProvider.uid,
@@ -358,14 +347,12 @@ export class WebserviceFormDetailsComponent implements OnInit {
     }
   }
 
-  private handleServiceProviders(webservice: WebserviceDetailDataSource): void {
+  private handleServiceProviders(webservice: WebService): void {
     if (this.serviceProviders.length === 0) {
       this.serviceProvidersLoading = true;
-      this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
+      this.apiService.endpoints.Organization.getAll.call().then((response: Organization[]) => {
         if (webservice.provider) {
-          this.selectedServiceProvider = response.find(
-            (value: OrganizationDataSource) => value.uid === webservice.provider.uid,
-          );
+          this.selectedServiceProvider = response.find((value: Organization) => value.uid === webservice.provider.uid);
         }
         this.serviceProviders = response;
         this.serviceProvidersLoading = false;
@@ -452,7 +439,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     // Update global webservice Obj
     const webservice = this.entityExecutionService.getActiveWebServiceValue();
     if (null != webservice?.spatialExtent) {
-      webservice.spatialExtent.forEach((spatialExtent: SpatialExtent, index) => {
+      webservice.spatialExtent.forEach((spatialExtent: LinkedEntity, index) => {
         if (event.index === index) {
           spatialExtent.location = event.location;
         }
@@ -461,7 +448,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
       // update points on map
       const spatExtentsToUpdate: Array<string> = [];
-      webservice.spatialExtent.forEach((spatialExtent: SpatialExtent) => {
+      webservice.spatialExtent.forEach((spatialExtent: LinkedEntity) => {
         spatExtentsToUpdate.push(spatialExtent.location);
       });
       this.spatialCoverageInput = spatExtentsToUpdate;
@@ -510,7 +497,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   private mapParams(submatch: string, paramName: string): string {
-    const match = this.mapping.find((param: Mapping) => param.variable === paramName);
+    const match = this.mapping.find((param: LinkedEntity) => param.variable === paramName);
     if (match) {
       const regex = new RegExp(`${paramName}`, 'g');
       if (match.defaultValue) {
@@ -534,7 +521,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     this.helpersService.clearDatePicker(control);
   }
 
-  public handleMappingVals(mapping: Array<Mapping> | undefined): void {
+  public handleMappingVals(mapping: Array<LinkedEntity> | undefined): void {
     if (mapping) {
       this.mapping = mapping;
     }

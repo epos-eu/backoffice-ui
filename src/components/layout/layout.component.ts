@@ -13,16 +13,15 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 import { AaaiService } from 'src/aaai/aaai.service';
 import { AAAIUser } from 'src/aaai/aaaiUser.interface';
 import { ActionsService } from 'src/services/actions.service';
-import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { DialogService } from '../dialogs/dialog.service';
 import { DialogSelectGroupComponent } from '../dialogs/dialog-select-group/dialog-select-group.component';
 import { User } from 'generated/backofficeSchemas';
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -132,8 +131,8 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
       .call({
         available_section: true,
       })
-      .then((userInfo: UserInfoDataSource) => {
-        this.activeUserService.setActiveUserInfo(userInfo as User);
+      .then((userInfo: User) => {
+        this.activeUserService.setActiveUserInfo(userInfo);
       });
   }
 
@@ -149,15 +148,7 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   public getAllGroups() {
     this.apiService.endpoints.Group.getAll.call().then((items) => {
-      console.debug(items);
-    });
-  }
-
-  public createNewGroup() {}
-
-  public getAllGroups() {
-    this.apiService.endpoints.Group.getAll.call().then((items) => {
-      console.debug(items);
+      console.log(items);
     });
   }
 }

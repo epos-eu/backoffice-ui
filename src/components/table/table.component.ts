@@ -8,11 +8,8 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { TableDetail } from 'src/utility/objects/table/detail';
 import { TableItem, TableItems } from 'src/utility/objects/table/items';
 import { FilterEmit } from '../table-filter/table-filter.component';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import moment from 'moment';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 
 @Component({
   selector: 'app-table',
@@ -91,7 +88,7 @@ export class TableComponent implements AfterViewInit {
     this.dataSource.filterPredicate = (data: TableDetail, filterValue: string) => {
       const filters = JSON.parse(filterValue);
       return (
-        data.status.trim().toLocaleLowerCase().indexOf(filters.status.trim().toLocaleLowerCase()) >= 0 &&
+        data.status?.trim().toLocaleLowerCase().indexOf(filters.status.trim().toLocaleLowerCase()) >= 0 &&
         data.title?.trim().toLocaleLowerCase().indexOf(filters.title.trim().toLocaleLowerCase()) >= 0
       );
     };

@@ -1,16 +1,13 @@
-import { Status } from 'src/utility/enums/status.enum';
-import { Group } from './group.model';
-import { EntityDetail } from '../types/entityDetail.type';
-export class Distribution {
+import { Distribution as DistributionType, Group, LinkedEntity } from 'generated/backofficeSchemas';
+
+export class Distribution implements DistributionType {
   constructor(
     public uid?: string,
-    public accessService?: EntityDetail,
-    public accessURL?: Array<EntityDetail>,
+    public accessURL?: Array<string>,
     public changeComment?: string,
-    public changeTimestamp?: Date | undefined,
-    public conformsTo?: string,
+    public changeTimestamp?: string,
     public dataPolicy?: string,
-    public dataProduct?: Array<EntityDetail>,
+    public dataProduct?: Array<LinkedEntity>,
     public description?: Array<string>,
     public downloadURL?: Array<string>,
     public editorId?: string,
@@ -19,12 +16,12 @@ export class Distribution {
     public groups?: Array<Group>,
     public instanceChangedId?: string,
     public instanceId?: string,
-    // public issued?: Date | undefined,
+    public issued?: string,
     public licence?: string,
     public metaId?: string,
     public modified?: string,
     public operation?: string,
-    public state?: Status,
+    public state?: DistributionType['status'],
     public title?: Array<string>,
     public toBeDelete?: string,
     public type?: string,

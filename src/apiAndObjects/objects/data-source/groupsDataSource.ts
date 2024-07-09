@@ -1,6 +1,7 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
+import { Group as GroupType } from 'generated/backofficeSchemas';
 
-export class GroupsDataSource extends BaseObject {
+export class GroupsDataSource extends BaseObject implements GroupType {
   public static readonly KEYS = {
     NAME: 'name',
     DESCRIPTION: 'description',

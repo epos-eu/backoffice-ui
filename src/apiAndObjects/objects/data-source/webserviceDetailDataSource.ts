@@ -1,7 +1,7 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
-import { DataProduct, Group, LinkedEntity } from 'generated/backofficeSchemas';
+import { DataProduct, Group, LinkedEntity, WebService as WebServiceType } from 'generated/backofficeSchemas';
 
-export class WebserviceDetailDataSource extends BaseObject {
+export class WebserviceDetailDataSource extends BaseObject implements WebServiceType {
   public static readonly KEYS = {
     AAAI_TYPES: 'aaaiTypes',
     CATEGORY: 'category',

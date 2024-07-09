@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
+import { DataProduct, LinkedEntity, Organization } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
@@ -15,11 +14,11 @@ export class DataProvidersComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct;
 
-  public selectedDataProviders: Array<OrganizationDataSource> = [];
+  public selectedDataProviders: Array<Organization> = [];
 
   public stateEnum = Status;
 
-  public dataProviders: Array<OrganizationDataSource> = [];
+  public dataProviders: Array<Organization> = [];
 
   public dataProvidersLoading = false;
 
@@ -30,11 +29,11 @@ export class DataProvidersComponent implements OnInit {
   private initData(): void {
     if (this.dataProviders.length === 0) {
       this.dataProvidersLoading = true;
-      this.apiService.endpoints.Organization.getAll.call().then((response: OrganizationDataSource[]) => {
+      this.apiService.endpoints.Organization.getAll.call().then((response: Organization[]) => {
         console.log(response);
         this.dataProviders = response;
         this.dataProvidersLoading = false;
-        this.selectedDataProviders = this.dataProviders.filter((provider: OrganizationDataSource) => {
+        this.selectedDataProviders = this.dataProviders.filter((provider: Organization) => {
           return this.dataProduct?.publisher?.some((value: LinkedEntity) => {
             return provider.uid === value.uid;
           });
@@ -43,8 +42,8 @@ export class DataProvidersComponent implements OnInit {
     }
   }
 
-  public handleDataProviderChange(event: Array<OrganizationDataSource>): void {
-    const mapped = event.map((item: OrganizationDataSource) => {
+  public handleDataProviderChange(event: Array<Organization>): void {
+    const mapped = event.map((item: Organization) => {
       return {
         uid: item.uid,
         metaId: item.metaId,

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
-import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new-dataproduct/dialog-new-dataproduct.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
@@ -36,14 +34,14 @@ export class BrowseDistributionComponent {
 
     this.apiService.endpoints.DataProduct.create
       .call(item)
-      .then((value: DataProductDetailDataSource) => {
+      .then((value: DataProduct) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
+        this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
@@ -55,7 +53,7 @@ export class BrowseDistributionComponent {
   }
 
   public rowClicked(row: Record<string, unknown>): void {
-    const dataProduct = row['dataProduct'] as EntityDetail;
+    const dataProduct = row['dataProduct'] as DataProduct;
     if (dataProduct) {
       this.entityService.setFocusedDistribution(row['instanceId'] as string);
       this.router.navigate([

@@ -1,5 +1,7 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
-export class UserInfoDataSource extends BaseObject {
+import { UserGroup, User as UserType } from 'generated/backofficeSchemas';
+
+export class UserInfoDataSource extends BaseObject implements UserType {
   public static readonly KEYS = {
     AUTH_IDENTIFIER: 'authIdentifier',
     LAST_NAME: 'lastName',
@@ -14,7 +16,7 @@ export class UserInfoDataSource extends BaseObject {
   public readonly firstName: string;
   public readonly email: string;
   public readonly isAdmin: boolean;
-  public readonly groups: Array<string>;
+  public readonly groups: Array<UserGroup>;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);

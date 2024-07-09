@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ActionsService } from 'src/services/actions.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
+import { WebService } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-create-web-service-item',
@@ -17,7 +16,7 @@ import { Status } from 'src/utility/enums/status.enum';
 })
 export class CreateWebServiceItemComponent implements OnInit {
   public form!: UntypedFormGroup;
-  public webservice: WebserviceDetailDataSource | undefined;
+  public webservice: WebService | undefined;
   public enableSave = false;
   public loading = false;
   public floatLabelControl = new UntypedFormControl('auto');
@@ -39,12 +38,12 @@ export class CreateWebServiceItemComponent implements OnInit {
     this.loading = true;
     const item: WebService = {
       uid: this.form.value['uid'],
-      dateModified: new Date(),
+      dateModified: '',
     };
 
     this.apiService.endpoints.WebService.create
       .call(item)
-      .then((value: WebserviceDetailDataSource) => {
+      .then((value: WebService) => {
         this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar('Successfully created webservice.', 'close', 'success', 3000, [
           'snackbar',
@@ -58,10 +57,10 @@ export class CreateWebServiceItemComponent implements OnInit {
             label: 'Webservice',
             state: Status.DRAFT,
             color: 'draft',
-            id: value.instanceId,
+            id: value.instanceId as string,
           },
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
+        this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() => {
         this.snackbarService.openSnackbar('Failed to create new webservice.', 'close', 'error', 3000, [

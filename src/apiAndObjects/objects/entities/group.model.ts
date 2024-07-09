@@ -1,4 +1,6 @@
-export class Group {
+import { Group as GroupType } from 'generated/backofficeSchemas';
+
+export class Group implements GroupType {
   constructor(
     public description: string,
     public id: string,

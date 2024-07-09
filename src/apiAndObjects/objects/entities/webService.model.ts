@@ -1,26 +1,22 @@
-import { Status } from 'src/utility/enums/status.enum';
-import { Documentation } from '../types/documentation.type';
-import { SpatialExtent } from '../types/spatialExtent.type';
-import { TemporalExtent } from '../types/temporalExtent.type';
-import { EntityDetail } from '../types/entityDetail.type';
+import { LinkedEntity, WebService as WebServiceType } from 'generated/backofficeSchemas';
 
-export class WebService {
+export class WebService implements WebServiceType {
   constructor(
     public uid?: string,
     public aaaiTypes?: string,
-    public category?: Array<string>,
+    public category?: Array<LinkedEntity>,
     public changeComment?: string,
-    public changeTimestamp?: Date,
-    public contactPoint?: Array<EntityDetail>,
-    public dateModified?: Date,
-    public datePublished?: Date,
+    public changeTimestamp?: string,
+    public contactPoint?: Array<LinkedEntity>,
+    public dateModified?: string,
+    public datePublished?: string,
     public description?: string,
-    public distribution?: Array<EntityDetail>,
-    public documentation?: Array<Documentation>,
+    public distribution?: Array<LinkedEntity>,
+    public documentation?: Array<LinkedEntity>,
     public editorId?: string,
     public entryPoint?: string,
     public fileProvenance?: string,
-    public identifier?: Array<string>,
+    public identifier?: Array<LinkedEntity>,
     public instanceChangedId?: string,
     public instanceId?: string,
     public keywords?: string,
@@ -28,12 +24,11 @@ export class WebService {
     public metaId?: string,
     public name?: string,
     public operation?: string,
-    public provider?: EntityDetail,
-    public schemaIdentifier?: string,
-    public spatialExtent?: Array<SpatialExtent>,
-    public state?: Status,
-    public supportedOperation?: Array<EntityDetail>,
-    public temporalExtent?: Array<TemporalExtent>,
+    public provider?: LinkedEntity,
+    public spatialExtent?: Array<LinkedEntity>,
+    public state?: WebServiceType['status'],
+    public supportedOperation?: Array<LinkedEntity>,
+    public temporalExtent?: Array<LinkedEntity>,
     public toBeDelete?: string,
     public version?: string,
   ) {}

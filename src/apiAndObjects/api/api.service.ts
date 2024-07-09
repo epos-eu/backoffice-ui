@@ -87,11 +87,6 @@ export class ApiService extends BaseApi {
       getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
       create: new PostOrganizationDetail(ApiService.USE_LIVE_API),
     },
-    Person: {
-      get: new GetPersonDetail(ApiService.USE_LIVE_API),
-      getAll: new GetAllPeople(ApiService.USE_LIVE_API),
-      create: new CreatePersonDetail(ApiService.USE_LIVE_API),
-    },
     User: {
       get: new GetUserInfo(ApiService.USE_LIVE_API),
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),

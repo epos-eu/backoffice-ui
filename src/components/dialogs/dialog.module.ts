@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogDeleteComponent } from './dialog-delete/dialog-delete.component';
-import { DialogAddPersonComponent } from './dialog-add-person/dialog-add-person.component';
 import { DialogAddContactComponent } from './dialog-add-contact/dialog-add-contact.component';
 import { DialogMetadataFileViewComponent } from './dialog-metadata-file-view/dialog-metadata-file-view.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
@@ -23,7 +22,6 @@ import { DialogSelectGroupComponent } from './dialog-select-group/dialog-select-
 @NgModule({
   declarations: [
     DialogDeleteComponent,
-    DialogAddPersonComponent,
     DialogAddContactComponent,
     DialogMetadataFileViewComponent,
     DialogRevisionsComponent,

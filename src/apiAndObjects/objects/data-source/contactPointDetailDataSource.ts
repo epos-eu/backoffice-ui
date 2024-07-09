@@ -1,8 +1,8 @@
-import { Group, LinkedEntity } from 'generated/backofficeSchemas';
+import { Group, LinkedEntity, ContactPoint as ContactPointType } from 'generated/backofficeSchemas';
 import { Status } from 'src/utility/enums/status.enum';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
 
-export class ContactPointDetailDataSource extends BaseObject {
+export class ContactPointDetailDataSource extends BaseObject implements ContactPointType {
   public static readonly KEYS = {
     CHANGE_COMMENT: 'changeComment',
     CHANGE_TIMESTAMP: 'changeTimestamp',
@@ -27,7 +27,7 @@ export class ContactPointDetailDataSource extends BaseObject {
   };
 
   public readonly changeComment: string;
-  public readonly changeTimestamp: Date;
+  public readonly changeTimestamp: string;
   public readonly editorId: string;
   public readonly email: Array<string>;
   public readonly fileProvenance: string;
@@ -51,7 +51,7 @@ export class ContactPointDetailDataSource extends BaseObject {
     super(sourceObject);
 
     this.instanceId = this._getString(ContactPointDetailDataSource.KEYS.INSTANCE_ID);
-    this.changeTimestamp = this._getDate(ContactPointDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getString(ContactPointDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.editorId = this._getString(ContactPointDetailDataSource.KEYS.EDITOR_ID);
     this.status = this._getValue(ContactPointDetailDataSource.KEYS.STATUS) as Status;
     this.toBeDelete = this._getString(ContactPointDetailDataSource.KEYS.TO_BE_DELETE);

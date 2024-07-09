@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { User } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -39,15 +39,15 @@ export class BrowseUsersComponent implements OnInit {
 
   private initData() {
     this.loading = true;
-    this.apiService.endpoints[Entity.USER].getAll.call().then((users: Array<UserInfoDataSource>) => {
+    this.apiService.endpoints[Entity.USER].getAll.call().then((users: Array<User>) => {
       this.createUserTableObjects(users);
     });
   }
 
-  private createUserTableObjects(users: Array<UserInfoDataSource>) {
+  private createUserTableObjects(users: Array<User>) {
     const tableDetails = new Array<TableUserDetail>();
     if (users) {
-      users.forEach((user: UserInfoDataSource) => {
+      users.forEach((user: User) => {
         const detail: TableUserDetail = {
           name: user.firstName,
           surname: user.lastName,

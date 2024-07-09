@@ -9,17 +9,10 @@ import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web
 import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
 import { MatDialogRef } from '@angular/material/dialog';
-import { BrowseFacilitiesComponent } from './browse-facilities/browse-facilities.component';
-import { BrowseEquipmentComponent } from './browse-equipment/browse-equipment.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
-import { BrowsePublicationsComponent } from './browse-publications/browse-publications.component';
-import { BrowsePeopleComponent } from './browse-people/browse-people.component';
-import { BrowseServicesComponent } from './browse-services/browse-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
-import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
-import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics.component';
 import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
@@ -53,7 +46,6 @@ import { PersistentIdentifierComponent } from './browse-data-products/browse-dat
 import { ContactPointComponent } from './browse-data-products/browse-data-products-item/contact-point/contact-point.component';
 import { ContactPointSearchComponent } from './browse-data-products/browse-data-products-item/contact-point/contact-point-search/contact-point-search.component';
 import { DataProvidersComponent } from './browse-data-products/browse-data-products-item/data-providers/data-providers.component';
-// import { NgxLeafletFullscreenModule } from '@runette/ngx-leaflet-fullscreen';
 
 @NgModule({
   declarations: [
@@ -64,16 +56,9 @@ import { DataProvidersComponent } from './browse-data-products/browse-data-produ
     BrowseWebServicesItemComponent,
     SnackbarComponent,
     BrowseDataProductsComponent,
-    BrowsePeopleComponent,
-    BrowseServicesComponent,
-    BrowseFacilitiesComponent,
-    BrowseEquipmentComponent,
-    BrowsePublicationsComponent,
     BrowseDataProductsItemComponent,
-    BrowseContractComponent,
     BrowseUsersComponent,
     BrowseGroupsComponent,
-    BrowseStatisticsComponent,
     BrowseContactPointComponent,
     BrowseDistributionComponent,
     CreateDataProductItemComponent,
@@ -105,15 +90,7 @@ import { DataProvidersComponent } from './browse-data-products/browse-data-produ
     ContactPointSearchComponent,
     DataProvidersComponent,
   ],
-  imports: [
-    CommonModule,
-    BrowseRoutingModule,
-    AngularMaterialModule,
-    ComponentsModule,
-    NgFor,
-    SideNavigationModule,
-    // NgxLeafletFullscreenModule,
-  ],
+  imports: [CommonModule, BrowseRoutingModule, AngularMaterialModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [],
   providers: [
     {

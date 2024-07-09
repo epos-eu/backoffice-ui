@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Distribution } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -17,7 +16,7 @@ import { Status } from 'src/utility/enums/status.enum';
 })
 export class CreateDistributionItemComponent implements OnInit {
   public form!: UntypedFormGroup;
-  public distribution!: DistributionDetailDataSource | undefined;
+  public distribution!: Distribution | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
@@ -45,7 +44,7 @@ export class CreateDistributionItemComponent implements OnInit {
 
     this.apiService.endpoints.Distribution.create
       .call(item)
-      .then((value: DistributionDetailDataSource) => {
+      .then((value: Distribution) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
@@ -59,10 +58,10 @@ export class CreateDistributionItemComponent implements OnInit {
             label: 'Distribution',
             state: Status.DRAFT,
             color: 'draft',
-            id: value.instanceId,
+            id: value.instanceId as string,
           },
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
+        this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
