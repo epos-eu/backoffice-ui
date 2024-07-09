@@ -1,29 +1,30 @@
-import { State } from 'src/utility/enums/state.enum';
+import { LinkedEntity } from 'generated/backofficeSchemas';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
 import { Group } from '../entities/group.model';
-import { EntityDetail } from '../types/entityDetail.type';
+import { Status } from 'src/utility/enums/status.enum';
 
 export class ContactPointDetailDataSource extends BaseObject {
   public static readonly KEYS = {
-    INSTANCE_ID: 'instanceId',
+    CHANGE_COMMENT: 'changeComment',
     CHANGE_TIMESTAMP: 'changeTimestamp',
     EDITOR_ID: 'editorId',
-    STATE: 'state',
-    TO_BE_DELETE: 'toBeDelete',
-    UID: 'uid',
-    FILE_PROVENANCE: 'fileProvenance',
     EMAIL: 'email',
-    LANGUAGE: 'language',
-    ORGANIZATION: 'organization',
-    ROLE: 'role',
-    PERSON: 'person',
-    TELEPHONE: 'telephone',
-    META_ID: 'metaId',
-    CHANGE_COMMENT: 'changeComment',
+    FILE_PROVENANCE: 'fileProvenance',
     GROUPS: 'groups',
     INSTANCE_CHANGED_ID: 'instanceChangedId',
+    INSTANCE_ID: 'instanceId',
+    LANGUAGE: 'language',
+    META_ID: 'metaId',
     OPERATION: 'operation',
+    ORGANIZATION: 'organization',
+    PERSON: 'person',
+    ROLE: 'role',
+    STATUS: 'status',
+    TELEPHONE: 'telephone',
+    TO_BE_DELETE: 'toBeDelete',
+    UID: 'uid',
     VERSION: 'version',
+    VERSION_ID: 'versionId',
   };
 
   public readonly changeComment: string;
@@ -37,14 +38,15 @@ export class ContactPointDetailDataSource extends BaseObject {
   public readonly language: Array<string>;
   public readonly metaId: string;
   public readonly operation: string;
-  public readonly organization: EntityDetail;
-  public readonly person: EntityDetail;
+  public readonly organization: LinkedEntity;
+  public readonly person: LinkedEntity;
   public readonly role: string;
-  public readonly state: State;
+  public readonly status: Status;
   public readonly telephone: Array<string>;
   public readonly toBeDelete: string;
   public readonly uid: string;
   public readonly version: string;
+  public readonly versionId: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -52,14 +54,14 @@ export class ContactPointDetailDataSource extends BaseObject {
     this.instanceId = this._getString(ContactPointDetailDataSource.KEYS.INSTANCE_ID);
     this.changeTimestamp = this._getDate(ContactPointDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.editorId = this._getString(ContactPointDetailDataSource.KEYS.EDITOR_ID);
-    this.state = this._getValue(ContactPointDetailDataSource.KEYS.STATE) as State;
+    this.status = this._getValue(ContactPointDetailDataSource.KEYS.STATUS) as Status;
     this.toBeDelete = this._getString(ContactPointDetailDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(ContactPointDetailDataSource.KEYS.FILE_PROVENANCE);
     this.email = this._getArray(ContactPointDetailDataSource.KEYS.EMAIL);
     this.language = this._getArray(ContactPointDetailDataSource.KEYS.LANGUAGE);
-    this.organization = this._getValue(ContactPointDetailDataSource.KEYS.ORGANIZATION) as EntityDetail;
+    this.organization = this._getValue(ContactPointDetailDataSource.KEYS.ORGANIZATION) as LinkedEntity;
     this.role = this._getString(ContactPointDetailDataSource.KEYS.ROLE);
-    this.person = this._getValue(ContactPointDetailDataSource.KEYS.PERSON) as EntityDetail;
+    this.person = this._getValue(ContactPointDetailDataSource.KEYS.PERSON) as LinkedEntity;
     this.telephone = this._getArray(ContactPointDetailDataSource.KEYS.TELEPHONE);
     this.metaId = this._getString(ContactPointDetailDataSource.KEYS.META_ID);
     this.uid = this._getString(ContactPointDetailDataSource.KEYS.UID);
@@ -68,5 +70,6 @@ export class ContactPointDetailDataSource extends BaseObject {
     this.instanceChangedId = this._getString(ContactPointDetailDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.operation = this._getString(ContactPointDetailDataSource.KEYS.OPERATION);
     this.version = this._getString(ContactPointDetailDataSource.KEYS.VERSION);
+    this.versionId = this._getString(ContactPointDetailDataSource.KEYS.VERSION_ID);
   }
 }
