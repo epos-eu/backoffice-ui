@@ -34,6 +34,14 @@
       <h1>METADATA Backoffice</h1>
     </a>
     <div class="navbar-main-navigation">
+      <button
+        mat-flat-button
+        (click)="getAllGroups()"
+      >
+        Get All
+      </button>
+      <button mat-flat-button>Create New</button>
+
       <!-- <a
         class="navbar-main-navigation-item"
         [routerLink]="['/browse']"
@@ -69,7 +77,7 @@
       <button
         mat-flat-button
         color="accent"
-        *ngIf="user === null"
+        *ngIf="user == null"
         class="hidden-xs login"
         (click)="login()"
       >

@@ -38,6 +38,10 @@ import { PutOperationDetail } from './operation/putOperationDetail';
 import { GetPersonDetail } from './person/getPersonDetail';
 import { GetAllDataProductVersions } from './data-products/getAllDataProductVersions';
 import { PutDataProductState } from './data-products/putDataProductState';
+import { GetAllGroups } from './group/getAllGroups';
+import { GetGroup } from './group/getGroup';
+import { PostGroup } from './group/postGroup';
+import { PutGroup } from './group/putGroup';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -93,6 +97,12 @@ export class ApiService extends BaseApi {
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
       create: new PostUserDetail(ApiService.USE_LIVE_API),
       update: new PutUserDetail(ApiService.USE_LIVE_API),
+    },
+    Group: {
+      get: new GetGroup(ApiService.USE_LIVE_API),
+      getAll: new GetAllGroups(ApiService.USE_LIVE_API),
+      create: new PostGroup(ApiService.USE_LIVE_API),
+      update: new PutGroup(ApiService.USE_LIVE_API),
     },
   };
 

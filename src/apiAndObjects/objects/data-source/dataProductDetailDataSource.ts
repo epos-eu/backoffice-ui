@@ -1,9 +1,9 @@
-import { State } from 'src/utility/enums/state.enum';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
-import { EntityDetail } from '../types/entityDetail.type';
 import { Identifier } from '../types/identifier.type';
+import { Status } from 'src/utility/enums/status.enum';
+import { Group, LinkedEntity } from 'generated/backofficeSchemas';
 
 export class DataProductDetailDataSource extends BaseObject {
   public static readonly KEYS = {
@@ -15,7 +15,7 @@ export class DataProductDetailDataSource extends BaseObject {
     EDITOR_ID: 'editorId',
     CHANGE_COMMENT: 'changeComment',
     VERSION: 'version',
-    STATE: 'state',
+    STATUS: 'status',
     TO_BE_DELETE: 'toBeDelete',
     UID: 'uid',
     FILE_PROVENANCE: 'fileProvenance',
@@ -42,47 +42,49 @@ export class DataProductDetailDataSource extends BaseObject {
     VERSION_INFO: 'versionInfo',
     DOCUMENTATION: 'documentation',
     QUALITY_ASSURANCE: 'qualityAssurance',
-    DCT_IDENTIFIER: 'dctIdentifier',
     HAS_QUALITY_ANNOTATION: 'hasQualityAnnotation',
+    GROUPS: 'groups',
+    VERSION_ID: 'versionId',
   };
 
-  public readonly instanceId: string;
-  public readonly metaId: string;
-  public readonly instanceChangedId: string;
-  public readonly changeTimestamp: Date;
-  public readonly operation: string;
-  public readonly editorId: string;
-  public readonly changeComment: string;
-  public readonly version: string;
-  public readonly state: State;
-  public readonly toBeDelete: string;
-  public readonly uid: string;
-  public readonly fileProvenance: string;
   public readonly accessRight: string;
   public readonly accrualPeriodicity: string;
   public readonly category: Array<string>;
-  public readonly contactPoint: Array<EntityDetail>;
+  public readonly changeComment: string;
+  public readonly changeTimestamp: Date;
+  public readonly contactPoint: Array<LinkedEntity>;
   public readonly created: Date;
   public readonly description: Array<string>;
-  public readonly distribution: Array<EntityDetail>;
-  public readonly hasPart: Array<EntityDetail>;
-  public readonly identifier: Array<Identifier>;
-  public readonly isPartOf: Array<EntityDetail>;
+  public readonly distribution: Array<LinkedEntity>;
+  public readonly documentation: string;
+  public readonly editorId: string;
+  public readonly fileProvenance: string;
+  public readonly groups: Array<Group>;
+  public readonly hasPart: Array<LinkedEntity>;
+  public readonly identifier: Array<Identifier>; // Swagger suggests LinkedEntity
+  public readonly hasQualityAnnotation: string;
+  public readonly instanceChangedId: string;
+  public readonly instanceId: string;
+  public readonly isPartOf: Array<LinkedEntity>;
   public readonly issued: Date;
   public readonly keywords: string;
+  public readonly metaId: string;
   public readonly modified: Date;
+  public readonly operation: string;
   public readonly provenance: Array<string>;
-  public readonly publisher: Array<EntityDetail>;
-  public readonly relation: Array<EntityDetail>;
-  public readonly spatialExtent: Array<SpatialExtent>;
-  public readonly temporalExtent: Array<TemporalExtent>;
-  public readonly title: Array<string>;
-  public readonly type: string;
-  public readonly versionInfo: string;
-  public readonly documentation: string;
+  public readonly publisher: Array<LinkedEntity>;
   public readonly qualityAssurance: string;
-  public readonly dctIdentifier: string;
-  public readonly hasQualityAnnotation: string;
+  public readonly relation: Array<LinkedEntity>;
+  public readonly spatialExtent: Array<SpatialExtent>; // Swagger suggests LinkedEntity
+  public readonly status: Status;
+  public readonly temporalExtent: Array<TemporalExtent>; // Swagger suggests LinkedEntity
+  public readonly title: Array<string>;
+  public readonly toBeDelete: string;
+  public readonly type: string;
+  public readonly uid: string;
+  public readonly version: string;
+  public readonly versionId: string;
+  public readonly versionInfo: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -95,7 +97,8 @@ export class DataProductDetailDataSource extends BaseObject {
     this.editorId = this._getString(DataProductDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(DataProductDetailDataSource.KEYS.CHANGE_COMMENT);
     this.version = this._getString(DataProductDetailDataSource.KEYS.VERSION);
-    this.state = this._getValue(DataProductDetailDataSource.KEYS.STATE) as State;
+    this.versionId = this._getString(DataProductDetailDataSource.KEYS.VERSION_ID);
+    this.status = this._getValue(DataProductDetailDataSource.KEYS.STATUS) as Status;
     this.toBeDelete = this._getString(DataProductDetailDataSource.KEYS.TO_BE_DELETE);
     this.uid = this._getString(DataProductDetailDataSource.KEYS.UID);
     this.fileProvenance = this._getString(DataProductDetailDataSource.KEYS.FILE_PROVENANCE);
@@ -122,7 +125,7 @@ export class DataProductDetailDataSource extends BaseObject {
     this.versionInfo = this._getString(DataProductDetailDataSource.KEYS.VERSION_INFO);
     this.documentation = this._getString(DataProductDetailDataSource.KEYS.DOCUMENTATION);
     this.qualityAssurance = this._getString(DataProductDetailDataSource.KEYS.QUALITY_ASSURANCE);
-    this.dctIdentifier = this._getString(DataProductDetailDataSource.KEYS.DCT_IDENTIFIER);
     this.hasQualityAnnotation = this._getString(DataProductDetailDataSource.KEYS.HAS_QUALITY_ANNOTATION);
+    this.groups = this._getArray(DataProductDetailDataSource.KEYS.GROUPS);
   }
 }
