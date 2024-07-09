@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject, Subject, combineLatest, filter, takeUntil } from 'rxjs';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { ActionsService } from 'src/services/actions.service';
 import { IChangeItem } from './edit.interface';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -9,8 +9,8 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Router } from '@angular/router';
 import { StateChangeService } from 'src/services/stateChange.service';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { HelpersService } from 'src/services/helpers.service';
+import { DataProduct } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-edit-navigation',
@@ -22,7 +22,7 @@ export class EditNavigationComponent implements OnInit, OnDestroy {
   private stop$ = new Subject<void>();
   public itemsExist = new BehaviorSubject<boolean>(false);
   public currentEdit!: IChangeItem;
-  public state = State;
+  public status = Status;
   public formEdited = false;
   public activeDataProduct?: DataProduct | null;
   public disableSave = false;
@@ -73,7 +73,7 @@ export class EditNavigationComponent implements OnInit, OnDestroy {
       .subscribe(([dataProduct, formEdited]) => {
         this.activeDataProduct = dataProduct;
         this.formEdited = formEdited;
-        this.disableSave = this.activeDataProduct?.state === State.DRAFT && !this.formEdited;
+        this.disableSave = this.activeDataProduct?.status === Status.DRAFT && !this.formEdited;
       });
   }
 
@@ -98,9 +98,9 @@ export class EditNavigationComponent implements OnInit, OnDestroy {
     this.entityExecutionService.handleCreateDataProductFromPublishedOrArchivedEntity();
   }
 
-  public handleChangeState(state: State) {
+  public handleChangeState(status: Status) {
     if (this.activeEntity) {
-      this.stateChangeService.handleStateChange(state, this.activeEntity);
+      this.stateChangeService.handleStateChange(status, this.activeEntity);
     }
   }
 

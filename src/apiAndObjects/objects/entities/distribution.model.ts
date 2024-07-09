@@ -1,4 +1,4 @@
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { Group } from './group.model';
 import { EntityDetail } from '../types/entityDetail.type';
 export class Distribution {
@@ -24,7 +24,7 @@ export class Distribution {
     public metaId?: string,
     public modified?: string,
     public operation?: string,
-    public state?: State,
+    public state?: Status,
     public title?: Array<string>,
     public toBeDelete?: string,
     public type?: string,

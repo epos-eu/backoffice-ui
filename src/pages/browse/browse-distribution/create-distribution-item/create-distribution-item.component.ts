@@ -8,7 +8,7 @@ import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-create-distribution-item',
@@ -57,7 +57,7 @@ export class CreateDistributionItemComponent implements OnInit {
             type: Entity.DISTRIBUTION,
             route: EntityEndpointValue.DISTRIBUTION,
             label: 'Distribution',
-            state: State.DRAFT,
+            state: Status.DRAFT,
             color: 'draft',
             id: value.instanceId,
           },

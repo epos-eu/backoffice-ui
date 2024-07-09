@@ -1,10 +1,9 @@
+import { Status } from 'src/utility/enums/status.enum';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
 import { SpatialExtent } from '../types/spatialExtent.type';
 import { TemporalExtent } from '../types/temporalExtent.type';
 import { Identifier } from '../types/identifier.type';
-import { Status } from 'src/utility/enums/status.enum';
 import { Group, LinkedEntity } from 'generated/backofficeSchemas';
-
 export class DataProductDetailDataSource extends BaseObject {
   public static readonly KEYS = {
     INSTANCE_ID: 'instanceId',
@@ -92,7 +91,7 @@ export class DataProductDetailDataSource extends BaseObject {
     this.instanceId = this._getString(DataProductDetailDataSource.KEYS.INSTANCE_ID);
     this.metaId = this._getString(DataProductDetailDataSource.KEYS.META_ID);
     this.instanceChangedId = this._getString(DataProductDetailDataSource.KEYS.INSTANCE_CHANGE_ID);
-    this.changeTimestamp = this._getDate(DataProductDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getString(DataProductDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.operation = this._getString(DataProductDetailDataSource.KEYS.OPERATION);
     this.editorId = this._getString(DataProductDetailDataSource.KEYS.EDITOR_ID);
     this.changeComment = this._getString(DataProductDetailDataSource.KEYS.CHANGE_COMMENT);
@@ -106,15 +105,15 @@ export class DataProductDetailDataSource extends BaseObject {
     this.accrualPeriodicity = this._getString(DataProductDetailDataSource.KEYS.ACCRUAL_PERIODICITY);
     this.category = this._getArray(DataProductDetailDataSource.KEYS.CATEGORY);
     this.contactPoint = this._getArray(DataProductDetailDataSource.KEYS.CONTACT_POINT);
-    this.created = this._getDate(DataProductDetailDataSource.KEYS.CREATED);
+    this.created = this._getString(DataProductDetailDataSource.KEYS.CREATED);
     this.description = this._getArray(DataProductDetailDataSource.KEYS.DESCRIPTION);
     this.distribution = this._getArray(DataProductDetailDataSource.KEYS.DISTRIBUTION);
     this.hasPart = this._getArray(DataProductDetailDataSource.KEYS.HAS_PART);
     this.identifier = this._getArray(DataProductDetailDataSource.KEYS.IDENTIFIER);
     this.isPartOf = this._getArray(DataProductDetailDataSource.KEYS.IS_PART_OF);
-    this.issued = this._getDate(DataProductDetailDataSource.KEYS.ISSUED);
+    this.issued = this._getString(DataProductDetailDataSource.KEYS.ISSUED);
     this.keywords = this._getString(DataProductDetailDataSource.KEYS.KEYWORDS);
-    this.modified = this._getDate(DataProductDetailDataSource.KEYS.MODIFIED);
+    this.modified = this._getString(DataProductDetailDataSource.KEYS.MODIFIED);
     this.provenance = this._getArray(DataProductDetailDataSource.KEYS.PROVENANCE);
     this.publisher = this._getArray(DataProductDetailDataSource.KEYS.PUBLISHER);
     this.relation = this._getArray(DataProductDetailDataSource.KEYS.RELATION);

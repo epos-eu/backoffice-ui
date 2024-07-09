@@ -29,7 +29,6 @@ import { CreateDistributionItemComponent } from './browse-distribution/create-di
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
 import { CreateContactPointItemComponent } from './browse-contact-point/create-contact-point-item/create-contact-point-item.component';
 import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
-import { ContactPointFormDetailsComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-form-details.component';
 import { DistributionFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/distribution-form-details.component';
 import { WebserviceFormDetailsComponent } from './browse-data-products/browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
 import { SpatialCoverageMapComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
@@ -42,11 +41,18 @@ import { OptionDateComponent } from './browse-data-products/browse-data-products
 import { OptionCoordinateComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-coordinate/option-coordinate.component';
 import { OptionBooleanComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-boolean/option-boolean.component';
 import { OptionFloatComponent } from './browse-data-products/browse-data-products-item/operation-parameters/option-float/option-float.component';
-import { ContactPointDetailComponent } from './browse-data-products/browse-data-products-item/contact-point-form-details/contact-point-detail/contact-point-detail.component';
+import { ContactPointDetailComponent } from './browse-data-products/browse-data-products-item/contact-point/contact-point-detail/contact-point-detail.component';
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 import { SimpleSpatialControlComponent } from './browse-data-products/browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { OrderByPipe } from 'src/pipes/orderBy.pipe';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
+import { GeneralInformationComponent } from './browse-data-products/browse-data-products-item/general-information/general-information.component';
+import { SpatialCoverageComponent } from './browse-data-products/browse-data-products-item/spatial-coverage/spatial-coverage.component';
+import { TemporalCoverageComponent } from './browse-data-products/browse-data-products-item/temporal-coverage/temporal-coverage.component';
+import { PersistentIdentifierComponent } from './browse-data-products/browse-data-products-item/persistent-identifier/persistent-identifier.component';
+import { ContactPointComponent } from './browse-data-products/browse-data-products-item/contact-point/contact-point.component';
+import { ContactPointSearchComponent } from './browse-data-products/browse-data-products-item/contact-point/contact-point-search/contact-point-search.component';
+import { DataProvidersComponent } from './browse-data-products/browse-data-products-item/data-providers/data-providers.component';
 // import { NgxLeafletFullscreenModule } from '@runette/ngx-leaflet-fullscreen';
 
 @NgModule({
@@ -76,7 +82,6 @@ import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
     CreateWebServiceItemComponent,
     CreateContactPointItemComponent,
     BrowseContactPointItemComponent,
-    ContactPointFormDetailsComponent,
     ContactPointDetailComponent,
     DistributionFormDetailsComponent,
     WebserviceFormDetailsComponent,
@@ -92,6 +97,13 @@ import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
     BrowseRevisionsComponent,
     SimpleSpatialControlComponent,
     OrderByPipe,
+    GeneralInformationComponent,
+    SpatialCoverageComponent,
+    TemporalCoverageComponent,
+    PersistentIdentifierComponent,
+    ContactPointComponent,
+    ContactPointSearchComponent,
+    DataProvidersComponent,
   ],
   imports: [
     CommonModule,

@@ -8,7 +8,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ActionsService } from 'src/services/actions.service';
 import { Entity } from 'src/utility/enums/entity.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-create-web-service-item',
@@ -56,7 +56,7 @@ export class CreateWebServiceItemComponent implements OnInit {
             type: Entity.WEBSERVICE,
             route: EntityEndpointValue.WEBSERVICE,
             label: 'Webservice',
-            state: State.DRAFT,
+            state: Status.DRAFT,
             color: 'draft',
             id: value.instanceId,
           },

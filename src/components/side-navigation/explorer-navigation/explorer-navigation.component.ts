@@ -64,6 +64,7 @@ export class ExplorerNavigationComponent implements OnInit {
 
   public scrollOn(nodeId: string) {
     this.explorerService.goTo(nodeId);
+    this.explorerService.goTo;
   }
 
   private expandNodes(treeNodeArray: Array<FormTreeNode>): void {

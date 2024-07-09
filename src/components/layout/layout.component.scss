@@ -138,19 +138,25 @@ button {
       }
     }
   }
+
+  &.login {
+    padding: 15px;
+    color: white;
+    font-weight: bold;
+    background-color: orange;
+  }
 }
 
 .dropdown-menu {
+  background: #ffffff;
   min-width: 160px;
-
-  background: $color-background-panel;
-  background-clip: padding-box;
   line-height: normal;
   z-index: 100;
   position: absolute;
   right: 25px;
   left: auto;
-  top: 80px;
+  top: 70px;
+  border-radius: 0 0 10px 10px;
 
   &--userdropdown {
     width: 280px;
@@ -158,12 +164,13 @@ button {
   }
 
   &-header {
-    padding: 7px 10px;
+    padding: 0 0 0 1rem;
     border-bottom: 1px solid $color-text-bg;
-    color: $color-dark-text;
-    font-size: 14px;
-    background: $color-primary;
-    border-radius: 5px 5px 0 0;
+
+    .notice {
+      color: #717171;
+      font-size: 13px;
+    }
 
     &-userimage {
       display: block;
@@ -187,6 +194,28 @@ button {
     color: black;
     padding: 10px;
 
+    a,
+    button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      color: $color-dark-text;
+      justify-content: flex-start;
+      margin-bottom: 0.5rem;
+
+      span {
+        &.mdc-button__label {
+          display: flex;
+          align-items: center;
+
+          span {
+            margin-left: 0.75rem;
+            margin-top: 0.25rem;
+          }
+        }
+      }
+    }
+
     & .wrapper {
       .menuitem {
         display: flex;
@@ -207,8 +236,9 @@ button {
     padding: 10px;
     border-radius: 0 0 5px 5px;
 
-    & .btn-default {
-      color: $color-text-bg-dark;
+    button {
+      width: 100%;
+      border-top: 1px solid #efefef;
     }
 
     &:after {

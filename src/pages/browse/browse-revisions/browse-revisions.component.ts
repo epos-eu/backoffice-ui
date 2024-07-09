@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import * as jsondiffpatch from 'jsondiffpatch';
 import * as htmlFormatter from 'jsondiffpatch/formatters/html';
 import { ActivatedRoute } from '@angular/router';
 import { HelpersService } from 'src/services/helpers.service';
+import { DataProduct } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-browse-revisions',
@@ -19,8 +19,8 @@ export class BrowseRevisionsComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
 
-  public revisions: Array<DataProductDetailDataSource> = [];
-  public entities: Array<DataProductDetailDataSource | undefined> = [];
+  public revisions: Array<DataProduct> = [];
+  public entities: Array<DataProduct | undefined> = [];
   public visualDiff!: string | undefined;
   public loading = false;
   public error = false;
@@ -30,10 +30,10 @@ export class BrowseRevisionsComponent implements OnInit {
     return this.persistorService.getValueFromStorage(StorageType.LOCAL_STORAGE, StorageKey.REVISIONS);
   }
 
-  private _mapResponse(revisions: DataProductDetailDataSource[]): void {
+  private _mapResponse(revisions: DataProduct[]): void {
     const mapped = revisions.map((revision) =>
       Object.fromEntries(Object.entries(revision).filter(([key]) => key !== '_sourceObject')),
-    ) as DataProductDetailDataSource[];
+    );
     this.revisions = mapped;
   }
 
@@ -60,7 +60,7 @@ export class BrowseRevisionsComponent implements OnInit {
       this._mapResponse(this.revisions);
       this.visualDiff = this._getVisualDiff();
     } else {
-      this.helpersService.revisionsObs.subscribe((revisions: Array<DataProductDetailDataSource>) => {
+      this.helpersService.revisionsObs.subscribe((revisions: Array<DataProduct>) => {
         this.revisions = revisions;
         this._mapResponse(this.revisions);
         this.visualDiff = this._getVisualDiff();

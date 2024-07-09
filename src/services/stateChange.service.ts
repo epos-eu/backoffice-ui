@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { SnackbarService } from './snackbar.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EntityExecutionService } from './calls/entity-execution.service';
@@ -9,6 +9,7 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { LoadingService } from './loading.service';
+import { DataProduct } from 'generated/backofficeSchemas';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class StateChangeService {
   private triggerReload = new Subject<boolean>();
   public triggerReloadObs = this.triggerReload.asObservable();
 
-  private currentDataProductState = new BehaviorSubject<State | null>(null);
+  private currentDataProductState = new BehaviorSubject<DataProduct['status'] | undefined>(undefined);
   public currentDataProductStateObs = this.currentDataProductState.asObservable();
 
   constructor(
@@ -29,35 +30,35 @@ export class StateChangeService {
     private loadingService: LoadingService,
   ) {}
 
-  public getCurrentDataProductState(): State | null {
+  public getCurrentDataProductState(): DataProduct['status'] | null {
     return this.currentDataProductState.getValue();
   }
 
-  public setCurrentDataProductState(state: State): void {
+  public setCurrentDataProductState(state: DataProduct['status']): void {
     this.currentDataProductState.next(state);
   }
 
-  public handleStateChange(state: State, entity: Entity) {
+  public handleStateChange(state: DataProduct['status'], entity: Entity) {
     let message = '';
 
     switch (state) {
-      case State.SUBMITTED: {
+      case Status.SUBMITTED: {
         message = `Are you sure you'd like to Submit this draft?`;
         break;
       }
-      case State.PUBLISHED: {
+      case Status.PUBLISHED: {
         message = `Are you sure you'd like to publish this submission?`;
         break;
       }
-      case State.DISCARDED: {
+      case Status.DISCARDED: {
         message = `Are you sure you'd like to reject this submission?`;
         break;
       }
-      case State.ARCHIVED: {
+      case Status.ARCHIVED: {
         message = `Are you sure you'd like to archive this published instance?`;
         break;
       }
-      case State.DRAFT: {
+      case Status.DRAFT: {
         message = `Are you sure you'd like to revert this rejected instance back to draft?`;
         break;
       }
@@ -85,27 +86,27 @@ export class StateChangeService {
     });
   }
 
-  private handleChangeDataProductState(instanceId: string, state: State) {
+  private handleChangeDataProductState(instanceId: string, state: DataProduct['status']) {
     let message = '';
 
     switch (state) {
-      case State.SUBMITTED: {
+      case Status.SUBMITTED: {
         message = 'Draft submitted successfully';
         break;
       }
-      case State.PUBLISHED: {
+      case Status.PUBLISHED: {
         message = 'Submission published successfully';
         break;
       }
-      case State.DISCARDED: {
+      case Status.DISCARDED: {
         message = 'Submission rejected successfully';
         break;
       }
-      case State.ARCHIVED: {
+      case Status.ARCHIVED: {
         message = 'Published instance archived successfully';
         break;
       }
-      case State.DRAFT: {
+      case Status.DRAFT: {
         message = 'Reverted to Draft successfully';
         break;
       }
@@ -141,8 +142,9 @@ export class StateChangeService {
           5000,
           ['snackbar', 'mat-toolbar', 'snackbar-error'],
         );
-      }).finally(() => {
-        this.loadingService.setShowSpinner(false);
       })
+      .finally(() => {
+        this.loadingService.setShowSpinner(false);
+      });
   }
 }

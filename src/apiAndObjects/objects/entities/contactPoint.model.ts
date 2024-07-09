@@ -1,6 +1,6 @@
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { Group } from './group.model';
-import { EntityDetail } from '../types/entityDetail.type';
+import { LinkedEntity } from 'generated/backofficeSchemas';
 
 export class ContactPoint {
   constructor(
@@ -16,10 +16,10 @@ export class ContactPoint {
     public language?: Array<string>,
     public metaId?: string,
     public operation?: string,
-    public organization?: EntityDetail,
-    public person?: EntityDetail,
+    public organization?: LinkedEntity,
+    public person?: LinkedEntity,
     public role?: string,
-    public state?: State,
+    public state?: Status,
     public telephone?: Array<string>,
     public toBeDelete?: string,
     public version?: string,

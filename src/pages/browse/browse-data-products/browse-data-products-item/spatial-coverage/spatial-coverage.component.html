@@ -1,0 +1,34 @@
+<div
+  class="spatial-coverage-map-wrapper"
+  *ngIf="dataProduct.spatialExtent && dataProduct.spatialExtent.length > 0"
+>
+  <app-spatial-coverage-map
+    [mapId]="'dataproductMap'"
+    [spatialRange]="spatialCoverageInput"
+    [coordinatesChange]="spatialCoverageChange"
+  >
+  </app-spatial-coverage-map>
+</div>
+
+<ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
+  <div class="spatial-item">
+    <app-simple-spatial-control
+      [spatialExtent]="item"
+      [index]="i"
+      [inputsDisabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+      (location)="updateSpatialCoverage($event)"
+      (delete)="this.deleteSpatialCoverage($event)"
+    ></app-simple-spatial-control>
+  </div>
+</ng-container>
+
+<div class="spatial-coverage-actions">
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="newSpatialCoverage()"
+    [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+  >
+    Add Spatial Coverage
+  </button>
+</div>

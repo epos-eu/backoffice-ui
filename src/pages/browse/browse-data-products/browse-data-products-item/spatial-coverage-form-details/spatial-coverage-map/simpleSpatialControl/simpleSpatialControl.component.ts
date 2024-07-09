@@ -1,8 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { Location } from 'generated/backofficeSchemas';
 import { Subject } from 'rxjs';
-import { SpatialExtent } from 'src/apiAndObjects/objects/types/spatialExtent.type';
-
 import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum';
 
 export interface SpatialExtentLocationIndexObj {
@@ -18,12 +17,14 @@ export class SimpleSpatialControlComponent {
   @Input() index?: number;
   @Input() inputsDisabled = false;
   @Input()
-  set spatialExtent(value: SpatialExtent) {
+  set spatialExtent(value: Location) {
     if (null != value) {
       this.setSpatialCoverageVariables(value);
-      value.location.includes(SpatialCoverageType.POINT)
-        ? (this.activeCoverageType = SpatialCoverageType.POINT)
-        : (this.activeCoverageType = SpatialCoverageType.POLYGON);
+      if (value.location?.includes(SpatialCoverageType.POINT)) {
+        this.activeCoverageType = SpatialCoverageType.POINT;
+      } else {
+        this.activeCoverageType = SpatialCoverageType.POLYGON;
+      }
     }
   }
   @Output() location = new Subject<SpatialExtentLocationIndexObj>();
@@ -47,14 +48,14 @@ export class SimpleSpatialControlComponent {
   /**
    * The function sets spatial coverage variables based on the data product's spatial extent.
    */
-  private setSpatialCoverageVariables(extent: SpatialExtent) {
-    if (extent.location.includes(SpatialCoverageType.POINT)) {
-      const coordStringArr = this.formatLocationFromObjectToString(extent.location as string).split(' ');
+  private setSpatialCoverageVariables(extent: Location) {
+    if (extent.location?.includes(SpatialCoverageType.POINT)) {
+      const coordStringArr = this.formatLocationFromObjectToString(extent.location).split(' ');
       const coordNumArr = coordStringArr.map((coordString: string) => Number(coordString));
       this.longitude = coordNumArr[0];
       this.latitude = coordNumArr[1];
     } else {
-      this.polygonCoverage = this.formatLocationFromObjectToString(extent.location);
+      this.polygonCoverage = this.formatLocationFromObjectToString(extent.location as string);
     }
   }
 

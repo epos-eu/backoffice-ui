@@ -1,0 +1,26 @@
+<mat-form-field>
+  <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
+  <mat-select
+    [(ngModel)]="selectedDataProviders"
+    (ngModelChange)="handleDataProviderChange($event)"
+    [ngModelOptions]="{ standalone: true }"
+    [compareWith]="compareWithFn"
+    multiple
+    [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+  >
+    <mat-option
+      *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
+      [value]="provider"
+    >
+      {{ provider.legalName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<ul
+  class="selected-providers-list"
+  *ngIf="selectedDataProviders.length > 0"
+>
+  <li *ngFor="let provider of selectedDataProviders">
+    {{ provider.legalName }}
+  </li>
+</ul>

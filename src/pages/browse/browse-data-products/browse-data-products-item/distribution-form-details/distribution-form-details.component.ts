@@ -1,17 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  AbstractControl,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
+import { WebService, DataProduct } from 'generated/backofficeSchemas';
 import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
@@ -20,7 +11,7 @@ import { EntityExecutionService } from 'src/services/calls/entity-execution.serv
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { FormatTypes } from './formats';
 import { ExplorerService } from 'src/components/side-navigation/explorer-navigation/explorer.service';
 import { FormTree } from 'src/components/side-navigation/explorer-navigation/formTree';
@@ -89,8 +80,8 @@ export class DistributionFormDetailsComponent {
     private helpersService: HelpersService,
     private loadingService: LoadingService,
   ) {
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | undefined) => {
+      if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;
@@ -257,7 +248,7 @@ export class DistributionFormDetailsComponent {
     };
     const item: WebService = {
       distribution: [relatedDistribution],
-      dateModified: new Date(),
+      dateModified: '',
     };
 
     this.dialogService
@@ -267,7 +258,7 @@ export class DistributionFormDetailsComponent {
           this.loadingService.setShowSpinner(true);
           this.apiService.endpoints.WebService.create
             .call(item)
-            .then((value: WebserviceDetailDataSource) => {
+            .then((value: WebService) => {
               this.snackbarService.openSnackbar(
                 `Please click 'Save Web Service' followed by 'Save Distribution'.`,
                 'close',
@@ -280,17 +271,17 @@ export class DistributionFormDetailsComponent {
                   type: Entity.WEBSERVICE,
                   route: EntityEndpointValue.WEBSERVICE,
                   label: 'Webservice',
-                  state: State.DRAFT,
+                  state: Status.DRAFT,
                   color: 'draft',
-                  id: value.instanceId,
+                  id: value.instanceId as string,
                 },
               ]);
-              this.actionsService.saveCurrentEdit(value.instanceId);
+              this.actionsService.saveCurrentEdit(value.instanceId as string);
               const entityDetail: EntityDetail = {
                 entityType: Entity.WEBSERVICE,
-                instanceId: value.instanceId,
-                uid: value.uid,
-                metaId: value.metaId,
+                instanceId: value.instanceId as string,
+                uid: value.uid as string,
+                metaId: value.metaId as string,
               };
               this.accessService = entityDetail;
               this.enableDistributionSave();

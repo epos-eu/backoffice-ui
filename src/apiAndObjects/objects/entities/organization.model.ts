@@ -1,4 +1,4 @@
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { Address } from '../types/address.type';
 import { EntityDetail } from '../types/entityDetail.type';
 import { Identifier } from '../types/identifier.type';
@@ -25,7 +25,7 @@ export class Organization {
     public metaId: string,
     public operation: string,
     public owns: Array<string>,
-    public state: State,
+    public state: Status,
     public telephone: Array<string>,
     public toBeDelete: string,
     public type: string,

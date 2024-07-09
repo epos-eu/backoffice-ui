@@ -1,12 +1,13 @@
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, last } from 'rxjs';
 import { IActionItem } from 'src/components/actions-data/actions-data.interface';
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 import { LoadingService } from 'src/services/loading.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -23,31 +24,31 @@ export class HomePageComponent implements OnInit, OnDestroy {
       label: 'Draft',
       count: 0,
       color: 'default',
-      type: State.DRAFT,
+      type: Status.DRAFT,
     },
     {
       label: 'Submitted',
       count: 0,
       color: 'warning',
-      type: State.SUBMITTED,
+      type: Status.SUBMITTED,
     },
     {
       label: 'Published',
       count: 0,
       color: 'success',
-      type: State.PUBLISHED,
+      type: Status.PUBLISHED,
     },
     {
       label: 'Archived',
       count: 0,
       color: 'error',
-      type: State.ARCHIVED,
+      type: Status.ARCHIVED,
     },
     {
       label: 'Discarded',
       count: 0,
       color: 'error',
-      type: State.DISCARDED,
+      type: Status.DISCARDED,
     },
   ];
 
@@ -57,6 +58,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private readonly activeUserService: ActiveUserService,
     private actionsService: ActionsService,
     private loadingService: LoadingService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +69,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
       }),
     );
     this.userInfo$ = this.activeUserService.activeUserInfoObservable;
+    this.userInfo$.pipe(last()).subscribe((userInfo: UserBackofficeInfo | null) => {
+      console.log(userInfo);
+      if (userInfo == null) {
+        this.router.navigate(['/login']);
+      }
+    });
     this.actionsService.initEditedItems();
     this.actionsService.editedItemsObservable.subscribe((editedItems: Array<IChangeItem>) => {
       this.getCounts(editedItems);
@@ -80,7 +88,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   private getCounts(editedItems: Array<IChangeItem>): void {
-    const types = Object.values(State);
+    const types = Object.values(Status);
     editedItems.map((item) => {
       if (types.includes(item.state)) {
         const index = this.actionItems.findIndex((obj) => obj.type === item.state);

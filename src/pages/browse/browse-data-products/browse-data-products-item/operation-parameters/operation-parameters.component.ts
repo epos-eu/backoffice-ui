@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { DataProduct } from 'generated/backofficeSchemas';
 import { Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
@@ -12,7 +13,7 @@ import { StateChangeService } from 'src/services/stateChange.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
-import { State } from 'src/utility/enums/state.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -33,8 +34,8 @@ export class OperationParametersComponent implements OnInit {
     private dialogService: DialogService,
     private stateChangeService: StateChangeService,
   ) {
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: State | null) => {
-      if (state === null || state === State.PUBLISHED || state === State.ARCHIVED) {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
+      if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
         this.disabled = true;
       } else {
         this.disabled = false;
