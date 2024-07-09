@@ -1,6 +1,5 @@
-import { LinkedEntity } from 'generated/backofficeSchemas';
+import { Group, LinkedEntity } from 'generated/backofficeSchemas';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
-import { Group } from '../entities/group.model';
 import { Status } from 'src/utility/enums/status.enum';
 
 export class ContactPointDetailDataSource extends BaseObject {
