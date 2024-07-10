@@ -1,10 +1,4 @@
-import {
-  Identifier,
-  LinkedEntity,
-  Location,
-  PeriodOfTime,
-  DataProduct as DataProductType,
-} from 'generated/backofficeSchemas';
+import { Identifier, LinkedEntity, DataProduct as DataProductType } from 'generated/backofficeSchemas';
 
 export class DataProduct implements DataProductType {
   constructor(
@@ -35,9 +29,9 @@ export class DataProduct implements DataProductType {
     public publisher?: Array<LinkedEntity>,
     public qualityAssurance?: string,
     public relation?: Array<LinkedEntity>,
-    public spatialExtent?: Array<Location>,
+    public spatialExtent?: Array<LinkedEntity>,
     public status?: DataProductType['status'],
-    public temporalExtent?: Array<PeriodOfTime>,
+    public temporalExtent?: Array<LinkedEntity>,
     public title?: Array<string>,
     public toBeDelete?: string,
     public type?: string,

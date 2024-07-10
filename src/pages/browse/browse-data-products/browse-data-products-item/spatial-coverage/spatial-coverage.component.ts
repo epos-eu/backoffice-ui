@@ -1,18 +1,21 @@
-import { Input, Component } from '@angular/core';
+import { Input, Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Status } from 'src/utility/enums/status.enum';
 import { SpatialExtentLocationIndexObj } from '../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
-import { Location } from 'generated/backofficeSchemas';
+import { LinkedEntity, Location } from 'generated/backofficeSchemas';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { GetLocationParams } from 'src/apiAndObjects/api/location/getLocation';
+import { LocationModel } from 'src/apiAndObjects/objects/entities/location.model';
 
 @Component({
   selector: 'app-spatial-coverage',
   templateUrl: './spatial-coverage.component.html',
   styleUrl: './spatial-coverage.component.scss',
 })
-export class SpatialCoverageComponent {
-  constructor(private entityExecutionService: EntityExecutionService) {}
+export class SpatialCoverageComponent implements OnInit {
+  constructor(private entityExecutionService: EntityExecutionService, private apiService: ApiService) {}
 
   @Input() dataProduct!: DataProduct;
 
@@ -20,15 +23,44 @@ export class SpatialCoverageComponent {
   public stateEnum = Status;
   public spatialCoverageInput: Array<string | undefined> = [];
   public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
+  public spatialExtents: Array<Location> = [];
+
+  public ngOnInit(): void {
+    this.dataProduct.spatialExtent?.forEach((location: LinkedEntity) => {
+      const params: GetLocationParams = {
+        instanceId: location.instanceId as string,
+        metaId: location.metaId as string,
+        singleOptionOnly: true,
+      };
+      this.apiService.endpoints.Location.get.call(params).then((item: Array<LocationModel>) => {
+        this.spatialExtents.push(item[0]);
+      });
+    });
+  }
+
+  // public newSpatialCoverage() {
+  //   this.dataProduct.spatialExtent?.push({ location: 'POINT(0 0)' });
+  //   this.spatialCoverageInput.push('0 0');
+
+  //   // Update Global Dataproduct after change to Spatial Extents Arr
+  //   this.entityExecutionService.setActiveDataProduct(
+  //     this.entityExecutionService.convertToDataProduct(this.dataProduct),
+  //   );
+
+  //   setTimeout(() => {
+  //     this.refreshPointsOnMap();
+  //   }, 100);
+  // }
 
   public newSpatialCoverage() {
-    this.dataProduct.spatialExtent?.push({ location: 'POINT(0 0)' });
-    this.spatialCoverageInput.push('0 0');
+    // this.apiService.endpoints.Location.create.call().then(() => {});
+    // this.dataProduct.spatialExtent?.push({ location: 'POINT(0 0)' });
+    // this.spatialCoverageInput.push('0 0');
 
-    // Update Global Dataproduct after change to Spatial Extents Arr
-    this.entityExecutionService.setActiveDataProduct(
-      this.entityExecutionService.convertToDataProduct(this.dataProduct),
-    );
+    // // Update Global Dataproduct after change to Spatial Extents Arr
+    // this.entityExecutionService.setActiveDataProduct(
+    //   this.entityExecutionService.convertToDataProduct(this.dataProduct),
+    // );
 
     setTimeout(() => {
       this.refreshPointsOnMap();

@@ -68,7 +68,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.loadingService.setLoading(false);
       }),
     );
-    this.userInfo$ = this.activeUserService.activeUserInfoObservable;
+    // this.userInfo$ = this.activeUserService.activeUserInfoObservable;
     this.userInfo$.pipe(last()).subscribe((userInfo: UserBackofficeInfo | null) => {
       console.log(userInfo);
       if (userInfo == null) {

@@ -91,7 +91,7 @@
             name="description"
             [ngStyle]="{ 'line-height': '1.4' }"
             formControlName="description"
-            [value]="distributionDetail.description[0]"
+            [value]="distributionDetail.description ? distributionDetail.description[0] : ''"
           ></textarea>
         </mat-form-field>
         <mat-form-field

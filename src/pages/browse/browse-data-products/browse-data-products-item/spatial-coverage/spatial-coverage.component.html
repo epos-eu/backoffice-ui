@@ -10,7 +10,7 @@
   </app-spatial-coverage-map>
 </div>
 
-<ng-container *ngFor="let item of dataProduct.spatialExtent; let i = index">
+<ng-container *ngFor="let item of spatialExtents; let i = index">
   <div class="spatial-item">
     <app-simple-spatial-control
       [spatialExtent]="item"

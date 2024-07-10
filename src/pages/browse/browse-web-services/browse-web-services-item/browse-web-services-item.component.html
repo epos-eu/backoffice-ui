@@ -239,7 +239,7 @@
         <ng-container *ngIf="webservice.spatialExtent && webservice.spatialExtent.length > 0">
           <mat-label class="heading">Spatial extent</mat-label>
           <ng-container *ngFor="let item of webservice.spatialExtent">
-            <mat-form-field
+            <!-- <mat-form-field
               appearance="outline"
               [floatLabel]="floatLabelControl.value"
               [style.width.%]="96"
@@ -253,7 +253,7 @@
                 [value]="item.location"
                 readonly
               />
-            </mat-form-field>
+            </mat-form-field> -->
           </ng-container>
         </ng-container>
         <ng-container *ngIf="webservice.temporalExtent && webservice.temporalExtent.length > 0">
@@ -266,13 +266,13 @@
               class="indent"
             >
               <mat-label>Start date</mat-label>
-              <input
+              <!-- <input
                 matInput
                 placeholder="Start date"
                 name="temporalExtent.startDate"
                 [value]="item.startDate"
                 readonly
-              />
+              /> -->
             </mat-form-field>
             <mat-form-field
               appearance="outline"
@@ -281,13 +281,13 @@
               class="indent"
             >
               <mat-label>End date</mat-label>
-              <input
+              <!-- <input
                 matInput
                 placeholder="End date"
                 name="temporalExtent.endDate"
                 [value]="item.endDate"
                 readonly
-              />
+              /> -->
             </mat-form-field>
           </ng-container>
         </ng-container>

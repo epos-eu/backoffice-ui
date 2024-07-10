@@ -2,17 +2,18 @@ import { HttpHeaders } from '@angular/common/http';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { LocationDataSource } from 'src/apiAndObjects/objects/data-source/locationDetailDataSource';
+import { LocationModel } from 'src/apiAndObjects/objects/entities/location.model';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
-export class GetLocation extends CacheableEndpoint<Array<LocationDataSource>, GetLocationParams, LocationDataSource> {
+export class GetLocation extends CacheableEndpoint<Array<LocationModel>, GetLocationParams, LocationModel> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: GetLocationParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetLocationParams): Promise<Array<LocationDataSource>> {
+  protected callLive(params: GetLocationParams): Promise<Array<LocationModel>> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -25,7 +26,7 @@ export class GetLocation extends CacheableEndpoint<Array<LocationDataSource>, Ge
     return this.buildObjectsFromResponse(LocationDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<LocationDataSource[]> {
+  protected callMock(): Promise<LocationModel[]> {
     throw new Error('Method not implemented.');
   }
 

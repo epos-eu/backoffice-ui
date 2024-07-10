@@ -11,7 +11,7 @@ export class LocationDataSource extends BaseObject implements Location {
     GROUPS: 'groups',
     INSTANCE_CHANGED_ID: 'instanceChangedId',
     INSTANCE_ID: 'instanceId',
-    location: 'location',
+    LOCATION: 'location',
     META_ID: 'metaId',
     OPERATION: 'operation',
     STATUS: 'status',
@@ -46,7 +46,7 @@ export class LocationDataSource extends BaseObject implements Location {
     this.groups = this._getArray(LocationDataSource.KEYS.GROUPS);
     this.instanceChangedId = this._getString(LocationDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.instanceId = this._getString(LocationDataSource.KEYS.INSTANCE_ID);
-    this.location = this._getString(LocationDataSource.KEYS.location);
+    this.location = this._getString(LocationDataSource.KEYS.LOCATION);
     this.metaId = this._getString(LocationDataSource.KEYS.META_ID);
     this.operation = this._getString(LocationDataSource.KEYS.OPERATION);
     this.status = this._getValue(LocationDataSource.KEYS.STATUS) as Status;
