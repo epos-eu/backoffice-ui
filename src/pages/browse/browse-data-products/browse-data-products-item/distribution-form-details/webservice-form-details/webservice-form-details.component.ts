@@ -37,7 +37,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
   @Input() parentEntity?: LinkedEntity;
   @Input() metaId!: string;
-  @Input() supportedOperations: Array<LinkedEntity> = [];
+  @Input() supportedOperations: Array<string> = [];
 
   @ViewChildren('expansionPanel', { read: ElementRef }) panels!: QueryList<ElementRef>;
 

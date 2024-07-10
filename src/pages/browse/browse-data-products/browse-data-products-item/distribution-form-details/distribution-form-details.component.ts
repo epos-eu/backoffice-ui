@@ -100,11 +100,11 @@ export class DistributionFormDetailsComponent {
         if (Array.isArray(data) && data.length > 0) {
           this.distribution = data.shift();
           if (this.distribution) {
-            this.selectedFormat = this.distribution.format;
+            this.selectedFormat = this.distribution.format as string;
             this.entityExecutionService.setActiveDistribution(
               this.entityExecutionService.convertToDistribution(this.distribution),
             );
-            this.accessService = this.distribution.accessService;
+            this.accessService = this.distribution.accessService as LinkedEntity;
             this.trackFormData();
             this.disabled ? this.form.disable() : this.form.enable();
           }

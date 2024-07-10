@@ -260,7 +260,7 @@ export type CategoryScheme = {
   /**
    * Code used by Data Portal
    *
-   * @example 00011
+   * @example ANT
    */
   code?: string;
   /**
@@ -703,6 +703,7 @@ export type DataProduct = {
 };
 
 export type Distribution = {
+  accessService?: LinkedEntity;
   /**
    * his property refers to the URL which supports selection of an extract, sub-set, or combination of data
    *
@@ -815,6 +816,7 @@ export type Distribution = {
    * @example John
    */
   status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  supportedOperation?: LinkedEntity;
   /**
    * This property contains a name given to the Distribution. This property can be repeated for parallel language versions of the description.
    *

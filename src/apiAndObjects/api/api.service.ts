@@ -16,10 +16,8 @@ import { GetAllWebservices } from './webservice/getAllWebservices';
 import { GetAllDistributions } from './distribution/getAllDistributions';
 import { GetAllContactPoints } from './contact-point/getAllContactPoints';
 import { GetAllUsers } from './user/getAllUsers';
-import { GetAllPeople } from './person/getAllPeople';
 import { GetAllOrganizations } from './organization/getAllOrganizations';
 import { GetAllOperations } from './operation/getAllOperations';
-import { CreatePersonDetail } from './person/createPersonDetail';
 import { PostDistributionDetail } from './distribution/postDistributionDetail';
 import { RequestMethod } from '../_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
@@ -35,13 +33,16 @@ import { PostUserDetail } from './user/postUserDetail';
 import { PutUserDetail } from './user/putUserDetail';
 import { PutContactPointDetail } from './contact-point/putContactPointDetail';
 import { PutOperationDetail } from './operation/putOperationDetail';
-import { GetPersonDetail } from './person/getPersonDetail';
 import { GetAllDataProductVersions } from './data-products/getAllDataProductVersions';
 import { PutDataProductState } from './data-products/putDataProductState';
 import { GetAllGroups } from './group/getAllGroups';
 import { GetGroup } from './group/getGroup';
 import { PostGroup } from './group/postGroup';
 import { PutGroup } from './group/putGroup';
+import { GetLocation } from './location/getLocation';
+import { GetAllLocations } from './location/getAllLocations';
+import { PostLocation } from './location/postLocation';
+import { PutLocation } from './location/putLocation';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -98,6 +99,13 @@ export class ApiService extends BaseApi {
       getAll: new GetAllGroups(ApiService.USE_LIVE_API),
       create: new PostGroup(ApiService.USE_LIVE_API),
       update: new PutGroup(ApiService.USE_LIVE_API),
+    },
+    /* Spatial / Temporal Entities */
+    Location: {
+      get: new GetLocation(ApiService.USE_LIVE_API),
+      getAll: new GetAllLocations(ApiService.USE_LIVE_API),
+      create: new PostLocation(ApiService.USE_LIVE_API),
+      update: new PutLocation(ApiService.USE_LIVE_API),
     },
   };
 
