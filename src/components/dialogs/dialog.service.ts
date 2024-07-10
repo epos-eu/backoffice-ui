@@ -2,8 +2,6 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { DialogAddContactComponent } from 'src/components/dialogs/dialog-add-contact/dialog-add-contact.component';
-import { DialogAddPersonComponent } from 'src/components/dialogs/dialog-add-person/dialog-add-person.component';
 import { DialogDeleteComponent } from 'src/components/dialogs/dialog-delete/dialog-delete.component';
 import { DialogMetadataFileViewComponent } from 'src/components/dialogs/dialog-metadata-file-view/dialog-metadata-file-view.component';
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
@@ -14,14 +12,14 @@ import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ActionsService } from 'src/services/actions.service';
 import { DialogWebserviceAddOperationComponent } from './dialog-webservice-add-operation/dialog-webservice-add-operation.component';
-import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { DialogAddNewParameterComponent } from './dialog-add-new-parameter/dialog-add-new-parameter.component';
 import { DialogConfirmComponent, ConfirmationDataIn } from './dialog-confirm/dialog-confirm.component';
 import { LoadingService } from 'src/services/loading.service';
 import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
 import { DialogSpatialCoverageHelpComponent } from './dialog-spatial-coverage-help/dialog-spatial-coverage-help.component';
-import { LinkedEntity, User } from 'generated/backofficeSchemas';
+import { LinkedEntity, User, Operation } from 'generated/backofficeSchemas';
+import { LinkedEntity as LinkedEntityModel } from 'src/apiAndObjects/objects/entities/linkedEntity.model';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -145,47 +143,15 @@ export class DialogService extends BaseDialogService {
     });
   }
 
-  public handleAddContact(): void {
-    this.openDialog(
-      'addContact',
-      DialogAddContactComponent,
-      true,
-      // initEmptyContactObj(),
-    );
-    this.dialogStateObservable.subscribe((result) => {
-      // TODO: save form data into DB
-      if (result) {
-        // do stuff
-      }
-    });
-  }
-
-  public handleAddPerson(): void {
-    this.openDialog(
-      'addPerson',
-      DialogAddPersonComponent,
-      true,
-      // initEmptyPersonObj(),
-    );
-    this.dialogStateObservable.subscribe((result) => {
-      // TODO: save form data into DB
-      if (result) {
-        // do stuff
-      }
-    });
-  }
-
   /**
    * The function `handleAddWebserviceOperation` opens a dialog to add a new webservice operation,
    * creates the operation using an API call, and returns a promise with the operation details.
    * @param {EntityDetail} webserviceEntityDetail - The `webserviceEntityDetail` parameter is an object
    * that contains details about a webservice entity. It is used as a parameter to open a dialog and also
    * passed as a property to the `WebserviceAddOperationComponent` component.
-   * @returns a Promise that resolves to either an OperationDetailDataSource object or an unknown value.
+   * @returns a Promise that resolves to either an Operation object or an unknown value.
    */
-  public handleAddWebserviceOperation(
-    webserviceEntityDetail: LinkedEntity,
-  ): Promise<OperationDetailDataSource | unknown> {
+  public handleAddWebserviceOperation(webserviceEntityDetail: LinkedEntity): Promise<Operation | unknown> {
     const promise = new Promise((resolve) => {
       this.openDialog('addWebserviceOperation', DialogWebserviceAddOperationComponent, false, {
         webservice: webserviceEntityDetail,
@@ -193,12 +159,12 @@ export class DialogService extends BaseDialogService {
         if (response.dataOut.action === 'add') {
           this.loadingService.setShowSpinner(true);
           const item: Operation = {
-            webservice: [webserviceEntityDetail],
+            mapping: [new LinkedEntityModel(Entity.WEBSERVICE, '', '', '')],
           };
 
           this.apiService.endpoints.Operation.create
             .call(item)
-            .then((value: OperationDetailDataSource) => {
+            .then((value: Operation) => {
               this.snackbarService.openSnackbar(
                 `Please click 'Save Web Service' followed by 'Save Distribution' to complete this action.`,
                 'close',

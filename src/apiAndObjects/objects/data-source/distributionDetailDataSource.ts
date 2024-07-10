@@ -1,8 +1,8 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
-import { Group, LinkedEntity } from 'generated/backofficeSchemas';
+import { Distribution, Group, LinkedEntity } from 'generated/backofficeSchemas';
 import { Status } from 'src/utility/enums/status.enum';
 
-export class DistributionDetailDataSource extends BaseObject {
+export class DistributionDetailDataSource extends BaseObject implements Distribution {
   public static readonly KEYS = {
     ACCESS_SERVICE: 'accessService',
     ACCESS_URL: 'accessURL',
@@ -33,9 +33,9 @@ export class DistributionDetailDataSource extends BaseObject {
   };
 
   public readonly accessService: LinkedEntity;
-  public readonly accessURL: Array<LinkedEntity>;
+  public readonly accessURL: Array<string>;
   public readonly changeComment: string;
-  public readonly changeTimestamp: Date;
+  public readonly changeTimestamp: string;
   public readonly dataPolicy: string;
   public readonly dataProduct: Array<LinkedEntity>;
   public readonly description: Array<string>;
@@ -46,7 +46,7 @@ export class DistributionDetailDataSource extends BaseObject {
   public readonly groups: Array<Group>;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
-  public readonly issued: Date;
+  public readonly issued: string;
   public readonly licence: string;
   public readonly metaId: string;
   public readonly modified: string;
@@ -62,7 +62,7 @@ export class DistributionDetailDataSource extends BaseObject {
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
     this.instanceId = this._getString(DistributionDetailDataSource.KEYS.INSTANCE_ID);
-    this.changeTimestamp = this._getDate(DistributionDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getString(DistributionDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.status = this._getValue(DistributionDetailDataSource.KEYS.STATUS) as Status;
     this.toBeDelete = this._getString(DistributionDetailDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(DistributionDetailDataSource.KEYS.FILE_PROVENANCE);
@@ -72,7 +72,7 @@ export class DistributionDetailDataSource extends BaseObject {
     this.downloadURL = this._getArray(DistributionDetailDataSource.KEYS.DOWNLOAD_URL);
     this.dataProduct = this._getArray(DistributionDetailDataSource.KEYS.DATA_PRODUCT);
     this.format = this._getString(DistributionDetailDataSource.KEYS.FORMAT);
-    this.issued = this._getDate(DistributionDetailDataSource.KEYS.ISSUED);
+    this.issued = this._getString(DistributionDetailDataSource.KEYS.ISSUED);
     this.modified = this._getString(DistributionDetailDataSource.KEYS.MODIFIED);
     this.title = this._getArray(DistributionDetailDataSource.KEYS.TITLE);
     this.type = this._getString(DistributionDetailDataSource.KEYS.TYPE);

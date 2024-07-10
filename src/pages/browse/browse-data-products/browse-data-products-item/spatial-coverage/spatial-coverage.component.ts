@@ -1,5 +1,4 @@
-import { Input } from '@angular/core';
-import { Component } from '@angular/core';
+import { Input, Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';

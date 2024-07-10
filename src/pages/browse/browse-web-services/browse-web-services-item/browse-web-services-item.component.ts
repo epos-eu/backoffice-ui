@@ -3,8 +3,6 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angul
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, NavigationBehaviorOptions, Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { HelpersService } from 'src/services/helpers.service';
@@ -16,6 +14,7 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { Status } from 'src/utility/enums/status.enum';
 import { Location } from '@angular/common';
+import { WebService } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-browse-web-services-item',
@@ -75,20 +74,20 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
         },
         false,
       )
-      .then((data: Array<WebserviceDetailDataSource>) => {
+      .then((data: Array<WebService>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift();
-          if (this.webservice && this.webservice.instanceId) {
+          if (this.webservice?.instanceId) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            this.actionService.trackCurrentEdit({
-              type: Entity.WEBSERVICE,
-              route: EntityEndpointValue.WEBSERVICE,
-              label: 'Webservice',
-              state: this.webservice.state ? this.webservice.state : Status.DRAFT,
-              color: 'draft',
-              id: this.webservice.instanceId,
-            });
+            // this.actionService.trackCurrentEdit({
+            //   type: Entity.WEBSERVICE,
+            //   route: EntityEndpointValue.WEBSERVICE,
+            //   label: 'Webservice',
+            //   state: this.webservice.status ? this.webservice.status : Status.DRAFT,
+            //   color: 'draft',
+            //   id: this.webservice.instanceId,
+            // });
           }
         }
       });
@@ -136,7 +135,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
   }
 
   public handleDelete(): void {
-    if (this.webservice && this.webservice.instanceId) {
+    if (this.webservice?.instanceId) {
       this.dialogService.handleDelete(this.webservice.instanceId, EntityEndpointValue.WEBSERVICE);
     }
   }

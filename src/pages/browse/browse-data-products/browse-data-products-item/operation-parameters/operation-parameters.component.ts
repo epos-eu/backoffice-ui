@@ -1,10 +1,8 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
-import { DataProduct } from 'generated/backofficeSchemas';
+import { DataProduct, Operation } from 'generated/backofficeSchemas';
 import { Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
-import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
 import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -60,7 +58,7 @@ export class OperationParametersComponent implements OnInit {
       this.fetchingOperation = true;
       this.apiService.endpoints[Entity.OPERATION].get
         .call({ metaId: this.metaId, instanceId: this.instanceId }, false)
-        .then((data: Array<OperationDetailDataSource>) => {
+        .then((data: Array<Operation>) => {
           const operation = data.shift();
           if (null != operation) {
             this.fetchingOperation = false;

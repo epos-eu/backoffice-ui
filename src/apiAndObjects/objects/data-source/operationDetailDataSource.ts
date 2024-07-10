@@ -1,9 +1,8 @@
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
-import { Mapping } from '../types/mapping.type';
-import { Group, LinkedEntity } from 'generated/backofficeSchemas';
+import { Group, LinkedEntity, Operation } from 'generated/backofficeSchemas';
 import { Status } from 'src/utility/enums/status.enum';
 
-export class OperationDetailDataSource extends BaseObject {
+export class OperationDetailDataSource extends BaseObject implements Operation {
   public static readonly KEYS = {
     CHANGE_COMMENT: 'changeComment',
     CHANGE_TIMESTAMP: 'changeTimestamp',
@@ -27,13 +26,13 @@ export class OperationDetailDataSource extends BaseObject {
   };
 
   public readonly changeComment: string;
-  public readonly changeTimestamp: Date;
+  public readonly changeTimestamp: string;
   public readonly editorId: string;
   public readonly fileProvenance: string;
   public readonly groups: Array<Group>;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
-  public readonly mapping: Array<Mapping>;
+  public readonly mapping: Array<LinkedEntity>;
   public readonly maturity: Array<LinkedEntity>;
   public readonly metaId: string;
   public readonly method: string;
@@ -50,13 +49,13 @@ export class OperationDetailDataSource extends BaseObject {
     super(sourceObject);
 
     this.changeComment = this._getString(OperationDetailDataSource.KEYS.CHANGE_COMMENT);
-    this.changeTimestamp = this._getDate(OperationDetailDataSource.KEYS.CHANGE_TIMESTAMP);
+    this.changeTimestamp = this._getString(OperationDetailDataSource.KEYS.CHANGE_TIMESTAMP);
     this.editorId = this._getString(OperationDetailDataSource.KEYS.EDITOR_ID);
     this.fileProvenance = this._getString(OperationDetailDataSource.KEYS.FILE_PROVENANCE);
     this.groups = this._getArray(OperationDetailDataSource.KEYS.GROUPS);
     this.instanceChangedId = this._getString(OperationDetailDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.instanceId = this._getString(OperationDetailDataSource.KEYS.INSTANCE_ID);
-    this.mapping = this._getValue(OperationDetailDataSource.KEYS.MAPPING) as Array<Mapping>;
+    this.mapping = this._getArray(OperationDetailDataSource.KEYS.MAPPING);
     this.maturity = this._getArray(OperationDetailDataSource.KEYS.MATURITY);
     this.metaId = this._getString(OperationDetailDataSource.KEYS.META_ID);
     this.method = this._getString(OperationDetailDataSource.KEYS.METHOD);

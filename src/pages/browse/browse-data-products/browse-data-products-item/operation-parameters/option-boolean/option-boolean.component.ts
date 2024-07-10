@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, FormControl, Validators } from '@angular/forms';
+import { Operation } from 'generated/backofficeSchemas';
 import { Subject } from 'rxjs/internal/Subject';
-import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
 
 @Component({
@@ -10,9 +10,9 @@ import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
   styleUrls: ['./option-boolean.component.scss'],
 })
 export class OptionBooleanComponent implements OnInit {
-  @Input() param!: Mapping;
+  @Input() param!: Operation['mapping'];
   @Input() disabled = false;
-  @Output() updatedParam = new Subject<Mapping>();
+  @Output() updatedParam = new Subject<Operation['mapping']>();
 
   public paramForm!: UntypedFormGroup;
 

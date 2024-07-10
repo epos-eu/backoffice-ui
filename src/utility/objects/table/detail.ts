@@ -1,5 +1,4 @@
 import { DataProduct } from 'generated/backofficeSchemas';
-import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 
 export interface TableDetail {
   uid: string;
@@ -11,5 +10,5 @@ export interface TableDetail {
   instanceId: string;
   metaId: string;
   versionInfo: string;
-  dataProduct?: EntityDetail | null;
+  dataProduct?: DataProduct;
 }

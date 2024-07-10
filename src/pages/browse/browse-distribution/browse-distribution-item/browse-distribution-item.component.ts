@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
@@ -12,6 +10,7 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { ContactPoint, Distribution } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-browse-distribution-item',
@@ -20,12 +19,12 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 })
 export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
   public floatLabelControl = new UntypedFormControl('auto');
-  public distributionDetail!: DistributionDetailDataSource | undefined;
+  public distributionDetail!: Distribution | undefined;
   public UID!: string | null;
   public currentEdit!: IChangeItem;
   public form!: UntypedFormGroup;
   public distributionLoaded = false;
-  public contactPoint!: Array<ContactPointDetailDataSource>;
+  public contactPoint!: Array<ContactPoint>;
   public contactPointLoaded = false;
   public entityRoute = EntityEndpointValue.DISTRIBUTION;
 
@@ -68,14 +67,14 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
           if (this.distributionDetail) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            this.actionService.trackCurrentEdit({
-              type: Entity.DISTRIBUTION,
-              route: EntityEndpointValue.DISTRIBUTION,
-              label: 'Distribution',
-              state: this.distributionDetail.state,
-              color: 'draft',
-              id: this.distributionDetail.instanceId,
-            });
+            // this.actionService.trackCurrentEdit({
+            //   type: Entity.DISTRIBUTION,
+            //   route: EntityEndpointValue.DISTRIBUTION,
+            //   label: 'Distribution',
+            //   state: this.distributionDetail.status,
+            //   color: 'draft',
+            //   id: this.distributionDetail.instanceId,
+            // });
           }
         }
       });
@@ -88,7 +87,7 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
       title: [this.distributionDetail?.title],
       description: [this.distributionDetail?.description],
       changeTimestamp: this.distributionDetail?.changeTimestamp,
-      state: this.distributionDetail?.state,
+      state: this.distributionDetail?.status,
       modified: this.distributionDetail?.modified,
     });
     this.form.valueChanges.subscribe((changes) => {

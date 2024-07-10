@@ -1,19 +1,22 @@
 import { HttpHeaders } from '@angular/common/http';
-import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { GetAllDataProductsParams } from '../data-products/getAllDataProducts';
 import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
+import { PeriodOfTimeDataSource } from 'src/apiAndObjects/objects/data-source/periodOfTimeDetailDataSource';
 
-export class GetAllUsers extends Endpoint<Array<UserInfoDataSource>, GetAllUsersParams, UserInfoDataSource> {
+export class GetAllPeriodOfTime extends Endpoint<
+  Array<PeriodOfTimeDataSource>,
+  GetAllPeriodOfTimeParams,
+  PeriodOfTimeDataSource
+> {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(params: GetAllUsersParams): string {
+  protected getCacheKey(params: GetAllPeriodOfTimeParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(): Promise<UserInfoDataSource[]> {
+  protected callLive(): Promise<PeriodOfTimeDataSource[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -21,14 +24,20 @@ export class GetAllUsers extends Endpoint<Array<UserInfoDataSource>, GetAllUsers
       return authHeader;
     };
 
-    const callResponsePromise = this.apiCaller.doCall(['user/all'], RequestMethod.GET, undefined, undefined, headers);
-    return this.buildObjectsFromResponse(UserInfoDataSource, callResponsePromise);
+    const callResponsePromise = this.apiCaller.doCall(
+      ['periodoftime/all'],
+      RequestMethod.GET,
+      undefined,
+      undefined,
+      headers,
+    );
+    return this.buildObjectsFromResponse(PeriodOfTimeDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<UserInfoDataSource[]> {
+  protected callMock(): Promise<PeriodOfTimeDataSource[]> {
     throw new Error('Method not implemented.');
   }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface GetAllUsersParams {}
+export interface GetAllPeriodOfTimeParams {}

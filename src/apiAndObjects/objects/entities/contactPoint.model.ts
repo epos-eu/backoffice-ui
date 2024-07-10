@@ -1,12 +1,10 @@
-import { Status } from 'src/utility/enums/status.enum';
-import { Group } from './group.model';
-import { LinkedEntity } from 'generated/backofficeSchemas';
+import { LinkedEntity, ContactPoint as ContactPointType, Group } from 'generated/backofficeSchemas';
 
-export class ContactPoint {
+export class ContactPoint implements ContactPointType {
   constructor(
     public uid?: string,
     public changeComment?: string,
-    public changeTimestamp?: Date | undefined | null,
+    public changeTimestamp?: string,
     public editorId?: string,
     public email?: Array<string>,
     public fileProvenance?: string,
@@ -19,7 +17,7 @@ export class ContactPoint {
     public organization?: LinkedEntity,
     public person?: LinkedEntity,
     public role?: string,
-    public state?: Status,
+    public state?: ContactPointType['status'],
     public telephone?: Array<string>,
     public toBeDelete?: string,
     public version?: string,

@@ -30,7 +30,7 @@
           name="description"
           [ngStyle]="{ 'line-height': '1.4' }"
           formControlName="description"
-          [value]="distribution.description[0]"
+          [value]="distribution.description ? distribution.description[0] : ''"
           [disabled]="true"
         ></textarea>
       </mat-form-field>
@@ -106,7 +106,7 @@
     >
       <div *ngIf="null != accessService">
         <app-anchor-navigation
-          [identifier]="'#distaccessiblewebservice' + accessService.instanceId ? accessService.instanceId : ''"
+          [identifier]="'#distaccessiblewebservice' + accessService.instanceId"
         ></app-anchor-navigation>
         <mat-expansion-panel
           [expanded]="true"
@@ -132,7 +132,7 @@
               [accessService]="accessService"
               [parentEntity]="entityDetails"
               [metaId]="metaId"
-              [supportedOperations]="distribution ? distribution.accessURL : []"
+              [supportedOperations]="distribution ? (distribution.accessURL ? distribution.accessURL : []) : []"
             ></app-webservice-form-details>
           </div>
         </mat-expansion-panel>

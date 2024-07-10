@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new-dataproduct/dialog-new-dataproduct.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -32,7 +32,7 @@ export class BrowseNavigationComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.activeUserService.activeUserInfoObservable.subscribe((userInfo: UserBackofficeInfo | null) => {
+    this.activeUserService.activeUserInfoObservable.subscribe((userInfo: User | null) => {
       this.userInfo = userInfo as UserBackofficeInfo;
     });
   }
@@ -44,7 +44,7 @@ export class BrowseNavigationComponent implements OnInit {
 
     this.apiService.endpoints.DataProduct.create
       .call(item)
-      .then((value: DataProductDetailDataSource) => {
+      .then((value: DataProduct) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'View', 'success', 6000, [
           'snackbar',

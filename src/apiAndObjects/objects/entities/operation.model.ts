@@ -1,12 +1,12 @@
-import { DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
+import { DataProduct, Group, LinkedEntity, Operation as OperationType } from 'generated/backofficeSchemas';
 
-export class Operation {
+export class Operation implements OperationType {
   constructor(
     public changeComment?: string,
     public changeTimestamp?: string,
     public editorId?: string,
     public fileProvenance?: string,
-    public groups?: Array<LinkedEntity>,
+    public groups?: Array<Group>,
     public instanceChangedId?: string,
     public instanceId?: string,
     public mapping?: Array<LinkedEntity>,

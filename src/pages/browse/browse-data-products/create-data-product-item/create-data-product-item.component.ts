@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DataProduct } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -17,7 +16,7 @@ import { Status } from 'src/utility/enums/status.enum';
 })
 export class CreateDataProductItemComponent implements OnInit {
   public form!: UntypedFormGroup;
-  public dataProduct!: DataProductDetailDataSource | undefined;
+  public dataProduct!: DataProduct | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
   public enableSave = true;
@@ -45,7 +44,7 @@ export class CreateDataProductItemComponent implements OnInit {
 
     this.apiService.endpoints.DataProduct.create
       .call(item)
-      .then((value: DataProductDetailDataSource) => {
+      .then((value: DataProduct) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
@@ -59,10 +58,10 @@ export class CreateDataProductItemComponent implements OnInit {
             label: 'Data product',
             state: Status.DRAFT,
             color: 'draft',
-            id: value.instanceId,
+            id: value.instanceId as string,
           },
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
+        this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [

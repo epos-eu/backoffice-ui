@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { ContactPoint } from 'generated/backofficeSchemas';
 import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -17,7 +16,7 @@ import { Status } from 'src/utility/enums/status.enum';
 })
 export class CreateContactPointItemComponent implements OnInit {
   public form!: UntypedFormGroup;
-  public contactPoint!: ContactPointDetailDataSource | undefined;
+  public contactPoint!: ContactPoint | undefined;
   public floatLabelControl = new UntypedFormControl('auto');
   public loading = false;
 
@@ -43,7 +42,7 @@ export class CreateContactPointItemComponent implements OnInit {
 
     this.apiService.endpoints.ContactPoint.create
       .call(item)
-      .then((value: ContactPointDetailDataSource) => {
+      .then((value: ContactPoint) => {
         this.router.navigate([`/browse/${EntityEndpointValue.CONTACT_POINT}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
@@ -57,10 +56,10 @@ export class CreateContactPointItemComponent implements OnInit {
             label: 'Contact Point',
             state: Status.DRAFT,
             color: 'draft',
-            id: value.instanceId,
+            id: value.instanceId as string,
           },
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
+        this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Contact Point`, 'close', 'error', 6000, [

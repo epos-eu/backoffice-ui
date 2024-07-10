@@ -2,21 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/components/layout/layout.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
-import { BrowseEquipmentComponent } from './browse-equipment/browse-equipment.component';
-import { BrowseFacilitiesComponent } from './browse-facilities/browse-facilities.component';
 import { BrowseHomeComponent } from './browse-home/browse-home.component';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
-import { BrowsePeopleComponent } from './browse-people/browse-people.component';
-import { BrowsePublicationsComponent } from './browse-publications/browse-publications.component';
-import { BrowseServicesComponent } from './browse-services/browse-services.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
-import { BrowseContractComponent } from './browse-contract/browse-contract.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
-import { BrowseStatisticsComponent } from './browse-statistics/browse-statistics.component';
 import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
@@ -84,21 +77,6 @@ const routes: Routes = [
     children: [{ path: 'compare/:id', component: BrowseRevisionsComponent }],
   },
   {
-    path: 'services',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseServicesComponent }],
-  },
-  {
-    path: 'people',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowsePeopleComponent }],
-  },
-  {
-    path: 'contract',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseContractComponent }],
-  },
-  {
     path: 'users',
     component: LayoutComponent,
     children: [{ path: '', component: BrowseUsersComponent }],
@@ -107,26 +85,6 @@ const routes: Routes = [
     path: 'groups',
     component: LayoutComponent,
     children: [{ path: '', component: BrowseGroupsComponent }],
-  },
-  {
-    path: 'publications',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowsePublicationsComponent }],
-  },
-  {
-    path: 'facilities',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseFacilitiesComponent }],
-  },
-  {
-    path: 'equipment',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseEquipmentComponent }],
-  },
-  {
-    path: 'statistics',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseStatisticsComponent }],
   },
 ];
 

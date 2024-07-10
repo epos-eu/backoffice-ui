@@ -10,7 +10,6 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-// import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
 import { ContactPoint } from 'generated/backofficeSchemas';
 
 @Component({
@@ -66,16 +65,6 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
           if (this.contactPoint) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            // this.patch('spatialExtent');
-            // this.patch('temporalExtent');
-            // this.actionService.trackCurrentEdit({
-            //   type: Entity.CONTACT_POINT,
-            //   route: EntityEndpointValue.CONTACT_POINT,
-            //   label: 'Contact Point',
-            //   state: this.contactPoint.state,
-            //   color: 'draft',
-            //   id: this.contactPoint.instanceId,
-            // });
           }
         }
       });
@@ -120,55 +109,4 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
       this.dialogService.handleDelete(this.contactPoint?.instanceId, EntityEndpointValue.CONTACT_POINT);
     }
   }
-
-  // private mapDistributionCalls(ids: Array<string>): Promise<DistributionDetailDataSource[]>[] {
-  //   return ids.map((id) => {
-  //     return this.apiService.endpoints[Entity.DISTRIBUTION].getDistributionDetail.call({
-  //       instanceId: id,
-  //     });
-  //   });
-  // }
-
-  // private mapContactPointCalls(ids: Array<string>): Promise<ContactPointDataSource[]>[] {
-  //   return ids.map((id) => {
-  //     return this.apiService.endpoints[Entity.CONTACT_POINT].getContactPointDetail.call({
-  //       instanceId: id,
-  //     });
-  //   });
-  // }
-
-  // public handleExpand(type: string): void {
-  //   switch (true) {
-  //     case type === 'distribution':
-  //       if (!this.distributionLoaded) {
-  //         if (this.dataProduct?.distribution) {
-  //           const ids = this.dataProduct?.distribution.map((item) => item.instanceId);
-  //           if (ids && ids.length > 0) {
-  //             forkJoin(this.mapDistributionCalls(ids)).subscribe((distributions) => {
-  //               distributions.forEach((distribution: DistributionDetailDataSource[]) => {
-  //                 this.patchDistribution(distribution);
-  //                 this.distributionLoaded = true;
-  //               });
-  //             });
-  //           }
-  //         }
-  //       }
-  //       break;
-  //     case type === 'contactPoint':
-  //       if (!this.contactPointLoaded) {
-  //         if (this.dataProduct?.contactPoint) {
-  //           const ids = this.dataProduct?.contactPoint.map((item) => item.instanceId);
-  //           if (ids && ids.length > 0) {
-  //             forkJoin(this.mapContactPointCalls(ids)).subscribe((contactPoints) => {
-  //               contactPoints.forEach((contactPoint: Array<ContactPointDataSource>) => {
-  //                 this.patchContactPoint(contactPoint);
-  //                 this.contactPointLoaded = true;
-  //               });
-  //             });
-  //           }
-  //         }
-  //       }
-  //       break;
-  //   }
-  // }
 }

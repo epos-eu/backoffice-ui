@@ -1,10 +1,7 @@
 import { Status } from 'src/utility/enums/status.enum';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
-import { SpatialExtent } from '../types/spatialExtent.type';
-import { TemporalExtent } from '../types/temporalExtent.type';
-import { Identifier } from '../types/identifier.type';
-import { Group, LinkedEntity } from 'generated/backofficeSchemas';
-export class DataProductDetailDataSource extends BaseObject {
+import { Group, LinkedEntity, DataProduct as DataProductType } from 'generated/backofficeSchemas';
+export class DataProductDetailDataSource extends BaseObject implements DataProductType {
   public static readonly KEYS = {
     INSTANCE_ID: 'instanceId',
     META_ID: 'metaId',
@@ -48,11 +45,11 @@ export class DataProductDetailDataSource extends BaseObject {
 
   public readonly accessRight: string;
   public readonly accrualPeriodicity: string;
-  public readonly category: Array<string>;
+  public readonly category: Array<LinkedEntity>;
   public readonly changeComment: string;
-  public readonly changeTimestamp: Date;
+  public readonly changeTimestamp: string;
   public readonly contactPoint: Array<LinkedEntity>;
-  public readonly created: Date;
+  public readonly created: string;
   public readonly description: Array<string>;
   public readonly distribution: Array<LinkedEntity>;
   public readonly documentation: string;
@@ -60,23 +57,23 @@ export class DataProductDetailDataSource extends BaseObject {
   public readonly fileProvenance: string;
   public readonly groups: Array<Group>;
   public readonly hasPart: Array<LinkedEntity>;
-  public readonly identifier: Array<Identifier>; // Swagger suggests LinkedEntity
+  public readonly identifier: Array<LinkedEntity>;
   public readonly hasQualityAnnotation: string;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
   public readonly isPartOf: Array<LinkedEntity>;
-  public readonly issued: Date;
+  public readonly issued: string;
   public readonly keywords: string;
   public readonly metaId: string;
-  public readonly modified: Date;
+  public readonly modified: string;
   public readonly operation: string;
   public readonly provenance: Array<string>;
   public readonly publisher: Array<LinkedEntity>;
   public readonly qualityAssurance: string;
   public readonly relation: Array<LinkedEntity>;
-  public readonly spatialExtent: Array<SpatialExtent>; // Swagger suggests LinkedEntity
+  public readonly spatialExtent: Array<LinkedEntity>;
   public readonly status: Status;
-  public readonly temporalExtent: Array<TemporalExtent>; // Swagger suggests LinkedEntity
+  public readonly temporalExtent: Array<LinkedEntity>;
   public readonly title: Array<string>;
   public readonly toBeDelete: string;
   public readonly type: string;

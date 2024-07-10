@@ -3,7 +3,6 @@ import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-sour
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
 import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
-import { PersonDataSource } from 'src/apiAndObjects/objects/data-source/personDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 
 export type TableItems =
@@ -11,7 +10,6 @@ export type TableItems =
   | Array<DataProductDetailDataSource>
   | Array<DistributionDetailDataSource>
   | Array<OrganizationDataSource>
-  | Array<PersonDataSource>
   | Array<WebserviceDetailDataSource>
   | Array<OperationDetailDataSource>;
 
@@ -20,6 +18,5 @@ export type TableItem =
   | DataProductDetailDataSource
   | DistributionDetailDataSource
   | OrganizationDataSource
-  | PersonDataSource
   | WebserviceDetailDataSource
   | OperationDetailDataSource;

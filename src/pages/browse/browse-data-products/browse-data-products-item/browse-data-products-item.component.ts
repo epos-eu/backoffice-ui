@@ -11,12 +11,9 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
 import { SnackbarService } from 'src/services/snackbar.service';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Subject, Subscription, debounceTime } from 'rxjs';
-import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import { NgScrollbar } from 'ngx-scrollbar';
@@ -27,13 +24,12 @@ import {
 } from 'src/components/dialogs/dialog-dataproduct-add-distribution/dialog-dataproduct-add-distribution.component';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { Status } from 'src/utility/enums/status.enum';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { Distribution, DataProduct, LinkedEntity, Organization } from 'generated/backofficeSchemas';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
 import { LoadingService } from 'src/services/loading.service';
 import { NavigationService } from 'src/services/navigation.service';
 import { DataProductForm } from 'src/shared/interfaces/form.interface';
-import { DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -58,9 +54,9 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
   public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
   public typeOptions: Array<{ id: string; name: string }> = [];
-  public dataProviders: Array<OrganizationDataSource> = [];
+  public dataProviders: Array<Organization> = [];
   public dataProvidersLoading = false;
-  public selectedDataProviders: Array<OrganizationDataSource> = [];
+  public selectedDataProviders: Array<Organization> = [];
   public selectedSection = '';
   public activeMetaId!: string;
   public activeInstanceId!: string;
@@ -268,7 +264,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
   }
 
   public newDistribution() {
-    const relatedDataProduct: EntityDetail = {
+    const relatedDataProduct: LinkedEntity = {
       entityType: Entity.DATA_PRODUCT,
       instanceId: this.dataProduct?.instanceId as string,
       uid: this.dataProduct?.uid as string,
@@ -286,7 +282,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
           this.loadingService.setShowSpinner(true);
           this.apiService.endpoints.Distribution.create
             .call(item)
-            .then((value: DistributionDetailDataSource) => {
+            .then((value: Distribution) => {
               this.snackbarService.openSnackbar(
                 'Please add a Distribution title then click "Save Distribution" followed by "Save" using the Explorer.',
                 'close',
@@ -301,7 +297,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
                   label: 'Distribution',
                   state: Status.DRAFT,
                   color: 'draft',
-                  id: value.instanceId,
+                  id: value.instanceId as string,
                 },
               ]);
               this.updateDistributionArray(value);
@@ -321,8 +317,8 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       });
   }
 
-  public updateDistributionArray(value: DistributionDetailDataSource) {
-    const entityDetail: EntityDetail = {
+  public updateDistributionArray(value: Distribution) {
+    const entityDetail: LinkedEntity = {
       entityType: Entity.DISTRIBUTION,
       instanceId: value.instanceId,
       uid: value.uid,
@@ -352,7 +348,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
 
   public getDataProviderName(uid: string): string {
     const provider = this.dataProviders.find((provider) => provider.uid === uid);
-    if (provider && provider.legalName.length > 0) {
+    if (Array.isArray(provider?.legalName) && provider.legalName.length > 0) {
       return provider.legalName.shift() as string;
     }
     return '-';

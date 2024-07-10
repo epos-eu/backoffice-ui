@@ -3,18 +3,12 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from '../snackbar.service';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { ActionsService } from '../actions.service';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
-import { EntityDetail } from 'src/apiAndObjects/objects/types/entityDetail.type';
-import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityStateManager } from './entityStateManager';
 import { LoadingService } from '../loading.service';
+import { DataProduct, Distribution, LinkedEntity, Operation, WebService } from 'generated/backofficeSchemas';
 
 @Injectable({
   providedIn: 'root',
@@ -45,14 +39,14 @@ export class EntityExecutionService extends EntityStateManager {
           .call({
             ...activeDataProduct,
           })
-          .then((data: DataProductDetailDataSource) => {
+          .then((data: DataProduct) => {
             this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
             ]);
             this.actionsService.disableSave();
-            if (!this.actionsService.itemExists(data.instanceId)) {
+            if (!this.actionsService.itemExists(data.instanceId as string)) {
               this.actionsService.addEditedItems([
                 {
                   type: Entity.DATA_PRODUCT,
@@ -63,7 +57,7 @@ export class EntityExecutionService extends EntityStateManager {
                   id: data.instanceId,
                 },
               ]);
-              this.actionsService.saveCurrentEdit(data.instanceId);
+              this.actionsService.saveCurrentEdit(data.instanceId as string);
             }
 
             // Timeout for more consistent navigation
@@ -94,7 +88,7 @@ export class EntityExecutionService extends EntityStateManager {
             status: Status.DRAFT,
             instanceChangedId: activeDataProduct.instanceId,
           })
-          .then((data: DataProductDetailDataSource) => {
+          .then((data: DataProduct) => {
             this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
               'snackbar',
               'mat-toolbar',
@@ -108,10 +102,10 @@ export class EntityExecutionService extends EntityStateManager {
                 label: 'Data product',
                 state: Status.DRAFT,
                 color: 'draft',
-                id: data.instanceId,
+                id: data.instanceId as string,
               },
             ]);
-            this.actionsService.saveCurrentEdit(data.instanceId);
+            this.actionsService.saveCurrentEdit(data.instanceId as string);
           })
           .catch((err) => {
             console.error(err);
@@ -131,9 +125,9 @@ export class EntityExecutionService extends EntityStateManager {
   public handleWebserviceSave(): void {
     const activeWebservice = this.getActiveWebServiceValue();
     if (activeWebservice !== null) {
-      activeWebservice.dateModified = new Date();
-      if (activeWebservice.state !== Status.DRAFT) {
-        activeWebservice.state = Status.DRAFT;
+      activeWebservice.dateModified = '';
+      if (activeWebservice.status !== Status.DRAFT) {
+        activeWebservice.status = Status.DRAFT;
         activeWebservice.instanceChangedId = activeWebservice.instanceId;
       }
       this.loadingService.setShowSpinner(true);
@@ -141,13 +135,13 @@ export class EntityExecutionService extends EntityStateManager {
         .call({
           ...activeWebservice,
         })
-        .then((data: WebserviceDetailDataSource) => {
+        .then((data: WebService) => {
           this.snackbarService.openSnackbar('Successfully updated Webservice.', 'Close', 'success', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
           ]);
-          if (!this.actionsService.itemExists(data.instanceId)) {
+          if (!this.actionsService.itemExists(data.instanceId as string)) {
             this.actionsService.addEditedItems([
               {
                 type: Entity.WEBSERVICE,
@@ -155,10 +149,10 @@ export class EntityExecutionService extends EntityStateManager {
                 label: 'Webservice',
                 state: Status.DRAFT,
                 color: 'draft',
-                id: data.instanceId,
+                id: data.instanceId as string,
               },
             ]);
-            this.actionsService.saveCurrentEdit(data.instanceId);
+            this.actionsService.saveCurrentEdit(data.instanceId as string);
           }
         })
         .catch((err) => {
@@ -179,8 +173,8 @@ export class EntityExecutionService extends EntityStateManager {
     const activeDistribution: Distribution = this.getActiveDistributionValue() as Distribution;
     if (activeDistribution) {
       activeDistribution.modified = new Date().toISOString();
-      if (activeDistribution.state !== Status.DRAFT) {
-        activeDistribution.state = Status.DRAFT;
+      if (activeDistribution.status !== Status.DRAFT) {
+        activeDistribution.status = Status.DRAFT;
         activeDistribution.instanceChangedId = activeDistribution.instanceId;
       }
       this.loadingService.setShowSpinner(true);
@@ -188,14 +182,14 @@ export class EntityExecutionService extends EntityStateManager {
         .call({
           ...activeDistribution,
         })
-        .then((data: DistributionDetailDataSource) => {
+        .then((data: Distribution) => {
           this.snackbarService.openSnackbar('Successfully updated Distribution.', 'Close', 'success', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
           ]);
           this.actionsService.showSaveDistributionMessage(false);
-          if (!this.actionsService.itemExists(data.instanceId)) {
+          if (!this.actionsService.itemExists(data.instanceId as string)) {
             this.actionsService.addEditedItems([
               {
                 type: Entity.DISTRIBUTION,
@@ -203,10 +197,10 @@ export class EntityExecutionService extends EntityStateManager {
                 label: 'Distribution',
                 state: Status.DRAFT,
                 color: 'draft',
-                id: data.instanceId,
+                id: data.instanceId as string,
               },
             ]);
-            this.actionsService.saveCurrentEdit(data.instanceId);
+            this.actionsService.saveCurrentEdit(data.instanceId as string);
           }
         })
         .catch((err) => {
@@ -226,8 +220,8 @@ export class EntityExecutionService extends EntityStateManager {
   public handleOperationSave(): void {
     const operationData = this.getActiveOperationValue();
     if (operationData !== null) {
-      if (operationData.state !== Status.DRAFT) {
-        operationData.state = Status.DRAFT;
+      if (operationData.status !== Status.DRAFT) {
+        operationData.status = Status.DRAFT;
         operationData.instanceChangedId = operationData.instanceId;
       }
       this.loadingService.setShowSpinner(true);
@@ -235,14 +229,14 @@ export class EntityExecutionService extends EntityStateManager {
         .call({
           ...operationData,
         })
-        .then((data: OperationDetailDataSource) => {
+        .then((data: Operation) => {
           this.snackbarService.openSnackbar('Successfully updated Operation.', 'Close', 'success', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
           ]);
           const activeWebservice = this.webService.getValue();
-          const newOperation: EntityDetail = {
+          const newOperation: LinkedEntity = {
             entityType: Entity.OPERATION,
             instanceId: data.instanceId,
             metaId: data.metaId,
@@ -286,7 +280,7 @@ export class EntityExecutionService extends EntityStateManager {
     this.loadingService.setShowSpinner(true);
     this.apiService.endpoints.DataProduct.create
       .call(item)
-      .then((value: DataProductDetailDataSource) => {
+      .then((value: DataProduct) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
         this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
           'snackbar',
@@ -300,10 +294,10 @@ export class EntityExecutionService extends EntityStateManager {
             label: 'Data product',
             state: Status.DRAFT,
             color: 'draft',
-            id: value.instanceId,
+            id: value.instanceId as string,
           },
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId);
+        this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
@@ -328,7 +322,7 @@ export class EntityExecutionService extends EntityStateManager {
       this.loadingService.setShowSpinner(true);
       this.apiService.endpoints.DataProduct.create
         .call(publishedOrArchivedEntity)
-        .then((value: DataProductDetailDataSource) => {
+        .then((value: DataProduct) => {
           this.snackbarService
             .openSnackbar(`Success: ${value.uid} created`, 'View', 'success', 6000, [
               'snackbar',
@@ -346,10 +340,10 @@ export class EntityExecutionService extends EntityStateManager {
               label: 'Data product',
               state: Status.DRAFT,
               color: 'draft',
-              id: value.instanceId,
+              id: value.instanceId as string,
             },
           ]);
-          this.actionsService.saveCurrentEdit(value.instanceId);
+          this.actionsService.saveCurrentEdit(value.instanceId as string);
         })
         .catch(() =>
           this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [

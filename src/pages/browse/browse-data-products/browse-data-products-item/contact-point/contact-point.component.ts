@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { LinkedEntity } from 'generated/backofficeSchemas';
+import { ContactPoint, LinkedEntity } from 'generated/backofficeSchemas';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { PersonDataSource } from 'src/apiAndObjects/objects/data-source/personDataSource';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -25,12 +23,10 @@ export class ContactPointComponent {
   @Input() showSaveFormNotify = false;
   @Input() relevantEntity?: Entity;
 
-  private contactPointArraySource: BehaviorSubject<Array<ContactPointDetailDataSource>> = new BehaviorSubject<
-    Array<ContactPointDetailDataSource>
-  >([]);
+  private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
   public entityEnum = Entity;
   public contactPointArrayObs = this.contactPointArraySource.asObservable();
-  public personFromCatalogFilteredOptions!: Observable<PersonDataSource[]>;
+  public personFromCatalogFilteredOptions!: Observable<any[]>;
   // public loading = true;
   public showFrom = false;
 

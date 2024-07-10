@@ -1,12 +1,9 @@
-import { DataProduct, WebService } from 'generated/backofficeSchemas';
+import { DataProduct, WebService, Distribution, Operation, ContactPoint } from 'generated/backofficeSchemas';
 import { BehaviorSubject } from 'rxjs';
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
-import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { ContactPoint as ContactPointModel } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { DataProduct as DataProductModel } from 'src/apiAndObjects/objects/entities/dataProduct.model';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
-import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
+import { Distribution as DistributionModel } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { Operation as OperationModel } from 'src/apiAndObjects/objects/entities/operation.model';
 import { WebService as WebServiceModel } from 'src/apiAndObjects/objects/entities/webService.model';
 
 export class EntityStateManager {
@@ -96,41 +93,37 @@ export class EntityStateManager {
   }
 
   /**
-   * The function `convertToDataProduct` takes an initial `DataProductDetailDataSource` object and
-   * converts it into a `DataProduct` object.
-   * @param {DataProductDetailDataSource} initial - The `initial` parameter is an object of type
-   * `DataProductDetailDataSource`. It contains various properties that are used to initialize a new
+   * The function `convertToDataProduct` takes an initial `DataProduct` object and
+   * converts it into a `DataProductModel` object.
+   * @param {DataProduct} initial - The `initial` parameter is an object of type
+   * `DataProduct`. It contains various properties that are used to initialize a new
    * instance of the `DataProduct` class.
    * @returns an instance of the `DataProduct` class.
    */
   public convertToDataProduct(initial: DataProduct): DataProductModel {
     const exportVar = new DataProductModel(
-      initial.uid,
-      initial.changeComment,
-      initial.changeTimestamp,
-      initial.contactPoint,
-      initial.description,
-      initial.distribution,
-      initial.identifier,
-      initial.issued,
-      initial.keywords,
-      initial.modified,
-      initial.temporalExtent,
-      initial.title,
-      initial.versionInfo,
       initial.accessRight,
       initial.accrualPeriodicity,
       initial.category,
+      initial.changeComment,
+      initial.changeTimestamp,
+      initial.contactPoint,
       initial.created,
+      initial.description,
+      initial.distribution,
       initial.documentation,
       initial.editorId,
       initial.fileProvenance,
       initial.hasPart,
       initial.hasQualityAnnotation,
+      initial.identifier,
       initial.instanceChangedId,
       initial.instanceId,
       initial.isPartOf,
+      initial.issued,
+      initial.keywords,
       initial.metaId,
+      initial.modified,
       initial.operation,
       initial.provenance,
       initial.publisher,
@@ -138,29 +131,31 @@ export class EntityStateManager {
       initial.relation,
       initial.spatialExtent,
       initial.status,
+      initial.temporalExtent,
+      initial.title,
       initial.toBeDelete,
       initial.type,
+      initial.uid,
       initial.version,
+      initial.versionInfo,
     );
     return exportVar;
   }
 
   /**
-   * The function `convertToDistribution` takes an initial `DistributionDetailDataSource` object and
-   * returns a new `Distribution` object with the same properties.
-   * @param {DistributionDetailDataSource} initial - The `initial` parameter is of type
-   * `DistributionDetailDataSource`. It is an object that contains various properties representing the
+   * The function `convertToDistribution` takes an initial `Distribution` object and
+   * returns a new `DistributionModel` object with the same properties.
+   * @param {Distribution} initial - The `initial` parameter is of type
+   * `Distribution`. It is an object that contains various properties representing the
    * details of a distribution.
    * @returns an instance of the `Distribution` class.
    */
-  public convertToDistribution(initial: DistributionDetailDataSource): Distribution {
-    const exportVar = new Distribution(
+  public convertToDistribution(initial: Distribution): DistributionModel {
+    const exportVar = new DistributionModel(
       initial.uid,
-      initial.accessService,
       initial.accessURL,
       initial.changeComment,
       initial.changeTimestamp,
-      initial.conformsTo,
       initial.dataPolicy,
       initial.dataProduct,
       initial.description,
@@ -171,12 +166,12 @@ export class EntityStateManager {
       initial.groups,
       initial.instanceChangedId,
       initial.instanceId,
-      // initial.issued,
+      initial.issued,
       initial.licence,
       initial.metaId,
       initial.modified,
       initial.operation,
-      initial.state,
+      initial.status,
       initial.title,
       initial.toBeDelete,
       initial.type,
@@ -186,16 +181,16 @@ export class EntityStateManager {
   }
 
   /**
-   * The function converts an initial ContactPointDetailDataSource object into a ContactPoint object and
+   * The function converts an initial ContactPoint object into a ContactPointModel object and
    * returns it.
-   * @param {ContactPointDetailDataSource} initial - The `initial` parameter is an object of type
-   * `ContactPointDetailDataSource`. It contains various properties such as `uid`, `changeComment`,
+   * @param {ContactPoint} initial - The `initial` parameter is an object of type
+   * `ContactPoint`. It contains various properties such as `uid`, `changeComment`,
    * `changeTimestamp`, `editorId`, `email`, `fileProvenance`, `groups`, `instanceChangedId`,
    * `instanceId`, `language
    * @returns an instance of the `ContactPoint` class.
    */
-  public convertToContactPoint(initial: ContactPointDetailDataSource): ContactPoint {
-    const exportVar = new ContactPoint(
+  public convertToContactPoint(initial: ContactPoint): ContactPointModel {
+    const exportVar = new ContactPointModel(
       initial.uid,
       initial.changeComment,
       initial.changeTimestamp,
@@ -211,7 +206,7 @@ export class EntityStateManager {
       initial.organization,
       initial.person,
       initial.role,
-      initial.state,
+      initial.status,
       initial.telephone,
       initial.toBeDelete,
       initial.version,
@@ -227,7 +222,7 @@ export class EntityStateManager {
    * details of a web service.
    * @returns an instance of the WebService class.
    */
-  public convertToWebService(initial: WebService): WebService {
+  public convertToWebService(initial: WebService): WebServiceModel {
     const exportVar = new WebServiceModel(
       initial.uid,
       initial.aaaiTypes,
@@ -252,9 +247,8 @@ export class EntityStateManager {
       initial.name,
       initial.operation,
       initial.provider,
-      initial.schemaIdentifier,
       initial.spatialExtent,
-      initial.state,
+      initial.status,
       initial.supportedOperation,
       initial.temporalExtent,
       initial.toBeDelete,
@@ -264,15 +258,14 @@ export class EntityStateManager {
   }
 
   /**
-   * The function converts an initial OperationDetailDataSource object into an Operation object.
-   * @param {OperationDetailDataSource} initial - The `initial` parameter is an object of type
-   * `OperationDetailDataSource`. It contains various properties that are used to initialize a new
+   * The function converts an initial Operation object into an OperationModel object.
+   * @param {Operation} initial - The `initial` parameter is an object of type
+   * `Operation`. It contains various properties that are used to initialize a new
    * `Operation` object.
    * @returns an instance of the `Operation` class.
    */
-  public convertToOperation(initial: OperationDetailDataSource): Operation {
-    const exportVar = new Operation(
-      initial.uid,
+  public convertToOperation(initial: Operation): OperationModel {
+    const exportVar = new OperationModel(
       initial.changeComment,
       initial.changeTimestamp,
       initial.editorId,
@@ -281,15 +274,16 @@ export class EntityStateManager {
       initial.instanceChangedId,
       initial.instanceId,
       initial.mapping,
+      initial.maturity,
       initial.metaId,
       initial.method,
       initial.operation,
       initial.returns,
-      initial.state,
+      initial.status,
       initial.template,
       initial.toBeDelete,
+      initial.uid,
       initial.version,
-      initial.webservice,
     );
     return exportVar;
   }
