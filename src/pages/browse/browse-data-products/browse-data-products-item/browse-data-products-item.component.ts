@@ -295,7 +295,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
                   type: Entity.DISTRIBUTION,
                   route: EntityEndpointValue.DISTRIBUTION,
                   label: 'Distribution',
-                  state: Status.DRAFT,
+                  status: Status.DRAFT,
                   color: 'draft',
                   id: value.instanceId as string,
                 },

@@ -18,7 +18,7 @@ import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
   styleUrls: ['./browse-navigation.component.scss'],
 })
 export class BrowseNavigationComponent implements OnInit {
-  public userInfo: UserBackofficeInfo | null = null;
+  public userInfo: User | null = null;
 
   public loading$ = this.loadingService.loadingObs;
 
@@ -33,7 +33,7 @@ export class BrowseNavigationComponent implements OnInit {
 
   public ngOnInit(): void {
     this.activeUserService.activeUserInfoObservable.subscribe((userInfo: User | null) => {
-      this.userInfo = userInfo as UserBackofficeInfo;
+      this.userInfo = userInfo;
     });
   }
 

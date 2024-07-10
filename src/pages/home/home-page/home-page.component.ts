@@ -8,6 +8,7 @@ import { ActionsService } from 'src/services/actions.service';
 import { Status } from 'src/utility/enums/status.enum';
 import { LoadingService } from 'src/services/loading.service';
 import { Router } from '@angular/router';
+import { User } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ import { Router } from '@angular/router';
 export class HomePageComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Array<Subscription> = new Array<Subscription>();
 
-  public userInfo$!: Observable<UserBackofficeInfo | null>;
+  public userInfo$!: Observable<User | null>;
 
   public actionItems: Array<IActionItem> = [
     {
@@ -68,8 +69,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.loadingService.setLoading(false);
       }),
     );
-    // this.userInfo$ = this.activeUserService.activeUserInfoObservable;
-    this.userInfo$.pipe(last()).subscribe((userInfo: UserBackofficeInfo | null) => {
+    this.userInfo$ = this.activeUserService.activeUserInfoObservable;
+    this.userInfo$.pipe(last()).subscribe((userInfo: User | null) => {
       console.log(userInfo);
       if (userInfo == null) {
         this.router.navigate(['/login']);
@@ -90,8 +91,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   private getCounts(editedItems: Array<IChangeItem>): void {
     const types = Object.values(Status);
     editedItems.map((item) => {
-      if (types.includes(item.state)) {
-        const index = this.actionItems.findIndex((obj) => obj.type === item.state);
+      if (types.includes(item.status)) {
+        const index = this.actionItems.findIndex((obj) => obj.type === item.status);
         this.actionItems[index].count += 1;
       }
     });

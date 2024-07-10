@@ -1,22 +1,16 @@
-import { ContactPointDetailDataSource } from 'src/apiAndObjects/objects/data-source/contactPointDetailDataSource';
-import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
-import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
-import { OperationDetailDataSource } from 'src/apiAndObjects/objects/data-source/operationDetailDataSource';
-import { OrganizationDataSource } from 'src/apiAndObjects/objects/data-source/organizationDataSource';
-import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
+import { ContactPoint } from 'src/apiAndObjects/objects/entities/contactPoint.model';
+import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
+import { Organization } from 'src/apiAndObjects/objects/entities/organization.model';
+import { WebService } from 'src/apiAndObjects/objects/entities/webService.model';
 
 export type TableItems =
-  | Array<ContactPointDetailDataSource>
-  | Array<DataProductDetailDataSource>
-  | Array<DistributionDetailDataSource>
-  | Array<OrganizationDataSource>
-  | Array<WebserviceDetailDataSource>
-  | Array<OperationDetailDataSource>;
+  | Array<ContactPoint>
+  | Array<DataProduct>
+  | Array<Distribution>
+  | Array<Organization>
+  | Array<WebService>
+  | Array<Operation>;
 
-export type TableItem =
-  | ContactPointDetailDataSource
-  | DataProductDetailDataSource
-  | DistributionDetailDataSource
-  | OrganizationDataSource
-  | WebserviceDetailDataSource
-  | OperationDetailDataSource;
+export type TableItem = ContactPoint | DataProduct | Distribution | Organization | WebService | Operation;

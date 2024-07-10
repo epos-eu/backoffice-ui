@@ -7,7 +7,7 @@
           aria-label="Status"
           *ngIf="currentEdit"
         >
-          <mat-chip-option [color]="currentEdit.color">{{ currentEdit.state }}</mat-chip-option>
+          <mat-chip-option [color]="currentEdit.color">{{ currentEdit.status }}</mat-chip-option>
         </mat-chip-listbox>
       </div>
       <div class="actions">
@@ -246,7 +246,7 @@
               class="indent"
             >
               <mat-label>Location</mat-label>
-              <input
+            <input
                 matInput
                 placeholder="Location"
                 name="temporalExtent.location"

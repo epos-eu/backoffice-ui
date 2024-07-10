@@ -52,9 +52,9 @@ export class BrowseUsersComponent implements OnInit {
           name: user.firstName as string,
           surname: user.lastName as string,
           email: user.email as string,
-          // metaId: user.metaId,
-          // role: user.role,
-          // instanceId: user.instanceId,
+          metaId: '',
+          role: '',
+          instanceId: '',
         };
         tableDetails.push(detail);
       });

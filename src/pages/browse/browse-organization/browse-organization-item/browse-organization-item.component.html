@@ -46,14 +46,14 @@
                 [style.width.%]="20"
               >
                 <mat-label>Type</mat-label>
-                <input
+                <!-- <input
                   matInput
                   placeholder="PIC"
                   [(ngModel)]="organization['identifier'][0].type"
                   name="type"
                   [ngModelOptions]="{ standalone: true }"
                   [disabled]="!editModeEnabled"
-                />
+                /> -->
               </mat-form-field>
 
               <mat-form-field
@@ -63,14 +63,14 @@
                 class="mat-form-margin"
               >
                 <mat-label>Identifier</mat-label>
-                <input
+                <!-- <input
                   matInput
                   placeholder="PIC:XXXXXXXXX"
                   [(ngModel)]="organization.identifier[0].identifier"
                   name="identifier"
                   [ngModelOptions]="{ standalone: true }"
                   [disabled]="!editModeEnabled"
-                />
+                /> -->
               </mat-form-field>
             </div>
 
@@ -142,13 +142,13 @@
               [style.width.%]="100"
             >
               <mat-label>Street</mat-label>
-              <input
+              <!-- <input
                 matInput
                 [(ngModel)]="organization.address.street"
                 name="street"
                 [ngModelOptions]="{ standalone: true }"
                 [disabled]="!editModeEnabled"
-              />
+              /> -->
             </mat-form-field>
             <mat-form-field
               appearance="outline"
@@ -156,14 +156,14 @@
               [style.width.%]="100"
             >
               <mat-label>Locality</mat-label>
-              <input
+              <!-- <input
                 matInput
                 matInput
                 [(ngModel)]="organization.address.locality"
                 name="locality"
                 [ngModelOptions]="{ standalone: true }"
                 [disabled]="!editModeEnabled"
-              />
+              /> -->
             </mat-form-field>
             <div class="inline-fields">
               <mat-form-field
@@ -172,14 +172,14 @@
                 [style.width.%]="20"
               >
                 <mat-label>Postal Code</mat-label>
-                <input
+                <!-- <input
                   matInput
                   matInput
                   [(ngModel)]="organization.address.postalCode"
                   name="postalCode"
                   [ngModelOptions]="{ standalone: true }"
                   [disabled]="!editModeEnabled"
-                />
+                /> -->
               </mat-form-field>
               <mat-form-field
                 appearance="outline"
@@ -188,14 +188,14 @@
                 class="mat-form-margin"
               >
                 <mat-label>Country</mat-label>
-                <input
+                <!-- <input
                   matInput
                   matInput
                   [(ngModel)]="organization.address.country"
                   name="country"
                   [ngModelOptions]="{ standalone: true }"
                   [disabled]="!editModeEnabled"
-                />
+                /> -->
               </mat-form-field>
             </div>
           </form>

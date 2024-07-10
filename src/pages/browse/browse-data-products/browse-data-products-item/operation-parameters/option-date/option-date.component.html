@@ -1,120 +1,53 @@
-<form
-  [formGroup]="paramForm"
-  *ngIf="param"
+<mat-form-field
+  appearance="fill"
+  [style.width.%]="50"
 >
-  <div class="top-params">
-    <mat-form-field
-      appearance="fill"
-      [style.width.%]="50"
+  <mat-label>Semantic Tag</mat-label>
+  <mat-select
+    matNativeControl
+    name="property"
+    formControlName="property"
+  >
+    <mat-option
+      *ngFor="let semanticTag of semanticTags"
+      [value]="semanticTag"
     >
-      <mat-label>Variable</mat-label>
-      <input
-        matInput
-        placeholder="Variable"
-        formControlName="variable"
-        readonly
-      />
-    </mat-form-field>
+      {{ semanticTag }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
-    <mat-form-field
-      appearance="fill"
-      [style.width.%]="50"
-    >
-      <mat-label>Range</mat-label>
-      <input
-        matInput
-        placeholder="Range"
-        formControlName="range"
-        readonly
-      />
-    </mat-form-field>
-  </div>
+<mat-form-field
+  appearance="fill"
+  [style.width.%]="50"
+>
+  <mat-label>Minimum Value</mat-label>
+  <mtx-datetimepicker #minValue></mtx-datetimepicker>
+  <input
+    [mtxDatetimepicker]="minValue"
+    placeholder="Minimum value"
+    formControlName="minValue"
+    matInput
+  />
+  <mtx-datetimepicker-toggle
+    [for]="minValue"
+    matSuffix
+  ></mtx-datetimepicker-toggle>
+</mat-form-field>
 
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="50"
-  >
-    <mat-label>Label</mat-label>
-    <input
-      matInput
-      placeholder="Label"
-      formControlName="label"
-    />
-  </mat-form-field>
-
-  <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
-
-  <span class="readonly"> <mat-slide-toggle formControlName="readOnlyValue">Read Only</mat-slide-toggle> <mat-icon matTooltip="Parameters that are set as 'Read Only' will not be visible in the Data Portal" color="primary">info</mat-icon> </span>
-
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="50"
-  >
-    <mat-label>Semantic Tag</mat-label>
-    <mat-select
-      matNativeControl
-      name="property"
-      formControlName="property"
-    >
-      <mat-option
-        *ngFor="let semanticTag of semanticTags"
-        [value]="semanticTag"
-      >
-        {{ semanticTag }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="50"
-  >
-    <mat-label>Minimum Value</mat-label>
-    <mtx-datetimepicker #minValue></mtx-datetimepicker>
-    <input
-      [mtxDatetimepicker]="minValue"
-      placeholder="Minimum value"
-      formControlName="minValue"
-      matInput
-    />
-    <mtx-datetimepicker-toggle
-      [for]="minValue"
-      matSuffix
-    ></mtx-datetimepicker-toggle>
-  </mat-form-field>
-
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="50"
-  >
-    <mtx-datetimepicker #maxValue></mtx-datetimepicker>
-    <input
-      [mtxDatetimepicker]="maxValue"
-      placeholder="Maximum value"
-      formControlName="maxValue"
-      matInput
-    />
-    <mtx-datetimepicker-toggle
-      [for]="maxValue"
-      matSuffix
-    ></mtx-datetimepicker-toggle>
-  </mat-form-field>
-
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="50"
-  >
-    <mat-label>Default Value</mat-label>
-    <mtx-datetimepicker #defaultValue></mtx-datetimepicker>
-    <input
-      [mtxDatetimepicker]="defaultValue"
-      placeholder="Default value"
-      formControlName="defaultValue"
-      matInput
-    />
-    <mtx-datetimepicker-toggle
-      [for]="defaultValue"
-      matSuffix
-    ></mtx-datetimepicker-toggle>
-  </mat-form-field>
-</form>
+<mat-form-field
+  appearance="fill"
+  [style.width.%]="50"
+>
+  <mtx-datetimepicker #maxValue></mtx-datetimepicker>
+  <input
+    [mtxDatetimepicker]="maxValue"
+    placeholder="Maximum value"
+    formControlName="maxValue"
+    matInput
+  />
+  <mtx-datetimepicker-toggle
+    [for]="maxValue"
+    matSuffix
+  ></mtx-datetimepicker-toggle>
+</mat-form-field>

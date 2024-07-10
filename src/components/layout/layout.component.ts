@@ -76,7 +76,6 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
         }
       }),
       this.activeUserService.activeUserInfoObservable.subscribe((userInfo: User | null) => {
-        console.log(userInfo);
         this.userInfo = userInfo as User;
       }),
     );

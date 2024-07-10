@@ -47,16 +47,16 @@ export class EntityExecutionService extends EntityStateManager {
             ]);
             this.actionsService.disableSave();
             if (!this.actionsService.itemExists(data.instanceId as string)) {
-              this.actionsService.addEditedItems([
-                {
-                  type: Entity.DATA_PRODUCT,
-                  route: EntityEndpointValue.DATA_PRODUCT,
-                  label: 'Data product',
-                  state: Status.DRAFT,
-                  color: 'draft',
-                  id: data.instanceId as string,
-                },
-              ]);
+              // this.actionsService.addEditedItems([
+              //   {
+              //     type: Entity.DATA_PRODUCT,
+              //     route: EntityEndpointValue.DATA_PRODUCT,
+              //     label: 'Data product',
+              //     state: Status.DRAFT,
+              //     color: 'draft',
+              //     id: data.instanceId,
+              //   },
+              // ]);
               this.actionsService.saveCurrentEdit(data.instanceId as string);
             }
 
@@ -100,7 +100,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.DATA_PRODUCT,
                 route: EntityEndpointValue.DATA_PRODUCT,
                 label: 'Data product',
-                state: Status.DRAFT,
+                status: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId as string,
               },
@@ -147,7 +147,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.WEBSERVICE,
                 route: EntityEndpointValue.WEBSERVICE,
                 label: 'Webservice',
-                state: Status.DRAFT,
+                status: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId as string,
               },
@@ -195,7 +195,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.DISTRIBUTION,
                 route: EntityEndpointValue.DISTRIBUTION,
                 label: 'Distribution',
-                state: Status.DRAFT,
+                status: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId as string,
               },
@@ -218,55 +218,56 @@ export class EntityExecutionService extends EntityStateManager {
   }
 
   public handleOperationSave(): void {
-    // const operationData = this.getActiveOperationValue();
-    // if (operationData !== null) {
-    //   if (operationData.status !== Status.DRAFT) {
-    //     operationData.status = Status.DRAFT;
-    //     operationData.instanceChangedId = operationData.instanceId;
-    //   }
-    //   this.loadingService.setShowSpinner(true);
-    //   this.apiService.endpoints[Entity.OPERATION].update
-    //     .call({
-    //       ...operationData,
-    //     })
-    //     .then((data: Operation) => {
-    //       this.snackbarService.openSnackbar('Successfully updated Operation.', 'Close', 'success', 3000, [
-    //         'snackbar',
-    //         'mat-toolbar',
-    //         'snackbar-success',
-    //       ]);
-    //       const activeWebservice = this.webService.getValue();
-    //       const newOperation: LinkedEntity = {
-    //         entityType: Entity.OPERATION,
-    //         instanceId: data.instanceId,
-    //         metaId: data.metaId,
-    //         uid: data.uid,
-    //       };
-    //       if (null != activeWebservice) {
-    //         activeWebservice.supportedOperation = [];
-    //         activeWebservice.supportedOperation.push(newOperation);
-    //         this.setActiveWebService(activeWebservice);
-    //       }
-    //       // Sets 'accessURL' on Distribution to newly created Operation.
-    //       const activeDistribution = this.getActiveDistributionValue();
-    //       if (activeDistribution != null) {
-    //         activeDistribution.accessURL = [];
-    //         activeDistribution?.accessURL?.push(newOperation);
-    //         this.setActiveDistribution(activeDistribution);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       this.snackbarService.openSnackbar('Error updating Operation.', 'Close', 'error', 3000, [
-    //         'snackbar',
-    //         'mat-toolbar',
-    //         'snackbar-error',
-    //       ]);
-    //     })
-    //     .finally(() => {
-    //       this.loadingService.setShowSpinner(false);
-    //     });
-    // }
+    const operationData = this.getActiveOperationValue();
+    if (operationData !== null) {
+      if (operationData.status !== Status.DRAFT) {
+        operationData.status = Status.DRAFT;
+        operationData.instanceChangedId = operationData.instanceId;
+      }
+      this.loadingService.setShowSpinner(true);
+      this.apiService.endpoints[Entity.OPERATION].update
+        .call({
+          ...operationData,
+        })
+        .then((data: Operation) => {
+          this.snackbarService.openSnackbar('Successfully updated Operation.', 'Close', 'success', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-success',
+          ]);
+          const activeWebservice = this.webService.getValue();
+          const newOperation: LinkedEntity = {
+            entityType: Entity.OPERATION,
+            instanceId: data.instanceId,
+            metaId: data.metaId,
+            uid: data.uid,
+          };
+          if (null != activeWebservice) {
+            activeWebservice.supportedOperation = [];
+            activeWebservice.supportedOperation.push(newOperation);
+            this.setActiveWebService(activeWebservice);
+          }
+
+          // Sets 'accessURL' on Distribution to newly created Operation.
+          const activeDistribution = this.getActiveDistributionValue();
+          if (activeDistribution != null) {
+            activeDistribution.accessURL = [];
+            // activeDistribution?.accessURL?.push(newOperation);
+            this.setActiveDistribution(activeDistribution);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error updating Operation.', 'Close', 'error', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
+        });
+    }
   }
 
   public handleCreateDataProduct(): void {
@@ -291,7 +292,7 @@ export class EntityExecutionService extends EntityStateManager {
             type: Entity.DATA_PRODUCT,
             route: EntityEndpointValue.DATA_PRODUCT,
             label: 'Data product',
-            state: Status.DRAFT,
+            status: Status.DRAFT,
             color: 'draft',
             id: value.instanceId as string,
           },
@@ -337,7 +338,7 @@ export class EntityExecutionService extends EntityStateManager {
               type: Entity.DATA_PRODUCT,
               route: EntityEndpointValue.DATA_PRODUCT,
               label: 'Data product',
-              state: Status.DRAFT,
+              status: Status.DRAFT,
               color: 'draft',
               id: value.instanceId as string,
             },
