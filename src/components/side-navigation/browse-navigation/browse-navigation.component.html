@@ -1,7 +1,7 @@
 <ng-container *ngIf="(loading$ | async) === false; else loading">
   <ng-container *ngIf="userInfo">
     <ng-container [ngSwitch]="true">
-      <ng-container *ngSwitchCase="isAdmin(userInfo.role)">
+      <ng-container *ngSwitchCase="userInfo.isAdmin">
         <mat-nav-list>
           <h3 mat-subheader>DDSS</h3>
           <a
@@ -109,7 +109,7 @@
         </mat-nav-list>
       </ng-container>
 
-      <ng-container *ngSwitchCase="isReviewer(userInfo.role)">
+      <ng-container *ngSwitchCase="!userInfo.isAdmin">
         <mat-nav-list>
           <h3 mat-subheader>DDSS</h3>
           <a
@@ -175,7 +175,7 @@
         </mat-nav-list>
       </ng-container>
 
-      <ng-container *ngIf="isEditor(userInfo.role)">
+      <ng-container *ngIf="!userInfo.isAdmin">
         <mat-nav-list>
           <h3 mat-subheader>DDSS</h3>
           <a

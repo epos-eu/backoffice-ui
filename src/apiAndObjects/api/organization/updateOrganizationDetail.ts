@@ -5,9 +5,8 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Status } from 'src/utility/enums/status.enum';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
-import { Address } from 'src/apiAndObjects/objects/types/address.type';
-import { Identifier } from 'src/apiAndObjects/objects/types/identifier.type';
 import { CreateUpdateOrganizationDataSource } from 'src/apiAndObjects/objects/createUpdateOrganizationDataSource';
+import { LinkedEntity } from 'generated/backofficeSchemas';
 
 export class UpdateOrganizationDetail extends CacheableEndpoint<
   CreateUpdateOrganizationDataSource,
@@ -42,7 +41,7 @@ export class UpdateOrganizationDetail extends CacheableEndpoint<
 
 export interface SaveOrganizationBody {
   acronym: string;
-  address: Address;
+  address: LinkedEntity;
   changeComment: string;
   changeTimestamp: Date | undefined;
   contactPoint: Array<ContactPoint>;
@@ -50,7 +49,7 @@ export interface SaveOrganizationBody {
   email: Array<string>;
   fileProvenance: string;
   groups: Array<Group>;
-  identifier: Array<Identifier>;
+  identifier: Array<LinkedEntity>;
   instanceChangedId: string;
   instanceId: string;
   legalName: Array<string>;

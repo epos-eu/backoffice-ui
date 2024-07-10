@@ -11,6 +11,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { ContactPoint, Distribution } from 'generated/backofficeSchemas';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-browse-distribution-item',
@@ -67,14 +68,14 @@ export class BrowseDistributionItemComponent implements OnInit, OnDestroy {
           if (this.distributionDetail) {
             this.actionService.setLiveEdit();
             this.trackFormData();
-            // this.actionService.trackCurrentEdit({
-            //   type: Entity.DISTRIBUTION,
-            //   route: EntityEndpointValue.DISTRIBUTION,
-            //   label: 'Distribution',
-            //   state: this.distributionDetail.status,
-            //   color: 'draft',
-            //   id: this.distributionDetail.instanceId,
-            // });
+            this.actionService.trackCurrentEdit({
+              type: Entity.DISTRIBUTION,
+              route: EntityEndpointValue.DISTRIBUTION,
+              label: 'Distribution',
+              status: this.distributionDetail.status as Status,
+              color: 'draft',
+              id: this.distributionDetail.instanceId as string,
+            });
           }
         }
       });

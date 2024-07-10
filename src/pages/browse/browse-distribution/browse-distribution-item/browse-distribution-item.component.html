@@ -7,7 +7,7 @@
           aria-label="Status"
           *ngIf="currentEdit"
         >
-          <mat-chip-option [color]="currentEdit.color">{{ currentEdit.state }}</mat-chip-option>
+          <mat-chip-option [color]="currentEdit.color">{{ currentEdit.status }}</mat-chip-option>
         </mat-chip-listbox>
       </div>
       <div class="actions">
@@ -86,13 +86,13 @@
           [style.width.%]="97"
         >
           <mat-label>Description</mat-label>
-          <textarea
+          <!-- <textarea
             matInput
             name="description"
             [ngStyle]="{ 'line-height': '1.4' }"
             formControlName="description"
             [value]="distributionDetail.description[0]"
-          ></textarea>
+          ></textarea> -->
         </mat-form-field>
         <mat-form-field
           appearance="outline"

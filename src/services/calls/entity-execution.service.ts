@@ -47,16 +47,16 @@ export class EntityExecutionService extends EntityStateManager {
             ]);
             this.actionsService.disableSave();
             if (!this.actionsService.itemExists(data.instanceId as string)) {
-              this.actionsService.addEditedItems([
-                {
-                  type: Entity.DATA_PRODUCT,
-                  route: EntityEndpointValue.DATA_PRODUCT,
-                  label: 'Data product',
-                  state: Status.DRAFT,
-                  color: 'draft',
-                  id: data.instanceId,
-                },
-              ]);
+              // this.actionsService.addEditedItems([
+              //   {
+              //     type: Entity.DATA_PRODUCT,
+              //     route: EntityEndpointValue.DATA_PRODUCT,
+              //     label: 'Data product',
+              //     state: Status.DRAFT,
+              //     color: 'draft',
+              //     id: data.instanceId,
+              //   },
+              // ]);
               this.actionsService.saveCurrentEdit(data.instanceId as string);
             }
 
@@ -100,7 +100,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.DATA_PRODUCT,
                 route: EntityEndpointValue.DATA_PRODUCT,
                 label: 'Data product',
-                state: Status.DRAFT,
+                status: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId as string,
               },
@@ -147,7 +147,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.WEBSERVICE,
                 route: EntityEndpointValue.WEBSERVICE,
                 label: 'Webservice',
-                state: Status.DRAFT,
+                status: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId as string,
               },
@@ -195,7 +195,7 @@ export class EntityExecutionService extends EntityStateManager {
                 type: Entity.DISTRIBUTION,
                 route: EntityEndpointValue.DISTRIBUTION,
                 label: 'Distribution',
-                state: Status.DRAFT,
+                status: Status.DRAFT,
                 color: 'draft',
                 id: data.instanceId as string,
               },
@@ -252,7 +252,7 @@ export class EntityExecutionService extends EntityStateManager {
           const activeDistribution = this.getActiveDistributionValue();
           if (activeDistribution != null) {
             activeDistribution.accessURL = [];
-            activeDistribution?.accessURL?.push(newOperation);
+            // activeDistribution?.accessURL?.push(newOperation);
             this.setActiveDistribution(activeDistribution);
           }
         })
@@ -292,7 +292,7 @@ export class EntityExecutionService extends EntityStateManager {
             type: Entity.DATA_PRODUCT,
             route: EntityEndpointValue.DATA_PRODUCT,
             label: 'Data product',
-            state: Status.DRAFT,
+            status: Status.DRAFT,
             color: 'draft',
             id: value.instanceId as string,
           },
@@ -338,7 +338,7 @@ export class EntityExecutionService extends EntityStateManager {
               type: Entity.DATA_PRODUCT,
               route: EntityEndpointValue.DATA_PRODUCT,
               label: 'Data product',
-              state: Status.DRAFT,
+              status: Status.DRAFT,
               color: 'draft',
               id: value.instanceId as string,
             },

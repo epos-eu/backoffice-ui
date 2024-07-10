@@ -56,7 +56,7 @@ export class CreateDistributionItemComponent implements OnInit {
             type: Entity.DISTRIBUTION,
             route: EntityEndpointValue.DISTRIBUTION,
             label: 'Distribution',
-            state: Status.DRAFT,
+            status: Status.DRAFT,
             color: 'draft',
             id: value.instanceId as string,
           },

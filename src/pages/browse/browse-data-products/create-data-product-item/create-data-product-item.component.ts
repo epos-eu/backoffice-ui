@@ -56,7 +56,7 @@ export class CreateDataProductItemComponent implements OnInit {
             type: Entity.DATA_PRODUCT,
             route: EntityEndpointValue.DATA_PRODUCT,
             label: 'Data product',
-            state: Status.DRAFT,
+            status: Status.DRAFT,
             color: 'draft',
             id: value.instanceId as string,
           },

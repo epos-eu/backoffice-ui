@@ -7,7 +7,7 @@
           aria-label="Status"
           *ngIf="currentEdit"
         >
-          <mat-chip-option [color]="currentEdit.color">{{ currentEdit.state }}</mat-chip-option>
+          <mat-chip-option [color]="currentEdit.color">{{ currentEdit.status }}</mat-chip-option>
         </mat-chip-listbox>
       </div>
       <div class="actions">
@@ -246,13 +246,13 @@
               class="indent"
             >
               <mat-label>Location</mat-label>
-              <input
+              <!-- <input
                 matInput
                 placeholder="Location"
                 name="temporalExtent.location"
                 [value]="item.location"
                 readonly
-              />
+              /> -->
             </mat-form-field>
           </ng-container>
         </ng-container>
@@ -266,13 +266,13 @@
               class="indent"
             >
               <mat-label>Start date</mat-label>
-              <input
+              <!-- <input
                 matInput
                 placeholder="Start date"
                 name="temporalExtent.startDate"
                 [value]="item.startDate"
                 readonly
-              />
+              /> -->
             </mat-form-field>
             <mat-form-field
               appearance="outline"
@@ -281,13 +281,13 @@
               class="indent"
             >
               <mat-label>End date</mat-label>
-              <input
+              <!-- <input
                 matInput
                 placeholder="End date"
                 name="temporalExtent.endDate"
                 [value]="item.endDate"
                 readonly
-              />
+              /> -->
             </mat-form-field>
           </ng-container>
         </ng-container>

@@ -269,7 +269,7 @@ export class DistributionFormDetailsComponent {
                   type: Entity.WEBSERVICE,
                   route: EntityEndpointValue.WEBSERVICE,
                   label: 'Webservice',
-                  state: Status.DRAFT,
+                  status: Status.DRAFT,
                   color: 'draft',
                   id: value.instanceId as string,
                 },

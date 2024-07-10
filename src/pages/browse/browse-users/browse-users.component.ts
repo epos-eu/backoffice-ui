@@ -49,9 +49,12 @@ export class BrowseUsersComponent implements OnInit {
     if (users) {
       users.forEach((user: User) => {
         const detail: TableUserDetail = {
-          name: user.firstName,
-          surname: user.lastName,
-          email: user.email,
+          name: user.firstName as string,
+          surname: user.lastName as string,
+          email: user.email as string,
+          metaId: '',
+          role: '',
+          instanceId: '',
           // metaId: user.metaId,
           // role: user.role,
           // instanceId: user.instanceId,
