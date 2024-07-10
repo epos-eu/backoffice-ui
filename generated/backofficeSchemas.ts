@@ -804,12 +804,7 @@ export type Distribution = {
    * @format date-time
    */
   modified?: string;
-  /**
-   * Last operation type
-   *
-   * @example commit
-   */
-  operation?: string;
+  operation?: LinkedEntity;
   /**
    * State of the instance (DISCARDERD, ARCHIVED, DRAFT, SUBMITTED, PUBLISHED)
    *

@@ -1,60 +1,6 @@
-<form
-  [formGroup]="paramForm"
-  *ngIf="param"
->
-  <div class="top-params">
-    <mat-form-field
-      appearance="fill"
-      [style.width.%]="50"
-    >
-      <mat-label>Variable</mat-label>
-      <input
-        matInput
-        placeholder="Variable"
-        formControlName="variable"
-        readonly
-      />
-    </mat-form-field>
-
-    <mat-form-field
-      appearance="fill"
-      [style.width.%]="50"
-    >
-      <mat-label>Range</mat-label>
-      <input
-        matInput
-        placeholder="Range"
-        formControlName="range"
-        readonly
-      />
-    </mat-form-field>
-  </div>
-
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="50"
-  >
-    <mat-label>Label</mat-label>
-    <input
-      matInput
-      placeholder="Label"
-      formControlName="label"
-    />
-  </mat-form-field>
-
-  <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
-
-  <span class="readonly"> <mat-slide-toggle formControlName="readOnlyValue">Read Only</mat-slide-toggle> <mat-icon matTooltip="Parameters that are set as 'Read Only' will not be visible in the Data Portal" color="primary">info</mat-icon> </span>
-
-  <mat-form-field
-    appearance="fill"
-    [style.width.%]="50"
-  >
-    <mat-label>Default Value</mat-label>
-    <mat-select formControlName="defaultValue">
-      <mat-option value=""></mat-option>
-      <mat-option value="true">true</mat-option>
-      <mat-option value="false">false</mat-option>
-    </mat-select>
-  </mat-form-field>
-</form>
+<app-option
+  id="boolean"
+  [param]="param"
+  [disabled]="disabled"
+  (updatedParam)="handleCacheParam($event)"
+></app-option>

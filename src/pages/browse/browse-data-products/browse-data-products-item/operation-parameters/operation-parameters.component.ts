@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { DataProduct, Operation } from 'generated/backofficeSchemas';
 import { Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+import { LinkedEntity } from 'src/apiAndObjects/objects/entities/linkedEntity.model';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
@@ -12,6 +12,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { Status } from 'src/utility/enums/status.enum';
+import { ParametersFormService } from './parameters-form.service';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -23,7 +24,7 @@ export class OperationParametersComponent implements OnInit {
   @Input() metaId = '';
   @Input() templateUpdate = new Subject<string>();
   @Output() template = new Subject<string>();
-  @Output() mappingVals = new Subject<Array<Mapping> | undefined>();
+  @Output() mappingVals = new Subject<LinkedEntity[] | undefined>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,22 +32,21 @@ export class OperationParametersComponent implements OnInit {
     private entityExecutionService: EntityExecutionService,
     private dialogService: DialogService,
     private stateChangeService: StateChangeService,
-  ) {
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
-      if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
-        this.disabled = true;
-      } else {
-        this.disabled = false;
-      }
-    });
-  }
+    private formService: ParametersFormService,
+  ) {}
 
   private operation!: Operation;
+
   public paramsForm!: UntypedFormGroup;
-  public mapping?: Mapping[];
+
+  public mapping: LinkedEntity[] = [];
+
   public rangeEnum = OperationParamsRange;
+
   public fetchingOperation = false;
+
   public disabled = false;
+
   public disableOperationSave = true;
 
   public getControls(field: string) {
@@ -65,7 +65,14 @@ export class OperationParametersComponent implements OnInit {
             this.operation = this.entityExecutionService.convertToOperation(operation);
             this.entityExecutionService.setActiveOperation(this.operation);
             this.template?.next(this.operation.template ? this.operation.template : '');
-            this.mapping = this.operation.mapping;
+            // this.mapping.push(
+            //   new LinkedEntity(
+            //     this.operation.mapping?.[0].entityType as string,
+            //     this.operation.mapping?.[0].instanceId as string,
+            //     this.operation.mapping?.[0].metaId as string,
+            //     this.operation.mapping?.[0].uid as string,
+            //   ),
+            // );
             this.mappingVals.next(this.operation.mapping);
             this.initForm();
             this.disabled ? this.paramsForm.disable() : this.paramsForm.enable();
@@ -74,32 +81,13 @@ export class OperationParametersComponent implements OnInit {
     }
   }
 
-  private createMappingFormGroup(mapping: Mapping): FormGroup {
-    return this.formBuilder.group({
-      defaultValue: [
-        {
-          value: mapping.defaultValue,
-          disabled: mapping.readOnlyValue === 'true',
-        },
-        mapping.required === 'true' ? Validators.required : '',
-      ],
-      label: [mapping.label],
-      range: [mapping.range],
-      maxValue: [mapping.maxValue],
-      minValue: [mapping.minValue],
-      multipleValues: [mapping.multipleValues],
-      paramValue: [mapping.paramValue],
-      readOnlyValue: [mapping.readOnlyValue],
-      required: [mapping.required],
-      valuePattern: [mapping.valuePattern],
-      variable: [mapping.variable],
-      property: [mapping.property],
-    });
+  private createMappingFormGroup(mapping: LinkedEntity[]): FormGroup {
+    return this.formService.generateOptionForm(mapping);
   }
 
-  private loadMappingArray(mapping: Array<Mapping> | undefined): FormGroup[] {
+  private loadMappingArray(mapping: Array<LinkedEntity[]> | undefined): FormGroup[] {
     if (mapping) {
-      const transformed = mapping.map((item: Mapping) => this.createMappingFormGroup(item));
+      const transformed = mapping.map((item: LinkedEntity) => this.createMappingFormGroup(item));
       return transformed;
     }
     return [];
@@ -108,27 +96,21 @@ export class OperationParametersComponent implements OnInit {
   private initForm(): void {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
-      // template: this.template,
     });
-    // this.paramsForm.valueChanges.subscribe((changes) => {
-    //   // this.updateTemplate(changes['template']);
-    // });
   }
 
   private foundListParametersOnTemplate(): string[] {
     const template = this.paramsForm.get('template')?.value;
     const regex = /{([^}]+)}/g;
     const match = template.match(regex);
-
     if (match) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return match.map((m: any) => m.slice(1, -1));
     } else {
       return [];
     }
   }
 
-  private addMappingOnTemplate(mapping: Mapping) {
+  private addMappingOnTemplate(mapping: LinkedEntity[]) {
     const groupParamsOnTemplate = this.foundListParametersOnTemplate();
     if (groupParamsOnTemplate.length > 0) {
       const newString = groupParamsOnTemplate[0] + ',' + mapping.variable;
@@ -139,34 +121,17 @@ export class OperationParametersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initData();
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
+      if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    });
   }
 
-  public getDateControl(dateStr: string): FormControl {
-    return new FormControl(new Date(dateStr));
-  }
-
-  public cacheParam(updatedMapping: Mapping) {
-    const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
-    if (null != activeSupportedOperation) {
-      const updatedMappingArray = activeSupportedOperation?.mapping?.map((item: Mapping) =>
-        item.variable === updatedMapping.variable ? updatedMapping : item,
-      );
-      activeSupportedOperation.mapping = updatedMappingArray as Array<Mapping>;
-
-      const nullsOrEmptyExist = (map: Mapping) => map.label == null || map.label === '';
-      this.disableOperationSave = activeSupportedOperation.mapping.some(nullsOrEmptyExist);
-
-      /** Sets all null values as undefined */
-      activeSupportedOperation?.mapping.map((mappingObj: Record<string, unknown>) => {
-        Object.keys(mappingObj).forEach((key) => {
-          if (null == mappingObj[key]) {
-            mappingObj[key] = undefined;
-          }
-        });
-        return mappingObj;
-      });
-      this.entityExecutionService.setActiveOperation(activeSupportedOperation);
-    }
+  public cacheParam(updatedMapping: LinkedEntity[]) {
+    this.formService.cacheParam(updatedMapping);
   }
 
   public handleSave(): void {
@@ -175,11 +140,11 @@ export class OperationParametersComponent implements OnInit {
 
   public handleAddParam(): void {
     this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
-      const newMapping = data.dataOut as Mapping;
+      const newMapping = data.dataOut as LinkedEntity[];
       if (null != newMapping) {
         const newMappingArr = this.entityExecutionService.getActiveOperationValue()?.mapping;
         newMappingArr?.push(newMapping);
-        this.mapping = newMappingArr as Array<Mapping>;
+        this.mapping = newMappingArr as Array<LinkedEntity[]>;
         this.initForm();
 
         // add new variable on template string
@@ -188,13 +153,7 @@ export class OperationParametersComponent implements OnInit {
     });
   }
 
-  /**
-   * The `deleteOperation` function deletes an operation instance and updates the supported operations
-   * list.
-   * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
-   * identifier of the operation instance that needs to be deleted.
-   */
-  public deleteOperation(instanceId: string): void {
+  public handleDeleteOperation(instanceId: string): void {
     this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false).then((toDelete: boolean) => {
       if (toDelete) {
         // Delete from SupportedOperation array on @Webservice
