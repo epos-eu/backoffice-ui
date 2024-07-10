@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../baseDialogService.abstract';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
-import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
+// import { Mapping } from 'src/apiAndObjects/objects/types/mapping.type';
 import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
@@ -18,16 +18,16 @@ export class DialogAddNewParameterComponent implements OnInit {
   public duplicateName = false;
   public forbiddenName = '';
   private activeMappingArr: Array<string> = [];
-  private mapping: Mapping = { range: '', variable: '', required: '' };
+  private mapping: any = { range: '', variable: '', required: '' };
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData<Mapping>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<any>,
     private readonly formBuilder: FormBuilder,
     private operationService: EntityExecutionService,
   ) {
     this.operationService.operationObs.subscribe((operation: Operation | null) => {
       if (operation?.mapping) {
-        this.activeMappingArr = operation.mapping.map((mapping: Mapping) => mapping.variable);
+        this.activeMappingArr = operation.mapping.map((mapping: any) => mapping.variable);
       }
     });
   }

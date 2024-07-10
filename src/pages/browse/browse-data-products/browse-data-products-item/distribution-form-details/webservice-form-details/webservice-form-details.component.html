@@ -16,7 +16,7 @@
           </div>
 
           <div class="detail">
-            <ng-container *ngIf="webservice.datePublished.toString() !== 'Invalid Date'">
+            <ng-container *ngIf="webservice.datePublished?.toString() !== 'Invalid Date'">
               <mat-form-field>
                 <mat-label>Date published</mat-label>
                 <mtx-datetimepicker #pickerPublished></mtx-datetimepicker>
@@ -33,13 +33,13 @@
                 ></mtx-datetimepicker-toggle>
               </mat-form-field>
             </ng-container>
-            <ng-container *ngIf="webservice.datePublished.toString() === 'Invalid Date'">
+            <ng-container *ngIf="webservice.datePublished?.toString() === 'Invalid Date'">
               <div class="label">Published:</div>
               <div class="value">Unpublished</div>
             </ng-container>
           </div>
           <div class="detail">
-            <ng-container *ngIf="webservice.dateModified.toString() !== 'Invalid Date'">
+            <ng-container *ngIf="webservice.dateModified?.toString() !== 'Invalid Date'">
               <mat-form-field>
                 <mat-label>Date modified</mat-label>
                 <mtx-datetimepicker #pickerModified></mtx-datetimepicker>
@@ -56,7 +56,7 @@
                 ></mtx-datetimepicker-toggle>
               </mat-form-field>
             </ng-container>
-            <ng-container *ngIf="webservice.dateModified.toString() === 'Invalid Date'">
+            <ng-container *ngIf="webservice.dateModified?.toString() === 'Invalid Date'">
               <div class="label">Modified:</div>
               <div class="value">Never modified</div>
             </ng-container>
@@ -246,12 +246,12 @@
                       <mat-expansion-panel-header>
                         <mat-panel-title>Parameters</mat-panel-title>
                       </mat-expansion-panel-header>
-                      <app-operation-parameters
+                      <!-- <app-operation-parameters
                         [instanceId]="item.instanceId"
                         [metaId]="metaId"
                         (template)="handleTemplate($event)"
                         (mappingVals)="handleMappingVals($event)"
-                      ></app-operation-parameters>
+                      ></app-operation-parameters> -->
                     </mat-expansion-panel>
                   </div>
                 </div>

@@ -54,7 +54,7 @@ export class CreateContactPointItemComponent implements OnInit {
             type: Entity.CONTACT_POINT,
             route: EntityEndpointValue.CONTACT_POINT,
             label: 'Contact Point',
-            state: Status.DRAFT,
+            status: Status.DRAFT,
             color: 'draft',
             id: value.instanceId as string,
           },

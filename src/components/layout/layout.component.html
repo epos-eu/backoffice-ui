@@ -200,6 +200,7 @@
       class="sidenav"
     >
       <div class="navigation-wrapper">
+        {{ liveChanges | async }}
         <ng-container *ngIf="(liveChanges | async) === true">
           <app-dataproduct-navigation></app-dataproduct-navigation>
           <app-edit-navigation></app-edit-navigation>

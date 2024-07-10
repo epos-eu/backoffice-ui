@@ -52,10 +52,10 @@ export class BrowseOrganizationItemComponent {
   }
 
   public handleAddPerson(): void {
-    this.dialogService.handleAddPerson();
+    // this.dialogService.handleAddPerson();
   }
 
   public handleAddContact(): void {
-    this.dialogService.handleAddContact();
+    // this.dialogService.handleAddContact();
   }
 }

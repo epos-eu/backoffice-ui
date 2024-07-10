@@ -10,6 +10,7 @@ import { TableItem, TableItems } from 'src/utility/objects/table/items';
 import { FilterEmit } from '../table-filter/table-filter.component';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import moment from 'moment';
+import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 
 @Component({
   selector: 'app-table',
@@ -31,6 +32,42 @@ export class TableComponent implements AfterViewInit {
 
   constructor(private apiService: ApiService) {}
 
+  private mapTableDetails(items: TableItems): TableDetail[] {
+    return items.map((item: TableItem) => ({
+      uid: item.uid,
+      title: '',
+      lastChange: moment(item.changeTimestamp).format(CUSTOM_DATE_FORMAT.display.dateInput),
+      // status: !(item instanceof WebService) ? item.status : '',
+      changeComment: item.changeComment,
+      author: item.editorId,
+      instanceId: item.instanceId as string,
+      metaId: item.metaId as string,
+      dataProduct: item instanceof Distribution ? item.dataProduct?.[0] : undefined,
+    }));
+  }
+
+  private filterDataSource(data: TableDetail, filterValue: string): boolean {
+    const filters = JSON.parse(filterValue);
+    const formatStr = (str: string) => str.trim().toLocaleLowerCase();
+    return (
+      formatStr(data.status as string).indexOf(formatStr(filters.status)) >= 0 &&
+      formatStr(data.title as string)?.indexOf(formatStr(filters.title)) >= 0
+    );
+  }
+
+  private createTableObjects(items: TableItems) {
+    const tableDetails = this.mapTableDetails(items);
+    this.initialiseTable(tableDetails);
+  }
+
+  private initialiseTable(details: Array<TableDetail>) {
+    this.dataSource = new MatTableDataSource(details);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.filterDataSource;
+    this.loading = false;
+  }
+
   public ngAfterViewInit(): void {
     this.loading = true;
     this.apiService.endpoints[this.sectionName].getAll.call().then((tableItems) => {
@@ -50,49 +87,6 @@ export class TableComponent implements AfterViewInit {
     if (null != this.dataSource) {
       this.dataSource.filter = '';
     }
-  }
-
-  private createTableObjects(items: TableItems) {
-    const tableDetails = new Array<TableDetail>();
-    items.forEach((item: TableItem) => {
-      const detail: TableDetail = {
-        uid: item.uid,
-        title: '',
-        lastChange: moment(item.changeTimestamp).format(CUSTOM_DATE_FORMAT.display.dateInput),
-        status: item.status as string,
-        changeComment: item.changeComment,
-        versionInfo: item instanceof DataProductDetailDataSource ? item.versionInfo : '',
-        author: item.editorId,
-        instanceId: item.instanceId,
-        metaId: item.metaId,
-        dataProduct: item instanceof DistributionDetailDataSource ? item.dataProduct[0] : null,
-      };
-
-      if (item instanceof WebserviceDetailDataSource) {
-        detail.title = item.name;
-      } else if (item instanceof DataProductDetailDataSource || item instanceof DistributionDetailDataSource) {
-        detail.title = item.title[0];
-      } else {
-        detail.title = '';
-      }
-
-      tableDetails.push(detail);
-    });
-    this.initialiseTable(tableDetails);
-  }
-
-  private initialiseTable(details: Array<TableDetail>) {
-    this.dataSource = new MatTableDataSource(details);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = (data: TableDetail, filterValue: string) => {
-      const filters = JSON.parse(filterValue);
-      return (
-        data.status?.trim().toLocaleLowerCase().indexOf(filters.status.trim().toLocaleLowerCase()) >= 0 &&
-        data.title?.trim().toLocaleLowerCase().indexOf(filters.title.trim().toLocaleLowerCase()) >= 0
-      );
-    };
-    this.loading = false;
   }
 
   public handlePaginationChange(event: PageEvent): void {

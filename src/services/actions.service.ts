@@ -126,7 +126,7 @@ export class ActionsService {
 
       this.updateItem(index, {
         ...updated,
-        state: type,
+        status: type,
         color: type,
       });
     }

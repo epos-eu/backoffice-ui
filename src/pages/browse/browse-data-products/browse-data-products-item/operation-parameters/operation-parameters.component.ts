@@ -86,17 +86,18 @@ export class OperationParametersComponent implements OnInit {
   }
 
   private loadMappingArray(mapping: Array<LinkedEntity[]> | undefined): FormGroup[] {
-    if (mapping) {
-      const transformed = mapping.map((item: LinkedEntity) => this.createMappingFormGroup(item));
-      return transformed;
-    }
-    return [];
+    // if (mapping) {
+    //   const transformed = mapping.map((item: LinkedEntity) => this.createMappingFormGroup(item));
+    //   return transformed;
+    // }
+    // return [];
+    return [new FormGroup({})];
   }
 
   private initForm(): void {
-    this.paramsForm = this.formBuilder.group({
-      mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
-    });
+    // this.paramsForm = this.formBuilder.group({
+    //   mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
+    // });
   }
 
   private foundListParametersOnTemplate(): string[] {
@@ -113,9 +114,9 @@ export class OperationParametersComponent implements OnInit {
   private addMappingOnTemplate(mapping: LinkedEntity[]) {
     const groupParamsOnTemplate = this.foundListParametersOnTemplate();
     if (groupParamsOnTemplate.length > 0) {
-      const newString = groupParamsOnTemplate[0] + ',' + mapping.variable;
+      // const newString = groupParamsOnTemplate[0] + ',' + mapping.variable;
       const template = this.paramsForm.get('template')?.value as string;
-      this.paramsForm.get('template')?.setValue(template.replace(groupParamsOnTemplate[0], newString));
+      // this.paramsForm.get('template')?.setValue(template.replace(groupParamsOnTemplate[0], newString));
     }
   }
 
@@ -139,18 +140,17 @@ export class OperationParametersComponent implements OnInit {
   }
 
   public handleAddParam(): void {
-    this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
-      const newMapping = data.dataOut as LinkedEntity[];
-      if (null != newMapping) {
-        const newMappingArr = this.entityExecutionService.getActiveOperationValue()?.mapping;
-        newMappingArr?.push(newMapping);
-        this.mapping = newMappingArr as Array<LinkedEntity[]>;
-        this.initForm();
-
-        // add new variable on template string
-        this.addMappingOnTemplate(newMapping);
-      }
-    });
+    // this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
+    //   const newMapping = data.dataOut as LinkedEntity[];
+    //   if (null != newMapping) {
+    //     const newMappingArr = this.entityExecutionService.getActiveOperationValue()?.mapping;
+    //     newMappingArr?.push(newMapping);
+    //     this.mapping = newMappingArr as Array<LinkedEntity[]>;
+    //     this.initForm();
+    //     // add new variable on template string
+    //     this.addMappingOnTemplate(newMapping);
+    //   }
+    // });
   }
 
   public handleDeleteOperation(instanceId: string): void {
@@ -170,7 +170,7 @@ export class OperationParametersComponent implements OnInit {
         const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
         if (null != activeDistribution) {
           activeDistribution.accessURL?.splice(
-            activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
+            // activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
             1,
           );
           this.entityExecutionService.setActiveDistribution(activeDistribution);

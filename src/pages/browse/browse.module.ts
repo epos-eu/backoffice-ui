@@ -21,7 +21,6 @@ import { CreateContactPointItemComponent } from './browse-contact-point/create-c
 import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
 import { SideNavigationModule } from 'src/components/side-navigation/side-navigation.module';
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
-import { OrderByPipe } from 'src/pipes/orderBy.pipe';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
 import { BrowseDataProductsModule } from './browse-data-products/browse-data-products.module';
 
@@ -43,7 +42,6 @@ import { BrowseDataProductsModule } from './browse-data-products/browse-data-pro
     CreateContactPointItemComponent,
     BrowseContactPointItemComponent,
     BrowseRevisionsComponent,
-    OrderByPipe,
   ],
   imports: [
     CommonModule,

@@ -30,6 +30,7 @@ import { CreateDataProductItemComponent } from './create-data-product-item/creat
 import { SimpleSpatialControlComponent } from './browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { OptionComponent } from './browse-data-products-item/operation-parameters/option/option.component';
 import { OptionComplexComponent } from './browse-data-products-item/operation-parameters/option-complex/option-complex.component';
+import { OrderByPipe } from 'src/pipes/orderBy.pipe';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { OptionComplexComponent } from './browse-data-products-item/operation-pa
     SpatialCoverageMapComponent,
     TemporalCoverageComponent,
     WebserviceFormDetailsComponent,
+    OrderByPipe,
   ],
   imports: [AngularMaterialModule, CommonModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [

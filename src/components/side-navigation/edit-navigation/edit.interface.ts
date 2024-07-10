@@ -6,7 +6,7 @@ export interface IChangeItem {
   type: Entity;
   route: EntityEndpointValue;
   label: string;
-  state: Status;
+  status: Status;
   color: string;
   id: string;
 }

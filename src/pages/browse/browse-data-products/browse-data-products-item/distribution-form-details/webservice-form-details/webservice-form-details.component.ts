@@ -80,7 +80,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     ],
     expanded: true,
   };
-  private mapping: Array<Mapping> = [];
+  private mapping: Array<any> = [];
   public options: UntypedFormGroup;
   public floatLabelControl = new UntypedFormControl('auto');
   public webservice!: WebService | undefined;
@@ -234,19 +234,19 @@ export class WebserviceFormDetailsComponent implements OnInit {
       if (updatingObject) {
         updatingObject.name = changes['name'];
         updatingObject.description = changes['description'];
-        updatingObject.temporalExtent = [
-          {
-            startDate: this.getDate(changes['temporalExtentStartDate']),
-            endDate: this.getDate(changes['temporalExtentEndDate']),
-          },
-        ];
-        updatingObject.documentation = [
-          {
-            description: '',
-            title: '',
-            uri: changes['documentation'],
-          },
-        ];
+        // updatingObject.temporalExtent = [
+        //   {
+        //     startDate: this.getDate(changes['temporalExtentStartDate']),
+        //     endDate: this.getDate(changes['temporalExtentEndDate']),
+        //   },
+        // ];
+        // updatingObject.documentation = [
+        //   {
+        //     description: '',
+        //     title: '',
+        //     uri: changes['documentation'],
+        //   },
+        // ];
         updatingObject.datePublished = changes.date.published;
         updatingObject.dateModified = changes.date.modified;
         this.entityExecutionService.setActiveWebService(updatingObject);
@@ -281,14 +281,14 @@ export class WebserviceFormDetailsComponent implements OnInit {
       // put result on supportedOperation array (first position and focused)
       const operation: LinkedEntity = {
         entityType: Entity.OPERATION,
-        instanceId: result.instanceId,
-        uid: result.uid,
-        metaId: result.metaId,
+        // instanceId: result.instanceId,
+        // uid: result.uid,
+        // metaId: result.metaId,
       };
 
       // Sets 'accessURL' on Distribution to newly created Operation.
       const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-      activeDistribution?.accessURL?.push(operation);
+      // activeDistribution?.accessURL?.push(operation);
       if (activeDistribution != null) {
         this.entityExecutionService.setActiveDistribution(activeDistribution);
         this.actionsService.showSaveDistributionMessage(true);
@@ -352,7 +352,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       this.serviceProvidersLoading = true;
       this.apiService.endpoints.Organization.getAll.call().then((response: Organization[]) => {
         if (webservice.provider) {
-          this.selectedServiceProvider = response.find((value: Organization) => value.uid === webservice.provider.uid);
+          // this.selectedServiceProvider = response.find((value: Organization) => value.uid === webservice.provider.uid);
         }
         this.serviceProviders = response;
         this.serviceProvidersLoading = false;
@@ -404,7 +404,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public newSpatialCoverage() {
-    this.webservice?.spatialExtent.push({ location: 'POINT(0 0)' });
+    // this.webservice?.spatialExtent.push({ location: 'POINT(0 0)' });
     this.spatialCoverageInput.push('0 0');
 
     // Update Global Web Service after change to Spatial Extents Arr
@@ -418,7 +418,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   public deleteSpatialCoverage(index: number) {
-    this.webservice?.spatialExtent.splice(index, 1);
+    // this.webservice?.spatialExtent.splice(index, 1);
     this.spatialCoverageInput.splice(index, 1);
 
     // Update Global Web Service after change to Spatial Extents Arr
@@ -441,7 +441,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
     if (null != webservice?.spatialExtent) {
       webservice.spatialExtent.forEach((spatialExtent: LinkedEntity, index) => {
         if (event.index === index) {
-          spatialExtent.location = event.location;
+          // spatialExtent.location = event.location;
         }
       });
       this.entityExecutionService.setActiveWebService(webservice);
@@ -449,7 +449,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
       // update points on map
       const spatExtentsToUpdate: Array<string> = [];
       webservice.spatialExtent.forEach((spatialExtent: LinkedEntity) => {
-        spatExtentsToUpdate.push(spatialExtent.location);
+        // spatExtentsToUpdate.push(spatialExtent.location);
       });
       this.spatialCoverageInput = spatExtentsToUpdate;
 
@@ -472,8 +472,8 @@ export class WebserviceFormDetailsComponent implements OnInit {
    * The function sets spatial coverage variables based on the data product's spatial extent.
    */
   private setSpatialCoverageVariables() {
-    this.webservice?.spatialExtent.forEach((item, index) => {
-      this.spatialCoverageInput[index] = item.location;
+    this.webservice?.spatialExtent?.forEach((item, index) => {
+      // this.spatialCoverageInput[index] = item.location;
     });
   }
 
@@ -481,9 +481,9 @@ export class WebserviceFormDetailsComponent implements OnInit {
     const temporalExtent = this.webservice?.temporalExtent;
     if (temporalExtent !== undefined && temporalExtent.length > 0) {
       if (type === 'startDate') {
-        return temporalExtent[0].startDate;
+        // return temporalExtent[0].startDate;
       }
-      return temporalExtent[0].endDate;
+      // return temporalExtent[0].endDate;
     }
     return null;
   }
@@ -497,24 +497,25 @@ export class WebserviceFormDetailsComponent implements OnInit {
   }
 
   private mapParams(submatch: string, paramName: string): string {
-    const match = this.mapping.find((param: LinkedEntity) => param.variable === paramName);
-    if (match) {
-      const regex = new RegExp(`${paramName}`, 'g');
-      if (match.defaultValue) {
-        if (match.range === OperationParamsRange.DATE_TIME) {
-          // get only the date from datetime string
-          const dateStr = match.defaultValue.split('T').shift();
-          if (dateStr) {
-            submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(dateStr));
-          }
-        } else {
-          submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
-        }
-      } else {
-        submatch = '';
-      }
-    }
-    return submatch;
+    // const match = this.mapping.find((param: LinkedEntity) => param.variable === paramName);
+    // if (match) {
+    //   const regex = new RegExp(`${paramName}`, 'g');
+    //   if (match.defaultValue) {
+    //     if (match.range === OperationParamsRange.DATE_TIME) {
+    //       // get only the date from datetime string
+    //       const dateStr = match.defaultValue.split('T').shift();
+    //       if (dateStr) {
+    //         submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(dateStr));
+    //       }
+    //     } else {
+    //       submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
+    //     }
+    //   } else {
+    //     submatch = '';
+    //   }
+    // }
+    // return submatch;
+    return '';
   }
 
   public handleClearDatePicker(control: AbstractControl): void {
@@ -537,7 +538,7 @@ export class WebserviceFormDetailsComponent implements OnInit {
 
       if (paramsArr.length > 0 && this.mapping.length > 0) {
         paramsArr.forEach((paramName: string) => {
-          submatch = this.mapParams(submatch, paramName);
+          // submatch = this.mapParams(submatch, paramName);
         });
         submatch = submatch.replace(/,/g, '&');
         const finalTemplateURI = template.split('{').shift() + `${submatch}`;
