@@ -7,4 +7,7 @@ export enum EntityEndpointValue {
   WEBSERVICE = 'webservice',
   DISTRIBUTION = 'distribution',
   OPERATION = 'operation',
+  GROUP = 'group',
+  PERIOD_OF_TIME = 'periodoftime',
+  LOCATION = 'location',
 }

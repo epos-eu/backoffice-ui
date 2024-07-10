@@ -43,6 +43,10 @@ import { GetLocation } from './location/getLocation';
 import { GetAllLocations } from './location/getAllLocations';
 import { PostLocation } from './location/postLocation';
 import { PutLocation } from './location/putLocation';
+import { GetPeriodOfTime } from './periodOfTime/getPeriodOfTime';
+import { GetAllPeriodOfTime } from './periodOfTime/getAllPeriodOfTime';
+import { PostPeriodOfTime } from './periodOfTime/postPeriodOfTime';
+import { PutPeriodOfTime } from './periodOfTime/putPeriodOfTime';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -106,6 +110,12 @@ export class ApiService extends BaseApi {
       getAll: new GetAllLocations(ApiService.USE_LIVE_API),
       create: new PostLocation(ApiService.USE_LIVE_API),
       update: new PutLocation(ApiService.USE_LIVE_API),
+    },
+    PeriodOfTime: {
+      get: new GetPeriodOfTime(ApiService.USE_LIVE_API),
+      getAll: new GetAllPeriodOfTime(ApiService.USE_LIVE_API),
+      create: new PostPeriodOfTime(ApiService.USE_LIVE_API),
+      update: new PutPeriodOfTime(ApiService.USE_LIVE_API),
     },
   };
 
