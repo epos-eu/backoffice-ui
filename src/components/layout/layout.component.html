@@ -34,13 +34,13 @@
       <h1>METADATA Backoffice</h1>
     </a>
     <div class="navbar-main-navigation">
-      <button
+      <!-- <button
         mat-flat-button
         (click)="getAllGroups()"
       >
         Get All
       </button>
-      <button mat-flat-button>Create New</button>
+      <button mat-flat-button>Create New</button> -->
 
       <!-- <a
         class="navbar-main-navigation-item"
@@ -56,7 +56,7 @@
       *ngIf="null != userInfo"
     >
       <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
-      <p>({{ userInfo.isAdmin ?? '' }})</p>
+      <p>({{ userInfo.isAdmin ? 'Admin' : '' }})</p>
     </div>
     <div
       class="nav-top-items-item guest"
@@ -200,7 +200,6 @@
       class="sidenav"
     >
       <div class="navigation-wrapper">
-        {{ liveChanges | async }}
         <ng-container *ngIf="(liveChanges | async) === true">
           <app-dataproduct-navigation></app-dataproduct-navigation>
           <app-edit-navigation></app-edit-navigation>
