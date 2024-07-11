@@ -25,16 +25,7 @@ export class SpatialCoverageComponent implements OnInit {
   public spatialExtents: Array<Location> = [];
 
   public ngOnInit(): void {
-    this.dataProduct.spatialExtent?.forEach((location: LinkedEntity) => {
-      const params: GetLocationParams = {
-        instanceId: location.instanceId as string,
-        metaId: location.metaId as string,
-      };
-      this.apiService.endpoints.Location.get.call(params).then((item: Array<Location>) => {
-        console.debug('call from here', item);
-        this.spatialExtents.push(item[0]);
-      });
-    });
+    this.initSpatialCoverages();
   }
 
   // public newSpatialCoverage() {
@@ -50,6 +41,28 @@ export class SpatialCoverageComponent implements OnInit {
   //     this.refreshPointsOnMap();
   //   }, 100);
   // }
+
+  /**
+   * The `initSpatialCoverages` function initializes spatial coverages by fetching location data from an
+   * API and updating the spatialExtents array and spatialCoverageInput.
+   */
+  private initSpatialCoverages() {
+    this.dataProduct.spatialExtent?.forEach((location: LinkedEntity) => {
+      const params: GetLocationParams = {
+        instanceId: location.instanceId as string,
+        metaId: location.metaId as string,
+      };
+      this.apiService.endpoints.Location.get.call(params).then((items: Array<Location>) => {
+        items.forEach((location, index) => {
+          this.spatialExtents.push(location);
+          this.spatialCoverageInput[index] = location.location;
+        });
+        setTimeout(() => {
+          this.refreshPointsOnMap();
+        }, 100);
+      });
+    });
+  }
 
   public newSpatialCoverage() {
     // this.apiService.endpoints.Location.create.call().then(() => {});

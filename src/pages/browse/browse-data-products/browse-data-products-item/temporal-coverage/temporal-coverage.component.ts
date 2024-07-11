@@ -8,12 +8,14 @@ import {
   AbstractControlOptions,
   UntypedFormArray,
 } from '@angular/forms';
-import { PeriodOfTime } from 'generated/backofficeSchemas';
+import { LinkedEntity, PeriodOfTime } from 'generated/backofficeSchemas';
 import moment from 'moment';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { DataproductService } from '../../dataproduct.service';
 import { debounceTime } from 'rxjs';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { GetPeriodOfTimeParams } from 'src/apiAndObjects/api/periodOfTime/getPeriodOfTime';
 
 @Component({
   selector: 'app-temporal-coverage',
@@ -21,7 +23,11 @@ import { debounceTime } from 'rxjs';
   styleUrl: './temporal-coverage.component.scss',
 })
 export class TemporalCoverageComponent implements OnInit {
-  constructor(private entityExecutionService: EntityExecutionService, private dataproductService: DataproductService) {}
+  constructor(
+    private entityExecutionService: EntityExecutionService,
+    private dataproductService: DataproductService,
+    private apiService: ApiService,
+  ) {}
 
   @Input() dataProduct!: DataProduct;
 
@@ -49,11 +55,23 @@ export class TemporalCoverageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.log(this.dataProduct);
-    this.formGroup = new FormGroup({
-      coverage: this.createCoverageArray(this.dataProduct?.temporalExtent),
+    this.dataProduct.temporalExtent?.forEach((periodOfTime: LinkedEntity) => {
+      const params: GetPeriodOfTimeParams = {
+        instanceId: periodOfTime.instanceId as string,
+        metaId: periodOfTime.metaId as string,
+      };
+      this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
+        console.debug('calling here', items);
+        this.formGroup = new FormGroup({
+          coverage: this.createCoverageArray(items),
+        });
+        this.trackFormChanges();
+      });
     });
-    this.trackFormChanges();
+
+    // this.formGroup = new FormGroup({
+    //   coverage: this.createCoverageArray(this.dataProduct?.temporalExtent),
+    // });
   }
 
   private trackFormChanges(): void {

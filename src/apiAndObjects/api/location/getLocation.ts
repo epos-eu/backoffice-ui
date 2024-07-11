@@ -1,7 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Location as LocationType } from 'generated/backofficeSchemas';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { Location as LocationType } from 'generated/backofficeSchemas';
 import { LocationDataSource as LocationDataModel } from 'src/apiAndObjects/objects/data-source/locationDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
