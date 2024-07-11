@@ -19,7 +19,7 @@ export class ContactPointComponent {
     private snackbarService: SnackbarService,
   ) {}
 
-  @Input() contactPointDetails: Array<LinkedEntity> | undefined = undefined;
+  @Input() contactPoint: Array<LinkedEntity> | undefined = undefined;
   @Input() showSaveFormNotify = false;
   @Input() relevantEntity?: Entity;
 
@@ -27,42 +27,55 @@ export class ContactPointComponent {
   public entityEnum = Entity;
   public contactPointArrayObs = this.contactPointArraySource.asObservable();
   public personFromCatalogFilteredOptions!: Observable<any[]>;
-  // public loading = true;
-  public showFrom = false;
+  public contactPointDetails!: Promise<ContactPoint[]>[];
+
+  private getContactPointDetails(): void {
+    const requests: Promise<ContactPoint[]>[] = [];
+    this.contactPoint?.forEach((item: LinkedEntity) => {
+      requests.push(
+        this.apiService.endpoints[Entity.CONTACT_POINT].get.call(
+          {
+            metaId: item.metaId as string,
+            instanceId: item.instanceId as string,
+          },
+          false,
+        ),
+      );
+    });
+    this.contactPointDetails = requests;
+  }
+
+  public ngOnInit(): void {
+    this.getContactPointDetails();
+  }
 
   public updateContactPointArray(newContactPointDetails: Array<LinkedEntity>) {
     const dataProduct = this.entityExecutionService.getActiveDataProductValue();
-    this.contactPointDetails = newContactPointDetails;
+    this.contactPoint = newContactPointDetails;
     if (null != dataProduct) {
-      dataProduct.contactPoint = this.contactPointDetails;
+      dataProduct.contactPoint = this.contactPoint;
       this.entityExecutionService.setActiveDataProduct(dataProduct);
     }
-    // inform user that he has to save entire form
     this.showSaveFormNotify = true;
   }
 
-  /**
-   * The `removeContactPoint` function deletes a contact point entity from an array and displays an error
-   * message if the deletion fails.
-   * @param {string} instanceId - The `instanceId` parameter is a string that represents the unique
-   * identifier of a contact point entity.
-   */
-  public removeContactPoint(instanceId: string) {
-    this.apiService
-      .deleteEntity(EntityEndpointValue.CONTACT_POINT, instanceId)
-      .then(() => {
-        // remove from array
-        this.contactPointArraySource.next(
-          this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-        this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]);
-      });
+  public removeContactPoint(instanceId: string | undefined) {
+    if (instanceId) {
+      this.apiService
+        .deleteEntity(EntityEndpointValue.CONTACT_POINT, instanceId)
+        .then(() => {
+          this.contactPointArraySource.next(
+            this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        });
+    }
   }
 }

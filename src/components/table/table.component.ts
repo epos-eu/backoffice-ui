@@ -11,6 +11,7 @@ import { FilterEmit } from '../table-filter/table-filter.component';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import moment from 'moment';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-table',
@@ -35,9 +36,9 @@ export class TableComponent implements AfterViewInit {
   private mapTableDetails(items: TableItems): TableDetail[] {
     return items.map((item: TableItem) => ({
       uid: item.uid,
-      title: '',
+      title: 'title' in item ? item.title : [''],
       lastChange: moment(item.changeTimestamp).format(CUSTOM_DATE_FORMAT.display.dateInput),
-      // status: !(item instanceof WebService) ? item.status : '',
+      status: item.status as Status,
       changeComment: item.changeComment,
       author: item.editorId,
       instanceId: item.instanceId as string,
@@ -51,7 +52,7 @@ export class TableComponent implements AfterViewInit {
     const formatStr = (str: string) => str.trim().toLocaleLowerCase();
     return (
       formatStr(data.status as string).indexOf(formatStr(filters.status)) >= 0 &&
-      formatStr(data.title as string)?.indexOf(formatStr(filters.title)) >= 0
+      formatStr(data.title?.[0] as string)?.indexOf(formatStr(filters.title)) >= 0
     );
   }
 

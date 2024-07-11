@@ -12,9 +12,11 @@
 
   img {
     position: fixed;
-    top: 2%;
+    top: 3%;
     left: 50%;
     transform: translate(-50%, 0);
+    width: 225px;
+    height: auto;
   }
 
   .text {

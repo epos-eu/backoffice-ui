@@ -27,8 +27,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
           if (error.status === HttpStatusCode.NotFound) {
             this.router.navigate(['/not-found']);
-          } else if (error.status === HttpStatusCode.Unauthorized) {
-            this.router.navigate(['/login']);
           }
           // } else if (error.status === 0) {
           //   setTimeout(() => this.router.navigate(['/not-found']), 0);
@@ -39,6 +37,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
           if (error.status == HttpStatusCode.InternalServerError) {
             // this.router.navigate(['/internal-server-error']);
+          } else if (error.status === HttpStatusCode.Unauthorized) {
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 500);
           }
         }
         return throwError(errorMsg);

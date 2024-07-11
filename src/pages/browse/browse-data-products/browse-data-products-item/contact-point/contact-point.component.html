@@ -1,20 +1,15 @@
-<div
-  *ngFor="let contactPoint of contactPointArrayObs | async"
-  class="list"
->
-  <div class="item">
-    <app-contact-point-detail [contactPoint]="contactPoint"></app-contact-point-detail>
-    <!-- <button
-      mat-mini-fab
-      color="warn"
-      aria-label="Remove Contact Point"
-      matTooltip="Remove Contact Point"
-      class="smaller"
-      (click)="removeContactPoint(contactPoint.instanceId)"
-    >
-      <mat-icon>delete</mat-icon>
-    </button> -->
-  </div>
+<div class="item">
+  <app-contact-point-detail [contactPointDetails]="contactPointDetails"></app-contact-point-detail>
+  <!-- <button
+    mat-mini-fab
+    color="warn"
+    aria-label="Remove Contact Point"
+    matTooltip="Remove Contact Point"
+    class="smaller"
+    (click)="removeContactPoint(contactPoint.instanceId)"
+  >
+    <mat-icon>delete</mat-icon>
+  </button> -->
 </div>
 
 <div
@@ -37,7 +32,6 @@
 </div>
 
 <app-contact-point-search
-  [showSaveFormNotify]="showSaveFormNotify"
-  [contactPointDetails]="contactPointDetails"
+  [contactPoint]="contactPoint"
   (contactPointDetailsUpdated)="updateContactPointArray($event)"
 ></app-contact-point-search>

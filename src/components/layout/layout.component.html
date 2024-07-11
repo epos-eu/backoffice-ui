@@ -55,8 +55,11 @@
       class="user-details"
       *ngIf="null != userInfo"
     >
-      <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
-      <p>({{ userInfo.isAdmin ? 'Admin' : '' }})</p>
+      <div class="flex">
+        <p>{{ userInfo.firstName }} {{ userInfo.lastName }}</p>
+        <p>({{ userInfo.isAdmin ? 'Admin' : '' }})</p>
+      </div>
+      <!-- <p class="group-name">Group name</p> -->
     </div>
     <div
       class="nav-top-items-item guest"

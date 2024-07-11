@@ -24,7 +24,7 @@ export class DataproductNavigationComponent implements OnInit {
     },
     {
       id: 'persistentidentifier',
-      name: 'Persistent Identifer',
+      name: 'Persistent Identifier',
     },
     {
       id: 'contactpoint',

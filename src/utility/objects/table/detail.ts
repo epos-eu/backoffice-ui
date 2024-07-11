@@ -3,7 +3,7 @@ import { Status } from 'src/utility/enums/status.enum';
 
 export interface TableDetail {
   uid?: string;
-  title?: string;
+  title?: string[];
   lastChange?: string;
   status?: Status;
   changeComment?: string;
