@@ -7,7 +7,6 @@ import { SpatialExtentLocationIndexObj } from '../spatial-coverage-form-details/
 import { LinkedEntity, Location } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetLocationParams } from 'src/apiAndObjects/api/location/getLocation';
-import { LocationModel } from 'src/apiAndObjects/objects/entities/location.model';
 
 @Component({
   selector: 'app-spatial-coverage',
@@ -30,9 +29,9 @@ export class SpatialCoverageComponent implements OnInit {
       const params: GetLocationParams = {
         instanceId: location.instanceId as string,
         metaId: location.metaId as string,
-        singleOptionOnly: true,
       };
-      this.apiService.endpoints.Location.get.call(params).then((item: Array<LocationModel>) => {
+      this.apiService.endpoints.Location.get.call(params).then((item: Array<Location>) => {
+        console.debug('call from here', item);
         this.spatialExtents.push(item[0]);
       });
     });

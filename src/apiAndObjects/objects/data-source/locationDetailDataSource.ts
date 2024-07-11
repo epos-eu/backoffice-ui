@@ -1,8 +1,8 @@
-import { Group, Location } from 'generated/backofficeSchemas';
+import { Group, Location as LocationType } from 'generated/backofficeSchemas';
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 import { Status } from 'src/utility/enums/status.enum';
 
-export class LocationDataSource extends BaseObject implements Location {
+export class LocationDataSource extends BaseObject implements LocationType {
   public static readonly KEYS = {
     CHANGE_COMMENT: 'changeComment',
     CHANGE_TIMESTAMP: 'changeTimestamp',
@@ -37,8 +37,8 @@ export class LocationDataSource extends BaseObject implements Location {
   public readonly version: string;
   public readonly versionId: string;
 
-  protected constructor() {
-    super();
+  protected constructor(sourceObject?: Record<string, unknown>) {
+    super(sourceObject);
     this.changeComment = this._getString(LocationDataSource.KEYS.CHANGE_COMMENT);
     this.changeTimestamp = this._getString(LocationDataSource.KEYS.CHANGE_TIMESTAMP);
     this.editorId = this._getString(LocationDataSource.KEYS.EDITOR_ID);
