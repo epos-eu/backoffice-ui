@@ -6,4 +6,5 @@ export enum Entity {
   WEBSERVICE = 'WebService',
   DISTRIBUTION = 'Distribution',
   OPERATION = 'Operation',
+  GROUP = 'Group',
 }

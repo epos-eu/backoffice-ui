@@ -32,7 +32,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MtxDatetimepickerModule } from '@ng-matero/extensions/datetimepicker';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
