@@ -3,20 +3,17 @@ import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enu
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
-import { PeriodOfTimeDataSource } from 'src/apiAndObjects/objects/data-source/periodOfTimeDetailDataSource';
+import { PeriodOfTimeDataSource as PeriodOfTimeModel } from 'src/apiAndObjects/objects/data-source/periodOfTimeDetailDataSource';
+import { PeriodOfTime as PeriodOfTimeType } from 'generated/backofficeSchemas';
 
-export class GetAllPeriodOfTime extends Endpoint<
-  Array<PeriodOfTimeDataSource>,
-  GetAllPeriodOfTimeParams,
-  PeriodOfTimeDataSource
-> {
+export class GetAllPeriodOfTime extends Endpoint<Array<PeriodOfTimeType>, GetAllPeriodOfTimeParams, PeriodOfTimeType> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: GetAllPeriodOfTimeParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(): Promise<PeriodOfTimeDataSource[]> {
+  protected callLive(): Promise<PeriodOfTimeType[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -31,10 +28,10 @@ export class GetAllPeriodOfTime extends Endpoint<
       undefined,
       headers,
     );
-    return this.buildObjectsFromResponse(PeriodOfTimeDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(PeriodOfTimeModel, callResponsePromise);
   }
 
-  protected callMock(): Promise<PeriodOfTimeDataSource[]> {
+  protected callMock(): Promise<PeriodOfTimeType[]> {
     throw new Error('Method not implemented.');
   }
 }

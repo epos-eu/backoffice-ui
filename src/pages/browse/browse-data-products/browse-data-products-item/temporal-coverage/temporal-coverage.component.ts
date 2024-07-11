@@ -60,18 +60,14 @@ export class TemporalCoverageComponent implements OnInit {
         instanceId: periodOfTime.instanceId as string,
         metaId: periodOfTime.metaId as string,
       };
+
       this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
-        console.debug('calling here', items);
         this.formGroup = new FormGroup({
           coverage: this.createCoverageArray(items),
         });
         this.trackFormChanges();
       });
     });
-
-    // this.formGroup = new FormGroup({
-    //   coverage: this.createCoverageArray(this.dataProduct?.temporalExtent),
-    // });
   }
 
   private trackFormChanges(): void {
