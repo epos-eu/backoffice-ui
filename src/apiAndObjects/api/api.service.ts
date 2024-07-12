@@ -47,6 +47,10 @@ import { GetPeriodOfTime } from './periodOfTime/getPeriodOfTime';
 import { GetAllPeriodOfTime } from './periodOfTime/getAllPeriodOfTime';
 import { PostPeriodOfTime } from './periodOfTime/postPeriodOfTime';
 import { PutPeriodOfTime } from './periodOfTime/putPeriodOfTime';
+import { GetPersonDetail } from './person/getPersonDetail';
+import { GetAllPeople } from './person/getAllPeople';
+import { CreatePersonDetail } from './person/createPersonDetail';
+import { UpdatePersonDetail } from './person/updatePersonDetail';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -116,6 +120,12 @@ export class ApiService extends BaseApi {
       getAll: new GetAllPeriodOfTime(ApiService.USE_LIVE_API),
       create: new PostPeriodOfTime(ApiService.USE_LIVE_API),
       update: new PutPeriodOfTime(ApiService.USE_LIVE_API),
+    },
+    Person: {
+      get: new GetPersonDetail(ApiService.USE_LIVE_API),
+      getAll: new GetAllPeople(ApiService.USE_LIVE_API),
+      create: new CreatePersonDetail(ApiService.USE_LIVE_API),
+      update: new UpdatePersonDetail(ApiService.USE_LIVE_API),
     },
   };
 

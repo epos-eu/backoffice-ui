@@ -7,4 +7,5 @@ export enum Entity {
   DISTRIBUTION = 'Distribution',
   OPERATION = 'Operation',
   GROUP = 'Group',
+  PERSON = 'Person',
 }
