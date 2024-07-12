@@ -1,12 +1,18 @@
-.top {
+.flex-row {
   display: flex;
-  align-self: flex-end;
-}
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 0 0 0.25rem;
 
-mat-list {
-  margin: 1rem;
+  app-back-button {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
 
-  mat-list-item {
-    cursor: pointer;
+  mat-list {
+    mat-list-item {
+      cursor: pointer;
+    }
   }
 }

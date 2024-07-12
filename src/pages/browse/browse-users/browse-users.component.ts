@@ -19,6 +19,7 @@ export class BrowseUsersComponent implements OnInit {
   public dataSource!: MatTableDataSource<TableUserDetail>;
   public pageSizeOptions = [10, 25, 50, 100];
   public loading = false;
+  public sectionName = Entity.USER;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

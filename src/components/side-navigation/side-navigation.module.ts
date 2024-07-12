@@ -10,6 +10,7 @@ import { ExplorerNavigationComponent } from './explorer-navigation/explorer-navi
 import { AnchorNavigationComponent } from './explorer-navigation/anchor-navigation/anchor-navigation.component';
 import { BackButtonComponent } from './back-button/back-button.component';
 import { DataproductNavigationComponent } from './dataproduct-navigation/dataproduct-navigation.component';
+import { SkeletonLoaderComponent } from '../skeleton-loader/skeleton-loader.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { DataproductNavigationComponent } from './dataproduct-navigation/datapro
     BackButtonComponent,
     DataproductNavigationComponent,
   ],
-  imports: [CommonModule, RouterModule, AngularMaterialModule, MatChipsModule],
+  imports: [CommonModule, RouterModule, AngularMaterialModule, MatChipsModule, SkeletonLoaderComponent],
   exports: [
     BrowseNavigationComponent,
     ImportNavigationComponent,

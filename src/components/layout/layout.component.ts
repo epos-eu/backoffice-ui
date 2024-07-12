@@ -20,7 +20,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { DialogService } from '../dialogs/dialog.service';
 import { DialogSelectGroupComponent } from '../dialogs/dialog-select-group/dialog-select-group.component';
-import { User } from 'generated/backofficeSchemas';
+import { Group, User } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-layout',
@@ -140,7 +140,11 @@ export class LayoutComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   public handleSelectGroup(): void {
-    this.dialogService.openDialogForComponent(DialogSelectGroupComponent);
+    this.apiService.endpoints['Group'].getAll.call().then((groups: Group[]) => {
+      this.dialogService.openDialogForComponent(DialogSelectGroupComponent, {
+        groups: groups,
+      });
+    });
   }
 
   public createNewGroup() {}

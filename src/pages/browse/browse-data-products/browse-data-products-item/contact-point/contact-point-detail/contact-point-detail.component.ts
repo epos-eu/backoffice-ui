@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ContactPoint } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 @Component({
   selector: 'app-contact-point-detail',
@@ -9,36 +10,45 @@ import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
   styleUrls: ['./contact-point-detail.component.scss'],
 })
 export class ContactPointDetailComponent implements OnInit {
-  @Input() contactPoint!: ContactPoint | undefined;
+  @Input() contactPointDetails!: Promise<ContactPoint[]>[];
+
+  public loading: boolean = true;
 
   public person!: any;
 
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
 
-  constructor(private apiService: ApiService) {
+  public mergedDetails: any[] = [];
+
+  constructor(private apiService: ApiService) {}
+
+  public ngOnInit(): void {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
+    Promise.all(this.contactPointDetails).then((contactPoints: ContactPoint[][]) => {
+      const flattened = contactPoints.flat();
+      this.mergedDetails = [...flattened];
+      this.mergedDetails.forEach((item) => {
+        this.getPerson(item.metaId, item.instanceId);
+      });
+      this.loading = false;
+    });
   }
 
-  ngOnInit(): void {
-    if (this.contactPoint?.person?.instanceId !== undefined) {
-      this.getPerson(this.contactPoint?.person.instanceId);
-    }
-  }
-
-  private getPerson(id: string): void {
-    //   this.apiService.endpoints[Entity.PERSON].get
-    //     .call(
-    //       {
-    //         metaId: this.contactPoint?.metaId as string,
-    //         instanceId: id,
-    //       },
-    //       false,
-    //     )
-    //     .then((data: Array<PersonDataSource>) => {
-    //       if (Array.isArray(data) && data.length > 0) {
-    //         this.person = data.shift();
-    //       }
-    //     });
+  private getPerson(metaId: string, instanceId: string): void {
+    this.apiService.endpoints[Entity.PERSON].get
+      .call(
+        {
+          metaId: metaId,
+          instanceId: instanceId,
+        },
+        false,
+      )
+      .then((data: Array<any>) => {
+        console.log(data);
+        if (Array.isArray(data) && data.length > 0) {
+          this.person = data.shift();
+        }
+      });
   }
 
   public getRoleName(role: string | undefined) {

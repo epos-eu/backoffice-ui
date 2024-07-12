@@ -3,6 +3,7 @@
   *ngIf="loading"
 >
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <app-skeleton-loader type="table"></app-skeleton-loader>
 </div>
 <ng-container *ngIf="!loading">
   <app-table-filter

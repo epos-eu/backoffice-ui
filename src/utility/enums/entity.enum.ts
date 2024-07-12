@@ -9,4 +9,5 @@ export enum Entity {
   LOCATION = 'Location',
   PERIOD_OF_TIME = 'PeriodOfTime',
   GROUP = 'Group',
+  PERSON = 'Person',
 }

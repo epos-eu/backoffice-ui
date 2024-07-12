@@ -58,17 +58,26 @@
 }
 
 .user-details {
-  display: flex;
-  align-items: center;
+  .flex {
+    display: flex;
+    align-items: center;
+
+    p {
+      margin: 0 0.5rem 0 0;
+      font-size: 16px;
+
+      &:nth-of-type(2) {
+        font-size: 14px;
+        text-transform: capitalize;
+        color: #e0e0e0;
+      }
+    }
+  }
 
   p {
-    margin: 0 0.5rem 0 0;
-    font-size: 16px;
-
-    &:nth-of-type(2) {
+    &.group-name {
+      margin: 0;
       font-size: 14px;
-      text-transform: capitalize;
-      color: #e0e0e0;
     }
   }
 }

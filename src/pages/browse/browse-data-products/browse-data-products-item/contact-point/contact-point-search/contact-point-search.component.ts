@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DataProduct, LinkedEntity, ContactPoint } from 'generated/backofficeSchemas';
-import { BehaviorSubject, Observable, map, startWith } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { WithSubscription } from 'src/helpers/subscription';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
@@ -14,63 +15,47 @@ import { Status } from 'src/utility/enums/status.enum';
   templateUrl: './contact-point-search.component.html',
   styleUrl: './contact-point-search.component.scss',
 })
-export class ContactPointSearchComponent implements OnInit {
+export class ContactPointSearchComponent extends WithSubscription implements OnInit {
   constructor(
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private stateChangeService: StateChangeService,
-  ) {}
+  ) {
+    super();
+  }
 
-  @Input() contactPointDetails: Array<LinkedEntity> | undefined = [];
-
-  @Input() showSaveFormNotify = false;
+  @Input() contactPoint: Array<LinkedEntity> | undefined = [];
 
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<LinkedEntity>>();
 
-  private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
-
   public contactPointControl = new FormControl<any>('');
-
   public showContactPointForm = true;
-
   public loading = true;
-
   public personFromCatalogFilteredOptions!: Observable<any[]>;
-
   public contactPointRole = new FormControl<string>('');
-
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
-
   public personFromCatalog: Array<any> = [];
-
   public disabled = false;
 
-  private initData(): void {
-    console.log(this.loading);
-    if (this.contactPointDetails) {
-      for (const item of this.contactPointDetails) {
-        this.apiService.endpoints[Entity.CONTACT_POINT].get
-          .call(
-            {
-              metaId: item.metaId as string,
-              instanceId: item.instanceId as string,
-            },
-            false,
-          )
-          .then((data) => {
-            console.log(data);
-            if (Array.isArray(data) && data.length > 0) {
-              const array = this.contactPointArraySource.getValue();
-              array.push(data[0]);
-              this.contactPointArraySource.next(array);
-            }
-          })
-          .finally(() => {
-            this.loading = false;
-            console.log(this.loading);
-          });
+  private initSubscriptions(): void {
+    this.subscribe(this.stateChangeService.currentDataProductStateObs, (status: DataProduct['status'] | null) => {
+      if (status === null || status === Status.PUBLISHED || status === Status.ARCHIVED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
       }
-    }
+    });
+    this.personFromCatalogFilteredOptions = this.contactPointControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => {
+        const name = typeof value === 'string' ? value : value?.givenName;
+        return name ? this._filter(name) : this.personFromCatalog.slice();
+      }),
+    );
+  }
+
+  private initData(): void {
+    // this.getContactPointDetails();
   }
 
   private createContactPoint(item: ContactPoint): void {
@@ -83,13 +68,13 @@ export class ContactPointSearchComponent implements OnInit {
           uid: value.uid,
           metaId: value.metaId,
         };
-        this.contactPointDetails?.push(entityDetail);
+        this.contactPoint?.push(entityDetail);
 
         // Send info to parent
-        this.contactPointDetailsUpdated.emit(this.contactPointDetails);
+        this.contactPointDetailsUpdated.emit(this.contactPoint);
 
         // Recall init form to retrieve new person information
-        this.contactPointArraySource.next([]);
+        // this.contactPointArraySource.next([]);
         this.initData();
 
         // Close edit format
@@ -118,13 +103,7 @@ export class ContactPointSearchComponent implements OnInit {
 
   public ngOnInit(): void {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
-      if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
-        this.disabled = true;
-      } else {
-        this.disabled = false;
-      }
-    });
+    this.initSubscriptions();
     // this.apiService.endpoints.Person.getAll
     //   .call()
     //   .then((data: Array<any>) => {
@@ -139,22 +118,11 @@ export class ContactPointSearchComponent implements OnInit {
     //     ]),
     //   );
 
-    if (this.contactPointDetails && this.contactPointDetails.length > 0) {
+    if (this.contactPoint && this.contactPoint.length > 0) {
       this.initData();
-    }
-
-    // remove loading cause contactPointDetails is empty
-    if (this.contactPointDetails === null || this.contactPointDetails?.length === 0) {
+    } else {
       this.loading = false;
     }
-
-    this.personFromCatalogFilteredOptions = this.contactPointControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const name = typeof value === 'string' ? value : value?.givenName;
-        return name ? this._filter(name) : this.personFromCatalog.slice();
-      }),
-    );
   }
 
   public displayFn(user: any): string {

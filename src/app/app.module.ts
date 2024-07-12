@@ -20,7 +20,6 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { ErrorInterceptor } from 'src/interceptors/error.interceptor';
 import { provideMomentDatetimeAdapter } from '@ng-matero/extensions-moment-adapter';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-
 @NgModule({
   declarations: [AppComponent, DialogComponent],
   imports: [

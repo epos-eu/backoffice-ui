@@ -32,7 +32,7 @@ export class BrowseDataProductsComponent {
   ) {}
 
   public rowClicked(row: Record<string, string>): void {
-    this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, row['metaId'], row['instanceId']]);
+    this.router.navigate([`/browse/dataproduct/details`, row['metaId'], row['instanceId']]);
   }
 
   public handleScrollToTop(): void {
@@ -61,7 +61,6 @@ export class BrowseDataProductsComponent {
     const item: DataProduct = {
       created: '',
     };
-
     this.apiService.endpoints.DataProduct.create
       .call(item)
       .then((value: DataProduct) => {
@@ -73,12 +72,13 @@ export class BrowseDataProductsComponent {
         ]);
         this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
-      .catch(() =>
+      .catch((err) => {
+        console.error(err);
         this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
-        ]),
-      );
+        ]);
+      });
   }
 }

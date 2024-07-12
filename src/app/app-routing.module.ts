@@ -31,13 +31,20 @@ const appRoutes: Routes = [
     loadChildren: () => import('../pages/error/error.module').then((m) => m.ErrorModule),
   },
   {
+    path: 'internal-server-error',
+    loadComponent: () =>
+      import('../pages/internal-server-error/internal-server-error.component').then(
+        (m) => m.InternalServerErrorComponent,
+      ),
+  },
+  {
     path: 'last-page-redirect',
     redirectTo: 'home',
     pathMatch: 'full',
   },
   {
     path: '**',
-    loadChildren: () => import('../pages/not-found/not-found.module').then((m) => m.NotFoundModule),
+    loadComponent: () => import('../pages/not-found/not-found.component').then((m) => m.NotFoundComponent),
   },
 ];
 
