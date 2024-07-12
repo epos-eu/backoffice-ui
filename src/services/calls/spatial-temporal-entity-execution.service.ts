@@ -5,6 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from '../snackbar.service';
 import { LoadingService } from '../loading.service';
 import { Location as LocationType } from 'generated/backofficeSchemas';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,7 @@ export class SpatialTemporalEntityExecutionService {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating Webservice.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Spatial Coverage.', 'Close', 'error', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -46,5 +47,36 @@ export class SpatialTemporalEntityExecutionService {
           this.loadingService.setShowSpinner(false);
         });
     }
+  }
+
+  public handleSpatialTemporalDelete(entity: EntityEndpointValue, instanceId: string): Promise<boolean> {
+    let success = false;
+    this.loadingService.setShowSpinner(true);
+    this.apiService
+      .deleteEntity(entity, instanceId)
+      .then(() => {
+        this.snackbarService.openSnackbar(
+          `Successfully deleted ${EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
+          'Close',
+          'success',
+          3000,
+          ['snackbar', 'mat-toolbar', 'snackbar-success'],
+        );
+        success = true;
+      })
+      .catch((err) => {
+        console.error(err);
+        this.snackbarService.openSnackbar(
+          `Error deleting ${EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
+          'Close',
+          'error',
+          3000,
+          ['snackbar', 'mat-toolbar', 'snackbar-error'],
+        );
+      })
+      .finally(() => {
+        this.loadingService.setShowSpinner(false);
+      });
+    return Promise.resolve(success);
   }
 }

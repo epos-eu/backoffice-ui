@@ -5,12 +5,9 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Location as LocationType } from 'generated/backofficeSchemas';
 import { LocationDataSource as LocationDataModel } from 'src/apiAndObjects/objects/data-source/locationDetailDataSource';
-export class PostLocation extends CacheableEndpoint<LocationDataModel, LocationType, LocationDataModel> {
+import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
+export class PostLocation extends Endpoint<LocationDataModel, LocationType, LocationDataModel> {
   private persistorService: PersistorService = new PersistorService();
-
-  protected getCacheKey(body: LocationDataModel): string {
-    return JSON.stringify(body);
-  }
 
   protected callLive(body: LocationType): Promise<LocationDataModel> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);

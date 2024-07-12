@@ -9,6 +9,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetLocationParams } from 'src/apiAndObjects/api/location/getLocation';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatial-temporal-entity-execution.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-spatial-coverage',
@@ -33,20 +34,6 @@ export class SpatialCoverageComponent implements OnInit {
   public ngOnInit(): void {
     this.initSpatialCoverages();
   }
-
-  // public newSpatialCoverage() {
-  //   this.dataProduct.spatialExtent?.push({ location: 'POINT(0 0)' });
-  //   this.spatialCoverageInput.push('0 0');
-
-  //   // Update Global Dataproduct after change to Spatial Extents Arr
-  //   this.entityExecutionService.setActiveDataProduct(
-  //     this.entityExecutionService.convertToDataProduct(this.dataProduct),
-  //   );
-
-  //   setTimeout(() => {
-  //     this.refreshPointsOnMap();
-  //   }, 100);
-  // }
 
   /**
    * The `initSpatialCoverages` function initializes spatial coverages by fetching location data from an
@@ -99,15 +86,26 @@ this.spatialCoverageInput.push(newLocation.location);` is adding a new location 
   }
 
   public deleteSpatialCoverage(index: number) {
-    // this.spatialCoverageInput.splice(index, 1);
-    // this.dataProduct.spatialExtent?.splice(index, 1);
-    // // Update Global Dataproduct after change to Spatial Extents Arr
-    // this.entityExecutionService.setActiveDataProduct(
-    //   this.entityExecutionService.convertToDataProduct(this.dataProduct),
-    // );
-    // setTimeout(() => {
-    //   this.refreshPointsOnMap();
-    // }, 100);
+    // Delete Entity From DB
+    this.spatialTemporalEntityExecutionService
+      .handleSpatialTemporalDelete(EntityEndpointValue.LOCATION, this.spatialExtents[index].instanceId!)
+      .then((success) => {
+        console.debug(success);
+        if (success) {
+          // Remove Inputs from form and coverage from map
+          this.spatialCoverageInput.splice(index, 1);
+          this.spatialExtents.splice(index, 1);
+          this.dataProduct.spatialExtent?.splice(index, 1);
+
+          // Update Global Dataproduct after change to Spatial Extents Arr
+          this.entityExecutionService.setActiveDataProduct(
+            this.entityExecutionService.convertToDataProduct(this.dataProduct),
+          );
+        }
+        setTimeout(() => {
+          this.refreshPointsOnMap();
+        }, 100);
+      });
   }
 
   public saveSpatialCoverage(index: number) {
