@@ -3,4 +3,13 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+
+  div {
+    width: 50%;
+    padding-right: 2rem;
+  }
+}
+
+table {
+  border: 1px solid #efefef;
 }

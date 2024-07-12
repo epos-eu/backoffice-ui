@@ -65,4 +65,12 @@ export class DataProvidersComponent implements OnInit {
     }
     return false;
   }
+
+  public getDataProviderName(uid: string): string {
+    const provider = this.dataProviders.find((provider) => provider.uid === uid);
+    if (Array.isArray(provider?.legalName) && provider.legalName.length > 0) {
+      return provider.legalName.shift() as string;
+    }
+    return '-';
+  }
 }

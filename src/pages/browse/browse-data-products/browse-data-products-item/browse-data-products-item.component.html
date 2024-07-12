@@ -65,8 +65,7 @@
 
         <app-contact-point
           *ngIf="activeItem === entityFieldEnum.CONTACT_POINT"
-          [contactPointDetails]="contactPointDetails"
-          [showSaveFormNotify]="contactPointShowSaveNotify"
+          [contactPoint]="dataProduct.contactPoint"
         ></app-contact-point>
 
         <app-data-providers

@@ -1,66 +1,40 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormControl, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, UntypedFormBuilder } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
-import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { HelpersService } from 'src/services/helpers.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { SnackbarService } from 'src/services/snackbar.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
-import { Subject, Subscription, debounceTime } from 'rxjs';
-import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
-import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
+import { debounceTime } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { scrollBackToTop } from 'src/helpers/scroll';
-import {
-  DialogDataproductAddDistributionComponent,
-  NewDistribution,
-} from 'src/components/dialogs/dialog-dataproduct-add-distribution/dialog-dataproduct-add-distribution.component';
-import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { Status } from 'src/utility/enums/status.enum';
-import { Distribution, DataProduct, LinkedEntity, Organization } from 'generated/backofficeSchemas';
+import { DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
-import { LoadingService } from 'src/services/loading.service';
 import { NavigationService } from 'src/services/navigation.service';
 import { DataProductForm } from 'src/shared/interfaces/form.interface';
+import { WithSubscription } from 'src/helpers/subscription';
 
 @Component({
   selector: 'app-browse-data-products-item',
   templateUrl: './browse-data-products-item.component.html',
   styleUrls: ['./browse-data-products-item.component.scss'],
 })
-export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
+export class BrowseDataProductsItemComponent extends WithSubscription implements OnInit, OnDestroy {
   @ViewChild(NgScrollbar) scrollable!: NgScrollbar;
 
-  private subscriptions = new Subscription();
-  public floatLabelControl = new UntypedFormControl('auto');
   public dataProduct!: DataProduct | undefined;
-  public UID!: string | null;
-  public currentEdit!: IChangeItem;
   public form!: DataProductForm;
-  public entityRoute = EntityEndpointValue.DATA_PRODUCT;
-  public contactPointDetails: Array<LinkedEntity> | undefined = [];
-  public contactPointShowSaveNotify = false;
   public distributionDetails: Array<LinkedEntity> | undefined = [];
-  public webserviceDetails: Array<LinkedEntity> = [];
-  public spatialCoverageInput: Array<string | undefined> = [];
-  public spatialCoverageChange: Subject<Array<string | undefined>> = new Subject();
-  public accrualPeriodicityOptions: Array<{ id: string; name: string }> = [];
-  public typeOptions: Array<{ id: string; name: string }> = [];
-  public dataProviders: Array<Organization> = [];
-  public dataProvidersLoading = false;
-  public selectedDataProviders: Array<Organization> = [];
-  public selectedSection = '';
   public activeMetaId!: string;
   public activeInstanceId!: string;
-  public entityEnum = Entity;
   public stateEnum = Status;
   public entityFieldEnum = EntityFieldValue;
   public activeItem: string = '';
@@ -73,67 +47,39 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiService: ApiService,
     private persistorService: PersistorService,
-    private snackbarService: SnackbarService,
     private actionsService: ActionsService,
     private entityExecutionService: EntityExecutionService,
     private stateChangeService: StateChangeService,
     private helpersService: HelpersService,
-    private loadingService: LoadingService,
     private navigationService: NavigationService,
   ) {
-    this.UID = this.route.snapshot.paramMap.get('id');
-    this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
-    this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
-
-    this.stateChangeService.triggerReloadObs.subscribe((requiresRefresh: boolean) => {
-      if (requiresRefresh) {
-        this.initData(this.activeInstanceId, this.activeMetaId);
-      }
-    });
-
-    this.actionService.triggerDataProductReloadObs.subscribe((requiresRefresh: boolean) => {
-      if (requiresRefresh) {
-        this.initData(this.activeInstanceId, this.activeMetaId);
-      }
-    });
-  }
-
-  private trackEdit(): void {
-    this.actionService.currentEditObservable.subscribe((item: IChangeItem) => {
-      if (item) {
-        this.currentEdit = item;
-      }
-    });
+    super();
   }
 
   private initSubscriptions(): void {
-    this.subscriptions.add(
-      this.route.paramMap.subscribe((obs) => {
-        if (null != obs.get('id') && null != obs.get('metaId')) {
-          this.activeInstanceId = obs.get('id') as string;
-          this.activeMetaId = obs.get('metaId') as string;
-          this.initData(this.activeInstanceId, this.activeMetaId);
-        }
-      }),
-    );
-    this.subscriptions.add(
-      this.actionService.formEditedObs.subscribe((value: boolean) => {
-        // Reset notification
-        if (value === false) {
-          this.contactPointShowSaveNotify = false;
-        }
-      }),
-    );
-    this.subscriptions.add(
-      this.navigationService.dataProductActiveItemObs.subscribe((id: string) => {
-        this.activeItem = id;
-      }),
-    );
-    this.subscriptions.add(
-      this.navigationService.dataProductActiveItemTitleObs.subscribe((title: string) => {
-        this.activeTitle = title;
-      }),
-    );
+    this.subscribe(this.route.paramMap, (obs: ParamMap) => {
+      if (null != obs.get('id') && null != obs.get('metaId')) {
+        this.activeInstanceId = obs.get('id') as string;
+        this.activeMetaId = obs.get('metaId') as string;
+        this.initData(this.activeInstanceId, this.activeMetaId);
+      }
+    });
+    this.subscribe(this.navigationService.dataProductActiveItemObs, (id: string) => {
+      this.activeItem = id;
+    });
+    this.subscribe(this.navigationService.dataProductActiveItemTitleObs, (title: string) => {
+      this.activeTitle = title;
+    });
+    this.subscribe(this.stateChangeService.triggerReloadObs, (requiresRefresh: boolean) => {
+      if (requiresRefresh) {
+        this.initData(this.activeInstanceId, this.activeMetaId);
+      }
+    });
+    this.subscribe(this.actionService.triggerDataProductReloadObs, (requiresRefresh: boolean) => {
+      if (requiresRefresh) {
+        this.initData(this.activeInstanceId, this.activeMetaId);
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -141,9 +87,24 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     this.initSubscriptions();
   }
 
-  public ngOnDestroy(): void {
+  public override ngOnDestroy(): void {
     this.actionService.cancelLiveEdit();
-    this.subscriptions.unsubscribe();
+  }
+
+  private initDataCallback(): void {
+    if (this.dataProduct) {
+      this.stateChangeService.setCurrentDataProductState(this.dataProduct.status);
+      this.entityExecutionService.setActiveDataProduct(
+        this.entityExecutionService.convertToDataProduct(this.dataProduct),
+      );
+      this.actionService.setLiveEdit();
+      this.initForm();
+      this.trackFormData();
+      this.distributionDetails = this.dataProduct.distribution;
+      if (this.dataProduct.status === Status.PUBLISHED || this.dataProduct.status === Status.ARCHIVED) {
+        this.form.disable();
+      }
+    }
   }
 
   private initData(id: string, metaId: string): void {
@@ -158,22 +119,7 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
       .then((data: Array<DataProduct>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.dataProduct = data.shift();
-          if (this.dataProduct) {
-            this.stateChangeService.setCurrentDataProductState(this.dataProduct.status);
-            this.entityExecutionService.setActiveDataProduct(
-              this.entityExecutionService.convertToDataProduct(this.dataProduct),
-            );
-            this.actionService.setLiveEdit();
-            this.initForm();
-            this.trackFormData();
-            this.contactPointDetails = this.dataProduct.contactPoint;
-            this.distributionDetails = this.dataProduct.distribution;
-            this.setSpatialCoverageVariables();
-            this.trackEdit();
-            if (this.dataProduct.status === Status.PUBLISHED || this.dataProduct.status === Status.ARCHIVED) {
-              this.form.disable();
-            }
-          }
+          this.initDataCallback();
         }
       });
   }
@@ -239,10 +185,6 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getControls(field: string) {
-    return (this.form.get(field) as FormArray).controls;
-  }
-
   public handleGetRevisions(): void {
     this.dialogService.openDialogForComponent(
       DialogRevisionsComponent,
@@ -263,99 +205,77 @@ export class BrowseDataProductsItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  public newDistribution() {
-    const relatedDataProduct: LinkedEntity = {
-      entityType: Entity.DATA_PRODUCT,
-      instanceId: this.dataProduct?.instanceId as string,
-      uid: this.dataProduct?.uid as string,
-      metaId: this.dataProduct?.metaId as string,
-    };
-    const item: Distribution = {
-      modified: new Date().toISOString(),
-      dataProduct: [relatedDataProduct],
-    };
+  // public newDistribution() {
+  //   const relatedDataProduct: LinkedEntity = {
+  //     entityType: Entity.DATA_PRODUCT,
+  //     instanceId: this.dataProduct?.instanceId as string,
+  //     uid: this.dataProduct?.uid as string,
+  //     metaId: this.dataProduct?.metaId as string,
+  //   };
+  //   const item: Distribution = {
+  //     modified: new Date().toISOString(),
+  //     dataProduct: [relatedDataProduct],
+  //   };
 
-    this.dialogService
-      .openDialogForComponent(DialogDataproductAddDistributionComponent, {}, 'add-distribution-dialog')
-      .then((data: DialogData<object, NewDistribution>) => {
-        if (data.dataOut.cancel === false) {
-          this.loadingService.setShowSpinner(true);
-          this.apiService.endpoints.Distribution.create
-            .call(item)
-            .then((value: Distribution) => {
-              this.snackbarService.openSnackbar(
-                'Please add a Distribution title then click "Save Distribution" followed by "Save" using the Explorer.',
-                'close',
-                'warning',
-                10000000,
-                ['snackbar', 'mat-toolbar', 'snackbar-warning'],
-              );
-              this.actionsService.addEditedItems([
-                {
-                  type: Entity.DISTRIBUTION,
-                  route: EntityEndpointValue.DISTRIBUTION,
-                  label: 'Distribution',
-                  status: Status.DRAFT,
-                  color: 'draft',
-                  id: value.instanceId as string,
-                },
-              ]);
-              this.updateDistributionArray(value);
-            })
-            .catch((err) => {
-              console.error(err);
-              this.snackbarService.openSnackbar(`Error: failed to create new Asset.`, 'close', 'error', 6000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-error',
-              ]);
-            })
-            .finally(() => {
-              this.loadingService.setShowSpinner(false);
-            });
-        }
-      });
-  }
+  //   this.dialogService
+  //     .openDialogForComponent(DialogDataproductAddDistributionComponent, {}, 'add-distribution-dialog')
+  //     .then((data: DialogData<object, NewDistribution>) => {
+  //       if (data.dataOut.cancel === false) {
+  //         this.loadingService.setShowSpinner(true);
+  //         this.apiService.endpoints.Distribution.create
+  //           .call(item)
+  //           .then((value: Distribution) => {
+  //             this.snackbarService.openSnackbar(
+  //               'Please add a Distribution title then click "Save Distribution" followed by "Save" using the Explorer.',
+  //               'close',
+  //               'warning',
+  //               10000000,
+  //               ['snackbar', 'mat-toolbar', 'snackbar-warning'],
+  //             );
+  //             this.actionsService.addEditedItems([
+  //               {
+  //                 type: Entity.DISTRIBUTION,
+  //                 route: EntityEndpointValue.DISTRIBUTION,
+  //                 label: 'Distribution',
+  //                 status: Status.DRAFT,
+  //                 color: 'draft',
+  //                 id: value.instanceId as string,
+  //               },
+  //             ]);
+  //             this.updateDistributionArray(value);
+  //           })
+  //           .catch((err) => {
+  //             console.error(err);
+  //             this.snackbarService.openSnackbar(`Error: failed to create new Asset.`, 'close', 'error', 6000, [
+  //               'snackbar',
+  //               'mat-toolbar',
+  //               'snackbar-error',
+  //             ]);
+  //           })
+  //           .finally(() => {
+  //             this.loadingService.setShowSpinner(false);
+  //           });
+  //       }
+  //     });
+  // }
 
-  public updateDistributionArray(value: Distribution) {
-    const entityDetail: LinkedEntity = {
-      entityType: Entity.DISTRIBUTION,
-      instanceId: value.instanceId,
-      uid: value.uid,
-      metaId: value.metaId,
-    };
-    const dataProduct = this.entityExecutionService.getActiveDataProductValue();
-    this.distributionDetails?.push(entityDetail);
-    if (null != dataProduct) {
-      dataProduct.distribution = this.distributionDetails;
-      this.actionsService.enableSave();
-      this.entityExecutionService.setActiveDataProduct(dataProduct);
-    }
-  }
-
-  /**
-   * The function sets spatial coverage variables based on the data product's spatial extent.
-   */
-  private setSpatialCoverageVariables() {
-    this.dataProduct?.spatialExtent?.forEach((item, index) => {
-      // this.spatialCoverageInput[index] = item.location;
-    });
-  }
+  // public updateDistributionArray(value: Distribution) {
+  //   const entityDetail: LinkedEntity = {
+  //     entityType: Entity.DISTRIBUTION,
+  //     instanceId: value.instanceId,
+  //     uid: value.uid,
+  //     metaId: value.metaId,
+  //   };
+  //   const dataProduct = this.entityExecutionService.getActiveDataProductValue();
+  //   this.distributionDetails?.push(entityDetail);
+  //   if (null != dataProduct) {
+  //     dataProduct.distribution = this.distributionDetails;
+  //     this.actionsService.enableSave();
+  //     this.entityExecutionService.setActiveDataProduct(dataProduct);
+  //   }
+  // }
 
   public handleScrollToTop(): void {
     scrollBackToTop(this.scrollable);
   }
-
-  public getDataProviderName(uid: string): string {
-    const provider = this.dataProviders.find((provider) => provider.uid === uid);
-    if (Array.isArray(provider?.legalName) && provider.legalName.length > 0) {
-      return provider.legalName.shift() as string;
-    }
-    return '-';
-  }
 }
-
-export type SpatialGroup = {
-  type: string;
-  coord: string;
-};

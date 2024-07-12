@@ -6,10 +6,11 @@
       *ngIf="loading"
     >
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      <app-skeleton-loader type="table"></app-skeleton-loader>
     </div>
     <div
       [hidden]="loading"
-      class="mat-elevation-z8 mat-table-margin"
+      class="mat-table-margin"
     >
       <table
         mat-table

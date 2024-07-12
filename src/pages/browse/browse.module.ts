@@ -23,6 +23,7 @@ import { SideNavigationModule } from 'src/components/side-navigation/side-naviga
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
 import { BrowseDataProductsModule } from './browse-data-products/browse-data-products.module';
+import { SkeletonLoaderComponent } from 'src/components/skeleton-loader/skeleton-loader.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { BrowseDataProductsModule } from './browse-data-products/browse-data-pro
     NgFor,
     SideNavigationModule,
     BrowseDataProductsModule,
+    SkeletonLoaderComponent,
   ],
   exports: [],
   providers: [

@@ -10,7 +10,6 @@ import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 
 @Component({
   selector: 'app-browse-navigation',

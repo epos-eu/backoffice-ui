@@ -9,7 +9,7 @@ import {
   HttpStatusCode,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, last } from 'rxjs/operators';
 import { LogService } from 'src/services/log.service';
 import { Router } from '@angular/router';
 
@@ -19,6 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
+      last(),
       catchError((error: HttpErrorResponse) => {
         let errorMsg = '';
         if (error.error instanceof ErrorEvent) {
@@ -27,8 +28,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
           if (error.status === HttpStatusCode.NotFound) {
             this.router.navigate(['/not-found']);
-          } else if (error.status === HttpStatusCode.Unauthorized) {
-            this.router.navigate(['/login']);
           }
           // } else if (error.status === 0) {
           //   setTimeout(() => this.router.navigate(['/not-found']), 0);
@@ -39,6 +38,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
           if (error.status == HttpStatusCode.InternalServerError) {
             // this.router.navigate(['/internal-server-error']);
+          } else if (error.status === HttpStatusCode.Unauthorized) {
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 500);
           }
         }
         return throwError(errorMsg);

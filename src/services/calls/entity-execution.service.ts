@@ -323,16 +323,12 @@ export class EntityExecutionService extends EntityStateManager {
       this.apiService.endpoints.DataProduct.create
         .call(publishedOrArchivedEntity)
         .then((value: DataProduct) => {
-          this.snackbarService
-            .openSnackbar(`Success: ${value.uid} created`, 'View', 'success', 6000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ])
-            .afterDismissed()
-            .subscribe(() => {
-              this.router.navigate(['/browse/dataproduct/details', value.metaId, value.instanceId]);
-            });
+          this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'View', 'success', 6000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-success',
+          ]);
+          this.router.navigate(['/browse/dataproduct/details', value.metaId, value.instanceId]);
           this.actionsService.addEditedItems([
             {
               type: Entity.DATA_PRODUCT,
