@@ -55,19 +55,26 @@ export class TemporalCoverageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.dataProduct.temporalExtent?.forEach((periodOfTime: LinkedEntity) => {
-      const params: GetPeriodOfTimeParams = {
-        instanceId: periodOfTime.instanceId as string,
-        metaId: periodOfTime.metaId as string,
-      };
-
-      this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
-        this.formGroup = new FormGroup({
-          coverage: this.createCoverageArray(items),
-        });
-        this.trackFormChanges();
+    if (null == this.dataProduct.temporalExtent || this.dataProduct.temporalExtent.length === 0) {
+      this.formGroup = new FormGroup({
+        coverage: this.createCoverageArray(),
       });
-    });
+      this.trackFormChanges();
+    } else {
+      this.dataProduct.temporalExtent.forEach((periodOfTime: LinkedEntity) => {
+        const params: GetPeriodOfTimeParams = {
+          instanceId: periodOfTime.instanceId as string,
+          metaId: periodOfTime.metaId as string,
+        };
+
+        this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
+          this.formGroup = new FormGroup({
+            coverage: this.createCoverageArray(items),
+          });
+          this.trackFormChanges();
+        });
+      });
+    }
   }
 
   private trackFormChanges(): void {
@@ -79,17 +86,30 @@ export class TemporalCoverageComponent implements OnInit {
 
   private createCoverageArray(temporalExtent?: PeriodOfTime[] | undefined): UntypedFormArray {
     const arr = new UntypedFormArray([]);
-    temporalExtent?.forEach((item) => {
+    if (temporalExtent) {
+      temporalExtent?.forEach((item) => {
+        arr.push(
+          new FormGroup(
+            {
+              startDate: new FormControl(item?.startDate, [Validators.required]),
+              endDate: new FormControl(item?.endDate, [Validators.required]),
+            },
+            { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
+          ),
+        );
+      });
+    } else {
       arr.push(
         new FormGroup(
           {
-            startDate: new FormControl(item?.startDate, [Validators.required]),
-            endDate: new FormControl(item?.endDate, [Validators.required]),
+            startDate: new FormControl('', [Validators.required]),
+            endDate: new FormControl('', [Validators.required]),
           },
           { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
         ),
       );
-    });
+    }
+
     return arr;
   }
 }

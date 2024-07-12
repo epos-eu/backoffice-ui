@@ -12,7 +12,7 @@ export class PostLocation extends CacheableEndpoint<LocationDataModel, LocationT
     return JSON.stringify(body);
   }
 
-  protected callLive(body: LocationDataModel): Promise<LocationDataModel> {
+  protected callLive(body: LocationType): Promise<LocationDataModel> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()

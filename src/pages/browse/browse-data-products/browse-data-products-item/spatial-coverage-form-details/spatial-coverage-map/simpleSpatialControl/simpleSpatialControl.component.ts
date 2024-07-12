@@ -29,6 +29,7 @@ export class SimpleSpatialControlComponent {
   }
   @Output() location = new Subject<SpatialExtentLocationIndexObj>();
   @Output() delete = new Subject<number>();
+  @Output() save = new Subject<number>();
 
   public floatLabelControl = new UntypedFormControl('auto');
   public clearButtonEnabled = false;
@@ -98,5 +99,9 @@ export class SimpleSpatialControlComponent {
 
   public handleDelete() {
     this.delete.next(this.index as number);
+  }
+
+  public handleSave() {
+    this.save.next(this.index as number);
   }
 }
