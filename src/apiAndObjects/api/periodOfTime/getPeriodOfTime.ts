@@ -1,14 +1,15 @@
 import { HttpHeaders } from '@angular/common/http';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
-import { PeriodOfTimeDataSource } from 'src/apiAndObjects/objects/data-source/periodOfTimeDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { PeriodOfTimeDataSource as PeriodOfTimeModel } from 'src/apiAndObjects/objects/data-source/periodOfTimeDetailDataSource';
+import { PeriodOfTime as PeriodOfTimeType } from 'generated/backofficeSchemas';
 
 export class GetPeriodOfTime extends CacheableEndpoint<
-  Array<PeriodOfTimeDataSource>,
+  Array<PeriodOfTimeType>,
   GetPeriodOfTimeParams,
-  PeriodOfTimeDataSource
+  PeriodOfTimeType
 > {
   private persistorService: PersistorService = new PersistorService();
 
@@ -16,27 +17,25 @@ export class GetPeriodOfTime extends CacheableEndpoint<
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetPeriodOfTimeParams): Promise<Array<PeriodOfTimeDataSource>> {
+  protected callLive(params: GetPeriodOfTimeParams): Promise<PeriodOfTimeType[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
       authHeader = authHeader.append('Authorization', accessToken ? `Bearer ${accessToken}` : '');
       return authHeader;
     };
+
     const callResponsePromise = this.apiCaller
       .doCall(`periodoftime/${params.metaId}/${params.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
-    return this.buildObjectsFromResponse(PeriodOfTimeDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(PeriodOfTimeModel, callResponsePromise);
   }
 
-  protected callMock(): Promise<PeriodOfTimeDataSource[]> {
+  protected callMock(): Promise<PeriodOfTimeType[]> {
     throw new Error('Method not implemented.');
   }
 
-  private processResponseData(
-    data: Array<Record<string, unknown>> | unknown,
-    params: GetPeriodOfTimeParams,
-  ): Array<Record<string, unknown>> {
+  private processResponseData(data: Array<Record<string, unknown>> | unknown, params: GetPeriodOfTimeParams) {
     if (Array.isArray(data)) {
       data.forEach((item: Record<string, unknown>, index: number) => (item['id'] = String(index).valueOf()));
       return params.singleOptionOnly === true ? data.slice(0, 1) : data;

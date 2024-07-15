@@ -29,7 +29,7 @@ export class BrowseDistributionComponent {
 
   private handleCreate(): void {
     const item: DataProduct = {
-      created: '',
+      created: '2024-07-11T09:35:25.018Z',
     };
 
     this.apiService.endpoints.DataProduct.create
@@ -53,6 +53,7 @@ export class BrowseDistributionComponent {
   }
 
   public rowClicked(row: Record<string, unknown>): void {
+    console.debug('call');
     const dataProduct = row['dataProduct'] as DataProduct;
     if (dataProduct) {
       this.entityService.setFocusedDistribution(row['instanceId'] as string);

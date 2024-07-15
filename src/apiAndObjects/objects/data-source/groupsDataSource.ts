@@ -16,8 +16,8 @@ export class GroupsDataSource extends BaseObject implements GroupType {
   public readonly id: string;
   public readonly users: Array<string>;
 
-  protected constructor() {
-    super();
+  protected constructor(sourceObject?: Record<string, unknown>) {
+    super(sourceObject);
 
     this.name = this._getString(GroupsDataSource.KEYS.NAME);
     this.description = this._getString(GroupsDataSource.KEYS.DESCRIPTION);

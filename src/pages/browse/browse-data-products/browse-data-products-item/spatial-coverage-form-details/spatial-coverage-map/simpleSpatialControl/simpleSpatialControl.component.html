@@ -70,7 +70,18 @@
     />
   </mat-form-field>
 </div>
-<div>
+<div class="actions">
+  <button
+    mat-mini-fab
+    color="primary"
+    aria-label="Save Spatial Extent"
+    matTooltip="Save Spatial Extent"
+    (click)="handleSave()"
+    [disabled]="inputsDisabled"
+  >
+    <mat-icon>save</mat-icon>
+  </button>
+
   <button
     mat-mini-fab
     color="warn"

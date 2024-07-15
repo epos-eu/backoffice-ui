@@ -18,6 +18,7 @@
       [inputsDisabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
       (location)="updateSpatialCoverage($event)"
       (delete)="this.deleteSpatialCoverage($event)"
+      (save)="this.saveSpatialCoverage($event)"
     ></app-simple-spatial-control>
   </div>
 </ng-container>

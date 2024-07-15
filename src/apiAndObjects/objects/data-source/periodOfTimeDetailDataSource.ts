@@ -41,8 +41,8 @@ export class PeriodOfTimeDataSource extends BaseObject implements PeriodOfTime {
   public readonly version: string;
   public readonly versionId: string;
 
-  protected constructor() {
-    super();
+  protected constructor(sourceObject?: Record<string, unknown>) {
+    super(sourceObject);
     this.changeComment = this._getString(PeriodOfTimeDataSource.KEYS.CHANGE_COMMENT);
     this.changeTimestamp = this._getString(PeriodOfTimeDataSource.KEYS.CHANGE_TIMESTAMP);
     this.editorId = this._getString(PeriodOfTimeDataSource.KEYS.EDITOR_ID);

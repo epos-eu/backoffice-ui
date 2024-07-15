@@ -3,16 +3,17 @@ import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enu
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
-import { LocationDataSource } from 'src/apiAndObjects/objects/data-source/locationDetailDataSource';
+import { Location as LocationType } from 'generated/backofficeSchemas';
+import { LocationDataSource as LocationDataModel } from 'src/apiAndObjects/objects/data-source/locationDetailDataSource';
 
-export class GetAllLocations extends Endpoint<Array<LocationDataSource>, GetAllLocationParams, LocationDataSource> {
+export class GetAllLocations extends Endpoint<Array<LocationType>, GetAllLocationParams, LocationType> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: GetAllLocationParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(): Promise<LocationDataSource[]> {
+  protected callLive(): Promise<LocationType[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -27,10 +28,10 @@ export class GetAllLocations extends Endpoint<Array<LocationDataSource>, GetAllL
       undefined,
       headers,
     );
-    return this.buildObjectsFromResponse(LocationDataSource, callResponsePromise);
+    return this.buildObjectsFromResponse(LocationDataModel, callResponsePromise);
   }
 
-  protected callMock(): Promise<LocationDataSource[]> {
+  protected callMock(): Promise<LocationType[]> {
     throw new Error('Method not implemented.');
   }
 }
