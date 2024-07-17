@@ -56,6 +56,7 @@
         <app-temporal-coverage
           *ngIf="activeItem === entityFieldEnum.TEMPORAL_COVERAGE"
           [dataProduct]="dataProduct"
+          [inputsDisabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
         ></app-temporal-coverage>
 
         <app-persistent-identifier

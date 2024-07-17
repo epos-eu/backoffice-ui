@@ -44,6 +44,16 @@
           matSuffix
         ></mtx-datetimepicker-toggle>
       </mat-form-field>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Save Spatial Extent"
+        matTooltip="Save Spatial Extent"
+        (click)="handleSave(i)"
+        [disabled]="inputsDisabled"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
     </ng-container>
   </div>
   <mat-hint>

@@ -9,13 +9,14 @@ import {
   UntypedFormArray,
 } from '@angular/forms';
 import { LinkedEntity, PeriodOfTime } from 'generated/backofficeSchemas';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { DataproductService } from '../../dataproduct.service';
 import { debounceTime } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetPeriodOfTimeParams } from 'src/apiAndObjects/api/periodOfTime/getPeriodOfTime';
+import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatial-temporal-entity-execution.service';
 
 @Component({
   selector: 'app-temporal-coverage',
@@ -23,15 +24,22 @@ import { GetPeriodOfTimeParams } from 'src/apiAndObjects/api/periodOfTime/getPer
   styleUrl: './temporal-coverage.component.scss',
 })
 export class TemporalCoverageComponent implements OnInit {
+  @Input() dataProduct!: DataProduct;
+  @Input() inputsDisabled = false;
+
+  public formGroup!: FormGroup;
+
+  private startDate!: Moment;
+  private endDate!: Moment;
+
+  private temporalExtents: Array<PeriodOfTime> = [];
+
   constructor(
     private entityExecutionService: EntityExecutionService,
     private dataproductService: DataproductService,
     private apiService: ApiService,
+    private spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
   ) {}
-
-  @Input() dataProduct!: DataProduct;
-
-  public formGroup!: FormGroup;
 
   private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } | null {
     return (group: FormGroup): { [key: string]: any } | null => {
@@ -63,11 +71,13 @@ export class TemporalCoverageComponent implements OnInit {
     } else {
       this.dataProduct.temporalExtent.forEach((periodOfTime: LinkedEntity) => {
         const params: GetPeriodOfTimeParams = {
+          singleOptionOnly: true,
           instanceId: periodOfTime.instanceId as string,
           metaId: periodOfTime.metaId as string,
         };
 
         this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
+          this.temporalExtents.push(items[0]);
           this.formGroup = new FormGroup({
             coverage: this.createCoverageArray(items),
           });
@@ -77,10 +87,33 @@ export class TemporalCoverageComponent implements OnInit {
     }
   }
 
+  public handleSave(index?: number) {
+    /* If the `temporalExtent` property of the `dataProduct` object is empty, it means that there are no existing temporal extents
+associated with the data product and POST fn is called..  */
+    if (null == this.dataProduct.temporalExtent || this.dataProduct.temporalExtent.length === 0) {
+      const newPeriodOfTime: PeriodOfTime = {
+        startDate: this.startDate.toISOString(),
+        endDate: this.endDate.toISOString(),
+      };
+      this.apiService.endpoints.PeriodOfTime.create.call(newPeriodOfTime).then((temporalCoverage) => {
+        const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
+        this.dataproductService.updateDataProductRecord(updatingObject, { temporalExtent: [temporalCoverage] });
+      });
+      /* If the `temporalExtent` property of the `dataProduct` object has a value, the relevant temporal extent is updated and PUT fn is called. */
+    } else {
+      const extentToUpdate = this.temporalExtents[index!];
+      extentToUpdate.startDate = this.startDate.toISOString();
+      extentToUpdate.endDate = this.endDate.toISOString();
+
+      this.spatialTemporalEntityExecutionService.handleTemporalSave(extentToUpdate);
+      this.apiService.endpoints.PeriodOfTime.update.call(extentToUpdate);
+    }
+  }
+
   private trackFormChanges(): void {
-    const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
     this.formGroup.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
-      this.dataproductService.updateDataProductRecord(updatingObject, { temporalExtent: changes.coverage });
+      this.startDate = changes.coverage[0].startDate;
+      this.endDate = changes.coverage[0].endDate;
     });
   }
 
