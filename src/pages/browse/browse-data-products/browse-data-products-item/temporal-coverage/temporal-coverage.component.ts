@@ -29,8 +29,8 @@ export class TemporalCoverageComponent implements OnInit {
 
   public formGroup!: FormGroup;
 
-  private startDate!: Moment;
-  private endDate!: Moment;
+  private startDate: Moment | null;
+  private endDate: Moment | null;
 
   private temporalExtents: Array<PeriodOfTime> = [];
 
@@ -39,7 +39,10 @@ export class TemporalCoverageComponent implements OnInit {
     private dataproductService: DataproductService,
     private apiService: ApiService,
     private spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
-  ) {}
+  ) {
+    this.startDate = null;
+    this.endDate = null;
+  }
 
   private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } | null {
     return (group: FormGroup): { [key: string]: any } | null => {
@@ -78,6 +81,8 @@ export class TemporalCoverageComponent implements OnInit {
 
         this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
           this.temporalExtents.push(items[0]);
+          this.startDate = moment(items[0].startDate);
+          this.endDate = moment(items[0].endDate);
           this.formGroup = new FormGroup({
             coverage: this.createCoverageArray(items),
           });
@@ -92,8 +97,8 @@ export class TemporalCoverageComponent implements OnInit {
 associated with the data product and POST fn is called..  */
     if (null == this.dataProduct.temporalExtent || this.dataProduct.temporalExtent.length === 0) {
       const newPeriodOfTime: PeriodOfTime = {
-        startDate: this.startDate.toISOString(),
-        endDate: this.endDate.toISOString(),
+        startDate: this.startDate ? this.startDate.toISOString() : undefined,
+        endDate: this.endDate ? this.endDate.toISOString() : undefined,
       };
       this.apiService.endpoints.PeriodOfTime.create.call(newPeriodOfTime).then((temporalCoverage) => {
         const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
@@ -102,8 +107,8 @@ associated with the data product and POST fn is called..  */
       /* If the `temporalExtent` property of the `dataProduct` object has a value, the relevant temporal extent is updated and PUT fn is called. */
     } else {
       const extentToUpdate = this.temporalExtents[index!];
-      extentToUpdate.startDate = this.startDate.toISOString();
-      extentToUpdate.endDate = this.endDate.toISOString();
+      extentToUpdate.startDate = this.startDate ? this.startDate.toISOString() : undefined;
+      extentToUpdate.endDate = this.endDate ? this.endDate.toISOString() : undefined;
 
       this.spatialTemporalEntityExecutionService.handleTemporalSave(extentToUpdate);
       this.apiService.endpoints.PeriodOfTime.update.call(extentToUpdate);
