@@ -48,6 +48,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
     this.personFromCatalogFilteredOptions = this.contactPointControl.valueChanges.pipe(
       startWith(''),
       map((value) => {
+        console.log(value);
         const name = typeof value === 'string' ? value : value?.givenName;
         return name ? this._filter(name) : this.personFromCatalog.slice();
       }),
@@ -104,19 +105,19 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
   public ngOnInit(): void {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
     this.initSubscriptions();
-    // this.apiService.endpoints.Person.getAll
-    //   .call()
-    //   .then((data: Array<any>) => {
-    //     this.personFromCatalog = data;
-    //     this.showContactPointForm = true;
-    //   })
-    //   .catch(() =>
-    //     this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 6000, [
-    //       'snackbar',
-    //       'mat-toolbar',
-    //       'snackbar-error',
-    //     ]),
-    //   );
+    this.apiService.endpoints.Person.getAll
+      .call()
+      .then((data: Array<any>) => {
+        this.personFromCatalog = data;
+        this.showContactPointForm = true;
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      );
 
     if (this.contactPoint && this.contactPoint.length > 0) {
       this.initData();

@@ -1,0 +1,65 @@
+<form
+  [formGroup]="form"
+  *ngIf="form"
+>
+  <mat-form-field
+    appearance="fill"
+    [floatLabel]="floatLabelControl.value"
+    [style.width.%]="100"
+  >
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      name="title"
+      [ngStyle]="{ 'line-height': '1.4' }"
+      formControlName="title"
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="fill"
+    [floatLabel]="floatLabelControl.value"
+  >
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      name="description"
+      [ngStyle]="{ 'line-height': '1.4' }"
+      formControlName="description"
+      [value]="webservice?.description"
+      [disabled]="true"
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="fill"
+    [floatLabel]="floatLabelControl.value"
+    [style.width.%]="100"
+  >
+    <mat-label>API Documentation (URL)</mat-label>
+    <input
+      matInput
+      name="documentation"
+      [ngStyle]="{ 'line-height': '1.4' }"
+      formControlName="documentation"
+    />
+    <mat-error *ngIf="form.get('documentation')?.invalid"> URL is not valid. </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Service Provider</mat-label>
+    <mat-select
+      [(ngModel)]="selectedServiceProvider"
+      [ngModelOptions]="{ standalone: true }"
+      [compareWith]="compareWithFn"
+      (selectionChange)="handleUpdateServicePoint()"
+    >
+      <mat-option
+        *ngFor="let provider of serviceProviders"
+        [value]="provider"
+      >
+        {{ provider.legalName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

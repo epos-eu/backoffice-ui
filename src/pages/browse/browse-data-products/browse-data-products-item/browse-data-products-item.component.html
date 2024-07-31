@@ -73,6 +73,11 @@
           [dataProduct]="dataProduct"
         ></app-data-providers>
 
+        <app-distribution
+          *ngIf="activeItem === entityFieldEnum.DISTRIBUTION"
+          [distribution]="distribution"
+        ></app-distribution>
+
         <!-- <app-lazy-load-panel
           title="Data providers"
           [headerClass]="{ active: selectedSection === '#dataproviders' }"
