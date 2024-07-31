@@ -58,7 +58,7 @@
         aria-label="Save Spatial Extent"
         matTooltip="Save Spatial Extent"
         (click)="handleSave(i)"
-        [disabled]="inputsDisabled"
+        [disabled]="inputsDisabled || formGroup.pristine"
       >
         <mat-icon>save</mat-icon>
       </button>
