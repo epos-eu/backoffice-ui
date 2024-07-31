@@ -18,30 +18,7 @@ export class GeneralInformationComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct;
 
-  public formGroup = new FormGroup({
-    title: new FormControl(this.dataProduct?.title, [Validators.required]),
-    description: new FormControl(this.dataProduct?.description, [Validators.required]),
-    keywords: new FormControl(HelpersService.whiteSpaceReplace(this.dataProduct?.keywords)),
-    versionInfo: new FormControl(this.dataProduct?.versionInfo),
-    accrualPeriodicity: new FormControl(this.dataProduct?.accrualPeriodicity),
-    type: new FormControl(this.dataProduct?.type),
-    issued: new FormControl(this.dataProduct?.issued),
-    created: new FormControl(this.dataProduct?.created),
-    modified: new FormControl(this.dataProduct?.modified),
-    qualityAssurance: new FormControl(this.dataProduct?.qualityAssurance, [
-      (control: AbstractControl): { [key: string]: any } | null => {
-        if (control.value === '') {
-          return null;
-        }
-        if (this.helpersService.isValidHttpUrl(control.value)) {
-          return null;
-        } else {
-          control.markAsTouched();
-          return { 'error-class': control.value };
-        }
-      },
-    ]),
-  });
+  public formGroup!: FormGroup;
 
   public stateEnum = Status;
 
@@ -51,7 +28,38 @@ export class GeneralInformationComponent implements OnInit {
 
   public typeOptions: Array<{ id: string; name: string }> = [];
 
+  private initForm(): void {
+    if (this.dataProduct) {
+      console.log(this.dataProduct);
+      this.formGroup = new FormGroup({
+        title: new FormControl(this.dataProduct?.title, [Validators.required]),
+        description: new FormControl(this.dataProduct?.description, [Validators.required]),
+        keywords: new FormControl(HelpersService.whiteSpaceReplace(this.dataProduct?.keywords)),
+        versionInfo: new FormControl(this.dataProduct?.versionInfo),
+        accrualPeriodicity: new FormControl(this.dataProduct?.accrualPeriodicity),
+        type: new FormControl(this.dataProduct?.type),
+        issued: new FormControl(this.dataProduct?.issued),
+        created: new FormControl(this.dataProduct?.created),
+        modified: new FormControl(this.dataProduct?.modified),
+        qualityAssurance: new FormControl(this.dataProduct?.qualityAssurance, [
+          (control: AbstractControl): { [key: string]: any } | null => {
+            if (control.value === '') {
+              return null;
+            }
+            if (this.helpersService.isValidHttpUrl(control.value)) {
+              return null;
+            } else {
+              control.markAsTouched();
+              return { 'error-class': control.value };
+            }
+          },
+        ]),
+      });
+    }
+  }
+
   public ngOnInit(): void {
+    this.initForm();
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
   }
