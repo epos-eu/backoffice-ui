@@ -39,14 +39,10 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
   }
 
   private initMap(): void {
-    const esriLink = '<a href="https://www.esri.com/">Esri</a>';
-    const whoLink = 'Source: Esri';
-    const tiles = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      {
-        attribution: `| Powered by ${esriLink} | ${whoLink}`,
-      },
-    );
+    const OSMLink = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+    const tiles = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
+      attribution: `| Powered by ${OSMLink}`,
+    });
     this.map = L.map('map' + this.mapId, {
       center: [45, 3],
       zoom: 3,
