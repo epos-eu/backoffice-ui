@@ -45,7 +45,6 @@
         <app-general-information
           *ngIf="activeItem === entityFieldEnum.GENERAL_INFORMATION"
           [dataProduct]="dataProduct"
-          formControlName="generalInformation"
         ></app-general-information>
 
         <app-spatial-coverage
@@ -56,6 +55,7 @@
         <app-temporal-coverage
           *ngIf="activeItem === entityFieldEnum.TEMPORAL_COVERAGE"
           [dataProduct]="dataProduct"
+          [inputsDisabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
         ></app-temporal-coverage>
 
         <app-persistent-identifier

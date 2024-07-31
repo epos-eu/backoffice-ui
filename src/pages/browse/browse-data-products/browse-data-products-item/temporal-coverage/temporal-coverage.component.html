@@ -15,8 +15,12 @@
         [style.width.%]="100"
       >
         <mat-label>Start date</mat-label>
-        <mtx-datetimepicker #pickerStartDate></mtx-datetimepicker>
+        <mtx-datetimepicker
+          [disabled]="inputsDisabled"
+          #pickerStartDate
+        ></mtx-datetimepicker>
         <input
+          [readonly]="inputsDisabled"
           [mtxDatetimepicker]="pickerStartDate"
           formControlName="startDate"
           matInput
@@ -32,8 +36,12 @@
         [style.width.%]="100"
       >
         <mat-label>End date</mat-label>
-        <mtx-datetimepicker #pickerEndDate></mtx-datetimepicker>
+        <mtx-datetimepicker
+          [disabled]="inputsDisabled"
+          #pickerEndDate
+        ></mtx-datetimepicker>
         <input
+          [readonly]="inputsDisabled"
           [mtxDatetimepicker]="pickerEndDate"
           formControlName="endDate"
           matInput
@@ -44,6 +52,16 @@
           matSuffix
         ></mtx-datetimepicker-toggle>
       </mat-form-field>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Save Spatial Extent"
+        matTooltip="Save Spatial Extent"
+        (click)="handleSave(i)"
+        [disabled]="inputsDisabled || formGroup.pristine"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
     </ng-container>
   </div>
   <mat-hint>

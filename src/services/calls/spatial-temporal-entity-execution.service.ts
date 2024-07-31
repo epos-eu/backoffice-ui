@@ -5,6 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from '../snackbar.service';
 import { LoadingService } from '../loading.service';
 import { Location as LocationType } from 'generated/backofficeSchemas';
+import { PeriodOfTime as PeriodOfTimeType } from 'generated/backofficeSchemas';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable({
@@ -38,6 +39,38 @@ export class SpatialTemporalEntityExecutionService {
         .catch((err) => {
           console.error(err);
           this.snackbarService.openSnackbar('Error updating Spatial Coverage.', 'Close', 'error', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        })
+        .finally(() => {
+          this.loadingService.setShowSpinner(false);
+        });
+    }
+  }
+
+  public handleTemporalSave(temporalExtent: PeriodOfTimeType): void {
+    if (temporalExtent !== null) {
+      if (temporalExtent.status !== Status.DRAFT) {
+        temporalExtent.status = Status.DRAFT;
+        temporalExtent.instanceChangedId = temporalExtent.instanceId;
+      }
+      this.loadingService.setShowSpinner(true);
+      this.apiService.endpoints[Entity.PERIOD_OF_TIME].update
+        .call({
+          ...temporalExtent,
+        })
+        .then(() => {
+          this.snackbarService.openSnackbar('Successfully saved Temporal Extent.', 'Close', 'success', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-success',
+          ]);
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error updating Temporal Extent.', 'Close', 'error', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
