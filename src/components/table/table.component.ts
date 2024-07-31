@@ -12,6 +12,7 @@ import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import moment from 'moment';
 import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { Status } from 'src/utility/enums/status.enum';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 
 @Component({
   selector: 'app-table',
@@ -43,7 +44,7 @@ export class TableComponent implements AfterViewInit {
       author: item.editorId,
       instanceId: item.instanceId as string,
       metaId: item.metaId as string,
-      dataProduct: item instanceof Distribution ? item.dataProduct?.[0] : undefined,
+      dataProduct: item instanceof DistributionDetailDataSource ? item.dataProduct?.[0] : undefined,
     }));
   }
 
