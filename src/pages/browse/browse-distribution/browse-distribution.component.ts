@@ -53,7 +53,6 @@ export class BrowseDistributionComponent {
   }
 
   public rowClicked(row: Record<string, unknown>): void {
-    console.debug('call');
     const dataProduct = row['dataProduct'] as DataProduct;
     if (dataProduct) {
       this.entityService.setFocusedDistribution(row['instanceId'] as string);
