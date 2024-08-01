@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ContactPoint, LinkedEntity } from 'generated/backofficeSchemas';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
@@ -12,7 +12,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
   templateUrl: './contact-point.component.html',
   styleUrl: './contact-point.component.scss',
 })
-export class ContactPointComponent {
+export class ContactPointComponent implements OnInit {
   constructor(
     private entityExecutionService: EntityExecutionService,
     private apiService: ApiService,

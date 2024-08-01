@@ -1,4 +1,3 @@
-<!-- <ng-container *ngIf="!loading; else loading"> -->
 <div
   class="contactpoint-item"
   *ngIf="showContactPointForm && !disabled"
@@ -23,7 +22,7 @@
         *ngFor="let person of personFromCatalogFilteredOptions | async"
         [value]="person"
       >
-        {{ person.givenName }} {{ person.familyName }} - {{ person.uid }}
+        {{ person | json }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
@@ -47,5 +46,3 @@
 >
   Save
 </button>
-<!-- </ng-container> -->
-<!-- <ng-template #loading> Loading... </ng-template> -->

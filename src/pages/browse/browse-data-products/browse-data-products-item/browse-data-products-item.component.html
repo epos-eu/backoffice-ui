@@ -50,11 +50,13 @@
         <app-spatial-coverage
           *ngIf="activeItem === entityFieldEnum.SPATIAL_COVERAGE"
           [dataProduct]="dataProduct"
+          [spatialExtent]="dataProduct.spatialExtent"
         ></app-spatial-coverage>
 
         <app-temporal-coverage
           *ngIf="activeItem === entityFieldEnum.TEMPORAL_COVERAGE"
           [dataProduct]="dataProduct"
+          [temporalExtent]="dataProduct.temporalExtent"
           [inputsDisabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
         ></app-temporal-coverage>
 
@@ -72,6 +74,11 @@
           *ngIf="activeItem === entityFieldEnum.DATA_PROVIDERS"
           [dataProduct]="dataProduct"
         ></app-data-providers>
+
+        <app-distribution
+          *ngIf="activeItem === entityFieldEnum.DISTRIBUTION"
+          [distribution]="distribution"
+        ></app-distribution>
 
         <!-- <app-lazy-load-panel
           title="Data providers"

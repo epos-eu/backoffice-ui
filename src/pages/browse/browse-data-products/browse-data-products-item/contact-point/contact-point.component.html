@@ -1,37 +1,42 @@
-<div class="item">
-  <app-contact-point-detail [contactPointDetails]="contactPointDetails"></app-contact-point-detail>
-  <!-- <button
-    mat-mini-fab
-    color="warn"
-    aria-label="Remove Contact Point"
-    matTooltip="Remove Contact Point"
-    class="smaller"
-    (click)="removeContactPoint(contactPoint.instanceId)"
-  >
-    <mat-icon>delete</mat-icon>
-  </button> -->
-</div>
+<ng-container *ngIf="contactPoint; else empty">
+  <div class="item">
+    <app-contact-point-detail [contactPointDetails]="contactPointDetails"></app-contact-point-detail>
+    <!-- <button
+      mat-mini-fab
+      color="warn"
+      aria-label="Remove Contact Point"
+      matTooltip="Remove Contact Point"
+      class="smaller"
+      (click)="removeContactPoint(contactPoint.instanceId)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button> -->
+  </div>
 
-<div
-  class="notify"
-  *ngIf="showSaveFormNotify"
->
-  <mat-icon>warning</mat-icon>
-  <span
-    color="warning"
-    *ngIf="relevantEntity === entityEnum.DATA_PRODUCT"
+  <div
+    class="notify"
+    *ngIf="showSaveFormNotify"
   >
-    Please click 'Save' in the left-hand panel after making this change</span
-  >
-  <span
-    color="warning"
-    *ngIf="relevantEntity === entityEnum.WEBSERVICE"
-  >
-    Please click 'Save Web Service' at the bottom of the menu after making this change</span
-  >
-</div>
+    <mat-icon>warning</mat-icon>
+    <span
+      color="warning"
+      *ngIf="relevantEntity === entityEnum.DATA_PRODUCT"
+    >
+      Please click 'Save' in the left-hand panel after making this change</span
+    >
+    <span
+      color="warning"
+      *ngIf="relevantEntity === entityEnum.WEBSERVICE"
+    >
+      Please click 'Save Web Service' at the bottom of the menu after making this change</span
+    >
+  </div>
 
-<app-contact-point-search
-  [contactPoint]="contactPoint"
-  (contactPointDetailsUpdated)="updateContactPointArray($event)"
-></app-contact-point-search>
+  <app-contact-point-search
+    [contactPoint]="contactPoint"
+    (contactPointDetailsUpdated)="updateContactPointArray($event)"
+  ></app-contact-point-search>
+</ng-container>
+<ng-template #empty>
+  <p class="notice">Couldn't fetch contact point data.</p>
+</ng-template>

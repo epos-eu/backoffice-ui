@@ -1,12 +1,10 @@
-<!-- <span *ngIf="person !== undefined">{{ person.givenName }} {{ person.familyName }} ({{ person.uid }})</span>
-<span *ngIf="person === undefined">{{ contactPoint?.email }}</span>
-<span> - Role: {{ getRoleName(contactPoint?.role) }}</span> -->
-
 <ng-container *ngIf="!loading">
-  <ng-container *ngFor="let detail of mergedDetails">
-    <span>{{ detail?.email }}</span>
-    <span> - </span>
-    <span>Role: {{ getRoleName(detail?.role) }}</span>
-  </ng-container>
+  <div class="wrapper">
+    <ng-container *ngFor="let detail of mergedDetails">
+      <span>{{ detail?.email }}</span>
+      <span> - </span>
+      <span>Role: {{ getRoleName(detail?.role) }}</span>
+    </ng-container>
+  </div>
 </ng-container>
 <ng-container *ngIf="loading">Loading...</ng-container>

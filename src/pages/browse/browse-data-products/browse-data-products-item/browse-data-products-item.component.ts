@@ -32,7 +32,7 @@ export class BrowseDataProductsItemComponent extends WithSubscription implements
 
   public dataProduct!: DataProduct | undefined;
   public form!: DataProductForm;
-  public distributionDetails: Array<LinkedEntity> | undefined = [];
+  public distribution: Array<LinkedEntity> | undefined = [];
   public activeMetaId!: string;
   public activeInstanceId!: string;
   public stateEnum = Status;
@@ -100,7 +100,7 @@ export class BrowseDataProductsItemComponent extends WithSubscription implements
       this.actionService.setLiveEdit();
       this.initForm();
       this.trackFormData();
-      this.distributionDetails = this.dataProduct.distribution;
+      this.distribution = this.dataProduct.distribution;
       if (this.dataProduct.status === Status.PUBLISHED || this.dataProduct.status === Status.ARCHIVED) {
         this.form.disable();
       }

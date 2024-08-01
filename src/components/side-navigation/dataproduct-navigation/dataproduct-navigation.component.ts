@@ -34,6 +34,10 @@ export class DataproductNavigationComponent implements OnInit {
       id: 'dataproviders',
       name: 'Data Providers',
     },
+    {
+      id: 'distribution',
+      name: 'Distribution',
+    },
   ];
   public activeListItem: string = '';
 
