@@ -51,6 +51,10 @@ import { GetPersonDetail } from './person/getPersonDetail';
 import { GetAllPeople } from './person/getAllPeople';
 import { CreatePersonDetail } from './person/createPersonDetail';
 import { UpdatePersonDetail } from './person/updatePersonDetail';
+import { GetIdentifier } from './identifier/getIdentifier';
+import { GetAllIdentifiers } from './identifier/getAllIdentifiers';
+import { PostIdentifier } from './identifier/postIdentifier';
+import { PutIdentifier } from './identifier/putIdentifier';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -108,6 +112,13 @@ export class ApiService extends BaseApi {
       create: new PostGroup(ApiService.USE_LIVE_API),
       update: new PutGroup(ApiService.USE_LIVE_API),
     },
+    Identifier: {
+      get: new GetIdentifier(ApiService.USE_LIVE_API),
+      getAll: new GetAllIdentifiers(ApiService.USE_LIVE_API),
+      create: new PostIdentifier(ApiService.USE_LIVE_API),
+      update: new PutIdentifier(ApiService.USE_LIVE_API),
+    },
+
     /* Spatial / Temporal Entities */
     Location: {
       get: new GetLocation(ApiService.USE_LIVE_API),
