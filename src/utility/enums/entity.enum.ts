@@ -10,4 +10,5 @@ export enum Entity {
   PERIOD_OF_TIME = 'PeriodOfTime',
   GROUP = 'Group',
   PERSON = 'Person',
+  IDENTIFIER = 'Identifier',
 }
