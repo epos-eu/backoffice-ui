@@ -3,7 +3,6 @@ import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userIn
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { GetAllDataProductsParams } from '../data-products/getAllDataProducts';
 import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
 
 export class GetAllUsers extends Endpoint<Array<UserInfoDataSource>, GetAllUsersParams, UserInfoDataSource> {

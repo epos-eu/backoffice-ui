@@ -4,40 +4,40 @@ import { Status } from 'src/utility/enums/status.enum';
 
 export class IdentifierDataSource extends BaseObject implements IdentifierType {
   public static readonly KEYS = {
-    CHANGE_COMMENT: ' changeComment',
-    CHANGE_TIMESTAMP: ' changeTimestamp',
-    EDITOR_ID: ' editorId',
-    FILE_PROVENANCE: ' fileProvenance',
-    GROUPS: ' groups',
-    IDENTIFIER: ' identifier',
-    INSTANCE_CHANGED_ID: ' instanceChangedId',
-    INSTANCE_ID: ' instanceId',
-    META_ID: ' metaId',
-    OPERATION: ' operation',
-    STATUS: ' status',
-    TO_BE_DELETE: ' toBeDelete',
-    TYPE: ' type',
-    UID: ' uid',
-    VERSION: ' version',
-    VERSION_ID: ' versionId',
+    CHANGE_COMMENT: 'changeComment',
+    CHANGE_TIMESTAMP: 'changeTimestamp',
+    EDITOR_ID: 'editorId',
+    FILE_PROVENANCE: 'fileProvenance',
+    GROUPS: 'groups',
+    IDENTIFIER: 'identifier',
+    INSTANCE_CHANGED_ID: 'instanceChangedId',
+    INSTANCE_ID: 'instanceId',
+    META_ID: 'metaId',
+    OPERATION: 'operation',
+    STATUS: 'status',
+    TO_BE_DELETE: 'toBeDelete',
+    TYPE: 'type',
+    UID: 'uid',
+    VERSION: 'version',
+    VERSION_ID: 'versionId',
   };
 
-  public readonly changeComment?: string;
-  public readonly changeTimestamp?: string;
-  public readonly editorId?: string;
-  public readonly fileProvenance?: string;
-  public readonly groups?: Group[];
-  public readonly identifier?: string;
-  public readonly instanceChangedId?: string;
-  public readonly instanceId?: string;
-  public readonly metaId?: string;
-  public readonly operation?: string;
-  public readonly status?: Status;
-  public readonly toBeDelete?: string;
-  public readonly type?: string;
-  public readonly uid?: string;
-  public readonly version?: string;
-  public readonly versionId?: string;
+  public readonly changeComment: string;
+  public readonly changeTimestamp: string;
+  public readonly editorId: string;
+  public readonly fileProvenance: string;
+  public readonly groups: Group[];
+  public readonly identifier: string;
+  public readonly instanceChangedId: string;
+  public readonly instanceId: string;
+  public readonly metaId: string;
+  public readonly operation: string;
+  public readonly status: Status;
+  public readonly toBeDelete: string;
+  public readonly type: string;
+  public readonly uid: string;
+  public readonly version: string;
+  public readonly versionId: string;
 
   protected constructor(sourceObject?: Record<string, unknown>) {
     super(sourceObject);
@@ -53,6 +53,7 @@ export class IdentifierDataSource extends BaseObject implements IdentifierType {
     this.operation = this._getString(IdentifierDataSource.KEYS.OPERATION);
     this.status = this._getValue(IdentifierDataSource.KEYS.STATUS) as Status;
     this.toBeDelete = this._getString(IdentifierDataSource.KEYS.TO_BE_DELETE);
+    this.type = this._getString(IdentifierDataSource.KEYS.TYPE);
     this.uid = this._getString(IdentifierDataSource.KEYS.UID);
     this.version = this._getString(IdentifierDataSource.KEYS.VERSION);
     this.versionId = this._getString(IdentifierDataSource.KEYS.VERSION_ID);

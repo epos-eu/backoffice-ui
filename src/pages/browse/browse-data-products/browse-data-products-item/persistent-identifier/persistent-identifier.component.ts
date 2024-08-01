@@ -9,12 +9,14 @@ import {
   UntypedFormGroup,
   UntypedFormArray,
 } from '@angular/forms';
-import { Identifier } from 'generated/backofficeSchemas';
+import { Identifier, LinkedEntity } from 'generated/backofficeSchemas';
 import { debounceTime } from 'rxjs';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Status } from 'src/utility/enums/status.enum';
 import { DataproductService } from '../../dataproduct.service';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { GetIdentifierDetailsParams } from 'src/apiAndObjects/api/identifier/getIdentifier';
 
 @Component({
   selector: 'app-persistent-identifier',
@@ -22,7 +24,11 @@ import { DataproductService } from '../../dataproduct.service';
   styleUrl: './persistent-identifier.component.scss',
 })
 export class PersistentIdentifierComponent implements OnInit {
-  constructor(private entityExecutionService: EntityExecutionService, private dataproductService: DataproductService) {}
+  constructor(
+    private entityExecutionService: EntityExecutionService,
+    private dataproductService: DataproductService,
+    private apiService: ApiService,
+  ) {}
 
   @Input() dataProduct!: DataProduct;
 
@@ -52,13 +58,20 @@ export class PersistentIdentifierComponent implements OnInit {
 
   private createIdentifierArray(identifier?: Identifier[] | undefined): UntypedFormArray {
     const arr = new UntypedFormArray([]);
-    identifier?.forEach((item) => {
-      arr.push(
-        new FormGroup({
-          identifier: new FormControl(item?.identifier, [Validators.required]),
-          type: new FormControl(item?.type, [Validators.required]),
-        }),
-      );
+    identifier?.forEach((item: LinkedEntity) => {
+      const identifierParams: GetIdentifierDetailsParams = {
+        metaId: item.metaId!,
+        instanceId: item.instanceId!,
+      };
+      this.apiService.endpoints.Identifier.get.call(identifierParams).then((item: Identifier[]) => {
+        console.debug(item);
+        arr.push(
+          new FormGroup({
+            identifier: new FormControl(item[0].identifier, [Validators.required]),
+            type: new FormControl(item[0].type, [Validators.required]),
+          }),
+        );
+      });
     });
     return arr;
   }
