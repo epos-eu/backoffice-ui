@@ -35,6 +35,16 @@
         </mat-form-field>
         <button
           mat-mini-fab
+          color="primary"
+          aria-label="Save Identifier"
+          matTooltip="Save Identifier"
+          (click)="handleUpdateIdentifier(i)"
+          [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+        >
+          <mat-icon>save</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
           color="{{ dataProduct.status === stateEnum.PUBLISHED ? '' : 'warn' }}"
           matTooltip="Remove Identifier"
           class="smaller"
