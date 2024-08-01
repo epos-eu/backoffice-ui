@@ -1,0 +1,16 @@
+mat-radio-group {
+  margin-bottom: 1rem;
+}
+
+.mat-mdc-tab-group {
+  .mat-mdc-tab-body {
+    padding: 0 !important;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  margin-top: 1rem;
+}

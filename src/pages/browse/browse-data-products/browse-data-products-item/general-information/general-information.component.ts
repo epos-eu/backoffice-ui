@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Input, OnInit } from '@angular/core';
-import { Component } from '@angular/core';
+import { Input, OnInit, Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { Status } from 'src/utility/enums/status.enum';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
+import { DataproductService } from '../../dataproduct.service';
 
 @Component({
   selector: 'app-general-information',
@@ -14,7 +16,11 @@ import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
   styleUrl: './general-information.component.scss',
 })
 export class GeneralInformationComponent implements OnInit {
-  constructor(private helpersService: HelpersService) {}
+  constructor(
+    private helpersService: HelpersService,
+    private entityExecutionService: EntityExecutionService,
+    private dataProductService: DataproductService,
+  ) {}
 
   @Input() dataProduct!: DataProduct;
 
@@ -30,7 +36,6 @@ export class GeneralInformationComponent implements OnInit {
 
   private initForm(): void {
     if (this.dataProduct) {
-      console.log(this.dataProduct);
       this.formGroup = new FormGroup({
         title: new FormControl(this.dataProduct?.title, [Validators.required]),
         description: new FormControl(this.dataProduct?.description, [Validators.required]),
@@ -58,8 +63,27 @@ export class GeneralInformationComponent implements OnInit {
     }
   }
 
+  private trackFormChanges(): void {
+    const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
+    this.formGroup.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
+      this.dataProductService.updateDataProductRecord(updatingObject, {
+        title: changes.title,
+        description: changes.description,
+        keywords: changes.keywords,
+        versionInfo: changes.versionInfo,
+        accrualPeriodicity: changes.accrualPeriodicity,
+        type: changes.type,
+        issued: changes.issued,
+        created: changes.created,
+        modified: changes.modified,
+        qualityAssurance: changes.qualityAssurance,
+      });
+    });
+  }
+
   public ngOnInit(): void {
     this.initForm();
+    this.trackFormChanges();
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
   }

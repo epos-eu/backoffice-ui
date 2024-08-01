@@ -31,6 +31,10 @@ import { SimpleSpatialControlComponent } from './browse-data-products-item/spati
 import { OptionComponent } from './browse-data-products-item/operation-parameters/option/option.component';
 import { OptionComplexComponent } from './browse-data-products-item/operation-parameters/option-complex/option-complex.component';
 import { OrderByPipe } from 'src/pipes/orderBy.pipe';
+import { DistributionComponent } from './browse-data-products-item/distribution/distribution.component';
+import { DistributionDownloadComponent } from './browse-data-products-item/distribution/download/download.component';
+import { DistributionWebserviceComponent } from './browse-data-products-item/distribution/webservice/webservice.component';
+import { SupportedOperationComponent } from './browse-data-products-item/supported-operation/supported-operation.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +64,10 @@ import { OrderByPipe } from 'src/pipes/orderBy.pipe';
     TemporalCoverageComponent,
     WebserviceFormDetailsComponent,
     OrderByPipe,
+    DistributionComponent,
+    DistributionDownloadComponent,
+    DistributionWebserviceComponent,
+    SupportedOperationComponent,
   ],
   imports: [AngularMaterialModule, CommonModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [

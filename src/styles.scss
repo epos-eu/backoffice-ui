@@ -52,10 +52,16 @@ body {
 
 .mat-mdc-tab-group {
   margin-right: 30px;
-}
 
-.mat-mdc-tab-body {
-  padding: 10px 30px;
+  .mat-mdc-tab-body {
+    padding: 10px 30px;
+  }
+
+  &.distribution {
+    .mat-mdc-tab-body {
+      padding: 1rem 0;
+    }
+  }
 }
 
 .inline-fields {
@@ -73,6 +79,7 @@ body {
 .mat-mdc-list-item-unscoped-content {
   display: flex;
   align-items: center;
+  font-family: 'Roboto Flex', sans-serif !important;
 }
 
 app-browse-navigation {
@@ -154,11 +161,11 @@ button {
   overflow: hidden !important;
 }
 
-mat-list-item {
+.mat-mdc-list-item {
   &.active {
     .mdc-list-item__primary-text {
       color: rgba(0, 73, 38, 1);
-      font-weight: 500;
+      font-weight: 600;
     }
   }
 }
@@ -195,4 +202,9 @@ mat-list-item {
       }
     }
   }
+}
+
+.title-larger {
+  font-size: 18px;
+  font-weight: 500;
 }

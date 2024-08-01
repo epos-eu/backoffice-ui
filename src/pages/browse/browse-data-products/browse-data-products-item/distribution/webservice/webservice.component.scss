@@ -1,0 +1,19 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+  .grid-item {
+    flex: calc(50% - 10px);
+
+    .subtitle {
+      font-weight: 500;
+    }
+  }
+}
+
+mat-form-field {
+  &.service-provider {
+    margin-top: 1rem;
+  }
+}

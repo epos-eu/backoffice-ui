@@ -1,0 +1,96 @@
+<ng-container *ngIf="supportedOperations?.length; else empty">
+  <form [formGroup]="form">
+    <ng-container *ngFor="let item of supportedOperations; let i = index">
+      <div
+        [ngClass]="{
+          'supported-operation-wrapper': true,
+        }"
+      >
+        <div class="flex-row">
+          <div class="supported-operation-item">
+            <div class="flex-row">
+              <mat-form-field
+                appearance="fill"
+                [style.width.%]="100"
+              >
+                <mat-label>Service URI template</mat-label>
+                <input
+                  matInput
+                  placeholder="Service URI template"
+                  formControlName="template"
+                />
+              </mat-form-field>
+              <a
+                mat-mini-fab
+                aria-label="URI template information"
+                matTooltip="URI template information"
+                class="uri-info"
+                color="primary"
+                href="https://datatracker.ietf.org/doc/html/rfc6570"
+                target="_blank"
+              >
+                <mat-icon>info</mat-icon>
+              </a>
+            </div>
+
+            <mat-form-field
+              appearance="fill"
+              [style.width.%]="100"
+            >
+              <mat-label>Preview of the URI template with default values</mat-label>
+              <input
+                matInput
+                placeholder="Preview of the URI template with default values"
+                formControlName="preview"
+                readonly
+              />
+              <!-- <app-copy-to-clipboard
+                matSuffix
+                [textVal]="this.form.get('preview')?.value"
+              ></app-copy-to-clipboard> -->
+            </mat-form-field>
+
+            <button
+              mat-stroked-button
+              color="primary"
+              class="uri-preview"
+              (click)="handleCreateURIPreview()"
+            >
+              Create URI preview
+            </button>
+
+            <mat-expansion-panel
+              #expansionPanel
+              [expanded]="true"
+              class="supported-operation-params"
+              [style.width.%]="100"
+              [id]="i"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title>Parameters</mat-panel-title>
+              </mat-expansion-panel-header>
+              <!-- <app-operation-parameters
+                [instanceId]="item.instanceId"
+                [metaId]="metaId"
+                (template)="handleTemplate($event)"
+                (mappingVals)="handleMappingVals($event)"
+              ></app-operation-parameters> -->
+            </mat-expansion-panel>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="handleAddOperation()"
+      *ngIf="supportedOperations?.length === 0"
+    >
+      <mat-icon>add</mat-icon>
+      Add Operation
+    </button>
+  </form>
+</ng-container>
+<ng-template #empty>
+  <p class="notice">Couldn't fetch supported operations data.</p>
+</ng-template>
