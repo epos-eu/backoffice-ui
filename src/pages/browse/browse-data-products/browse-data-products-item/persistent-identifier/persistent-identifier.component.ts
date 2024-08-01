@@ -10,7 +10,6 @@ import {
   UntypedFormArray,
 } from '@angular/forms';
 import { Identifier, LinkedEntity } from 'generated/backofficeSchemas';
-import { debounceTime } from 'rxjs';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Status } from 'src/utility/enums/status.enum';
@@ -19,6 +18,8 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetIdentifierDetailsParams } from 'src/apiAndObjects/api/identifier/getIdentifier';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { LoadingService } from 'src/services/loading.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-persistent-identifier',
@@ -30,6 +31,8 @@ export class PersistentIdentifierComponent implements OnInit {
     private entityExecutionService: EntityExecutionService,
     private dataproductService: DataproductService,
     private apiService: ApiService,
+    private loadingService: LoadingService,
+    private snackbarService: SnackbarService,
   ) {}
 
   @Input() dataProduct!: DataProduct;
@@ -40,7 +43,7 @@ export class PersistentIdentifierComponent implements OnInit {
 
   public floatLabelControl = new UntypedFormControl('auto');
 
-  public identifiers: Array<Identifier> = [];
+  public identifiersFullObj: Array<Identifier> = [];
 
   get identifierArray() {
     return this.formGroup.get('identifier') as UntypedFormArray;
@@ -50,15 +53,7 @@ export class PersistentIdentifierComponent implements OnInit {
     this.formGroup = new FormGroup({
       identifier: this.createIdentifierArray(this.dataProduct?.identifier),
     });
-    // this.trackFormChanges();
   }
-
-  // private trackFormChanges(): void {
-  //   const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
-  //   this.formGroup.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
-  //     this.dataproductService.updateDataProductRecord(updatingObject, { identifier: changes.identifier });
-  //   });
-  // }
 
   private createIdentifierArray(identifier?: Identifier[] | undefined): UntypedFormArray {
     const arr = new UntypedFormArray([]);
@@ -68,7 +63,7 @@ export class PersistentIdentifierComponent implements OnInit {
         instanceId: item.instanceId!,
       };
       this.apiService.endpoints.Identifier.get.call(identifierParams).then((item: Identifier[]) => {
-        this.identifiers.push(item[0]);
+        this.identifiersFullObj.push(item[0]);
         arr.push(
           new FormGroup({
             identifier: new FormControl(item[0].identifier, [Validators.required]),
@@ -81,44 +76,105 @@ export class PersistentIdentifierComponent implements OnInit {
   }
 
   public handleAddIdentifier(): void {
-    this.apiService.endpoints.Identifier.create.call().then((item: Identifier) => {
-      console.debug(item);
-      this.identifiers.push(item);
-      const linkedEntity: LinkedEntity = {
-        instanceId: item.instanceId,
-        metaId: item.metaId,
-        entityType: Entity.IDENTIFIER,
-        uid: item.uid,
-      };
-      const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
-      const identifierArr = updatingObject.identifier!;
-      identifierArr.push(linkedEntity);
-      this.dataproductService.updateDataProductRecord(updatingObject, { identifier: identifierArr });
+    this.loadingService.setShowSpinner(true);
+    this.apiService.endpoints.Identifier.create
+      .call()
+      .then((item: Identifier) => {
+        console.debug(item);
+        this.identifiersFullObj.push(item);
+        const linkedEntity: LinkedEntity = {
+          instanceId: item.instanceId,
+          metaId: item.metaId,
+          entityType: Entity.IDENTIFIER,
+          uid: item.uid,
+        };
+        const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
+        const identifierArr = updatingObject.identifier!;
+        identifierArr.push(linkedEntity);
+        this.dataproductService.updateDataProductRecord(updatingObject, { identifier: identifierArr });
 
-      this.identifierArray.push(
-        new FormGroup({
-          identifier: new FormControl('', [Validators.required]),
-          type: new FormControl('', [Validators.required]),
-        }),
-      );
-    });
+        this.identifierArray.push(
+          new FormGroup({
+            identifier: new FormControl('', [Validators.required]),
+            type: new FormControl('', [Validators.required]),
+          }),
+        );
+        this.snackbarService.openSnackbar('Successfully added Identifier.', 'Close', 'success', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch(() => {
+        this.snackbarService.openSnackbar('Error adding Identifier.', 'Close', 'error', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      })
+      .finally(() => {
+        this.loadingService.setShowSpinner(false);
+      });
   }
 
   public handleDeleteIdentifier(index: number): void {
-    const itemToDelete = this.identifiers[index];
-    this.apiService.deleteEntity(EntityEndpointValue.IDENTIFIER, itemToDelete.instanceId!).then(() => {
-      const identifierArr = this.formGroup.get('identifier') as FormArray;
-      identifierArr.removeAt(index);
-      this.identifiers.splice(index, 1);
+    this.loadingService.setShowSpinner(true);
+    const itemToDelete = this.identifiersFullObj[index];
+    this.apiService
+      .deleteEntity(EntityEndpointValue.IDENTIFIER, itemToDelete.instanceId!)
+      .then(() => {
+        const identifierArr = this.formGroup.get('identifier') as FormArray;
+        identifierArr.removeAt(index);
+        this.identifiersFullObj.splice(index, 1);
 
-      const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
-      console.debug('dataprod:', updatingObject);
-      const newIdentifierArr = updatingObject.identifier?.splice(index, 1);
-      this.dataproductService.updateDataProductRecord(updatingObject, { identifier: newIdentifierArr });
-    });
+        const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
+        const newIdentifierArr = updatingObject.identifier?.splice(index, 1);
+        this.dataproductService.updateDataProductRecord(updatingObject, { identifier: newIdentifierArr });
+        this.snackbarService.openSnackbar('Successfully deleted Identifier.', 'Close', 'success', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch(() => {
+        this.snackbarService.openSnackbar('Error deleting Identifier.', 'Close', 'error', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      })
+      .finally(() => this.loadingService.setShowSpinner(false));
   }
 
-  public handleUpdateIdentifier(index: number): void {}
+  public handleUpdateIdentifier(index: number): void {
+    this.loadingService.setShowSpinner(true);
+    const identifierToUpdate = this.identifiersFullObj[index];
+    const identifierArr = this.formGroup.get('identifier') as FormArray;
+    identifierToUpdate.identifier = identifierArr.at(index).value.identifier;
+    identifierToUpdate.type = identifierArr.at(index).value.type;
+
+    this.apiService.endpoints.Identifier.update
+      .call(identifierToUpdate)
+      .then(() => {
+        this.identifiersFullObj[index].identifier = identifierToUpdate.identifier;
+        this.identifiersFullObj[index].type = identifierToUpdate.type;
+        this.snackbarService.openSnackbar('Successfully saved Identifier.', 'Close', 'success', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch(() => {
+        this.snackbarService.openSnackbar('Error updating Identifier.', 'Close', 'error', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      })
+      .finally(() => {
+        this.loadingService.setShowSpinner(false);
+      });
+  }
 
   public getControls(field: string) {
     return (this.formGroup.get(field) as FormArray).controls;
