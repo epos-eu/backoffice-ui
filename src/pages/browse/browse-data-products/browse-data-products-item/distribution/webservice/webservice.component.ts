@@ -16,6 +16,8 @@ import { Entity } from 'src/utility/enums/entity.enum';
 export class DistributionWebserviceComponent extends WithSubscription implements OnInit {
   @Input() accessService!: Distribution['accessService'];
 
+  @Input() accessURL: Distribution['accessURL'];
+
   constructor(
     private formBuilder: FormBuilder,
     private helpersService: HelpersService,

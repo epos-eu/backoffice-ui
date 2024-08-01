@@ -101,7 +101,10 @@
     ></app-distribution-download>
   </ng-container>
   <ng-container *ngIf="distribution?.get('dataAccess')?.value === 'webservice'">
-    <app-distribution-webservice [accessService]="distributionObj.accessService"></app-distribution-webservice>
+    <app-distribution-webservice
+      [accessService]="distributionObj.accessService"
+      [accessURL]="distributionObj.accessURL"
+    ></app-distribution-webservice>
   </ng-container>
   <div class="actions">
     <button
