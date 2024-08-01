@@ -46,7 +46,7 @@
     <mat-error *ngIf="form.get('documentation')?.invalid"> URL is not valid. </mat-error>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="service-provider">
     <mat-label>Service Provider</mat-label>
     <mat-select
       [(ngModel)]="selectedServiceProvider"
@@ -62,4 +62,28 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <div class="grid">
+    <div class="grid-item">
+      <p class="subtitle">Spatial Coverage</p>
+      <app-spatial-coverage
+        [dataProduct]="dataProduct"
+        [spatialExtent]="webservice?.spatialExtent"
+      ></app-spatial-coverage>
+    </div>
+    <div class="grid-item">
+      <p class="subtitle">Temporal Coverage</p>
+      <app-temporal-coverage
+        [dataProduct]="dataProduct"
+        [temporalExtent]="webservice?.temporalExtent"
+      ></app-temporal-coverage>
+    </div>
+    <div class="grid-item">
+      <p class="subtitle">Contact Points</p>
+      <app-contact-point [contactPoint]="webservice?.contactPoint"></app-contact-point>
+    </div>
+    <div class="grid-item">
+      <p class="subtitle">Supported Operations</p>
+    </div>
+  </div>
 </form>

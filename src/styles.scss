@@ -79,6 +79,7 @@ body {
 .mat-mdc-list-item-unscoped-content {
   display: flex;
   align-items: center;
+  font-family: 'Roboto Flex', sans-serif !important;
 }
 
 app-browse-navigation {
@@ -201,4 +202,9 @@ button {
       }
     }
   }
+}
+
+.title-larger {
+  font-size: 18px;
+  font-weight: 500;
 }

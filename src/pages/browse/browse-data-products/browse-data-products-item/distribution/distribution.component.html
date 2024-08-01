@@ -4,32 +4,30 @@
   class="distribution"
 >
   <ng-container *ngIf="distributionDetails.length > 1">
-    <!-- <mat-tab-group
-        [mat-stretch-tabs]="false"
-        [animationDuration]="0"
-        class="distribution"
-      >
-        <mat-tab
-          [label]="distribution.title?.[0]!"
-          *ngFor="let distribution of distributionDetails; let i = index"
+    <mat-tab-group
+      [mat-stretch-tabs]="false"
+      [animationDuration]="0"
+      class="distribution"
+    >
+      <div formArrayName="distributions">
+        <ng-container
+          *ngFor="let child of getControls('distributions'); let i = index"
+          [formGroupName]="i"
         >
-          <ng-scrollbar>
-            <div formArrayName="distributions">
-              <ng-container
-                *ngFor="let child of getControls('distributions'); let i = index"
-                [formGroupName]="i"
-              >
-                <app-distribution-webservice
-                  [child]="child"
-                  [dataAccessTypes]="dataAccessTypes"
-                  [distributionObj]="distribution"
-                >
-                </app-distribution-webservice>
-              </ng-container>
-            </div>
-          </ng-scrollbar>
-        </mat-tab>
-      </mat-tab-group> -->
+          <mat-tab [label]="distributionDetails[i].title?.[0]!">
+            <ng-scrollbar>
+              <ng-template
+                [ngTemplateOutlet]="singleDistribution"
+                [ngTemplateOutletContext]="{
+                  distribution: child,
+                  distributionObj: distributionDetails[i]
+                }"
+              ></ng-template>
+            </ng-scrollbar>
+          </mat-tab>
+        </ng-container>
+      </div>
+    </mat-tab-group>
   </ng-container>
   <ng-container *ngIf="distributionDetails.length === 1">
     <ng-template
@@ -103,7 +101,6 @@
     ></app-distribution-download>
   </ng-container>
   <ng-container *ngIf="distribution?.get('dataAccess')?.value === 'webservice'">
-    <p class="title-larger">Web Service</p>
     <app-distribution-webservice [accessService]="distributionObj.accessService"></app-distribution-webservice>
   </ng-container>
   <div class="actions">

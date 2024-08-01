@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { Distribution, LinkedEntity, Organization, WebService } from 'generated/backofficeSchemas';
+import { DataProduct, Distribution, LinkedEntity, Organization, WebService } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -12,7 +13,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
   templateUrl: './webservice.component.html',
   styleUrl: './webservice.component.scss',
 })
-export class DistributionWebserviceComponent implements OnInit {
+export class DistributionWebserviceComponent extends WithSubscription implements OnInit {
   @Input() accessService!: Distribution['accessService'];
 
   constructor(
@@ -20,11 +21,13 @@ export class DistributionWebserviceComponent implements OnInit {
     private helpersService: HelpersService,
     private apiService: ApiService,
     private entityExecutionService: EntityExecutionService,
-  ) {}
+  ) {
+    super();
+  }
 
   public form!: FormGroup;
 
-  public webservice!: WebService | undefined;
+  public webservice!: WebService | null;
 
   public floatLabelControl = new UntypedFormControl('auto');
 
@@ -33,6 +36,8 @@ export class DistributionWebserviceComponent implements OnInit {
   public serviceProvidersLoading = false;
 
   public selectedServiceProvider: Organization | undefined;
+
+  public dataProduct!: DataProduct | null;
 
   private initData(details: LinkedEntity): void {
     this.apiService.endpoints[Entity.WEBSERVICE].get
@@ -45,7 +50,7 @@ export class DistributionWebserviceComponent implements OnInit {
       )
       .then((data: Array<WebService>) => {
         if (Array.isArray(data) && data.length > 0) {
-          this.webservice = data.shift();
+          this.webservice = data.shift() as WebService;
           if (this.webservice) {
             this.entityExecutionService.setActiveWebService(
               this.entityExecutionService.convertToWebService(this.webservice),
@@ -59,7 +64,14 @@ export class DistributionWebserviceComponent implements OnInit {
       });
   }
 
+  private initSubscriptions(): void {
+    this.subscribe(this.entityExecutionService.dataProductObs, (dataProduct: DataProduct | null) => {
+      this.dataProduct = dataProduct;
+    });
+  }
+
   public ngOnInit(): void {
+    this.initSubscriptions();
     this.initData({
       instanceId: this.accessService?.instanceId,
       metaId: this.accessService?.metaId,

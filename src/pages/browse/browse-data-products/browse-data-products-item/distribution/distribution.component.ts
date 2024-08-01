@@ -36,10 +36,10 @@ export class DistributionComponent implements OnInit {
   public floatLabelControl = new UntypedFormControl('auto');
 
   private initForm(): void {
+    console.log(this.distributionDetails);
     this.form = this.formBuilder.group({
       distributions: new FormArray(
         this.distributionDetails.map((distribution: Distribution) => {
-          console.log(distribution);
           return new FormGroup({
             title: new FormControl(distribution?.title, [Validators.required]),
             description: new FormControl(distribution?.description),
