@@ -1,11 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSchemas';
+import { debounceTime } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
+import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
+import { HelpersService } from 'src/services/helpers.service';
 import { LoadingService } from 'src/services/loading.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -27,6 +30,7 @@ export class DistributionComponent implements OnInit {
     private dialogService: DialogService,
     private entityExecutionService: EntityExecutionService,
     private loadingService: LoadingService,
+    private helpersService: HelpersService,
   ) {}
 
   public form!: FormGroup;
@@ -65,9 +69,13 @@ export class DistributionComponent implements OnInit {
         }),
       ),
     });
+    this.trackFormData();
     if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
       this.form.disable();
       this.disabled = true;
+    } else {
+      // this.form.enable();
+      this.disabled = false;
     }
   }
 
@@ -100,6 +108,25 @@ export class DistributionComponent implements OnInit {
     });
   }
 
+  private trackFormData(): void {
+    const actvIndex = 0;
+    if (this.dataProduct) {
+      let updatingObject = this.distributionDetails[actvIndex];
+      this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
+        updatingObject.title = this.helpersService.formatArrayVal(changes.distributions[actvIndex].title);
+        updatingObject.description = this.helpersService.formatArrayVal(changes.distributions[0].description);
+        updatingObject.licence = changes.distributions[actvIndex].licence;
+        this.entityExecutionService.setActiveDistribution(updatingObject);
+
+        // this.persistorService.setValueInStorage(
+        //   StorageType.LOCAL_STORAGE,
+        //   StorageKey.FORM_DATA,
+        //   JSON.stringify(updatingObject),
+        // );
+      });
+    }
+  }
+
   public getControls(field: string) {
     return (this.form.get(field) as FormArray).controls;
   }
@@ -108,21 +135,22 @@ export class DistributionComponent implements OnInit {
     this.getDistributionDetails();
   }
 
-  public handleSave(): void {
-    // this.dialogService
-    //   .handleUpdateChangeComment(this.distribution?.changeComment ? this.distribution?.changeComment : '')
-    //   .then((data: DialogData) => {
-    //     if (data.dataOut != null) {
-    //       const changeComment = data.dataOut;
-    //       const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-    //       if (null != activeDistribution) {
-    //         activeDistribution.changeComment = changeComment;
-    //         this.entityExecutionService.setActiveDistribution(activeDistribution);
-    //         this.entityExecutionService.handleDistributionSave();
-    //       }
-    //     }
-    //   });
-    // this.actionsService.showSaveDistributionMessage(false);
+  public handleSave(index: number): void {
+    const changeComment = this.distributionDetails[index].changeComment
+      ? this.distributionDetails[index].changeComment!
+      : '';
+    this.dialogService.handleUpdateChangeComment(changeComment).then((data: DialogData) => {
+      if (data.dataOut != null) {
+        const changeComment = data.dataOut;
+        const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+        if (null != activeDistribution) {
+          activeDistribution.changeComment = changeComment;
+          this.entityExecutionService.setActiveDistribution(activeDistribution);
+          console.debug(this.entityExecutionService.getActiveDistributionValue());
+          this.entityExecutionService.handleDistributionSave();
+        }
+      }
+    });
   }
 
   public handleDelete(instanceId: string | undefined): void {
