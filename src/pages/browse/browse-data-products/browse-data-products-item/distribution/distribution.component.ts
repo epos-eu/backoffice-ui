@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -117,5 +118,12 @@ export class DistributionComponent implements OnInit {
     if (instanceId !== undefined) {
       this.dialogService.handleDelete(instanceId, EntityEndpointValue.DISTRIBUTION, false);
     }
+  }
+
+  public handleAddDistribution(): void {
+    this.apiService.endpoints[Entity.DISTRIBUTION].create.call().then((dist: DistributionDetailDataSource) => {
+      this.distributionDetails.push(dist);
+      this.initForm();
+    });
   }
 }

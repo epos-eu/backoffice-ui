@@ -1,3 +1,13 @@
+<ng-container *ngIf="distributionDetails.length === 0">
+  <button
+    mat-flat-button
+    (click)="handleAddDistribution()"
+    color="primary"
+  >
+    Add Distribution
+  </button>
+</ng-container>
+
 <form
   [formGroup]="form"
   *ngIf="form"
@@ -106,5 +116,14 @@
       [supportedOperations]="distributionObj.accessService.supportedOperation"
     ></app-distribution-webservice>
   </ng-container>
-  <app-save-entity entity="Distribution"></app-save-entity>
+
+  <div class="fn-buttons">
+    <app-save-entity entity="Distribution"></app-save-entity>
+    <button
+      mat-flat-button
+      (click)="handleAddDistribution()"
+    >
+      Add Distribution
+    </button>
+  </div>
 </ng-template>
