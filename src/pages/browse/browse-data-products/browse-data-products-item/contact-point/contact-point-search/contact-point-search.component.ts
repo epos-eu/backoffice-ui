@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { DataProduct, LinkedEntity, ContactPoint } from 'generated/backofficeSchemas';
-import { Observable, map, startWith } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { Person } from 'src/apiAndObjects/objects/entities/person.model';
 import { WithSubscription } from 'src/helpers/subscription';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
@@ -20,6 +22,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private stateChangeService: StateChangeService,
+    private formBuilder: FormBuilder,
   ) {
     super();
   }
@@ -28,61 +31,51 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
 
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<LinkedEntity>>();
 
-  public contactPointControl = new FormControl<any>('');
-  public showContactPointForm = true;
+  public form!: FormGroup;
+
   public loading = true;
-  public personFromCatalogFilteredOptions!: Observable<any[]>;
-  public contactPointRole = new FormControl<string>('');
+
+  public personFilteredOptions!: Observable<Person[]>;
+
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
-  public personFromCatalog: Array<any> = [];
-  public disabled = false;
+
+  public person: Array<Person> = [];
 
   private initSubscriptions(): void {
     this.subscribe(this.stateChangeService.currentDataProductStateObs, (status: DataProduct['status'] | null) => {
       if (status === null || status === Status.PUBLISHED || status === Status.ARCHIVED) {
-        this.disabled = true;
-      } else {
-        this.disabled = false;
+        this.form.disable();
       }
     });
-    this.personFromCatalogFilteredOptions = this.contactPointControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        console.log(value);
-        const name = typeof value === 'string' ? value : value?.givenName;
-        return name ? this._filter(name) : this.personFromCatalog.slice();
+  }
+
+  private initForm(): void {
+    this.form = this.formBuilder.group({
+      contactPoint: new FormControl(),
+      role: new FormControl(this.contactPointRoleOptions[0].id),
+    });
+  }
+
+  private trackFormChanges(): void {
+    this.personFilteredOptions = this.form.valueChanges.pipe(
+      map((changes) => changes['contactPoint']),
+      map((name: string) => {
+        if (typeof name === 'string') {
+          return name ? this.filter(name) : this.person.slice();
+        }
+        return this.person.slice();
       }),
     );
   }
 
-  private initData(): void {
-    // this.getContactPointDetails();
-  }
-
-  private createContactPoint(item: ContactPoint): void {
-    this.apiService.endpoints.ContactPoint.create
-      .call(item)
-      .then((value: ContactPoint) => {
-        const entityDetail: LinkedEntity = {
-          entityType: Entity.CONTACT_POINT,
-          instanceId: value.instanceId,
-          uid: value.uid,
-          metaId: value.metaId,
-        };
-        this.contactPoint?.push(entityDetail);
-
-        // Send info to parent
-        this.contactPointDetailsUpdated.emit(this.contactPoint);
-
-        // Recall init form to retrieve new person information
-        // this.contactPointArraySource.next([]);
-        this.initData();
-
-        // Close edit format
-        this.showContactPointForm = true;
+  private getPersonData(): void {
+    this.apiService.endpoints.Person.getAll
+      .call()
+      .then((person: Array<Person>) => {
+        this.person = person;
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Error: Failed to add new contact point.`, 'close', 'error', 3000, [
+        this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
@@ -90,64 +83,62 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
       );
   }
 
-  private _filter(name: string): any[] {
-    const filterValue = name.toLowerCase();
+  public handleAddContactPoint(): void {
+    if (this.form.get('contactPoint')?.value) {
+      this.apiService.endpoints.ContactPoint.create
+        .call(this.form.get('contactPoint')?.value)
+        .then((value: ContactPoint) => {
+          const entityDetail: LinkedEntity = {
+            entityType: Entity.CONTACT_POINT,
+            instanceId: value.instanceId,
+            uid: value.uid,
+            metaId: value.metaId,
+          };
+          this.contactPoint?.push(entityDetail);
 
-    return this.personFromCatalog.filter(
-      (option) =>
-        (option.givenName.toLowerCase().includes(filterValue) ||
-          option.familyName.toLowerCase().includes(filterValue) ||
-          option.uid.toLowerCase().includes(filterValue)) &&
-        option.state === Status.PUBLISHED,
-    );
+          // Send info to parent
+          this.contactPointDetailsUpdated.emit(this.contactPoint);
+
+          // Recall init form to retrieve new person information
+          // this.contactPointArraySource.next([]);
+        })
+        .catch((err) => {
+          this.snackbarService.openSnackbar(`Error: Failed to add new contact point.`, 'close', 'error', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+          console.error(err);
+        });
+    }
+  }
+
+  private filter(name: string): Person[] {
+    const filterValue = name.toLowerCase();
+    return this.person.filter((option: Person) => {
+      if (option.status === Status.PUBLISHED) {
+        return (
+          option.familyName?.toLowerCase().includes(filterValue) ||
+          option.givenName?.toLowerCase().includes(filterValue)
+        );
+      }
+      return false;
+    });
   }
 
   public ngOnInit(): void {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
+    this.initForm();
     this.initSubscriptions();
-    this.apiService.endpoints.Person.getAll
-      .call()
-      .then((data: Array<any>) => {
-        this.personFromCatalog = data;
-        this.showContactPointForm = true;
-      })
-      .catch(() =>
-        this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
-      );
-
-    if (this.contactPoint && this.contactPoint.length > 0) {
-      this.initData();
-    } else {
-      this.loading = false;
-    }
+    this.trackFormChanges();
+    this.getPersonData();
   }
 
-  public displayFn(user: any): string {
+  public displayFn(user: Person): string {
     return user?.givenName + ' ' + user.familyName + ' - ' + user.uid;
   }
 
-  public saveContactPoint() {
-    this.loading = true;
-    const personDataSource = this.contactPointControl.value;
-
-    const person: LinkedEntity = {
-      // entityType: Entity.PERSON,
-      instanceId: personDataSource.instanceId,
-      uid: personDataSource.uid,
-      metaId: personDataSource.metaId,
-    };
-
-    const item: ContactPoint = {
-      uid: 'new contact point',
-      person: person,
-      role: this.contactPointRole.value as string,
-    };
-
-    // Save new contact point
-    this.createContactPoint(item);
+  public setAutocompleteValToForm(event: MatAutocompleteSelectedEvent): void {
+    this.form.controls['contactPoint'].setValue(event.option.value);
   }
 }

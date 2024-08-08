@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Status } from 'src/utility/enums/status.enum';
-import { SpatialExtentLocationIndexObj } from '../spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
+import { SpatialExtentLocationIndexObj } from './spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { LinkedEntity, Location } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetLocationParams } from 'src/apiAndObjects/api/location/getLocation';
@@ -24,12 +24,17 @@ export class SpatialCoverageComponent implements OnInit {
   ) {}
 
   @Input() dataProduct!: DataProduct | null;
+  @Input() dataProductIsParent = true;
 
-  @Input() spatialExtent: LinkedEntity[] | undefined = [];
+  public spatialExtent: LinkedEntity[] | undefined = [];
+  @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {
+    if (value) {
+      this.spatialExtent = value;
+      this.initSpatialCoverages(this.spatialExtent);
+    }
+  }
 
   private updateMapTimeout?: NodeJS.Timeout;
-
-  public stateEnum = Status;
 
   public spatialCoverageInput: Array<string | undefined> = [];
 
@@ -37,16 +42,18 @@ export class SpatialCoverageComponent implements OnInit {
 
   public spatialExtents: Array<Location> = [];
 
+  public disabled = true;
+
   public ngOnInit(): void {
-    this.initSpatialCoverages();
+    this.disabled = this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED;
   }
 
   /**
    * The `initSpatialCoverages` function initializes spatial coverages by fetching location data from an
    * API and updating the spatialExtents array and spatialCoverageInput.
    */
-  private initSpatialCoverages() {
-    this.spatialExtent?.forEach((location: LinkedEntity) => {
+  private initSpatialCoverages(spatialCoverages: Array<LinkedEntity>) {
+    spatialCoverages.forEach((location: LinkedEntity) => {
       const params: GetLocationParams = {
         instanceId: location.instanceId as string,
         metaId: location.metaId as string,
@@ -68,9 +75,6 @@ export class SpatialCoverageComponent implements OnInit {
       location: 'POINT(0 0)',
     };
     this.apiService.endpoints.Location.create.call(newSpatialCoverage).then((newLocation) => {
-      /* The code snippet `this.spatialExtents.push(newLocation);
-this.spatialCoverageInput.push(newLocation.location);` is adding a new location object to the
-`spatialExtents` array and the corresponding location string to the `spatialCoverageInput` array. */
       this.spatialExtents.push(newLocation);
       this.spatialCoverageInput.push(newLocation.location);
 
@@ -81,10 +85,18 @@ this.spatialCoverageInput.push(newLocation.location);` is adding a new location 
         entityType: Entity.LOCATION,
         uid: newLocation.uid,
       };
-      if (this.dataProduct) {
-        this.dataProduct?.spatialExtent?.push(newLocationEntity);
-        this.entityExecutionService.setActiveDataProduct(
-          this.entityExecutionService.convertToDataProduct(this.dataProduct),
+      if (this.dataProductIsParent) {
+        if (null != this.dataProduct) {
+          this.dataProduct.spatialExtent?.push(newLocationEntity);
+          this.entityExecutionService.setActiveDataProduct(
+            this.entityExecutionService.convertToDataProduct(this.dataProduct),
+          );
+        }
+      } else {
+        const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+        activeWebService?.spatialExtent?.push(newLocationEntity);
+        this.entityExecutionService.setActiveWebService(
+          this.entityExecutionService.convertToWebService(activeWebService!),
         );
       }
       setTimeout(() => {
@@ -102,13 +114,24 @@ this.spatialCoverageInput.push(newLocation.location);` is adding a new location 
           // Remove Inputs from form and coverage from map
           this.spatialCoverageInput.splice(index, 1);
           this.spatialExtents.splice(index, 1);
-          this.dataProduct?.spatialExtent?.splice(index, 1);
 
           // Update Global Dataproduct after change to Spatial Extents Arr
-          if (this.dataProduct) {
-            this.entityExecutionService.setActiveDataProduct(
-              this.entityExecutionService.convertToDataProduct(this.dataProduct),
-            );
+          if (this.dataProductIsParent) {
+            if (this.dataProduct) {
+              this.dataProduct?.spatialExtent?.splice(index, 1);
+              this.entityExecutionService.setActiveDataProduct(
+                this.entityExecutionService.convertToDataProduct(this.dataProduct),
+              );
+            }
+          } else {
+            // Update Global Webservice
+            const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+            if (activeWebService) {
+              activeWebService.spatialExtent?.splice(index, 1);
+              this.entityExecutionService.setActiveWebService(
+                this.entityExecutionService.convertToWebService(activeWebService),
+              );
+            }
           }
         }
         setTimeout(() => {
@@ -142,7 +165,6 @@ this.spatialCoverageInput.push(newLocation.location);` is adding a new location 
         this.spatialCoverageInput[index] = event.location;
       }
     });
-
     clearTimeout(this.updateMapTimeout);
     this.updateMapTimeout = setTimeout(() => {
       this.refreshPointsOnMap();

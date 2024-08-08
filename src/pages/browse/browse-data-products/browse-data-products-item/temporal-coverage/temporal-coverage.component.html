@@ -1,7 +1,7 @@
 <ng-container *ngIf="temporalExtent; else empty">
   <form
-    [formGroup]="formGroup"
-    *ngIf="formGroup"
+    [formGroup]="form"
+    *ngIf="form"
   >
     <div
       class="fields-flex-col"
@@ -16,12 +16,8 @@
           [style.width.%]="100"
         >
           <mat-label>Start date</mat-label>
-          <mtx-datetimepicker
-            [disabled]="inputsDisabled"
-            #pickerStartDate
-          ></mtx-datetimepicker>
+          <mtx-datetimepicker #pickerStartDate></mtx-datetimepicker>
           <input
-            [readonly]="inputsDisabled"
             [mtxDatetimepicker]="pickerStartDate"
             formControlName="startDate"
             matInput
@@ -37,16 +33,11 @@
           [style.width.%]="100"
         >
           <mat-label>End date</mat-label>
-          <mtx-datetimepicker
-            [disabled]="inputsDisabled"
-            #pickerEndDate
-          ></mtx-datetimepicker>
+          <mtx-datetimepicker #pickerEndDate></mtx-datetimepicker>
           <input
-            [readonly]="inputsDisabled"
             [mtxDatetimepicker]="pickerEndDate"
             formControlName="endDate"
             matInput
-            required
           />
           <mtx-datetimepicker-toggle
             [for]="pickerEndDate"
@@ -59,7 +50,7 @@
           aria-label="Save Spatial Extent"
           matTooltip="Save Spatial Extent"
           (click)="handleSave(i)"
-          [disabled]="inputsDisabled || formGroup.pristine"
+          [disabled]="form.pristine"
         >
           <mat-icon>save</mat-icon>
         </button>

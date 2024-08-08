@@ -37,7 +37,7 @@ export class PersistentIdentifierComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct;
 
-  public formGroup!: UntypedFormGroup;
+  public form!: UntypedFormGroup;
 
   public stateEnum = Status;
 
@@ -45,14 +45,20 @@ export class PersistentIdentifierComponent implements OnInit {
 
   public identifiersFullObj: Array<Identifier> = [];
 
-  get identifierArray() {
-    return this.formGroup.get('identifier') as UntypedFormArray;
+  public get identifierArray() {
+    return this.form.get('identifier') as UntypedFormArray;
   }
 
+  public disabled = false;
+
   public ngOnInit(): void {
-    this.formGroup = new FormGroup({
+    this.form = new FormGroup({
       identifier: this.createIdentifierArray(this.dataProduct?.identifier),
     });
+    if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+      this.form.disable();
+      this.disabled = true;
+    }
   }
 
   private createIdentifierArray(identifier?: Identifier[] | undefined): UntypedFormArray {
@@ -62,15 +68,22 @@ export class PersistentIdentifierComponent implements OnInit {
         metaId: item.metaId!,
         instanceId: item.instanceId!,
       };
-      this.apiService.endpoints.Identifier.get.call(identifierParams).then((item: Identifier[]) => {
-        this.identifiersFullObj.push(item[0]);
-        arr.push(
-          new FormGroup({
-            identifier: new FormControl(item[0].identifier, [Validators.required]),
-            type: new FormControl(item[0].type, [Validators.required]),
-          }),
-        );
-      });
+      this.apiService.endpoints.Identifier.get
+        .call(identifierParams)
+        .then((item: Identifier[]) => {
+          this.identifiersFullObj.push(item[0]);
+          arr.push(
+            new FormGroup({
+              identifier: new FormControl(item[0].identifier, [Validators.required]),
+              type: new FormControl(item[0].type, [Validators.required]),
+            }),
+          );
+        })
+        .finally(() => {
+          if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+            this.form.disable();
+          }
+        });
     });
     return arr;
   }
@@ -80,7 +93,6 @@ export class PersistentIdentifierComponent implements OnInit {
     this.apiService.endpoints.Identifier.create
       .call()
       .then((item: Identifier) => {
-        console.debug(item);
         this.identifiersFullObj.push(item);
         const linkedEntity: LinkedEntity = {
           instanceId: item.instanceId,
@@ -123,7 +135,7 @@ export class PersistentIdentifierComponent implements OnInit {
     this.apiService
       .deleteEntity(EntityEndpointValue.IDENTIFIER, itemToDelete.instanceId!)
       .then(() => {
-        const identifierArr = this.formGroup.get('identifier') as FormArray;
+        const identifierArr = this.form.get('identifier') as FormArray;
         identifierArr.removeAt(index);
         this.identifiersFullObj.splice(index, 1);
 
@@ -149,7 +161,7 @@ export class PersistentIdentifierComponent implements OnInit {
   public handleUpdateIdentifier(index: number): void {
     this.loadingService.setShowSpinner(true);
     const identifierToUpdate = this.identifiersFullObj[index];
-    const identifierArr = this.formGroup.get('identifier') as FormArray;
+    const identifierArr = this.form.get('identifier') as FormArray;
     identifierToUpdate.identifier = identifierArr.at(index).value.identifier;
     identifierToUpdate.type = identifierArr.at(index).value.type;
 
@@ -177,6 +189,6 @@ export class PersistentIdentifierComponent implements OnInit {
   }
 
   public getControls(field: string) {
-    return (this.formGroup.get(field) as FormArray).controls;
+    return (this.form.get(field) as FormArray).controls;
   }
 }

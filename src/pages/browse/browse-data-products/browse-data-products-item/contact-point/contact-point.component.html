@@ -1,41 +1,20 @@
 <ng-container *ngIf="contactPoint; else empty">
-  <div class="item">
-    <app-contact-point-detail [contactPointDetails]="contactPointDetails"></app-contact-point-detail>
-    <!-- <button
-      mat-mini-fab
-      color="warn"
-      aria-label="Remove Contact Point"
-      matTooltip="Remove Contact Point"
-      class="smaller"
-      (click)="removeContactPoint(contactPoint.instanceId)"
-    >
-      <mat-icon>delete</mat-icon>
-    </button> -->
-  </div>
-
-  <div
-    class="notify"
-    *ngIf="showSaveFormNotify"
-  >
-    <mat-icon>warning</mat-icon>
-    <span
-      color="warning"
-      *ngIf="relevantEntity === entityEnum.DATA_PRODUCT"
-    >
-      Please click 'Save' in the left-hand panel after making this change</span
-    >
-    <span
-      color="warning"
-      *ngIf="relevantEntity === entityEnum.WEBSERVICE"
-    >
-      Please click 'Save Web Service' at the bottom of the menu after making this change</span
-    >
-  </div>
-
   <app-contact-point-search
     [contactPoint]="contactPoint"
     (contactPointDetailsUpdated)="updateContactPointArray($event)"
   ></app-contact-point-search>
+
+  <div class="item">
+    <p>Contacts</p>
+    <app-contact-point-detail
+      [contactPointDetails]="contactPointDetails"
+      [disabled]="disabled"
+    ></app-contact-point-detail>
+    <app-save-entity
+      entity="Contact Point"
+      [hideDelete]="true"
+    ></app-save-entity>
+  </div>
 </ng-container>
 <ng-template #empty>
   <p class="notice">Couldn't fetch contact point data.</p>

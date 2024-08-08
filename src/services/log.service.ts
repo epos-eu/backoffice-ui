@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';

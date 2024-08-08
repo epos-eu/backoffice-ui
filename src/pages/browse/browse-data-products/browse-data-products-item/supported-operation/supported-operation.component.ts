@@ -10,7 +10,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
   styleUrl: './supported-operation.component.scss',
 })
 export class SupportedOperationComponent implements OnInit {
-  @Input() supportedOperations: string[] | undefined = [];
+  @Input() supportedOperations!: LinkedEntity[] | undefined;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -45,6 +45,7 @@ export class SupportedOperationComponent implements OnInit {
       template: new FormControl({ value: '', disabled: true }, [Validators.required]),
       preview: new FormControl(''),
     });
+    // this.form.get('template')?.valueChanges.subscribe((changes: string) => this.updateTemplate(changes));
   }
 
   public handleCreateURIPreview(): void {
@@ -65,6 +66,59 @@ export class SupportedOperationComponent implements OnInit {
   }
 
   public handleAddOperation(): void {
-    //
+    // const webserviceEtityDetail: LinkedEntity = {
+    //   entityType: Entity.WEBSERVICE,
+    //   instanceId: this.webservice?.instanceId ?? '',
+    //   uid: this.webservice?.uid ?? '',
+    //   metaId: this.webservice?.metaId ?? '',
+    // };
+    // this.dialogService.handleAddWebserviceOperation(webserviceEtityDetail).then((result: Operation | unknown) => {
+    //   // put result on supportedOperation array (first position and focused)
+    //   const operation: LinkedEntity = {
+    //     entityType: Entity.OPERATION,
+    //     // instanceId: result.instanceId,
+    //     // uid: result.uid,
+    //     // metaId: result.metaId,
+    //   };
+    //   // Sets 'accessURL' on Distribution to newly created Operation.
+    //   const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+    //   // activeDistribution?.accessURL?.push(operation);
+    //   if (activeDistribution != null) {
+    //     this.entityExecutionService.setActiveDistribution(activeDistribution);
+    //     this.actionsService.showSaveDistributionMessage(true);
+    //   }
+    //   this.webservice?.supportedOperation?.unshift(operation);
+    //   this.supportedOperationFocusFirstRow = true;
+    // });
+  }
+
+  public handleTemplate(template: string): void {
+    this.form.get('template')?.setValue(template);
+  }
+
+  public updateTemplate(template: string) {
+    // const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
+    // if (null != activeSupportedOperation) {
+    //   activeSupportedOperation.template = template;
+    //   this.entityExecutionService.setActiveOperation(activeSupportedOperation);
+    // }
+  }
+
+  public supportedOperationSearch(event: any): void {
+    // const value = event.target.value;
+    // if (value.length > 1) {
+    //   const supportedOperation = this.webservice?.supportedOperation ?? [];
+    //   const foundIndex = supportedOperation.findIndex((operation) =>
+    //     operation.uid?.toUpperCase().includes(value.toUpperCase()),
+    //   );
+    //   if (foundIndex > -1) {
+    //     this.supportedOperationFocusFirstRow = true;
+    //     supportedOperation.push(...supportedOperation.splice(0, foundIndex));
+    //   } else {
+    //     this.supportedOperationFocusFirstRow = false;
+    //   }
+    // } else {
+    //   this.supportedOperationFocusFirstRow = false;
+    // }
   }
 }

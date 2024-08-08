@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { Distribution, LinkedEntity } from 'generated/backofficeSchemas';
+import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-distribution',
@@ -13,6 +14,8 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 })
 export class DistributionComponent implements OnInit {
   @Input() distribution!: LinkedEntity[] | undefined;
+
+  @Input() dataProduct!: DataProduct | undefined;
 
   constructor(private formBuilder: FormBuilder, private apiService: ApiService, private dialogService: DialogService) {}
 
@@ -35,8 +38,11 @@ export class DistributionComponent implements OnInit {
 
   public floatLabelControl = new UntypedFormControl('auto');
 
+  public entityEnum = Entity;
+
+  public disabled = false;
+
   private initForm(): void {
-    console.log(this.distributionDetails);
     this.form = this.formBuilder.group({
       distributions: new FormArray(
         this.distributionDetails.map((distribution: Distribution) => {
@@ -49,6 +55,10 @@ export class DistributionComponent implements OnInit {
         }),
       ),
     });
+    if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+      this.form.disable();
+      this.disabled = true;
+    }
   }
 
   private checkAccess(distribution: Distribution): string {

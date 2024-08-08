@@ -71,7 +71,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
     );
     this.userInfo$ = this.activeUserService.activeUserInfoObservable;
     this.userInfo$.pipe(last()).subscribe((userInfo: User | null) => {
-      console.log(userInfo);
       if (userInfo == null) {
         this.router.navigate(['/login']);
       }

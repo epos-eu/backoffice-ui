@@ -1,20 +1,19 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Person } from 'src/apiAndObjects/objects/entities/person.model';
+import { Mapping } from 'generated/backofficeSchemas';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
+import { MappingDataSource } from 'src/apiAndObjects/objects/data-source/mappingDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { GetAllDataProductsParams } from '../data-products/getAllDataProducts';
-import { PersonDataSource } from 'src/apiAndObjects/objects/data-source/personDataSource';
 
-export class GetAllPeople extends CacheableEndpoint<Array<Person>, GetAllPeopleParams, Person> {
+export class GetAllMapping extends CacheableEndpoint<Mapping[], GetAllMappingParams, Mapping> {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(params: GetAllDataProductsParams): string {
+  protected getCacheKey(params: GetAllMappingParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(): Promise<Person[]> {
+  protected callLive(): Promise<Mapping[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -22,14 +21,19 @@ export class GetAllPeople extends CacheableEndpoint<Array<Person>, GetAllPeopleP
       return authHeader;
     };
 
-    const callResponsePromise = this.apiCaller.doCall(['person/all'], RequestMethod.GET, undefined, undefined, headers);
-    return this.buildObjectsFromResponse(PersonDataSource, callResponsePromise);
+    const callResponsePromise = this.apiCaller.doCall(
+      ['mapping/all'],
+      RequestMethod.GET,
+      undefined,
+      undefined,
+      headers,
+    );
+    return this.buildObjectsFromResponse(MappingDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<Person[]> {
+  protected callMock(): Promise<Mapping[]> {
     throw new Error('Method not implemented.');
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface GetAllPeopleParams {}
+export interface GetAllMappingParams {}

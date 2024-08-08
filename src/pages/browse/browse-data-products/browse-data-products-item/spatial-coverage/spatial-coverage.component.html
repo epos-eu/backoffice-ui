@@ -13,7 +13,7 @@
       <app-simple-spatial-control
         [spatialExtent]="item"
         [index]="i"
-        [inputsDisabled]="dataProduct?.status === stateEnum.PUBLISHED || dataProduct?.status === stateEnum.ARCHIVED"
+        [inputsDisabled]="disabled"
         (location)="updateSpatialCoverage($event)"
         (delete)="this.deleteSpatialCoverage($event)"
         (save)="this.saveSpatialCoverage($event)"
@@ -26,7 +26,7 @@
       mat-stroked-button
       color="primary"
       (click)="newSpatialCoverage()"
-      [disabled]="dataProduct?.status === stateEnum.PUBLISHED || dataProduct?.status === stateEnum.ARCHIVED"
+      [disabled]="disabled"
     >
       Add Spatial Coverage
     </button>
@@ -34,4 +34,12 @@
 </ng-container>
 <ng-template #empty>
   <p class="notice">Couldn't fetch spatial coverage data.</p>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="newSpatialCoverage()"
+    [disabled]="disabled"
+  >
+    Add Spatial Coverage
+  </button>
 </ng-template>

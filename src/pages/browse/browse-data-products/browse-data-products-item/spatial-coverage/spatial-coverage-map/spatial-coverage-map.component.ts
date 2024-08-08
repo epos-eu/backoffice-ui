@@ -11,19 +11,18 @@ import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum'
 })
 export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
   @Input() mapId?: string;
+
   @Input() spatialRange: Array<string | undefined> = [''];
+
   @Input() coordinatesChange: Subject<Array<string | undefined>> = new Subject();
 
   public map: L.Map | undefined;
-  // public fullscreenOptions: FullscreenOptions = {
-  //   position: 'topleft',
-  // };
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.initMap();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.coordinatesChange.subscribe((v) => {
       this.spatialRange = v;
       this.map?.eachLayer((layer) => {
@@ -31,7 +30,6 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
           this.map?.removeLayer(layer);
         }
       });
-
       setTimeout(() => {
         this.getDataOnMaps();
       }, 100);
@@ -54,7 +52,6 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
       dragging: true,
     });
     tiles.addTo(this.map);
-
     this.getDataOnMaps();
   }
 

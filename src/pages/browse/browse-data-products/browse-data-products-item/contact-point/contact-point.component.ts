@@ -1,33 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ContactPoint, LinkedEntity } from 'generated/backofficeSchemas';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ContactPoint, DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { StateChangeService } from 'src/services/stateChange.service';
 import { Entity } from 'src/utility/enums/entity.enum';
-import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-contact-point',
   templateUrl: './contact-point.component.html',
   styleUrl: './contact-point.component.scss',
 })
-export class ContactPointComponent implements OnInit {
+export class ContactPointComponent extends WithSubscription implements OnInit {
   constructor(
     private entityExecutionService: EntityExecutionService,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
-  ) {}
+    private stateChangeService: StateChangeService,
+  ) {
+    super();
+  }
 
   @Input() contactPoint: Array<LinkedEntity> | undefined = undefined;
-  @Input() showSaveFormNotify = false;
-  @Input() relevantEntity?: Entity;
 
-  private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
   public entityEnum = Entity;
-  public contactPointArrayObs = this.contactPointArraySource.asObservable();
-  public personFromCatalogFilteredOptions!: Observable<any[]>;
+
   public contactPointDetails!: Promise<ContactPoint[]>[];
+
+  public disabled = false;
 
   private getContactPointDetails(): void {
     const requests: Promise<ContactPoint[]>[] = [];
@@ -45,7 +47,16 @@ export class ContactPointComponent implements OnInit {
     this.contactPointDetails = requests;
   }
 
+  private initSubscriptions(): void {
+    this.subscribe(this.stateChangeService.currentDataProductStateObs, (status: DataProduct['status'] | null) => {
+      if (status === null || status === Status.PUBLISHED || status === Status.ARCHIVED) {
+        this.disabled = true;
+      }
+    });
+  }
+
   public ngOnInit(): void {
+    this.initSubscriptions();
     this.getContactPointDetails();
   }
 
@@ -56,26 +67,22 @@ export class ContactPointComponent implements OnInit {
       dataProduct.contactPoint = this.contactPoint;
       this.entityExecutionService.setActiveDataProduct(dataProduct);
     }
-    this.showSaveFormNotify = true;
   }
 
-  public removeContactPoint(instanceId: string | undefined) {
-    if (instanceId) {
-      this.apiService
-        .deleteEntity(EntityEndpointValue.CONTACT_POINT, instanceId)
-        .then(() => {
-          this.contactPointArraySource.next(
-            this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
-          );
-        })
-        .catch((err) => {
-          console.error(err);
-          this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-error',
-          ]);
-        });
-    }
+  public handleSave(): void {
+    // const personDataSource = this.form.get('').value;
+    // const person: LinkedEntity = {
+    //   // entityType: Entity.PERSON,
+    //   instanceId: personDataSource.instanceId,
+    //   uid: personDataSource.uid,
+    //   metaId: personDataSource.metaId,
+    // };
+    // const item: ContactPoint = {
+    //   uid: 'new contact point',
+    //   person: person,
+    //   role: this.contactPointRole.value as string,
+    // };
+    // // Save new contact point
+    // this.createContactPoint(item);
   }
 }

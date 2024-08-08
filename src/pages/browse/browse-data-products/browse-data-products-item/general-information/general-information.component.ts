@@ -24,7 +24,7 @@ export class GeneralInformationComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct;
 
-  public formGroup!: FormGroup;
+  public form!: FormGroup;
 
   public stateEnum = Status;
 
@@ -36,7 +36,7 @@ export class GeneralInformationComponent implements OnInit {
 
   private initForm(): void {
     if (this.dataProduct) {
-      this.formGroup = new FormGroup({
+      this.form = new FormGroup({
         title: new FormControl(this.dataProduct?.title, [Validators.required]),
         description: new FormControl(this.dataProduct?.description, [Validators.required]),
         keywords: new FormControl(HelpersService.whiteSpaceReplace(this.dataProduct?.keywords)),
@@ -60,12 +60,15 @@ export class GeneralInformationComponent implements OnInit {
           },
         ]),
       });
+      if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+        this.form.disable();
+      }
     }
   }
 
   private trackFormChanges(): void {
     const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
-    this.formGroup.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
+    this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
       this.dataProductService.updateDataProductRecord(updatingObject, {
         title: changes.title,
         description: changes.description,

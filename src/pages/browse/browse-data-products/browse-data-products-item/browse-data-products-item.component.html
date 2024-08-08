@@ -9,7 +9,7 @@
           {{ activeTitle }}
         </h1>
       </div>
-      <div class="actions">
+      <!-- <div class="actions">
         <div class="flex-col">
           <button
             mat-mini-fab
@@ -33,7 +33,7 @@
           </button>
           <label>Delete</label>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="body">
       <form
@@ -50,14 +50,13 @@
         <app-spatial-coverage
           *ngIf="activeItem === entityFieldEnum.SPATIAL_COVERAGE"
           [dataProduct]="dataProduct"
-          [spatialExtent]="dataProduct.spatialExtent"
+          [spatialExtentInput]="dataProduct.spatialExtent"
         ></app-spatial-coverage>
 
         <app-temporal-coverage
           *ngIf="activeItem === entityFieldEnum.TEMPORAL_COVERAGE"
           [dataProduct]="dataProduct"
-          [temporalExtent]="dataProduct.temporalExtent"
-          [inputsDisabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+          [spatialExtentInput]="dataProduct.temporalExtent"
         ></app-temporal-coverage>
 
         <app-persistent-identifier
@@ -78,42 +77,8 @@
         <app-distribution
           *ngIf="activeItem === entityFieldEnum.DISTRIBUTION"
           [distribution]="distribution"
+          [dataProduct]="dataProduct"
         ></app-distribution>
-
-        <!-- <app-lazy-load-panel
-          title="Data providers"
-          [headerClass]="{ active: selectedSection === '#dataproviders' }"
-          (afterOpened)="handlePanelOpened(entityFieldEnum.DATA_PROVIDERS)"
-        >
-          <ng-container *ngIf="shouldDisplay['dataproviders']">
-            <mat-form-field>
-              <mat-label>{{ dataProvidersLoading ? 'Loading..' : '' }}</mat-label>
-              <mat-select
-                [(ngModel)]="selectedDataProviders"
-                (ngModelChange)="handleDataProviderChange($event)"
-                [ngModelOptions]="{ standalone: true }"
-                [compareWith]="compareWithFn"
-                multiple
-                [disabled]="dataProduct.state === stateEnum.PUBLISHED || dataProduct.state === stateEnum.ARCHIVED"
-              >
-                <mat-option
-                  *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
-                  [value]="provider"
-                >
-                  {{ provider.legalName }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <ul
-              class="selected-providers-list"
-              *ngIf="selectedDataProviders.length > 0"
-            >
-              <li *ngFor="let provider of selectedDataProviders">
-                {{ provider.legalName }}
-              </li>
-            </ul>
-          </ng-container>
-        </app-lazy-load-panel> -->
 
         <input
           matInput
@@ -139,49 +104,6 @@
           [hidden]="true"
         />
       </form>
-
-      <!-- <app-anchor-navigation [identifier]="'#contactpoint'"></app-anchor-navigation>
-      <app-lazy-load-panel
-        title="Contact points"
-        [headerClass]="{ active: selectedSection === '#contactpoint' }"
-        (afterOpened)="handlePanelOpened(entityFieldEnum.CONTACT_POINT)"
-      >
-        <ng-container *ngIf="shouldDisplay['contactpoint']">
-          <app-contact-point-form-details
-            *ngIf="contactPointDetails !== null"
-            [contactPointDetails]="contactPointDetails"
-            (contactPointDetailsUpdated)="updateContactPointArray($event)"
-            [showSaveFormNotify]="contactPointShowSaveNotify"
-            [relevantEntity]="entityEnum.DATA_PRODUCT"
-          ></app-contact-point-form-details>
-        </ng-container>
-      </app-lazy-load-panel>
-      <ng-container *ngFor="let detail of distributionDetails; let i = index">
-        <app-anchor-navigation [identifier]="'#distribution' + detail.instanceId"></app-anchor-navigation>
-        <app-lazy-load-panel
-          title="Distribution"
-          [headerClass]="{ active: selectedSection === '#distribution' + detail.instanceId }"
-          [expanded]="shouldDisplayDist['#distribution' + detail.instanceId]"
-          (afterLoad)="handleLoad(detail.instanceId)"
-          (afterOpened)="handlePanelOpened(entityFieldEnum.DISTRIBUTION, detail.instanceId)"
-        >
-          <ng-container *ngIf="shouldDisplayDist['#distribution' + detail.instanceId]">
-            <app-distribution-form-details
-              [distributionDetails]="detail"
-              [metaId]="activeMetaId"
-              (formTreeUpdate)="handleFormTreeUpdate($event, detail.instanceId)"
-            ></app-distribution-form-details>
-          </ng-container>
-        </app-lazy-load-panel>
-      </ng-container>
-      <button
-        mat-stroked-button
-        color="primary"
-        [disabled]="dataProduct?.state === stateEnum.PUBLISHED || dataProduct?.state === stateEnum.ARCHIVED"
-        (click)="newDistribution()"
-      >
-        New Distribution
-      </button> -->
     </div>
   </div>
 </ng-scrollbar>

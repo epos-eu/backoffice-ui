@@ -103,24 +103,8 @@
   <ng-container *ngIf="distribution?.get('dataAccess')?.value === 'webservice'">
     <app-distribution-webservice
       [accessService]="distributionObj.accessService"
-      [accessURL]="distributionObj.accessURL"
+      [supportedOperations]="distributionObj.accessService.supportedOperation"
     ></app-distribution-webservice>
   </ng-container>
-  <div class="actions">
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="handleSave()"
-    >
-      Save Distribution
-    </button>
-    <button
-      mat-stroked-button
-      color="warn"
-      (click)="handleDelete(distributionObj[0].instanceId)"
-    >
-      <mat-icon>delete</mat-icon>
-      Delete Distribution
-    </button>
-  </div>
+  <app-save-entity entity="Distribution"></app-save-entity>
 </ng-template>

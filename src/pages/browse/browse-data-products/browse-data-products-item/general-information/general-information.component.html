@@ -13,7 +13,7 @@
     </div>
   </div>
 </div>
-<form [formGroup]="formGroup">
+<form [formGroup]="form">
   <div>
     <mat-form-field
       appearance="fill"
@@ -168,7 +168,7 @@
           name="qualityAssurance"
           formControlName="qualityAssurance"
         />
-        <mat-error *ngIf="formGroup.get('qualityAssurance')?.invalid"> URL is not valid. </mat-error>
+        <mat-error *ngIf="form.get('qualityAssurance')?.invalid"> URL is not valid. </mat-error>
       </mat-form-field>
     </div>
   </ng-container>

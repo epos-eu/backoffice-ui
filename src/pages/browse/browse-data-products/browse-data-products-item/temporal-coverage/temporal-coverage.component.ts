@@ -16,36 +16,43 @@ import { debounceTime } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetPeriodOfTimeParams } from 'src/apiAndObjects/api/periodOfTime/getPeriodOfTime';
 import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatial-temporal-entity-execution.service';
+import { Status } from 'src/utility/enums/status.enum';
+import { LoadingService } from 'src/services/loading.service';
 
 @Component({
   selector: 'app-temporal-coverage',
   templateUrl: './temporal-coverage.component.html',
   styleUrl: './temporal-coverage.component.scss',
 })
-export class TemporalCoverageComponent implements OnInit {
+export class TemporalCoverageComponent {
   @Input() dataProduct!: DataProduct | null;
+  @Input() dataProductIsParent = true;
 
-  @Input() temporalExtent: LinkedEntity[] | undefined = [];
+  public temporalExtent: LinkedEntity[] = [];
+  @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {
+    if (value) {
+      this.temporalExtent = value;
+      this.init();
+    }
+  }
 
-  @Input() inputsDisabled = false;
+  private startDate!: Moment | null;
 
-  public formGroup!: FormGroup;
-
-  private startDate: Moment | null;
-
-  private endDate: Moment | null;
+  private endDate!: Moment | null;
 
   private temporalExtents: Array<PeriodOfTime> = [];
 
+  public form!: FormGroup;
+
+  public disabled = true;
+
   constructor(
-    private dataProductExecutionService: EntityExecutionService,
+    private entityExecutionService: EntityExecutionService,
     private dataproductService: DataproductService,
     private apiService: ApiService,
     private spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
-  ) {
-    this.startDate = null;
-    this.endDate = null;
-  }
+    private loadingService: LoadingService,
+  ) {}
 
   private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } | null {
     return (group: FormGroup): { [key: string]: any } | null => {
@@ -65,57 +72,97 @@ export class TemporalCoverageComponent implements OnInit {
   }
 
   public getControls(field: string) {
-    return (this.formGroup.get(field) as FormArray).controls;
+    return (this.form.get(field) as FormArray).controls;
   }
 
-  public ngOnInit(): void {
-    if (null == this.dataProduct?.temporalExtent || this.dataProduct.temporalExtent.length === 0) {
-      this.formGroup = new FormGroup({
+  private init(): void {
+    this.startDate = null;
+    this.endDate = null;
+    this.checkForActiveTemporalVals();
+    if (this.temporalExtent.length > 0) {
+      this.initValidTemporalCoverage(this.temporalExtent);
+    } else {
+      this.form = new FormGroup({
         coverage: this.createCoverageArray(),
       });
       this.trackFormChanges();
-    } else if (this.temporalExtent) {
-      this.temporalExtent.forEach((periodOfTime: LinkedEntity) => {
-        const params: GetPeriodOfTimeParams = {
-          singleOptionOnly: true,
-          instanceId: periodOfTime.instanceId as string,
-          metaId: periodOfTime.metaId as string,
-        };
-        this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
-          this.temporalExtents.push(items[0]);
-          this.startDate = moment(items[0].startDate);
-          this.endDate = moment(items[0].endDate);
-          this.formGroup = new FormGroup({
-            coverage: this.createCoverageArray(items),
-          });
-          this.trackFormChanges();
-        });
-      });
     }
+    // Disable form if parent DataProduct should not be edited.
+    if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+      this.form.disable();
+    }
+  }
+
+  private checkForActiveTemporalVals(): void {
+    if (this.dataProductIsParent) {
+      const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
+      if (activeDataProduct?.temporalExtent) {
+        activeDataProduct.temporalExtent.length > 0
+          ? this.temporalExtent.push(activeDataProduct.temporalExtent[0])
+          : [];
+      }
+    } else {
+      const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+      if (activeWebService?.temporalExtent) {
+        activeWebService.temporalExtent.length > 0 ? this.temporalExtent.push(activeWebService.temporalExtent[0]) : [];
+      }
+    }
+  }
+
+  private initValidTemporalCoverage(temporalExent: LinkedEntity[]) {
+    temporalExent.forEach((periodOfTime: LinkedEntity) => {
+      const params: GetPeriodOfTimeParams = {
+        singleOptionOnly: true,
+        instanceId: periodOfTime.instanceId as string,
+        metaId: periodOfTime.metaId as string,
+      };
+      this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
+        this.temporalExtents.push(items[0]);
+        this.startDate = moment(items[0].startDate);
+        this.endDate = moment(items[0].endDate);
+        this.form = new FormGroup({
+          coverage: this.createCoverageArray(items),
+        });
+        this.trackFormChanges();
+      });
+    });
   }
 
   public handleSave(index?: number) {
     /**
-     * If the `temporalExtent` property of the `dataProduct` object is empty,
+     * If the `temporalExtent` property of the `dataProduct` OR 'webservice' object is empty,
      * it means that there are no existing temporal extents associated with the data product and POST fn is called.
      */
-    if (null == this.dataProduct?.temporalExtent || this.dataProduct.temporalExtent.length === 0) {
+    if (this.temporalExtent.length === 0) {
+      this.loadingService.setShowSpinner(true);
       const newPeriodOfTime: PeriodOfTime = {
-        startDate: this.startDate ? this.startDate.toISOString() : undefined,
-        endDate: this.endDate ? this.endDate.toISOString() : undefined,
+        startDate: this.startDate ? this.startDate.toISOString() : '',
+        endDate: this.endDate ? this.endDate.toISOString() : '',
       };
-      this.apiService.endpoints.PeriodOfTime.create.call(newPeriodOfTime).then((temporalCoverage) => {
-        const updatingObject = this.dataProductExecutionService.getActiveDataProductValue() || {};
-        this.dataproductService.updateDataProductRecord(updatingObject, { temporalExtent: [temporalCoverage] });
-      });
+      this.apiService.endpoints.PeriodOfTime.create
+        .call(newPeriodOfTime)
+        .then((temporalCoverage) => {
+          if (this.dataProductIsParent) {
+            const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
+            this.dataproductService.updateDataProductRecord(updatingObject, { temporalExtent: [temporalCoverage] });
+          } else {
+            const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+            activeWebService?.temporalExtent?.push(temporalCoverage);
+            this.entityExecutionService.setActiveWebService(
+              this.entityExecutionService.convertToWebService(activeWebService!),
+            );
+          }
+          this.form.markAsPristine();
+        })
+        .finally(() => this.loadingService.setShowSpinner(false));
       /**
        * If the `temporalExtent` property of the `dataProduct` object has a value,
        * the relevant temporal extent is updated and PUT fn is called.
        */
     } else {
       const extentToUpdate = this.temporalExtents[index!];
-      extentToUpdate.startDate = this.startDate ? this.startDate.toISOString() : undefined;
-      extentToUpdate.endDate = this.endDate ? this.endDate.toISOString() : undefined;
+      extentToUpdate.startDate = this.startDate ? this.startDate.toISOString() : '';
+      extentToUpdate.endDate = this.endDate ? this.endDate.toISOString() : '';
 
       this.spatialTemporalEntityExecutionService.handleTemporalSave(extentToUpdate);
       this.apiService.endpoints.PeriodOfTime.update.call(extentToUpdate);
@@ -123,7 +170,7 @@ export class TemporalCoverageComponent implements OnInit {
   }
 
   private trackFormChanges(): void {
-    this.formGroup.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
+    this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
       this.startDate = changes.coverage[0].startDate;
       this.endDate = changes.coverage[0].endDate;
     });

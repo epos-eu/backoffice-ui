@@ -1,10 +1,26 @@
-<ng-container *ngIf="!loading">
+<ng-container *ngIf="loading; else loading">
   <div class="wrapper">
-    <ng-container *ngFor="let detail of mergedDetails">
-      <span>{{ detail?.email }}</span>
-      <span> - </span>
-      <span>Role: {{ getRoleName(detail?.role) }}</span>
-    </ng-container>
+    <div
+      *ngFor="let detail of mergedDetails"
+      class="flex-row"
+    >
+      <div>
+        <span>{{ detail?.email }}</span>
+        <span> - </span>
+        <span>Role: {{ getRoleName(detail?.role) }}</span>
+      </div>
+      <button
+        mat-mini-fab
+        color="warn"
+        aria-label="Remove Contact Point"
+        matTooltip="Remove Contact Point"
+        class="smaller"
+        [disabled]="disabled"
+        (click)="handleRemove(detail?.instanceId)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </div>
 </ng-container>
-<ng-container *ngIf="loading">Loading...</ng-container>
+<ng-template #loading>Loading...</ng-template>
