@@ -15,7 +15,9 @@ export interface SpatialExtentLocationIndexObj {
 })
 export class SimpleSpatialControlComponent {
   @Input() index?: number;
+
   @Input() inputsDisabled = false;
+
   @Input()
   set spatialExtent(value: Location) {
     if (null != value) {
@@ -27,19 +29,27 @@ export class SimpleSpatialControlComponent {
       }
     }
   }
+
   @Output() location = new Subject<SpatialExtentLocationIndexObj>();
+
   @Output() delete = new Subject<number>();
+
   @Output() save = new Subject<number>();
 
   public floatLabelControl = new UntypedFormControl('auto');
+
   public clearButtonEnabled = false;
+
   public polygonCoverage = '';
+
   public activeCoverageType?: SpatialCoverageType;
 
   public latitude = 0;
+
   public longitude = 0;
 
   public spatCovArr: Array<SpatialCoverageType>;
+
   public spatCovEnum = SpatialCoverageType;
 
   constructor() {
@@ -71,7 +81,6 @@ export class SimpleSpatialControlComponent {
     if (location.includes(SpatialCoverageType.POINT)) {
       regex = /\((.*?)\)/g;
     }
-
     const match = regex.exec(location);
     return match !== null ? match[1] : '';
   }

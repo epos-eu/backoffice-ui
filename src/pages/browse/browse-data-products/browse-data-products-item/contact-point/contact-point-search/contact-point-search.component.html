@@ -1,48 +1,49 @@
-<div
-  class="contactpoint-item"
-  *ngIf="showContactPointForm && !disabled"
->
-  <mat-form-field
-    class="contact-select"
-    [style.width.%]="60"
+<div class="contactpoint-item">
+  <form
+    [formGroup]="form"
+    *ngIf="form"
   >
-    <mat-label>Search contact points</mat-label>
-    <input
-      type="text"
-      matInput
-      [formControl]="contactPointControl"
-      [matAutocomplete]="auto"
-    />
-    <mat-hint>Start typing to find a contact point</mat-hint>
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      [displayWith]="displayFn"
-    >
-      <mat-option
-        *ngFor="let person of personFromCatalogFilteredOptions | async"
-        [value]="person"
+    <mat-form-field class="contact-select">
+      <mat-label>Search contact points</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="contactPoint"
+        [matAutocomplete]="auto"
+      />
+      <mat-hint>Start typing to find a contact point</mat-hint>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="setAutocompleteValToForm($event)"
       >
-        {{ person | json }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field [style.width.%]="40">
-    <mat-label>Role</mat-label>
-    <mat-select [formControl]="contactPointRole">
-      <mat-option
-        *ngFor="let item of contactPointRoleOptions"
-        [value]="item.id"
-      >
-        {{ item.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+        <mat-option
+          *ngFor="let person of personFilteredOptions | async"
+          [value]="person"
+        >
+          {{ person?.givenName }} {{ person?.familyName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option
+          *ngFor="let item of contactPointRoleOptions"
+          [value]="item.id"
+        >
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+  <button
+    color="primary"
+    aria-label="Add contact point"
+    mat-stroked-button
+    (click)="handleAddContactPoint()"
+    [disabled]="form.disabled"
+  >
+    Add Contact Point
+  </button>
 </div>
-<button
-  mat-raised-button
-  color="primary"
-  aria-label="Save contact point"
-  (click)="saveContactPoint()"
->
-  Save
-</button>

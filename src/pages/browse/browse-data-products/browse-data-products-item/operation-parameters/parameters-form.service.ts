@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
-import { FormatRangePipe } from 'src/pipes/formatRange.pipe';
+import { formatRangeText } from 'src/helpers/strings';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ParametersFormService {
-  constructor(
-    private formBuilder: FormBuilder,
-    private rangePipe: FormatRangePipe,
-    private entityExecutionService: EntityExecutionService,
-  ) {}
+  constructor(private formBuilder: FormBuilder, private entityExecutionService: EntityExecutionService) {}
 
   private disableOperationSave: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
@@ -36,7 +32,7 @@ export class ParametersFormService {
   public generateOptionForm(parameter: any): FormGroup {
     return this.formBuilder.group({
       label: [parameter.label, [Validators.required]],
-      range: [{ value: this.rangePipe.transform(parameter.range), disabled: true }],
+      range: [{ value: formatRangeText(parameter.range), disabled: true }],
       variable: [{ value: parameter.variable, disabled: true }],
       required: [parameter.required === 'true'],
       readOnlyValue: [parameter.readOnlyValue === 'true'],

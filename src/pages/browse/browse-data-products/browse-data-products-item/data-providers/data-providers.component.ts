@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DataProduct, LinkedEntity, Organization } from 'generated/backofficeSchemas';
+import { map } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
@@ -10,9 +12,11 @@ import { Status } from 'src/utility/enums/status.enum';
   styleUrl: './data-providers.component.scss',
 })
 export class DataProvidersComponent implements OnInit {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {}
 
   @Input() dataProduct!: DataProduct;
+
+  public form!: FormGroup;
 
   public selectedDataProviders: Array<Organization> = [];
 
@@ -20,42 +24,61 @@ export class DataProvidersComponent implements OnInit {
 
   public dataProviders: Array<Organization> = [];
 
-  public dataProvidersLoading = false;
+  public loading = false;
+
+  public disabled = false;
 
   public ngOnInit(): void {
     this.initData();
+    this.initForm();
+    this.trackFormChanges();
+  }
+
+  private initForm(): void {
+    this.form = this.formBuilder.group({
+      dataProviders: new FormControl(),
+    });
+    if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+      this.form.disable();
+      this.disabled = true;
+    }
+  }
+
+  private trackFormChanges(): void {
+    this.form.valueChanges
+      .pipe(
+        map((changes) => {
+          const providers = changes['dataProviders'];
+          return providers.map((provider: Organization) => ({
+            uid: provider.uid,
+            metaId: provider.metaId,
+            instanceId: provider.instanceId,
+            entityType: Entity.ORGANIZATION,
+          }));
+        }),
+      )
+      .subscribe((dataProviders: Organization[]) => {
+        dataProviders.forEach((publisher: LinkedEntity, index: number) => {
+          if (Array.isArray(this.dataProduct?.publisher) && this.dataProduct?.publisher[index] != null) {
+            this.dataProduct.publisher[index] = publisher;
+          }
+        });
+      });
   }
 
   private initData(): void {
     if (this.dataProviders.length === 0) {
-      this.dataProvidersLoading = true;
+      this.loading = true;
       this.apiService.endpoints.Organization.getAll.call().then((response: Organization[]) => {
-        console.log(response);
         this.dataProviders = response;
-        this.dataProvidersLoading = false;
-        this.selectedDataProviders = this.dataProviders.filter((provider: Organization) => {
+        this.loading = false;
+        this.selectedDataProviders = response.filter((provider: Organization) => {
           return this.dataProduct?.publisher?.some((value: LinkedEntity) => {
             return provider.uid === value.uid;
           });
         });
       });
     }
-  }
-
-  public handleDataProviderChange(event: Array<Organization>): void {
-    const mapped = event.map((item: Organization) => {
-      return {
-        uid: item.uid,
-        metaId: item.metaId,
-        instanceId: item.instanceId,
-        entityType: Entity.ORGANIZATION,
-      };
-    });
-    mapped.forEach((publisher: LinkedEntity, index: number) => {
-      if (Array.isArray(this.dataProduct?.publisher) && this.dataProduct?.publisher[index] != null) {
-        this.dataProduct.publisher[index] = publisher;
-      }
-    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

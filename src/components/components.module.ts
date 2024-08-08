@@ -23,6 +23,7 @@ import { CopyToClipboardComponent } from './copy-to-clipboard/copy-to-clipboard.
 import { LazyLoadPanelComponent } from './lazy-load-panel/lazy-load-panel.component';
 import { LoadingSpinnerFullPageComponent } from './loading-spinner-full-page/loading-spinner-full-page.component';
 import { SkeletonLoaderComponent } from './skeleton-loader/skeleton-loader.component';
+import { SaveEntityComponent } from './save-entity/save-entity.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { SkeletonLoaderComponent } from './skeleton-loader/skeleton-loader.compo
     CopyToClipboardComponent,
     LazyLoadPanelComponent,
     LoadingSpinnerFullPageComponent,
+    SaveEntityComponent,
   ],
   imports: [
     RouterModule,
@@ -65,6 +67,7 @@ import { SkeletonLoaderComponent } from './skeleton-loader/skeleton-loader.compo
     CopyToClipboardComponent,
     LazyLoadPanelComponent,
     LoadingSpinnerFullPageComponent,
+    SaveEntityComponent,
   ],
 })
 export class ComponentsModule {}

@@ -1,8 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContactPoint } from 'generated/backofficeSchemas';
+import { BehaviorSubject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { Person } from 'src/apiAndObjects/objects/entities/person.model';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-contact-point-detail',
@@ -12,15 +16,19 @@ import { Entity } from 'src/utility/enums/entity.enum';
 export class ContactPointDetailComponent implements OnInit {
   @Input() contactPointDetails!: Promise<ContactPoint[]>[];
 
+  @Input() disabled = false;
+
+  constructor(private snackbarService: SnackbarService, private apiService: ApiService) {}
+
+  private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
+
   public loading: boolean = true;
 
-  public person!: any;
+  public person!: Person | undefined;
 
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
 
-  public mergedDetails: any[] = [];
-
-  constructor(private apiService: ApiService) {}
+  public mergedDetails: ContactPoint[] = [];
 
   public ngOnInit(): void {
     this.contactPointRoleOptions = Object.entries(ContactPointRole).map((e) => ({ name: e[1], id: e[0] }));
@@ -34,21 +42,22 @@ export class ContactPointDetailComponent implements OnInit {
     });
   }
 
-  private getPerson(metaId: string, instanceId: string): void {
-    this.apiService.endpoints[Entity.PERSON].get
-      .call(
-        {
-          metaId: metaId,
-          instanceId: instanceId,
-        },
-        false,
-      )
-      .then((data: Array<any>) => {
-        console.log(data);
-        if (Array.isArray(data) && data.length > 0) {
-          this.person = data.shift();
-        }
-      });
+  private getPerson(metaId: string | undefined, instanceId: string | undefined): void {
+    if (metaId && instanceId) {
+      this.apiService.endpoints[Entity.PERSON].get
+        .call(
+          {
+            metaId: metaId,
+            instanceId: instanceId,
+          },
+          false,
+        )
+        .then((data: Array<Person>) => {
+          if (Array.isArray(data) && data.length > 0) {
+            this.person = data.shift();
+          }
+        });
+    }
   }
 
   public getRoleName(role: string | undefined) {
@@ -59,5 +68,25 @@ export class ContactPointDetailComponent implements OnInit {
       }
     }
     return 'None';
+  }
+
+  public handleRemove(instanceId: string | undefined) {
+    if (instanceId) {
+      this.apiService
+        .deleteEntity(EntityEndpointValue.CONTACT_POINT, instanceId)
+        .then(() => {
+          this.contactPointArraySource.next(
+            this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        });
+    }
   }
 }

@@ -1,6 +1,6 @@
 <form
-  [formGroup]="formGroup"
-  *ngIf="formGroup && dataProduct"
+  [formGroup]="form"
+  *ngIf="form && dataProduct"
 >
   <div formArrayName="identifier">
     <div
@@ -35,21 +35,11 @@
         </mat-form-field>
         <button
           mat-mini-fab
-          color="primary"
-          aria-label="Save Identifier"
-          matTooltip="Save Identifier"
-          (click)="handleUpdateIdentifier(i)"
-          [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
-        >
-          <mat-icon>save</mat-icon>
-        </button>
-        <button
-          mat-mini-fab
-          color="{{ dataProduct.status === stateEnum.PUBLISHED ? '' : 'warn' }}"
+          [color]="dataProduct.status === stateEnum.PUBLISHED ? '' : 'warn'"
           matTooltip="Remove Identifier"
           class="smaller"
           (click)="handleDeleteIdentifier(i)"
-          [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+          [disabled]="disabled"
         >
           <mat-icon>delete</mat-icon>
         </button>
@@ -61,7 +51,12 @@
   mat-stroked-button
   color="primary"
   (click)="handleAddIdentifier()"
-  [disabled]="dataProduct.status === stateEnum.PUBLISHED || dataProduct.status === stateEnum.ARCHIVED"
+  [disabled]="disabled"
 >
   Add identifier
 </button>
+<app-save-entity
+  entity="Identifier"
+  [hideDelete]="true"
+  [disabled]="disabled"
+></app-save-entity>

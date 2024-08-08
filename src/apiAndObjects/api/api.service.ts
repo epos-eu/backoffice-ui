@@ -55,6 +55,10 @@ import { GetIdentifier } from './identifier/getIdentifier';
 import { GetAllIdentifiers } from './identifier/getAllIdentifiers';
 import { PostIdentifier } from './identifier/postIdentifier';
 import { PutIdentifier } from './identifier/putIdentifier';
+import { GetMapping } from './mapping/getMapping';
+import { GetAllMapping } from './mapping/getAllMapping';
+import { PostMapping } from './mapping/postMapping';
+import { PutMapping } from './mapping/putMapping';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -118,7 +122,6 @@ export class ApiService extends BaseApi {
       create: new PostIdentifier(ApiService.USE_LIVE_API),
       update: new PutIdentifier(ApiService.USE_LIVE_API),
     },
-
     /* Spatial / Temporal Entities */
     Location: {
       get: new GetLocation(ApiService.USE_LIVE_API),
@@ -137,6 +140,12 @@ export class ApiService extends BaseApi {
       getAll: new GetAllPeople(ApiService.USE_LIVE_API),
       create: new CreatePersonDetail(ApiService.USE_LIVE_API),
       update: new UpdatePersonDetail(ApiService.USE_LIVE_API),
+    },
+    Mapping: {
+      get: new GetMapping(ApiService.USE_LIVE_API),
+      getAll: new GetAllMapping(ApiService.USE_LIVE_API),
+      create: new PostMapping(ApiService.USE_LIVE_API),
+      update: new PutMapping(ApiService.USE_LIVE_API),
     },
   };
 

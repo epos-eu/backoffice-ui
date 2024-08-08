@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, OnInit } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
 import { ParametersFormService } from '../parameters-form.service';
 import { UntypedFormGroup } from '@angular/forms';
@@ -8,7 +8,7 @@ import { UntypedFormGroup } from '@angular/forms';
   templateUrl: './option.component.html',
   styleUrl: './option.component.scss',
 })
-export class OptionComponent {
+export class OptionComponent implements OnInit {
   @Input() id: string = '';
   @Input() param!: any;
   @Input() disabled = false;

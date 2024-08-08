@@ -7,8 +7,6 @@
       [(ngModel)]="activeCoverageType"
       [disabled]="inputsDisabled"
     >
-      <!-- <mat-option value="spatialCoveragePoint">Point</mat-option>
-     <mat-option value="spatialCoveragePolygon">Polygon</mat-option> -->
       <mat-option
         *ngFor="let item of spatCovArr"
         [value]="item"

@@ -16,7 +16,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 export class DistributionWebserviceComponent extends WithSubscription implements OnInit {
   @Input() accessService!: Distribution['accessService'];
 
-  @Input() accessURL: Distribution['accessURL'];
+  @Input() supportedOperations: WebService['supportedOperation'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,6 +53,8 @@ export class DistributionWebserviceComponent extends WithSubscription implements
       .then((data: Array<WebService>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift() as WebService;
+          console.debug('mock webservice: ', this.webservice);
+
           if (this.webservice) {
             this.entityExecutionService.setActiveWebService(
               this.entityExecutionService.convertToWebService(this.webservice),
@@ -73,13 +75,14 @@ export class DistributionWebserviceComponent extends WithSubscription implements
   }
 
   public ngOnInit(): void {
+    console.debug('mock webservice: ', this.webservice);
     this.initSubscriptions();
     this.initData({
       instanceId: this.accessService?.instanceId,
       metaId: this.accessService?.metaId,
     });
     this.form = this.formBuilder.group({
-      title: new FormControl(this.webservice?.name),
+      name: new FormControl(this.webservice?.name),
       description: new FormControl(this.webservice?.description),
       documentation: new FormControl(this.webservice?.documentation, [
         Validators.required,

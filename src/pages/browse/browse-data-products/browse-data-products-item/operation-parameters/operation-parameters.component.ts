@@ -1,10 +1,9 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
-import { DataProduct, Operation } from 'generated/backofficeSchemas';
+import { FormArray, FormBuilder, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { DataProduct, Mapping, Operation } from 'generated/backofficeSchemas';
 import { Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { LinkedEntity } from 'src/apiAndObjects/objects/entities/linkedEntity.model';
-import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { StateChangeService } from 'src/services/stateChange.service';
@@ -20,11 +19,13 @@ import { ParametersFormService } from './parameters-form.service';
   styleUrls: ['./operation-parameters.component.scss'],
 })
 export class OperationParametersComponent implements OnInit {
-  @Input() instanceId = '';
-  @Input() metaId = '';
+  @Input() supportedOperations: LinkedEntity[] | undefined = [];
+
   @Input() templateUpdate = new Subject<string>();
+
   @Output() template = new Subject<string>();
-  @Output() mappingVals = new Subject<LinkedEntity[] | undefined>();
+
+  @Output() mappingVals = new Subject<Mapping[] | undefined>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,65 +40,90 @@ export class OperationParametersComponent implements OnInit {
 
   public paramsForm!: UntypedFormGroup;
 
-  public mapping: LinkedEntity[] = [];
+  public mapping: Mapping[] = [];
 
   public rangeEnum = OperationParamsRange;
 
-  public fetchingOperation = false;
+  public loading = false;
 
   public disabled = false;
-
-  public disableOperationSave = true;
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;
   }
 
   private initData(): void {
-    if (this.instanceId && !this.operation) {
-      this.fetchingOperation = true;
-      this.apiService.endpoints[Entity.OPERATION].get
-        .call({ metaId: this.metaId, instanceId: this.instanceId }, false)
-        .then((data: Array<Operation>) => {
-          const operation = data.shift();
-          if (null != operation) {
-            this.fetchingOperation = false;
-            this.operation = this.entityExecutionService.convertToOperation(operation);
-            this.entityExecutionService.setActiveOperation(this.operation);
-            this.template?.next(this.operation.template ? this.operation.template : '');
-            // this.mapping.push(
-            //   new LinkedEntity(
-            //     this.operation.mapping?.[0].entityType as string,
-            //     this.operation.mapping?.[0].instanceId as string,
-            //     this.operation.mapping?.[0].metaId as string,
-            //     this.operation.mapping?.[0].uid as string,
-            //   ),
-            // );
-            this.mappingVals.next(this.operation.mapping);
-            this.initForm();
-            this.disabled ? this.paramsForm.disable() : this.paramsForm.enable();
-          }
-        });
-    }
+    this.loading = true;
+    const requests: Promise<Operation[]>[] = [];
+    this.supportedOperations?.forEach((item: LinkedEntity) => {
+      requests.push(
+        this.apiService.endpoints[Entity.OPERATION].get.call(
+          {
+            metaId: item.metaId as string,
+            instanceId: item.instanceId as string,
+          },
+          false,
+        ),
+      );
+    });
+    Promise.all(requests)
+      .then((value: Operation[][]) => {
+        const operation = value.flat().shift();
+        if (operation) {
+          this.operation = operation;
+          this.initDataCallback();
+          this.loading = false;
+        }
+      })
+      .catch(() => (this.loading = false));
   }
 
-  private createMappingFormGroup(mapping: LinkedEntity[]): FormGroup {
+  private getMappingDetails(mapping: LinkedEntity[] | undefined): Promise<Mapping[] | null> {
+    const mappingItem = mapping?.shift();
+    if (mappingItem?.instanceId && mappingItem.metaId) {
+      return this.apiService.endpoints[Entity.MAPPING].get
+        .call(
+          {
+            instanceId: mappingItem?.instanceId,
+            metaId: mappingItem?.metaId,
+          },
+          false,
+        )
+        .then((response: Mapping[]) => {
+          return response;
+        });
+    }
+    return Promise.resolve(null);
+  }
+
+  private initDataCallback(): void {
+    this.entityExecutionService.setActiveOperation(this.operation);
+    this.template?.next(this.operation.template ? this.operation.template : '');
+    this.getMappingDetails(this.operation.mapping).then((mapping: Mapping[] | null) => {
+      if (mapping) {
+        this.mapping = mapping;
+        this.mappingVals.next(mapping);
+      }
+    });
+    this.initForm();
+  }
+
+  private createMappingFormGroup(mapping: Mapping): FormGroup {
     return this.formService.generateOptionForm(mapping);
   }
 
-  private loadMappingArray(mapping: Array<LinkedEntity[]> | undefined): FormGroup[] {
-    // if (mapping) {
-    //   const transformed = mapping.map((item: LinkedEntity) => this.createMappingFormGroup(item));
-    //   return transformed;
-    // }
-    // return [];
-    return [new FormGroup({})];
+  private loadMappingArray(mapping: Mapping[]): FormGroup[] {
+    if (mapping) {
+      const transformed = mapping.map((item: LinkedEntity) => this.createMappingFormGroup(item));
+      return transformed;
+    }
+    return [];
   }
 
   private initForm(): void {
-    // this.paramsForm = this.formBuilder.group({
-    //   mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
-    // });
+    this.paramsForm = this.formBuilder.group({
+      mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
+    });
   }
 
   private foundListParametersOnTemplate(): string[] {
@@ -111,22 +137,24 @@ export class OperationParametersComponent implements OnInit {
     }
   }
 
-  private addMappingOnTemplate(mapping: LinkedEntity[]) {
-    const groupParamsOnTemplate = this.foundListParametersOnTemplate();
-    if (groupParamsOnTemplate.length > 0) {
-      // const newString = groupParamsOnTemplate[0] + ',' + mapping.variable;
-      const template = this.paramsForm.get('template')?.value as string;
-      // this.paramsForm.get('template')?.setValue(template.replace(groupParamsOnTemplate[0], newString));
-    }
+  private addMappingOnTemplate(mapping: Mapping) {
+    // const groupParamsOnTemplate = this.foundListParametersOnTemplate();
+    // if (groupParamsOnTemplate.length > 0) {
+    //   const newString = groupParamsOnTemplate[0] + ',' + mapping.variable;
+    //   const template = this.paramsForm.get('template')?.value as string;
+    //   this.paramsForm.get('template')?.setValue(template.replace(groupParamsOnTemplate[0], newString));
+    // }
   }
 
   public ngOnInit(): void {
     this.initData();
     this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
       if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
+        this.paramsForm.disable();
         this.disabled = true;
       } else {
         this.disabled = false;
+        this.paramsForm.enable();
       }
     });
   }
@@ -153,29 +181,29 @@ export class OperationParametersComponent implements OnInit {
     // });
   }
 
-  public handleDeleteOperation(instanceId: string): void {
-    this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false).then((toDelete: boolean) => {
-      if (toDelete) {
-        // Delete from SupportedOperation array on @Webservice
-        const activeWebservice = this.entityExecutionService.getActiveWebServiceValue();
-        if (null != activeWebservice) {
-          activeWebservice.supportedOperation?.splice(
-            activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
-            1,
-          );
-          this.entityExecutionService.setActiveWebService(activeWebservice);
-        }
+  public handleDeleteOperation(instanceId: string | undefined): void {
+    if (instanceId) {
+      this.dialogService.handleDelete(instanceId, EntityEndpointValue.OPERATION, false).then((toDelete: boolean) => {
+        if (toDelete) {
+          const activeWebservice = this.entityExecutionService.getActiveWebServiceValue();
+          if (null != activeWebservice) {
+            activeWebservice.supportedOperation?.splice(
+              activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveWebService(activeWebservice);
+          }
 
-        // Delete from accessURL array on @Distribution
-        const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-        if (null != activeDistribution) {
-          activeDistribution.accessURL?.splice(
-            // activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
-            1,
-          );
-          this.entityExecutionService.setActiveDistribution(activeDistribution);
+          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+          if (null != activeDistribution) {
+            activeDistribution.accessURL?.splice(
+              // activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveDistribution(activeDistribution);
+          }
         }
-      }
-    });
+      });
+    }
   }
 }

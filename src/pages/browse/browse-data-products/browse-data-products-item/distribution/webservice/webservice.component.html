@@ -10,9 +10,10 @@
     <mat-label>Title</mat-label>
     <input
       matInput
-      name="title"
+      name="name"
       [ngStyle]="{ 'line-height': '1.4' }"
-      formControlName="title"
+      formControlName="name"
+      [value]="webservice?.name"
     />
   </mat-form-field>
 
@@ -63,28 +64,59 @@
     </mat-select>
   </mat-form-field>
 
-  <div class="grid">
-    <div class="grid-item">
-      <p class="subtitle">Spatial Coverage</p>
-      <app-spatial-coverage
-        [dataProduct]="dataProduct"
-        [spatialExtent]="webservice?.spatialExtent"
-      ></app-spatial-coverage>
-    </div>
-    <div class="grid-item">
-      <p class="subtitle">Temporal Coverage</p>
-      <app-temporal-coverage
-        [dataProduct]="dataProduct"
-        [temporalExtent]="webservice?.temporalExtent"
-      ></app-temporal-coverage>
-    </div>
-    <div class="grid-item">
-      <p class="subtitle">Contact Points</p>
-      <app-contact-point [contactPoint]="webservice?.contactPoint"></app-contact-point>
-    </div>
-    <div class="grid-item">
-      <p class="subtitle">Supported Operations</p>
-      <app-supported-operation [supportedOperations]="accessURL"></app-supported-operation>
-    </div>
+  <div
+    class="grid"
+    *ngIf="webservice"
+  >
+    <mat-accordion>
+      <div class="grid-item">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Spatial Coverage</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-spatial-coverage
+            [dataProduct]="dataProduct"
+            [spatialExtentInput]="webservice.spatialExtent"
+            [dataProductIsParent]="false"
+          ></app-spatial-coverage>
+        </mat-expansion-panel>
+      </div>
+      <div class="grid-item">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Temporal Coverage</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-temporal-coverage
+            [dataProduct]="dataProduct"
+            [spatialExtentInput]="webservice.temporalExtent"
+            [dataProductIsParent]="false"
+          ></app-temporal-coverage>
+        </mat-expansion-panel>
+      </div>
+      <div class="grid-item">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Contact Points</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-contact-point [contactPoint]="webservice.contactPoint"></app-contact-point>
+        </mat-expansion-panel>
+      </div>
+      <div class="grid-item">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Supported Operations</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-supported-operation [supportedOperations]="webservice.supportedOperation"></app-supported-operation>
+        </mat-expansion-panel>
+      </div>
+    </mat-accordion>
   </div>
 </form>

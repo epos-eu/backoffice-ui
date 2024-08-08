@@ -21,13 +21,11 @@ import { OptionCoordinateComponent } from './browse-data-products-item/operation
 import { OptionBooleanComponent } from './browse-data-products-item/operation-parameters/option-boolean/option-boolean.component';
 import { OptionFloatComponent } from './browse-data-products-item/operation-parameters/option-float/option-float.component';
 import { ContactPointDetailComponent } from './browse-data-products-item/contact-point/contact-point-detail/contact-point-detail.component';
-import { DistributionFormDetailsComponent } from './browse-data-products-item/distribution-form-details/distribution-form-details.component';
-import { WebserviceFormDetailsComponent } from './browse-data-products-item/distribution-form-details/webservice-form-details/webservice-form-details.component';
-import { SpatialCoverageMapComponent } from './browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/spatial-coverage-map.component';
+import { SpatialCoverageMapComponent } from './browse-data-products-item/spatial-coverage/spatial-coverage-map/spatial-coverage-map.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products-item/browse-data-products-item.component';
 import { BrowseDataProductsComponent } from './browse-data-products.component';
 import { CreateDataProductItemComponent } from './create-data-product-item/create-data-product-item.component';
-import { SimpleSpatialControlComponent } from './browse-data-products-item/spatial-coverage-form-details/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
+import { SimpleSpatialControlComponent } from './browse-data-products-item/spatial-coverage/spatial-coverage-map/simpleSpatialControl/simpleSpatialControl.component';
 import { OptionComponent } from './browse-data-products-item/operation-parameters/option/option.component';
 import { OptionComplexComponent } from './browse-data-products-item/operation-parameters/option-complex/option-complex.component';
 import { OrderByPipe } from 'src/pipes/orderBy.pipe';
@@ -45,7 +43,6 @@ import { SupportedOperationComponent } from './browse-data-products-item/support
     ContactPointSearchComponent,
     CreateDataProductItemComponent,
     DataProvidersComponent,
-    DistributionFormDetailsComponent,
     GeneralInformationComponent,
     OperationParametersComponent,
     OptionBooleanComponent,
@@ -62,7 +59,6 @@ import { SupportedOperationComponent } from './browse-data-products-item/support
     SpatialCoverageComponent,
     SpatialCoverageMapComponent,
     TemporalCoverageComponent,
-    WebserviceFormDetailsComponent,
     OrderByPipe,
     DistributionComponent,
     DistributionDownloadComponent,
@@ -78,7 +74,6 @@ import { SupportedOperationComponent } from './browse-data-products-item/support
     ContactPointSearchComponent,
     CreateDataProductItemComponent,
     DataProvidersComponent,
-    DistributionFormDetailsComponent,
     GeneralInformationComponent,
     OperationParametersComponent,
     OptionBooleanComponent,
@@ -95,7 +90,6 @@ import { SupportedOperationComponent } from './browse-data-products-item/support
     SpatialCoverageComponent,
     SpatialCoverageMapComponent,
     TemporalCoverageComponent,
-    WebserviceFormDetailsComponent,
   ],
   providers: [
     {
