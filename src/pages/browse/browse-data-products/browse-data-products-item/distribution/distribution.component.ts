@@ -146,7 +146,6 @@ export class DistributionComponent implements OnInit {
         if (null != activeDistribution) {
           activeDistribution.changeComment = changeComment;
           this.entityExecutionService.setActiveDistribution(activeDistribution);
-          console.debug(this.entityExecutionService.getActiveDistributionValue());
           this.entityExecutionService.handleDistributionSave();
         }
       }
