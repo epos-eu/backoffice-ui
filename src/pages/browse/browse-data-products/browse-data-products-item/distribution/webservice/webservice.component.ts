@@ -75,7 +75,6 @@ export class DistributionWebserviceComponent extends WithSubscription implements
   }
 
   public ngOnInit(): void {
-    console.debug('mock webservice: ', this.webservice);
     this.initSubscriptions();
     this.initData({
       instanceId: this.accessService?.instanceId,

@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Val
 import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { LoadingService } from 'src/services/loading.service';
@@ -148,6 +149,26 @@ export class DistributionComponent implements OnInit {
         );
       }
       this.entityExecutionService.handleDataProductSave();
+    });
+  }
+
+  public handleAddWebservice(index: number) {
+    this.apiService.endpoints[Entity.WEBSERVICE].create.call().then((webservice: WebserviceDetailDataSource) => {
+      const newWebserviceEntity: LinkedEntity = {
+        entityType: Entity.WEBSERVICE,
+        instanceId: webservice.instanceId,
+        metaId: webservice.metaId,
+        uid: webservice.uid,
+      };
+
+      this.distributionDetails[index].accessService = newWebserviceEntity;
+      this.initForm();
+
+      const activeDistribution = this.distributionDetails[index];
+      if (null != activeDistribution) {
+        this.entityExecutionService.setActiveDistribution(activeDistribution);
+        this.entityExecutionService.handleDistributionSave();
+      }
     });
   }
 }
