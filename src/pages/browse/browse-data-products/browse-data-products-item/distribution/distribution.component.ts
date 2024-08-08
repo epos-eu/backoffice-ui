@@ -4,6 +4,8 @@ import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSch
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { DialogService } from 'src/components/dialogs/dialog.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
+import { LoadingService } from 'src/services/loading.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { Status } from 'src/utility/enums/status.enum';
@@ -18,7 +20,13 @@ export class DistributionComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct | undefined;
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private dialogService: DialogService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private apiService: ApiService,
+    private dialogService: DialogService,
+    private entityExecutionService: EntityExecutionService,
+    private loadingService: LoadingService,
+  ) {}
 
   public form!: FormGroup;
 
@@ -70,6 +78,7 @@ export class DistributionComponent implements OnInit {
   }
 
   private getDistributionDetails(): void {
+    this.loadingService.setShowSpinner(true);
     const requests: Promise<Distribution[]>[] = [];
     this.distribution?.forEach((item: LinkedEntity) => {
       requests.push(
@@ -86,6 +95,7 @@ export class DistributionComponent implements OnInit {
       const flattened = value.flat();
       this.distributionDetails = flattened;
       this.initForm();
+      this.loadingService.setShowSpinner(false);
     });
   }
 
@@ -124,6 +134,20 @@ export class DistributionComponent implements OnInit {
     this.apiService.endpoints[Entity.DISTRIBUTION].create.call().then((dist: DistributionDetailDataSource) => {
       this.distributionDetails.push(dist);
       this.initForm();
+
+      const newDistributionEntity: LinkedEntity = {
+        entityType: Entity.DISTRIBUTION,
+        instanceId: dist.instanceId,
+        metaId: dist.metaId,
+        uid: dist.uid,
+      };
+      if (null != this.dataProduct) {
+        this.dataProduct.distribution?.push(newDistributionEntity);
+        this.entityExecutionService.setActiveDataProduct(
+          this.entityExecutionService.convertToDataProduct(this.dataProduct),
+        );
+      }
+      this.entityExecutionService.handleDataProductSave();
     });
   }
 }
