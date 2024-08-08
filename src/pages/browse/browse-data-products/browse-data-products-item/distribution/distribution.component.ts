@@ -112,17 +112,12 @@ export class DistributionComponent implements OnInit {
     const actvIndex = 0;
     if (this.dataProduct) {
       let updatingObject = this.distributionDetails[actvIndex];
+      this.entityExecutionService.setActiveDistribution(updatingObject);
       this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
         updatingObject.title = this.helpersService.formatArrayVal(changes.distributions[actvIndex].title);
         updatingObject.description = this.helpersService.formatArrayVal(changes.distributions[0].description);
         updatingObject.licence = changes.distributions[actvIndex].licence;
         this.entityExecutionService.setActiveDistribution(updatingObject);
-
-        // this.persistorService.setValueInStorage(
-        //   StorageType.LOCAL_STORAGE,
-        //   StorageKey.FORM_DATA,
-        //   JSON.stringify(updatingObject),
-        // );
       });
     }
   }
@@ -146,7 +141,11 @@ export class DistributionComponent implements OnInit {
         if (null != activeDistribution) {
           activeDistribution.changeComment = changeComment;
           this.entityExecutionService.setActiveDistribution(activeDistribution);
-          this.entityExecutionService.handleDistributionSave();
+          this.entityExecutionService.handleDistributionSave().then((success: boolean) => {
+            if (success) {
+              this.entityExecutionService.handleWebserviceSave();
+            }
+          });
         }
       }
     });

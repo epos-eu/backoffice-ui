@@ -169,52 +169,60 @@ export class EntityExecutionService extends EntityStateManager {
     }
   }
 
-  public handleDistributionSave(): void {
-    const activeDistribution: Distribution = this.getActiveDistributionValue() as Distribution;
-    if (activeDistribution) {
-      activeDistribution.modified = new Date().toISOString();
-      if (activeDistribution.status !== Status.DRAFT) {
-        activeDistribution.status = Status.DRAFT;
-        activeDistribution.instanceChangedId = activeDistribution.instanceId;
-      }
-      this.loadingService.setShowSpinner(true);
-      this.apiService.endpoints[Entity.DISTRIBUTION].update
-        .call({
-          ...activeDistribution,
-        })
-        .then((data: Distribution) => {
-          this.snackbarService.openSnackbar('Successfully updated Distribution.', 'Close', 'success', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-success',
-          ]);
-          this.actionsService.showSaveDistributionMessage(false);
-          if (!this.actionsService.itemExists(data.instanceId as string)) {
-            this.actionsService.addEditedItems([
-              {
-                type: Entity.DISTRIBUTION,
-                route: EntityEndpointValue.DISTRIBUTION,
-                label: 'Distribution',
-                status: Status.DRAFT,
-                color: 'draft',
-                id: data.instanceId as string,
-              },
+  public handleDistributionSave(): Promise<boolean> {
+    const promise = new Promise<boolean>((resolve) => {
+      const activeDistribution: Distribution = this.getActiveDistributionValue() as Distribution;
+      if (activeDistribution) {
+        activeDistribution.modified = new Date().toISOString();
+        if (activeDistribution.status !== Status.DRAFT) {
+          activeDistribution.status = Status.DRAFT;
+          activeDistribution.instanceChangedId = activeDistribution.instanceId;
+        }
+        this.loadingService.setShowSpinner(true);
+        this.apiService.endpoints[Entity.DISTRIBUTION].update
+          .call(
+            {
+              ...activeDistribution,
+            },
+            false,
+          )
+          .then((data: Distribution) => {
+            this.snackbarService.openSnackbar('Successfully updated Distribution.', 'Close', 'success', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
             ]);
-            this.actionsService.saveCurrentEdit(data.instanceId as string);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          this.snackbarService.openSnackbar('Error updating Distribution.', 'Close', 'error', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-error',
-          ]);
-        })
-        .finally(() => {
-          this.loadingService.setShowSpinner(false);
-        });
-    }
+            this.actionsService.showSaveDistributionMessage(false);
+            if (!this.actionsService.itemExists(data.instanceId as string)) {
+              this.actionsService.addEditedItems([
+                {
+                  type: Entity.DISTRIBUTION,
+                  route: EntityEndpointValue.DISTRIBUTION,
+                  label: 'Distribution',
+                  status: Status.DRAFT,
+                  color: 'draft',
+                  id: data.instanceId as string,
+                },
+              ]);
+              this.actionsService.saveCurrentEdit(data.instanceId as string);
+            }
+            resolve(true);
+          })
+          .catch((err) => {
+            console.error(err);
+            this.snackbarService.openSnackbar('Error updating Distribution.', 'Close', 'error', 3000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-error',
+            ]);
+            resolve(false);
+          })
+          .finally(() => {
+            this.loadingService.setShowSpinner(false);
+          });
+      }
+    });
+    return promise;
   }
 
   public handleOperationSave(): void {
