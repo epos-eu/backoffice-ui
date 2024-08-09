@@ -1,0 +1,18 @@
+<ng-container *ngFor="let document of documentationEntities">
+  <p>{{ document.title }}</p>
+</ng-container>
+
+<!-- <mat-form-field
+appearance="fill"
+[floatLabel]="floatLabelControl.value"
+[style.width.%]="100"
+>
+<mat-label>API Documentation (URL)</mat-label>
+<input
+  matInput
+  name="documentation"
+  [ngStyle]="{ 'line-height': '1.4' }"
+  formControlName="documentation"
+/>
+<mat-error *ngIf="form.get('documentation')?.invalid"> URL is not valid. </mat-error>
+</mat-form-field> -->

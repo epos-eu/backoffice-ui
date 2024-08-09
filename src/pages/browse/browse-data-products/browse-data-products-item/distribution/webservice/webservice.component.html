@@ -32,21 +32,6 @@
     ></textarea>
   </mat-form-field>
 
-  <mat-form-field
-    appearance="fill"
-    [floatLabel]="floatLabelControl.value"
-    [style.width.%]="100"
-  >
-    <mat-label>API Documentation (URL)</mat-label>
-    <input
-      matInput
-      name="documentation"
-      [ngStyle]="{ 'line-height': '1.4' }"
-      formControlName="documentation"
-    />
-    <mat-error *ngIf="form.get('documentation')?.invalid"> URL is not valid. </mat-error>
-  </mat-form-field>
-
   <mat-form-field class="service-provider">
     <mat-label>Service Provider</mat-label>
     <mat-select
@@ -69,6 +54,19 @@
     *ngIf="webservice"
   >
     <mat-accordion>
+      <div class="grid-item">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Documentation</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-documentation
+            [dataProduct]="dataProduct"
+            [documentationsInput]="webservice.documentation"
+          ></app-documentation>
+        </mat-expansion-panel>
+      </div>
       <div class="grid-item">
         <mat-expansion-panel>
           <mat-expansion-panel-header>

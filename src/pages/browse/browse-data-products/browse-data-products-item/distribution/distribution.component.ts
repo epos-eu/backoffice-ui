@@ -74,7 +74,6 @@ export class DistributionComponent implements OnInit {
       this.form.disable();
       this.disabled = true;
     } else {
-      // this.form.enable();
       this.disabled = false;
     }
   }
@@ -142,7 +141,7 @@ export class DistributionComponent implements OnInit {
           activeDistribution.changeComment = changeComment;
           this.entityExecutionService.setActiveDistribution(activeDistribution);
           this.entityExecutionService.handleDistributionSave().then((success: boolean) => {
-            if (success) {
+            if (success && activeDistribution.accessService) {
               this.entityExecutionService.handleWebserviceSave();
             }
           });
