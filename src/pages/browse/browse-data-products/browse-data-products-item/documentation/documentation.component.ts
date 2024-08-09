@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataProduct, Documentation, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetDocumentationParams } from 'src/apiAndObjects/api/documentation/getDocumentation';
+import { HelpersService } from 'src/services/helpers.service';
 import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
@@ -21,10 +23,14 @@ export class DocumentationComponent implements OnInit {
   }
 
   public documentationEntities: Array<Documentation> = [];
-
+  public form!: FormGroup;
   public disabled = true;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private helpersService: HelpersService,
+  ) {}
 
   public ngOnInit(): void {
     this.disabled = this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED;
@@ -37,10 +43,39 @@ export class DocumentationComponent implements OnInit {
         metaId: location.metaId as string,
       };
       this.apiService.endpoints.Documentation.get.call(params).then((items: Array<Documentation>) => {
-        items.forEach((doc, index) => {
+        items.forEach((doc) => {
           this.documentationEntities.push(doc);
         });
+        this.initFormArr();
       });
     });
+  }
+
+  private initFormArr(): void {
+    this.form = this.formBuilder.group({
+      documentations: new FormArray(
+        this.documentationEntities.map((documentation: Documentation) => {
+          return new FormGroup({
+            title: new FormControl(documentation.title, [Validators.required]),
+            description: new FormControl(documentation.description),
+            uri: new FormControl(documentation.uri, [
+              Validators.required,
+              (control: AbstractControl): { [key: string]: any } | null => {
+                if (this.helpersService.isValidHttpUrl(control.value)) {
+                  return null;
+                } else {
+                  control.markAsTouched();
+                  return { 'error-class': control.value };
+                }
+              },
+            ]),
+          });
+        }),
+      ),
+    });
+  }
+
+  public getControls(field: string) {
+    return (this.form.get(field) as FormArray).controls;
   }
 }
