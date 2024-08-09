@@ -2,6 +2,7 @@ export enum Entity {
   CONTACT_POINT = 'ContactPoint',
   DATA_PRODUCT = 'DataProduct',
   DISTRIBUTION = 'Distribution',
+  DOCUMENTATION = 'Documentation',
   GROUP = 'Group',
   IDENTIFIER = 'Identifier',
   LOCATION = 'Location',

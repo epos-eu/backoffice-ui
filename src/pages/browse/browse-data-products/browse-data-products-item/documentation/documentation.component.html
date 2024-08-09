@@ -43,6 +43,7 @@
               aria-label="Save Spatial Extent"
               matTooltip="Save Spatial Extent"
               (click)="handleSave(i)"
+              [disabled]="disabled"
             >
               <mat-icon>save</mat-icon>
             </button>
@@ -52,3 +53,11 @@
     </mat-tab-group>
   </ng-container>
 </ng-container>
+<button
+  mat-stroked-button
+  color="primary"
+  (click)="handleCreate()"
+  [disabled]="disabled"
+>
+  Add Documentation
+</button>

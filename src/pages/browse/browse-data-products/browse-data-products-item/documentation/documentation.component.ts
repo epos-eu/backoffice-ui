@@ -3,9 +3,12 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { DataProduct, Documentation, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetDocumentationParams } from 'src/apiAndObjects/api/documentation/getDocumentation';
+import { DocumentationDataSource } from 'src/apiAndObjects/objects/data-source/documentationDetailDataSource';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService } from 'src/services/snackbar.service';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
@@ -34,6 +37,7 @@ export class DocumentationComponent implements OnInit {
     private helpersService: HelpersService,
     private loadingService: LoadingService,
     private snackbarService: SnackbarService,
+    private entityExecutionService: EntityExecutionService,
   ) {}
 
   public ngOnInit(): void {
@@ -81,6 +85,32 @@ export class DocumentationComponent implements OnInit {
 
   public getControls(field: string) {
     return (this.form.get(field) as FormArray).controls;
+  }
+
+  public handleCreate() {
+    this.apiService.endpoints.Documentation.create
+      .call({ title: 'New Documentation' })
+      .then((doc: DocumentationDataSource) => {
+        const newDoc: LinkedEntity = {
+          entityType: Entity.DOCUMENTATION,
+          instanceId: doc.instanceId,
+          metaId: doc.metaId,
+          uid: doc.uid,
+        };
+        const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+        activeWebService?.documentation?.push(newDoc);
+        if (activeWebService) {
+          this.entityExecutionService.setActiveWebService(activeWebService);
+          this.entityExecutionService.handleWebserviceSave();
+        }
+
+        this.apiService.endpoints.Documentation.get
+          .call({ metaId: newDoc.metaId!, instanceId: newDoc.instanceId! })
+          .then((doc: Array<Documentation>) => {
+            this.documentationEntities.push(doc[0]);
+            this.initFormArr();
+          });
+      });
   }
 
   public handleSave(i: number) {
