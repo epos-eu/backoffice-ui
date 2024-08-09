@@ -4,6 +4,8 @@ import { DataProduct, Documentation, LinkedEntity } from 'generated/backofficeSc
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetDocumentationParams } from 'src/apiAndObjects/api/documentation/getDocumentation';
 import { HelpersService } from 'src/services/helpers.service';
+import { LoadingService } from 'src/services/loading.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
@@ -30,6 +32,8 @@ export class DocumentationComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private helpersService: HelpersService,
+    private loadingService: LoadingService,
+    private snackbarService: SnackbarService,
   ) {}
 
   public ngOnInit(): void {
@@ -77,5 +81,32 @@ export class DocumentationComponent implements OnInit {
 
   public getControls(field: string) {
     return (this.form.get(field) as FormArray).controls;
+  }
+
+  public handleSave(i: number) {
+    this.loadingService.setShowSpinner(true);
+    const arrayControl = this.form.get('documentations') as FormArray;
+    const docToUpdate = this.documentationEntities[i];
+    docToUpdate.title = arrayControl.at(i).value.title;
+    docToUpdate.description = arrayControl.at(i).value.description;
+    docToUpdate.uri = arrayControl.at(i).value.uri;
+    this.apiService.endpoints.Documentation.update
+      .call(docToUpdate)
+      .then(() => {
+        this.snackbarService.openSnackbar('Successfully saved Documentation', 'Close', 'success', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.snackbarService.openSnackbar('Error updating Documentation.', 'Close', 'error', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      })
+      .finally(() => this.loadingService.setShowSpinner(false));
   }
 }
