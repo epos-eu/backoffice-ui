@@ -89,9 +89,9 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-temporal-coverage
+            [dataProductIsParent]="false"
             [dataProduct]="dataProduct"
             [spatialExtentInput]="webservice.temporalExtent"
-            [dataProductIsParent]="false"
           ></app-temporal-coverage>
         </mat-expansion-panel>
       </div>

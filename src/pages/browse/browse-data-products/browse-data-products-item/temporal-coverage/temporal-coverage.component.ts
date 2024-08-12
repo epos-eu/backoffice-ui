@@ -26,12 +26,15 @@ import { LoadingService } from 'src/services/loading.service';
 })
 export class TemporalCoverageComponent {
   @Input() dataProduct!: DataProduct | null;
-  @Input() dataProductIsParent = true;
 
-  public temporalExtent: LinkedEntity[] = [];
+  public dataProdAct!: boolean;
+  @Input() set dataProductIsParent(value: boolean) {
+    this.dataProdAct = value;
+  }
+  public temporalLinkedEntities: LinkedEntity[] = [];
   @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {
     if (value) {
-      this.temporalExtent = value;
+      this.temporalLinkedEntities = value;
       this.init();
     }
   }
@@ -79,8 +82,8 @@ export class TemporalCoverageComponent {
     this.startDate = null;
     this.endDate = null;
     this.checkForActiveTemporalVals();
-    if (this.temporalExtent.length > 0) {
-      this.initValidTemporalCoverage(this.temporalExtent);
+    if (this.temporalLinkedEntities.length > 0) {
+      this.initValidTemporalCoverage(this.temporalLinkedEntities);
     } else {
       this.form = new FormGroup({
         coverage: this.createCoverageArray(),
@@ -94,17 +97,20 @@ export class TemporalCoverageComponent {
   }
 
   private checkForActiveTemporalVals(): void {
-    if (this.dataProductIsParent) {
+    console.debug(this.dataProdAct, 'dataProductIsParent');
+    if (this.dataProdAct) {
       const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
       if (activeDataProduct?.temporalExtent) {
         activeDataProduct.temporalExtent.length > 0
-          ? this.temporalExtent.push(activeDataProduct.temporalExtent[0])
+          ? this.temporalLinkedEntities.push(activeDataProduct.temporalExtent[0])
           : [];
       }
     } else {
       const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
       if (activeWebService?.temporalExtent) {
-        activeWebService.temporalExtent.length > 0 ? this.temporalExtent.push(activeWebService.temporalExtent[0]) : [];
+        activeWebService.temporalExtent.length > 0
+          ? this.temporalLinkedEntities.push(activeWebService.temporalExtent[0])
+          : [];
       }
     }
   }
@@ -133,7 +139,7 @@ export class TemporalCoverageComponent {
      * If the `temporalExtent` property of the `dataProduct` OR 'webservice' object is empty,
      * it means that there are no existing temporal extents associated with the data product and POST fn is called.
      */
-    if (this.temporalExtent.length === 0) {
+    if (this.temporalLinkedEntities.length === 0) {
       this.loadingService.setShowSpinner(true);
       const newPeriodOfTime: PeriodOfTime = {
         startDate: this.startDate ? this.startDate.toISOString() : '',
@@ -142,15 +148,17 @@ export class TemporalCoverageComponent {
       this.apiService.endpoints.PeriodOfTime.create
         .call(newPeriodOfTime)
         .then((temporalCoverage) => {
-          if (this.dataProductIsParent) {
+          if (this.dataProdAct) {
             const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
             this.dataproductService.updateDataProductRecord(updatingObject, { temporalExtent: [temporalCoverage] });
+            this.entityExecutionService.handleDataProductSave();
           } else {
             const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
             activeWebService?.temporalExtent?.push(temporalCoverage);
             this.entityExecutionService.setActiveWebService(
               this.entityExecutionService.convertToWebService(activeWebService!),
             );
+            this.entityExecutionService.handleWebserviceSave();
           }
           this.form.markAsPristine();
         })
