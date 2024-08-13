@@ -9,6 +9,7 @@ import {
   UntypedFormArray,
   ValidatorFn,
   AbstractControl,
+  ValidationErrors,
 } from '@angular/forms';
 import { DataProduct, LinkedEntity, PeriodOfTime } from 'generated/backofficeSchemas';
 import moment, { Moment } from 'moment';
@@ -20,6 +21,7 @@ import { GetPeriodOfTimeParams } from 'src/apiAndObjects/api/periodOfTime/getPer
 import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatial-temporal-entity-execution.service';
 import { Status } from 'src/utility/enums/status.enum';
 import { LoadingService } from 'src/services/loading.service';
+import { validate } from 'compare-versions';
 
 @Component({
   selector: 'app-temporal-coverage',
@@ -59,37 +61,38 @@ export class TemporalCoverageComponent {
     private loadingService: LoadingService,
   ) {}
 
-  // private dateComparison(start, end): (group: FormGroup) => { [key: string]: any } | null {
-  //   return (group: FormGroup): { [key: string]: any } | null => {
-  //     const startCtrl = group.controls[start];
-  //     const endCtrl = group.controls[end];
-  //     if (startCtrl.value && endCtrl.value) {
-  //       if (moment(startCtrl.value).isAfter(endCtrl.value)) {
-  //         startCtrl.markAsTouched();
-  //         endCtrl.markAsTouched();
-  //         return {
-  //           dates: 'Start date needs to be before end date.',
-  //         };
-  //       }
-  //     }
-  //     return null;
-  //   };
-  // }
-
-  private dateComparisonArr(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const controlArray = control as FormArray;
-      controlArray.controls.forEach((contorl) => {
-        console.debug('test:', contorl);
-      });
-      // console.debug(controlArray);
-      if (controlArray.controls.some((x) => x.value)) {
-        return null;
-      } else {
-        return { valid: false };
+  public dateComparison(): (group: FormControl) => { [key: string]: any } | null {
+    console.debug('call');
+    return (group: FormControl): { [key: string]: any } | null => {
+      const startCtrl = group.get('startDate');
+      const endCtrl = group.get('endDate');
+      if (startCtrl?.value && endCtrl?.value) {
+        if (moment(startCtrl.value).isAfter(endCtrl.value)) {
+          startCtrl.markAsTouched();
+          endCtrl.markAsTouched();
+          return {
+            dates: 'Start date needs to be before end date.',
+          };
+        }
       }
+      return null;
     };
   }
+
+  // private dateComparisonArr(): ValidatorFn {
+  //   return (control: AbstractControl): { [key: string]: any } | null => {
+  //     const controlArray = control as FormArray;
+  //     controlArray.controls.forEach((contorl) => {
+  //       console.debug('test:', contorl);
+  //     });
+  //     // console.debug(controlArray);
+  //     if (controlArray.controls.some((x) => x.value)) {
+  //       return null;
+  //     } else {
+  //       return { valid: false };
+  //     }
+  //   };
+  // }
 
   // public dateRangeValidator(min: Date, max: Date): ValidatorFn {
   //   return (control) => {
@@ -163,8 +166,8 @@ export class TemporalCoverageComponent {
         this.form = new FormGroup({
           coverage: this.createCoverageArray(items),
         });
+        // this.form.addValidators(this.comparisonValidator());
         this.trackFormChanges();
-        this.form.addValidators(this.dateComparisonArr());
       });
     });
   }
@@ -204,7 +207,6 @@ export class TemporalCoverageComponent {
        */
     } else {
       const extentToUpdate = this.temporalExtents[index!];
-      console.debug('extentToUpdate', extentToUpdate);
       extentToUpdate.startDate = this.startDate ? moment(this.startDate).toISOString() : '';
       extentToUpdate.endDate = this.endDate ? moment(this.endDate).toISOString() : '';
 
@@ -217,7 +219,27 @@ export class TemporalCoverageComponent {
     this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
       this.startDate = changes.coverage[0].startDate;
       this.endDate = changes.coverage[0].endDate;
+
+      /* The code snippet is checking if the start date is before the end date in the form. Returns an error on the GUI if so. */
+      if (this.comparisonValidator(this.startDate, this.endDate)) {
+        this.form.markAsTouched();
+        this.form.setErrors(null);
+      } else {
+        this.form.setErrors({ incorrect: true });
+        this.form.markAsPristine();
+      }
     });
+  }
+
+  private comparisonValidator(start: Moment | null, end: Moment | null): boolean {
+    const startCtrl = moment(start);
+    const endCtrl = moment(end);
+    if (startCtrl && endCtrl) {
+      if (startCtrl.isAfter(endCtrl)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private createCoverageArray(temporalExtent?: PeriodOfTime[] | undefined): UntypedFormArray {
@@ -235,7 +257,7 @@ export class TemporalCoverageComponent {
       arr.push(
         new FormGroup({
           startDate: new FormControl('', [Validators.required]),
-          endDate: new FormControl('', [Validators.max(moment(this.startDate).unix())]),
+          endDate: new FormControl(''),
         }),
       );
     }

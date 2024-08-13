@@ -1,10 +1,14 @@
-mat-hint {
+.warnings {
   display: flex;
-  align-items: center;
-  color: #f39c12;
-
-  span {
-    margin-left: 0.5rem;
+  justify-content: space-around;
+  mat-hint {
+    display: flex;
+    align-items: center;
+    color: #f39c12;
+  }
+  mat-error {
+    display: flex;
+    align-items: center;
   }
 }
 
