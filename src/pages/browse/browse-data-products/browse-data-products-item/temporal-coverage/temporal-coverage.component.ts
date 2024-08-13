@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -7,6 +7,8 @@ import {
   Validators,
   AbstractControlOptions,
   UntypedFormArray,
+  ValidatorFn,
+  AbstractControl,
 } from '@angular/forms';
 import { DataProduct, LinkedEntity, PeriodOfTime } from 'generated/backofficeSchemas';
 import moment, { Moment } from 'moment';
@@ -57,22 +59,55 @@ export class TemporalCoverageComponent {
     private loadingService: LoadingService,
   ) {}
 
-  private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } | null {
-    return (group: FormGroup): { [key: string]: any } | null => {
-      const startCtrl = group.controls[start];
-      const endCtrl = group.controls[end];
-      if (startCtrl.value && endCtrl.value) {
-        if (moment(startCtrl.value).isAfter(endCtrl.value)) {
-          startCtrl.markAsTouched();
-          endCtrl.markAsTouched();
-          return {
-            dates: 'Start date needs to be before end date.',
-          };
-        }
+  // private dateComparison(start, end): (group: FormGroup) => { [key: string]: any } | null {
+  //   return (group: FormGroup): { [key: string]: any } | null => {
+  //     const startCtrl = group.controls[start];
+  //     const endCtrl = group.controls[end];
+  //     if (startCtrl.value && endCtrl.value) {
+  //       if (moment(startCtrl.value).isAfter(endCtrl.value)) {
+  //         startCtrl.markAsTouched();
+  //         endCtrl.markAsTouched();
+  //         return {
+  //           dates: 'Start date needs to be before end date.',
+  //         };
+  //       }
+  //     }
+  //     return null;
+  //   };
+  // }
+
+  private dateComparisonArr(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const controlArray = control as FormArray;
+      controlArray.controls.forEach((contorl) => {
+        console.debug('test:', contorl);
+      });
+      // console.debug(controlArray);
+      if (controlArray.controls.some((x) => x.value)) {
+        return null;
+      } else {
+        return { valid: false };
       }
-      return null;
     };
   }
+
+  // public dateRangeValidator(min: Date, max: Date): ValidatorFn {
+  //   return (control) => {
+  //     if (!control.value) return null;
+
+  //     const dateValue = new Date(control.value);
+
+  //     if (min && dateValue < min) {
+  //       return { message: 'error message' };
+  //     }
+
+  //     if (max && dateValue > max) {
+  //       return { message: 'error message' };
+  //     }
+
+  //     null;
+  //   };
+  // }
 
   public getControls(field: string) {
     return (this.form.get(field) as FormArray).controls;
@@ -97,7 +132,6 @@ export class TemporalCoverageComponent {
   }
 
   private checkForActiveTemporalVals(): void {
-    console.debug(this.dataProdAct, 'dataProductIsParent');
     if (this.dataProdAct) {
       const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
       if (activeDataProduct?.temporalExtent) {
@@ -130,6 +164,7 @@ export class TemporalCoverageComponent {
           coverage: this.createCoverageArray(items),
         });
         this.trackFormChanges();
+        this.form.addValidators(this.dateComparisonArr());
       });
     });
   }
@@ -142,8 +177,8 @@ export class TemporalCoverageComponent {
     if (this.temporalLinkedEntities.length === 0) {
       this.loadingService.setShowSpinner(true);
       const newPeriodOfTime: PeriodOfTime = {
-        startDate: this.startDate ? this.startDate.toISOString() : '',
-        endDate: this.endDate ? this.endDate.toISOString() : '',
+        startDate: this.startDate ? moment(this.startDate).toISOString() : '',
+        endDate: this.endDate ? moment(this.endDate).toISOString() : '',
       };
       this.apiService.endpoints.PeriodOfTime.create
         .call(newPeriodOfTime)
@@ -169,8 +204,9 @@ export class TemporalCoverageComponent {
        */
     } else {
       const extentToUpdate = this.temporalExtents[index!];
-      extentToUpdate.startDate = this.startDate ? this.startDate.toISOString() : '';
-      extentToUpdate.endDate = this.endDate ? this.endDate.toISOString() : '';
+      console.debug('extentToUpdate', extentToUpdate);
+      extentToUpdate.startDate = this.startDate ? moment(this.startDate).toISOString() : '';
+      extentToUpdate.endDate = this.endDate ? moment(this.endDate).toISOString() : '';
 
       this.spatialTemporalEntityExecutionService.handleTemporalSave(extentToUpdate);
       this.apiService.endpoints.PeriodOfTime.update.call(extentToUpdate);
@@ -189,24 +225,18 @@ export class TemporalCoverageComponent {
     if (temporalExtent) {
       temporalExtent?.forEach((item) => {
         arr.push(
-          new FormGroup(
-            {
-              startDate: new FormControl(item?.startDate, [Validators.required]),
-              endDate: new FormControl(item?.endDate, [Validators.required]),
-            },
-            { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
-          ),
+          new FormGroup({
+            startDate: new FormControl(item?.startDate, [Validators.required]),
+            endDate: new FormControl(item?.endDate),
+          }),
         );
       });
     } else {
       arr.push(
-        new FormGroup(
-          {
-            startDate: new FormControl('', [Validators.required]),
-            endDate: new FormControl('', [Validators.required]),
-          },
-          { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
-        ),
+        new FormGroup({
+          startDate: new FormControl('', [Validators.required]),
+          endDate: new FormControl('', [Validators.max(moment(this.startDate).unix())]),
+        }),
       );
     }
     return arr;
