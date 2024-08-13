@@ -13,3 +13,9 @@
 #mapwebserviceMap {
   height: 100%;
 }
+
+::ng-deep .leaflet-control-zoom-fullscreen {
+  svg {
+    margin-top: 3px;
+  }
+}
