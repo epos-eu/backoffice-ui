@@ -142,6 +142,7 @@ export class PersistentIdentifierComponent implements OnInit {
         const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
         const newIdentifierArr = updatingObject.identifier?.splice(index, 1);
         this.dataproductService.updateDataProductRecord(updatingObject, { identifier: newIdentifierArr });
+        this.entityExecutionService.handleDataProductSave();
         this.snackbarService.openSnackbar('Successfully deleted Identifier.', 'Close', 'success', 3000, [
           'snackbar',
           'mat-toolbar',
