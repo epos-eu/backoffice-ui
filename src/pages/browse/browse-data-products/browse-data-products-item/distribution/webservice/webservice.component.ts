@@ -8,6 +8,7 @@ import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
   selector: 'app-distribution-webservice',
@@ -42,6 +43,8 @@ export class DistributionWebserviceComponent extends WithSubscription implements
 
   public dataProduct!: DataProduct | null;
 
+  public disabled = false;
+
   private initData(details: LinkedEntity): void {
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
@@ -59,7 +62,14 @@ export class DistributionWebserviceComponent extends WithSubscription implements
             this.entityExecutionService.setActiveWebService(
               this.entityExecutionService.convertToWebService(this.webservice),
             );
+            this.handleServiceProviders(this.webservice);
             this.initForm();
+            if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+              this.form.disable();
+              this.disabled = true;
+            } else {
+              this.disabled = false;
+            }
           }
         }
       })
@@ -76,9 +86,8 @@ export class DistributionWebserviceComponent extends WithSubscription implements
 
   private trackFormData(): void {
     if (this.dataProduct) {
-      let updatingObject = this.entityExecutionService.getActiveWebServiceValue();
+      const updatingObject = this.entityExecutionService.getActiveWebServiceValue();
       this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
-        console.debug(updatingObject);
         if (null != updatingObject) {
           updatingObject.name = changes.name;
           updatingObject.description = changes.description;
@@ -136,6 +145,19 @@ export class DistributionWebserviceComponent extends WithSubscription implements
       };
       webservice.provider = serviceProviderEntityDetail;
       this.entityExecutionService.setActiveWebService(webservice);
+    }
+  }
+
+  private handleServiceProviders(webservice: WebService): void {
+    if (this.serviceProviders.length === 0) {
+      this.serviceProvidersLoading = true;
+      this.apiService.endpoints.Organization.getAll.call().then((response: Organization[]) => {
+        if (null != webservice.provider) {
+          this.selectedServiceProvider = response.find((value: Organization) => value.uid === webservice.provider!.uid);
+        }
+        this.serviceProviders = response;
+        this.serviceProvidersLoading = false;
+      });
     }
   }
 }

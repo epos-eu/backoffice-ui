@@ -28,7 +28,6 @@
       [ngStyle]="{ 'line-height': '1.4' }"
       formControlName="description"
       [value]="webservice?.description"
-      [disabled]="true"
     ></textarea>
   </mat-form-field>
 
@@ -39,12 +38,13 @@
       [ngModelOptions]="{ standalone: true }"
       [compareWith]="compareWithFn"
       (selectionChange)="handleUpdateServicePoint()"
+      [disabled]="disabled"
     >
       <mat-option
         *ngFor="let provider of serviceProviders"
         [value]="provider"
       >
-        {{ provider.legalName }}
+        {{ provider.url }}
       </mat-option>
     </mat-select>
   </mat-form-field>

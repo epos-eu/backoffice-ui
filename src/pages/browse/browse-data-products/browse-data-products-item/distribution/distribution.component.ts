@@ -110,7 +110,7 @@ export class DistributionComponent implements OnInit {
   private trackFormData(): void {
     const actvIndex = 0;
     if (this.dataProduct) {
-      let updatingObject = this.distributionDetails[actvIndex];
+      const updatingObject = this.distributionDetails[actvIndex];
       this.entityExecutionService.setActiveDistribution(updatingObject);
       this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
         updatingObject.title = this.helpersService.formatArrayVal(changes.distributions[actvIndex].title);
