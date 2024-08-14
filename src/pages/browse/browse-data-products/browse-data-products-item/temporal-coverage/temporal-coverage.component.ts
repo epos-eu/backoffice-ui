@@ -84,9 +84,6 @@ export class TemporalCoverageComponent {
       this.trackFormChanges();
     }
     // Disable form if parent DataProduct should not be edited.
-    if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
-      this.form.disable();
-    }
   }
 
   private checkForActiveTemporalVals(): void {
@@ -122,6 +119,9 @@ export class TemporalCoverageComponent {
           coverage: this.createCoverageArray(items),
         });
         this.trackFormChanges();
+        if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+          this.form.disable();
+        }
       });
     });
   }

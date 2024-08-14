@@ -1,3 +1,4 @@
+import { ContentObserver } from '@angular/cdk/observers';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataProduct, Documentation, LinkedEntity } from 'generated/backofficeSchemas';
@@ -81,9 +82,10 @@ export class DocumentationComponent implements OnInit {
         }),
       ),
     });
+    this.disabled ? this.form.disable() : this.form.enable();
   }
 
-  public getControls(field: string) {
+  public getControls(field: string): AbstractControl<unknown, unknown>[] {
     return (this.form.get(field) as FormArray).controls;
   }
 
