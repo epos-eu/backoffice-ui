@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  FormArray,
-  Validators,
-  AbstractControlOptions,
-  UntypedFormArray,
-} from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormGroup, FormControl, FormArray, Validators, UntypedFormArray } from '@angular/forms';
 import { DataProduct, LinkedEntity, PeriodOfTime } from 'generated/backofficeSchemas';
+// eslint-disable-next-line import/named
 import moment, { Moment } from 'moment';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { DataproductService } from '../../dataproduct.service';
@@ -26,12 +20,15 @@ import { LoadingService } from 'src/services/loading.service';
 })
 export class TemporalCoverageComponent {
   @Input() dataProduct!: DataProduct | null;
-  @Input() dataProductIsParent = true;
 
-  public temporalExtent: LinkedEntity[] = [];
+  public dataProdAct!: boolean;
+  @Input() set dataProductIsParent(value: boolean) {
+    this.dataProdAct = value;
+  }
+  public temporalLinkedEntities: LinkedEntity[] = [];
   @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {
     if (value) {
-      this.temporalExtent = value;
+      this.temporalLinkedEntities = value;
       this.init();
     }
   }
@@ -54,11 +51,11 @@ export class TemporalCoverageComponent {
     private loadingService: LoadingService,
   ) {}
 
-  private dateComparison(start: string, end: string): (group: FormGroup) => { [key: string]: any } | null {
-    return (group: FormGroup): { [key: string]: any } | null => {
-      const startCtrl = group.controls[start];
-      const endCtrl = group.controls[end];
-      if (startCtrl.value && endCtrl.value) {
+  public dateComparison(): (group: FormControl) => { [key: string]: any } | null {
+    return (group: FormControl): { [key: string]: any } | null => {
+      const startCtrl = group.get('startDate');
+      const endCtrl = group.get('endDate');
+      if (startCtrl?.value && endCtrl?.value) {
         if (moment(startCtrl.value).isAfter(endCtrl.value)) {
           startCtrl.markAsTouched();
           endCtrl.markAsTouched();
@@ -79,8 +76,8 @@ export class TemporalCoverageComponent {
     this.startDate = null;
     this.endDate = null;
     this.checkForActiveTemporalVals();
-    if (this.temporalExtent.length > 0) {
-      this.initValidTemporalCoverage(this.temporalExtent);
+    if (this.temporalLinkedEntities.length > 0) {
+      this.initValidTemporalCoverage(this.temporalLinkedEntities);
     } else {
       this.form = new FormGroup({
         coverage: this.createCoverageArray(),
@@ -94,17 +91,19 @@ export class TemporalCoverageComponent {
   }
 
   private checkForActiveTemporalVals(): void {
-    if (this.dataProductIsParent) {
+    if (this.dataProdAct) {
       const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
       if (activeDataProduct?.temporalExtent) {
         activeDataProduct.temporalExtent.length > 0
-          ? this.temporalExtent.push(activeDataProduct.temporalExtent[0])
+          ? this.temporalLinkedEntities.push(activeDataProduct.temporalExtent[0])
           : [];
       }
     } else {
       const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
       if (activeWebService?.temporalExtent) {
-        activeWebService.temporalExtent.length > 0 ? this.temporalExtent.push(activeWebService.temporalExtent[0]) : [];
+        activeWebService.temporalExtent.length > 0
+          ? this.temporalLinkedEntities.push(activeWebService.temporalExtent[0])
+          : [];
       }
     }
   }
@@ -133,24 +132,26 @@ export class TemporalCoverageComponent {
      * If the `temporalExtent` property of the `dataProduct` OR 'webservice' object is empty,
      * it means that there are no existing temporal extents associated with the data product and POST fn is called.
      */
-    if (this.temporalExtent.length === 0) {
+    if (this.temporalLinkedEntities.length === 0) {
       this.loadingService.setShowSpinner(true);
       const newPeriodOfTime: PeriodOfTime = {
-        startDate: this.startDate ? this.startDate.toISOString() : '',
-        endDate: this.endDate ? this.endDate.toISOString() : '',
+        startDate: this.startDate ? moment(this.startDate).toISOString() : '',
+        endDate: this.endDate ? moment(this.endDate).toISOString() : '',
       };
       this.apiService.endpoints.PeriodOfTime.create
         .call(newPeriodOfTime)
         .then((temporalCoverage) => {
-          if (this.dataProductIsParent) {
+          if (this.dataProdAct) {
             const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
             this.dataproductService.updateDataProductRecord(updatingObject, { temporalExtent: [temporalCoverage] });
+            this.entityExecutionService.handleDataProductSave();
           } else {
             const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
             activeWebService?.temporalExtent?.push(temporalCoverage);
             this.entityExecutionService.setActiveWebService(
               this.entityExecutionService.convertToWebService(activeWebService!),
             );
+            this.entityExecutionService.handleWebserviceSave();
           }
           this.form.markAsPristine();
         })
@@ -161,8 +162,8 @@ export class TemporalCoverageComponent {
        */
     } else {
       const extentToUpdate = this.temporalExtents[index!];
-      extentToUpdate.startDate = this.startDate ? this.startDate.toISOString() : '';
-      extentToUpdate.endDate = this.endDate ? this.endDate.toISOString() : '';
+      extentToUpdate.startDate = this.startDate ? moment(this.startDate).toISOString() : '';
+      extentToUpdate.endDate = this.endDate ? moment(this.endDate).toISOString() : '';
 
       this.spatialTemporalEntityExecutionService.handleTemporalSave(extentToUpdate);
       this.apiService.endpoints.PeriodOfTime.update.call(extentToUpdate);
@@ -173,7 +174,27 @@ export class TemporalCoverageComponent {
     this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
       this.startDate = changes.coverage[0].startDate;
       this.endDate = changes.coverage[0].endDate;
+
+      /* The code snippet is checking if the start date is before the end date in the form. Returns an error on the GUI if so. */
+      if (this.comparisonValidator(this.startDate, this.endDate)) {
+        this.form.setErrors(null);
+        this.form.markAsTouched();
+      } else {
+        this.form.setErrors({ incorrect: true });
+        this.form.markAsPristine();
+      }
     });
+  }
+
+  private comparisonValidator(start: Moment | null, end: Moment | null): boolean {
+    const startCtrl = moment(start);
+    const endCtrl = moment(end);
+    if (startCtrl && endCtrl) {
+      if (startCtrl.isAfter(endCtrl)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private createCoverageArray(temporalExtent?: PeriodOfTime[] | undefined): UntypedFormArray {
@@ -181,24 +202,18 @@ export class TemporalCoverageComponent {
     if (temporalExtent) {
       temporalExtent?.forEach((item) => {
         arr.push(
-          new FormGroup(
-            {
-              startDate: new FormControl(item?.startDate, [Validators.required]),
-              endDate: new FormControl(item?.endDate, [Validators.required]),
-            },
-            { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
-          ),
+          new FormGroup({
+            startDate: new FormControl(item?.startDate, [Validators.required]),
+            endDate: new FormControl(item?.endDate),
+          }),
         );
       });
     } else {
       arr.push(
-        new FormGroup(
-          {
-            startDate: new FormControl('', [Validators.required]),
-            endDate: new FormControl('', [Validators.required]),
-          },
-          { validator: this.dateComparison('startDate', 'endDate') } as AbstractControlOptions,
-        ),
+        new FormGroup({
+          startDate: new FormControl('', [Validators.required]),
+          endDate: new FormControl(''),
+        }),
       );
     }
     return arr;

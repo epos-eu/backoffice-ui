@@ -33,6 +33,7 @@ import { DistributionComponent } from './browse-data-products-item/distribution/
 import { DistributionDownloadComponent } from './browse-data-products-item/distribution/download/download.component';
 import { DistributionWebserviceComponent } from './browse-data-products-item/distribution/webservice/webservice.component';
 import { SupportedOperationComponent } from './browse-data-products-item/supported-operation/supported-operation.component';
+import { DocumentationComponent } from './browse-data-products-item/documentation/documentation.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { SupportedOperationComponent } from './browse-data-products-item/support
     DistributionDownloadComponent,
     DistributionWebserviceComponent,
     SupportedOperationComponent,
+    DocumentationComponent,
   ],
   imports: [AngularMaterialModule, CommonModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [

@@ -1,3 +1,13 @@
+<ng-container *ngIf="distributionDetails.length === 0">
+  <button
+    mat-flat-button
+    (click)="handleAddDistribution()"
+    color="primary"
+  >
+    Add Distribution
+  </button>
+</ng-container>
+
 <form
   [formGroup]="form"
   *ngIf="form"
@@ -100,11 +110,36 @@
       [distribution]="distributionObj"
     ></app-distribution-download>
   </ng-container>
+
   <ng-container *ngIf="distribution?.get('dataAccess')?.value === 'webservice'">
+    <div *ngIf="null == distributionObj.accessService">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="handleAddWebservice(0)"
+      >
+        Create Webservice
+      </button>
+    </div>
+
     <app-distribution-webservice
       [accessService]="distributionObj.accessService"
       [supportedOperations]="distributionObj.accessService.supportedOperation"
     ></app-distribution-webservice>
   </ng-container>
-  <app-save-entity entity="Distribution"></app-save-entity>
+
+  <app-save-entity
+    entity="Distribution"
+    [disabled]="disabled"
+    (onSave)="handleSave(0)"
+  ></app-save-entity>
+
+  <!-- <div class="fn-buttons"> -->
+  <!-- <button
+      mat-flat-button
+      (click)="handleAddDistribution()"
+    >
+      Add Distribution
+    </button>
+  </div> -->
 </ng-template>

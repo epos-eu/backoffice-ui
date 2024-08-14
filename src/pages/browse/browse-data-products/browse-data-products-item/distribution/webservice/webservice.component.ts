@@ -2,6 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DataProduct, Distribution, LinkedEntity, Organization, WebService } from 'generated/backofficeSchemas';
+import { debounceTime } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
@@ -53,13 +54,12 @@ export class DistributionWebserviceComponent extends WithSubscription implements
       .then((data: Array<WebService>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.webservice = data.shift() as WebService;
-          console.debug('mock webservice: ', this.webservice);
 
           if (this.webservice) {
             this.entityExecutionService.setActiveWebService(
               this.entityExecutionService.convertToWebService(this.webservice),
             );
-            // this.handleServiceProviders(this.webservice);
+            this.initForm();
           }
         }
       })
@@ -74,13 +74,21 @@ export class DistributionWebserviceComponent extends WithSubscription implements
     });
   }
 
-  public ngOnInit(): void {
-    console.debug('mock webservice: ', this.webservice);
-    this.initSubscriptions();
-    this.initData({
-      instanceId: this.accessService?.instanceId,
-      metaId: this.accessService?.metaId,
-    });
+  private trackFormData(): void {
+    if (this.dataProduct) {
+      let updatingObject = this.entityExecutionService.getActiveWebServiceValue();
+      this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
+        console.debug(updatingObject);
+        if (null != updatingObject) {
+          updatingObject.name = changes.name;
+          updatingObject.description = changes.description;
+          this.entityExecutionService.setActiveWebService(updatingObject);
+        }
+      });
+    }
+  }
+
+  private initForm(): void {
     this.form = this.formBuilder.group({
       name: new FormControl(this.webservice?.name),
       description: new FormControl(this.webservice?.description),
@@ -95,6 +103,15 @@ export class DistributionWebserviceComponent extends WithSubscription implements
           }
         },
       ]),
+    });
+    this.trackFormData();
+  }
+
+  public ngOnInit(): void {
+    this.initSubscriptions();
+    this.initData({
+      instanceId: this.accessService?.instanceId,
+      metaId: this.accessService?.metaId,
     });
   }
 

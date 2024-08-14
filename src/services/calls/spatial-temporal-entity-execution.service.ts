@@ -4,8 +4,7 @@ import { Status } from 'src/utility/enums/status.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { SnackbarService } from '../snackbar.service';
 import { LoadingService } from '../loading.service';
-import { Location as LocationType } from 'generated/backofficeSchemas';
-import { PeriodOfTime as PeriodOfTimeType } from 'generated/backofficeSchemas';
+import { Location as LocationType, PeriodOfTime as PeriodOfTimeType } from 'generated/backofficeSchemas';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Injectable({

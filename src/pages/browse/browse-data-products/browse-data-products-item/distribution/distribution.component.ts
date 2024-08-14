@@ -1,8 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSchemas';
+import { debounceTime } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
+import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
+import { HelpersService } from 'src/services/helpers.service';
+import { LoadingService } from 'src/services/loading.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { Status } from 'src/utility/enums/status.enum';
@@ -17,7 +24,14 @@ export class DistributionComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct | undefined;
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private dialogService: DialogService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private apiService: ApiService,
+    private dialogService: DialogService,
+    private entityExecutionService: EntityExecutionService,
+    private loadingService: LoadingService,
+    private helpersService: HelpersService,
+  ) {}
 
   public form!: FormGroup;
 
@@ -55,9 +69,12 @@ export class DistributionComponent implements OnInit {
         }),
       ),
     });
+    this.trackFormData();
     if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
       this.form.disable();
       this.disabled = true;
+    } else {
+      this.disabled = false;
     }
   }
 
@@ -69,6 +86,7 @@ export class DistributionComponent implements OnInit {
   }
 
   private getDistributionDetails(): void {
+    this.loadingService.setShowSpinner(true);
     const requests: Promise<Distribution[]>[] = [];
     this.distribution?.forEach((item: LinkedEntity) => {
       requests.push(
@@ -85,7 +103,22 @@ export class DistributionComponent implements OnInit {
       const flattened = value.flat();
       this.distributionDetails = flattened;
       this.initForm();
+      this.loadingService.setShowSpinner(false);
     });
+  }
+
+  private trackFormData(): void {
+    const actvIndex = 0;
+    if (this.dataProduct) {
+      let updatingObject = this.distributionDetails[actvIndex];
+      this.entityExecutionService.setActiveDistribution(updatingObject);
+      this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
+        updatingObject.title = this.helpersService.formatArrayVal(changes.distributions[actvIndex].title);
+        updatingObject.description = this.helpersService.formatArrayVal(changes.distributions[0].description);
+        updatingObject.licence = changes.distributions[actvIndex].licence;
+        this.entityExecutionService.setActiveDistribution(updatingObject);
+      });
+    }
   }
 
   public getControls(field: string) {
@@ -96,26 +129,71 @@ export class DistributionComponent implements OnInit {
     this.getDistributionDetails();
   }
 
-  public handleSave(): void {
-    // this.dialogService
-    //   .handleUpdateChangeComment(this.distribution?.changeComment ? this.distribution?.changeComment : '')
-    //   .then((data: DialogData) => {
-    //     if (data.dataOut != null) {
-    //       const changeComment = data.dataOut;
-    //       const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-    //       if (null != activeDistribution) {
-    //         activeDistribution.changeComment = changeComment;
-    //         this.entityExecutionService.setActiveDistribution(activeDistribution);
-    //         this.entityExecutionService.handleDistributionSave();
-    //       }
-    //     }
-    //   });
-    // this.actionsService.showSaveDistributionMessage(false);
+  public handleSave(index: number): void {
+    const changeComment = this.distributionDetails[index].changeComment
+      ? this.distributionDetails[index].changeComment!
+      : '';
+    this.dialogService.handleUpdateChangeComment(changeComment).then((data: DialogData) => {
+      if (data.dataOut != null) {
+        const changeComment = data.dataOut;
+        const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+        if (null != activeDistribution) {
+          activeDistribution.changeComment = changeComment;
+          this.entityExecutionService.setActiveDistribution(activeDistribution);
+          this.entityExecutionService.handleDistributionSave().then((success: boolean) => {
+            if (success && activeDistribution.accessService) {
+              this.entityExecutionService.handleWebserviceSave();
+            }
+          });
+        }
+      }
+    });
   }
 
   public handleDelete(instanceId: string | undefined): void {
     if (instanceId !== undefined) {
       this.dialogService.handleDelete(instanceId, EntityEndpointValue.DISTRIBUTION, false);
     }
+  }
+
+  public handleAddDistribution(): void {
+    this.apiService.endpoints[Entity.DISTRIBUTION].create.call().then((dist: DistributionDetailDataSource) => {
+      this.distributionDetails.push(dist);
+      this.initForm();
+
+      const newDistributionEntity: LinkedEntity = {
+        entityType: Entity.DISTRIBUTION,
+        instanceId: dist.instanceId,
+        metaId: dist.metaId,
+        uid: dist.uid,
+      };
+      if (null != this.dataProduct) {
+        this.dataProduct.distribution?.push(newDistributionEntity);
+        this.entityExecutionService.setActiveDataProduct(
+          this.entityExecutionService.convertToDataProduct(this.dataProduct),
+        );
+      }
+      this.entityExecutionService.handleDataProductSave();
+    });
+  }
+
+  public handleAddWebservice(index: number) {
+    this.apiService.endpoints[Entity.WEBSERVICE].create.call().then((webservice: WebserviceDetailDataSource) => {
+      const newWebserviceEntity: LinkedEntity = {
+        entityType: Entity.WEBSERVICE,
+        instanceId: webservice.instanceId,
+        metaId: webservice.metaId,
+        uid: webservice.uid,
+      };
+
+      this.distributionDetails[index].accessService = newWebserviceEntity;
+      this.initForm();
+
+      const activeDistribution = this.distributionDetails[index];
+      if (null != activeDistribution) {
+        this.entityExecutionService.setActiveDistribution(activeDistribution);
+        this.entityExecutionService.handleDistributionSave();
+      }
+    });
   }
 }
