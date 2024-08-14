@@ -28,7 +28,6 @@ export class TemporalCoverageComponent {
   public temporalLinkedEntities: LinkedEntity[] = [];
   @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {
     if (value) {
-      this.temporalLinkedEntities = value;
       this.init();
     }
   }
