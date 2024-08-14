@@ -20,6 +20,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
 
   private readonly router: Router;
   private readonly http: HttpClient;
+  private readonly logger: LogService;
 
   private updateUserProfileTimeout!: NodeJS.Timeout;
 
@@ -29,6 +30,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
   constructor(injector: Injector, private readonly oAuthService: OAuthService) {
     this.router = injector.get(Router);
     this.http = injector.get(HttpClient);
+    this.logger = injector.get(LogService);
     this.init();
   }
 
@@ -135,7 +137,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     this.updateUserProfileTimeout = setTimeout(() => {
       const token = this.getUserToken();
       const currentProfile = this.userProfileSource.getValue();
-      const logger = inject(LogService);
+
       // only if the token has changed
       if (currentProfile == null || currentProfile.getToken() !== token) {
         // Try protects against a promise not being returned from "loadUserProfile" function.
@@ -144,7 +146,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
             .loadUserProfile()
             .then((object: object): void => {
               const userInfo = object as UserInfo;
-              logger.info('loadUserProfile response', userInfo);
+              this.logger.info('loadUserProfile response', userInfo);
               this.userProfileSource.next(BasicUser.makeFromProfileResponse(token, userInfo));
 
               // console.debug('scopes', this.oAuthService.getGrantedScopes());
@@ -157,7 +159,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
               this.userProfileSource.next(user);
             });
         } catch (error) {
-          logger.info('loadUserProfile - no token');
+          this.logger.info('loadUserProfile - no token');
           this.userProfileSource.next(null);
         }
       }
@@ -194,8 +196,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
 
   private getUserId(): null | string {
     const claims = this.oAuthService.getIdentityClaims() as Record<string, unknown>;
-    const logger = inject(LogService);
-    logger.info('getIdentityClaims', claims);
+    this.logger.info('getIdentityClaims', claims);
     if (claims) {
       return String(claims['sub']);
     }
