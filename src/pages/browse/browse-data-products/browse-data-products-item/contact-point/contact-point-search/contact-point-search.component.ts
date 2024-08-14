@@ -135,7 +135,10 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
   }
 
   public displayFn(user: Person): string {
-    return user?.givenName + ' ' + user.familyName + ' - ' + user.uid;
+    const givenName = user?.givenName ? user.givenName : '';
+    const familyName = user?.familyName ? user.familyName : '';
+    const uid = user?.uid ? user.uid : '';
+    return givenName + ' ' + familyName + ' - ' + uid;
   }
 
   public setAutocompleteValToForm(event: MatAutocompleteSelectedEvent): void {
