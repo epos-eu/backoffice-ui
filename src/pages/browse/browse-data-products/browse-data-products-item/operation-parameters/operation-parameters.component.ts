@@ -124,6 +124,15 @@ export class OperationParametersComponent implements OnInit {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(this.mapping)),
     });
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
+      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
+        this.paramsForm.disable();
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+        this.paramsForm.enable();
+      }
+    });
   }
 
   private foundListParametersOnTemplate(): string[] {
@@ -148,15 +157,6 @@ export class OperationParametersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.initData();
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
-      if (state === null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
-        this.paramsForm.disable();
-        this.disabled = true;
-      } else {
-        this.disabled = false;
-        this.paramsForm.enable();
-      }
-    });
   }
 
   public cacheParam(updatedMapping: LinkedEntity[]) {
