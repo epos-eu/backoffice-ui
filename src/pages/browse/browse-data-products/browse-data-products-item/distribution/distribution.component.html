@@ -15,7 +15,7 @@
 >
   <ng-container *ngIf="distributionDetails.length > 1">
     <mat-tab-group
-      [mat-stretch-tabs]="false"
+      [mat-stretch-tabs]="true"
       [animationDuration]="0"
       class="distribution"
     >
@@ -24,13 +24,14 @@
           *ngFor="let child of getControls('distributions'); let i = index"
           [formGroupName]="i"
         >
-          <mat-tab [label]="distributionDetails[i].title?.[0]!">
+          <mat-tab [label]="getDistributionTabTitle(distributionDetails[i])">
             <ng-scrollbar>
               <ng-template
                 [ngTemplateOutlet]="singleDistribution"
                 [ngTemplateOutletContext]="{
                   distribution: child,
-                  distributionObj: distributionDetails[i]
+                  distributionObj: distributionDetails[i],
+                  index: i,
                 }"
               ></ng-template>
             </ng-scrollbar>
@@ -54,6 +55,7 @@
   #singleDistribution
   let-distribution="distribution"
   let-distributionObj="distributionObj"
+  let-index="index"
 >
   <mat-form-field
     appearance="fill"
@@ -116,7 +118,7 @@
       <button
         mat-flat-button
         color="primary"
-        (click)="handleAddWebservice(0)"
+        (click)="handleAddWebservice(index)"
       >
         Create Webservice
       </button>
@@ -131,8 +133,17 @@
   <app-save-entity
     entity="Distribution"
     [disabled]="disabled"
-    (onSave)="handleSave(0)"
+    (onSave)="handleSave(index)"
   ></app-save-entity>
+
+  <button
+    mat-flat-button
+    (click)="handleAddDistribution()"
+    color="primary"
+    class="add-distribution"
+  >
+    Add Distribution
+  </button>
 
   <!-- <div class="fn-buttons"> -->
   <!-- <button

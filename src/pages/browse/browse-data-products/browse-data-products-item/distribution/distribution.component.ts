@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSchemas';
+import { stringify } from 'querystring';
 import { debounceTime } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
@@ -167,6 +168,7 @@ export class DistributionComponent implements OnInit {
         metaId: dist.metaId,
         uid: dist.uid,
       };
+
       if (null != this.dataProduct) {
         this.dataProduct.distribution?.push(newDistributionEntity);
         this.entityExecutionService.setActiveDataProduct(
@@ -195,5 +197,14 @@ export class DistributionComponent implements OnInit {
         this.entityExecutionService.handleDistributionSave();
       }
     });
+  }
+
+  public getDistributionTabTitle(distribution: Distribution): string {
+    if (null != distribution.title && distribution.title.length > 0) {
+      const title = distribution.title[0];
+      const titleString = title.length > 70 ? `${title.substring(0, 70)}...` : title;
+      return titleString;
+    }
+    return 'New Distribution';
   }
 }
