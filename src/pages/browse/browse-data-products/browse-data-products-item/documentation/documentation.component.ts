@@ -1,4 +1,3 @@
-import { ContentObserver } from '@angular/cdk/observers';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataProduct, Documentation, LinkedEntity } from 'generated/backofficeSchemas';
@@ -69,7 +68,7 @@ export class DocumentationComponent implements OnInit {
             description: new FormControl(documentation.description),
             uri: new FormControl(documentation.uri, [
               Validators.required,
-              (control: AbstractControl): { [key: string]: any } | null => {
+              (control: AbstractControl): { [key: string]: unknown } | null => {
                 if (this.helpersService.isValidHttpUrl(control.value)) {
                   return null;
                 } else {

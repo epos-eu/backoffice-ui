@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { BarController, BarElement, Chart, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
 import { Router, NavigationEnd, Event as NavigationEvent, ActivationStart, RouterOutlet } from '@angular/router';
 import { filter, pairwise } from 'rxjs/operators';
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
     private actionsService: ActionsService,
     private routeService: RouteService,
     private loadingService: LoadingService,
+    private cdr: ChangeDetectorRef,
   ) {
     this.router.events.subscribe((e) => {
       if (e instanceof ActivationStart) {
@@ -60,6 +61,11 @@ argument. This triggers the @BackButtonComponent to return a user to either @Bro
     this.subscriptions.add(
       this.loadingService.showSpinnerObs.subscribe((show: boolean) => {
         this.showLoadingSpinner = show;
+        /* 
+`this.cdr.detectChanges();` prevents the `ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked.` error 
+by manually triggering change detection.
+ */
+        this.cdr.detectChanges();
       }),
     );
   }

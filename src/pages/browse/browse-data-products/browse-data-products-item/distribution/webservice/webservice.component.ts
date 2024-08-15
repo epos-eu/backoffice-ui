@@ -43,7 +43,7 @@ export class DistributionWebserviceComponent extends WithSubscription implements
 
   public dataProduct!: DataProduct | null;
 
-  public disabled = false;
+  public disabled = true;
 
   private initData(details: LinkedEntity): void {
     this.apiService.endpoints[Entity.WEBSERVICE].get
