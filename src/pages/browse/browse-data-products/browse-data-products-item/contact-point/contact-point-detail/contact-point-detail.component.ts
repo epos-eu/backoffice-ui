@@ -36,7 +36,7 @@ export class ContactPointDetailComponent implements OnInit {
       const flattened = contactPoints.flat();
       this.mergedDetails = [...flattened];
       this.mergedDetails.forEach((item) => {
-        this.getPerson(item.metaId, item.instanceId);
+        // this.getPerson(item.metaId, item.instanceId);
       });
       this.loading = false;
     });
