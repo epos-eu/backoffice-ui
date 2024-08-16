@@ -25,6 +25,7 @@ export class SpatialCoverageComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct | null;
   @Input() dataProductIsParent = true;
+  @Input() mapId!: string;
 
   public spatialExtent: LinkedEntity[] | undefined = [];
   @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {

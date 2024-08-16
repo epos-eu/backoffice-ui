@@ -3,6 +3,7 @@
     mat-flat-button
     (click)="handleAddDistribution()"
     color="primary"
+    [disabled]="disabled"
   >
     Add Distribution
   </button>
@@ -123,10 +124,10 @@
         Create Webservice
       </button>
     </div>
-
     <app-distribution-webservice
       [accessService]="distributionObj.accessService"
       [supportedOperations]="distributionObj.accessService.supportedOperation"
+      [distributionIndex]="index ? index : ''"
     ></app-distribution-webservice>
   </ng-container>
 
@@ -142,6 +143,7 @@
     (click)="handleAddDistribution()"
     color="primary"
     class="add-distribution"
+    [disabled]="disabled"
   >
     Add Distribution
   </button>

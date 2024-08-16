@@ -49,6 +49,7 @@
 
         <app-spatial-coverage
           *ngIf="activeItem === entityFieldEnum.SPATIAL_COVERAGE"
+          [mapId]="'dataproduct'"
           [dataProduct]="dataProduct"
           [spatialExtentInput]="dataProduct.spatialExtent"
         ></app-spatial-coverage>

@@ -17,8 +17,8 @@ import { Status } from 'src/utility/enums/status.enum';
 })
 export class DistributionWebserviceComponent extends WithSubscription implements OnInit {
   @Input() accessService!: Distribution['accessService'];
-
   @Input() supportedOperations: WebService['supportedOperation'];
+  @Input() distributionIndex!: number;
 
   constructor(
     private formBuilder: FormBuilder,
