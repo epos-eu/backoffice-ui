@@ -119,7 +119,7 @@
       <button
         mat-flat-button
         color="primary"
-        (click)="handleAddWebservice(index)"
+        (click)="handleAddWebservice(index ? index : 0)"
       >
         Create Webservice
       </button>
@@ -134,8 +134,8 @@
   <app-save-entity
     entity="Distribution"
     [disabled]="disabled"
-    (onSave)="handleSave(index)"
-    (onDelete)="handleDelete(index)"
+    (onSave)="handleSave(index ? index : 0)"
+    (onDelete)="handleDelete(index ? index : 0)"
   ></app-save-entity>
 
   <button

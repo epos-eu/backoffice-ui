@@ -57,8 +57,7 @@
         <app-temporal-coverage
           *ngIf="activeItem === entityFieldEnum.TEMPORAL_COVERAGE"
           [dataProductIsParent]="true"
-          [dataProduct]="dataProduct"
-          [spatialExtentInput]="dataProduct.temporalExtent"
+          [parent]="dataProduct"
         ></app-temporal-coverage>
 
         <app-persistent-identifier

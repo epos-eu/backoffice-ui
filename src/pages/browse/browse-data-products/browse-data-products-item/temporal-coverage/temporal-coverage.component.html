@@ -1,4 +1,4 @@
-<ng-container *ngIf="temporalLinkedEntities; else empty">
+<ng-container *ngIf="temporalLinkedEntities.length > 0; else empty">
   <form
     [formGroup]="form"
     *ngIf="form"
@@ -67,4 +67,11 @@
 </ng-container>
 <ng-template #empty>
   <p class="notice">Couldn't fetch temporal coverage data.</p>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="createNewTemporalExtent()"
+  >
+    Add Temporal Coverage
+  </button>
 </ng-template>

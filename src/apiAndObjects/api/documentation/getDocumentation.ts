@@ -1,16 +1,12 @@
 import { HttpHeaders } from '@angular/common/http';
-import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { Documentation as DocumentationType } from 'generated/backofficeSchemas';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DocumentationDataSource } from 'src/apiAndObjects/objects/data-source/documentationDetailDataSource';
+import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
 
-export class GetDocumentation extends CacheableEndpoint<
-  Array<DocumentationType>,
-  GetDocumentationParams,
-  DocumentationType
-> {
+export class GetDocumentation extends Endpoint<Array<DocumentationType>, GetDocumentationParams, DocumentationType> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: GetDocumentationParams): string {

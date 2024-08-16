@@ -96,8 +96,7 @@
           @defer (when mepTemporal.expanded) {
           <app-temporal-coverage
             [dataProductIsParent]="false"
-            [dataProduct]="dataProduct"
-            [spatialExtentInput]="webservice.temporalExtent"
+            [parent]="webservice"
           ></app-temporal-coverage>
           }
         </mat-expansion-panel>
