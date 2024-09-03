@@ -1,7 +1,7 @@
 <ng-container *ngIf="spatialExtent?.length; else empty">
   <div class="spatial-coverage-map-wrapper">
     <app-spatial-coverage-map
-      [mapId]="'dataproductMap'"
+      [mapId]="mapId"
       [spatialRange]="spatialCoverageInput"
       [coordinatesChange]="spatialCoverageChange"
     >

@@ -35,6 +35,16 @@
         </mat-form-field>
         <button
           mat-mini-fab
+          color="primary"
+          aria-label="Save Persistent Identifier"
+          matTooltip="Save Persistent Identifier"
+          (click)="handleUpdateIdentifier(i)"
+          [disabled]="disabled"
+        >
+          <mat-icon>save</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
           [color]="dataProduct.status === stateEnum.PUBLISHED ? '' : 'warn'"
           matTooltip="Remove Identifier"
           class="smaller"
@@ -55,8 +65,3 @@
 >
   Add identifier
 </button>
-<app-save-entity
-  entity="Identifier"
-  [hideDelete]="true"
-  [disabled]="disabled"
-></app-save-entity>

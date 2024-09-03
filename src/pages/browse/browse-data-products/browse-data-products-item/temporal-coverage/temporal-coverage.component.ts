@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, UntypedFormArray } from '@angular/forms';
-import { DataProduct, LinkedEntity, PeriodOfTime } from 'generated/backofficeSchemas';
+import { DataProduct, LinkedEntity, PeriodOfTime, WebService } from 'generated/backofficeSchemas';
 // eslint-disable-next-line import/named
 import moment, { Moment } from 'moment';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
@@ -12,6 +12,7 @@ import { GetPeriodOfTimeParams } from 'src/apiAndObjects/api/periodOfTime/getPer
 import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatial-temporal-entity-execution.service';
 import { Status } from 'src/utility/enums/status.enum';
 import { LoadingService } from 'src/services/loading.service';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 @Component({
   selector: 'app-temporal-coverage',
@@ -19,19 +20,23 @@ import { LoadingService } from 'src/services/loading.service';
   styleUrl: './temporal-coverage.component.scss',
 })
 export class TemporalCoverageComponent {
-  @Input() dataProduct!: DataProduct | null;
+  public parentEntity!: DataProduct | WebService;
+  @Input() set parent(value: DataProduct | WebService) {
+    this.parentEntity = value;
+    if (null != value.temporalExtent) {
+      this.temporalLinkedEntities = value.temporalExtent;
+      this.initTemporalCoverage(value.temporalExtent);
+    } else {
+      // Set as empty array if null to enable code to push into temporal extent arr when updating
+      this.parentEntity.temporalExtent = [];
+    }
+  }
 
   public dataProdAct!: boolean;
   @Input() set dataProductIsParent(value: boolean) {
     this.dataProdAct = value;
   }
   public temporalLinkedEntities: LinkedEntity[] = [];
-  @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {
-    if (value) {
-      this.temporalLinkedEntities = value;
-      this.init();
-    }
-  }
 
   private startDate!: Moment | null;
 
@@ -51,64 +56,44 @@ export class TemporalCoverageComponent {
     private loadingService: LoadingService,
   ) {}
 
-  public dateComparison(): (group: FormControl) => { [key: string]: any } | null {
-    return (group: FormControl): { [key: string]: any } | null => {
-      const startCtrl = group.get('startDate');
-      const endCtrl = group.get('endDate');
-      if (startCtrl?.value && endCtrl?.value) {
-        if (moment(startCtrl.value).isAfter(endCtrl.value)) {
-          startCtrl.markAsTouched();
-          endCtrl.markAsTouched();
-          return {
-            dates: 'Start date needs to be before end date.',
-          };
-        }
-      }
-      return null;
-    };
-  }
+  // private init(extents: Array<LinkedEntity>): void {
+  //   this.startDate = null;
+  //   this.endDate = null;
 
-  public getControls(field: string) {
-    return (this.form.get(field) as FormArray).controls;
-  }
+  //   if (this.temporalLinkedEntities.length > 0) {
+  //     this.initValidTemporalCoverage(this.temporalLinkedEntities);
+  //   } else {
+  //     this.form = new FormGroup({
+  //       coverage: this.createCoverageArray(),
+  //     });
 
-  private init(): void {
+  //   }
+  //   // Disable form if parent DataProduct should not be edited.
+  // }
+
+  // private checkForActiveTemporalVals(): void {
+  //   const temporalExtents = this.parent.temporalExtent;
+  //   if (this.dataProdAct) {
+  //     const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
+  //     if (activeDataProduct?.temporalExtent) {
+  //       activeDataProduct.temporalExtent.length > 0
+  //         ? this.temporalLinkedEntities.push(activeDataProduct.temporalExtent[0])
+  //         : [];
+  //     }
+  //   } else {
+  //     const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+  //     if (activeWebService?.temporalExtent) {
+  //       activeWebService.temporalExtent.length > 0
+  //         ? this.temporalLinkedEntities.push(activeWebService.temporalExtent[0])
+  //         : [];
+  //     }
+  //   }
+  // }
+
+  private initTemporalCoverage(temporalExent: LinkedEntity[]) {
     this.startDate = null;
     this.endDate = null;
-    this.checkForActiveTemporalVals();
-    if (this.temporalLinkedEntities.length > 0) {
-      this.initValidTemporalCoverage(this.temporalLinkedEntities);
-    } else {
-      this.form = new FormGroup({
-        coverage: this.createCoverageArray(),
-      });
-      this.trackFormChanges();
-    }
-    // Disable form if parent DataProduct should not be edited.
-    if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
-      this.form.disable();
-    }
-  }
 
-  private checkForActiveTemporalVals(): void {
-    if (this.dataProdAct) {
-      const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
-      if (activeDataProduct?.temporalExtent) {
-        activeDataProduct.temporalExtent.length > 0
-          ? this.temporalLinkedEntities.push(activeDataProduct.temporalExtent[0])
-          : [];
-      }
-    } else {
-      const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
-      if (activeWebService?.temporalExtent) {
-        activeWebService.temporalExtent.length > 0
-          ? this.temporalLinkedEntities.push(activeWebService.temporalExtent[0])
-          : [];
-      }
-    }
-  }
-
-  private initValidTemporalCoverage(temporalExent: LinkedEntity[]) {
     temporalExent.forEach((periodOfTime: LinkedEntity) => {
       const params: GetPeriodOfTimeParams = {
         singleOptionOnly: true,
@@ -123,51 +108,11 @@ export class TemporalCoverageComponent {
           coverage: this.createCoverageArray(items),
         });
         this.trackFormChanges();
+        if (this.parent?.status === Status.PUBLISHED || this.parent?.status === Status.ARCHIVED) {
+          this.form.disable();
+        }
       });
     });
-  }
-
-  public handleSave(index?: number) {
-    /**
-     * If the `temporalExtent` property of the `dataProduct` OR 'webservice' object is empty,
-     * it means that there are no existing temporal extents associated with the data product and POST fn is called.
-     */
-    if (this.temporalLinkedEntities.length === 0) {
-      this.loadingService.setShowSpinner(true);
-      const newPeriodOfTime: PeriodOfTime = {
-        startDate: this.startDate ? moment(this.startDate).toISOString() : '',
-        endDate: this.endDate ? moment(this.endDate).toISOString() : '',
-      };
-      this.apiService.endpoints.PeriodOfTime.create
-        .call(newPeriodOfTime)
-        .then((temporalCoverage) => {
-          if (this.dataProdAct) {
-            const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
-            this.dataproductService.updateDataProductRecord(updatingObject, { temporalExtent: [temporalCoverage] });
-            this.entityExecutionService.handleDataProductSave();
-          } else {
-            const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
-            activeWebService?.temporalExtent?.push(temporalCoverage);
-            this.entityExecutionService.setActiveWebService(
-              this.entityExecutionService.convertToWebService(activeWebService!),
-            );
-            this.entityExecutionService.handleWebserviceSave();
-          }
-          this.form.markAsPristine();
-        })
-        .finally(() => this.loadingService.setShowSpinner(false));
-      /**
-       * If the `temporalExtent` property of the `dataProduct` object has a value,
-       * the relevant temporal extent is updated and PUT fn is called.
-       */
-    } else {
-      const extentToUpdate = this.temporalExtents[index!];
-      extentToUpdate.startDate = this.startDate ? moment(this.startDate).toISOString() : '';
-      extentToUpdate.endDate = this.endDate ? moment(this.endDate).toISOString() : '';
-
-      this.spatialTemporalEntityExecutionService.handleTemporalSave(extentToUpdate);
-      this.apiService.endpoints.PeriodOfTime.update.call(extentToUpdate);
-    }
   }
 
   private trackFormChanges(): void {
@@ -217,5 +162,61 @@ export class TemporalCoverageComponent {
       );
     }
     return arr;
+  }
+
+  public handleSave(index?: number) {
+    const extentToUpdate = this.temporalExtents[index!];
+    extentToUpdate.startDate = this.startDate ? moment(this.startDate).toISOString() : '';
+    extentToUpdate.endDate = this.endDate ? moment(this.endDate).toISOString() : '';
+    this.spatialTemporalEntityExecutionService.handleTemporalSave(extentToUpdate);
+  }
+
+  public createNewTemporalExtent() {
+    this.loadingService.setShowSpinner(true);
+    this.apiService.endpoints.PeriodOfTime.create
+      .call()
+      .then((temporalCoverage: PeriodOfTime) => {
+        const newEntity: LinkedEntity = {
+          entityType: Entity.PERIOD_OF_TIME,
+          instanceId: temporalCoverage.instanceId,
+          metaId: temporalCoverage.metaId,
+          uid: temporalCoverage.uid,
+        };
+        console.debug(this.parentEntity.instanceId);
+        if (this.dataProdAct) {
+          const parentDataProduct = this.parentEntity as DataProduct;
+          parentDataProduct.temporalExtent?.push(newEntity);
+          this.entityExecutionService.setActiveDataProduct(parentDataProduct);
+          this.entityExecutionService.handleDataProductSave();
+        } else {
+          const parentWebservice = this.parentEntity as WebService;
+          parentWebservice?.temporalExtent?.push(newEntity);
+          this.entityExecutionService.setActiveWebService(parentWebservice);
+          this.entityExecutionService.handleWebserviceSave();
+        }
+        this.initTemporalCoverage([newEntity]);
+      })
+      .finally(() => this.loadingService.setShowSpinner(false));
+  }
+
+  public dateComparison(): (group: FormControl) => { [key: string]: any } | null {
+    return (group: FormControl): { [key: string]: any } | null => {
+      const startCtrl = group.get('startDate');
+      const endCtrl = group.get('endDate');
+      if (startCtrl?.value && endCtrl?.value) {
+        if (moment(startCtrl.value).isAfter(endCtrl.value)) {
+          startCtrl.markAsTouched();
+          endCtrl.markAsTouched();
+          return {
+            dates: 'Start date needs to be before end date.',
+          };
+        }
+      }
+      return null;
+    };
+  }
+
+  public getControls(field: string) {
+    return (this.form.get(field) as FormArray).controls;
   }
 }

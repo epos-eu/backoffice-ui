@@ -25,6 +25,7 @@ export class SpatialCoverageComponent implements OnInit {
 
   @Input() dataProduct!: DataProduct | null;
   @Input() dataProductIsParent = true;
+  @Input() mapId!: string;
 
   public spatialExtent: LinkedEntity[] | undefined = [];
   @Input() set spatialExtentInput(value: Array<LinkedEntity> | undefined) {
@@ -124,6 +125,7 @@ export class SpatialCoverageComponent implements OnInit {
               this.entityExecutionService.setActiveDataProduct(
                 this.entityExecutionService.convertToDataProduct(this.dataProduct),
               );
+              this.entityExecutionService.handleDataProductSave();
             }
           } else {
             // Update Global Webservice
@@ -133,6 +135,7 @@ export class SpatialCoverageComponent implements OnInit {
               this.entityExecutionService.setActiveWebService(
                 this.entityExecutionService.convertToWebService(activeWebService),
               );
+              this.entityExecutionService.handleWebserviceSave();
             }
           }
         }

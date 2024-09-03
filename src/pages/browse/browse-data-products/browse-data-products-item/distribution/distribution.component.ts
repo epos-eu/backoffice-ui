@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DataProduct, Distribution, LinkedEntity } from 'generated/backofficeSchemas';
-import { debounceTime } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 import { WebserviceDetailDataSource } from 'src/apiAndObjects/objects/data-source/webserviceDetailDataSource';
@@ -69,7 +68,6 @@ export class DistributionComponent implements OnInit {
         }),
       ),
     });
-    this.trackFormData();
     if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
       this.form.disable();
       this.disabled = true;
@@ -107,20 +105,6 @@ export class DistributionComponent implements OnInit {
     });
   }
 
-  private trackFormData(): void {
-    const actvIndex = 0;
-    if (this.dataProduct) {
-      let updatingObject = this.distributionDetails[actvIndex];
-      this.entityExecutionService.setActiveDistribution(updatingObject);
-      this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
-        updatingObject.title = this.helpersService.formatArrayVal(changes.distributions[actvIndex].title);
-        updatingObject.description = this.helpersService.formatArrayVal(changes.distributions[0].description);
-        updatingObject.licence = changes.distributions[actvIndex].licence;
-        this.entityExecutionService.setActiveDistribution(updatingObject);
-      });
-    }
-  }
-
   public getControls(field: string) {
     return (this.form.get(field) as FormArray).controls;
   }
@@ -133,12 +117,18 @@ export class DistributionComponent implements OnInit {
     const changeComment = this.distributionDetails[index].changeComment
       ? this.distributionDetails[index].changeComment!
       : '';
+
+    const activeDistForm = this.form.get('distributions')?.value[index] as Distribution;
+
     this.dialogService.handleUpdateChangeComment(changeComment).then((data: DialogData) => {
       if (data.dataOut != null) {
         const changeComment = data.dataOut;
-        const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+        const activeDistribution = this.distributionDetails[index];
         if (null != activeDistribution) {
           activeDistribution.changeComment = changeComment;
+          activeDistribution.title = this.helpersService.formatArrayVal(activeDistForm.title);
+          activeDistribution.description = this.helpersService.formatArrayVal(activeDistForm.description);
+          activeDistribution.licence = activeDistForm.licence;
           this.entityExecutionService.setActiveDistribution(activeDistribution);
           this.entityExecutionService.handleDistributionSave().then((success: boolean) => {
             if (success && activeDistribution.accessService) {
@@ -150,9 +140,19 @@ export class DistributionComponent implements OnInit {
     });
   }
 
-  public handleDelete(instanceId: string | undefined): void {
-    if (instanceId !== undefined) {
-      this.dialogService.handleDelete(instanceId, EntityEndpointValue.DISTRIBUTION, false);
+  public handleDelete(index: number): void {
+    const distToDelete = this.distributionDetails[index];
+    if (null != distToDelete) {
+      this.dialogService.handleDelete(distToDelete.instanceId!, EntityEndpointValue.DISTRIBUTION, false).then(() => {
+        this.distributionDetails.splice(index);
+        if (null != this.dataProduct) {
+          this.dataProduct.distribution?.splice(index);
+          this.entityExecutionService.setActiveDataProduct(
+            this.entityExecutionService.convertToDataProduct(this.dataProduct),
+          );
+          this.entityExecutionService.handleDataProductSave();
+        }
+      });
     }
   }
 
@@ -167,13 +167,14 @@ export class DistributionComponent implements OnInit {
         metaId: dist.metaId,
         uid: dist.uid,
       };
+
       if (null != this.dataProduct) {
         this.dataProduct.distribution?.push(newDistributionEntity);
         this.entityExecutionService.setActiveDataProduct(
           this.entityExecutionService.convertToDataProduct(this.dataProduct),
         );
+        this.entityExecutionService.handleDataProductSave();
       }
-      this.entityExecutionService.handleDataProductSave();
     });
   }
 
@@ -195,5 +196,14 @@ export class DistributionComponent implements OnInit {
         this.entityExecutionService.handleDistributionSave();
       }
     });
+  }
+
+  public getDistributionTabTitle(distribution: Distribution): string {
+    if (null != distribution.title && distribution.title.length > 0) {
+      const title = distribution.title[0];
+      const titleString = title.length > 70 ? `${title.substring(0, 70)}...` : title;
+      return titleString;
+    }
+    return 'New Distribution';
   }
 }

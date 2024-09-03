@@ -11,16 +11,17 @@ import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum'
   styleUrls: ['./spatial-coverage-map.component.scss'],
 })
 export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
-  @Input() mapId?: string;
-
+  public mapIdentifier: string = '';
+  @Input() set mapId(value: string) {
+    this.mapIdentifier = value;
+  }
   @Input() spatialRange: Array<string | undefined> = [''];
-
   @Input() coordinatesChange: Subject<Array<string | undefined>> = new Subject();
 
   public map: L.Map | undefined;
 
   public ngAfterViewInit(): void {
-    this.initMap();
+    this.initMap(this.mapIdentifier);
   }
 
   public ngOnInit() {
@@ -37,12 +38,12 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
     });
   }
 
-  private initMap(): void {
+  private initMap(mapId: string): void {
     const OSMLink = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
     const tiles = L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png', {
       attribution: `| Powered by ${OSMLink}`,
     });
-    this.map = L.map('map' + this.mapId, {
+    this.map = L.map('map-' + mapId, {
       center: [45, 3],
       zoom: 3,
       zoomControl: true,

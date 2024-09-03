@@ -1,12 +1,12 @@
 import { HttpHeaders } from '@angular/common/http';
 import { PeriodOfTime } from 'generated/backofficeSchemas';
-import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
+import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PeriodOfTimeDataSource } from 'src/apiAndObjects/objects/data-source/periodOfTimeDetailDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
-export class PostPeriodOfTime extends CacheableEndpoint<PeriodOfTimeDataSource, PeriodOfTime, PeriodOfTimeDataSource> {
+export class PostPeriodOfTime extends Endpoint<PeriodOfTimeDataSource, PeriodOfTime, PeriodOfTimeDataSource> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(body: PeriodOfTimeDataSource): string {

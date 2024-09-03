@@ -28,7 +28,6 @@
       [ngStyle]="{ 'line-height': '1.4' }"
       formControlName="description"
       [value]="webservice?.description"
-      [disabled]="true"
     ></textarea>
   </mat-form-field>
 
@@ -39,12 +38,13 @@
       [ngModelOptions]="{ standalone: true }"
       [compareWith]="compareWithFn"
       (selectionChange)="handleUpdateServicePoint()"
+      [disabled]="disabled"
     >
       <mat-option
         *ngFor="let provider of serviceProviders"
         [value]="provider"
       >
-        {{ provider.legalName }}
+        {{ provider.url }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -55,64 +55,74 @@
   >
     <mat-accordion>
       <div class="grid-item">
-        <mat-expansion-panel>
+        <mat-expansion-panel #mepDocs="matExpansionPanel">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <p class="subtitle">Documentation</p>
             </mat-panel-title>
           </mat-expansion-panel-header>
+          @defer (when mepDocs.expanded) {
           <app-documentation
             [dataProduct]="dataProduct"
-            [documentationsInput]="webservice.documentation"
+            [webservice]="webservice"
           ></app-documentation>
+          }
         </mat-expansion-panel>
       </div>
       <div class="grid-item">
-        <mat-expansion-panel>
+        <mat-expansion-panel #mepSpatial="matExpansionPanel">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <p class="subtitle">Spatial Coverage</p>
             </mat-panel-title>
           </mat-expansion-panel-header>
+          @defer (when mepSpatial.expanded) {
           <app-spatial-coverage
             [dataProduct]="dataProduct"
+            [mapId]="'webservice' + distributionIndex.toString()"
             [spatialExtentInput]="webservice.spatialExtent"
             [dataProductIsParent]="false"
           ></app-spatial-coverage>
+          }
         </mat-expansion-panel>
       </div>
       <div class="grid-item">
-        <mat-expansion-panel>
+        <mat-expansion-panel #mepTemporal="matExpansionPanel">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <p class="subtitle">Temporal Coverage</p>
             </mat-panel-title>
           </mat-expansion-panel-header>
+          @defer (when mepTemporal.expanded) {
           <app-temporal-coverage
             [dataProductIsParent]="false"
-            [dataProduct]="dataProduct"
-            [spatialExtentInput]="webservice.temporalExtent"
+            [parent]="webservice"
           ></app-temporal-coverage>
+          }
         </mat-expansion-panel>
       </div>
       <div class="grid-item">
-        <mat-expansion-panel>
+        <mat-expansion-panel #mepContacts="matExpansionPanel">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <p class="subtitle">Contact Points</p>
             </mat-panel-title>
           </mat-expansion-panel-header>
+          @defer (when mepContacts.expanded) {
           <app-contact-point [contactPoint]="webservice.contactPoint"></app-contact-point>
+          }
         </mat-expansion-panel>
       </div>
       <div class="grid-item">
-        <mat-expansion-panel>
+        <mat-expansion-panel #mepOperations="matExpansionPanel">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <p class="subtitle">Supported Operations</p>
             </mat-panel-title>
           </mat-expansion-panel-header>
+          @defer (when mepOperations.expanded) {
           <app-supported-operation [supportedOperations]="webservice.supportedOperation"></app-supported-operation>
+          }
         </mat-expansion-panel>
       </div>
     </mat-accordion>

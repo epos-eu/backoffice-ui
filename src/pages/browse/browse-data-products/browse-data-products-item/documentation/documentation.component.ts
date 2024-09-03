@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DataProduct, Documentation, LinkedEntity } from 'generated/backofficeSchemas';
+import { DataProduct, Documentation, LinkedEntity, WebService } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetDocumentationParams } from 'src/apiAndObjects/api/documentation/getDocumentation';
 import { DocumentationDataSource } from 'src/apiAndObjects/objects/data-source/documentationDetailDataSource';
@@ -19,15 +19,17 @@ import { Status } from 'src/utility/enums/status.enum';
 export class DocumentationComponent implements OnInit {
   @Input() dataProduct!: DataProduct | null;
 
-  public documentationLinkedEntities: LinkedEntity[] = [];
-  @Input() set documentationsInput(value: Array<LinkedEntity> | undefined) {
-    if (value) {
-      this.documentationLinkedEntities = value;
+  @Input() set webservice(value: WebService) {
+    if (value) this.activeWebservice = value;
+    if (value.documentation) {
+      this.documentationLinkedEntities = value.documentation;
       this.initDocumentations(this.documentationLinkedEntities);
     }
   }
 
   public documentationEntities: Array<Documentation> = [];
+  public documentationLinkedEntities: LinkedEntity[] = [];
+  public activeWebservice!: WebService;
   public form!: FormGroup;
   public disabled = true;
 
@@ -68,7 +70,7 @@ export class DocumentationComponent implements OnInit {
             description: new FormControl(documentation.description),
             uri: new FormControl(documentation.uri, [
               Validators.required,
-              (control: AbstractControl): { [key: string]: any } | null => {
+              (control: AbstractControl): { [key: string]: unknown } | null => {
                 if (this.helpersService.isValidHttpUrl(control.value)) {
                   return null;
                 } else {
@@ -81,9 +83,10 @@ export class DocumentationComponent implements OnInit {
         }),
       ),
     });
+    this.disabled ? this.form.disable() : this.form.enable();
   }
 
-  public getControls(field: string) {
+  public getControls(field: string): AbstractControl<unknown, unknown>[] {
     return (this.form.get(field) as FormArray).controls;
   }
 
@@ -97,19 +100,19 @@ export class DocumentationComponent implements OnInit {
           metaId: doc.metaId,
           uid: doc.uid,
         };
-        const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+        const activeWebService = this.activeWebservice;
+        console.debug(activeWebService);
         activeWebService?.documentation?.push(newDoc);
         if (activeWebService) {
           this.entityExecutionService.setActiveWebService(activeWebService);
           this.entityExecutionService.handleWebserviceSave();
+          this.apiService.endpoints.Documentation.get
+            .call({ metaId: newDoc.metaId!, instanceId: newDoc.instanceId! })
+            .then((doc: Array<Documentation>) => {
+              this.documentationEntities.push(doc[0]);
+              this.initFormArr();
+            });
         }
-
-        this.apiService.endpoints.Documentation.get
-          .call({ metaId: newDoc.metaId!, instanceId: newDoc.instanceId! })
-          .then((doc: Array<Documentation>) => {
-            this.documentationEntities.push(doc[0]);
-            this.initFormArr();
-          });
       });
   }
 

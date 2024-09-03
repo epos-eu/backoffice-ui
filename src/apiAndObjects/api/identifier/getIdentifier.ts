@@ -24,9 +24,6 @@ export class GetIdentifier extends CacheableEndpoint<Array<Identifier>, GetIdent
     const callResponsePromise = this.apiCaller
       .doCall(`identifier/${params.metaId}/${params?.instanceId}`, RequestMethod.GET, undefined, undefined, headers)
       .then((data: unknown) => this.processResponseData(data, params));
-    callResponsePromise.then((data) => {
-      console.debug(data);
-    });
     return this.buildObjectsFromResponse(IdentifierModel, callResponsePromise);
   }
 

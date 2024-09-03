@@ -16,7 +16,6 @@ import { Status } from 'src/utility/enums/status.enum';
 import { DataproductService } from '../../dataproduct.service';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetIdentifierDetailsParams } from 'src/apiAndObjects/api/identifier/getIdentifier';
-import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService } from 'src/services/snackbar.service';
@@ -95,15 +94,16 @@ export class PersistentIdentifierComponent implements OnInit {
       .then((item: Identifier) => {
         this.identifiersFullObj.push(item);
         const linkedEntity: LinkedEntity = {
+          entityType: 'IDENTIFIER', // Sending 'Identifier' string in any form other than capitalized causes 500 from the server.
           instanceId: item.instanceId,
           metaId: item.metaId,
-          entityType: Entity.IDENTIFIER,
           uid: item.uid,
         };
         const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
         const identifierArr = updatingObject.identifier!;
         identifierArr.push(linkedEntity);
         this.dataproductService.updateDataProductRecord(updatingObject, { identifier: identifierArr });
+        this.entityExecutionService.handleDataProductSave();
 
         this.identifierArray.push(
           new FormGroup({
@@ -142,6 +142,7 @@ export class PersistentIdentifierComponent implements OnInit {
         const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
         const newIdentifierArr = updatingObject.identifier?.splice(index, 1);
         this.dataproductService.updateDataProductRecord(updatingObject, { identifier: newIdentifierArr });
+        this.entityExecutionService.handleDataProductSave();
         this.snackbarService.openSnackbar('Successfully deleted Identifier.', 'Close', 'success', 3000, [
           'snackbar',
           'mat-toolbar',

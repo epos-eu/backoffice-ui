@@ -1,7 +1,7 @@
 <div class="contactpoint-item">
   <form
     [formGroup]="form"
-    *ngIf="form"
+    *ngIf="form && !form.disabled"
   >
     <mat-form-field class="contact-select">
       <mat-label>Search contact points</mat-label>
@@ -42,7 +42,7 @@
     aria-label="Add contact point"
     mat-stroked-button
     (click)="handleAddContactPoint()"
-    [disabled]="form.disabled"
+    [disabled]="true"
   >
     Add Contact Point
   </button>

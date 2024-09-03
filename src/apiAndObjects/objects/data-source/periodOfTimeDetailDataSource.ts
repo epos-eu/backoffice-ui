@@ -12,7 +12,6 @@ export class PeriodOfTimeDataSource extends BaseObject implements PeriodOfTime {
     GROUPS: 'groups',
     INSTANCE_CHANGED_ID: 'instanceChangedId',
     INSTANCE_ID: 'instanceId',
-    location: 'location',
     META_ID: 'metaId',
     OPERATION: 'operation',
     START_DATE: 'startDate',
@@ -31,7 +30,6 @@ export class PeriodOfTimeDataSource extends BaseObject implements PeriodOfTime {
   public readonly groups: Group[];
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
-  public readonly location: string;
   public readonly metaId: string;
   public readonly operation: string;
   public readonly startDate: string;
@@ -51,7 +49,6 @@ export class PeriodOfTimeDataSource extends BaseObject implements PeriodOfTime {
     this.groups = this._getArray(PeriodOfTimeDataSource.KEYS.GROUPS);
     this.instanceChangedId = this._getString(PeriodOfTimeDataSource.KEYS.INSTANCE_CHANGED_ID);
     this.instanceId = this._getString(PeriodOfTimeDataSource.KEYS.INSTANCE_ID);
-    this.location = this._getString(PeriodOfTimeDataSource.KEYS.location);
     this.metaId = this._getString(PeriodOfTimeDataSource.KEYS.META_ID);
     this.operation = this._getString(PeriodOfTimeDataSource.KEYS.OPERATION);
     this.startDate = this._getString(PeriodOfTimeDataSource.KEYS.START_DATE);

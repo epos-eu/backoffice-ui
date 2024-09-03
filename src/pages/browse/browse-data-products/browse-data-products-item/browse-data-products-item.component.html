@@ -49,6 +49,7 @@
 
         <app-spatial-coverage
           *ngIf="activeItem === entityFieldEnum.SPATIAL_COVERAGE"
+          [mapId]="'dataproduct'"
           [dataProduct]="dataProduct"
           [spatialExtentInput]="dataProduct.spatialExtent"
         ></app-spatial-coverage>
@@ -56,8 +57,7 @@
         <app-temporal-coverage
           *ngIf="activeItem === entityFieldEnum.TEMPORAL_COVERAGE"
           [dataProductIsParent]="true"
-          [dataProduct]="dataProduct"
-          [spatialExtentInput]="dataProduct.temporalExtent"
+          [parent]="dataProduct"
         ></app-temporal-coverage>
 
         <app-persistent-identifier
