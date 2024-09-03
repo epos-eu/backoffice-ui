@@ -35,6 +35,10 @@ export class DataproductNavigationComponent implements OnInit {
       name: 'Data Providers',
     },
     {
+      id: 'categories',
+      name: 'Categories',
+    },
+    {
       id: 'distribution',
       name: 'Distribution',
     },
