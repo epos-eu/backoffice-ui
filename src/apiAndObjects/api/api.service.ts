@@ -63,6 +63,14 @@ import { GetDocumentation } from './documentation/getDocumentation';
 import { GetAllDocumentation } from './documentation/getAllDocumentations';
 import { PostDocumentation } from './documentation/postDocumentation';
 import { PutDocumentation } from './documentation/putDocumentation';
+import { GetCategory } from './category/getCategory';
+import { GetAllCategorys } from './category/getAllCategorys';
+import { PostCategory } from './category/postCategory';
+import { PutCategory } from './category/putCategory';
+import { GetCategoryScheme } from './categoryScheme/getCategorySchemes';
+import { GetAllCategorySchemes } from './categoryScheme/getAllCategorySchemes';
+import { PostCategoryScheme } from './categoryScheme/postCategorySchemes';
+import { PutCategoryScheme } from './categoryScheme/putCategorySchemes';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -109,6 +117,24 @@ export class ApiService extends BaseApi {
       create: new PostMapping(ApiService.USE_LIVE_API),
       update: new PutMapping(ApiService.USE_LIVE_API),
     },
+    Documentation: {
+      get: new GetDocumentation(ApiService.USE_LIVE_API),
+      getAll: new GetAllDocumentation(ApiService.USE_LIVE_API),
+      create: new PostDocumentation(ApiService.USE_LIVE_API),
+      update: new PutDocumentation(ApiService.USE_LIVE_API),
+    },
+    Category: {
+      get: new GetCategory(ApiService.USE_LIVE_API),
+      getAll: new GetAllCategorys(ApiService.USE_LIVE_API),
+      create: new PostCategory(ApiService.USE_LIVE_API),
+      update: new PutCategory(ApiService.USE_LIVE_API),
+    },
+    CategoryScheme: {
+      get: new GetCategoryScheme(ApiService.USE_LIVE_API),
+      getAll: new GetAllCategorySchemes(ApiService.USE_LIVE_API),
+      create: new PostCategoryScheme(ApiService.USE_LIVE_API),
+      update: new PutCategoryScheme(ApiService.USE_LIVE_API),
+    },
     /* Administrative Entities */
     Organization: {
       getAll: new GetAllOrganizations(ApiService.USE_LIVE_API),
@@ -137,12 +163,6 @@ export class ApiService extends BaseApi {
       getAll: new GetAllIdentifiers(ApiService.USE_LIVE_API),
       create: new PostIdentifier(ApiService.USE_LIVE_API),
       update: new PutIdentifier(ApiService.USE_LIVE_API),
-    },
-    Documentation: {
-      get: new GetDocumentation(ApiService.USE_LIVE_API),
-      getAll: new GetAllDocumentation(ApiService.USE_LIVE_API),
-      create: new PostDocumentation(ApiService.USE_LIVE_API),
-      update: new PutDocumentation(ApiService.USE_LIVE_API),
     },
     /* Spatial / Temporal Entities */
     Location: {
