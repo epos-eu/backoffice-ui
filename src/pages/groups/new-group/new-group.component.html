@@ -3,7 +3,10 @@
     <h1 class="mat-headline-4">Create New Group</h1>
 
     <div *ngIf="form">
-      <form [formGroup]="form">
+      <form
+        [formGroup]="form"
+        (submit)="this.submitGroup()"
+      >
         <mat-form-field
           appearance="fill"
           [style.width.%]="100"
@@ -28,6 +31,13 @@
             formControlName="description"
           ></textarea>
         </mat-form-field>
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Submit
+        </button>
       </form>
     </div>
   </div>

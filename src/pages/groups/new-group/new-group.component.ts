@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
+import { ActiveUserService } from 'src/services/activeUser.service';
 
 @Component({
   selector: 'app-new-group',
@@ -11,9 +12,13 @@ import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 export class NewGroupComponent implements OnInit {
   public form!: UntypedFormGroup;
 
-  public newGroup!: Group;
+  public newGroup: Group = { description: '', id: 'unquie-diddjksfsdf213345', name: '', entities: [], users: [] };
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private apiService: ApiService,
+    private activeUserService: ActiveUserService,
+  ) {}
 
   public ngOnInit() {
     this.initForm();
@@ -24,13 +29,14 @@ export class NewGroupComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       description: new FormControl('', Validators.required),
     });
-    // this.form.valueChanges.subscribe((changes) => {
-    //   this.newGroup.name = changes['name'];
-    //   this.newGroup.description = changes['description'];
-    // });
+    this.form.valueChanges.subscribe((changes) => {
+      this.newGroup.name = changes['name'];
+      this.newGroup.description = changes['description'];
+    });
   }
 
   public submitGroup() {
+    this.newGroup.users.push(this.activeUserService.getActiveUser()?.authIdentifier!);
     this.apiService.endpoints.Group.create.call(this.newGroup).then(() => {
       console.debug('success');
     });
