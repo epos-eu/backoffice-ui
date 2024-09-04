@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Category, DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
 import { map } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
@@ -26,9 +27,14 @@ export class CategoriesComponent implements OnInit {
 
   public disabled = false;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {}
+  constructor(
+    private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private entityExecutionService: EntityExecutionService,
+  ) {}
   public ngOnInit(): void {
     this.initData();
+    this.initForm();
   }
 
   private initData(): void {
@@ -42,7 +48,7 @@ export class CategoriesComponent implements OnInit {
             return category.uid === value.uid;
           });
         });
-        this.initForm();
+        this.form.controls['category'].setValue(this.selectedCategories);
       });
     }
   }
@@ -62,11 +68,11 @@ export class CategoriesComponent implements OnInit {
     this.form.valueChanges
       .pipe(
         map((changes) => {
-          const providers = changes['category'];
-          return providers.map((provider: Category) => ({
-            uid: provider.uid,
-            metaId: provider.metaId,
-            instanceId: provider.instanceId,
+          const category = changes['category'];
+          return category.map((category: Category) => ({
+            uid: category.uid,
+            metaId: category.metaId,
+            instanceId: category.instanceId,
             entityType: Entity.CATEGORY,
           }));
         }),
@@ -75,16 +81,12 @@ export class CategoriesComponent implements OnInit {
         categories.forEach((category: LinkedEntity, index: number) => {
           if (Array.isArray(this.dataProduct?.category) && this.categories[index] != null) {
             this.dataProduct.category[index] = category;
+            const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
+            if (activeDataProduct) {
+              activeDataProduct.category = categories;
+            }
           }
         });
       });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public compareWithFn(optionOne: any, optionTwo: any): boolean {
-    if (optionOne.metaId === optionTwo.metaId) {
-      return true;
-    }
-    return false;
   }
 }
