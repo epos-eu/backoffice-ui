@@ -44,11 +44,11 @@ const IMPORTED_DATA: ImportElement[] = [
   { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
 ];
 @Component({
-  selector: 'app-new-import',
-  templateUrl: './new-import.component.html',
-  styleUrls: ['./new-import.component.scss'],
+  selector: 'app-new-group',
+  templateUrl: './new-group.component.html',
+  styleUrls: ['./new-group.component.scss'],
 })
-export class NewImportComponent {
+export class NewGroupComponent {
   displayedColumns: string[] = ['name', 'size'];
   dataSource = new MatTableDataSource<PeriodicElement>();
 

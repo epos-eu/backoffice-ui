@@ -18,8 +18,8 @@ const appRoutes: Routes = [
     // canActivate: [async () => await authGuard()],
   },
   {
-    path: 'import',
-    loadChildren: () => import('../pages/import/import.module').then((m) => m.ImportModule),
+    path: 'groups',
+    loadChildren: () => import('../pages/groups/groups.module').then((m) => m.GroupsModule),
     // canActivate: [async () => await authGuard()],
   },
   {
