@@ -1,106 +1,38 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { DialogService } from 'src/components/dialogs/dialog.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 
-export interface PeriodicElement {
-  name: string;
-  size: number;
-}
-export interface UploadElement {
-  name: string;
-  verified: boolean;
-}
-export interface ImportElement {
-  name: string;
-  verified: boolean;
-  approval: boolean;
-  importDate: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { name: 'Metadata File', size: 1.0079 },
-  { name: 'Metadata File', size: 4.0026 },
-  { name: 'Metadata File', size: 6.941 },
-  { name: 'Metadata File', size: 9.0122 },
-  { name: 'Metadata File', size: 10.811 },
-  { name: 'Metadata File', size: 12.0107 },
-];
-
-const UPLOADED_DATA: UploadElement[] = [
-  { name: 'Metadata File', verified: true },
-  { name: 'Metadata File', verified: true },
-  { name: 'Metadata File', verified: true },
-  { name: 'Metadata File', verified: false },
-  { name: 'Metadata File', verified: false },
-  { name: 'Metadata File', verified: false },
-];
-
-const IMPORTED_DATA: ImportElement[] = [
-  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
-  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
-  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
-  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
-  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
-  { name: 'Metadata File', approval: false, verified: true, importDate: '13/06/2022' },
-];
 @Component({
   selector: 'app-new-group',
   templateUrl: './new-group.component.html',
   styleUrls: ['./new-group.component.scss'],
 })
-export class NewGroupComponent {
-  displayedColumns: string[] = ['name', 'size'];
-  dataSource = new MatTableDataSource<PeriodicElement>();
+export class NewGroupComponent implements OnInit {
+  public form!: UntypedFormGroup;
 
-  uploadDisplayedColumns: string[] = ['name', 'verifying'];
-  uploadDataSource = [...UPLOADED_DATA];
+  public newGroup!: Group;
 
-  importDisplayedColumns: string[] = ['name', 'verified', 'approval', 'importDate'];
-  importDataSource = [...IMPORTED_DATA];
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService) {}
 
-  @ViewChild(MatTable) table!: MatTable<UploadElement>;
-  public selectedItems = false;
-  public uploading = false;
-  public uploaded = false;
-  public importEnabled = false;
-  public integrityChecked = false;
-
-  constructor(private dialogService: DialogService) {}
-
-  public fileSelectionToggle(): void {
-    this.selectedItems = !this.selectedItems;
+  public ngOnInit() {
+    this.initForm();
   }
 
-  public addData() {
-    this.selectedItems = true;
-    const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.dataSource.data.push(ELEMENT_DATA[randomElementIndex]);
-    if (null != this.table) {
-      this.table.renderRows();
-    }
+  private initForm() {
+    this.form = this.formBuilder.group({
+      name: new FormControl('', [Validators.required]),
+      description: new FormControl('', Validators.required),
+    });
+    // this.form.valueChanges.subscribe((changes) => {
+    //   this.newGroup.name = changes['name'];
+    //   this.newGroup.description = changes['description'];
+    // });
   }
 
-  public startUpload() {
-    this.selectedItems = false;
-    this.uploading = true;
-    setTimeout(() => {
-      this.uploaded = true;
-      this.uploading = false;
-      setTimeout(() => {
-        UPLOADED_DATA.map((item: UploadElement) => (item.verified = true));
-        this.importEnabled = true;
-      }, 3000);
-    }, 3000);
-  }
-
-  public showImport() {
-    this.integrityChecked = true;
-    this.uploading = false;
-    this.uploaded = false;
-    UPLOADED_DATA.slice(3, 6).map((item: UploadElement) => (item.verified = false));
-  }
-
-  public openDataPopup() {
-    this.dialogService.openMetadataViewDialog();
+  public submitGroup() {
+    this.apiService.endpoints.Group.create.call(this.newGroup).then(() => {
+      console.debug('success');
+    });
   }
 }
