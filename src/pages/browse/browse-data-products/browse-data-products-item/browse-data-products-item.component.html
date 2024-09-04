@@ -75,7 +75,10 @@
           [dataProduct]="dataProduct"
         ></app-data-providers>
 
-        <app-categories *ngIf="activeItem === entityFieldEnum.CATEGORIES"></app-categories>
+        <app-categories
+          *ngIf="activeItem === entityFieldEnum.CATEGORIES"
+          [dataProduct]="dataProduct"
+        ></app-categories>
 
         <app-distribution
           *ngIf="activeItem === entityFieldEnum.DISTRIBUTION"

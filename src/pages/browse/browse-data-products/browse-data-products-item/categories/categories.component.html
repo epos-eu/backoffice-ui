@@ -1,1 +1,33 @@
-<p>categories works!</p>
+<form
+  [formGroup]="form"
+  *ngIf="form"
+>
+  <mat-form-field>
+    <mat-label>{{ loading ? 'Loading..' : '' }}</mat-label>
+    <mat-select
+      formControlName="dataProviders"
+      [compareWith]="compareWithFn"
+      multiple
+    >
+      <mat-option
+        *ngFor="let category of categories | orderBy : { property: 'legalName', direction: 1 }"
+        [value]="category"
+      >
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ul
+    class="selected-providers-list"
+    *ngIf="selectedCategories.length > 0"
+  >
+    <li *ngFor="let category of selectedCategories">
+      {{ category.name }}
+    </li>
+  </ul>
+  <app-save-entity
+    entity="Data Providers"
+    [hideDelete]="true"
+    [disabled]="disabled"
+  ></app-save-entity>
+</form>

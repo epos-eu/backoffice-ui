@@ -10,7 +10,6 @@ import { TableItem, TableItems } from 'src/utility/objects/table/items';
 import { FilterEmit } from '../table-filter/table-filter.component';
 import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import moment from 'moment';
-import { Distribution } from 'src/apiAndObjects/objects/entities/distribution.model';
 import { Status } from 'src/utility/enums/status.enum';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
 
