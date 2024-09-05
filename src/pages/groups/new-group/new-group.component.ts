@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { ActiveUserService } from 'src/services/activeUser.service';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-new-group',
@@ -11,13 +12,13 @@ import { ActiveUserService } from 'src/services/activeUser.service';
 })
 export class NewGroupComponent implements OnInit {
   public form!: UntypedFormGroup;
-
-  public newGroup: Group = { description: '', id: 'unquie-diddjksfsdf213345', name: '', entities: [], users: [] };
+  public newGroup: Group = { description: '', id: '', name: '', entities: [], users: [] };
 
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private activeUserService: ActiveUserService,
+    private snackbarService: SnackbarService,
   ) {}
 
   public ngOnInit() {
@@ -37,8 +38,21 @@ export class NewGroupComponent implements OnInit {
 
   public submitGroup() {
     this.newGroup.users.push(this.activeUserService.getActiveUser()?.authIdentifier!);
-    this.apiService.endpoints.Group.create.call(this.newGroup).then(() => {
-      console.debug('success');
-    });
+    this.apiService.endpoints.Group.create
+      .call(this.newGroup)
+      .then(() => {
+        this.snackbarService.openSnackbar(`Success: ${this.newGroup.name} created`, 'close', 'success', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch(() => {
+        this.snackbarService.openSnackbar(`Error: failed to create new Group`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      });
   }
 }
