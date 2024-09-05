@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/components/layout/layout.component';
 import { GroupsHomeComponent } from './groups-home/groups-home.component';
-import { ViewGroupsComponent } from './view-groups/view-groups.component';
+import { ViewGroupsComponent } from './request-to-join/request-to-join.component';
 import { NewGroupComponent } from './new-group/new-group.component';
 
 const routes: Routes = [
@@ -17,7 +17,7 @@ const routes: Routes = [
     children: [{ path: '', component: NewGroupComponent }],
   },
   {
-    path: 'view-groups',
+    path: 'request',
     component: LayoutComponent,
     children: [{ path: '', component: ViewGroupsComponent }],
   },
