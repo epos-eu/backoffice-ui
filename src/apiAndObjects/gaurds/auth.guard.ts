@@ -9,10 +9,10 @@ export class PermissionsService {
   constructor(private router: Router, private activeUserService: ActiveUserService) {}
 
   public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.activeUserService.getActiveUser()?.groups?.length === 0) {
-      this.router.navigate(['groups']);
-      return false;
-    }
+    // if (this.activeUserService.getActiveUser()?.groups?.length === 0) {
+    //   this.router.navigate(['groups']);
+    //   return false;
+    // }
     return true;
   }
 }
