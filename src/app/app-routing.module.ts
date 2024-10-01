@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { ActiveGroupMember } from 'src/apiAndObjects/gaurds/auth.guard';
+import { AppRouteReuseStrategy } from './app-route-reuse-strategy';
 
 const appRoutes: Routes = [
   {
@@ -46,6 +47,6 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
-  providers: [],
+  providers: [{ provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy }],
 })
 export class AppRoutingModule {}
