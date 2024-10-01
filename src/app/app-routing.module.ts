@@ -1,13 +1,8 @@
-import { NgModule, inject } from '@angular/core';
-import { Router, RouterModule, Routes } from '@angular/router';
-// import { authGuard } from 'src/guards/auth.guard';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ActiveGroupMember } from 'src/apiAndObjects/gaurds/auth.guard';
 
 const appRoutes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'login',
-  //   pathMatch: 'full',
-  // },
   {
     path: 'home',
     loadChildren: () => import('../pages/home/home.module').then((m) => m.HomeModule),
@@ -15,7 +10,7 @@ const appRoutes: Routes = [
   {
     path: 'browse',
     loadChildren: () => import('../pages/browse/browse.module').then((m) => m.BrowseModule),
-    // canActivate: [async () => await authGuard()],
+    canActivate: [ActiveGroupMember],
   },
   {
     path: 'groups',

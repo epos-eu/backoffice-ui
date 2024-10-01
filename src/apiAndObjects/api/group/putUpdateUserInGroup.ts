@@ -21,7 +21,7 @@ export class PutUpdateUserInGroup extends CacheableEndpoint<unknown, UpdateUserI
       return headers;
     };
     const callResponsePromise = this.apiCaller.doCall(
-      ['updateUserInGroup'],
+      ['group/updateUserInGroup'],
       RequestMethod.PUT,
       undefined,
       body,

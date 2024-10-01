@@ -11,6 +11,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DataProduct } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { ActiveUserService } from 'src/services/activeUser.service';
 
 @Component({
   selector: 'app-browse-data-products',
@@ -29,6 +30,7 @@ export class BrowseDataProductsComponent {
     private actionsService: ActionsService,
     private snackbarService: SnackbarService,
     private apiService: ApiService,
+    private activeUserService: ActiveUserService,
   ) {}
 
   public rowClicked(row: Record<string, string>): void {
@@ -48,13 +50,25 @@ export class BrowseDataProductsComponent {
   }
 
   public createAsset(): void {
-    this.dialogService
-      .openDialogForComponent(DialogNewDataproductComponent, {}, 'new-dataproduct-dialog')
-      .then((response) => {
-        if (response.dataOut.create) {
-          this.handleCreate();
-        }
-      });
+    if (this.activeUserService.getActiveUser()?.groups?.length === 0) {
+      this.dialogService
+        .openConfirmationDialog(
+          'You are not a member of a Group, to create a product you must be a Group member. Proceed to Groups page?',
+        )
+        .then((accepted: boolean) => {
+          if (accepted) {
+            this.router.navigate(['groups']);
+          }
+        });
+    } else {
+      this.dialogService
+        .openDialogForComponent(DialogNewDataproductComponent, {}, 'new-dataproduct-dialog')
+        .then((response) => {
+          if (response.dataOut.create) {
+            this.handleCreate();
+          }
+        });
+    }
   }
 
   private handleCreate(): void {
