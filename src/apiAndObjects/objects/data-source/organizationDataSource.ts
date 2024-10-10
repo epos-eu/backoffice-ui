@@ -45,7 +45,7 @@ export class OrganizationDataSource extends BaseObject implements Organization {
   public identifier: Array<LinkedEntity>;
   public instanceChangedId: string;
   public instanceId: string;
-  public legalName: Array<LinkedEntity>;
+  public legalName: Array<string>;
   public leiCode: string;
   public logo: string;
   public maturity: string;

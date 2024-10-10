@@ -32,7 +32,7 @@ export class DistributionDetailDataSource extends BaseObject implements Distribu
     VERSION_ID: 'versionId',
   };
 
-  public readonly accessService: LinkedEntity;
+  public readonly accessService: Array<LinkedEntity>;
   public readonly accessURL: Array<string>;
   public readonly changeComment: string;
   public readonly changeTimestamp: string;
@@ -66,7 +66,7 @@ export class DistributionDetailDataSource extends BaseObject implements Distribu
     this.status = this._getValue(DistributionDetailDataSource.KEYS.STATUS) as Status;
     this.toBeDelete = this._getString(DistributionDetailDataSource.KEYS.TO_BE_DELETE);
     this.fileProvenance = this._getString(DistributionDetailDataSource.KEYS.FILE_PROVENANCE);
-    this.accessService = this._getValue(DistributionDetailDataSource.KEYS.ACCESS_SERVICE) as LinkedEntity;
+    this.accessService = this._getArray(DistributionDetailDataSource.KEYS.ACCESS_SERVICE);
     this.accessURL = this._getArray(DistributionDetailDataSource.KEYS.ACCESS_URL);
     this.description = this._getArray(DistributionDetailDataSource.KEYS.DESCRIPTION);
     this.downloadURL = this._getArray(DistributionDetailDataSource.KEYS.DOWNLOAD_URL);

@@ -32,7 +32,7 @@ export class ParametersFormService {
   public generateOptionForm(parameter: any): FormGroup {
     return this.formBuilder.group({
       label: [parameter.label, [Validators.required]],
-      range: [{ value: formatRangeText(parameter.range), disabled: true }],
+      range: [{ value: parameter.range, disabled: true }],
       variable: [{ value: parameter.variable, disabled: true }],
       required: [parameter.required === 'true'],
       readOnlyValue: [parameter.readOnlyValue === 'true'],

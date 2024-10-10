@@ -77,7 +77,11 @@
       <app-option-datetime></app-option-datetime>
     </ng-container>
     <ng-container *ngSwitchCase="'string'">
-      <app-option-string></app-option-string>
+      <app-option-complex
+        [form]="optionForm"
+        [id]="'string'"
+        [disableAddNewValue]="disableAddNewValue"
+      ></app-option-complex>
     </ng-container>
     <ng-container *ngSwitchCase="'integer'">
       <app-option-integer></app-option-integer>

@@ -1,19 +1,19 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Mapping } from 'generated/backofficeSchemas';
-import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
-import { MappingDataSource } from 'src/apiAndObjects/objects/data-source/mappingDataSource';
+import { Mapping as MappingType } from 'generated/backofficeSchemas';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
+import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
+import { MappingDataSource } from 'src/apiAndObjects/objects/data-source/mappingDataSource';
 
-export class GetMapping extends CacheableEndpoint<Mapping[], GetMappingParams, Mapping> {
+export class GetMapping extends Endpoint<Array<MappingType>, GetMappingParams, MappingType> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: GetMappingParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetMappingParams): Promise<Mapping[]> {
+  protected callLive(params: GetMappingParams): Promise<MappingType[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -27,7 +27,7 @@ export class GetMapping extends CacheableEndpoint<Mapping[], GetMappingParams, M
     return this.buildObjectsFromResponse(MappingDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<Mapping[]> {
+  protected callMock(): Promise<MappingType[]> {
     throw new Error('Method not implemented.');
   }
 

@@ -1,59 +1,63 @@
-<mat-radio-group
-  aria-label="Allowed values"
-  formControlName="allowedValues"
->
-  <mat-radio-button value="any">Any</mat-radio-button>
-  <mat-radio-button value="controlled">Controlled list of values</mat-radio-button>
-</mat-radio-group>
-<ng-container *ngIf="form.get('allowedValues')?.value === 'any'">
-  <mat-form-field>
-    <mat-label>Default value</mat-label>
-    <input
-      matInput
-      placeholder="Default value"
-      formControlName="defaultValue"
-    />
-  </mat-form-field>
-</ng-container>
-<ng-container *ngIf="form.get('allowedValues')?.value === 'controlled'">
-  <mat-slide-toggle
-    formControlName="multipleValues"
-    class="allow-multiple"
-  >
-    Allows multiple selection
-  </mat-slide-toggle>
-  <ng-container formArrayName="value">
-    <div
-      *ngFor="let control of getControls('value'); let i = index"
-      [formGroupName]="i"
-      class="user-value"
+<ng-container *ngIf="form">
+  <form [formGroup]="form">
+    <mat-radio-group
+      aria-label="Allowed values"
+      formControlName="allowedValues"
     >
-      <mat-form-field appearance="fill">
-        <mat-label>Value</mat-label>
+      <mat-radio-button value="any">Any</mat-radio-button>
+      <mat-radio-button value="controlled">Controlled list of values</mat-radio-button>
+    </mat-radio-group>
+    <ng-container *ngIf="form.get('allowedValues')?.value === 'any'">
+      <mat-form-field>
+        <mat-label>Default value</mat-label>
         <input
           matInput
-          placeholder="Value"
-          formControlName="value"
+          placeholder="Default value"
+          formControlName="defaultValue"
         />
       </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="form.get('allowedValues')?.value === 'controlled'">
       <mat-slide-toggle
-        formControlName="asDefault"
-        [id]="i.toString()"
-        [checked]="isChecked(i)"
-        [disabled]="disableSelect(i)"
-        (change)="handleDefaultValue($event, i)"
+        formControlName="multipleValues"
+        class="allow-multiple"
       >
-        As default value
+        Allows multiple selection
       </mat-slide-toggle>
-    </div>
-  </ng-container>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="handleAddNewValue()"
-    [disabled]="disableAddNewValue"
-    [ngClass]="disableAddNewValue ? 'hidden' : ''"
-  >
-    Add new value
-  </button>
+      <ng-container formArrayName="value">
+        <div
+          *ngFor="let control of getControls('value'); let i = index"
+          [formGroupName]="i"
+          class="user-value"
+        >
+          <mat-form-field appearance="fill">
+            <mat-label>Value</mat-label>
+            <input
+              matInput
+              placeholder="Value"
+              formControlName="value"
+            />
+          </mat-form-field>
+          <mat-slide-toggle
+            formControlName="asDefault"
+            [id]="i.toString()"
+            [checked]="isChecked(i)"
+            [disabled]="disableSelect(i)"
+            (change)="handleDefaultValue($event, i)"
+          >
+            As default value
+          </mat-slide-toggle>
+        </div>
+      </ng-container>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleAddNewValue()"
+        [disabled]="disableAddNewValue"
+        [ngClass]="disableAddNewValue ? 'hidden' : ''"
+      >
+        Add new value
+      </button>
+    </ng-container>
+  </form>
 </ng-container>

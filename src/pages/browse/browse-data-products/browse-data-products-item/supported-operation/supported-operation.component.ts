@@ -2,6 +2,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LinkedEntity } from 'generated/backofficeSchemas';
+import { Mapping } from 'src/apiAndObjects/objects/entities/mapping.model';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 
 @Component({
@@ -19,28 +20,29 @@ export class SupportedOperationComponent implements OnInit {
   public form!: FormGroup;
 
   private mapParams(submatch: string, paramName: string): string {
-    // const match = this.mapping.find((param: LinkedEntity) => param.variable === paramName);
-    // if (match) {
-    //   const regex = new RegExp(`${paramName}`, 'g');
-    //   if (match.defaultValue) {
-    //     if (match.range === OperationParamsRange.DATE_TIME) {
-    //       // get only the date from datetime string
-    //       const dateStr = match.defaultValue.split('T').shift();
-    //       if (dateStr) {
-    //         submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(dateStr));
-    //       }
-    //     } else {
-    //       submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
-    //     }
-    //   } else {
-    //     submatch = '';
-    //   }
-    // }
-    // return submatch;
-    return '';
+    const match = this.mapping.find((param: Mapping) => param.variable === paramName);
+    if (match) {
+      const regex = new RegExp(`${paramName}`, 'g');
+      if (match.defaultValue) {
+        // if (match.range === OperationParamsRange.DATE_TIME) {
+        //   // get only the date from datetime string
+        //   const dateStr = match.defaultValue.split('T').shift();
+        //   if (dateStr) {
+        //     submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(dateStr));
+        //   }
+        // } else {
+        //   submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
+        // }
+      } else {
+        submatch = '';
+      }
+    }
+    return submatch;
   }
 
   public ngOnInit(): void {
+    console.debug('supportedOperations', this.supportedOperations);
+
     this.form = this.formBuilder.group({
       template: new FormControl({ value: '', disabled: true }, [Validators.required]),
       preview: new FormControl(''),
