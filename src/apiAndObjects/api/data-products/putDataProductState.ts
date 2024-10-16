@@ -26,7 +26,7 @@ export class PutDataProductState extends Endpoint<
       return headers;
     };
     const updateObj = {
-      justThisOne: body.justThisOne,
+      // justThisOne: body.justThisOne
       state: body.state,
     };
     const callResponsePromise = this.apiCaller.doCall(

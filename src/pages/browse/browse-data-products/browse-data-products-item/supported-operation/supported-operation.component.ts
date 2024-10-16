@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LinkedEntity } from 'generated/backofficeSchemas';
-import { Mapping } from 'src/apiAndObjects/objects/entities/mapping.model';
-import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
+import { LinkedEntity, Mapping } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-supported-operation',

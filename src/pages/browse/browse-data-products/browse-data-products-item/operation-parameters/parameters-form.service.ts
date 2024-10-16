@@ -22,19 +22,30 @@ export class ParametersFormService {
     }
   }
 
-  public checkBool(value: string | null): boolean {
-    if (!value) {
+  /**
+   * The function `checkBool` checks if a given value is truthy or 'false' and returns a boolean result.
+   * @param {string | boolean | null} value - The `value` parameter in the `checkBool` function can be a
+   * string, a boolean, or null.
+   * @returns The function `checkBool` returns a boolean value. It returns `false` if the input `value`
+   * is `null`, falsy (e.g., empty string, false, 0), or the string 'false'. Otherwise, it returns
+   * `true`.
+   */
+  public checkBool(value: string | boolean | null): boolean {
+    if (null == value || !value || value === 'false') {
       return false;
     }
-    return value !== 'false';
+    return true;
   }
 
   public generateOptionForm(parameter: any): FormGroup {
     return this.formBuilder.group({
+      uid: [parameter.uid],
+      metaId: [parameter.metaId],
+      instanceId: [parameter.instanceId],
       label: [parameter.label, [Validators.required]],
       range: [{ value: parameter.range, disabled: true }],
       variable: [{ value: parameter.variable, disabled: true }],
-      required: [parameter.required === 'true'],
+      required: [this.checkBool(parameter.required)],
       readOnlyValue: [parameter.readOnlyValue === 'true'],
       defaultValue: [parameter.defaultValue],
       minValue: [parameter.minValue],

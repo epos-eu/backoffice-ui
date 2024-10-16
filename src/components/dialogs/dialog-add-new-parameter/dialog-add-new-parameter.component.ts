@@ -6,6 +6,8 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Operation } from 'src/apiAndObjects/objects/entities/operation.model';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { LinkedEntity, Mapping } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-dialog-add-new-parameter',
@@ -24,6 +26,7 @@ export class DialogAddNewParameterComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData<any>,
     private readonly formBuilder: FormBuilder,
     private operationService: EntityExecutionService,
+    private apiService: ApiService,
   ) {
     this.operationService.operationObs.subscribe((operation: Operation | null) => {
       if (operation?.mapping) {
@@ -47,7 +50,6 @@ export class DialogAddNewParameterComponent implements OnInit {
       this.mapping.variable = changes['variable'];
       this.mapping.range = changes['range'];
       this.mapping.required = changes['required'].toString();
-      this.data.dataOut = this.mapping;
     });
   }
 
@@ -57,7 +59,16 @@ export class DialogAddNewParameterComponent implements OnInit {
   }
 
   public handleAdd(): void {
-    this.data.close();
+    this.form.disable();
+    const newParam: Mapping = {
+      range: this.mapping.range,
+      required: this.mapping.required,
+      variable: this.mapping.variable,
+    };
+    this.apiService.endpoints.Mapping.create.call(newParam).then((data: LinkedEntity) => {
+      this.data.dataOut = data;
+      this.data.close();
+    });
   }
 
   public checkForSameVariableName(value: string) {

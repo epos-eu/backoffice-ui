@@ -10,16 +10,16 @@
           *ngFor="let control of getControls('mapping'); let i = index"
           [formGroupName]="i"
         >
-          {{ control.value | json }}
           <mat-expansion-panel-header>
             <mat-panel-title>{{ control.value.variable }}</mat-panel-title>
           </mat-expansion-panel-header>
           <ng-container [ngSwitch]="control.value.range">
-            <!-- <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
+            <ng-container *ngSwitchCase="rangeEnum.DATE_TIME">
               <app-option
                 id="datetime"
                 [param]="control.value"
                 [disabled]="disabled"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.DATE">
@@ -27,20 +27,23 @@
                 id="date"
                 [param]="control.value"
                 [disabled]="disabled"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
-            </ng-container> -->
+            </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.STRING">
               <app-option
                 id="string"
                 [param]="control.value"
                 [disabled]="disabled"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
-            <!-- <ng-container *ngSwitchCase="rangeEnum.INTEGER">
+            <ng-container *ngSwitchCase="rangeEnum.INTEGER">
               <app-option
                 id="integer"
                 [param]="control.value"
                 [disabled]="disabled"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.FLOAT">
@@ -48,6 +51,7 @@
                 id="float"
                 [param]="control.value"
                 [disabled]="disabled"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
@@ -55,6 +59,7 @@
                 id="boolean"
                 [param]="control.value"
                 [disabled]="disabled"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.COORDINATE">
@@ -62,8 +67,9 @@
                 id="coordinate"
                 [param]="control.value"
                 [disabled]="disabled"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
-            </ng-container> -->
+            </ng-container>
           </ng-container>
         </mat-expansion-panel>
       </ng-container>

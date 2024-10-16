@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { EntityStateManager } from './entityStateManager';
 import { LoadingService } from '../loading.service';
-import { DataProduct, Distribution, LinkedEntity, Operation, WebService } from 'generated/backofficeSchemas';
+import { DataProduct, Distribution, LinkedEntity, Mapping, Operation, WebService } from 'generated/backofficeSchemas';
 
 @Injectable({
   providedIn: 'root',
@@ -360,5 +360,29 @@ export class EntityExecutionService extends EntityStateManager {
           this.loadingService.setShowSpinner(false);
         });
     }
+  }
+
+  public handleMappingArrSave() {
+    this.loadingService.setShowSpinner(true);
+    const requests: Promise<Mapping>[] = [];
+    this.mapping.getValue().forEach((item: Mapping) => {
+      requests.push(this.apiService.endpoints[Entity.MAPPING].update.call(item));
+    });
+    Promise.all(requests)
+      .then(() => {
+        this.snackbarService.openSnackbar(`Success: Parameters Saved`, 'close', 'success', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch(() =>
+        this.snackbarService.openSnackbar(`Error: failed to Save Parameters`, 'close', 'error', 6000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]),
+      )
+      .finally(() => this.loadingService.setShowSpinner(false));
   }
 }

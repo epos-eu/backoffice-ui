@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { DataProduct, Mapping, Operation } from 'generated/backofficeSchemas';
-import { Subject } from 'rxjs';
+import { pipe, Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { LinkedEntity } from 'src/apiAndObjects/objects/entities/linkedEntity.model';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -12,6 +12,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 import { Status } from 'src/utility/enums/status.enum';
 import { ParametersFormService } from './parameters-form.service';
+import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -26,6 +27,8 @@ export class OperationParametersComponent implements OnInit {
   @Output() template = new Subject<string>();
 
   @Output() mappingVals = new Subject<Mapping[] | undefined>();
+
+  public paramsToUpdate: Array<Mapping> = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,6 +50,24 @@ export class OperationParametersComponent implements OnInit {
   public loading = false;
 
   public disabled = false;
+
+  public updateMappingArr(map: Mapping) {
+    const indexofExistingItem = this.paramsToUpdate.findIndex((val) => val.instanceId === map.instanceId);
+
+    if (indexofExistingItem > 0) {
+      // if item exists in array then replace at index n
+      this.paramsToUpdate = [
+        ...this.paramsToUpdate.slice(0, indexofExistingItem),
+        map,
+        ...this.paramsToUpdate.slice(indexofExistingItem + 1),
+      ];
+    } else {
+      // if the new param does not exist them push it into array;
+      this.paramsToUpdate.push(map);
+    }
+
+    this.entityExecutionService.setActiveMappingArr(this.paramsToUpdate);
+  }
 
   public getControls(field: string) {
     return (this.paramsForm.get(field) as FormArray).controls;
@@ -161,21 +182,40 @@ export class OperationParametersComponent implements OnInit {
   // }
 
   public handleSave(): void {
-    this.entityExecutionService.handleOperationSave();
+    this.entityExecutionService.handleMappingArrSave();
   }
 
   public handleAddParam(): void {
-    // this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
-    //   const newMapping = data.dataOut as Mapping[];
-    //   if (null != newMapping) {
-    //     const newMappingArr = this.entityExecutionService.getActiveOperationValue()?.mapping;
-    //     newMappingArr?.push(newMapping);
-    //     this.mapping = newMappingArr as Array<Mapping[]>;
-    //     this.initForm();
-    //     // add new variable on template string
-    //     this.addMappingOnTemplate(newMapping);
-    //   }
-    // });
+    this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
+      const newMapping = data.dataOut as Mapping;
+      const linkedEntityParam: LinkedEntity = {
+        entityType: 'MAPPING',
+        instanceId: data.dataOut.instanceId,
+        metaId: data.dataOut.metaId,
+        uid: data.dataOut.uid,
+      };
+      if (null != newMapping) {
+        console.debug(newMapping);
+        const newMappingArr = this.entityExecutionService.getActiveOperationValue()?.mapping;
+        newMappingArr?.push(linkedEntityParam);
+
+        this.apiService.endpoints[Entity.MAPPING].get
+          .call({
+            metaId: newMapping.metaId as string,
+            instanceId: newMapping.instanceId as string,
+          })
+          .then((map: Array<Mapping>) => {
+            console.debug(map);
+            this.mapping.push(map.shift() as Mapping);
+            this.initForm(this.mapping);
+          });
+
+        // this.mapping = newMappingArr as Array<Mapping[]>;
+
+        // add new variable on template string
+        // this.addMappingOnTemplate(newMapping);
+      }
+    });
   }
 
   public handleDeleteOperation(instanceId: string | undefined): void {

@@ -2,6 +2,7 @@ import { Component, Input, Output, OnInit } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
 import { ParametersFormService } from '../parameters-form.service';
 import { UntypedFormGroup } from '@angular/forms';
+import { Mapping } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-option',
@@ -10,7 +11,7 @@ import { UntypedFormGroup } from '@angular/forms';
 })
 export class OptionComponent implements OnInit {
   @Input() id: string = '';
-  @Input() param!: any;
+  @Input() param!: Mapping;
   @Input() disabled = false;
   @Output() updatedParam = new Subject<any>();
 
@@ -20,21 +21,25 @@ export class OptionComponent implements OnInit {
 
   public disableAddNewValue = false;
 
+  public isRequired = false;
+
   public ngOnInit(): void {
+    console.debug(this.param);
     this.initForm();
     this.trackFormChanges();
     this.disabled ? this.optionForm.disable() : this.optionForm.enable();
   }
 
   private initForm(): void {
-    this.optionForm = this.formService.generateOptionForm({});
-    if (this.formService.checkBool(this.param.multipleValues)) {
+    this.optionForm = this.formService.generateOptionForm({ ...this.param });
+    if (this.formService.checkBool(this.param.multipleValues as string)) {
       this.disableAddNewValue = true;
     }
   }
 
   private trackFormChanges(): void {
     this.optionForm.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
+      console.debug('call');
       if (changes.multipleValues && this.formService.checkBool(changes.multipleValues)) {
         this.disableAddNewValue = true;
       } else {
@@ -43,9 +48,10 @@ export class OptionComponent implements OnInit {
       this.param = {
         ...changes,
         required: changes.required.toString(),
-        readOnlyValues: changes.readOnlyValue ? changes.readOnlyValue.toString() : '',
+        readOnlyValue: changes.readOnlyValue ? changes.readOnlyValue.toString() : '',
         multipleValues: changes.multipleValues ? changes.multipleValues.toString() : '',
       };
+      console.debug(this.param);
       this.updatedParam.next(this.param);
     });
   }
