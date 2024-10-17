@@ -1,13 +1,9 @@
-import { NgModule, inject } from '@angular/core';
-import { Router, RouterModule, Routes } from '@angular/router';
-// import { authGuard } from 'src/guards/auth.guard';
+import { NgModule } from '@angular/core';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { ActiveGroupMember } from 'src/apiAndObjects/gaurds/auth.guard';
+import { AppRouteReuseStrategy } from './app-route-reuse-strategy';
 
 const appRoutes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'login',
-  //   pathMatch: 'full',
-  // },
   {
     path: 'home',
     loadChildren: () => import('../pages/home/home.module').then((m) => m.HomeModule),
@@ -15,11 +11,11 @@ const appRoutes: Routes = [
   {
     path: 'browse',
     loadChildren: () => import('../pages/browse/browse.module').then((m) => m.BrowseModule),
-    // canActivate: [async () => await authGuard()],
+    canActivate: [ActiveGroupMember],
   },
   {
-    path: 'import',
-    loadChildren: () => import('../pages/import/import.module').then((m) => m.ImportModule),
+    path: 'groups',
+    loadChildren: () => import('../pages/groups/groups.module').then((m) => m.GroupsModule),
     // canActivate: [async () => await authGuard()],
   },
   {
@@ -51,6 +47,6 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
-  providers: [],
+  providers: [{ provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy }],
 })
 export class AppRoutingModule {}

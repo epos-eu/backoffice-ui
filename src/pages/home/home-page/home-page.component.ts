@@ -1,7 +1,6 @@
 import { Observable, Subscription, last } from 'rxjs';
 import { IActionItem } from 'src/components/actions-data/actions-data.interface';
 import { ActiveUserService } from 'src/services/activeUser.service';
-import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IChangeItem } from 'src/components/side-navigation/edit-navigation/edit.interface';
 import { ActionsService } from 'src/services/actions.service';

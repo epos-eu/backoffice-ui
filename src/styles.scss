@@ -82,7 +82,8 @@ body {
   font-family: 'Roboto Flex', sans-serif !important;
 }
 
-app-browse-navigation {
+app-browse-navigation,
+app-groups-navigation {
   .mat-mdc-list-item-unscoped-content {
     display: flex;
     align-items: center;

@@ -1,4 +1,4 @@
-import { DataProduct, WebService, Distribution, Operation, ContactPoint } from 'generated/backofficeSchemas';
+import { DataProduct, WebService, Distribution, Operation, ContactPoint, Mapping } from 'generated/backofficeSchemas';
 import { BehaviorSubject } from 'rxjs';
 import { ContactPoint as ContactPointModel } from 'src/apiAndObjects/objects/entities/contactPoint.model';
 import { DataProduct as DataProductModel } from 'src/apiAndObjects/objects/entities/dataProduct.model';
@@ -21,6 +21,9 @@ export class EntityStateManager {
 
   public readonly operation = new BehaviorSubject<Operation | null>(null);
   public operationObs = this.operation.asObservable();
+
+  public readonly mapping = new BehaviorSubject<Array<Mapping>>([]);
+  public mappingObs = this.mapping.asObservable();
 
   /**
    * Sets active DataProduct
@@ -90,6 +93,20 @@ export class EntityStateManager {
    */
   public getActiveOperationValue(): Operation | null {
     return this.operation.getValue();
+  }
+
+  /**
+   * Sets active Mapping Array
+   */
+  public setActiveMappingArr(mapping: Array<Mapping>): void {
+    this.mapping.next(mapping);
+  }
+
+  /**
+   * Gets active Mapping Array
+   */
+  public getActiveMappingArrValue(): Array<Mapping> {
+    return this.mapping.getValue();
   }
 
   /**

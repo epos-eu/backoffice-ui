@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LinkedEntity } from 'generated/backofficeSchemas';
+import { LinkedEntity, Mapping } from 'generated/backofficeSchemas';
+import { Subject, Subscription } from 'rxjs';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 
 @Component({
@@ -12,40 +14,55 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 export class SupportedOperationComponent implements OnInit {
   @Input() supportedOperations!: LinkedEntity[] | undefined;
 
-  constructor(private formBuilder: FormBuilder) {}
+  public mappingSrc = new Subject<Array<Mapping>>();
+  public templateSrc = new Subject<string>();
+  private mapping: Array<Mapping> = [];
+  private subscriptions: Array<Subscription> = [];
 
-  private mapping: Array<any> = [];
+  constructor(private formBuilder: FormBuilder, private entityExecutionService: EntityExecutionService) {
+    this.initSubscriptions();
+  }
 
   public form!: FormGroup;
 
+  private initSubscriptions(): void {
+    this.subscriptions.push(
+      this.mappingSrc.subscribe((mapArr: Array<Mapping>) => {
+        this.mapping = mapArr;
+      }),
+      this.templateSrc.subscribe((val: string) => {
+        this.handleTemplate(val);
+      }),
+    );
+  }
+
   private mapParams(submatch: string, paramName: string): string {
-    // const match = this.mapping.find((param: LinkedEntity) => param.variable === paramName);
-    // if (match) {
-    //   const regex = new RegExp(`${paramName}`, 'g');
-    //   if (match.defaultValue) {
-    //     if (match.range === OperationParamsRange.DATE_TIME) {
-    //       // get only the date from datetime string
-    //       const dateStr = match.defaultValue.split('T').shift();
-    //       if (dateStr) {
-    //         submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(dateStr));
-    //       }
-    //     } else {
-    //       submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
-    //     }
-    //   } else {
-    //     submatch = '';
-    //   }
-    // }
-    // return submatch;
-    return '';
+    const match = this.mapping.find((param: Mapping) => param.variable === paramName);
+    if (match) {
+      const regex = new RegExp(`${paramName}`, 'g');
+      if (match.defaultValue) {
+        if (match.range === OperationParamsRange.DATE_TIME) {
+          // get only the date from datetime string
+          const dateStr = match.defaultValue.split('T').shift();
+          if (dateStr) {
+            submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(dateStr));
+          }
+        } else {
+          submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
+        }
+      } else {
+        submatch = '';
+      }
+    }
+    return submatch;
   }
 
   public ngOnInit(): void {
     this.form = this.formBuilder.group({
-      template: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      template: new FormControl({ value: '', disabled: false }, [Validators.required]),
       preview: new FormControl(''),
     });
-    // this.form.get('template')?.valueChanges.subscribe((changes: string) => this.updateTemplate(changes));
+    this.form.get('template')?.valueChanges.subscribe((changes: string) => this.updateTemplate(changes));
   }
 
   public handleCreateURIPreview(): void {
@@ -61,6 +78,7 @@ export class SupportedOperationComponent implements OnInit {
         submatch = submatch.replace(/,/g, '&');
         const finalTemplateURI = template.split('{').shift() + `${submatch}`;
         this.form.get('preview')?.setValue(finalTemplateURI);
+        console.debug(finalTemplateURI);
       }
     }
   }
@@ -94,14 +112,15 @@ export class SupportedOperationComponent implements OnInit {
 
   public handleTemplate(template: string): void {
     this.form.get('template')?.setValue(template);
+    console.debug('handleTemplate', template);
   }
 
   public updateTemplate(template: string) {
-    // const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
-    // if (null != activeSupportedOperation) {
-    //   activeSupportedOperation.template = template;
-    //   this.entityExecutionService.setActiveOperation(activeSupportedOperation);
-    // }
+    const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
+    if (null != activeSupportedOperation) {
+      activeSupportedOperation.template = template;
+      this.entityExecutionService.setActiveOperation(activeSupportedOperation);
+    }
   }
 
   public supportedOperationSearch(event: any): void {

@@ -36,7 +36,9 @@
     <p>Parameters</p>
     <app-operation-parameters
       [supportedOperations]="supportedOperations"
-      (template)="handleTemplate($event)"
+      [templateInput]="this.form.get('template')?.value"
+      (template)="templateSrc.next($event)"
+      (mappingVals)="mappingSrc.next($event)"
     ></app-operation-parameters>
 
     <button

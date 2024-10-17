@@ -2,6 +2,7 @@ import { Component, Input, Output, OnInit } from '@angular/core';
 import { debounceTime, Subject } from 'rxjs';
 import { ParametersFormService } from '../parameters-form.service';
 import { UntypedFormGroup } from '@angular/forms';
+import { Mapping } from 'generated/backofficeSchemas';
 
 @Component({
   selector: 'app-option',
@@ -10,7 +11,7 @@ import { UntypedFormGroup } from '@angular/forms';
 })
 export class OptionComponent implements OnInit {
   @Input() id: string = '';
-  @Input() param!: any;
+  @Input() param!: Mapping;
   @Input() disabled = false;
   @Output() updatedParam = new Subject<any>();
 
@@ -20,6 +21,8 @@ export class OptionComponent implements OnInit {
 
   public disableAddNewValue = false;
 
+  public isRequired = false;
+
   public ngOnInit(): void {
     this.initForm();
     this.trackFormChanges();
@@ -27,8 +30,8 @@ export class OptionComponent implements OnInit {
   }
 
   private initForm(): void {
-    this.optionForm = this.formService.generateOptionForm({});
-    if (this.formService.checkBool(this.param.multipleValues)) {
+    this.optionForm = this.formService.generateOptionForm({ ...this.param });
+    if (this.formService.checkBool(this.param.multipleValues as string)) {
       this.disableAddNewValue = true;
     }
   }
@@ -43,7 +46,7 @@ export class OptionComponent implements OnInit {
       this.param = {
         ...changes,
         required: changes.required.toString(),
-        readOnlyValues: changes.readOnlyValue ? changes.readOnlyValue.toString() : '',
+        readOnlyValue: changes.readOnlyValue ? changes.readOnlyValue.toString() : '',
         multipleValues: changes.multipleValues ? changes.multipleValues.toString() : '',
       };
       this.updatedParam.next(this.param);

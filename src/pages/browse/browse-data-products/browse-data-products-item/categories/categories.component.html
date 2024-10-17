@@ -1,0 +1,29 @@
+<form
+  [formGroup]="form"
+  *ngIf="form"
+>
+  <mat-form-field>
+    <mat-label>{{ loading ? 'Loading..' : '' }}</mat-label>
+    <mat-select
+      formControlName="category"
+      [disabled]="disabled"
+      multiple
+    >
+      <mat-option
+        *ngFor="let category of categories | orderBy : { property: 'name', direction: 1 }"
+        [value]="category"
+      >
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ul
+    class="selected-providers-list"
+    *ngIf="selectedCategories.length > 0"
+  >
+    <li *ngFor="let category of selectedCategories">
+      {{ category.name }}
+    </li>
+  </ul>
+</form>

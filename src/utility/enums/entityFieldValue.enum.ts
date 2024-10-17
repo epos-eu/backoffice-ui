@@ -6,4 +6,5 @@ export enum EntityFieldValue {
   DATA_PROVIDERS = 'dataproviders',
   CONTACT_POINT = 'contactpoint',
   DISTRIBUTION = 'distribution',
+  CATEGORIES = 'categories',
 }

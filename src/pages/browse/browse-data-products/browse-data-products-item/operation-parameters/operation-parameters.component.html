@@ -19,7 +19,7 @@
                 id="datetime"
                 [param]="control.value"
                 [disabled]="disabled"
-                (updatedParam)="cacheParam($event)"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.DATE">
@@ -27,7 +27,7 @@
                 id="date"
                 [param]="control.value"
                 [disabled]="disabled"
-                (updatedParam)="cacheParam($event)"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.STRING">
@@ -35,7 +35,7 @@
                 id="string"
                 [param]="control.value"
                 [disabled]="disabled"
-                (updatedParam)="cacheParam($event)"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.INTEGER">
@@ -43,7 +43,7 @@
                 id="integer"
                 [param]="control.value"
                 [disabled]="disabled"
-                (updatedParam)="cacheParam($event)"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.FLOAT">
@@ -51,7 +51,7 @@
                 id="float"
                 [param]="control.value"
                 [disabled]="disabled"
-                (updatedParam)="cacheParam($event)"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.BOOLEAN">
@@ -59,7 +59,7 @@
                 id="boolean"
                 [param]="control.value"
                 [disabled]="disabled"
-                (updatedParam)="cacheParam($event)"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
             <ng-container *ngSwitchCase="rangeEnum.COORDINATE">
@@ -67,7 +67,7 @@
                 id="coordinate"
                 [param]="control.value"
                 [disabled]="disabled"
-                (updatedParam)="cacheParam($event)"
+                (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
           </ng-container>

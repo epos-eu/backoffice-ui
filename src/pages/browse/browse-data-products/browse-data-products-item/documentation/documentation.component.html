@@ -11,42 +11,44 @@
           [formGroupName]="i"
         >
           <mat-tab [label]="documentationEntities[i].title!">
-            <mat-form-field appearance="fill">
-              <mat-label>Title</mat-label>
-              <input
-                matInput
-                formControlName="title"
-                placeholder="title"
-              />
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-              <mat-label>Description</mat-label>
-              <textarea
-                matInput
-                name="description"
-                [ngStyle]="{ 'line-height': '1.4' }"
-                formControlName="description"
-              ></textarea>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-              <mat-label>URI</mat-label>
-              <input
-                matInput
-                formControlName="uri"
-                placeholder="Documentation URI"
-              />
-              <mat-error *ngIf="child.get('uri')?.invalid"> URL is not valid. </mat-error>
-            </mat-form-field>
-            <button
-              mat-mini-fab
-              color="primary"
-              aria-label="Save Documentation"
-              matTooltip="Save Documentation"
-              (click)="handleSave(i)"
-              [disabled]="disabled"
-            >
-              <mat-icon>save</mat-icon>
-            </button>
+            <ng-scrollbar>
+              <mat-form-field appearance="fill">
+                <mat-label>Title</mat-label>
+                <input
+                  matInput
+                  formControlName="title"
+                  placeholder="title"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea
+                  matInput
+                  name="description"
+                  [ngStyle]="{ 'line-height': '1.4' }"
+                  formControlName="description"
+                ></textarea>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>URI</mat-label>
+                <input
+                  matInput
+                  formControlName="uri"
+                  placeholder="Documentation URI"
+                />
+                <mat-error *ngIf="child.get('uri')?.invalid"> URL is not valid. </mat-error>
+              </mat-form-field>
+              <button
+                mat-mini-fab
+                color="primary"
+                aria-label="Save Documentation"
+                matTooltip="Save Documentation"
+                (click)="handleSave(i)"
+                [disabled]="disabled"
+              >
+                <mat-icon>save</mat-icon>
+              </button>
+            </ng-scrollbar>
           </mat-tab>
         </ng-container>
       </div>

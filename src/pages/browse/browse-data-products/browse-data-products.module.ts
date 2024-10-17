@@ -34,6 +34,7 @@ import { DistributionDownloadComponent } from './browse-data-products-item/distr
 import { DistributionWebserviceComponent } from './browse-data-products-item/distribution/webservice/webservice.component';
 import { SupportedOperationComponent } from './browse-data-products-item/supported-operation/supported-operation.component';
 import { DocumentationComponent } from './browse-data-products-item/documentation/documentation.component';
+import { CategoriesComponent } from './browse-data-products-item/categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { DocumentationComponent } from './browse-data-products-item/documentatio
     DistributionWebserviceComponent,
     SupportedOperationComponent,
     DocumentationComponent,
+    CategoriesComponent,
   ],
   imports: [AngularMaterialModule, CommonModule, ComponentsModule, NgFor, SideNavigationModule],
   exports: [
@@ -92,6 +94,7 @@ import { DocumentationComponent } from './browse-data-products-item/documentatio
     SpatialCoverageComponent,
     SpatialCoverageMapComponent,
     TemporalCoverageComponent,
+    CategoriesComponent,
   ],
   providers: [
     {

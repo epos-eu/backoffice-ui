@@ -13,4 +13,5 @@ export enum Entity {
   PERSON = 'Person',
   USER = 'User',
   WEBSERVICE = 'WebService',
+  CATEGORY = 'Category',
 }

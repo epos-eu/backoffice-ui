@@ -12,4 +12,8 @@ export class ActiveUserService {
   public setActiveUserInfo(userInfo: User | null): void {
     this.activeUserInfo.next(userInfo);
   }
+
+  public getActiveUser(): User | null {
+    return this.activeUserInfo.getValue();
+  }
 }

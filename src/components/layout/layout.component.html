@@ -33,6 +33,15 @@
     >
       <h1>METADATA Backoffice</h1>
     </a>
+    <a
+      class="groups-button"
+      mat-stroked-button
+      [routerLink]="['/groups']"
+      routerLinkActive="active"
+    >
+      <mat-icon mat-list-icon>group</mat-icon>
+      <span>Groups</span>
+    </a>
     <span class="navbar-spacer"></span>
     <div
       class="user-details"
@@ -193,7 +202,7 @@
         <ng-container *ngIf="(liveChanges | async) === false">
           <app-browse-navigation *ngIf="navigationType === 'home'"></app-browse-navigation>
           <app-browse-navigation *ngIf="navigationType === 'browse'"></app-browse-navigation>
-          <app-import-navigation *ngIf="navigationType === 'import'"></app-import-navigation>
+          <app-groups-navigation *ngIf="navigationType === 'groups'"></app-groups-navigation>
         </ng-container>
       </div>
     </mat-sidenav>

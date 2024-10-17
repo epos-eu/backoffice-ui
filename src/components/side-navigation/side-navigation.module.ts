@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowseNavigationComponent } from './browse-navigation/browse-navigation.component';
 import { RouterModule } from '@angular/router';
-import { ImportNavigationComponent } from './import-navigation/import-navigation.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { EditNavigationComponent } from './edit-navigation/edit-navigation.component';
 import { MatChipsModule } from '@angular/material/chips';
@@ -11,11 +10,12 @@ import { AnchorNavigationComponent } from './explorer-navigation/anchor-navigati
 import { BackButtonComponent } from './back-button/back-button.component';
 import { DataproductNavigationComponent } from './dataproduct-navigation/dataproduct-navigation.component';
 import { SkeletonLoaderComponent } from '../skeleton-loader/skeleton-loader.component';
+import { GroupsNavigationComponent } from './groups-navigation/groups-navigation.component';
 
 @NgModule({
   declarations: [
     BrowseNavigationComponent,
-    ImportNavigationComponent,
+    GroupsNavigationComponent,
     EditNavigationComponent,
     ExplorerNavigationComponent,
     AnchorNavigationComponent,
@@ -25,7 +25,7 @@ import { SkeletonLoaderComponent } from '../skeleton-loader/skeleton-loader.comp
   imports: [CommonModule, RouterModule, AngularMaterialModule, MatChipsModule, SkeletonLoaderComponent],
   exports: [
     BrowseNavigationComponent,
-    ImportNavigationComponent,
+    GroupsNavigationComponent,
     EditNavigationComponent,
     ExplorerNavigationComponent,
     AnchorNavigationComponent,

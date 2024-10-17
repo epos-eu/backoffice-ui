@@ -1,19 +1,20 @@
 <mat-nav-list>
-  <h3 mat-subheader>IMPORT</h3>
+  <h3 mat-subheader>Groups</h3>
   <a
     mat-list-item
-    [routerLink]="['/import/import-status']"
+    [routerLink]="['/groups/request']"
     routerLinkActive="active"
   >
     <mat-icon mat-list-icon> assessment </mat-icon>
-    <p mat-line>Status</p>
+    <span>Request To Join Group</span>
   </a>
   <a
     mat-list-item
-    [routerLink]="['/import/new-import']"
+    [routerLink]="['/groups/new-group']"
     routerLinkActive="active"
   >
     <mat-icon mat-list-icon> note_add </mat-icon>
-    <p mat-line>New Import</p>
+    <span>New Group</span>
   </a>
 </mat-nav-list>
+<mat-divider></mat-divider>

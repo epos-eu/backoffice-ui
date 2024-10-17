@@ -1,7 +1,4 @@
-<form
-  [formGroup]="optionForm"
-  *ngIf="param"
->
+<form [formGroup]="optionForm">
   <div class="top-params">
     <mat-form-field
       appearance="fill"
@@ -54,7 +51,7 @@
     </mat-icon>
   </span>
 
-  <mat-form-field
+  <!-- <mat-form-field
     appearance="fill"
     [style.width.%]="50"
   >
@@ -64,26 +61,43 @@
       <mat-option value="true">true</mat-option>
       <mat-option value="false">false</mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field> -->
 
   <ng-container [ngSwitch]="id">
     <ng-container *ngSwitchCase="'coordinate'">
-      <app-option-coordinate></app-option-coordinate>
+      <app-option-coordinate [form]="optionForm"></app-option-coordinate>
     </ng-container>
     <ng-container *ngSwitchCase="'date'">
-      <app-option-date></app-option-date>
+      <app-option-date [form]="optionForm"></app-option-date>
     </ng-container>
     <ng-container *ngSwitchCase="'datetime'">
-      <app-option-datetime></app-option-datetime>
+      <app-option-datetime [form]="optionForm"></app-option-datetime>
     </ng-container>
     <ng-container *ngSwitchCase="'string'">
-      <app-option-string></app-option-string>
+      <app-option-complex
+        [form]="optionForm"
+        [id]="'string'"
+        [disableAddNewValue]="disableAddNewValue"
+      ></app-option-complex>
+    </ng-container>
+    <ng-container *ngSwitchCase="'boolean'">
+      <app-option-complex
+        [form]="optionForm"
+        [id]="'boolean'"
+        [disableAddNewValue]="disableAddNewValue"
+      ></app-option-complex>
     </ng-container>
     <ng-container *ngSwitchCase="'integer'">
-      <app-option-integer></app-option-integer>
+      <app-option-integer
+        [disableAddNewValue]="disableAddNewValue"
+        [form]="optionForm"
+      ></app-option-integer>
     </ng-container>
     <ng-container *ngSwitchCase="'float'">
-      <app-option-float></app-option-float>
+      <app-option-float
+        [disableAddNewValue]="disableAddNewValue"
+        [form]="optionForm"
+      ></app-option-float>
     </ng-container>
   </ng-container>
 </form>

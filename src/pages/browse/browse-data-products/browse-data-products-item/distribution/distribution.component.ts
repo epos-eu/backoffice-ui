@@ -77,8 +77,11 @@ export class DistributionComponent implements OnInit {
   }
 
   private checkAccess(distribution: Distribution): string {
-    if (distribution.accessService?.instanceId !== undefined) {
-      return 'webservice';
+    if (null != distribution.accessService && null != distribution.accessService[0]) {
+      if (distribution.accessService[0].instanceId !== undefined) {
+        return 'webservice';
+      }
+      return 'download';
     }
     return 'download';
   }
@@ -187,7 +190,7 @@ export class DistributionComponent implements OnInit {
         uid: webservice.uid,
       };
 
-      this.distributionDetails[index].accessService = newWebserviceEntity;
+      this.distributionDetails[index].accessService![0] = newWebserviceEntity;
       this.initForm();
 
       const activeDistribution = this.distributionDetails[index];

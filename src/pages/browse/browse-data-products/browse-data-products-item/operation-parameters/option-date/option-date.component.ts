@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
 import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
 
 @Component({
@@ -7,5 +8,7 @@ import { SemanticTag } from 'src/utility/enums/semanticTag.enum';
   styleUrls: ['./option-date.component.scss'],
 })
 export class OptionDateComponent {
+  @Input() form!: UntypedFormGroup;
+
   public semanticTags = Object.values(SemanticTag);
 }
