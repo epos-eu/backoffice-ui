@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { ActiveToggle } from '../toggle.interface';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';

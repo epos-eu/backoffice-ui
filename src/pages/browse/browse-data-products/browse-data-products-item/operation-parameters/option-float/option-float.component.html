@@ -1,1 +1,78 @@
-<app-option-complex></app-option-complex>
+<ng-container *ngIf="form">
+  <form
+    [formGroup]="form"
+    class="integer-form"
+  >
+    <mat-radio-group
+      aria-label="Allowed values"
+      formControlName="allowedValues"
+    >
+      <mat-radio-button value="any">Any</mat-radio-button>
+      <mat-radio-button value="controlled">Controlled</mat-radio-button>
+    </mat-radio-group>
+    <ng-container *ngIf="form.get('allowedValues')?.value === 'any'">
+      <mat-form-field>
+        <mat-label>Default value</mat-label>
+        <input
+          matInput
+          placeholder="Default value"
+          formControlName="defaultValue"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Min value</mat-label>
+        <input
+          matInput
+          placeholder="Min value"
+          formControlName="minValue"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Max value</mat-label>
+        <input
+          matInput
+          placeholder="Max value"
+          formControlName="maxValue"
+        />
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="form.get('allowedValues')?.value === 'controlled'">
+      <mat-slide-toggle
+        formControlName="multipleValues"
+        class="allow-multiple"
+      >
+        Allows multiple selection
+      </mat-slide-toggle>
+      <ng-container formArrayName="value">
+        <div
+          *ngFor="let control of getControls('value'); let i = index"
+          [formGroupName]="i"
+          class="user-value"
+        >
+          <mat-form-field appearance="fill">
+            <mat-label>Value</mat-label>
+            <input
+              matInput
+              placeholder="Value"
+              formControlName="value"
+            />
+          </mat-form-field>
+          <mat-slide-toggle
+            formControlName="asDefault"
+            [id]="i.toString()"
+          >
+            As default value
+          </mat-slide-toggle>
+        </div>
+      </ng-container>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleAddNewValue()"
+        [ngClass]="disableAddNewValue ? 'hidden' : ''"
+      >
+        Add new value
+      </button>
+    </ng-container>
+  </form>
+</ng-container>
