@@ -2,7 +2,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LinkedEntity, Mapping } from 'generated/backofficeSchemas';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 
 @Component({
@@ -14,16 +15,26 @@ export class SupportedOperationComponent implements OnInit {
   @Input() supportedOperations!: LinkedEntity[] | undefined;
 
   public mappingSrc = new Subject<Array<Mapping>>();
+  public templateSrc = new Subject<string>();
   private mapping: Array<Mapping> = [];
+  private subscriptions: Array<Subscription> = [];
 
-  constructor(private formBuilder: FormBuilder) {
-    this.mappingSrc.subscribe((mapArr: Array<Mapping>) => {
-      this.mapping = mapArr;
-      console.debug('mapArr', mapArr);
-    });
+  constructor(private formBuilder: FormBuilder, private entityExecutionService: EntityExecutionService) {
+    this.initSubscriptions();
   }
 
   public form!: FormGroup;
+
+  private initSubscriptions(): void {
+    this.subscriptions.push(
+      this.mappingSrc.subscribe((mapArr: Array<Mapping>) => {
+        this.mapping = mapArr;
+      }),
+      this.templateSrc.subscribe((val: string) => {
+        this.handleTemplate(val);
+      }),
+    );
+  }
 
   private mapParams(submatch: string, paramName: string): string {
     const match = this.mapping.find((param: Mapping) => param.variable === paramName);
@@ -47,18 +58,15 @@ export class SupportedOperationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    console.debug('supportedOperations', this.supportedOperations);
-
     this.form = this.formBuilder.group({
       template: new FormControl({ value: '', disabled: false }, [Validators.required]),
       preview: new FormControl(''),
     });
-    // this.form.get('template')?.valueChanges.subscribe((changes: string) => this.updateTemplate(changes));
+    this.form.get('template')?.valueChanges.subscribe((changes: string) => this.updateTemplate(changes));
   }
 
   public handleCreateURIPreview(): void {
     const template = this.form.get('template')?.value;
-    console.debug('template', template);
     if (template) {
       const templateParams = template.match(/\{(.*?)\}/);
       let submatch = templateParams[1];
@@ -104,14 +112,15 @@ export class SupportedOperationComponent implements OnInit {
 
   public handleTemplate(template: string): void {
     this.form.get('template')?.setValue(template);
+    console.debug('handleTemplate', template);
   }
 
   public updateTemplate(template: string) {
-    // const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
-    // if (null != activeSupportedOperation) {
-    //   activeSupportedOperation.template = template;
-    //   this.entityExecutionService.setActiveOperation(activeSupportedOperation);
-    // }
+    const activeSupportedOperation = this.entityExecutionService.getActiveOperationValue();
+    if (null != activeSupportedOperation) {
+      activeSupportedOperation.template = template;
+      this.entityExecutionService.setActiveOperation(activeSupportedOperation);
+    }
   }
 
   public supportedOperationSearch(event: any): void {

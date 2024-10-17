@@ -24,7 +24,6 @@ export class OptionComponent implements OnInit {
   public isRequired = false;
 
   public ngOnInit(): void {
-    console.debug(this.param);
     this.initForm();
     this.trackFormChanges();
     this.disabled ? this.optionForm.disable() : this.optionForm.enable();
@@ -39,7 +38,6 @@ export class OptionComponent implements OnInit {
 
   private trackFormChanges(): void {
     this.optionForm.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
-      console.debug('call');
       if (changes.multipleValues && this.formService.checkBool(changes.multipleValues)) {
         this.disableAddNewValue = true;
       } else {
@@ -51,7 +49,6 @@ export class OptionComponent implements OnInit {
         readOnlyValue: changes.readOnlyValue ? changes.readOnlyValue.toString() : '',
         multipleValues: changes.multipleValues ? changes.multipleValues.toString() : '',
       };
-      console.debug(this.param);
       this.updatedParam.next(this.param);
     });
   }

@@ -26,6 +26,8 @@ export class OperationParametersComponent implements OnInit {
 
   @Output() template = new Subject<string>();
 
+  @Input() templateInput = '';
+
   @Output() mappingVals = new Subject<Mapping[]>();
 
   public paramsToUpdate: Array<Mapping> = [];
@@ -53,8 +55,6 @@ export class OperationParametersComponent implements OnInit {
 
   public updateMappingArr(map: Mapping) {
     const indexofExistingItem = this.paramsToUpdate.findIndex((val) => val.instanceId === map.instanceId);
-    console.debug(indexofExistingItem);
-
     if (indexofExistingItem < 0) {
       // if the new param does not exist them push it into array;
       this.paramsToUpdate.push(map);
@@ -130,7 +130,6 @@ export class OperationParametersComponent implements OnInit {
   private loadMappingArray(mapping: Mapping[]): FormGroup[] {
     if (mapping) {
       const transformed = mapping.map((item: Mapping) => this.createMappingFormGroup(item));
-      console.debug('transformed', transformed);
       return transformed;
     }
     return [];
@@ -152,7 +151,7 @@ export class OperationParametersComponent implements OnInit {
   }
 
   private foundListParametersOnTemplate(): string[] {
-    const template = this.paramsForm.get('template')?.value;
+    const template = this.templateInput;
     const regex = /{([^}]+)}/g;
     const match = template.match(regex);
     if (match) {
@@ -165,9 +164,9 @@ export class OperationParametersComponent implements OnInit {
   private addMappingOnTemplate(mapping: Mapping) {
     const groupParamsOnTemplate = this.foundListParametersOnTemplate();
     if (groupParamsOnTemplate.length > 0) {
-      const newString = groupParamsOnTemplate[0] + ',' + mapping.variable;
-      const template = this.paramsForm.get('template')?.value as string;
-      this.paramsForm.get('template')?.setValue(template.replace(groupParamsOnTemplate[0], newString));
+      const newString = `${groupParamsOnTemplate[0]}, ${mapping.variable}`;
+      const template = this.templateInput;
+      this.template.next(template.replace(groupParamsOnTemplate[0], newString));
     }
   }
 
@@ -185,17 +184,19 @@ export class OperationParametersComponent implements OnInit {
 
   public handleAddParam(): void {
     this.dialogService.openAddNewParameterDialog().then((data: DialogData) => {
-      const newMapping = data.dataOut as Mapping;
-      const linkedEntityParam: LinkedEntity = {
-        entityType: 'MAPPING',
-        instanceId: data.dataOut.instanceId,
-        metaId: data.dataOut.metaId,
-        uid: data.dataOut.uid,
-      };
+      const newMapping = data.dataOut as LinkedEntity;
       if (null != newMapping) {
-        console.debug(newMapping);
-        const newMappingArr = this.entityExecutionService.getActiveOperationValue()?.mapping;
-        newMappingArr?.push(linkedEntityParam);
+        const linkedEntityParam: LinkedEntity = {
+          entityType: 'MAPPING',
+          instanceId: data.dataOut.instanceId,
+          metaId: data.dataOut.metaId,
+          uid: data.dataOut.uid,
+        };
+        const activeOperation = this.entityExecutionService.getActiveOperationValue();
+        if (null != activeOperation) {
+          activeOperation.mapping?.push(linkedEntityParam);
+          this.entityExecutionService.setActiveOperation(activeOperation);
+        }
 
         this.apiService.endpoints[Entity.MAPPING].get
           .call({
@@ -203,15 +204,11 @@ export class OperationParametersComponent implements OnInit {
             instanceId: newMapping.instanceId as string,
           })
           .then((map: Array<Mapping>) => {
-            console.debug(map);
-            this.mapping.push(map.shift() as Mapping);
+            const newParam = map.shift() as Mapping;
+            this.mapping.push(newParam);
+            this.addMappingOnTemplate(newParam);
             this.initForm(this.mapping);
           });
-
-        // this.mapping = newMappingArr as Array<Mapping[]>;
-
-        // add new variable on template string
-        // this.addMappingOnTemplate(newMapping);
       }
     });
   }
