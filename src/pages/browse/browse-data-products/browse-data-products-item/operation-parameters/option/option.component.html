@@ -71,17 +71,19 @@
       <app-option-date [form]="optionForm"></app-option-date>
     </ng-container>
     <ng-container *ngSwitchCase="'datetime'">
-      <!-- <app-option-complex
-        [form]="optionForm"
-        [id]="'datetime'"
-        [disableAddNewValue]="disableAddNewValue"
-      ></app-option-complex> -->
       <app-option-datetime [form]="optionForm"></app-option-datetime>
     </ng-container>
     <ng-container *ngSwitchCase="'string'">
       <app-option-complex
         [form]="optionForm"
         [id]="'string'"
+        [disableAddNewValue]="disableAddNewValue"
+      ></app-option-complex>
+    </ng-container>
+    <ng-container *ngSwitchCase="'boolean'">
+      <app-option-complex
+        [form]="optionForm"
+        [id]="'boolean'"
         [disableAddNewValue]="disableAddNewValue"
       ></app-option-complex>
     </ng-container>
@@ -92,11 +94,6 @@
       ></app-option-integer>
     </ng-container>
     <ng-container *ngSwitchCase="'float'">
-      <!-- <app-option-complex
-        [form]="optionForm"
-        [id]="'float'"
-        [disableAddNewValue]="disableAddNewValue"
-      ></app-option-complex> -->
       <app-option-float
         [disableAddNewValue]="disableAddNewValue"
         [form]="optionForm"

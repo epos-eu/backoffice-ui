@@ -37,6 +37,7 @@
     <app-operation-parameters
       [supportedOperations]="supportedOperations"
       (template)="handleTemplate($event)"
+      (mappingVals)="mappingSrc.next($event)"
     ></app-operation-parameters>
 
     <button

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup } from '@angular/forms';
 import { DataProduct, Mapping, Operation } from 'generated/backofficeSchemas';
-import { pipe, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { LinkedEntity } from 'src/apiAndObjects/objects/entities/linkedEntity.model';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -26,7 +26,7 @@ export class OperationParametersComponent implements OnInit {
 
   @Output() template = new Subject<string>();
 
-  @Output() mappingVals = new Subject<Mapping[] | undefined>();
+  @Output() mappingVals = new Subject<Mapping[]>();
 
   public paramsToUpdate: Array<Mapping> = [];
 
@@ -53,19 +53,17 @@ export class OperationParametersComponent implements OnInit {
 
   public updateMappingArr(map: Mapping) {
     const indexofExistingItem = this.paramsToUpdate.findIndex((val) => val.instanceId === map.instanceId);
+    console.debug(indexofExistingItem);
 
-    if (indexofExistingItem > 0) {
-      // if item exists in array then replace at index n
-      this.paramsToUpdate = [
-        ...this.paramsToUpdate.slice(0, indexofExistingItem),
-        map,
-        ...this.paramsToUpdate.slice(indexofExistingItem + 1),
-      ];
-    } else {
+    if (indexofExistingItem < 0) {
       // if the new param does not exist them push it into array;
       this.paramsToUpdate.push(map);
+    } else {
+      // if item exists in array then replace at index n
+      this.paramsToUpdate[indexofExistingItem] = map;
     }
-
+    // Update parent component with latest params to allow creation of URI template;
+    this.mappingVals.next(this.paramsToUpdate);
     this.entityExecutionService.setActiveMappingArr(this.paramsToUpdate);
   }
 
@@ -182,7 +180,7 @@ export class OperationParametersComponent implements OnInit {
   // }
 
   public handleSave(): void {
-    this.entityExecutionService.handleMappingArrSave();
+    this.entityExecutionService.handleOperationSave();
   }
 
   public handleAddParam(): void {

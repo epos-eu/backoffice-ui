@@ -366,6 +366,7 @@ export class EntityExecutionService extends EntityStateManager {
     this.loadingService.setShowSpinner(true);
     const requests: Promise<Mapping>[] = [];
     this.mapping.getValue().forEach((item: Mapping) => {
+      item.status = Status.DRAFT;
       requests.push(this.apiService.endpoints[Entity.MAPPING].update.call(item));
     });
     Promise.all(requests)
