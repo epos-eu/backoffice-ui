@@ -115,7 +115,6 @@ export class StateChangeService {
     this.apiService.endpoints[Entity.DATA_PRODUCT].updateState
       .call({
         instanceId: instanceId,
-        justThisOne: true,
         state: state,
       })
       .then(() => {

@@ -26,11 +26,11 @@ export class PutDataProductState extends Endpoint<
       return headers;
     };
     const updateObj = {
-      // justThisOne: body.justThisOne
+      instanceId: body.instanceId,
       state: body.state,
     };
     const callResponsePromise = this.apiCaller.doCall(
-      ['dataproduct', body.instanceId],
+      ['dataproduct'],
       RequestMethod.PUT,
       undefined,
       updateObj,
@@ -49,6 +49,5 @@ export class PutDataProductState extends Endpoint<
 
 export interface UpdateStateObject {
   instanceId: string;
-  justThisOne: boolean;
   state: DataProduct['status'];
 }

@@ -91,7 +91,6 @@ export class OperationParametersComponent implements OnInit {
         if (operation) {
           this.operation = operation;
           this.initDataCallback();
-          this.loading = false;
         }
       })
       .catch(() => (this.loading = false));
@@ -108,6 +107,7 @@ export class OperationParametersComponent implements OnInit {
         }),
       );
     });
+    this.loading = false;
     return Promise.all(requests);
   }
 
