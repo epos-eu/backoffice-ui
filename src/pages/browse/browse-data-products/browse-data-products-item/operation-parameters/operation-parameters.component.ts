@@ -268,27 +268,16 @@ export class OperationParametersComponent implements OnInit {
     if (instanceId) {
       this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
         if (toDelete) {
-          // const activeOperation = this.operation
+          const activeOperation = this.entityExecutionService.getActiveOperationValue();
+          if (null != activeOperation) {
+            activeOperation?.mapping?.splice(
+              activeOperation.mapping.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveOperation(activeOperation);
+          }
         }
       });
     }
-    // console.debug(instanceId);
-    // if (instanceId) {
-    //   this.apiService
-    //     .deleteEntity(EntityEndpointValue.MAPPING, instanceId)
-    //     .then(() => {
-    //       // this.contactPointArraySource.next(
-    //       //   this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
-    //       // );
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       this.snackbarService.openSnackbar('Error deleting parameter.', 'Close', 'error', 3000, [
-    //         'snackbar',
-    //         'mat-toolbar',
-    //         'snackbar-error',
-    //       ]);
-    //     });
-    // }
   }
 }
