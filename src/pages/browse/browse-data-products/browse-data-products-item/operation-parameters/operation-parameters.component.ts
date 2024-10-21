@@ -13,6 +13,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 import { Status } from 'src/utility/enums/status.enum';
 import { ParametersFormService } from './parameters-form.service';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -39,6 +40,7 @@ export class OperationParametersComponent implements OnInit {
     private dialogService: DialogService,
     private stateChangeService: StateChangeService,
     private formService: ParametersFormService,
+    private snackbarService: SnackbarService,
   ) {}
 
   private operation!: Operation;
@@ -237,5 +239,56 @@ export class OperationParametersComponent implements OnInit {
         }
       });
     }
+  }
+
+  public handleDeleteParam(instanceId: string) {
+    if (instanceId) {
+      this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
+        if (toDelete) {
+          const activeWebservice = this.entityExecutionService.getActiveWebServiceValue();
+          if (null != activeWebservice) {
+            activeWebservice.supportedOperation?.splice(
+              activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveWebService(activeWebservice);
+          }
+
+          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+          if (null != activeDistribution) {
+            activeDistribution.accessURL?.splice(
+              // activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveDistribution(activeDistribution);
+          }
+        }
+      });
+    }
+    if (instanceId) {
+      this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
+        if (toDelete) {
+          // const activeOperation = this.operation
+        }
+      });
+    }
+    // console.debug(instanceId);
+    // if (instanceId) {
+    //   this.apiService
+    //     .deleteEntity(EntityEndpointValue.MAPPING, instanceId)
+    //     .then(() => {
+    //       // this.contactPointArraySource.next(
+    //       //   this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
+    //       // );
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //       this.snackbarService.openSnackbar('Error deleting parameter.', 'Close', 'error', 3000, [
+    //         'snackbar',
+    //         'mat-toolbar',
+    //         'snackbar-error',
+    //       ]);
+    //     });
+    // }
   }
 }

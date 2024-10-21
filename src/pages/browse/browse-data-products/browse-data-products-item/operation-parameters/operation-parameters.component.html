@@ -70,6 +70,18 @@
                 (updatedParam)="updateMappingArr($event)"
               ></app-option>
             </ng-container>
+
+            <ng-container>
+              <button
+                mat-mini-fab
+                color="warn"
+                matTooltip="Delete Parameter"
+                [disabled]="disabled"
+                (click)="handleDeleteParam(control.value['instanceId'])"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-container>
           </ng-container>
         </mat-expansion-panel>
       </ng-container>
