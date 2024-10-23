@@ -11,4 +11,5 @@ export enum EntityEndpointValue {
   PERIOD_OF_TIME = 'periodoftime',
   LOCATION = 'location',
   IDENTIFIER = 'identifier',
+  MAPPING = 'mapping',
 }

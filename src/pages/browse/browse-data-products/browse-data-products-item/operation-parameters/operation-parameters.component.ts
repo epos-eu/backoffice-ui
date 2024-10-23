@@ -13,6 +13,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 import { Status } from 'src/utility/enums/status.enum';
 import { ParametersFormService } from './parameters-form.service';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
+import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -39,6 +40,7 @@ export class OperationParametersComponent implements OnInit {
     private dialogService: DialogService,
     private stateChangeService: StateChangeService,
     private formService: ParametersFormService,
+    private snackbarService: SnackbarService,
   ) {}
 
   private operation!: Operation;
@@ -91,7 +93,6 @@ export class OperationParametersComponent implements OnInit {
         if (operation) {
           this.operation = operation;
           this.initDataCallback();
-          this.loading = false;
         }
       })
       .catch(() => (this.loading = false));
@@ -108,6 +109,7 @@ export class OperationParametersComponent implements OnInit {
         }),
       );
     });
+    this.loading = false;
     return Promise.all(requests);
   }
 
@@ -233,6 +235,46 @@ export class OperationParametersComponent implements OnInit {
               1,
             );
             this.entityExecutionService.setActiveDistribution(activeDistribution);
+          }
+        }
+      });
+    }
+  }
+
+  public handleDeleteParam(instanceId: string) {
+    if (instanceId) {
+      this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
+        if (toDelete) {
+          const activeWebservice = this.entityExecutionService.getActiveWebServiceValue();
+          if (null != activeWebservice) {
+            activeWebservice.supportedOperation?.splice(
+              activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveWebService(activeWebservice);
+          }
+
+          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+          if (null != activeDistribution) {
+            activeDistribution.accessURL?.splice(
+              // activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveDistribution(activeDistribution);
+          }
+        }
+      });
+    }
+    if (instanceId) {
+      this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
+        if (toDelete) {
+          const activeOperation = this.entityExecutionService.getActiveOperationValue();
+          if (null != activeOperation) {
+            activeOperation?.mapping?.splice(
+              activeOperation.mapping.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.entityExecutionService.setActiveOperation(activeOperation);
           }
         }
       });
