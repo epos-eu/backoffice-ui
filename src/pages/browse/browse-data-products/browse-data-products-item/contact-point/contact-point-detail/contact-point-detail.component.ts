@@ -18,13 +18,19 @@ export class ContactPointDetailComponent implements OnInit {
 
   @Input() disabled = false;
 
+  @Input() set newContact(contactPoint: ContactPoint | undefined) {
+    if (contactPoint) {
+      this.mergedDetails.push(contactPoint);
+    }
+  }
+
   constructor(private snackbarService: SnackbarService, private apiService: ApiService) {}
 
   private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
 
   public loading: boolean = true;
 
-  public person!: Person | undefined;
+  // public person!: Person | undefined;
 
   public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
 
@@ -36,7 +42,7 @@ export class ContactPointDetailComponent implements OnInit {
       const flattened = contactPoints.flat();
       this.mergedDetails = [...flattened];
       this.mergedDetails.forEach((item) => {
-        // this.getPerson(item.metaId, item.instanceId);
+        // this.getPerson(item.person?.metaId, item.instanceId);
       });
       this.loading = false;
     });
@@ -54,7 +60,7 @@ export class ContactPointDetailComponent implements OnInit {
         )
         .then((data: Array<Person>) => {
           if (Array.isArray(data) && data.length > 0) {
-            this.person = data.shift();
+            // this.person = data.shift();
           }
         });
     }

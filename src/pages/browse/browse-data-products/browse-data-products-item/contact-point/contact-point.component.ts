@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContactPoint, DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
+import { get } from 'http';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
+import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -19,6 +21,7 @@ export class ContactPointComponent extends WithSubscription implements OnInit {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private stateChangeService: StateChangeService,
+    private loadingService: LoadingService,
   ) {
     super();
   }
@@ -30,6 +33,8 @@ export class ContactPointComponent extends WithSubscription implements OnInit {
   public contactPointDetails!: Promise<ContactPoint[]>[];
 
   public disabled = false;
+
+  public newContact: ContactPoint | undefined;
 
   private getContactPointDetails(): void {
     const requests: Promise<ContactPoint[]>[] = [];
@@ -69,20 +74,22 @@ export class ContactPointComponent extends WithSubscription implements OnInit {
     }
   }
 
-  public handleSave(): void {
-    // const personDataSource = this.form.get('').value;
-    // const person: LinkedEntity = {
-    //   // entityType: Entity.PERSON,
-    //   instanceId: personDataSource.instanceId,
-    //   uid: personDataSource.uid,
-    //   metaId: personDataSource.metaId,
-    // };
-    // const item: ContactPoint = {
-    //   uid: 'new contact point',
-    //   person: person,
-    //   role: this.contactPointRole.value as string,
-    // };
-    // // Save new contact point
-    // this.createContactPoint(item);
+  public updateContactPointDetailWithNewContact(contact: LinkedEntity): void {
+    this.apiService.endpoints.ContactPoint.get
+      .call({
+        instanceId: contact?.instanceId!,
+        metaId: contact?.metaId!,
+      })
+      .then((contactDetail: ContactPoint[]) => {
+        this.newContact = contactDetail.pop();
+        this.snackbarService.openSnackbar(`Successfully added Contact.`, 'close', 'success', 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .finally(() => {
+        this.loadingService.setShowSpinner(false);
+      });
   }
 }

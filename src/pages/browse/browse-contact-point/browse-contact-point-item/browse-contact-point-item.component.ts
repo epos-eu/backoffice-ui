@@ -51,13 +51,10 @@ export class BrowseContactPointItemComponent implements OnInit, OnDestroy {
 
   private initData(id: string, metaId: string): void {
     this.apiService.endpoints[Entity.CONTACT_POINT].get
-      .call(
-        {
-          metaId: metaId,
-          instanceId: id,
-        },
-        false,
-      )
+      .call({
+        metaId: metaId,
+        instanceId: id,
+      })
       .then((data: Array<ContactPoint>) => {
         if (Array.isArray(data) && data.length > 0) {
           this.contactPoint = data.shift();

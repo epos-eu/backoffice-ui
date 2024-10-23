@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Person } from 'src/apiAndObjects/objects/entities/person.model';
 import { WithSubscription } from 'src/helpers/subscription';
+import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
@@ -23,6 +24,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
     private snackbarService: SnackbarService,
     private stateChangeService: StateChangeService,
     private formBuilder: FormBuilder,
+    private loadingService: LoadingService,
   ) {
     super();
   }
@@ -31,9 +33,9 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
 
   @Output() contactPointDetailsUpdated = new EventEmitter<Array<LinkedEntity>>();
 
-  public form!: FormGroup;
+  @Output() newContact = new EventEmitter<ContactPoint>();
 
-  public loading = true;
+  public form!: FormGroup;
 
   public personFilteredOptions!: Observable<Person[]>;
 
@@ -75,7 +77,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
         this.person = person;
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Failed to fetch contact point data.`, 'close', 'error', 3000, [
+        this.snackbarService.openSnackbar(`Failed to fetch Person data.`, 'close', 'error', 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
@@ -85,30 +87,42 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
 
   public handleAddContactPoint(): void {
     if (this.form.get('contactPoint')?.value) {
+      this.loadingService.setShowSpinner(true);
+      const selectedPerson = this.form.get('contactPoint')?.value as Person;
+      const personDetail: LinkedEntity = {
+        entityType: Entity.PERSON,
+        instanceId: selectedPerson.instanceId,
+        uid: selectedPerson.uid,
+        metaId: selectedPerson.metaId,
+      };
+      const newContactPoint: ContactPoint = {
+        role: this.form.get('role') ? this.form.get('role')?.value : '',
+        person: personDetail,
+        email: selectedPerson.email,
+      };
+
       this.apiService.endpoints.ContactPoint.create
-        .call(this.form.get('contactPoint')?.value)
-        .then((value: ContactPoint) => {
-          const entityDetail: LinkedEntity = {
-            entityType: Entity.CONTACT_POINT,
-            instanceId: value.instanceId,
-            uid: value.uid,
-            metaId: value.metaId,
-          };
-          this.contactPoint?.push(entityDetail);
-
-          // Send info to parent
-          this.contactPointDetailsUpdated.emit(this.contactPoint);
-
-          // Recall init form to retrieve new person information
-          // this.contactPointArraySource.next([]);
+        .call(newContactPoint)
+        .then((item: LinkedEntity) => {
+          if (null != item) {
+            const entityDetail: LinkedEntity = {
+              entityType: Entity.CONTACT_POINT,
+              instanceId: item.instanceId,
+              uid: item.uid,
+              metaId: item.metaId,
+            };
+            this.newContact.emit(entityDetail);
+            this.contactPointDetailsUpdated.emit(this.contactPoint);
+            this.contactPoint?.push(entityDetail);
+          }
         })
-        .catch((err) => {
-          this.snackbarService.openSnackbar(`Error: Failed to add new contact point.`, 'close', 'error', 3000, [
+        .catch(() => {
+          this.snackbarService.openSnackbar(`Failed to create Contact Point.`, 'close', 'error', 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
           ]);
-          console.error(err);
+          this.loadingService.setShowSpinner(false);
         });
     }
   }
@@ -137,8 +151,9 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
   public displayFn(user: Person): string {
     const givenName = user?.givenName ? user.givenName : '';
     const familyName = user?.familyName ? user.familyName : '';
-    const uid = user?.uid ? user.uid : '';
-    return givenName + ' ' + familyName + ' - ' + uid;
+    const email = user?.email ? user.email[0] : '';
+
+    return user ? `${givenName} ${familyName} - ${email}` : '';
   }
 
   public setAutocompleteValToForm(event: MatAutocompleteSelectedEvent): void {
