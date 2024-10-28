@@ -47,8 +47,8 @@ export class ViewGroupsComponent implements OnInit {
   public requestToJoinGroup(group: Group): void {
     const params: UpdateUserInGroupParams = {
       groupid: group.id as string,
-      role: UserRole.VIEWER,
-      statusType: UserGroupRequestStatus.PENDING,
+      role: UserRole.ADMIN,
+      statusType: UserGroupRequestStatus.ACCEPTED,
       userid: this.activeUserService.getActiveUser()?.authIdentifier as string,
     };
 
