@@ -152,7 +152,6 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
     const givenName = user?.givenName ? user.givenName : '';
     const familyName = user?.familyName ? user.familyName : '';
     const email = user?.email ? user.email[0] : '';
-
     return user ? `${givenName} ${familyName} - ${email}` : '';
   }
 

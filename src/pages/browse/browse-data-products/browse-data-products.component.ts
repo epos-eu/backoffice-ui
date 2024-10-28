@@ -9,7 +9,7 @@ import { ActionsService } from 'src/services/actions.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { DataProduct } from 'generated/backofficeSchemas';
+import { DataProduct, Group } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ActiveUserService } from 'src/services/activeUser.service';
 
@@ -65,15 +65,23 @@ export class BrowseDataProductsComponent {
         .openDialogForComponent(DialogNewDataproductComponent, {}, 'new-dataproduct-dialog')
         .then((response) => {
           if (response.dataOut.create) {
-            this.handleCreate();
+            this.handleCreate(response.dataOut.group);
           }
         });
     }
   }
 
-  private handleCreate(): void {
+  private handleCreate(group: Group): void {
+    const newGroup: Group = {
+      name: group.name,
+      description: group.description,
+      id: group.id,
+      entities: group.entities,
+      users: group.users,
+    };
     const item: DataProduct = {
       created: '',
+      groups: [newGroup],
     };
     this.apiService.endpoints.DataProduct.create
       .call(item)
@@ -85,6 +93,15 @@ export class BrowseDataProductsComponent {
           'snackbar-success',
         ]);
         this.actionsService.saveCurrentEdit(value.instanceId as string);
+        this.apiService.endpoints.Group.addEntityToGroup
+          .call({ groupid: group.id!, metaId: value.metaId! })
+          .then(() => {
+            this.snackbarService.openSnackbar(`Added entity to ${group.name}`, 'close', 'success', 6000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          });
       })
       .catch((err) => {
         console.error(err);
