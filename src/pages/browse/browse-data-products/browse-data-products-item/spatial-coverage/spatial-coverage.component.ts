@@ -60,9 +60,9 @@ export class SpatialCoverageComponent implements OnInit {
         metaId: location.metaId as string,
       };
       this.apiService.endpoints.Location.get.call(params).then((items: Array<Location>) => {
-        items.forEach((location, index) => {
+        items.forEach((location) => {
           this.spatialExtents.push(location);
-          this.spatialCoverageInput[index] = location.location;
+          this.spatialCoverageInput.push(location.location);
         });
         setTimeout(() => {
           this.refreshPointsOnMap();
@@ -83,7 +83,7 @@ export class SpatialCoverageComponent implements OnInit {
       const newLocationEntity: LinkedEntity = {
         instanceId: newLocation.instanceId,
         metaId: newLocation.metaId,
-        entityType: Entity.LOCATION,
+        entityType: Entity.LOCATION.toUpperCase(),
         uid: newLocation.uid,
       };
       if (this.dataProductIsParent) {

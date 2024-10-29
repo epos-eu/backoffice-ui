@@ -10,7 +10,7 @@ import { SpatialCoverageType } from 'src/utility/enums/spatialCoverageType.enum'
   templateUrl: './spatial-coverage-map.component.html',
   styleUrls: ['./spatial-coverage-map.component.scss'],
 })
-export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
+export class SpatialCoverageMapComponent implements AfterViewInit {
   public mapIdentifier: string = '';
   @Input() set mapId(value: string) {
     this.mapIdentifier = value;
@@ -22,20 +22,7 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
 
   public ngAfterViewInit(): void {
     this.initMap(this.mapIdentifier);
-  }
-
-  public ngOnInit() {
-    this.coordinatesChange.subscribe((v) => {
-      this.spatialRange = v;
-      this.map?.eachLayer((layer) => {
-        if (layer instanceof L.Marker || layer instanceof L.Polygon) {
-          this.map?.removeLayer(layer);
-        }
-      });
-      setTimeout(() => {
-        this.getDataOnMaps();
-      }, 100);
-    });
+    this.initSubs();
   }
 
   private initMap(mapId: string): void {
@@ -60,6 +47,20 @@ export class SpatialCoverageMapComponent implements AfterViewInit, OnInit {
     });
     tiles.addTo(this.map);
     this.getDataOnMaps();
+  }
+
+  private initSubs() {
+    this.coordinatesChange.subscribe((v) => {
+      this.spatialRange = v;
+      this.map?.eachLayer((layer) => {
+        if (layer instanceof L.Marker || layer instanceof L.Polygon) {
+          this.map?.removeLayer(layer);
+        }
+      });
+      setTimeout(() => {
+        this.getDataOnMaps();
+      }, 100);
+    });
   }
 
   private getDataOnMaps() {

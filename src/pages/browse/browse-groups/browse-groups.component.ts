@@ -60,9 +60,9 @@ export class BrowseGroupsComponent implements AfterViewInit {
   }
 
   public rowClicked(event: Group): void {
-    // console.debug(event);
-    // this.apiService.endpoints.Group.get.call({ instanceId: event.id! }).then((value) => {
-    //   console.debug(value);
-    // });
+    console.debug(event);
+    this.apiService.endpoints.Group.get.call({ instanceId: event.id! }).then((value) => {
+      console.debug(value);
+    });
   }
 }
