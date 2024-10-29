@@ -10,6 +10,7 @@ import { GetLocationParams } from 'src/apiAndObjects/api/location/getLocation';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatial-temporal-entity-execution.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-spatial-coverage',
@@ -21,6 +22,7 @@ export class SpatialCoverageComponent implements OnInit {
     private entityExecutionService: EntityExecutionService,
     private spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
     private apiService: ApiService,
+    private dialogService: DialogService,
   ) {}
 
   @Input() dataProduct!: DataProduct | null;
@@ -60,9 +62,9 @@ export class SpatialCoverageComponent implements OnInit {
         metaId: location.metaId as string,
       };
       this.apiService.endpoints.Location.get.call(params).then((items: Array<Location>) => {
-        items.forEach((location, index) => {
+        items.forEach((location) => {
           this.spatialExtents.push(location);
-          this.spatialCoverageInput[index] = location.location;
+          this.spatialCoverageInput.push(location.location);
         });
         setTimeout(() => {
           this.refreshPointsOnMap();
@@ -83,7 +85,7 @@ export class SpatialCoverageComponent implements OnInit {
       const newLocationEntity: LinkedEntity = {
         instanceId: newLocation.instanceId,
         metaId: newLocation.metaId,
-        entityType: Entity.LOCATION,
+        entityType: Entity.LOCATION.toUpperCase(),
         uid: newLocation.uid,
       };
       if (this.dataProductIsParent) {
@@ -174,5 +176,9 @@ export class SpatialCoverageComponent implements OnInit {
     this.updateMapTimeout = setTimeout(() => {
       this.refreshPointsOnMap();
     }, 100);
+  }
+
+  public handleSpatialHelp(): void {
+    this.dialogService.openSpatialCoverageHelpDialog();
   }
 }

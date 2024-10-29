@@ -189,7 +189,7 @@ export class OperationParametersComponent implements OnInit {
       const newMapping = data.dataOut as LinkedEntity;
       if (null != newMapping) {
         const linkedEntityParam: LinkedEntity = {
-          entityType: 'MAPPING',
+          entityType: Entity.MAPPING.toUpperCase(),
           instanceId: data.dataOut.instanceId,
           metaId: data.dataOut.metaId,
           uid: data.dataOut.uid,
