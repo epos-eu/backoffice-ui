@@ -64,6 +64,7 @@
           <tr
             mat-row
             *matRowDef="let row; columns: displayedColumns"
+            (click)="rowClicked(row)"
           ></tr>
         </table>
       </div>

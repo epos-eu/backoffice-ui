@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
+import { DataProduct, Group, LinkedEntity } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new-dataproduct/dialog-new-dataproduct.component';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
+import { ActiveUserService } from 'src/services/activeUser.service';
 import { EntityService } from 'src/services/entity.service';
 import { SnackbarService } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -25,11 +26,20 @@ export class BrowseDistributionComponent {
     private apiService: ApiService,
     private snackbarService: SnackbarService,
     private actionsService: ActionsService,
+    private activeUserService: ActiveUserService,
   ) {}
 
-  private handleCreate(): void {
+  private handleCreate(group: Group): void {
+    const newGroup: Group = {
+      name: group.name,
+      description: group.description,
+      id: group.id,
+      entities: group.entities,
+      users: group.users,
+    };
     const item: DataProduct = {
       created: '2024-07-11T09:35:25.018Z',
+      groups: [newGroup],
     };
 
     this.apiService.endpoints.DataProduct.create
@@ -42,6 +52,15 @@ export class BrowseDistributionComponent {
           'snackbar-success',
         ]);
         this.actionsService.saveCurrentEdit(value.instanceId as string);
+        this.apiService.endpoints.Group.addEntityToGroup
+          .call({ groupid: group.id!, metaId: value.metaId! })
+          .then(() => {
+            this.snackbarService.openSnackbar(`Added entity to ${group.name}`, 'close', 'success', 6000, [
+              'snackbar',
+              'mat-toolbar',
+              'snackbar-success',
+            ]);
+          });
       })
       .catch(() =>
         this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
@@ -65,12 +84,24 @@ export class BrowseDistributionComponent {
   }
 
   public createAsset(): void {
-    this.dialogService
-      .openDialogForComponent(DialogNewDataproductComponent, {}, 'new-dataproduct-dialog')
-      .then((response) => {
-        if (response.dataOut.create) {
-          this.handleCreate();
-        }
-      });
+    if (this.activeUserService.getActiveUser()?.groups?.length === 0) {
+      this.dialogService
+        .openConfirmationDialog(
+          'You are not a member of a Group, to create a product you must be a Group member. Proceed to Groups page?',
+        )
+        .then((accepted: boolean) => {
+          if (accepted) {
+            this.router.navigate(['groups']);
+          }
+        });
+    } else {
+      this.dialogService
+        .openDialogForComponent(DialogNewDataproductComponent, {}, 'new-dataproduct-dialog')
+        .then((response) => {
+          if (response.dataOut.create) {
+            this.handleCreate(response.dataOut.group);
+          }
+        });
+    }
   }
 }

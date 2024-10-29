@@ -58,4 +58,11 @@ export class BrowseGroupsComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
     this.dataSource = new MatTableDataSource([] as Array<Group>);
   }
+
+  public rowClicked(event: Group): void {
+    // console.debug(event);
+    // this.apiService.endpoints.Group.get.call({ instanceId: event.id! }).then((value) => {
+    //   console.debug(value);
+    // });
+  }
 }

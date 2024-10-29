@@ -5,14 +5,14 @@ import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 
-export class PutUpdateUserInGroup extends CacheableEndpoint<unknown, UpdateUserInGroupParams, unknown> {
+export class PostAddEntityToGroup extends CacheableEndpoint<unknown, AddEntityToGroupParams, unknown> {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(body: UpdateUserInGroupParams): string {
+  protected getCacheKey(body: AddEntityToGroupParams): string {
     return JSON.stringify(body);
   }
 
-  protected callLive(body: UpdateUserInGroupParams): Promise<unknown> {
+  protected callLive(body: AddEntityToGroupParams): Promise<unknown> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       const headers = new HttpHeaders()
@@ -21,8 +21,8 @@ export class PutUpdateUserInGroup extends CacheableEndpoint<unknown, UpdateUserI
       return headers;
     };
     const callResponsePromise = this.apiCaller.doCall(
-      ['group/updateUserInGroup'],
-      RequestMethod.PUT,
+      ['group/addEntityToGroup'],
+      RequestMethod.POST,
       undefined,
       body,
       headers,
@@ -36,9 +36,7 @@ export class PutUpdateUserInGroup extends CacheableEndpoint<unknown, UpdateUserI
   }
 }
 
-export interface UpdateUserInGroupParams {
+export interface AddEntityToGroupParams {
   groupid: string;
-  statusType: string;
-  userid: string;
-  role: string;
+  metaId: string;
 }
