@@ -21,7 +21,7 @@
     </div>
   </ng-container>
 
-  <div class="spatial-coverage-actions">
+  <div class="button-wrapper">
     <button
       mat-stroked-button
       color="primary"
@@ -30,16 +30,37 @@
     >
       Add Spatial Coverage
     </button>
+    <button
+      mat-mini-fab
+      color="primary"
+      aria-label="Help"
+      matTooltip="Spatial Coverage Support"
+      (click)="handleSpatialHelp()"
+    >
+      <mat-icon>contact_support</mat-icon>
+    </button>
   </div>
 </ng-container>
 <ng-template #empty>
   <p class="notice">Couldn't fetch spatial coverage data.</p>
-  <button
-    mat-stroked-button
-    color="primary"
-    (click)="newSpatialCoverage()"
-    [disabled]="disabled"
-  >
-    Add Spatial Coverage
-  </button>
+
+  <div class="button-wrapper">
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="newSpatialCoverage()"
+      [disabled]="disabled"
+    >
+      Add Spatial Coverage
+    </button>
+    <button
+      mat-mini-fab
+      color="primary"
+      aria-label="Help"
+      matTooltip="Spatial Coverage Support"
+      (click)="handleSpatialHelp()"
+    >
+      <mat-icon>contact_support</mat-icon>
+    </button>
+  </div>
 </ng-template>
