@@ -28,7 +28,7 @@ build:
     - pnpm config set store-dir /root/.pnpm-store/v3
     - export NODE_OPTIONS='--max-old-space-size=8192'
     - pnpm i
-    - pnpm run build -c production
+    - pnpm run build
   artifacts:
     paths:
       - dist/
