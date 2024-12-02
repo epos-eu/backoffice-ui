@@ -6,13 +6,12 @@ import { LogLevel } from 'src/utility/enums/log.enum';
 
 export const environment = {
   production: false,
-  server: window.location.href,
-  apiBaseUrl: window.location.href+'/api',
+  server: 'http://localhost:4200',
+  apiBaseUrl: 'http://localhost:4200/api',
   useLiveApi: true,
-  apiMockUrl: window.location.href+'/assets/data',
+  apiMockUrl: 'http://localhost:4200/assets/data',
   logLevel: LogLevel.debug,
 };
-
 
 /*
  * For easier debugging in development mode, you can import the following file
