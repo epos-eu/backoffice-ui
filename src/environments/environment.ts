@@ -6,10 +6,10 @@ import { LogLevel } from 'src/utility/enums/log.enum';
 
 export const environment = {
   production: false,
-  server: 'http://localhost:4200',
-  apiBaseUrl: 'http://localhost:4200/api',
+  server: window.location.href,
+  apiBaseUrl: window.location.href+'/api',
   useLiveApi: true,
-  apiMockUrl: 'http://localhost:4200/assets/data',
+  apiMockUrl: window.location.href+'/assets/data',
   logLevel: LogLevel.debug,
 };
 
