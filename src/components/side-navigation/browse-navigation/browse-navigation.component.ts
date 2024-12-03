@@ -7,7 +7,7 @@ import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { LoadingService } from 'src/services/loading.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
@@ -45,7 +45,7 @@ export class BrowseNavigationComponent implements OnInit {
       .call(item)
       .then((value: DataProduct) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'View', 'success', 6000, [
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'View', SnackbarType.SUCCESS, 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
@@ -53,11 +53,13 @@ export class BrowseNavigationComponent implements OnInit {
       })
       .catch((err) => {
         console.error(err);
-        this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]);
+        this.snackbarService.openSnackbar(
+          `Error: failed to create new Data Product`,
+          'close',
+          SnackbarType.ERROR,
+          6000,
+          ['snackbar', 'mat-toolbar', 'snackbar-error'],
+        );
       });
   }
 

@@ -11,7 +11,7 @@
         (click)="handleSave()"
         [disabled]="this.activeDataProduct.distribution?.length === 0"
       >
-        Save
+        {{ activeDataProduct.status === status.SUBMITTED ? 'Save (Admin)' : 'Save' }}
       </button>
       <div class="error">
         <mat-error *ngIf="this.activeDataProduct?.distribution?.length === 0">

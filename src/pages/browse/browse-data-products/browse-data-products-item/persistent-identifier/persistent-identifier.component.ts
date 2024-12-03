@@ -18,7 +18,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetIdentifierDetailsParams } from 'src/apiAndObjects/api/identifier/getIdentifier';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { LoadingService } from 'src/services/loading.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-persistent-identifier',
@@ -111,14 +111,14 @@ export class PersistentIdentifierComponent implements OnInit {
             type: new FormControl('', [Validators.required]),
           }),
         );
-        this.snackbarService.openSnackbar('Successfully added Identifier.', 'Close', 'success', 3000, [
+        this.snackbarService.openSnackbar('Successfully added Identifier.', 'Close', SnackbarType.SUCCESS, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
       })
       .catch(() => {
-        this.snackbarService.openSnackbar('Error adding Identifier.', 'Close', 'error', 3000, [
+        this.snackbarService.openSnackbar('Error adding Identifier.', 'Close', SnackbarType.ERROR, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
@@ -143,14 +143,14 @@ export class PersistentIdentifierComponent implements OnInit {
         const newIdentifierArr = updatingObject.identifier?.splice(index, 1);
         this.dataproductService.updateDataProductRecord(updatingObject, { identifier: newIdentifierArr });
         this.entityExecutionService.handleDataProductSave();
-        this.snackbarService.openSnackbar('Successfully deleted Identifier.', 'Close', 'success', 3000, [
+        this.snackbarService.openSnackbar('Successfully deleted Identifier.', 'Close', SnackbarType.SUCCESS, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
       })
       .catch(() => {
-        this.snackbarService.openSnackbar('Error deleting Identifier.', 'Close', 'error', 3000, [
+        this.snackbarService.openSnackbar('Error deleting Identifier.', 'Close', SnackbarType.ERROR, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
@@ -171,14 +171,14 @@ export class PersistentIdentifierComponent implements OnInit {
       .then(() => {
         this.identifiersFullObj[index].identifier = identifierToUpdate.identifier;
         this.identifiersFullObj[index].type = identifierToUpdate.type;
-        this.snackbarService.openSnackbar('Successfully saved Identifier.', 'Close', 'success', 3000, [
+        this.snackbarService.openSnackbar('Successfully saved Identifier.', 'Close', SnackbarType.SUCCESS, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
       })
       .catch(() => {
-        this.snackbarService.openSnackbar('Error updating Identifier.', 'Close', 'error', 3000, [
+        this.snackbarService.openSnackbar('Error updating Identifier.', 'Close', SnackbarType.ERROR, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',

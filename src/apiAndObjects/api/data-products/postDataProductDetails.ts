@@ -1,12 +1,12 @@
 import { HttpHeaders } from '@angular/common/http';
-import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { DataProductDetailDataSource } from 'src/apiAndObjects/objects/data-source/dataProductDetailDataSource';
+import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
 
-export class PostDataProductDetails extends CacheableEndpoint<
+export class PostDataProductDetails extends Endpoint<
   DataProductDetailDataSource,
   DataProduct,
   DataProductDetailDataSource

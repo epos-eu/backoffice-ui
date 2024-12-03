@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Distribution } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { ActionsService } from 'src/services/actions.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { Status } from 'src/utility/enums/status.enum';
@@ -46,7 +46,7 @@ export class CreateDistributionItemComponent implements OnInit {
       .call(item)
       .then((value: Distribution) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DISTRIBUTION}/details`, value.metaId, value.instanceId]);
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', SnackbarType.SUCCESS, 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
@@ -64,11 +64,13 @@ export class CreateDistributionItemComponent implements OnInit {
         this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Distribution`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
+        this.snackbarService.openSnackbar(
+          `Error: failed to create new Distribution`,
+          'close',
+          SnackbarType.ERROR,
+          6000,
+          ['snackbar', 'mat-toolbar', 'snackbar-error'],
+        ),
       )
       .finally(() => (this.loading = false));
   }

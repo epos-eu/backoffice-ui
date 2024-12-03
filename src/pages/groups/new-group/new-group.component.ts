@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, UntypedFormGroup, Validators } from '@angular
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Group } from 'src/apiAndObjects/objects/entities/group.model';
 import { ActiveUserService } from 'src/services/activeUser.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-new-group',
@@ -41,14 +41,19 @@ export class NewGroupComponent implements OnInit {
     this.apiService.endpoints.Group.create
       .call(this.newGroup)
       .then(() => {
-        this.snackbarService.openSnackbar(`Success: ${this.newGroup.name} created`, 'close', 'success', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-success',
-        ]);
+        this.snackbarService.openSnackbar(
+          `Success: ${this.newGroup.name} created`,
+          'close',
+          SnackbarType.SUCCESS,
+          6000,
+          ['snackbar', 'mat-toolbar', 'snackbar-success'],
+        );
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch(() => {
-        this.snackbarService.openSnackbar(`Error: failed to create new Group`, 'close', 'error', 6000, [
+        this.snackbarService.openSnackbar(`Error: failed to create new Group`, 'close', SnackbarType.ERROR, 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',

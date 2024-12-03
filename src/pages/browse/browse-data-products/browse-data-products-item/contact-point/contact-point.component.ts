@@ -5,7 +5,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { LoadingService } from 'src/services/loading.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
@@ -82,7 +82,7 @@ export class ContactPointComponent extends WithSubscription implements OnInit {
       })
       .then((contactDetail: ContactPoint[]) => {
         this.newContact = contactDetail.pop();
-        this.snackbarService.openSnackbar(`Successfully added Contact.`, 'close', 'success', 3000, [
+        this.snackbarService.openSnackbar(`Successfully added Contact.`, 'close', SnackbarType.SUCCESS, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',

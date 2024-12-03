@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
-import { SnackbarService } from './snackbar.service';
+import { SnackbarService, SnackbarType } from './snackbar.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { EntityExecutionService } from './calls/entity-execution.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
@@ -115,29 +115,30 @@ export class StateChangeService {
     this.apiService.endpoints[Entity.DATA_PRODUCT].updateState
       .call({
         instanceId: instanceId,
-        state: state,
+        status: state,
       })
       .then(() => {
-        this.router
-          .navigate([
-            `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
-            this.entityExecutionService.getActiveDataProductValue()?.metaId as string,
-            this.entityExecutionService.getActiveDataProductValue()?.instanceId as string,
-          ])
-          .then(() => {
-            this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
-          });
+        window.location.reload();
+        // this.router
+        //   .navigate([
+        //     `/browse/${EntityEndpointValue.DATA_PRODUCT}/details`,
+        //     this.entityExecutionService.getActiveDataProductValue()?.metaId as string,
+        //     this.entityExecutionService.getActiveDataProductValue()?.instanceId as string,
+        //   ])
+        //   .then(() => {
+        //     this.snackbarService.openSnackbar(message, 'Close', 'success', 5000, [
+        //       'snackbar',
+        //       'mat-toolbar',
+        //       'snackbar-success',
+        //     ]);
+        //   });
       })
       .catch((err) => {
         console.error(err);
         this.snackbarService.openSnackbar(
           'Error changing the state of this Data Product, please try again later.',
           'Close',
-          'error',
+          SnackbarType.ERROR,
           5000,
           ['snackbar', 'mat-toolbar', 'snackbar-error'],
         );

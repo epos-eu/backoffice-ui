@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SnackbarService } from '../snackbar.service';
+import { SnackbarService, SnackbarType } from '../snackbar.service';
 import { LoadingService } from '../loading.service';
 import { Location as LocationType, PeriodOfTime as PeriodOfTimeType } from 'generated/backofficeSchemas';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -29,15 +29,17 @@ export class SpatialTemporalEntityExecutionService {
           ...location,
         })
         .then(() => {
-          this.snackbarService.openSnackbar('Successfully saved Spatial Coverage.', 'Close', 'success', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-success',
-          ]);
+          this.snackbarService.openSnackbar(
+            'Successfully saved Spatial Coverage.',
+            'Close',
+            SnackbarType.SUCCESS,
+            3000,
+            ['snackbar', 'mat-toolbar', 'snackbar-success'],
+          );
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating Spatial Coverage.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Spatial Coverage.', 'Close', SnackbarType.ERROR, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -61,15 +63,17 @@ export class SpatialTemporalEntityExecutionService {
           ...temporalExtent,
         })
         .then(() => {
-          this.snackbarService.openSnackbar('Successfully saved Temporal Extent.', 'Close', 'success', 3000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-success',
-          ]);
+          this.snackbarService.openSnackbar(
+            'Successfully saved Temporal Extent.',
+            'Close',
+            SnackbarType.SUCCESS,
+            3000,
+            ['snackbar', 'mat-toolbar', 'snackbar-success'],
+          );
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating Temporal Extent.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Temporal Extent.', 'Close', SnackbarType.ERROR, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -90,7 +94,7 @@ export class SpatialTemporalEntityExecutionService {
         this.snackbarService.openSnackbar(
           `Successfully deleted ${EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
           'Close',
-          'success',
+          SnackbarType.SUCCESS,
           3000,
           ['snackbar', 'mat-toolbar', 'snackbar-success'],
         );
@@ -101,7 +105,7 @@ export class SpatialTemporalEntityExecutionService {
         this.snackbarService.openSnackbar(
           `Error deleting ${EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
           'Close',
-          'error',
+          SnackbarType.ERROR,
           3000,
           ['snackbar', 'mat-toolbar', 'snackbar-error'],
         );

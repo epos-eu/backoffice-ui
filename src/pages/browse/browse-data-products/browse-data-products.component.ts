@@ -6,7 +6,7 @@ import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { scrollBackToTop } from 'src/helpers/scroll';
 import { ActionsService } from 'src/services/actions.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DataProduct, Group } from 'generated/backofficeSchemas';
@@ -87,7 +87,7 @@ export class BrowseDataProductsComponent {
       .call(item)
       .then((value: DataProduct) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', SnackbarType.SUCCESS, 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
@@ -96,7 +96,7 @@ export class BrowseDataProductsComponent {
         this.apiService.endpoints.Group.addEntityToGroup
           .call({ groupid: group.id!, metaId: value.metaId! })
           .then(() => {
-            this.snackbarService.openSnackbar(`Added entity to ${group.name}`, 'close', 'success', 6000, [
+            this.snackbarService.openSnackbar(`Added entity to ${group.name}`, 'close', SnackbarType.SUCCESS, 6000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
@@ -105,11 +105,13 @@ export class BrowseDataProductsComponent {
       })
       .catch((err) => {
         console.error(err);
-        this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]);
+        this.snackbarService.openSnackbar(
+          `Error: failed to create new Data Product`,
+          'close',
+          SnackbarType.ERROR,
+          6000,
+          ['snackbar', 'mat-toolbar', 'snackbar-error'],
+        );
       });
   }
 }
