@@ -104,6 +104,7 @@ export class DialogService extends BaseDialogService {
       this.openDialog('delete', DialogDeleteComponent, false, {})
         .then((response: DialogData) => {
           if (response.dataOut === 'delete') {
+            console.debug('call 123');
             this.loadingService.setShowSpinner(true);
             this.apiService
               .deleteEntity(entityEndpoint, instanceId)
@@ -158,12 +159,8 @@ export class DialogService extends BaseDialogService {
       }).then((response: DialogData) => {
         if (response.dataOut.action === 'add') {
           this.loadingService.setShowSpinner(true);
-          const item: Operation = {
-            mapping: [new LinkedEntityModel(Entity.WEBSERVICE, '', '', '')],
-          };
-
           this.apiService.endpoints.Operation.create
-            .call(item)
+            .call()
             .then((value: Operation) => {
               this.snackbarService.openSnackbar(
                 `Please click 'Save Web Service' followed by 'Save Distribution' to complete this action.`,

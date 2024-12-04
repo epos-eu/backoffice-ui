@@ -115,7 +115,7 @@
   </ng-container>
 
   <ng-container *ngIf="distribution?.get('dataAccess')?.value === 'webservice'">
-    <div *ngIf="null == distributionObj.accessService">
+    <div *ngIf="distributionObj.accessService.length === 0">
       <button
         mat-flat-button
         color="primary"

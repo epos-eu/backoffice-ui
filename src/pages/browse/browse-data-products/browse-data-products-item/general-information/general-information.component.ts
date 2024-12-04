@@ -77,8 +77,8 @@ export class GeneralInformationComponent implements OnInit {
         accrualPeriodicity: changes.accrualPeriodicity,
         type: changes.type,
         issued: changes.issued,
-        // created: changes.created,
-        // modified: changes.modified,
+        created: changes.created,
+        modified: changes.modified,
         qualityAssurance: changes.qualityAssurance,
       });
     });

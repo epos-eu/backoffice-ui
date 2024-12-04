@@ -2,7 +2,7 @@
   [formGroup]="form"
   *ngIf="form"
 >
-  <mat-form-field>
+  <!-- <mat-form-field>
     <mat-label>{{ loading ? 'Loading..' : '' }}</mat-label>
     <mat-select
       formControlName="dataProviders"
@@ -16,7 +16,27 @@
         {{ provider.legalName }}
       </mat-option>
     </mat-select>
+  </mat-form-field> -->
+
+  <mat-form-field class="service-provider">
+    <mat-label>Service Provider</mat-label>
+    <mat-select
+      [(ngModel)]="selectedDataProviders"
+      [ngModelOptions]="{ standalone: true }"
+      [compareWith]="compareWithFn"
+      (selectionChange)="handleUpdateServicePoint()"
+      [disabled]="disabled"
+      multiple
+    >
+      <mat-option
+        *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
+        [value]="provider"
+      >
+        {{ provider.legalName ? provider.legalName[0] : '' }}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
+
   <ul
     class="selected-providers-list"
     *ngIf="selectedDataProviders.length > 0"
@@ -25,9 +45,4 @@
       {{ provider.legalName }}
     </li>
   </ul>
-  <app-save-entity
-    entity="Data Providers"
-    [hideDelete]="true"
-    [disabled]="disabled"
-  ></app-save-entity>
 </form>

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DataProduct, LinkedEntity, Organization } from 'generated/backofficeSchemas';
 import { map } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
@@ -12,7 +13,11 @@ import { Status } from 'src/utility/enums/status.enum';
   styleUrl: './data-providers.component.scss',
 })
 export class DataProvidersComponent implements OnInit {
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {}
+  constructor(
+    private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private entityExecutionService: EntityExecutionService,
+  ) {}
 
   @Input() dataProduct!: DataProduct;
 
@@ -77,6 +82,7 @@ export class DataProvidersComponent implements OnInit {
             return provider.uid === value.uid;
           });
         });
+        console.debug(this.selectedDataProviders);
       });
     }
   }
@@ -95,5 +101,23 @@ export class DataProvidersComponent implements OnInit {
       return provider.legalName.shift() as string;
     }
     return '-';
+  }
+
+  public handleUpdateServicePoint(): void {
+    const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
+    activeDataProduct!.publisher = [];
+    if (activeDataProduct != null && this.selectedDataProviders != null) {
+      this.selectedDataProviders.forEach((org: Organization) => {
+        const dataProviderEntityDetail: LinkedEntity = {
+          entityType: 'ORGANIZATION',
+          instanceId: org.instanceId,
+          uid: org.uid,
+          metaId: org.metaId,
+        };
+        activeDataProduct.publisher?.push(dataProviderEntityDetail);
+        console.debug(activeDataProduct);
+        this.entityExecutionService.setActiveDataProduct(activeDataProduct);
+      });
+    }
   }
 }

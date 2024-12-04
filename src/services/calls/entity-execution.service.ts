@@ -15,11 +15,11 @@ import { DataProduct, Distribution, LinkedEntity, Mapping, Operation, WebService
 })
 export class EntityExecutionService extends EntityStateManager {
   constructor(
-    private apiService: ApiService,
-    private snackbarService: SnackbarService,
-    private actionsService: ActionsService,
-    private router: Router,
-    private loadingService: LoadingService,
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly actionsService: ActionsService,
+    private readonly router: Router,
+    private readonly loadingService: LoadingService,
   ) {
     super();
   }
@@ -31,20 +31,20 @@ export class EntityExecutionService extends EntityStateManager {
   public handleDataProductSave(): void {
     const activeDataProduct = this.getActiveDataProductValue();
     if (null != activeDataProduct) {
-      activeDataProduct.modified = '';
-
-      if (activeDataProduct.status === Status.DRAFT) {
+      if (activeDataProduct.status === Status.DRAFT || activeDataProduct.status === Status.SUBMITTED) {
         this.loadingService.setShowSpinner(true);
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...activeDataProduct,
           })
           .then((data: DataProduct) => {
-            this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', SnackbarType.SUCCESS, 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
+            this.snackbarService.openSnackbar(
+              'Successfully updated Data Product.',
+              'Close',
+              SnackbarType.SUCCESS,
+              3000,
+              ['snackbar', 'mat-toolbar', 'snackbar-success'],
+            );
             this.actionsService.disableSave();
             if (!this.actionsService.itemExists(data.instanceId as string)) {
               // this.actionsService.addEditedItems([

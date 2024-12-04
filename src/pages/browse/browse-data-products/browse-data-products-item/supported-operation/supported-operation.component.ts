@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LinkedEntity, Mapping } from 'generated/backofficeSchemas';
+import { LinkedEntity, Mapping, Operation, WebService } from 'generated/backofficeSchemas';
 import { Subject, Subscription } from 'rxjs';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
+import { Entity } from 'src/utility/enums/entity.enum';
 import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enum';
 
 @Component({
@@ -13,13 +15,18 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 })
 export class SupportedOperationComponent implements OnInit {
   @Input() supportedOperations!: LinkedEntity[] | undefined;
+  @Input() webservice: WebService | undefined;
 
   public mappingSrc = new Subject<Array<Mapping>>();
   public templateSrc = new Subject<string>();
   private mapping: Array<Mapping> = [];
   private subscriptions: Array<Subscription> = [];
 
-  constructor(private formBuilder: FormBuilder, private entityExecutionService: EntityExecutionService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private entityExecutionService: EntityExecutionService,
+    private dialogService: DialogService,
+  ) {
     this.initSubscriptions();
   }
 
@@ -84,30 +91,33 @@ export class SupportedOperationComponent implements OnInit {
   }
 
   public handleAddOperation(): void {
-    // const webserviceEtityDetail: LinkedEntity = {
-    //   entityType: Entity.WEBSERVICE,
-    //   instanceId: this.webservice?.instanceId ?? '',
-    //   uid: this.webservice?.uid ?? '',
-    //   metaId: this.webservice?.metaId ?? '',
-    // };
-    // this.dialogService.handleAddWebserviceOperation(webserviceEtityDetail).then((result: Operation | unknown) => {
-    //   // put result on supportedOperation array (first position and focused)
-    //   const operation: LinkedEntity = {
-    //     entityType: Entity.OPERATION,
-    //     // instanceId: result.instanceId,
-    //     // uid: result.uid,
-    //     // metaId: result.metaId,
-    //   };
-    //   // Sets 'accessURL' on Distribution to newly created Operation.
-    //   const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-    //   // activeDistribution?.accessURL?.push(operation);
-    //   if (activeDistribution != null) {
-    //     this.entityExecutionService.setActiveDistribution(activeDistribution);
-    //     this.actionsService.showSaveDistributionMessage(true);
-    //   }
-    //   this.webservice?.supportedOperation?.unshift(operation);
-    //   this.supportedOperationFocusFirstRow = true;
-    // });
+    const webserviceEtityDetail: LinkedEntity = {
+      entityType: Entity.WEBSERVICE,
+      instanceId: this.webservice?.instanceId ?? '',
+      uid: this.webservice?.uid ?? '',
+      metaId: this.webservice?.metaId ?? '',
+    };
+    this.dialogService.handleAddWebserviceOperation(webserviceEtityDetail).then((result: Operation | unknown) => {
+      // put result on supportedOperation array (first position and focused)
+      const newOperation = result as Operation;
+      const operation: LinkedEntity = {
+        entityType: Entity.OPERATION,
+        instanceId: newOperation.instanceId,
+        uid: newOperation.uid,
+        metaId: newOperation.metaId,
+      };
+      // Sets 'accessURL' on Distribution to newly created Operation.
+      const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
+      // activeDistribution?.accessURL?.push(operation);
+      if (activeDistribution != null) {
+        this.entityExecutionService.setActiveDistribution(activeDistribution);
+        // this.actionsService.showSaveDistributionMessage(true);
+      }
+      this.entityExecutionService.getActiveWebServiceValue();
+      this.webservice?.supportedOperation?.unshift(operation);
+      // this.entityExecutionService.handleWebserviceSave();
+      // this.supportedOperationFocusFirstRow = true;
+    });
   }
 
   public handleTemplate(template: string): void {

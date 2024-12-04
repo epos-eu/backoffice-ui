@@ -43,7 +43,7 @@ export class DistributionComponent implements OnInit {
     },
     {
       value: 'webservice',
-      label: 'Web service',
+      label: 'Webservice',
     },
   ];
 
@@ -146,16 +146,20 @@ export class DistributionComponent implements OnInit {
   public handleDelete(index: number): void {
     const distToDelete = this.distributionDetails[index];
     if (null != distToDelete) {
-      this.dialogService.handleDelete(distToDelete.instanceId!, EntityEndpointValue.DISTRIBUTION, false).then(() => {
-        this.distributionDetails.splice(index);
-        if (null != this.dataProduct) {
-          this.dataProduct.distribution?.splice(index);
-          this.entityExecutionService.setActiveDataProduct(
-            this.entityExecutionService.convertToDataProduct(this.dataProduct),
-          );
-          this.entityExecutionService.handleDataProductSave();
-        }
-      });
+      this.dialogService
+        .handleDelete(distToDelete.instanceId!, EntityEndpointValue.DISTRIBUTION, false)
+        .then((deleteDistribution: boolean) => {
+          if (deleteDistribution) {
+            this.distributionDetails.splice(index);
+            if (null != this.dataProduct) {
+              this.dataProduct.distribution?.splice(index);
+              this.entityExecutionService.setActiveDataProduct(
+                this.entityExecutionService.convertToDataProduct(this.dataProduct),
+              );
+              this.entityExecutionService.handleDataProductSave();
+            }
+          }
+        });
     }
   }
 
@@ -171,10 +175,11 @@ export class DistributionComponent implements OnInit {
         uid: dist.uid,
       };
 
-      if (null != this.dataProduct) {
-        this.dataProduct.distribution?.push(newDistributionEntity);
+      const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
+      if (null != activeDataProduct) {
+        activeDataProduct.distribution?.push(newDistributionEntity);
         this.entityExecutionService.setActiveDataProduct(
-          this.entityExecutionService.convertToDataProduct(this.dataProduct),
+          this.entityExecutionService.convertToDataProduct(activeDataProduct),
         );
         this.entityExecutionService.handleDataProductSave();
       }

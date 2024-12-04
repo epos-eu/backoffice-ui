@@ -12,9 +12,9 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 })
 export class SpatialTemporalEntityExecutionService {
   constructor(
-    private apiService: ApiService,
-    private snackbarService: SnackbarService,
-    private loadingService: LoadingService,
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly loadingService: LoadingService,
   ) {}
 
   public handleSpatialSave(location: LocationType): void {
