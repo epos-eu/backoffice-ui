@@ -280,4 +280,6 @@ export class OperationParametersComponent implements OnInit {
       });
     }
   }
+
+  public handleSaveParam() {}
 }

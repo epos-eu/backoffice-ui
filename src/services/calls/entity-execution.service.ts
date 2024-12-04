@@ -240,6 +240,7 @@ export class EntityExecutionService extends EntityStateManager {
           ...operationData,
         })
         .then((data: Operation) => {
+          this.handleMappingArrSave();
           this.snackbarService.openSnackbar('Successfully updated Operation.', 'Close', SnackbarType.SUCCESS, 3000, [
             'snackbar',
             'mat-toolbar',

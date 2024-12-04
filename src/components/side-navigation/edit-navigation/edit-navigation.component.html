@@ -9,15 +9,14 @@
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="this.activeDataProduct.distribution?.length === 0"
       >
         {{ activeDataProduct.status === status.SUBMITTED ? 'Save (Admin)' : 'Save' }}
       </button>
-      <div class="error">
+      <!-- <div class="error">
         <mat-error *ngIf="this.activeDataProduct?.distribution?.length === 0">
           Please create and save a Distribution
         </mat-error>
-      </div>
+      </div> -->
       <button
         *ngIf="
           activeDataProduct &&
