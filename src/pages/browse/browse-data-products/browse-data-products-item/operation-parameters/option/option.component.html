@@ -42,7 +42,12 @@
   <mat-slide-toggle formControlName="required">Required</mat-slide-toggle>
 
   <span class="readonly">
-    <mat-slide-toggle formControlName="readOnlyValue">Read Only</mat-slide-toggle>
+    <mat-slide-toggle
+      [(ngModel)]="readOnlyValue"
+      [checked]="readOnlyValue"
+      formControlName="readOnlyValue"
+      >Read Only</mat-slide-toggle
+    >
     <mat-icon
       matTooltip="Parameters that are set as 'Read Only' will not be visible in the Data Portal"
       color="primary"

@@ -20,6 +20,7 @@ export class OptionComponent implements OnInit {
   public optionForm!: UntypedFormGroup;
 
   public disableAddNewValue = false;
+  public readOnlyValue = false;
 
   public isRequired = false;
 
@@ -33,6 +34,9 @@ export class OptionComponent implements OnInit {
     this.optionForm = this.formService.generateOptionForm({ ...this.param });
     if (this.formService.checkBool(this.param.multipleValues as string)) {
       this.disableAddNewValue = true;
+    }
+    if (this.formService.checkBool(this.param.readOnlyValue as string)) {
+      this.readOnlyValue = true;
     }
   }
 

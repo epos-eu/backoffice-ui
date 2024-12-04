@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ActionsService } from 'src/services/actions.service';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -45,7 +45,7 @@ export class CreateWebServiceItemComponent implements OnInit {
       .call(item)
       .then((value: WebService) => {
         this.router.navigate([`/browse/${EntityEndpointValue.WEBSERVICE}/details`, value.metaId, value.instanceId]);
-        this.snackbarService.openSnackbar('Successfully created webservice.', 'close', 'success', 3000, [
+        this.snackbarService.openSnackbar('Successfully created webservice.', 'close', SnackbarType.SUCCESS, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
@@ -63,7 +63,7 @@ export class CreateWebServiceItemComponent implements OnInit {
         this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() => {
-        this.snackbarService.openSnackbar('Failed to create new webservice.', 'close', 'error', 3000, [
+        this.snackbarService.openSnackbar('Failed to create new webservice.', 'close', SnackbarType.ERROR, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',

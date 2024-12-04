@@ -41,10 +41,10 @@
       [disabled]="disabled"
     >
       <mat-option
-        *ngFor="let provider of serviceProviders"
+        *ngFor="let provider of serviceProviders | orderBy : { property: 'legalName', direction: 1 }"
         [value]="provider"
       >
-        {{ provider.url }}
+        {{ provider.legalName ? provider.legalName[0] : '' }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -121,7 +121,10 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           @defer (when mepOperations.expanded) {
-          <app-supported-operation [supportedOperations]="webservice.supportedOperation"></app-supported-operation>
+          <app-supported-operation
+            [supportedOperations]="webservice.supportedOperation"
+            [webservice]="webservice"
+          ></app-supported-operation>
           }
         </mat-expansion-panel>
       </div>

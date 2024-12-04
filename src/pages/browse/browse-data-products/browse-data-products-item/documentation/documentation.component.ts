@@ -7,7 +7,7 @@ import { DocumentationDataSource } from 'src/apiAndObjects/objects/data-source/d
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { LoadingService } from 'src/services/loading.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
@@ -126,7 +126,7 @@ export class DocumentationComponent implements OnInit {
     this.apiService.endpoints.Documentation.update
       .call(docToUpdate)
       .then(() => {
-        this.snackbarService.openSnackbar('Successfully saved Documentation', 'Close', 'success', 3000, [
+        this.snackbarService.openSnackbar('Successfully saved Documentation', 'Close', SnackbarType.SUCCESS, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
@@ -134,7 +134,7 @@ export class DocumentationComponent implements OnInit {
       })
       .catch((err) => {
         console.error(err);
-        this.snackbarService.openSnackbar('Error updating Documentation.', 'Close', 'error', 3000, [
+        this.snackbarService.openSnackbar('Error updating Documentation.', 'Close', SnackbarType.ERROR, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',

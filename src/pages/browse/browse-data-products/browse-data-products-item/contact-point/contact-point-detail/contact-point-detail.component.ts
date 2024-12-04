@@ -3,7 +3,7 @@ import { ContactPoint } from 'generated/backofficeSchemas';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Person } from 'src/apiAndObjects/objects/entities/person.model';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -87,7 +87,7 @@ export class ContactPointDetailComponent implements OnInit {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error deleting entity.', 'Close', SnackbarType.ERROR, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',

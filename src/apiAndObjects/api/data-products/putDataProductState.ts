@@ -27,7 +27,7 @@ export class PutDataProductState extends Endpoint<
     };
     const updateObj = {
       instanceId: body.instanceId,
-      state: body.state,
+      status: body.status,
     };
     const callResponsePromise = this.apiCaller.doCall(
       ['dataproduct'],
@@ -49,5 +49,5 @@ export class PutDataProductState extends Endpoint<
 
 export interface UpdateStateObject {
   instanceId: string;
-  state: DataProduct['status'];
+  status: DataProduct['status'];
 }

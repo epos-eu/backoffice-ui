@@ -11,7 +11,7 @@ export class SnackbarService {
   public openSnackbar(
     title: string,
     action: string,
-    type: string,
+    type: SnackbarType,
     duration?: number,
     panelClass?: Array<string>,
   ): MatSnackBarRef<SnackbarComponent> {
@@ -25,4 +25,10 @@ export class SnackbarService {
       panelClass,
     });
   }
+}
+
+export enum SnackbarType {
+  ERROR = 'error',
+  SUCCESS = 'success',
+  WARNING = 'warning',
 }

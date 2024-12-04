@@ -7,7 +7,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { UpdateUserInGroupParams } from 'src/apiAndObjects/api/group/putUpdateUserInGroup';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActiveUserService } from 'src/services/activeUser.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { UserGroupRequestStatus } from 'src/utility/enums/userGroupRequestStatus.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 
@@ -59,18 +59,23 @@ export class ViewGroupsComponent implements OnInit {
           this.apiService.endpoints.Group.updateUserInGroup
             .call(params)
             .then(() => {
-              this.snackbarService.openSnackbar(`Successfully joined: ${group.name}`, 'close', 'success', 6000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-success',
-              ]);
+              window.location.reload();
+              this.snackbarService.openSnackbar(
+                `Successfully joined: ${group.name}`,
+                'close',
+                SnackbarType.SUCCESS,
+                6000,
+                ['snackbar', 'mat-toolbar', 'snackbar-success'],
+              );
             })
             .catch(() => {
-              this.snackbarService.openSnackbar(`Error: failed to join ${group.name}`, 'close', 'error', 6000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-error',
-              ]);
+              this.snackbarService.openSnackbar(
+                `Error: failed to join ${group.name}`,
+                'close',
+                SnackbarType.ERROR,
+                6000,
+                ['snackbar', 'mat-toolbar', 'snackbar-error'],
+              );
             });
         }
       });

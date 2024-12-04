@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SnackbarService } from '../snackbar.service';
+import { SnackbarService, SnackbarType } from '../snackbar.service';
 import { ActionsService } from '../actions.service';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
@@ -15,11 +15,11 @@ import { DataProduct, Distribution, LinkedEntity, Mapping, Operation, WebService
 })
 export class EntityExecutionService extends EntityStateManager {
   constructor(
-    private apiService: ApiService,
-    private snackbarService: SnackbarService,
-    private actionsService: ActionsService,
-    private router: Router,
-    private loadingService: LoadingService,
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly actionsService: ActionsService,
+    private readonly router: Router,
+    private readonly loadingService: LoadingService,
   ) {
     super();
   }
@@ -31,20 +31,20 @@ export class EntityExecutionService extends EntityStateManager {
   public handleDataProductSave(): void {
     const activeDataProduct = this.getActiveDataProductValue();
     if (null != activeDataProduct) {
-      activeDataProduct.modified = '';
-
-      if (activeDataProduct.status === Status.DRAFT) {
+      if (activeDataProduct.status === Status.DRAFT || activeDataProduct.status === Status.SUBMITTED) {
         this.loadingService.setShowSpinner(true);
         this.apiService.endpoints[Entity.DATA_PRODUCT].update
           .call({
             ...activeDataProduct,
           })
           .then((data: DataProduct) => {
-            this.snackbarService.openSnackbar('Successfully updated draft.', 'Close', 'success', 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
+            this.snackbarService.openSnackbar(
+              'Successfully updated Data Product.',
+              'Close',
+              SnackbarType.SUCCESS,
+              3000,
+              ['snackbar', 'mat-toolbar', 'snackbar-success'],
+            );
             this.actionsService.disableSave();
             if (!this.actionsService.itemExists(data.instanceId as string)) {
               // this.actionsService.addEditedItems([
@@ -71,7 +71,7 @@ export class EntityExecutionService extends EntityStateManager {
           })
           .catch((err) => {
             console.error(err);
-            this.snackbarService.openSnackbar('Error updating draft.', 'Close', 'error', 3000, [
+            this.snackbarService.openSnackbar('Error updating draft.', 'Close', SnackbarType.ERROR, 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-error',
@@ -89,7 +89,7 @@ export class EntityExecutionService extends EntityStateManager {
             instanceChangedId: activeDataProduct.instanceId,
           })
           .then((data: DataProduct) => {
-            this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', 'success', 3000, [
+            this.snackbarService.openSnackbar('Successfully created new draft.', 'Close', SnackbarType.SUCCESS, 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-success',
@@ -109,7 +109,7 @@ export class EntityExecutionService extends EntityStateManager {
           })
           .catch((err) => {
             console.error(err);
-            this.snackbarService.openSnackbar('Error creating new draft', 'Close', 'error', 3000, [
+            this.snackbarService.openSnackbar('Error creating new draft', 'Close', SnackbarType.ERROR, 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-error',
@@ -136,7 +136,7 @@ export class EntityExecutionService extends EntityStateManager {
           ...activeWebservice,
         })
         .then((data: WebService) => {
-          this.snackbarService.openSnackbar('Successfully updated Webservice.', 'Close', 'success', 3000, [
+          this.snackbarService.openSnackbar('Successfully updated Webservice.', 'Close', SnackbarType.SUCCESS, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -157,7 +157,7 @@ export class EntityExecutionService extends EntityStateManager {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating Webservice.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Webservice.', 'Close', SnackbarType.ERROR, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -187,11 +187,13 @@ export class EntityExecutionService extends EntityStateManager {
             false,
           )
           .then((data: Distribution) => {
-            this.snackbarService.openSnackbar('Successfully updated Distribution.', 'Close', 'success', 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
+            this.snackbarService.openSnackbar(
+              'Successfully updated Distribution.',
+              'Close',
+              SnackbarType.SUCCESS,
+              3000,
+              ['snackbar', 'mat-toolbar', 'snackbar-success'],
+            );
             this.actionsService.showSaveDistributionMessage(false);
             if (!this.actionsService.itemExists(data.instanceId as string)) {
               this.actionsService.addEditedItems([
@@ -210,7 +212,7 @@ export class EntityExecutionService extends EntityStateManager {
           })
           .catch((err) => {
             console.error(err);
-            this.snackbarService.openSnackbar('Error updating Distribution.', 'Close', 'error', 3000, [
+            this.snackbarService.openSnackbar('Error updating Distribution.', 'Close', SnackbarType.ERROR, 3000, [
               'snackbar',
               'mat-toolbar',
               'snackbar-error',
@@ -238,7 +240,8 @@ export class EntityExecutionService extends EntityStateManager {
           ...operationData,
         })
         .then((data: Operation) => {
-          this.snackbarService.openSnackbar('Successfully updated Operation.', 'Close', 'success', 3000, [
+          this.handleMappingArrSave();
+          this.snackbarService.openSnackbar('Successfully updated Operation.', 'Close', SnackbarType.SUCCESS, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -266,7 +269,7 @@ export class EntityExecutionService extends EntityStateManager {
         })
         .catch((err) => {
           console.error(err);
-          this.snackbarService.openSnackbar('Error updating Operation.', 'Close', 'error', 3000, [
+          this.snackbarService.openSnackbar('Error updating Operation.', 'Close', SnackbarType.ERROR, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',
@@ -290,7 +293,7 @@ export class EntityExecutionService extends EntityStateManager {
       .call(item)
       .then((value: DataProduct) => {
         this.router.navigate([`/browse/${EntityEndpointValue.DATA_PRODUCT}/details`, value.metaId, value.instanceId]);
-        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', 'success', 6000, [
+        this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'close', SnackbarType.SUCCESS, 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
@@ -308,11 +311,13 @@ export class EntityExecutionService extends EntityStateManager {
         this.actionsService.saveCurrentEdit(value.instanceId as string);
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]),
+        this.snackbarService.openSnackbar(
+          `Error: failed to create new Data Product`,
+          'close',
+          SnackbarType.ERROR,
+          6000,
+          ['snackbar', 'mat-toolbar', 'snackbar-error'],
+        ),
       )
       .finally(() => {
         this.loadingService.setShowSpinner(false);
@@ -323,15 +328,15 @@ export class EntityExecutionService extends EntityStateManager {
     const publishedOrArchivedEntity = this.getActiveDataProductValue();
 
     if (publishedOrArchivedEntity) {
-      publishedOrArchivedEntity.instanceChangedId = publishedOrArchivedEntity.instanceId;
-      publishedOrArchivedEntity.instanceId = undefined; // Handled by backend
+      // publishedOrArchivedEntity.instanceChangedId = publishedOrArchivedEntity.instanceId;
+      // publishedOrArchivedEntity.instanceId = undefined; // Handled by backend
       publishedOrArchivedEntity.status = Status.DRAFT;
 
       this.loadingService.setShowSpinner(true);
       this.apiService.endpoints.DataProduct.create
         .call(publishedOrArchivedEntity)
         .then((value: DataProduct) => {
-          this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'View', 'success', 6000, [
+          this.snackbarService.openSnackbar(`Success: ${value.uid} created`, 'View', SnackbarType.SUCCESS, 6000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-success',
@@ -350,11 +355,13 @@ export class EntityExecutionService extends EntityStateManager {
           this.actionsService.saveCurrentEdit(value.instanceId as string);
         })
         .catch(() =>
-          this.snackbarService.openSnackbar(`Error: failed to create new Data Product`, 'close', 'error', 6000, [
-            'snackbar',
-            'mat-toolbar',
-            'snackbar-error',
-          ]),
+          this.snackbarService.openSnackbar(
+            `Error: failed to create new Data Product`,
+            'close',
+            SnackbarType.ERROR,
+            6000,
+            ['snackbar', 'mat-toolbar', 'snackbar-error'],
+          ),
         )
         .finally(() => {
           this.loadingService.setShowSpinner(false);
@@ -371,14 +378,14 @@ export class EntityExecutionService extends EntityStateManager {
     });
     Promise.all(requests)
       .then(() => {
-        this.snackbarService.openSnackbar(`Success: Parameters Saved`, 'close', 'success', 6000, [
+        this.snackbarService.openSnackbar(`Success: Parameters Saved`, 'close', SnackbarType.SUCCESS, 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-success',
         ]);
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Error: failed to Save Parameters`, 'close', 'error', 6000, [
+        this.snackbarService.openSnackbar(`Error: failed to Save Parameters`, 'close', SnackbarType.ERROR, 6000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',

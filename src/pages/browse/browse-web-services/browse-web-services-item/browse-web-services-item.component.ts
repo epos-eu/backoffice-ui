@@ -7,7 +7,7 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
 import { ActionsService } from 'src/services/actions.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
@@ -127,7 +127,7 @@ export class BrowseWebServicesItemComponent implements OnInit, OnDestroy {
 
   public handleSave() {
     // TODO: add Save method for DB operation
-    this.snackbarService.openSnackbar('Item saved successfully', 'Close', 'success', 4000, [
+    this.snackbarService.openSnackbar('Item saved successfully', 'Close', SnackbarType.SUCCESS, 4000, [
       'snackbar',
       'mat-toolbar',
       'snackbar-primary',

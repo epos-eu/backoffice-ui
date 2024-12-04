@@ -7,7 +7,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Person } from 'src/apiAndObjects/objects/entities/person.model';
 import { WithSubscription } from 'src/helpers/subscription';
 import { LoadingService } from 'src/services/loading.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -77,7 +77,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
         this.person = person;
       })
       .catch(() =>
-        this.snackbarService.openSnackbar(`Failed to fetch Person data.`, 'close', 'error', 3000, [
+        this.snackbarService.openSnackbar(`Failed to fetch Person data.`, 'close', SnackbarType.ERROR, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
@@ -117,7 +117,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
           }
         })
         .catch(() => {
-          this.snackbarService.openSnackbar(`Failed to create Contact Point.`, 'close', 'error', 3000, [
+          this.snackbarService.openSnackbar(`Failed to create Contact Point.`, 'close', SnackbarType.ERROR, 3000, [
             'snackbar',
             'mat-toolbar',
             'snackbar-error',

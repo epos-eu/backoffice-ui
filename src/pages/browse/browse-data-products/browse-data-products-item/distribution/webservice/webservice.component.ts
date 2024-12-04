@@ -118,7 +118,6 @@ export class DistributionWebserviceComponent extends WithSubscription implements
 
   public ngOnInit(): void {
     this.initSubscriptions();
-    console.debug(this.accessService);
     this.initData({
       instanceId: this.accessService![0].instanceId,
       metaId: this.accessService![0].metaId,

@@ -7,7 +7,7 @@ import { DialogMetadataFileViewComponent } from 'src/components/dialogs/dialog-m
 import { BaseDialogService, DialogData } from './baseDialogService.abstract';
 import { DialogUserPermissionsComponent } from './dialog-user-permissions/dialog-user-permissions.component';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Router } from '@angular/router';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { ActionsService } from 'src/services/actions.service';
@@ -104,6 +104,7 @@ export class DialogService extends BaseDialogService {
       this.openDialog('delete', DialogDeleteComponent, false, {})
         .then((response: DialogData) => {
           if (response.dataOut === 'delete') {
+            console.debug('call 123');
             this.loadingService.setShowSpinner(true);
             this.apiService
               .deleteEntity(entityEndpoint, instanceId)
@@ -111,7 +112,7 @@ export class DialogService extends BaseDialogService {
                 this.snackbarService.openSnackbar(
                   `Successfully deleted entity: ${instanceId}`,
                   'Close',
-                  'success',
+                  SnackbarType.SUCCESS,
                   3000,
                   ['snackbar', 'mat-toolbar', 'snackbar-success'],
                 );
@@ -126,7 +127,7 @@ export class DialogService extends BaseDialogService {
               })
               .catch((err) => {
                 console.error(err);
-                this.snackbarService.openSnackbar('Error deleting entity.', 'Close', 'error', 3000, [
+                this.snackbarService.openSnackbar('Error deleting entity.', 'Close', SnackbarType.ERROR, 3000, [
                   'snackbar',
                   'mat-toolbar',
                   'snackbar-error',
@@ -158,28 +159,26 @@ export class DialogService extends BaseDialogService {
       }).then((response: DialogData) => {
         if (response.dataOut.action === 'add') {
           this.loadingService.setShowSpinner(true);
-          const item: Operation = {
-            mapping: [new LinkedEntityModel(Entity.WEBSERVICE, '', '', '')],
-          };
-
           this.apiService.endpoints.Operation.create
-            .call(item)
+            .call()
             .then((value: Operation) => {
               this.snackbarService.openSnackbar(
                 `Please click 'Save Web Service' followed by 'Save Distribution' to complete this action.`,
                 'close',
-                'warning',
+                SnackbarType.WARNING,
                 6000,
                 ['snackbar', 'mat-toolbar', 'snackbar-warning'],
               );
               resolve(value);
             })
             .catch(() =>
-              this.snackbarService.openSnackbar(`Error: failed to create new operation`, 'close', 'error', 6000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-error',
-              ]),
+              this.snackbarService.openSnackbar(
+                `Error: failed to create new operation`,
+                'close',
+                SnackbarType.ERROR,
+                6000,
+                ['snackbar', 'mat-toolbar', 'snackbar-error'],
+              ),
             )
             .finally(() => {
               this.loadingService.setShowSpinner(false);

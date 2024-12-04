@@ -70,8 +70,8 @@ export class GeneralInformationComponent implements OnInit {
     const updatingObject = this.entityExecutionService.getActiveDataProductValue() || {};
     this.form.valueChanges.pipe(debounceTime(500)).subscribe((changes) => {
       this.dataProductService.updateDataProductRecord(updatingObject, {
-        title: changes.title,
-        description: changes.description,
+        title: this.helpersService.formatArrayVal(changes.title),
+        description: this.helpersService.formatArrayVal(changes.description),
         keywords: changes.keywords,
         versionInfo: changes.versionInfo,
         accrualPeriodicity: changes.accrualPeriodicity,

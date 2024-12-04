@@ -2,22 +2,18 @@
   <div class="bottom">
     <div class="actions">
       <button
-        *ngIf="
-          activeDataProduct &&
-          (activeDataProduct.status === status.DRAFT || activeDataProduct.status === status.SUBMITTED)
-        "
+        *ngIf="activeDataProduct && activeDataProduct.status === status.DRAFT"
         mat-stroked-button
         color="primary"
         (click)="handleSave()"
-        [disabled]="this.activeDataProduct.distribution?.length === 0"
       >
         Save
       </button>
-      <div class="error">
+      <!-- <div class="error">
         <mat-error *ngIf="this.activeDataProduct?.distribution?.length === 0">
           Please create and save a Distribution
         </mat-error>
-      </div>
+      </div> -->
       <button
         *ngIf="
           activeDataProduct &&

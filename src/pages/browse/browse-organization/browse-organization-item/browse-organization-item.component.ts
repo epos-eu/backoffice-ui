@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
-import { SnackbarService } from 'src/services/snackbar.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Organization } from 'src/apiAndObjects/objects/entities/organization.model';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Location } from '@angular/common';
@@ -40,7 +40,7 @@ export class BrowseOrganizationItemComponent {
 
   public handleSave(): void {
     // TODO: add Save method for DB operation
-    this.snackbarService.openSnackbar('Item saved successfully', 'Close', 'success', 4000, [
+    this.snackbarService.openSnackbar('Item saved successfully', 'Close', SnackbarType.SUCCESS, 4000, [
       'snackbar',
       'mat-toolbar',
       'snackbar-primary',
