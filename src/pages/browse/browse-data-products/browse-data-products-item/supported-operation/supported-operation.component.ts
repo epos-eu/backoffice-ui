@@ -112,7 +112,6 @@ export class SupportedOperationComponent implements OnInit {
 
   public handleTemplate(template: string): void {
     this.form.get('template')?.setValue(template);
-    console.debug('handleTemplate', template);
   }
 
   public updateTemplate(template: string) {
