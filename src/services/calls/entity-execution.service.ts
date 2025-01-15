@@ -324,7 +324,7 @@ export class EntityExecutionService extends EntityStateManager {
       });
   }
 
-  public handleCreateDataProductFromPublishedOrArchivedEntity(): void {
+  public handleCreateDataProductFromPublishedArchivedDiscardedEntity(): void {
     const publishedOrArchivedEntity = this.getActiveDataProductValue();
 
     if (publishedOrArchivedEntity) {
