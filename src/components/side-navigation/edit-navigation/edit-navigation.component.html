@@ -21,7 +21,7 @@
         "
         mat-raised-button
         color="primary"
-        (click)="handleCreateEntityFromPublishedOrArchived()"
+        (click)="handleCreateDataProductFromPublishedArchivedDiscardedEntity()"
       >
         Create New Draft
       </button>
@@ -56,7 +56,7 @@
         *ngIf="activeDataProduct && activeDataProduct.status === status.DISCARDED"
         mat-flat-button
         color="primary"
-        (click)="handleChangeState(status.DRAFT)"
+        (click)="handleCreateDataProductFromPublishedArchivedDiscardedEntity()"
       >
         Revert to Draft
       </button>

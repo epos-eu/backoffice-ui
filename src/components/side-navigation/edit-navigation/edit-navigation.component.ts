@@ -94,8 +94,8 @@ export class EditNavigationComponent implements OnInit, OnDestroy {
     }
   }
 
-  public handleCreateEntityFromPublishedOrArchived(): void {
-    this.entityExecutionService.handleCreateDataProductFromPublishedOrArchivedEntity();
+  public handleCreateDataProductFromPublishedArchivedDiscardedEntity(): void {
+    this.entityExecutionService.handleCreateDataProductFromPublishedArchivedDiscardedEntity();
   }
 
   public handleChangeState(status: Status) {
