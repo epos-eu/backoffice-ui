@@ -3,7 +3,7 @@
   *ngIf="form"
 >
   <mat-form-field>
-    <mat-label>{{ loading ? 'Loading..' : '' }}</mat-label>
+    <mat-label>{{ loading ? 'Loading...' : '' }}</mat-label>
     <mat-select
       formControlName="category"
       [disabled]="disabled"
@@ -27,3 +27,6 @@
     </li>
   </ul>
 </form>
+@if (loading) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
