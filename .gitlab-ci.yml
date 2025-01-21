@@ -8,6 +8,7 @@ variables:
     "CI_COMMIT_REF_SLUG": "$CI_COMMIT_REF_SLUG",
     "ENV_STAGE": "testing"
     }' # PROJECT_NAME, CI_COMMIT_REF_SLUG and ENV_STAGE need to be provided as a minimum
+  DOCKER_IMAGE: 'node:22.11.0'
 
 include:
   - project: 'epos/k8s-epos-deploy'
@@ -15,19 +16,36 @@ include:
     file: '.gitlab-kube-include.yml'
 
 stages:
+  - install
   - build
   - image
   - deploy
+  - renovate
+
+install_dependencies:
+  stage: install
+  image: ${DOCKER_IMAGE}
+  script:
+    - corepack enable
+    - corepack prepare pnpm@latest --activate
+    - pnpm install --frozen-lockfile
+  cache:
+    key: '$CI_COMMIT_REF_SLUG' # Use the same cache key to restore cached packages
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 2 weeks
 
 build:
   stage: build
-  image: node:lts-alpine
+  image: ${DOCKER_IMAGE}
+    needs:
+      - job: install_dependencies
   script:
-    - corepack prepare pnpm@latest --activate
     - corepack enable
+    - corepack prepare pnpm@latest --activate
     - pnpm config set store-dir /root/.pnpm-store/v3
     - export NODE_OPTIONS='--max-old-space-size=8192'
-    - pnpm i
     - pnpm run build -c production
   artifacts:
     paths:
@@ -47,3 +65,13 @@ docker-build:
   script:
     - docker build -f Dockerfile -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+
+renovate:
+  stage: renovate
+  image: renovate/renovate:latest
+  needs:
+    - job: install_dependencies
+  script:
+    - pnpm run renovate
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
