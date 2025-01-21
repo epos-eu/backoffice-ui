@@ -39,8 +39,8 @@ install_dependencies:
 build:
   stage: build
   image: ${DOCKER_IMAGE}
-    needs:
-      - job: install_dependencies
+  needs:
+    - job: install_dependencies
   script:
     - corepack enable
     - corepack prepare pnpm@latest --activate
