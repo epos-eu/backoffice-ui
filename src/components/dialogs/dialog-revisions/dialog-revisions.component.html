@@ -108,7 +108,7 @@
           mat-cell
           *matCellDef="let row"
         >
-          {{ row.status.toLowerCase() }}
+          {{ row.status ? row.status : '-' }}
         </td>
       </ng-container>
 

@@ -1,16 +1,27 @@
 <div class="info">
-  <div class="detail">
-    <div class="label">Instance Id:</div>
-    <div class="value">{{ dataProduct.instanceId }}</div>
-  </div>
-  <div
-    *ngIf="dataProduct"
-    class="detail"
-  >
-    <div class="label">Status:</div>
-    <div class="value">
-      {{ dataProduct.status === stateEnum.DISCARDED ? 'REJECTED' : dataProduct.status }}
+  <div>
+    <div class="detail">
+      <div class="label">Instance Id:</div>
+      <div class="value">{{ dataProduct.instanceId }}</div>
     </div>
+    <div
+      *ngIf="dataProduct"
+      class="detail"
+    >
+      <div class="label">Status:</div>
+      <div class="value">
+        {{ dataProduct.status }}
+      </div>
+    </div>
+  </div>
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="triggerVersionDialog()"
+    >
+      Version History
+    </button>
   </div>
 </div>
 <form [formGroup]="form">

@@ -9,6 +9,9 @@ import { Status } from 'src/utility/enums/status.enum';
 import { AcrualPeriodicity } from 'src/utility/enums/vocabulary/accrualPeriodicity.enum';
 import { DcmiType } from 'src/utility/enums/vocabulary/dcmiType.enum';
 import { DataproductService } from '../../dataproduct.service';
+import { DialogService } from 'src/components/dialogs/dialog.service';
+import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
+import { Entity } from 'src/utility/enums/entity.enum';
 
 @Component({
   selector: 'app-general-information',
@@ -20,6 +23,7 @@ export class GeneralInformationComponent implements OnInit {
     private helpersService: HelpersService,
     private entityExecutionService: EntityExecutionService,
     private dataProductService: DataproductService,
+    private dialogService: DialogService,
   ) {}
 
   @Input() dataProduct!: DataProduct;
@@ -89,5 +93,19 @@ export class GeneralInformationComponent implements OnInit {
     this.trackFormChanges();
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
+  }
+
+  public triggerVersionDialog(): void {
+    this.dialogService.openDialogForComponent(
+      DialogRevisionsComponent,
+      {
+        metaId: this.dataProduct?.metaId,
+        type: Entity.DATA_PRODUCT,
+        instanceId: this.dataProduct?.instanceId,
+      },
+      '65vw',
+      'auto',
+      'revisions-dialog',
+    );
   }
 }
