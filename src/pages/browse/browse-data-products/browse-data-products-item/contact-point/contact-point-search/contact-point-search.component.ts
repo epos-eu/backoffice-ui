@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { DataProduct, LinkedEntity, ContactPoint } from 'generated/backofficeSchemas';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Person } from 'src/apiAndObjects/objects/entities/person.model';
 import { WithSubscription } from 'src/helpers/subscription';
@@ -19,6 +19,24 @@ import { Status } from 'src/utility/enums/status.enum';
   styleUrl: './contact-point-search.component.scss',
 })
 export class ContactPointSearchComponent extends WithSubscription implements OnInit {
+  @Input() contactPoint: Array<LinkedEntity> | undefined = [];
+
+  @Output() contactPointDetailsUpdated = new EventEmitter<Array<LinkedEntity>>();
+
+  @Output() newContact = new EventEmitter<ContactPoint>();
+
+  @Output() isLoadingObs = new EventEmitter<boolean>();
+
+  private readonly isLoadingSrc = new BehaviorSubject<boolean>(false);
+
+  public form!: FormGroup;
+
+  public personFilteredOptions!: Observable<Person[]>;
+
+  public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
+
+  public person: Array<Person> = [];
+
   constructor(
     private apiService: ApiService,
     private snackbarService: SnackbarService,
@@ -28,20 +46,6 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
   ) {
     super();
   }
-
-  @Input() contactPoint: Array<LinkedEntity> | undefined = [];
-
-  @Output() contactPointDetailsUpdated = new EventEmitter<Array<LinkedEntity>>();
-
-  @Output() newContact = new EventEmitter<ContactPoint>();
-
-  public form!: FormGroup;
-
-  public personFilteredOptions!: Observable<Person[]>;
-
-  public contactPointRoleOptions: Array<{ id: string; name: string }> = [];
-
-  public person: Array<Person> = [];
 
   private initSubscriptions(): void {
     this.subscribe(this.stateChangeService.currentDataProductStateObs, (status: DataProduct['status'] | null) => {
@@ -71,6 +75,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
   }
 
   private getPersonData(): void {
+    this.isLoadingObs.emit(true);
     this.apiService.endpoints.Person.getAll
       .call()
       .then((person: Array<Person>) => {
@@ -82,7 +87,8 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
           'mat-toolbar',
           'snackbar-error',
         ]),
-      );
+      )
+      .finally(() => this.isLoadingObs.emit(false));
   }
 
   public handleAddContactPoint(): void {
