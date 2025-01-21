@@ -1,34 +1,42 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Group } from 'generated/backofficeSchemas';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
-import { GroupsDataSource } from 'src/apiAndObjects/objects/data-source/groupsDataSource';
+import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
-export class GetAllGroups extends CacheableEndpoint<Array<Group>, GetAllGroupsParams, Group> {
+export class GetUserByID extends CacheableEndpoint<UserInfoDataSource, GetUserByIDParams, UserInfoDataSource> {
   private persistorService: PersistorService = new PersistorService();
 
-  protected getCacheKey(params: GetAllGroupsParams): string {
+  protected getCacheKey(params: GetUserByIDParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(): Promise<Group[]> {
+  protected callLive(params: GetUserByIDParams): Promise<UserInfoDataSource> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
       authHeader = authHeader.append('Authorization', accessToken ? `Bearer ${accessToken}` : '');
       return authHeader;
     };
+    const callResponsePromise = this.apiCaller.doCall(
+      [`user/${params.instance_id}`],
+      RequestMethod.GET,
+      {},
+      undefined,
+      headers,
+    );
 
-    const callResponsePromise = this.apiCaller.doCall(['group/all'], RequestMethod.GET, undefined, undefined, headers);
-    return this.buildObjectsFromResponse(GroupsDataSource, callResponsePromise);
+    return this.buildObjectFromResponse(UserInfoDataSource, callResponsePromise).then(
+      (userInfo: UserInfoDataSource) => userInfo,
+    );
   }
 
-  protected callMock(): Promise<Group[]> {
+  protected callMock(): Promise<UserInfoDataSource> {
     throw new Error('Method not implemented.');
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface GetAllGroupsParams {}
+export interface GetUserByIDParams {
+  instance_id: string;
+}

@@ -6,6 +6,8 @@ export class Group implements GroupType {
     public id: string,
     public name: string,
     public entities: Array<string>,
-    public users: Array<string>,
+    public users: {
+      [key: string]: string;
+    }[],
   ) {}
 }
