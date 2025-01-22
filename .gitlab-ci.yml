@@ -52,12 +52,10 @@ docker-build:
 
 renovate:
   stage: renovate
-  image: renovate/renovate:latest
+  image: renovate/renovate:full
   script:
-    - corepack enable
     - corepack prepare pnpm@latest --activate
-    - pnpm config set store-dir /root/.pnpm-store/v3
     - pnpm install
-    - pnpm run renovate
+    - pnpm exec renovate
   rules:
     - if: '$CI_PIPELINE_SOURCE == "schedule"'
