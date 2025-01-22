@@ -114,7 +114,10 @@ export class GeneralInformationComponent implements OnInit {
 
   public handleDeleteDataProduct(): void {
     this.dialogService
-      .openConfirmationDialog('Are you sure you want to delete this data product?', false)
+      .openConfirmationDialog(
+        'Are you sure you want to delete this data product? This action cannot be reversed!',
+        false,
+      )
       .then((accept: boolean) => {
         if (accept) {
           this.apiService.deleteEntity(EntityEndpointValue.DATA_PRODUCT, this.dataProduct?.instanceId as string);
