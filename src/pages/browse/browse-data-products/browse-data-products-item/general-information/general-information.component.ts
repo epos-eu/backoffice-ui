@@ -12,6 +12,8 @@ import { DataproductService } from '../../dataproduct.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { ApiService } from 'src/apiAndObjects/api/api.service';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
   selector: 'app-general-information',
@@ -24,6 +26,7 @@ export class GeneralInformationComponent implements OnInit {
     private entityExecutionService: EntityExecutionService,
     private dataProductService: DataproductService,
     private dialogService: DialogService,
+    private apiService: ApiService,
   ) {}
 
   @Input() dataProduct!: DataProduct;
@@ -107,5 +110,15 @@ export class GeneralInformationComponent implements OnInit {
       'auto',
       'revisions-dialog',
     );
+  }
+
+  public handleDeleteDataProduct(): void {
+    this.dialogService
+      .openConfirmationDialog('Are you sure you want to delete this data product?', false)
+      .then((accept: boolean) => {
+        if (accept) {
+          this.apiService.deleteEntity(EntityEndpointValue.DATA_PRODUCT, this.dataProduct?.instanceId as string);
+        }
+      });
   }
 }

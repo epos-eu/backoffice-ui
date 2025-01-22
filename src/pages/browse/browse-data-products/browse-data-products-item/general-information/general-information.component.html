@@ -14,13 +14,22 @@
       </div>
     </div>
   </div>
-  <div>
+  <div class="buttons">
     <button
       mat-raised-button
       color="primary"
       (click)="triggerVersionDialog()"
     >
       Version History
+    </button>
+    <button
+      mat-mini-fab
+      color="warn"
+      matTooltip="Permanantly delete Data Product"
+      class="smaller"
+      (click)="handleDeleteDataProduct()"
+    >
+      <mat-icon>delete</mat-icon>
     </button>
   </div>
 </div>
