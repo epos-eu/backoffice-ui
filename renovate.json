@@ -17,5 +17,6 @@
       "groupName": "definitelyTyped",
       "matchPackagePrefixes": ["@types/"]
     }
-  ]
+  ],
+  "baseBranches": ["develop"]
 }
