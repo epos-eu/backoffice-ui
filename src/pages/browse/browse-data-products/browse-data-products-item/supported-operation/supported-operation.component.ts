@@ -48,6 +48,7 @@ export class SupportedOperationComponent implements OnInit {
     if (match) {
       const regex = new RegExp(`${paramName}`, 'g');
       if (match.defaultValue) {
+        console.debug(match.defaultValue);
         if (match.range === OperationParamsRange.DATE_TIME) {
           // get only the date from datetime string
           const dateStr = match.defaultValue.split('T').shift();
@@ -56,6 +57,7 @@ export class SupportedOperationComponent implements OnInit {
           }
         } else {
           submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
+          console.debug(submatch);
         }
       } else {
         submatch = '';
@@ -74,8 +76,12 @@ export class SupportedOperationComponent implements OnInit {
 
   public handleCreateURIPreview(): void {
     const template = this.form.get('template')?.value;
-    if (template) {
-      const templateParams = template.match(/\{(.*?)\}/);
+    const templateWhiteSpaceRemove = template.replace(/\s/g, '');
+    console.debug(templateWhiteSpaceRemove);
+    if (templateWhiteSpaceRemove) {
+      const templateParams = templateWhiteSpaceRemove.match(/\{(.*?)\}/);
+      console.debug(templateParams);
+
       let submatch = templateParams[1];
       const paramsArr = submatch.replace('?', '').split(',');
       if (paramsArr.length > 0 && this.mapping.length > 0) {
@@ -83,7 +89,7 @@ export class SupportedOperationComponent implements OnInit {
           submatch = this.mapParams(submatch, paramName);
         });
         submatch = submatch.replace(/,/g, '&');
-        const finalTemplateURI = template.split('{').shift() + `${submatch}`;
+        const finalTemplateURI = templateWhiteSpaceRemove.split('{').shift() + `${submatch}`;
         this.form.get('preview')?.setValue(finalTemplateURI);
         console.debug(finalTemplateURI);
       }
