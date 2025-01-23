@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContactPoint, DataProduct, LinkedEntity } from 'generated/backofficeSchemas';
-import { get } from 'http';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
@@ -91,5 +90,9 @@ export class ContactPointComponent extends WithSubscription implements OnInit {
       .finally(() => {
         this.loadingService.setShowSpinner(false);
       });
+  }
+
+  public onLoadingChanged(isLoading: boolean): void {
+    this.loadingService.setShowSpinner(isLoading);
   }
 }
