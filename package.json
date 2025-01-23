@@ -38,6 +38,7 @@
     "material-icons-font": "^2.1.0",
     "moment": "^2.30.1",
     "ngx-scrollbar": "^14.1.0",
+    "renovate": "^39.119.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.6.2",
     "zone.js": "~0.14.6"
