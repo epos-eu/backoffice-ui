@@ -43,12 +43,11 @@ export class SupportedOperationComponent implements OnInit {
     );
   }
 
-  private mapParams(submatch: string, paramName: string): string {
+  private mapParams(submatch: string, paramName: string): string | null {
     const match = this.mapping.find((param: Mapping) => param.variable === paramName);
     if (match) {
       const regex = new RegExp(`${paramName}`, 'g');
       if (match.defaultValue) {
-        console.debug(match.defaultValue);
         if (match.range === OperationParamsRange.DATE_TIME) {
           // get only the date from datetime string
           const dateStr = match.defaultValue.split('T').shift();
@@ -57,7 +56,6 @@ export class SupportedOperationComponent implements OnInit {
           }
         } else {
           submatch = submatch.replace(regex, paramName + '=' + encodeURIComponent(match.defaultValue));
-          console.debug(submatch);
         }
       } else {
         submatch = '';
@@ -77,21 +75,21 @@ export class SupportedOperationComponent implements OnInit {
   public handleCreateURIPreview(): void {
     const template = this.form.get('template')?.value;
     const templateWhiteSpaceRemove = template.replace(/\s/g, '');
-    console.debug(templateWhiteSpaceRemove);
     if (templateWhiteSpaceRemove) {
       const templateParams = templateWhiteSpaceRemove.match(/\{(.*?)\}/);
-      console.debug(templateParams);
 
       let submatch = templateParams[1];
       const paramsArr = submatch.replace('?', '').split(',');
       if (paramsArr.length > 0 && this.mapping.length > 0) {
         paramsArr.forEach((paramName: string) => {
-          submatch = this.mapParams(submatch, paramName);
+          const checkNullValue = this.mapParams(submatch, paramName);
+          if (checkNullValue) {
+            submatch = this.mapParams(submatch, paramName);
+          }
         });
         submatch = submatch.replace(/,/g, '&');
         const finalTemplateURI = templateWhiteSpaceRemove.split('{').shift() + `${submatch}`;
         this.form.get('preview')?.setValue(finalTemplateURI);
-        console.debug(finalTemplateURI);
       }
     }
   }
