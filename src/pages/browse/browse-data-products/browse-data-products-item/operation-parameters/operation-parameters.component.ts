@@ -83,8 +83,9 @@ export class OperationParametersComponent implements OnInit {
   }
 
   private initData(): void {
-    if (this.supportedOperations && this.supportedOperations.length > 0) {
-      this.loading = true;
+    this.loading = true;
+    if (this.supportedOperations?.length === 0) {
+      this.loading = false;
     }
     const requests: Promise<Operation[]>[] = [];
     this.supportedOperations?.forEach((item: LinkedEntity) => {
@@ -106,7 +107,9 @@ export class OperationParametersComponent implements OnInit {
           this.initDataCallback();
         }
       })
-      .catch(() => (this.loading = false));
+      .catch(() => {
+        this.loading = false;
+      });
   }
 
   private getMappingDetails(mapping: LinkedEntity[] | undefined): Promise<Mapping[][]> {
@@ -120,7 +123,6 @@ export class OperationParametersComponent implements OnInit {
         }),
       );
     });
-    this.loading = false;
     return Promise.all(requests);
   }
 
@@ -129,6 +131,7 @@ export class OperationParametersComponent implements OnInit {
     this.template?.next(this.operation.template ? this.operation.template : '');
     this.getMappingDetails(this.operation.mapping).then((mapping: Array<Array<Mapping>>) => {
       if (mapping) {
+        this.loading = false;
         this.mapping = mapping.flat();
         this.mappingVals.next(mapping.flat());
         this.initForm(this.mapping);
