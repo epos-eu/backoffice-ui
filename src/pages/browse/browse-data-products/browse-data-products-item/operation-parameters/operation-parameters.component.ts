@@ -21,7 +21,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
   styleUrls: ['./operation-parameters.component.scss'],
 })
 export class OperationParametersComponent implements OnInit {
-  @Input() supportedOperations: LinkedEntity[] | undefined = [];
+  @Input() supportedOperations: LinkedEntity[] | undefined;
 
   @Input() templateUpdate = new Subject<string>();
 
@@ -32,6 +32,8 @@ export class OperationParametersComponent implements OnInit {
   @Output() mappingVals = new Subject<Mapping[]>();
 
   public paramsToUpdate: Array<Mapping> = [];
+
+  public showAddParamButton!: boolean;
 
   constructor(
     private formBuilder: FormBuilder,

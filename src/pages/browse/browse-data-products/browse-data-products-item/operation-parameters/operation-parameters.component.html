@@ -116,6 +116,7 @@
       color="primary"
       [disabled]="disabled"
       (click)="handleAddParam()"
+      *ngIf="supportedOperations && supportedOperations.length > 0"
     >
       Add Parameter
     </button>

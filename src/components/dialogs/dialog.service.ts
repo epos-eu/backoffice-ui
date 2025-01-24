@@ -163,7 +163,7 @@ export class DialogService extends BaseDialogService {
             .call()
             .then((value: Operation) => {
               this.snackbarService.openSnackbar(
-                `Please click 'Save Web Service' followed by 'Save Distribution' to complete this action.`,
+                `Please click 'Save Distribution' to complete this action.`,
                 'close',
                 SnackbarType.WARNING,
                 6000,
