@@ -95,6 +95,7 @@
         color="primary"
         [disabled]="disabled"
         (click)="handleSave()"
+        *ngIf="mapping.length > 0"
       >
         Save Operation
       </button>
