@@ -45,7 +45,6 @@ export class OperationParametersComponent implements OnInit {
     private snackbarService: SnackbarService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
-      console.debug('state', state);
       if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
         this.disabled = true;
       } else {
@@ -253,29 +252,6 @@ export class OperationParametersComponent implements OnInit {
     if (instanceId) {
       this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
         if (toDelete) {
-          const activeWebservice = this.entityExecutionService.getActiveWebServiceValue();
-          if (null != activeWebservice) {
-            activeWebservice.supportedOperation?.splice(
-              activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
-              1,
-            );
-            this.entityExecutionService.setActiveWebService(activeWebservice);
-          }
-
-          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-          if (null != activeDistribution) {
-            activeDistribution.accessURL?.splice(
-              // activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
-              1,
-            );
-            this.entityExecutionService.setActiveDistribution(activeDistribution);
-          }
-        }
-      });
-    }
-    if (instanceId) {
-      this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
-        if (toDelete) {
           const activeOperation = this.entityExecutionService.getActiveOperationValue();
           if (null != activeOperation) {
             activeOperation?.mapping?.splice(
@@ -283,11 +259,14 @@ export class OperationParametersComponent implements OnInit {
               1,
             );
             this.entityExecutionService.setActiveOperation(activeOperation);
+            this.mapping.splice(
+              this.mapping.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.initForm(this.mapping);
           }
         }
       });
     }
   }
-
-  public handleSaveParam() {}
 }

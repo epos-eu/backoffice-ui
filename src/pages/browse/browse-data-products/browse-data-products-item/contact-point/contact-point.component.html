@@ -3,6 +3,7 @@
     [contactPoint]="contactPoint"
     (contactPointDetailsUpdated)="updateContactPointArray($event)"
     (newContact)="updateContactPointDetailWithNewContact($event)"
+    (isLoadingObs)="onLoadingChanged($event)"
   ></app-contact-point-search>
 
   <div class="item">
@@ -12,12 +13,11 @@
       [newContact]="newContact"
       [disabled]="disabled"
     ></app-contact-point-detail>
-    <!-- <app-save-entity
-      entity="Contact Point"
-      [hideDelete]="true"
-    ></app-save-entity> -->
   </div>
 </ng-container>
 <ng-template #empty>
   <p class="notice">Couldn't fetch contact point data.</p>
 </ng-template>
+<!-- @if (isLoading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  } -->

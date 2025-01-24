@@ -2,24 +2,8 @@
   [formGroup]="form"
   *ngIf="form"
 >
-  <!-- <mat-form-field>
-    <mat-label>{{ loading ? 'Loading..' : '' }}</mat-label>
-    <mat-select
-      formControlName="dataProviders"
-      [compareWith]="compareWithFn"
-      multiple
-    >
-      <mat-option
-        *ngFor="let provider of dataProviders | orderBy : { property: 'legalName', direction: 1 }"
-        [value]="provider"
-      >
-        {{ provider.legalName }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field> -->
-
   <mat-form-field class="service-provider">
-    <mat-label>Service Provider</mat-label>
+    <mat-label>{{ loading ? 'Loading...' : 'Service Provider' }}</mat-label>
     <mat-select
       [(ngModel)]="selectedDataProviders"
       [ngModelOptions]="{ standalone: true }"
@@ -46,3 +30,6 @@
     </li>
   </ul>
 </form>
+@if (loading) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
