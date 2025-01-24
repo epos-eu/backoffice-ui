@@ -16,6 +16,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 export class SupportedOperationComponent implements OnInit {
   @Input() supportedOperations!: LinkedEntity[] | undefined;
   @Input() webservice: WebService | undefined;
+  @Input() disableFeatures!: boolean;
 
   public mappingSrc = new Subject<Array<Mapping>>();
   public templateSrc = new Subject<string>();

@@ -45,7 +45,7 @@
       mat-flat-button
       color="primary"
       (click)="handleAddOperation()"
-      *ngIf="supportedOperations.length === 0"
+      *ngIf="supportedOperations.length === 0 && !disableFeatures"
     >
       Add Operation
     </button>

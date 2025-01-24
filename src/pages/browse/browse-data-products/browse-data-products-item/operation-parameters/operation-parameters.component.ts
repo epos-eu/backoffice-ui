@@ -41,7 +41,16 @@ export class OperationParametersComponent implements OnInit {
     private stateChangeService: StateChangeService,
     private formService: ParametersFormService,
     private snackbarService: SnackbarService,
-  ) {}
+  ) {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
+      console.debug('state', state);
+      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    });
+  }
 
   private operation!: Operation;
 
@@ -74,7 +83,9 @@ export class OperationParametersComponent implements OnInit {
   }
 
   private initData(): void {
-    this.loading = true;
+    if (this.supportedOperations && this.supportedOperations.length > 0) {
+      this.loading = true;
+    }
     const requests: Promise<Operation[]>[] = [];
     this.supportedOperations?.forEach((item: LinkedEntity) => {
       requests.push(
@@ -141,15 +152,7 @@ export class OperationParametersComponent implements OnInit {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(flatMapping)),
     });
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
-      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
-        this.paramsForm.disable();
-        this.disabled = true;
-      } else {
-        this.disabled = false;
-        this.paramsForm.enable();
-      }
-    });
+    this.disabled ? this.paramsForm.disable() : this.paramsForm.enable();
   }
 
   private foundListParametersOnTemplate(): string[] {
