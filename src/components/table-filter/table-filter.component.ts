@@ -2,15 +2,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { ActionsService } from 'src/services/actions.service';
+import { FilterItem } from 'src/shared/interfaces/form.interface';
 import { Status } from 'src/utility/enums/status.enum';
 
 const TITLE_KEY = 'titleSearchText';
 const COMMENT_KEY = 'commentSearchText';
-
-interface FilterItem {
-  option: string;
-  label: string;
-}
 
 export interface FilterEmit {
   status: any;

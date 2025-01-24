@@ -1,18 +1,19 @@
 import { HttpHeaders } from '@angular/common/http';
+import { Group } from 'generated/backofficeSchemas';
 import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { GroupsDataSource } from 'src/apiAndObjects/objects/data-source/groupsDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
-export class GetGroup extends CacheableEndpoint<Array<GroupsDataSource>, GetGroupParams, GroupsDataSource> {
+export class GetGroup extends CacheableEndpoint<Array<Group>, GetGroupParams, Group> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: GetGroupParams): string {
     return JSON.stringify(params);
   }
 
-  protected callLive(params: GetGroupParams): Promise<GroupsDataSource[]> {
+  protected callLive(params: GetGroupParams): Promise<Group[]> {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
     const headers = (): HttpHeaders => {
       let authHeader = new HttpHeaders();
@@ -26,7 +27,7 @@ export class GetGroup extends CacheableEndpoint<Array<GroupsDataSource>, GetGrou
     return this.buildObjectsFromResponse(GroupsDataSource, callResponsePromise);
   }
 
-  protected callMock(): Promise<GroupsDataSource[]> {
+  protected callMock(): Promise<Group[]> {
     throw new Error('Method not implemented.');
   }
 

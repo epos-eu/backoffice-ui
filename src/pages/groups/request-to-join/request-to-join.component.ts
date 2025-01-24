@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Group } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { UpdateUserInGroupParams } from 'src/apiAndObjects/api/group/putUpdateUserInGroup';
@@ -30,6 +31,7 @@ export class ViewGroupsComponent implements OnInit {
     private activeUserService: ActiveUserService,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
+    private router: Router,
   ) {}
 
   public ngOnInit(): void {

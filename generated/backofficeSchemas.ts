@@ -758,6 +758,7 @@ export type DiscoveryItem = {
   statusTimestamp?: string;
   title?: string;
   uid?: string;
+  versioningStatus?: string;
 };
 
 export type Distribution = {
@@ -1332,7 +1333,9 @@ export type Group = {
    *
    * @example authidentifier
    */
-  users?: string[];
+  users?: {
+    [key: string]: string;
+  }[];
 };
 
 export type Identifier = {
