@@ -85,7 +85,7 @@ importers:
         version: 14.1.1(@angular/cdk@17.3.10(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@17.3.12(rxjs@7.5.7)(zone.js@0.14.10))
       renovate:
         specifier: ^39.119.0
-        version: 39.171.3(encoding@0.1.13)(typanion@3.14.0)
+        version: 39.172.0(encoding@0.1.13)(typanion@3.14.0)
       rxjs:
         specifier: ~7.5.0
         version: 7.5.7
@@ -6632,8 +6632,8 @@ packages:
   remark@13.0.0:
     resolution: {integrity: sha512-HDz1+IKGtOyWN+QgBiAT0kn+2s6ovOxHyPAFGKVE81VSzJ+mq7RwHFledEvB5F1p4iJvOah/LOKdFuzvRnNLCA==}
 
-  renovate@39.171.3:
-    resolution: {integrity: sha512-k+Wv/Whg3GYsHZc+jjIJcnN20bFAKRFffQpkrU/NcxQCcqJjQw7xU8pOP10c30ZHocpmwo8rRZdzgfcjyUOWIg==}
+  renovate@39.172.0:
+    resolution: {integrity: sha512-CYqV6z2zgvqmgp6QHbGic30jNChfQYICs/93yfTLhu4PzD/RC31HZNP9K1k3KMobZgt8FUp6qCVH/yvmmdQxCw==}
     engines: {node: ^20.15.1 || ^22.11.0, pnpm: ^9.0.0}
     hasBin: true
 
@@ -16759,7 +16759,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  renovate@39.171.3(encoding@0.1.13)(typanion@3.14.0):
+  renovate@39.172.0(encoding@0.1.13)(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.738.0
       '@aws-sdk/client-ec2': 3.738.0

@@ -23,9 +23,10 @@
       Version History
     </button>
     <button
+      *ngIf="this.dataProduct.status !== stateEnum.PUBLISHED"
       mat-mini-fab
       color="warn"
-      matTooltip="Permanantly delete Data Product"
+      matTooltip="Permanently Delete Data Product"
       class="smaller"
       (click)="handleDeleteDataProduct()"
     >
