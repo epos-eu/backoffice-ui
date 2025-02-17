@@ -73,6 +73,7 @@ import { PostCategoryScheme } from './categoryScheme/postCategorySchemes';
 import { PutCategoryScheme } from './categoryScheme/putCategorySchemes';
 import { PutUpdateUserInGroup } from './group/putUpdateUserInGroup';
 import { PostAddEntityToGroup } from './group/postAddEntityToGroup';
+import { GetUserByID } from './user/getUserById';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -144,6 +145,7 @@ export class ApiService extends BaseApi {
     },
     User: {
       get: new GetUserInfo(ApiService.USE_LIVE_API),
+      getUserById: new GetUserByID(ApiService.USE_LIVE_API),
       getAll: new GetAllUsers(ApiService.USE_LIVE_API),
       create: new PostUserDetail(ApiService.USE_LIVE_API),
       update: new PutUserDetail(ApiService.USE_LIVE_API),

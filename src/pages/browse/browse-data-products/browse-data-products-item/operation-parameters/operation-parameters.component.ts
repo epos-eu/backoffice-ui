@@ -21,7 +21,7 @@ import { SnackbarService } from 'src/services/snackbar.service';
   styleUrls: ['./operation-parameters.component.scss'],
 })
 export class OperationParametersComponent implements OnInit {
-  @Input() supportedOperations: LinkedEntity[] | undefined = [];
+  @Input() supportedOperations: LinkedEntity[] | undefined;
 
   @Input() templateUpdate = new Subject<string>();
 
@@ -33,6 +33,8 @@ export class OperationParametersComponent implements OnInit {
 
   public paramsToUpdate: Array<Mapping> = [];
 
+  public showAddParamButton!: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
@@ -41,7 +43,15 @@ export class OperationParametersComponent implements OnInit {
     private stateChangeService: StateChangeService,
     private formService: ParametersFormService,
     private snackbarService: SnackbarService,
-  ) {}
+  ) {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
+      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    });
+  }
 
   private operation!: Operation;
 
@@ -75,6 +85,9 @@ export class OperationParametersComponent implements OnInit {
 
   private initData(): void {
     this.loading = true;
+    if (this.supportedOperations?.length === 0) {
+      this.loading = false;
+    }
     const requests: Promise<Operation[]>[] = [];
     this.supportedOperations?.forEach((item: LinkedEntity) => {
       requests.push(
@@ -95,7 +108,9 @@ export class OperationParametersComponent implements OnInit {
           this.initDataCallback();
         }
       })
-      .catch(() => (this.loading = false));
+      .catch(() => {
+        this.loading = false;
+      });
   }
 
   private getMappingDetails(mapping: LinkedEntity[] | undefined): Promise<Mapping[][]> {
@@ -117,6 +132,7 @@ export class OperationParametersComponent implements OnInit {
     this.template?.next(this.operation.template ? this.operation.template : '');
     this.getMappingDetails(this.operation.mapping).then((mapping: Array<Array<Mapping>>) => {
       if (mapping) {
+        this.loading = false;
         this.mapping = mapping.flat();
         this.mappingVals.next(mapping.flat());
         this.initForm(this.mapping);
@@ -140,16 +156,7 @@ export class OperationParametersComponent implements OnInit {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(flatMapping)),
     });
-    this.loading = false;
-    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
-      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
-        this.paramsForm.disable();
-        this.disabled = true;
-      } else {
-        this.disabled = false;
-        this.paramsForm.enable();
-      }
-    });
+    this.disabled ? this.paramsForm.disable() : this.paramsForm.enable();
   }
 
   private foundListParametersOnTemplate(): string[] {

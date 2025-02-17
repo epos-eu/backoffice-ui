@@ -104,7 +104,6 @@ export class DialogService extends BaseDialogService {
       this.openDialog('delete', DialogDeleteComponent, false, {})
         .then((response: DialogData) => {
           if (response.dataOut === 'delete') {
-            console.debug('call 123');
             this.loadingService.setShowSpinner(true);
             this.apiService
               .deleteEntity(entityEndpoint, instanceId)
@@ -163,7 +162,7 @@ export class DialogService extends BaseDialogService {
             .call()
             .then((value: Operation) => {
               this.snackbarService.openSnackbar(
-                `Please click 'Save Web Service' followed by 'Save Distribution' to complete this action.`,
+                `Please click 'Save Distribution' to complete this action.`,
                 'close',
                 SnackbarType.WARNING,
                 6000,

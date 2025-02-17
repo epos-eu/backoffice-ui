@@ -34,10 +34,13 @@ export class NewGroupComponent implements OnInit {
       this.newGroup.name = changes['name'];
       this.newGroup.description = changes['description'];
     });
+    console.log(this.activeUserService.getActiveUser());
   }
 
   public submitGroup() {
-    this.newGroup.users.push(this.activeUserService.getActiveUser()?.authIdentifier!);
+    this.newGroup.users.push({
+      authIdentifier: this.activeUserService.getActiveUser()?.authIdentifier ?? '',
+    });
     this.apiService.endpoints.Group.create
       .call(this.newGroup)
       .then(() => {

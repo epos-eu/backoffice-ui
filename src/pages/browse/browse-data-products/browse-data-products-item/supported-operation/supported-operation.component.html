@@ -46,6 +46,7 @@
       color="primary"
       (click)="handleAddOperation()"
       *ngIf="supportedOperations.length === 0"
+      [disabled]="disableFeatures"
     >
       Add Operation
     </button>

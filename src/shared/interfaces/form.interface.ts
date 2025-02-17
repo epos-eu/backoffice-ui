@@ -38,3 +38,8 @@ export type DataProductForm = FormGroup<{
   changeTimestamp: FormControl<string | undefined>;
   state: FormControl<DataProduct['status'] | undefined>;
 }>;
+
+export interface FilterItem {
+  option: string;
+  label: string;
+}

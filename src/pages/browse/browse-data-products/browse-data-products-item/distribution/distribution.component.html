@@ -111,6 +111,7 @@
     <app-distribution-download
       [urlInvalid]="distribution?.get('downloadURL')?.invalid"
       [distribution]="distributionObj"
+      (distributionChange)="handleDistributionChange($event, index ? index : 0)"
     ></app-distribution-download>
   </ng-container>
 

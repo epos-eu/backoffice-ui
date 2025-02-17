@@ -16,6 +16,7 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 export class SupportedOperationComponent implements OnInit {
   @Input() supportedOperations!: LinkedEntity[] | undefined;
   @Input() webservice: WebService | undefined;
+  @Input() disableFeatures!: boolean;
 
   public mappingSrc = new Subject<Array<Mapping>>();
   public templateSrc = new Subject<string>();
@@ -43,7 +44,7 @@ export class SupportedOperationComponent implements OnInit {
     );
   }
 
-  private mapParams(submatch: string, paramName: string): string {
+  private mapParams(submatch: string, paramName: string): string | null {
     const match = this.mapping.find((param: Mapping) => param.variable === paramName);
     if (match) {
       const regex = new RegExp(`${paramName}`, 'g');
@@ -74,18 +75,22 @@ export class SupportedOperationComponent implements OnInit {
 
   public handleCreateURIPreview(): void {
     const template = this.form.get('template')?.value;
-    if (template) {
-      const templateParams = template.match(/\{(.*?)\}/);
+    const templateWhiteSpaceRemove = template.replace(/\s/g, '');
+    if (templateWhiteSpaceRemove) {
+      const templateParams = templateWhiteSpaceRemove.match(/\{(.*?)\}/);
+
       let submatch = templateParams[1];
       const paramsArr = submatch.replace('?', '').split(',');
       if (paramsArr.length > 0 && this.mapping.length > 0) {
         paramsArr.forEach((paramName: string) => {
-          submatch = this.mapParams(submatch, paramName);
+          const checkNullValue = this.mapParams(submatch, paramName);
+          if (checkNullValue) {
+            submatch = this.mapParams(submatch, paramName);
+          }
         });
         submatch = submatch.replace(/,/g, '&');
-        const finalTemplateURI = template.split('{').shift() + `${submatch}`;
+        const finalTemplateURI = templateWhiteSpaceRemove.split('{').shift() + `${submatch}`;
         this.form.get('preview')?.setValue(finalTemplateURI);
-        console.debug(finalTemplateURI);
       }
     }
   }
