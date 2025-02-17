@@ -109,7 +109,6 @@ export class OperationParametersComponent implements OnInit {
         }),
       );
     });
-    this.loading = false;
     return Promise.all(requests);
   }
 
@@ -141,6 +140,7 @@ export class OperationParametersComponent implements OnInit {
     this.paramsForm = this.formBuilder.group({
       mapping: this.formBuilder.array(this.loadMappingArray(flatMapping)),
     });
+    this.loading = false;
     this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
       if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
         this.paramsForm.disable();
@@ -245,29 +245,6 @@ export class OperationParametersComponent implements OnInit {
     if (instanceId) {
       this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
         if (toDelete) {
-          const activeWebservice = this.entityExecutionService.getActiveWebServiceValue();
-          if (null != activeWebservice) {
-            activeWebservice.supportedOperation?.splice(
-              activeWebservice.supportedOperation.findIndex((e) => e.instanceId === instanceId),
-              1,
-            );
-            this.entityExecutionService.setActiveWebService(activeWebservice);
-          }
-
-          const activeDistribution = this.entityExecutionService.getActiveDistributionValue();
-          if (null != activeDistribution) {
-            activeDistribution.accessURL?.splice(
-              // activeDistribution.accessURL.findIndex((e) => e.instanceId === instanceId),
-              1,
-            );
-            this.entityExecutionService.setActiveDistribution(activeDistribution);
-          }
-        }
-      });
-    }
-    if (instanceId) {
-      this.dialogService.handleDelete(instanceId, EntityEndpointValue.MAPPING, false).then((toDelete: boolean) => {
-        if (toDelete) {
           const activeOperation = this.entityExecutionService.getActiveOperationValue();
           if (null != activeOperation) {
             activeOperation?.mapping?.splice(
@@ -275,11 +252,14 @@ export class OperationParametersComponent implements OnInit {
               1,
             );
             this.entityExecutionService.setActiveOperation(activeOperation);
+            this.mapping.splice(
+              this.mapping.findIndex((e) => e.instanceId === instanceId),
+              1,
+            );
+            this.initForm(this.mapping);
           }
         }
       });
     }
   }
-
-  public handleSaveParam() {}
 }

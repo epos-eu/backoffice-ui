@@ -32,13 +32,13 @@
   </mat-form-field>
 
   <mat-form-field class="service-provider">
-    <mat-label>Service Provider</mat-label>
+    <mat-label>{{ serviceProvidersLoading ? 'Loading...' : '' }}</mat-label>
     <mat-select
       [(ngModel)]="selectedServiceProvider"
       [ngModelOptions]="{ standalone: true }"
       [compareWith]="compareWithFn"
       (selectionChange)="handleUpdateServicePoint()"
-      [disabled]="disabled"
+      [disabled]="disabled || serviceProvidersLoading"
     >
       <mat-option
         *ngFor="let provider of serviceProviders | orderBy : { property: 'legalName', direction: 1 }"

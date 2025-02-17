@@ -26,7 +26,7 @@ export interface Revision {
   metaId: string;
   uid: string;
   version: string;
-  state: DataProduct['status'];
+  status: DataProduct['status'];
   created: Date | string;
   editorId: string;
   title: string;
@@ -39,14 +39,13 @@ export interface Revision {
 })
 export class DialogRevisionsComponent implements OnInit {
   constructor(
-    private apiService: ApiService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData<CurrentEntity>,
+    private apiService: ApiService,
     private router: Router,
     private dialogRef: MatDialogRef<DialogRevisionsComponent>,
     private helpersService: HelpersService,
   ) {}
 
-  private revisions!: Array<Revision>;
   private entities!: Array<DataProduct>;
   public selection = new SelectionModel<Revision>(true, []);
   public displayedColumns: string[] = [
@@ -85,6 +84,8 @@ export class DialogRevisionsComponent implements OnInit {
             false,
           )
           .then((data: Array<DataProduct>) => {
+            console.debug('DialogRevisionsComponent', data);
+
             this.entities = data;
             const revisions: Revision[] = data.map((item) => {
               return {
@@ -92,7 +93,7 @@ export class DialogRevisionsComponent implements OnInit {
                 metaId: item.metaId as string,
                 uid: item.uid as string,
                 version: item.versionInfo as string,
-                state: item.status,
+                status: item.status,
                 created: moment(item.created).format(CUSTOM_DATE_FORMAT.display.dateInput),
                 editorId: item.editorId as string,
                 title: item.title?.[0] as string,

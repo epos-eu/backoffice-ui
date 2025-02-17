@@ -22,7 +22,6 @@ export class StateChangeService {
   public currentDataProductStateObs = this.currentDataProductState.asObservable();
 
   constructor(
-    private router: Router,
     private apiService: ApiService,
     private entityExecutionService: EntityExecutionService,
     private dialogService: DialogService,
@@ -59,7 +58,7 @@ export class StateChangeService {
         break;
       }
       case Status.DRAFT: {
-        message = `Are you sure you'd like to revert this rejected instance back to draft?`;
+        message = `Are you sure you'd like to revert this discarded instance back to draft?`;
         break;
       }
     }
@@ -99,7 +98,7 @@ export class StateChangeService {
         break;
       }
       case Status.DISCARDED: {
-        message = 'Submission rejected successfully';
+        message = 'Submission discarded successfully';
         break;
       }
       case Status.ARCHIVED: {
