@@ -214,4 +214,9 @@ export class DistributionComponent implements OnInit {
     }
     return 'New Distribution';
   }
+
+  public handleDistributionChange(updatedDistributionDownload: Distribution, index: number): void {
+    this.distributionDetails[index] = updatedDistributionDownload;
+    this.entityExecutionService.setActiveDistribution(updatedDistributionDownload);
+  }
 }

@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormatTypes } from '../formats';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Distribution } from 'generated/backofficeSchemas';
 import { HelpersService } from 'src/services/helpers.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-distribution-download',
@@ -14,7 +15,9 @@ export class DistributionDownloadComponent implements OnInit {
 
   @Input() distribution!: Distribution;
 
-  constructor(private formBuilder: FormBuilder, private helpersService: HelpersService) {}
+  @Output() distributionChange = new Subject<Distribution>();
+
+  constructor(private readonly formBuilder: FormBuilder, private readonly helpersService: HelpersService) {}
 
   public formats = FormatTypes;
 
@@ -35,6 +38,12 @@ export class DistributionDownloadComponent implements OnInit {
           }
         },
       ]),
+    });
+
+    this.form.valueChanges.subscribe(() => {
+      this.distribution.format = this.form.get('format')?.value;
+      this.distribution.downloadURL = this.helpersService.formatArrayVal(this.form.get('downloadURL')?.value);
+      this.distributionChange.next(this.distribution);
     });
   }
 
