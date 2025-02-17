@@ -104,7 +104,6 @@ export class DialogService extends BaseDialogService {
       this.openDialog('delete', DialogDeleteComponent, false, {})
         .then((response: DialogData) => {
           if (response.dataOut === 'delete') {
-            console.debug('call 123');
             this.loadingService.setShowSpinner(true);
             this.apiService
               .deleteEntity(entityEndpoint, instanceId)
