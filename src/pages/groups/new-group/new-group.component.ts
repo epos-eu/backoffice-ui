@@ -38,7 +38,9 @@ export class NewGroupComponent implements OnInit {
   }
 
   public submitGroup() {
-    // this.newGroup.users.push(this.activeUserService.getActiveUser()?.authIdentifier);
+    this.newGroup.users.push({
+      authIdentifier: this.activeUserService.getActiveUser()?.authIdentifier ?? '',
+    });
     this.apiService.endpoints.Group.create
       .call(this.newGroup)
       .then(() => {

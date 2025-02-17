@@ -49,7 +49,7 @@ export class TableComponent implements AfterViewInit {
 
   private filterDataSource(data: TableDetail, filterValue: string): boolean {
     const filters = JSON.parse(filterValue);
-    const formatStr = (str: string) => str.trim().toLocaleLowerCase();
+    const formatStr = (str: string) => str?.trim().toLocaleLowerCase();
     return (
       formatStr(data.status as string).indexOf(formatStr(filters.status)) >= 0 &&
       formatStr(data.title?.[0] as string)?.indexOf(formatStr(filters.title)) >= 0

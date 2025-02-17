@@ -52,7 +52,7 @@
     "@angular-eslint/template-parser": "^17.5.1",
     "@angular/cli": "^17.3.8",
     "@angular/compiler-cli": "^17.3.10",
-    "@openapi-codegen/cli": "^2.0.2",
+    "@openapi-codegen/cli": "^3.0.1",
     "@openapi-codegen/typescript": "^8.0.2",
     "@types/jasmine": "^5.1.4",
     "@types/leaflet": "^1.9.3",
