@@ -26,7 +26,7 @@ build:
   image: ${DOCKER_IMAGE}
   script:
     - corepack enable
-    - corepack prepare pnpm@latest --activate
+    - corepack prepare pnpm@10.0.0 --activate
     - pnpm config set store-dir /root/.pnpm-store/v3
     - export NODE_OPTIONS='--max-old-space-size=8192'
     - pnpm install
@@ -54,7 +54,7 @@ renovate:
   stage: renovate
   image: renovate/renovate:full
   script:
-    - corepack prepare pnpm@latest --activate
+    - corepack prepare pnpm@10.0.0 --activate
     - pnpm install
     - pnpm exec renovate
   rules:
