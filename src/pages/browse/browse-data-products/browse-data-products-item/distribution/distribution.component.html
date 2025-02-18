@@ -125,11 +125,13 @@
         Create Webservice
       </button>
     </div>
+    @if (distributionObj.accessService.length > 0) {
     <app-distribution-webservice
       [accessService]="distributionObj.accessService"
       [supportedOperations]="distributionObj.accessService.supportedOperation"
       [distributionIndex]="index ? index : ''"
     ></app-distribution-webservice>
+    }
   </ng-container>
 
   <app-save-entity
