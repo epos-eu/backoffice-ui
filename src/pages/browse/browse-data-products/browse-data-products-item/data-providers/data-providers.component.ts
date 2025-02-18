@@ -4,6 +4,7 @@ import { DataProduct, LinkedEntity, Organization } from 'generated/backofficeSch
 import { map } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
@@ -17,6 +18,7 @@ export class DataProvidersComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private entityExecutionService: EntityExecutionService,
+    private snackbarService: SnackbarService,
   ) {}
 
   @Input() dataProduct!: DataProduct;
@@ -115,8 +117,12 @@ export class DataProvidersComponent implements OnInit {
           metaId: org.metaId,
         };
         activeDataProduct.publisher?.push(dataProviderEntityDetail);
-        console.debug(activeDataProduct);
         this.entityExecutionService.setActiveDataProduct(activeDataProduct);
+        this.snackbarService.openSnackbar(`Please save.`, 'close', SnackbarType.WARNING, 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-warning',
+        ]);
       });
     }
   }
