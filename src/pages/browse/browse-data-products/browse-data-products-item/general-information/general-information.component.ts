@@ -41,19 +41,19 @@ export class GeneralInformationComponent implements OnInit {
 
   public typeOptions: Array<{ id: string; name: string }> = [];
 
-  private initForm(): void {
-    if (this.dataProduct) {
+  private initForm(dataProduct: DataProduct | null): void {
+    if (dataProduct) {
       this.form = new FormGroup({
-        title: new FormControl(this.dataProduct?.title, [Validators.required]),
-        description: new FormControl(this.dataProduct?.description, [Validators.required]),
-        keywords: new FormControl(HelpersService.whiteSpaceReplace(this.dataProduct?.keywords)),
-        versionInfo: new FormControl(this.dataProduct?.versionInfo),
-        accrualPeriodicity: new FormControl(this.dataProduct?.accrualPeriodicity),
-        type: new FormControl(this.dataProduct?.type),
-        issued: new FormControl(this.dataProduct?.issued),
-        created: new FormControl(this.dataProduct?.created),
-        modified: new FormControl(this.dataProduct?.modified),
-        qualityAssurance: new FormControl(this.dataProduct?.qualityAssurance, [
+        title: new FormControl(dataProduct?.title, [Validators.required]),
+        description: new FormControl(dataProduct?.description, [Validators.required]),
+        keywords: new FormControl(HelpersService.whiteSpaceReplace(dataProduct?.keywords)),
+        versionInfo: new FormControl(dataProduct?.versionInfo),
+        accrualPeriodicity: new FormControl(dataProduct?.accrualPeriodicity),
+        type: new FormControl(dataProduct?.type),
+        issued: new FormControl(dataProduct?.issued),
+        created: new FormControl(dataProduct?.created),
+        modified: new FormControl(dataProduct?.modified),
+        qualityAssurance: new FormControl(dataProduct?.qualityAssurance, [
           (control: AbstractControl): { [key: string]: any } | null => {
             if (control.value === '') {
               return null;
@@ -67,7 +67,7 @@ export class GeneralInformationComponent implements OnInit {
           },
         ]),
       });
-      if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
+      if (dataProduct?.status === Status.PUBLISHED || dataProduct?.status === Status.ARCHIVED) {
         this.form.disable();
       }
     }
@@ -92,7 +92,7 @@ export class GeneralInformationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.initForm();
+    this.initForm(this.entityExecutionService.getActiveDataProductValue());
     this.trackFormChanges();
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));
