@@ -77,7 +77,6 @@ export class DistributionComponent implements OnInit {
   }
 
   private checkAccess(distribution: Distribution): string {
-    console.debug('called checkAccess', distribution);
     if (null != distribution.accessService && null != distribution.accessService[0]) {
       if (distribution.accessService[0].instanceId !== undefined) {
         return 'webservice';
