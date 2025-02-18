@@ -42,11 +42,11 @@ importers:
         specifier: ^18.2.13
         version: 18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7)
       '@ng-matero/extensions':
-        specifier: ^17.3.2
-        version: 17.3.7(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/cdk@18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))(@angular/material@18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y))
+        specifier: ^18.0.0
+        version: 18.4.1(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/cdk@18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))(@angular/material@18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y))
       '@ng-matero/extensions-moment-adapter':
-        specifier: ^17.1.2
-        version: 17.1.2(4fw5vhqe77uaoekyf24gh7jimi)
+        specifier: ^18.0.0
+        version: 18.0.0(rl6xewfoixvhjpue5ig3tnlcs4)
       '@turf/turf':
         specifier: ^6.5.0
         version: 6.5.0
@@ -1772,31 +1772,31 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@ng-matero/extensions-moment-adapter@17.1.2':
-    resolution: {integrity: sha512-L3i1+zXD5RaoINpgENCJAoUluAO+zFabQPdC2BVzGEWh7lT+psRBGE5TtYyf8eQog8EKvgKXfq+MQRutmTz7Aw==}
+  '@ng-matero/extensions-moment-adapter@18.0.0':
+    resolution: {integrity: sha512-dVX+8MKzpzpOmqLgv1nnbDdUPkYgkly5cglA68qtr4Qe2qijYzWqaz+Io1sfKpSnK8AEvSbLZl/MU4GPOTy/tA==}
     peerDependencies:
-      '@angular/core': '>=17.1.0'
-      '@angular/material': '>=17.1.0'
-      '@angular/material-moment-adapter': '>=17.1.0'
-      '@ng-matero/extensions': '>=17.1.0'
-      moment: ^2.29.4
+      '@angular/core': '>=18.0.0'
+      '@angular/material': '>=18.0.0'
+      '@angular/material-moment-adapter': '>=18.0.0'
+      '@ng-matero/extensions': '>=18.0.0'
+      moment: ^2.30.0
 
-  '@ng-matero/extensions@17.3.7':
-    resolution: {integrity: sha512-IOtMOhnnVjGRKhhBQGqcPsS9a9HQfetc3Psa/cjS6ursUXQKeZdK1NZdsiSpPc/s+RWt8sIIBHEg4zPs1TmPZA==}
+  '@ng-matero/extensions@18.4.1':
+    resolution: {integrity: sha512-KeaY6z67S03INJ9NQ24Q4PnEPCUXLwXBx9pybjx9qRetCUeXguDhMtJWT84EEbsBv9o3uie0yAYpx1kBoi16BA==}
     peerDependencies:
-      '@angular/animations': '>=17.1.0'
-      '@angular/cdk': '>=17.1.0'
-      '@angular/common': '>=17.1.0'
-      '@angular/core': '>=17.1.0'
-      '@angular/material': '>=17.1.0'
+      '@angular/animations': '>=18.2.0'
+      '@angular/cdk': '>=18.2.0'
+      '@angular/common': '>=18.2.0'
+      '@angular/core': '>=18.2.0'
+      '@angular/material': '>=18.2.0'
 
-  '@ng-select/ng-select@12.0.7':
-    resolution: {integrity: sha512-Eht1zlLP0DJxiXcKnq3aY/EJ8odomgU0hM0BJoPY6oX3XFHndtFtdPxlZfhVtQn+FwyDEh7306rRx6digxVssA==}
-    engines: {node: '>= 16', npm: '>= 8'}
+  '@ng-select/ng-select@13.9.1':
+    resolution: {integrity: sha512-+DzQkQp8coGWZREflJM/qx7BXipV6HEVpZCXoa6fJJRHJfmUMsxa5uV6kUVmClUE98Rkffk9CPHt6kZcj8PuqQ==}
+    engines: {node: '>= 18', npm: '>= 8'}
     peerDependencies:
-      '@angular/common': ^17.0.0-rc.0
-      '@angular/core': ^17.0.0-rc.0
-      '@angular/forms': ^17.0.0-rc.0
+      '@angular/common': ^18.0.0
+      '@angular/core': ^18.0.0
+      '@angular/forms': ^18.0.0
 
   '@ngtools/webpack@18.2.14':
     resolution: {integrity: sha512-rT+Y4WR8QTVsijtb+YRqHcPTpd1ZiwRbklQXRTxU0YGFHpxpi+bhjmY8FjpPoAtdPO1Lg3l3KIZPZa0thG0FNg==}
@@ -10483,30 +10483,30 @@ snapshots:
   '@msgpackr-extract/msgpackr-extract-win32-x64@3.0.3':
     optional: true
 
-  '@ng-matero/extensions-moment-adapter@17.1.2(4fw5vhqe77uaoekyf24gh7jimi)':
+  '@ng-matero/extensions-moment-adapter@18.0.0(rl6xewfoixvhjpue5ig3tnlcs4)':
     dependencies:
       '@angular/core': 18.2.13(rxjs@7.5.7)(zone.js@0.14.10)
       '@angular/material': 18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y)
       '@angular/material-moment-adapter': 18.2.14(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/material@18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y))(moment@2.30.1)
-      '@ng-matero/extensions': 17.3.7(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/cdk@18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))(@angular/material@18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y))
+      '@ng-matero/extensions': 18.4.1(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/cdk@18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))(@angular/material@18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y))
       moment: 2.30.1
       tslib: 2.8.1
 
-  '@ng-matero/extensions@17.3.7(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/cdk@18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))(@angular/material@18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y))':
+  '@ng-matero/extensions@18.4.1(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/cdk@18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))(@angular/material@18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y))':
     dependencies:
       '@angular/animations': 18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))
       '@angular/cdk': 18.2.14(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7)
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7)
       '@angular/core': 18.2.13(rxjs@7.5.7)(zone.js@0.14.10)
       '@angular/material': 18.2.14(zsvsvrk5ftxgtmwzpyc4oby65y)
-      '@ng-select/ng-select': 12.0.7(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))
+      '@ng-select/ng-select': 13.9.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))
       ngx-color: 9.0.0(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))
       photoviewer: 3.10.3
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@angular/forms'
 
-  '@ng-select/ng-select@12.0.7(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))':
+  '@ng-select/ng-select@13.9.1(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/forms@18.2.13(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(@angular/platform-browser@18.2.13(@angular/animations@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(@angular/common@18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7))(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10)))(rxjs@7.5.7))':
     dependencies:
       '@angular/common': 18.2.13(@angular/core@18.2.13(rxjs@7.5.7)(zone.js@0.14.10))(rxjs@7.5.7)
       '@angular/core': 18.2.13(rxjs@7.5.7)(zone.js@0.14.10)
