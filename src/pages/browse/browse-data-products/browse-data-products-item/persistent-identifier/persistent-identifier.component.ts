@@ -26,15 +26,7 @@ import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
   styleUrl: './persistent-identifier.component.scss',
 })
 export class PersistentIdentifierComponent implements OnInit {
-  constructor(
-    private entityExecutionService: EntityExecutionService,
-    private dataproductService: DataproductService,
-    private apiService: ApiService,
-    private loadingService: LoadingService,
-    private snackbarService: SnackbarService,
-  ) {}
-
-  @Input() dataProduct!: DataProduct;
+  public dataProduct: DataProduct;
 
   public form!: UntypedFormGroup;
 
@@ -49,6 +41,16 @@ export class PersistentIdentifierComponent implements OnInit {
   }
 
   public disabled = false;
+
+  constructor(
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly dataproductService: DataproductService,
+    private readonly apiService: ApiService,
+    private readonly loadingService: LoadingService,
+    private readonly snackbarService: SnackbarService,
+  ) {
+    this.dataProduct = this.entityExecutionService.getActiveDataProductValue() as DataProduct;
+  }
 
   public ngOnInit(): void {
     this.form = new FormGroup({
