@@ -12,7 +12,6 @@ import { DataproductService } from '../../dataproduct.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { DialogRevisionsComponent } from 'src/components/dialogs/dialog-revisions/dialog-revisions.component';
 import { Entity } from 'src/utility/enums/entity.enum';
-import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 @Component({
@@ -21,15 +20,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
   styleUrl: './general-information.component.scss',
 })
 export class GeneralInformationComponent implements OnInit {
-  constructor(
-    private helpersService: HelpersService,
-    private entityExecutionService: EntityExecutionService,
-    private dataProductService: DataproductService,
-    private dialogService: DialogService,
-    private apiService: ApiService,
-  ) {}
-
-  @Input() dataProduct!: DataProduct;
+  public dataProduct: DataProduct;
 
   public form!: FormGroup;
 
@@ -41,19 +32,28 @@ export class GeneralInformationComponent implements OnInit {
 
   public typeOptions: Array<{ id: string; name: string }> = [];
 
-  private initForm(dataProduct: DataProduct | null): void {
-    if (dataProduct) {
+  constructor(
+    private readonly helpersService: HelpersService,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly dataProductService: DataproductService,
+    private readonly dialogService: DialogService,
+  ) {
+    this.dataProduct = this.entityExecutionService.getActiveDataProductValue() as DataProduct;
+  }
+
+  private initForm(): void {
+    if (this.dataProduct) {
       this.form = new FormGroup({
-        title: new FormControl(dataProduct?.title, [Validators.required]),
-        description: new FormControl(dataProduct?.description, [Validators.required]),
-        keywords: new FormControl(HelpersService.whiteSpaceReplace(dataProduct?.keywords)),
-        versionInfo: new FormControl(dataProduct?.versionInfo),
-        accrualPeriodicity: new FormControl(dataProduct?.accrualPeriodicity),
-        type: new FormControl(dataProduct?.type),
-        issued: new FormControl(dataProduct?.issued),
-        created: new FormControl(dataProduct?.created),
-        modified: new FormControl(dataProduct?.modified),
-        qualityAssurance: new FormControl(dataProduct?.qualityAssurance, [
+        title: new FormControl(this.dataProduct?.title, [Validators.required]),
+        description: new FormControl(this.dataProduct?.description, [Validators.required]),
+        keywords: new FormControl(HelpersService.whiteSpaceReplace(this.dataProduct?.keywords)),
+        versionInfo: new FormControl(this.dataProduct?.versionInfo),
+        accrualPeriodicity: new FormControl(this.dataProduct?.accrualPeriodicity),
+        type: new FormControl(this.dataProduct?.type),
+        issued: new FormControl(this.dataProduct?.issued),
+        created: new FormControl(this.dataProduct?.created),
+        modified: new FormControl(this.dataProduct?.modified),
+        qualityAssurance: new FormControl(this.dataProduct?.qualityAssurance, [
           (control: AbstractControl): { [key: string]: any } | null => {
             if (control.value === '') {
               return null;
@@ -67,7 +67,7 @@ export class GeneralInformationComponent implements OnInit {
           },
         ]),
       });
-      if (dataProduct?.status === Status.PUBLISHED || dataProduct?.status === Status.ARCHIVED) {
+      if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
         this.form.disable();
       }
     }
@@ -92,7 +92,7 @@ export class GeneralInformationComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.initForm(this.entityExecutionService.getActiveDataProductValue());
+    this.initForm();
     this.trackFormChanges();
     this.accrualPeriodicityOptions = Object.entries(AcrualPeriodicity).map((e) => ({ name: e[1], id: e[0] }));
     this.typeOptions = Object.entries(DcmiType).map((e) => ({ name: e[1], id: e[0] }));

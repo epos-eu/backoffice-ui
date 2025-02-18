@@ -3,7 +3,6 @@
     <ng-container [ngSwitch]="true">
       <ng-container *ngSwitchCase="userInfo.isAdmin">
         <mat-nav-list>
-          <h3 mat-subheader>DDSS</h3>
           <a
             mat-list-item
             routerLinkActive="active"
@@ -27,7 +26,7 @@
             routerLinkActive="active"
           >
             <mat-icon mat-list-icon>share</mat-icon>
-            <span>Assets</span>
+            <span>Distributions</span>
           </a>
           <!-- <a
             mat-list-item
@@ -111,7 +110,6 @@
 
       <ng-container *ngSwitchCase="!userInfo.isAdmin">
         <mat-nav-list>
-          <h3 mat-subheader>DDSS</h3>
           <a
             mat-list-item
             [routerLink]="['/browse/data-products']"
@@ -177,7 +175,6 @@
 
       <ng-container *ngIf="!userInfo.isAdmin">
         <mat-nav-list>
-          <h3 mat-subheader>DDSS</h3>
           <a
             mat-list-item
             [routerLink]="['/browse/data-products']"

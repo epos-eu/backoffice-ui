@@ -18,14 +18,6 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
   styleUrl: './spatial-coverage.component.scss',
 })
 export class SpatialCoverageComponent implements OnInit {
-  constructor(
-    private entityExecutionService: EntityExecutionService,
-    private spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
-    private apiService: ApiService,
-    private dialogService: DialogService,
-  ) {}
-
-  @Input() dataProduct!: DataProduct | null;
   @Input() dataProductIsParent = true;
   @Input() mapId!: string;
 
@@ -35,6 +27,16 @@ export class SpatialCoverageComponent implements OnInit {
       this.spatialExtent = value;
       this.initSpatialCoverages(this.spatialExtent);
     }
+  }
+
+  public dataProduct: DataProduct;
+  constructor(
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
+    private readonly apiService: ApiService,
+    private readonly dialogService: DialogService,
+  ) {
+    this.dataProduct = this.entityExecutionService.getActiveDataProductValue() as DataProduct;
   }
 
   private updateMapTimeout?: NodeJS.Timeout;
