@@ -13,11 +13,7 @@ import { groupOptions, statusOptions } from './static';
 import { UserGroupRequestStatus } from 'src/utility/enums/userGroupRequestStatus.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
-
-interface GroupResponse {
-  groupId: string | undefined;
-  data: Group[];
-}
+import { DialogService } from 'src/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-browse-groups',
@@ -25,9 +21,14 @@ interface GroupResponse {
   styleUrls: ['./browse-groups.component.scss'],
 })
 export class BrowseGroupsComponent implements AfterViewInit {
-  constructor(private apiService: ApiService, private snackbarService: SnackbarService) {}
+  constructor(
+    private apiService: ApiService,
+    private snackbarService: SnackbarService,
+    private dialogService: DialogService,
+  ) {}
 
   private currentUserId!: string;
+  private userAdminGroups: string[] = [];
   public displayedColumns: string[] = ['id', 'name', 'description', 'role'];
   public requestsColumns: string[] = ['name', 'surname', 'email', 'request', 'status', 'role', 'userid', 'groupid'];
   public dataSource: MatTableDataSource<Group> = new MatTableDataSource();
@@ -65,6 +66,9 @@ export class BrowseGroupsComponent implements AfterViewInit {
   private getUserGroups(user: UserInfoDataSource): Observable<Group[][]> {
     const requests: Promise<Group[]>[] = [];
     user.groups.forEach((group: UserGroup) => {
+      if (group.role === 'ADMIN' && group.groupId) {
+        this.userAdminGroups.push(group.groupId);
+      }
       requests.push(
         this.apiService.endpoints[Entity.GROUP].get
           .call(
@@ -151,11 +155,14 @@ export class BrowseGroupsComponent implements AfterViewInit {
         ),
       )
       .subscribe((tableData: (GroupRequestTable | undefined)[]) => {
-        console.log(tableData);
-        const groupedRequests = tableData.filter((item) => item?.role === 'ADMIN').map((item) => item?.request);
+        const groupedRequests = tableData
+          .filter((item) => {
+            return this.userAdminGroups.includes(item?.groupid as string);
+          })
+          .map((item) => item?.request);
         // Group items for those requests
         const filteredGroupedAdmins = tableData.filter(
-          (item) => groupedRequests.includes(item?.request), // Keep items for matched requests
+          (item) => groupedRequests.includes(item?.request) && item?.status !== 'ACCEPTED',
         );
         this.requestsDataSource.data = filteredGroupedAdmins;
         this.groupRequestsLoading = false;
@@ -174,27 +181,33 @@ export class BrowseGroupsComponent implements AfterViewInit {
   }
 
   public rowClicked(event: GroupRequestTable): void {
-    this.apiService.endpoints.Group.addUserToGroup
-      .call({
-        groupid: event.groupid as string,
-        role: event.role,
-        status: event.status,
-        userid: event.userid,
-      })
-      .then((response) => {
-        this.snackbarService.openSnackbar('Successfully added to group.', 'Close', SnackbarType.SUCCESS, 3000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-success',
-        ]);
-      })
-      .catch((err) => {
-        this.snackbarService.openSnackbar('Error adding user to group.', 'Close', SnackbarType.ERROR, 3000, [
-          'snackbar',
-          'mat-toolbar',
-          'snackbar-error',
-        ]);
-        console.error(err);
+    this.dialogService
+      .openConfirmationDialog(`Are you sure you'd like to add this user to the group?`)
+      .then((confirm) => {
+        if (confirm) {
+          this.apiService.endpoints.Group.addUserToGroup
+            .call({
+              groupid: event.groupid as string,
+              role: event.role,
+              status: event.status,
+              userid: event.userid,
+            })
+            .then((response) => {
+              this.snackbarService.openSnackbar('Successfully added to group.', 'Close', SnackbarType.SUCCESS, 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-success',
+              ]);
+            })
+            .catch((err) => {
+              this.snackbarService.openSnackbar('Error adding user to group.', 'Close', SnackbarType.ERROR, 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]);
+              console.error(err);
+            });
+        }
       });
   }
 
