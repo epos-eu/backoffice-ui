@@ -6,6 +6,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Person } from 'src/apiAndObjects/objects/entities/person.model';
 import { WithSubscription } from 'src/helpers/subscription';
+import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { StateChangeService } from 'src/services/stateChange.service';
@@ -38,11 +39,12 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
   public person: Array<Person> = [];
 
   constructor(
-    private apiService: ApiService,
-    private snackbarService: SnackbarService,
-    private stateChangeService: StateChangeService,
-    private formBuilder: FormBuilder,
-    private loadingService: LoadingService,
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly stateChangeService: StateChangeService,
+    private readonly formBuilder: FormBuilder,
+    private readonly loadingService: LoadingService,
+    private readonly entityExecutionService: EntityExecutionService,
   ) {
     super();
   }
@@ -120,6 +122,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
             this.newContact.emit(entityDetail);
             this.contactPointDetailsUpdated.emit(this.contactPoint);
             this.contactPoint?.push(entityDetail);
+            this.entityExecutionService.handleDataProductSave();
           }
         })
         .catch(() => {

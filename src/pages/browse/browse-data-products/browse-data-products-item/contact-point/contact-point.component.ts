@@ -16,11 +16,11 @@ import { Status } from 'src/utility/enums/status.enum';
 })
 export class ContactPointComponent extends WithSubscription implements OnInit {
   constructor(
-    private entityExecutionService: EntityExecutionService,
-    private apiService: ApiService,
-    private snackbarService: SnackbarService,
-    private stateChangeService: StateChangeService,
-    private loadingService: LoadingService,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly stateChangeService: StateChangeService,
+    private readonly loadingService: LoadingService,
   ) {
     super();
   }

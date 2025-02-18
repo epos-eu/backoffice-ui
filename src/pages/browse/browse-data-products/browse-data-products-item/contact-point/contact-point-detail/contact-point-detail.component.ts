@@ -3,6 +3,7 @@ import { ContactPoint } from 'generated/backofficeSchemas';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { Person } from 'src/apiAndObjects/objects/entities/person.model';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { ContactPointRole } from 'src/utility/enums/contactPointRole.enum';
 import { Entity } from 'src/utility/enums/entity.enum';
@@ -24,7 +25,11 @@ export class ContactPointDetailComponent implements OnInit {
     }
   }
 
-  constructor(private snackbarService: SnackbarService, private apiService: ApiService) {}
+  constructor(
+    private snackbarService: SnackbarService,
+    private apiService: ApiService,
+    private dialogService: DialogService,
+  ) {}
 
   private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
 
@@ -78,8 +83,8 @@ export class ContactPointDetailComponent implements OnInit {
 
   public handleRemove(instanceId: string | undefined) {
     if (instanceId) {
-      this.apiService
-        .deleteEntity(EntityEndpointValue.CONTACT_POINT, instanceId)
+      this.dialogService
+        .handleDelete(instanceId, EntityEndpointValue.CONTACT_POINT, false)
         .then(() => {
           this.contactPointArraySource.next(
             this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
@@ -94,5 +99,12 @@ export class ContactPointDetailComponent implements OnInit {
           ]);
         });
     }
+  }
+
+  public removeArrayDuplicates(arr: Array<string> | undefined): Array<string> {
+    if (!arr) {
+      return [];
+    }
+    return arr.filter((item, index) => arr.indexOf(item) === index);
   }
 }
