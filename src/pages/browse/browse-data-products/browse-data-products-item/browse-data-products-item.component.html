@@ -42,15 +42,11 @@
         dateComparison
         class="data-product"
       >
-        <app-general-information
-          *ngIf="activeItem === entityFieldEnum.GENERAL_INFORMATION"
-          [dataProduct]="dataProduct"
-        ></app-general-information>
+        <app-general-information *ngIf="activeItem === entityFieldEnum.GENERAL_INFORMATION"></app-general-information>
 
         <app-spatial-coverage
           *ngIf="activeItem === entityFieldEnum.SPATIAL_COVERAGE"
           [mapId]="'dataproduct'"
-          [dataProduct]="dataProduct"
           [spatialExtentInput]="dataProduct.spatialExtent"
         ></app-spatial-coverage>
 
@@ -62,7 +58,6 @@
 
         <app-persistent-identifier
           *ngIf="activeItem === entityFieldEnum.PERSISTENT_IDENTIFIER"
-          [dataProduct]="dataProduct"
         ></app-persistent-identifier>
 
         <app-contact-point

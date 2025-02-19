@@ -4,6 +4,7 @@ import { Category, DataProduct, LinkedEntity } from 'generated/backofficeSchemas
 import { map } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
@@ -28,9 +29,10 @@ export class CategoriesComponent implements OnInit {
   public disabled = false;
 
   constructor(
-    private apiService: ApiService,
-    private formBuilder: FormBuilder,
-    private entityExecutionService: EntityExecutionService,
+    private readonly apiService: ApiService,
+    private readonly formBuilder: FormBuilder,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly snackbarService: SnackbarService,
   ) {}
   public ngOnInit(): void {
     this.initData();
@@ -87,6 +89,20 @@ export class CategoriesComponent implements OnInit {
             }
           }
         });
+        if (categories.length === 0) {
+          const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
+          if (activeDataProduct) {
+            activeDataProduct.category = [];
+          }
+        }
       });
+  }
+
+  public notifyChange(): void {
+    this.snackbarService.openSnackbar(`Please save.`, 'close', SnackbarType.WARNING, 3000, [
+      'snackbar',
+      'mat-toolbar',
+      'snackbar-warning',
+    ]);
   }
 }

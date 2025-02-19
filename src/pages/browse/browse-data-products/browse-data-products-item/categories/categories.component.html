@@ -8,6 +8,7 @@
       formControlName="category"
       [disabled]="disabled"
       multiple
+      (selectionChange)="notifyChange()"
     >
       <mat-option
         *ngFor="let category of categories | orderBy : { property: 'name', direction: 1 }"

@@ -20,9 +20,18 @@ import { Entity } from 'src/utility/enums/entity.enum';
   styleUrl: './temporal-coverage.component.scss',
 })
 export class TemporalCoverageComponent {
+  public dataProdActiveParent!: boolean;
+  @Input() set dataProductIsParent(value: boolean) {
+    this.dataProdActiveParent = value;
+  }
+
   public parentEntity!: DataProduct | WebService;
   @Input() set parent(value: DataProduct | WebService) {
-    this.parentEntity = value;
+    if (this.dataProdActiveParent) {
+      this.parentEntity = this.entityExecutionService.getActiveDataProductValue() as DataProduct;
+    } else {
+      this.parentEntity = this.entityExecutionService.getActiveWebServiceValue() as WebService;
+    }
     if (null != value.temporalExtent) {
       this.temporalLinkedEntities = value.temporalExtent;
       this.initTemporalCoverage(value.temporalExtent);
@@ -32,63 +41,24 @@ export class TemporalCoverageComponent {
     }
   }
 
-  public dataProdAct!: boolean;
-  @Input() set dataProductIsParent(value: boolean) {
-    this.dataProdAct = value;
-  }
   public temporalLinkedEntities: LinkedEntity[] = [];
 
   private startDate!: Moment | null;
 
   private endDate!: Moment | null;
 
-  private temporalExtents: Array<PeriodOfTime> = [];
-
   public form!: FormGroup;
 
   public disabled = true;
 
+  private readonly temporalExtents: Array<PeriodOfTime> = [];
+
   constructor(
-    private entityExecutionService: EntityExecutionService,
-    private dataproductService: DataproductService,
-    private apiService: ApiService,
-    private spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
-    private loadingService: LoadingService,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly apiService: ApiService,
+    private readonly spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
+    private readonly loadingService: LoadingService,
   ) {}
-
-  // private init(extents: Array<LinkedEntity>): void {
-  //   this.startDate = null;
-  //   this.endDate = null;
-
-  //   if (this.temporalLinkedEntities.length > 0) {
-  //     this.initValidTemporalCoverage(this.temporalLinkedEntities);
-  //   } else {
-  //     this.form = new FormGroup({
-  //       coverage: this.createCoverageArray(),
-  //     });
-
-  //   }
-  //   // Disable form if parent DataProduct should not be edited.
-  // }
-
-  // private checkForActiveTemporalVals(): void {
-  //   const temporalExtents = this.parent.temporalExtent;
-  //   if (this.dataProdAct) {
-  //     const activeDataProduct = this.entityExecutionService.getActiveDataProductValue();
-  //     if (activeDataProduct?.temporalExtent) {
-  //       activeDataProduct.temporalExtent.length > 0
-  //         ? this.temporalLinkedEntities.push(activeDataProduct.temporalExtent[0])
-  //         : [];
-  //     }
-  //   } else {
-  //     const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
-  //     if (activeWebService?.temporalExtent) {
-  //       activeWebService.temporalExtent.length > 0
-  //         ? this.temporalLinkedEntities.push(activeWebService.temporalExtent[0])
-  //         : [];
-  //     }
-  //   }
-  // }
 
   private initTemporalCoverage(temporalExent: LinkedEntity[]) {
     this.startDate = null;
@@ -182,8 +152,7 @@ export class TemporalCoverageComponent {
           metaId: temporalCoverage.metaId,
           uid: temporalCoverage.uid,
         };
-        console.debug(this.parentEntity.instanceId);
-        if (this.dataProdAct) {
+        if (this.dataProdActiveParent) {
           const parentDataProduct = this.parentEntity as DataProduct;
           parentDataProduct.temporalExtent?.push(newEntity);
           this.entityExecutionService.setActiveDataProduct(parentDataProduct);

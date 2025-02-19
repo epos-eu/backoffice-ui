@@ -78,7 +78,6 @@
           </mat-expansion-panel-header>
           @defer (when mepSpatial.expanded) {
           <app-spatial-coverage
-            [dataProduct]="dataProduct"
             [mapId]="'webservice' + distributionIndex.toString()"
             [spatialExtentInput]="webservice.spatialExtent"
             [dataProductIsParent]="false"

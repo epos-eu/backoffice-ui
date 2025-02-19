@@ -5,7 +5,7 @@
       class="flex-row"
     >
       <div>
-        <span>{{ detail?.email }}</span>
+        <span>{{ removeArrayDuplicates(detail.email) }}</span>
         <span> - </span>
         <span>Role: {{ getRoleName(detail?.role) }}</span>
       </div>
