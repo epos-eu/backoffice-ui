@@ -25,12 +25,12 @@ export class BrowseDataProductsComponent {
   public showButton = false;
 
   constructor(
-    private router: Router,
-    private dialogService: DialogService,
-    private actionsService: ActionsService,
-    private snackbarService: SnackbarService,
-    private apiService: ApiService,
-    private activeUserService: ActiveUserService,
+    private readonly router: Router,
+    private readonly dialogService: DialogService,
+    private readonly actionsService: ActionsService,
+    private readonly snackbarService: SnackbarService,
+    private readonly apiService: ApiService,
+    private readonly activeUserService: ActiveUserService,
   ) {}
 
   public rowClicked(row: Record<string, string>): void {

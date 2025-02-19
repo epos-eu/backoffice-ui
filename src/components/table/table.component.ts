@@ -12,6 +12,7 @@ import { CUSTOM_DATE_FORMAT } from 'src/utility/config/date';
 import moment from 'moment';
 import { Status } from 'src/utility/enums/status.enum';
 import { DistributionDetailDataSource } from 'src/apiAndObjects/objects/data-source/distributionDetailDataSource';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-table',
@@ -31,7 +32,7 @@ export class TableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private readonly snackbarService: SnackbarService) {}
 
   private mapTableDetails(items: TableItems): TableDetail[] {
     return items.map((item: TableItem) => ({
@@ -71,9 +72,20 @@ export class TableComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.loading = true;
-    this.apiService.endpoints[this.sectionName].getAll.call().then((tableItems) => {
-      this.createTableObjects(tableItems as TableItems);
-    });
+    this.apiService.endpoints[this.sectionName].getAll
+      .call()
+      .then((tableItems) => {
+        this.createTableObjects(tableItems as TableItems);
+      })
+      .catch(() => {
+        this.snackbarService.openSnackbar(
+          `Failed to load data, please try again later.`,
+          'close',
+          SnackbarType.ERROR,
+          6000,
+          ['snackbar', 'mat-toolbar', 'snackbar-error'],
+        );
+      });
   }
 
   public rowClicked(row: Record<string, string>): void {
