@@ -86,33 +86,33 @@ export class SpatialTemporalEntityExecutionService {
   }
 
   public handleSpatialTemporalDelete(entity: EntityEndpointValue, instanceId: string): Promise<boolean> {
-    let success = false;
     this.loadingService.setShowSpinner(true);
-    this.apiService
+
+    return this.apiService
       .deleteEntity(entity, instanceId)
       .then(() => {
         this.snackbarService.openSnackbar(
-          `Successfully deleted ${EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
+          `Successfully deleted ${entity === EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
           'Close',
           SnackbarType.SUCCESS,
           3000,
           ['snackbar', 'mat-toolbar', 'snackbar-success'],
         );
-        success = true;
+        return true; // Return true inside the .then() block
       })
       .catch((err) => {
         console.error(err);
         this.snackbarService.openSnackbar(
-          `Error deleting ${EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
+          `Error deleting ${entity === EntityEndpointValue.LOCATION ? 'Spatial Coverage' : 'Temporal Coverage'}`,
           'Close',
           SnackbarType.ERROR,
           3000,
           ['snackbar', 'mat-toolbar', 'snackbar-error'],
         );
+        return false; // Return false in case of an error
       })
       .finally(() => {
         this.loadingService.setShowSpinner(false);
       });
-    return Promise.resolve(success);
   }
 }
