@@ -4,11 +4,13 @@ import { DataProduct, Documentation, LinkedEntity, WebService } from 'generated/
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { GetDocumentationParams } from 'src/apiAndObjects/api/documentation/getDocumentation';
 import { DocumentationDataSource } from 'src/apiAndObjects/objects/data-source/documentationDetailDataSource';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { HelpersService } from 'src/services/helpers.service';
 import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
 @Component({
@@ -34,12 +36,13 @@ export class DocumentationComponent implements OnInit {
   public disabled = true;
 
   constructor(
-    private apiService: ApiService,
-    private formBuilder: FormBuilder,
-    private helpersService: HelpersService,
-    private loadingService: LoadingService,
-    private snackbarService: SnackbarService,
-    private entityExecutionService: EntityExecutionService,
+    private readonly apiService: ApiService,
+    private readonly formBuilder: FormBuilder,
+    private readonly helpersService: HelpersService,
+    private readonly loadingService: LoadingService,
+    private readonly snackbarService: SnackbarService,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly dialogService: DialogService,
   ) {}
 
   public ngOnInit(): void {
@@ -140,5 +143,31 @@ export class DocumentationComponent implements OnInit {
         ]);
       })
       .finally(() => this.loadingService.setShowSpinner(false));
+  }
+
+  public handleDelete(i: number) {
+    const docToRemove = this.documentationEntities[i];
+    if (docToRemove.instanceId) {
+      this.dialogService
+        .handleDelete(docToRemove.instanceId, EntityEndpointValue.DOCUMENTATION, false)
+        .then(() => {
+          this.documentationEntities.splice(i, 1);
+          const activeWebService = this.activeWebservice;
+          activeWebService?.documentation?.splice(i, 1);
+          (this.form.get('documentations') as FormArray).removeAt(i);
+          if (activeWebService) {
+            this.entityExecutionService.setActiveWebService(activeWebService);
+            this.entityExecutionService.handleWebserviceSave();
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          this.snackbarService.openSnackbar('Error deleting entity.', 'Close', SnackbarType.ERROR, 3000, [
+            'snackbar',
+            'mat-toolbar',
+            'snackbar-error',
+          ]);
+        });
+    }
   }
 }

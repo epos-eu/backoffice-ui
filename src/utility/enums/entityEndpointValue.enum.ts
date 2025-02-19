@@ -12,4 +12,5 @@ export enum EntityEndpointValue {
   LOCATION = 'location',
   IDENTIFIER = 'identifier',
   MAPPING = 'mapping',
+  DOCUMENTATION = 'documentation',
 }
