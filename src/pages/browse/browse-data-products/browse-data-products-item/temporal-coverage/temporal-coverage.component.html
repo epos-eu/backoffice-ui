@@ -67,6 +67,7 @@
 </ng-container>
 <ng-template #empty>
   <p class="notice">Couldn't fetch temporal coverage data.</p>
+  @if (activeDataproduct.status !== STATUS.PUBLISHED && activeDataproduct.status !== STATUS.ARCHIVED) {
   <button
     mat-stroked-button
     color="primary"
@@ -74,4 +75,5 @@
   >
     Add Temporal Coverage
   </button>
+  }
 </ng-template>

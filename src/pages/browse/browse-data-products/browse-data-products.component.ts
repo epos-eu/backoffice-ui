@@ -81,7 +81,7 @@ export class BrowseDataProductsComponent {
     };
     const item: DataProduct = {
       created: '',
-      groups: [newGroup],
+      groups: [newGroup.id as string],
     };
     this.apiService.endpoints.DataProduct.create
       .call(item)

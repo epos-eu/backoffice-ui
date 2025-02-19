@@ -39,7 +39,7 @@ export class BrowseDistributionComponent {
     };
     const item: DataProduct = {
       created: '2024-07-11T09:35:25.018Z',
-      groups: [newGroup],
+      groups: [newGroup.id as string],
     };
 
     this.apiService.endpoints.DataProduct.create

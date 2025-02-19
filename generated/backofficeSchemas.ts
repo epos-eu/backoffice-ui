@@ -97,7 +97,7 @@ export type Address = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * The street address. For example, 1600 Amphitheatre Pkwy.
    *
@@ -136,7 +136,7 @@ export type ApiResponseMessage = {
 
 export type AvailableContactPoints = {
   href?: string;
-  type?: "ALL" | "DATAPROVIDERS" | "SERVICEPROVIDERS";
+  type?: 'ALL' | 'DATAPROVIDERS' | 'SERVICEPROVIDERS';
 };
 
 export type AvailableFormat = {
@@ -145,7 +145,7 @@ export type AvailableFormat = {
   label?: string;
   method?: string;
   originalFormat?: string;
-  type?: "ORIGINAL" | "CONVERTED";
+  type?: 'ORIGINAL' | 'CONVERTED';
 };
 
 export type Category = {
@@ -231,7 +231,7 @@ export type Category = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
    *
@@ -352,7 +352,7 @@ export type CategoryScheme = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * This property contains a name of the category scheme.
    *
@@ -464,7 +464,7 @@ export type ContactPoint = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * This property refers to the Contact Point Telephone.
    *
@@ -574,7 +574,7 @@ export type DataProduct = {
   /**
    * list of group ids which the entity belong
    */
-  groups?: Group[];
+  groups?: string[];
   /**
    * This property refers to a related Data Product that is part of the described Data Product.
    *
@@ -676,7 +676,7 @@ export type DataProduct = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * This property refers to a temporal period (i.e. startDate, endDate) that the Data Product covers.
    *
@@ -908,7 +908,7 @@ export type Distribution = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * This property refers to the WebService which supports selection of an extract, sub-set, or combination of data
    *
@@ -1013,7 +1013,7 @@ export type Documentation = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Documentation title
    *
@@ -1105,7 +1105,7 @@ export type Element = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
    *
@@ -1118,16 +1118,16 @@ export type Element = {
    * @example PAGEURL
    */
   type?:
-    | "TELEPHONE"
-    | "EMAIL"
-    | "LANGUAGE"
-    | "DOWNLOADURL"
-    | "ACCESSURL"
-    | "DOCUMENTATION"
-    | "RETURNS"
-    | "PARAMVALUE"
-    | "PROGRAMMINGLANGUAGE"
-    | "PAGEURL";
+    | 'TELEPHONE'
+    | 'EMAIL'
+    | 'LANGUAGE'
+    | 'DOWNLOADURL'
+    | 'ACCESSURL'
+    | 'DOCUMENTATION'
+    | 'RETURNS'
+    | 'PARAMVALUE'
+    | 'PROGRAMMINGLANGUAGE'
+    | 'PAGEURL';
   uid?: string;
   /**
    * This property refers to the value of an element
@@ -1234,7 +1234,7 @@ export type Equipment = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   temporalExtent?: LinkedEntity[];
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
@@ -1296,13 +1296,13 @@ export type FeaturesCollection = {
 
 export type Geometry = {
   type?:
-    | "GEOMETRY_COLLECTION"
-    | "LINE_STRING"
-    | "MULTI_LINE_STRING"
-    | "MULTI_POINT"
-    | "MULTI_POLYGON"
-    | "POINT"
-    | "POLYGON";
+    | 'GEOMETRY_COLLECTION'
+    | 'LINE_STRING'
+    | 'MULTI_LINE_STRING'
+    | 'MULTI_POINT'
+    | 'MULTI_POLYGON'
+    | 'POINT'
+    | 'POLYGON';
 };
 
 /**
@@ -1407,7 +1407,7 @@ export type Identifier = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
    *
@@ -1535,7 +1535,7 @@ export type Location = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
    *
@@ -1675,7 +1675,7 @@ export type Mapping = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
    *
@@ -1710,7 +1710,7 @@ export type Mapping = {
 };
 
 export type Marker = {
-  anchor?: "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW" | "C";
+  anchor?: 'N' | 'NE' | 'E' | 'SE' | 'S' | 'SW' | 'W' | 'NW' | 'C';
   character?: string;
   clustering?: boolean;
   fontawesome_class?: string;
@@ -1846,7 +1846,7 @@ export type Operation = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * The syntax of the template literal is specified by the [RFC6570] URI Template syntax..
    *
@@ -1993,7 +1993,7 @@ export type Organization = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * This property contains the telephone number of the Organization.
    *
@@ -2106,7 +2106,7 @@ export type PeriodOfTime = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
    *
@@ -2147,7 +2147,7 @@ export type ServiceParameter = {
   minValue?: string;
   multipleValue?: string;
   name?: string;
-  ["null"]?: boolean;
+  ['null']?: boolean;
   property?: string;
   readOnlyValue?: string;
   required?: boolean;
@@ -2233,7 +2233,7 @@ export type SoftwareApplicationParameter = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * Mark an entity to be deleted when the fake instance in the approval process is published.
    *
@@ -2322,7 +2322,7 @@ export type UserGroup = {
    *
    * @example EDITOR
    */
-  role?: "ADMIN" | "EDITOR" | "REVIEWER" | "VIEWER";
+  role?: 'ADMIN' | 'EDITOR' | 'REVIEWER' | 'VIEWER';
 };
 
 export type ValidationRule = {
@@ -2480,7 +2480,7 @@ export type WebService = {
    *
    * @example John
    */
-  status?: "ARCHIVED" | "DISCARDED" | "DRAFT" | "SUBMITTED" | "PUBLISHED";
+  status?: 'ARCHIVED' | 'DISCARDED' | 'DRAFT' | 'SUBMITTED' | 'PUBLISHED';
   /**
    * This property refers to a web service operation supported by the Web Service.
    *

@@ -24,7 +24,7 @@ export class TemporalCoverageComponent {
   @Input() set dataProductIsParent(value: boolean) {
     this.dataProdActiveParent = value;
   }
-
+  public activeDataproduct = this.entityExecutionService.getActiveDataProductValue() as DataProduct;
   public parentEntity!: DataProduct | WebService;
   @Input() set parent(value: DataProduct | WebService) {
     if (this.dataProdActiveParent) {
@@ -41,6 +41,8 @@ export class TemporalCoverageComponent {
     }
   }
 
+  public STATUS = Status;
+
   public temporalLinkedEntities: LinkedEntity[] = [];
 
   private startDate!: Moment | null;
@@ -48,8 +50,6 @@ export class TemporalCoverageComponent {
   private endDate!: Moment | null;
 
   public form!: FormGroup;
-
-  public disabled = true;
 
   private readonly temporalExtents: Array<PeriodOfTime> = [];
 
