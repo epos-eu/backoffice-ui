@@ -26,12 +26,14 @@ export class ContactPointDetailComponent implements OnInit {
   }
 
   constructor(
-    private snackbarService: SnackbarService,
-    private apiService: ApiService,
-    private dialogService: DialogService,
+    private readonly snackbarService: SnackbarService,
+    private readonly apiService: ApiService,
+    private readonly dialogService: DialogService,
   ) {}
 
-  private contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<Array<ContactPoint>>([]);
+  private readonly contactPointArraySource: BehaviorSubject<Array<ContactPoint>> = new BehaviorSubject<
+    Array<ContactPoint>
+  >([]);
 
   public loading: boolean = true;
 
@@ -89,6 +91,7 @@ export class ContactPointDetailComponent implements OnInit {
           this.contactPointArraySource.next(
             this.contactPointArraySource.getValue().filter((obj) => obj.instanceId !== instanceId),
           );
+          this.mergedDetails = this.mergedDetails.filter((obj) => obj.instanceId !== instanceId);
         })
         .catch((err) => {
           console.error(err);

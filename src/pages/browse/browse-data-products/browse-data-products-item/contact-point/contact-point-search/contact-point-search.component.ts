@@ -120,6 +120,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
             this.newContact.emit(entityDetail);
             this.contactPointDetailsUpdated.emit(this.contactPoint);
             this.contactPoint?.push(entityDetail);
+            this.form.reset();
             this.entityExecutionService.handleDataProductSave();
           }
         })

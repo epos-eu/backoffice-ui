@@ -101,7 +101,6 @@ export class DocumentationComponent implements OnInit {
           uid: doc.uid,
         };
         const activeWebService = this.activeWebservice;
-        console.debug(activeWebService);
         activeWebService?.documentation?.push(newDoc);
         if (activeWebService) {
           this.entityExecutionService.setActiveWebService(activeWebService);
