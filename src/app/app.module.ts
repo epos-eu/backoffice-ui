@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,60 +20,54 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { ErrorInterceptor } from 'src/interceptors/error.interceptor';
 import { provideMomentDatetimeAdapter } from '@ng-matero/extensions-moment-adapter';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-@NgModule({
-  declarations: [AppComponent, DialogComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    ComponentsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    PortalModule,
-    AngularMaterialModule,
-    OAuthModule.forRoot(),
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet,
-  ],
-  providers: [
-    {
-      provide: MatDialogRef,
-      useValue: {},
-    },
-    {
-      provide: MatSnackBarRef,
-      useValue: {},
-    },
-    ApiService,
-    DialogService,
-    SnackbarService,
-    aaaiServiceProvider,
-    provideMomentDatetimeAdapter({
-      parse: {
-        dateInput: 'YYYY-MM-DD',
-        monthInput: 'MMMM',
-        yearInput: 'YYYY',
-        timeInput: 'HH:mm',
-        datetimeInput: 'YYYY-MM-DD HH:mm',
-      },
-      display: {
-        dateInput: 'YYYY-MM-DD',
-        monthInput: 'MMMM',
-        yearInput: 'YYYY',
-        timeInput: 'HH:mm',
-        datetimeInput: 'YYYY-MM-DD HH:mm',
-        monthYearLabel: 'YYYY MMMM',
-        dateA11yLabel: 'LL',
-        monthYearA11yLabel: 'MMMM YYYY',
-        popupHeaderDateLabel: 'MMM DD, ddd',
-      },
-    }),
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [AppComponent, DialogComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        ComponentsModule,
+        AppRoutingModule,
+        PortalModule,
+        AngularMaterialModule,
+        OAuthModule.forRoot(),
+        RouterLink,
+        RouterLinkActive,
+        RouterOutlet], providers: [
+        {
+            provide: MatDialogRef,
+            useValue: {},
+        },
+        {
+            provide: MatSnackBarRef,
+            useValue: {},
+        },
+        ApiService,
+        DialogService,
+        SnackbarService,
+        aaaiServiceProvider,
+        provideMomentDatetimeAdapter({
+            parse: {
+                dateInput: 'YYYY-MM-DD',
+                monthInput: 'MMMM',
+                yearInput: 'YYYY',
+                timeInput: 'HH:mm',
+                datetimeInput: 'YYYY-MM-DD HH:mm',
+            },
+            display: {
+                dateInput: 'YYYY-MM-DD',
+                monthInput: 'MMMM',
+                yearInput: 'YYYY',
+                timeInput: 'HH:mm',
+                datetimeInput: 'YYYY-MM-DD HH:mm',
+                monthYearLabel: 'YYYY MMMM',
+                dateA11yLabel: 'LL',
+                monthYearA11yLabel: 'MMMM YYYY',
+                popupHeaderDateLabel: 'MMM DD, ddd',
+            },
+        }),
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
+        { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {
   // static forRoot(): ModuleWithProviders<AppModule> {
   //   return {

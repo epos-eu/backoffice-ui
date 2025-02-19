@@ -13,4 +13,6 @@ export interface GroupRequestTable {
   request: string;
   status: UserGroupRequestStatus;
   role: UserRole;
+  userid: string;
+  groupid: string | undefined;
 }
