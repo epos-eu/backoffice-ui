@@ -72,16 +72,9 @@ export class BrowseDataProductsComponent {
   }
 
   private handleCreate(group: Group): void {
-    const newGroup: Group = {
-      name: group.name,
-      description: group.description,
-      id: group.id,
-      entities: group.entities,
-      users: group.users,
-    };
     const item: DataProduct = {
       created: '',
-      groups: [newGroup.id as string],
+      groups: [group.id as string],
     };
     this.apiService.endpoints.DataProduct.create
       .call(item)

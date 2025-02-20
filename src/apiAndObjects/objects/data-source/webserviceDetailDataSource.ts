@@ -50,7 +50,7 @@ export class WebserviceDetailDataSource extends BaseObject implements WebService
   public readonly editorId: string;
   public readonly entryPoint: string;
   public readonly fileProvenance: string;
-  public readonly groups: Group[];
+  public readonly groups: string[];
   public readonly identifier: Array<LinkedEntity>;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;

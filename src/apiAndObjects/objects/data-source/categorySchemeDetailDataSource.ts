@@ -35,7 +35,7 @@ export class CategorySchemeDataSource extends BaseObject implements CategorySche
   public readonly description: string;
   public readonly editorId: string;
   public readonly fileProvenance: string;
-  public readonly groups: Group[];
+  public readonly groups: string[];
   public readonly homepage: string;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;

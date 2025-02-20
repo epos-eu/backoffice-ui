@@ -14,10 +14,10 @@ export class PermissionsService {
   ) {}
 
   public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.debug(this.activeUserService.getActiveUser());
-    if (this.activeUserService.getActiveUser()?.groups?.length === 0) {
-      this.router.navigate(['groups']);
-      this.snackbarService.openSnackbar('Please join or create a Group', 'close', SnackbarType.WARNING, 6000, [
+    const activeUser = this.activeUserService.getActiveUser();
+    if (activeUser?.groups?.length === 0) {
+      this.router.navigate(['browse/groups']);
+      this.snackbarService.openSnackbar('Please join or create a group.', 'close', SnackbarType.WARNING, 6000, [
         'snackbar',
         'mat-toolbar',
         'snackbar-warning',

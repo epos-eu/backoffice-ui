@@ -43,7 +43,7 @@ export class DistributionDetailDataSource extends BaseObject implements Distribu
   public readonly editorId: string;
   public readonly fileProvenance: string;
   public readonly format: string;
-  public readonly groups: Array<Group>;
+  public readonly groups: Array<string>;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
   public readonly issued: string;

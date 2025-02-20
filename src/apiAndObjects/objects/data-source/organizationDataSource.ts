@@ -41,7 +41,7 @@ export class OrganizationDataSource extends BaseObject implements Organization {
   public editorId: string;
   public email: Array<string>;
   public fileProvenance: string;
-  public groups: Group[];
+  public groups: string[];
   public identifier: Array<LinkedEntity>;
   public instanceChangedId: string;
   public instanceId: string;

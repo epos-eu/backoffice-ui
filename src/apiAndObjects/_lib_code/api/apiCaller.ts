@@ -63,7 +63,10 @@ export class ApiCaller {
         response = this.http.get(url, options);
         break;
       case RequestMethod.DELETE:
-        response = this.http.delete(url, options);
+        // response = this.http.delete(url, options);
+        response = this.http.request('DELETE', url, {
+          body: bodyData,
+        });
         break;
       case RequestMethod.POST:
         response = this.http.post(url, bodyData, options);

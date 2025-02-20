@@ -27,7 +27,7 @@ export class PeriodOfTimeDataSource extends BaseObject implements PeriodOfTime {
   public readonly editorId: string;
   public readonly endDate: string;
   public readonly fileProvenance: string;
-  public readonly groups: Group[];
+  public readonly groups: string[];
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
   public readonly metaId: string;
