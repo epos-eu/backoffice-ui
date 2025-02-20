@@ -30,16 +30,9 @@ export class BrowseDistributionComponent {
   ) {}
 
   private handleCreate(group: Group): void {
-    const newGroup: Group = {
-      name: group.name,
-      description: group.description,
-      id: group.id,
-      entities: group.entities,
-      users: group.users,
-    };
     const item: DataProduct = {
       created: '2024-07-11T09:35:25.018Z',
-      groups: [newGroup.id as string],
+      groups: [group.id as string],
     };
 
     this.apiService.endpoints.DataProduct.create

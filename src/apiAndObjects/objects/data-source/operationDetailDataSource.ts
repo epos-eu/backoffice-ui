@@ -29,7 +29,7 @@ export class OperationDetailDataSource extends BaseObject implements Operation {
   public readonly changeTimestamp: string;
   public readonly editorId: string;
   public readonly fileProvenance: string;
-  public readonly groups: Array<Group>;
+  public readonly groups: Array<string>;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
   public readonly mapping: Array<LinkedEntity>;

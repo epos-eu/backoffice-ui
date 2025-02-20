@@ -13,7 +13,7 @@ export class Distribution implements DistributionType {
     public editorId?: string,
     public fileProvenance?: string,
     public format?: string,
-    public groups?: Array<Group>,
+    public groups?: Array<string>,
     public instanceChangedId?: string,
     public instanceId?: string,
     public issued?: string,

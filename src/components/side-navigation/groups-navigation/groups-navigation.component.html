@@ -1,5 +1,8 @@
 <mat-nav-list>
-  <h3 mat-subheader>Groups</h3>
+  <div class="flex-row">
+    <h3 mat-subheader>Groups</h3>
+    <app-back-button path="/browse/groups"></app-back-button>
+  </div>
   <a
     mat-list-item
     [routerLink]="['/groups/request']"

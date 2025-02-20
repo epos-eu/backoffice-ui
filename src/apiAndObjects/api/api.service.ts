@@ -75,6 +75,7 @@ import { PutUpdateUserInGroup } from './group/putUpdateUserInGroup';
 import { PostAddEntityToGroup } from './group/postAddEntityToGroup';
 import { GetUserByID } from './user/getUserById';
 import { PostAddUserToGroup } from './group/postAddUserToGroup';
+import { DeleteRemoveUserFromGroup } from './group/deleteRemoveUserFromGroup';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -165,6 +166,7 @@ export class ApiService extends BaseApi {
       updateUserInGroup: new PutUpdateUserInGroup(ApiService.USE_LIVE_API),
       addEntityToGroup: new PostAddEntityToGroup(ApiService.USE_LIVE_API),
       addUserToGroup: new PostAddUserToGroup(ApiService.USE_LIVE_API),
+      removeUserFromGroup: new DeleteRemoveUserFromGroup(ApiService.USE_LIVE_API),
     },
     Identifier: {
       get: new GetIdentifier(ApiService.USE_LIVE_API),
