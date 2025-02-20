@@ -28,8 +28,6 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
 
   @Output() isLoadingObs = new EventEmitter<boolean>();
 
-  private readonly isLoadingSrc = new BehaviorSubject<boolean>(false);
-
   public form!: FormGroup;
 
   public personFilteredOptions!: Observable<Person[]>;
@@ -122,6 +120,7 @@ export class ContactPointSearchComponent extends WithSubscription implements OnI
             this.newContact.emit(entityDetail);
             this.contactPointDetailsUpdated.emit(this.contactPoint);
             this.contactPoint?.push(entityDetail);
+            this.form.reset();
             this.entityExecutionService.handleDataProductSave();
           }
         })

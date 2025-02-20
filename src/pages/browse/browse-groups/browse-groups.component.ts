@@ -12,6 +12,8 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { groupOptions, statusOptions } from './static';
 import { UserGroupRequestStatus } from 'src/utility/enums/userGroupRequestStatus.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
+import { DialogService } from 'src/components/dialogs/dialog.service';
 
 @Component({
   selector: 'app-browse-groups',
@@ -19,11 +21,16 @@ import { UserRole } from 'src/utility/enums/UserRole.enum';
   styleUrls: ['./browse-groups.component.scss'],
 })
 export class BrowseGroupsComponent implements AfterViewInit {
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private snackbarService: SnackbarService,
+    private dialogService: DialogService,
+  ) {}
 
   private currentUserId!: string;
+  private userAdminGroups: string[] = [];
   public displayedColumns: string[] = ['id', 'name', 'description', 'role'];
-  public requestsColumns: string[] = ['name', 'surname', 'email', 'request', 'status', 'role'];
+  public requestsColumns: string[] = ['name', 'surname', 'email', 'request', 'status', 'role', 'userid', 'groupid'];
   public dataSource: MatTableDataSource<Group> = new MatTableDataSource();
   public requestsDataSource: MatTableDataSource<GroupRequestTable | undefined> = new MatTableDataSource();
   public pageSizeOptions = [10, 25, 50, 100];
@@ -59,13 +66,21 @@ export class BrowseGroupsComponent implements AfterViewInit {
   private getUserGroups(user: UserInfoDataSource): Observable<Group[][]> {
     const requests: Promise<Group[]>[] = [];
     user.groups.forEach((group: UserGroup) => {
+      if (group.role === 'ADMIN' && group.groupId) {
+        this.userAdminGroups.push(group.groupId);
+      }
       requests.push(
-        this.apiService.endpoints[Entity.GROUP].get.call(
-          {
-            instanceId: group.groupId as string,
-          },
-          false,
-        ),
+        this.apiService.endpoints[Entity.GROUP].get
+          .call(
+            {
+              instanceId: group.groupId as string,
+            },
+            false,
+          )
+          .then((data: Group[]) => {
+            data[0].id = group.groupId;
+            return data;
+          }),
       );
     });
     this.currentUserId = user.authIdentifier;
@@ -76,7 +91,6 @@ export class BrowseGroupsComponent implements AfterViewInit {
     const groups = groupData.flat();
     const users = groups.map((group) => group.users); // Get all the users assigned to these groups we have just fetched.
     const cleanedUsers = this.removeDupes(users.flat(), 'userId'); // Create an array of unique users (remove any duplicates).
-
     // Use the groups assigned to the user to populate the first table.
     this.dataSource.data = groups
       .filter((group) => group.users?.find((user) => user['userId'] === this.currentUserId))
@@ -89,7 +103,6 @@ export class BrowseGroupsComponent implements AfterViewInit {
         };
       });
     this.activeGroupsLoading = false;
-
     const userRequests = cleanedUsers.map((user) => {
       return this.apiService.endpoints[Entity.USER].getUserById.call(
         {
@@ -109,7 +122,9 @@ export class BrowseGroupsComponent implements AfterViewInit {
           this.isUserAdmin = user.isAdmin;
           return this.getUserGroups(user).pipe(
             // Combine users and group data into one object
-            map((groups) => ({ user, groups })),
+            map((groups) => {
+              return { user, groups };
+            }),
           );
         }),
         // Step 2: Fetch detailed user info and merge with the previous data
@@ -119,10 +134,9 @@ export class BrowseGroupsComponent implements AfterViewInit {
             map((detailedInfo) => {
               // Transform the data into an array suitable for the table
               return groups.flatMap((group) =>
-                group.flatMap((g) =>
+                group.flatMap((g: Group) =>
                   g.users?.map((user) => {
                     const userDetails = detailedInfo.find((detail) => detail.authIdentifier === user['userId']);
-                    console.log(user);
                     return {
                       firstName: userDetails?.firstName || 'N/A',
                       lastName: userDetails?.lastName || 'N/A',
@@ -130,6 +144,8 @@ export class BrowseGroupsComponent implements AfterViewInit {
                       request: g.name || 'N/A',
                       status: (user['requestStatus'] as UserGroupRequestStatus) || 'N/A',
                       role: (user['role'] as UserRole) || 'N/A',
+                      userid: user['userId'],
+                      groupid: g.id,
                     };
                   }),
                 ),
@@ -139,10 +155,14 @@ export class BrowseGroupsComponent implements AfterViewInit {
         ),
       )
       .subscribe((tableData: (GroupRequestTable | undefined)[]) => {
-        const groupedRequests = tableData.filter((item) => item?.role === 'ADMIN').map((item) => item?.request);
+        const groupedRequests = tableData
+          .filter((item) => {
+            return this.userAdminGroups.includes(item?.groupid as string);
+          })
+          .map((item) => item?.request);
         // Group items for those requests
         const filteredGroupedAdmins = tableData.filter(
-          (item) => groupedRequests.includes(item?.request), // Keep items for matched requests
+          (item) => groupedRequests.includes(item?.request) && item?.status !== 'ACCEPTED',
         );
         this.requestsDataSource.data = filteredGroupedAdmins;
         this.groupRequestsLoading = false;
@@ -160,11 +180,35 @@ export class BrowseGroupsComponent implements AfterViewInit {
     this.requestsDataSource.filterPredicate = this.filterDataSource;
   }
 
-  public rowClicked(event: Group): void {
-    console.debug(event);
-    this.apiService.endpoints.Group.get.call({ instanceId: event.id! }).then((value) => {
-      console.debug(value);
-    });
+  public rowClicked(event: GroupRequestTable): void {
+    this.dialogService
+      .openConfirmationDialog(`Are you sure you'd like to add this user to the group?`)
+      .then((confirm) => {
+        if (confirm) {
+          this.apiService.endpoints.Group.addUserToGroup
+            .call({
+              groupid: event.groupid as string,
+              role: event.role,
+              status: event.status,
+              userid: event.userid,
+            })
+            .then((response) => {
+              this.snackbarService.openSnackbar('Successfully added to group.', 'Close', SnackbarType.SUCCESS, 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-success',
+              ]);
+            })
+            .catch((err) => {
+              this.snackbarService.openSnackbar('Error adding user to group.', 'Close', SnackbarType.ERROR, 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]);
+              console.error(err);
+            });
+        }
+      });
   }
 
   public handleFilterByStatus(event: MatSelectChange): void {

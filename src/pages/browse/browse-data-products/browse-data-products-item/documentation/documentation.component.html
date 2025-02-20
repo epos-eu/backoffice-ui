@@ -38,16 +38,30 @@
                 />
                 <mat-error *ngIf="child.get('uri')?.invalid"> URL is not valid. </mat-error>
               </mat-form-field>
-              <button
-                mat-mini-fab
-                color="primary"
-                aria-label="Save Documentation"
-                matTooltip="Save Documentation"
-                (click)="handleSave(i)"
-                [disabled]="disabled"
-              >
-                <mat-icon>save</mat-icon>
-              </button>
+
+              <div class="actions">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  aria-label="Save Documentation"
+                  matTooltip="Save Documentation"
+                  (click)="handleSave(i)"
+                  [disabled]="disabled"
+                >
+                  <mat-icon>save</mat-icon>
+                </button>
+
+                <button
+                  mat-mini-fab
+                  color="warn"
+                  aria-label="Remove Documentation"
+                  matTooltip="Remove Documentation"
+                  [disabled]="disabled"
+                  (click)="handleDelete(i)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </ng-scrollbar>
           </mat-tab>
         </ng-container>

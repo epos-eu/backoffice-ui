@@ -84,7 +84,6 @@ export class DataProvidersComponent implements OnInit {
             return provider.uid === value.uid;
           });
         });
-        console.debug(this.selectedDataProviders);
       });
     }
   }

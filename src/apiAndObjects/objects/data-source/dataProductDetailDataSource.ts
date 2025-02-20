@@ -55,7 +55,7 @@ export class DataProductDetailDataSource extends BaseObject implements DataProdu
   public readonly documentation: string;
   public readonly editorId: string;
   public readonly fileProvenance: string;
-  public readonly groups: Array<Group>;
+  public readonly groups: Array<string>;
   public readonly hasPart: Array<LinkedEntity>;
   public readonly identifier: Array<LinkedEntity>;
   public readonly hasQualityAnnotation: string;

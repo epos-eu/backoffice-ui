@@ -37,6 +37,7 @@
       </mat-select>
     </mat-form-field>
   </form>
+  @if (form && !form.disabled) {
   <button
     color="primary"
     aria-label="Add contact point"
@@ -45,4 +46,5 @@
   >
     Add Contact Point
   </button>
+  }
 </div>

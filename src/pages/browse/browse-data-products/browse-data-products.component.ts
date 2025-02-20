@@ -25,12 +25,12 @@ export class BrowseDataProductsComponent {
   public showButton = false;
 
   constructor(
-    private router: Router,
-    private dialogService: DialogService,
-    private actionsService: ActionsService,
-    private snackbarService: SnackbarService,
-    private apiService: ApiService,
-    private activeUserService: ActiveUserService,
+    private readonly router: Router,
+    private readonly dialogService: DialogService,
+    private readonly actionsService: ActionsService,
+    private readonly snackbarService: SnackbarService,
+    private readonly apiService: ApiService,
+    private readonly activeUserService: ActiveUserService,
   ) {}
 
   public rowClicked(row: Record<string, string>): void {
@@ -81,7 +81,7 @@ export class BrowseDataProductsComponent {
     };
     const item: DataProduct = {
       created: '',
-      groups: [newGroup],
+      groups: [newGroup.id as string],
     };
     this.apiService.endpoints.DataProduct.create
       .call(item)
@@ -92,16 +92,16 @@ export class BrowseDataProductsComponent {
           'mat-toolbar',
           'snackbar-success',
         ]);
-        this.actionsService.saveCurrentEdit(value.instanceId as string);
-        this.apiService.endpoints.Group.addEntityToGroup
-          .call({ groupid: group.id!, metaId: value.metaId! })
-          .then(() => {
-            this.snackbarService.openSnackbar(`Added entity to ${group.name}`, 'close', SnackbarType.SUCCESS, 6000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-success',
-            ]);
-          });
+        // this.actionsService.saveCurrentEdit(value.instanceId as string);
+        // this.apiService.endpoints.Group.addEntityToGroup
+        //   .call({ groupid: group.id!, metaId: value.metaId! })
+        //   .then(() => {
+        //     this.snackbarService.openSnackbar(`Added entity to ${group.name}`, 'close', SnackbarType.SUCCESS, 6000, [
+        //       'snackbar',
+        //       'mat-toolbar',
+        //       'snackbar-success',
+        //     ]);
+        //   });
       })
       .catch((err) => {
         console.error(err);
