@@ -13,7 +13,6 @@ import { OperationParamsRange } from 'src/utility/enums/operationParamsRange.enu
 import { Status } from 'src/utility/enums/status.enum';
 import { ParametersFormService } from './parameters-form.service';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
-import { SnackbarService } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-operation-parameters',
@@ -42,10 +41,9 @@ export class OperationParametersComponent implements OnInit {
     private dialogService: DialogService,
     private stateChangeService: StateChangeService,
     private formService: ParametersFormService,
-    private snackbarService: SnackbarService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
-      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED) {
+      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED || state === Status.DISCARDED) {
         this.disabled = true;
       } else {
         this.disabled = false;
