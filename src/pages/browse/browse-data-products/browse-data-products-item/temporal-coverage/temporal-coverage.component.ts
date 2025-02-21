@@ -13,6 +13,8 @@ import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatia
 import { Status } from 'src/utility/enums/status.enum';
 import { LoadingService } from 'src/services/loading.service';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { StateChangeService } from 'src/services/stateChange.service';
 
 @Component({
   selector: 'app-temporal-coverage',
@@ -58,6 +60,7 @@ export class TemporalCoverageComponent {
     private readonly apiService: ApiService,
     private readonly spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
     private readonly loadingService: LoadingService,
+    private readonly stateChangeService: StateChangeService,
   ) {}
 
   private initTemporalCoverage(temporalExent: LinkedEntity[]) {
@@ -78,10 +81,18 @@ export class TemporalCoverageComponent {
           coverage: this.createCoverageArray(items),
         });
         this.trackFormChanges();
-        if (this.parent?.status === Status.PUBLISHED || this.parent?.status === Status.ARCHIVED) {
-          this.form.disable();
-        }
+        this.initSubscriptions();
       });
+    });
+  }
+
+  private initSubscriptions() {
+    this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
+      if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED || state === Status.DISCARDED) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
     });
   }
 
@@ -166,6 +177,41 @@ export class TemporalCoverageComponent {
         this.initTemporalCoverage([newEntity]);
       })
       .finally(() => this.loadingService.setShowSpinner(false));
+  }
+
+  public handleDelete(index: number) {
+    // Delete Entity From DB
+    this.spatialTemporalEntityExecutionService
+      .handleSpatialTemporalDelete(EntityEndpointValue.PERIOD_OF_TIME, this.temporalExtents[index].instanceId!)
+      .then((success) => {
+        if (success) {
+          // Remove Inputs from form and coverage
+          this.temporalExtents.splice(index, 1);
+          this.temporalLinkedEntities.splice(index, 1);
+          (this.form.get('coverage') as UntypedFormArray).removeAt(index);
+          // Update Global Dataproduct after change to Spatial Extents Arr
+          if (this.dataProductIsParent) {
+            const activeDataproduct = this.entityExecutionService.getActiveDataProductValue();
+            if (activeDataproduct) {
+              activeDataproduct.spatialExtent?.splice(index, 1);
+              this.entityExecutionService.setActiveDataProduct(
+                this.entityExecutionService.convertToDataProduct(activeDataproduct),
+              );
+              this.entityExecutionService.handleDataProductSave();
+            }
+          } else {
+            // Update Global Webservice
+            const activeWebService = this.entityExecutionService.getActiveWebServiceValue();
+            if (activeWebService) {
+              activeWebService.spatialExtent?.splice(index, 1);
+              this.entityExecutionService.setActiveWebService(
+                this.entityExecutionService.convertToWebService(activeWebService),
+              );
+              this.entityExecutionService.handleWebserviceSave();
+            }
+          }
+        }
+      });
   }
 
   public dateComparison(): (group: FormControl) => { [key: string]: any } | null {

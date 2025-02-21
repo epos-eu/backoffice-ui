@@ -26,7 +26,7 @@ export class IdentifierDataSource extends BaseObject implements IdentifierType {
   public readonly changeTimestamp: string;
   public readonly editorId: string;
   public readonly fileProvenance: string;
-  public readonly groups: Group[];
+  public readonly groups: string[];
   public readonly identifier: string;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;

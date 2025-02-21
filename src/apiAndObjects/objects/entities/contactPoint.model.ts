@@ -8,7 +8,7 @@ export class ContactPoint implements ContactPointType {
     public editorId?: string,
     public email?: Array<string>,
     public fileProvenance?: string,
-    public groups?: Array<Group>,
+    public groups?: Array<string>,
     public instanceChangedId?: string,
     public instanceId?: string,
     public language?: Array<string>,

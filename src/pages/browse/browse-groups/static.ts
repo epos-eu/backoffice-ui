@@ -24,7 +24,11 @@ export const statusOptions: FilterItem[] = [
 export const groupOptions = [
   {
     option: '',
-    label: GroupEnum.ALL,
+    label: 'No filter',
+  },
+  {
+    option: GroupEnum.ALL,
+    label: 'All',
   },
   {
     option: GroupEnum.SEISOMOLOGY,

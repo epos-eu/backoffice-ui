@@ -31,7 +31,7 @@ export class ContactPointDetailDataSource extends BaseObject implements ContactP
   public readonly editorId: string;
   public readonly email: Array<string>;
   public readonly fileProvenance: string;
-  public readonly groups: Array<Group>;
+  public readonly groups: Array<string>;
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
   public readonly language: Array<string>;

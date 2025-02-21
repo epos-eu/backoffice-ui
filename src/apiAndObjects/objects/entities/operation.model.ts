@@ -6,7 +6,7 @@ export class Operation implements OperationType {
     public changeTimestamp?: string,
     public editorId?: string,
     public fileProvenance?: string,
-    public groups?: Array<Group>,
+    public groups?: Array<string>,
     public instanceChangedId?: string,
     public instanceId?: string,
     public mapping?: Array<LinkedEntity>,

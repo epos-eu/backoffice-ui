@@ -37,7 +37,7 @@ export class MappingDataSource extends BaseObject implements Mapping {
   public readonly defaultValue: string;
   public readonly editorId: string;
   public readonly fileProvenance: string;
-  public readonly groups: Group[];
+  public readonly groups: string[];
   public readonly instanceChangedId: string;
   public readonly instanceId: string;
   public readonly label: string;

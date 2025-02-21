@@ -50,8 +50,13 @@ table {
   cursor: pointer;
 }
 
-.mat-mdc-row:hover .mat-mdc-cell {
+.mat-mdc-row:hover .mat-mdc-cell:not(.no-hover) {
   background-color: rgba(0, 73, 38, 0.2);
+}
+
+.mat-mdc-cell.no-hover {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 app-browse-contact-point,
