@@ -55,7 +55,7 @@ export class ViewGroupsComponent implements OnInit {
     };
 
     this.dialogService
-      .openConfirmationDialog(`Are you sure you'd like to join : ${group.name}?`)
+      .openConfirmationDialog(`Are you sure you'd like to join ${group.name}?`)
       .then((accepted: boolean) => {
         if (accepted) {
           this.apiService.endpoints.Group.updateUserInGroup

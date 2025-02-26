@@ -4,9 +4,7 @@ import { DialogData } from '../baseDialogService.abstract';
 
 export interface ConfirmationDataIn {
   messageHtml: string;
-  confirmButtonHtml: string;
-  confirmButtonCssClass: string;
-  cancelButtonHtml: string;
+  confirmButtonTheme: string;
 }
 
 /**
