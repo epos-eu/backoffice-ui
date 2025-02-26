@@ -42,6 +42,7 @@
               [id]="i.toString()"
               [checked]="isChecked(i)"
               (change)="handleValueChange(i)"
+              [disabled]="form.disabled"
             >
               As default value
             </mat-slide-toggle>
@@ -52,6 +53,7 @@
               matTooltip="Remove Value"
               class="smaller"
               (click)="removeItem(i)"
+              [disabled]="form.disabled"
             >
               <mat-icon>delete</mat-icon>
             </button>
@@ -61,8 +63,9 @@
           mat-raised-button
           color="primary"
           (click)="handleAddNewValue()"
-          [disabled]="disableAddNewValue"
-          [ngClass]="disableAddNewValue ? 'hidden' : ''"
+          [disabled]="form.disabled"
+          [ngClass]="form.disabled ? 'hidden' : ''"
+          [disabled]="form.disabled"
         >
           Add new value
         </button>

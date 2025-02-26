@@ -60,6 +60,7 @@
             [id]="i.toString()"
             [checked]="isChecked(i)"
             (change)="handleValueChange(i)"
+            [disabled]="form.disabled"
           >
             As default value
           </mat-slide-toggle>
@@ -70,6 +71,7 @@
             matTooltip="Remove Value"
             class="smaller"
             (click)="removeItem(i)"
+            [disabled]="form.disabled"
           >
             <mat-icon>delete</mat-icon>
           </button>
