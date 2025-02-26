@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormArray, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-option-float',
@@ -11,13 +11,27 @@ export class OptionFloatComponent {
   @Input() disableAddNewValue!: boolean;
 
   public handleAddNewValue(): void {
-    const value = this.form.get('value') as FormArray;
-    value.push(
-      new FormGroup({
-        value: new FormControl(''),
-        asDefault: new FormControl(false),
-      }),
-    );
+    const values = this.form.get('paramValue') as FormArray;
+    values.push(new FormControl('', Validators.required));
+  }
+
+  public removeItem(index: number) {
+    const value = this.form.get('paramValue') as FormArray;
+    value.removeAt(index);
+  }
+
+  public handleValueChange(index: number): void {
+    const values = this.form.get('paramValue') as FormArray;
+    this.form.get('defaultValue')?.setValue(values.at(index).value);
+  }
+
+  public isChecked(index: number): boolean {
+    const defaultValue = this.form.get('defaultValue')?.value;
+    const values = this.form.get('paramValue') as FormArray;
+    if (null != defaultValue) {
+      return defaultValue === values.at(index).value;
+    }
+    return false;
   }
 
   public getControls(field: string) {
