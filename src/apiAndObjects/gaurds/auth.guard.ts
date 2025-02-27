@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { AaaiService } from 'src/aaai/aaai.service';
 import { ActiveUserService } from 'src/services/activeUser.service';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 
@@ -30,4 +31,17 @@ export class PermissionsService {
 
 export const ActiveGroupMember: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
   return inject(PermissionsService).canActivate(next, state);
+};
+
+export const AuthenticatedUser: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
+  if (state.url.startsWith('/last-page-redirect')) {
+    return true; // Allow access to last-page-redirect for auth callback
+  }
+
+  if (inject(AaaiService).isAuthenticated()) {
+    return true;
+  } else {
+    inject(Router).navigate(['/login']);
+    return false;
+  }
 };

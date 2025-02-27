@@ -66,6 +66,7 @@ export class AaaiService {
 
   public checkForAuth(): boolean {
     if (this.isAuthenticated()) {
+      this.router.navigate(['/home']);
       return true;
     } else {
       this.router.navigate(['/login']);
