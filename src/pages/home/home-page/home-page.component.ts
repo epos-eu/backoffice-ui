@@ -52,7 +52,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     },
   ];
 
-  public loading$ = this.loadingService.loadingObs;
+  public loading$ = this.loadingService.showSpinnerObs;
 
   constructor(
     private readonly activeUserService: ActiveUserService,
@@ -62,10 +62,10 @@ export class HomePageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadingService.setLoading(true);
+    this.loadingService.setShowSpinner(true);
     this.subscriptions.push(
       this.activeUserService.activeUserInfoObservable.subscribe(() => {
-        this.loadingService.setLoading(false);
+        this.loadingService.setShowSpinner(false);
       }),
     );
     this.userInfo$ = this.activeUserService.activeUserInfoObservable;

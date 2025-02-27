@@ -1,4 +1,4 @@
-<ng-container *ngIf="(loading$ | async) === false; else loading">
+<ng-container *ngIf="!loading$; else loading">
   <ng-container *ngIf="userInfo">
     <ng-container [ngSwitch]="true">
       <ng-container *ngSwitchCase="userInfo.isAdmin">

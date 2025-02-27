@@ -73,16 +73,20 @@ export class TemporalCoverageComponent {
         instanceId: periodOfTime.instanceId as string,
         metaId: periodOfTime.metaId as string,
       };
-      this.apiService.endpoints.PeriodOfTime.get.call(params).then((items: Array<PeriodOfTime>) => {
-        this.temporalExtents.push(items[0]);
-        this.startDate = moment(items[0].startDate);
-        this.endDate = moment(items[0].endDate);
-        this.form = new FormGroup({
-          coverage: this.createCoverageArray(items),
-        });
-        this.trackFormChanges();
-        this.initSubscriptions();
-      });
+      this.loadingService.setShowSpinner(true);
+      this.apiService.endpoints.PeriodOfTime.get
+        .call(params)
+        .then((items: Array<PeriodOfTime>) => {
+          this.temporalExtents.push(items[0]);
+          this.startDate = moment(items[0].startDate);
+          this.endDate = moment(items[0].endDate);
+          this.form = new FormGroup({
+            coverage: this.createCoverageArray(items),
+          });
+          this.trackFormChanges();
+          this.initSubscriptions();
+        })
+        .finally(() => this.loadingService.setShowSpinner(false));
     });
   }
 

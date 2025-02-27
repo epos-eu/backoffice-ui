@@ -7,6 +7,7 @@ import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { WithSubscription } from 'src/helpers/subscription';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
 import { HelpersService } from 'src/services/helpers.service';
+import { LoadingService } from 'src/services/loading.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { Status } from 'src/utility/enums/status.enum';
 
@@ -21,10 +22,11 @@ export class DistributionWebserviceComponent extends WithSubscription implements
   @Input() distributionIndex!: number;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private helpersService: HelpersService,
-    private apiService: ApiService,
-    private entityExecutionService: EntityExecutionService,
+    private readonly formBuilder: FormBuilder,
+    private readonly helpersService: HelpersService,
+    private readonly apiService: ApiService,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly loadingService: LoadingService,
   ) {
     super();
   }
@@ -46,6 +48,7 @@ export class DistributionWebserviceComponent extends WithSubscription implements
   public disabled = true;
 
   private initData(details: LinkedEntity): void {
+    this.loadingService.setShowSpinner(true);
     this.apiService.endpoints[Entity.WEBSERVICE].get
       .call(
         {
@@ -75,7 +78,8 @@ export class DistributionWebserviceComponent extends WithSubscription implements
       })
       .catch(() => {
         this.webservice = {};
-      });
+      })
+      .finally(() => this.loadingService.setShowSpinner(false));
   }
 
   private initSubscriptions(): void {

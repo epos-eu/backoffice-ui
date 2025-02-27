@@ -50,17 +50,24 @@ export class DocumentationComponent implements OnInit {
   }
 
   private initDocumentations(documentationLinkedEntities: Array<LinkedEntity>) {
+    if (documentationLinkedEntities.length > 0) {
+      this.loadingService.setShowSpinner(true);
+    }
+
     documentationLinkedEntities.forEach((location: LinkedEntity) => {
       const params: GetDocumentationParams = {
         instanceId: location.instanceId as string,
         metaId: location.metaId as string,
       };
-      this.apiService.endpoints.Documentation.get.call(params).then((items: Array<Documentation>) => {
-        items.forEach((doc) => {
-          this.documentationEntities.push(doc);
-        });
-        this.initFormArr();
-      });
+      this.apiService.endpoints.Documentation.get
+        .call(params)
+        .then((items: Array<Documentation>) => {
+          items.forEach((doc) => {
+            this.documentationEntities.push(doc);
+          });
+          this.initFormArr();
+        })
+        .finally(() => this.loadingService.setShowSpinner(false));
     });
   }
 

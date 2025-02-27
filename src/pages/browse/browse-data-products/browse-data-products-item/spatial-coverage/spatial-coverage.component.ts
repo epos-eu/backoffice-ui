@@ -11,6 +11,7 @@ import { Entity } from 'src/utility/enums/entity.enum';
 import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatial-temporal-entity-execution.service';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DialogService } from 'src/components/dialogs/dialog.service';
+import { LoadingService } from 'src/services/loading.service';
 
 @Component({
   selector: 'app-spatial-coverage',
@@ -35,6 +36,7 @@ export class SpatialCoverageComponent implements OnInit {
     private readonly spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
     private readonly apiService: ApiService,
     private readonly dialogService: DialogService,
+    private readonly loadingService: LoadingService,
   ) {
     this.dataProduct = this.entityExecutionService.getActiveDataProductValue() as DataProduct;
   }
@@ -58,20 +60,26 @@ export class SpatialCoverageComponent implements OnInit {
    * API and updating the spatialExtents array and spatialCoverageInput.
    */
   private initSpatialCoverages(spatialCoverages: Array<LinkedEntity>) {
+    if (spatialCoverages.length > 0) {
+      this.loadingService.setShowSpinner(true);
+    }
     spatialCoverages.forEach((location: LinkedEntity) => {
       const params: GetLocationParams = {
         instanceId: location.instanceId as string,
         metaId: location.metaId as string,
       };
-      this.apiService.endpoints.Location.get.call(params).then((items: Array<Location>) => {
-        items.forEach((location) => {
-          this.spatialExtents.push(location);
-          this.spatialCoverageInput.push(location.location);
-        });
-        setTimeout(() => {
-          this.refreshPointsOnMap();
-        }, 100);
-      });
+      this.apiService.endpoints.Location.get
+        .call(params)
+        .then((items: Array<Location>) => {
+          items.forEach((location) => {
+            this.spatialExtents.push(location);
+            this.spatialCoverageInput.push(location.location);
+          });
+          setTimeout(() => {
+            this.refreshPointsOnMap();
+          }, 100);
+        })
+        .finally(() => this.loadingService.setShowSpinner(false));
     });
   }
 

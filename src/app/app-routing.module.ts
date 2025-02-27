@@ -1,26 +1,32 @@
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
-import { ActiveGroupMember } from 'src/apiAndObjects/gaurds/auth.guard';
+import { ActiveGroupMember, AuthenticatedUser } from 'src/apiAndObjects/gaurds/auth.guard';
 import { AppRouteReuseStrategy } from './app-route-reuse-strategy';
 
 const appRoutes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('../pages/home/home.module').then((m) => m.HomeModule),
+    canActivate: [AuthenticatedUser],
   },
   {
     path: 'browse',
     loadChildren: () => import('../pages/browse/browse.module').then((m) => m.BrowseModule),
-    canActivate: [ActiveGroupMember],
+    canActivate: [ActiveGroupMember, AuthenticatedUser],
   },
   {
     path: 'groups',
     loadChildren: () => import('../pages/groups/groups.module').then((m) => m.GroupsModule),
-    // canActivate: [async () => await authGuard()],
+    canActivate: [AuthenticatedUser],
   },
   {
     path: 'login',
     loadChildren: () => import('../pages/login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: 'last-page-redirect',
+    loadComponent: () =>
+      import('../pages/last-page-redirect/last-page-redirect.component').then((m) => m.LastPageRedirectComponent),
   },
   {
     path: 'error',
@@ -32,11 +38,6 @@ const appRoutes: Routes = [
       import('../pages/internal-server-error/internal-server-error.component').then(
         (m) => m.InternalServerErrorComponent,
       ),
-  },
-  {
-    path: 'last-page-redirect',
-    redirectTo: 'home',
-    pathMatch: 'full',
   },
   {
     path: '**',

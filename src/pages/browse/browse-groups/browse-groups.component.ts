@@ -39,9 +39,9 @@ export class BrowseGroupsComponent {
   @ViewChild('dynamicCell', { static: false }) dynamicCell!: ElementRef;
 
   constructor(
-    private apiService: ApiService,
-    private snackbarService: SnackbarService,
-    private dialogService: DialogService,
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly dialogService: DialogService,
   ) {}
 
   private currentUserId!: string;
@@ -123,7 +123,6 @@ export class BrowseGroupsComponent {
         });
         final.push({ ...userItem, ...userMatch });
       });
-      console.log(final);
       return {
         id: group.id,
         description: group.description,
@@ -139,7 +138,6 @@ export class BrowseGroupsComponent {
       users: this.apiService.endpoints.User.getAll.call(),
       groups: this.apiService.endpoints.Group.getAll.call(),
     }).subscribe((data) => {
-      console.log(data.groups);
       this.allGroupsLoading = false;
       const tableData = this.collateByGroup(data.users, data.groups);
       this.initTables({ userGroups: undefined, allGroups: tableData });
