@@ -13,7 +13,7 @@ import { LoadingService } from 'src/services/loading.service';
 export class GroupsHomeComponent implements OnInit {
   private readonly subscriptions: Array<Subscription> = new Array<Subscription>();
   public userInfo$!: Observable<User | null>;
-  public loading$ = this.loadingService.loadingObs;
+  public loading$ = this.loadingService.showSpinnerObs;
 
   constructor(
     private loadingService: LoadingService,
@@ -22,10 +22,10 @@ export class GroupsHomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadingService.setLoading(true);
+    this.loadingService.setShowSpinner(true);
     this.subscriptions.push(
       this.activeUserService.activeUserInfoObservable.subscribe(() => {
-        this.loadingService.setLoading(false);
+        this.loadingService.setShowSpinner(false);
       }),
     );
     this.userInfo$ = this.activeUserService.activeUserInfoObservable;

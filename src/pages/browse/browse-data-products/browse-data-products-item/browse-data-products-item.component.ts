@@ -21,6 +21,7 @@ import { EntityFieldValue } from 'src/utility/enums/entityFieldValue.enum';
 import { NavigationService } from 'src/services/navigation.service';
 import { DataProductForm } from 'src/shared/interfaces/form.interface';
 import { WithSubscription } from 'src/helpers/subscription';
+import { LoadingService } from 'src/services/loading.service';
 
 @Component({
   selector: 'app-browse-data-products-item',
@@ -41,17 +42,18 @@ export class BrowseDataProductsItemComponent extends WithSubscription implements
   public activeTitle: string = '';
 
   constructor(
-    private dialogService: DialogService,
-    private actionService: ActionsService,
-    private formBuilder: UntypedFormBuilder,
-    private route: ActivatedRoute,
-    private apiService: ApiService,
-    private persistorService: PersistorService,
-    private actionsService: ActionsService,
-    private entityExecutionService: EntityExecutionService,
-    private stateChangeService: StateChangeService,
-    private helpersService: HelpersService,
-    private navigationService: NavigationService,
+    private readonly dialogService: DialogService,
+    private readonly actionService: ActionsService,
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly apiService: ApiService,
+    private readonly persistorService: PersistorService,
+    private readonly actionsService: ActionsService,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly stateChangeService: StateChangeService,
+    private readonly helpersService: HelpersService,
+    private readonly navigationService: NavigationService,
+    private readonly loadingService: LoadingService,
   ) {
     super();
   }
@@ -108,6 +110,7 @@ export class BrowseDataProductsItemComponent extends WithSubscription implements
   }
 
   private initData(id: string, metaId: string): void {
+    this.loadingService.setShowSpinner(true);
     this.apiService.endpoints[Entity.DATA_PRODUCT].get
       .call(
         {
@@ -121,7 +124,8 @@ export class BrowseDataProductsItemComponent extends WithSubscription implements
           this.dataProduct = data.shift();
           this.initDataCallback();
         }
-      });
+      })
+      .finally(() => this.loadingService.setShowSpinner(false));
   }
 
   private initForm(): void {

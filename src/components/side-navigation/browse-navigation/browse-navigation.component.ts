@@ -19,7 +19,7 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 export class BrowseNavigationComponent implements OnInit {
   public userInfo: User | null = null;
 
-  public loading$ = this.loadingService.loadingObs;
+  public loading$ = this.loadingService.showSpinnerObs;
 
   constructor(
     private router: Router,
