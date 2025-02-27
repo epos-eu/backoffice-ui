@@ -60,7 +60,9 @@ export class SpatialCoverageComponent implements OnInit {
    * API and updating the spatialExtents array and spatialCoverageInput.
    */
   private initSpatialCoverages(spatialCoverages: Array<LinkedEntity>) {
-    this.loadingService.setShowSpinner(true);
+    if (spatialCoverages.length > 0) {
+      this.loadingService.setShowSpinner(true);
+    }
     spatialCoverages.forEach((location: LinkedEntity) => {
       const params: GetLocationParams = {
         instanceId: location.instanceId as string,

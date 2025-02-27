@@ -50,7 +50,10 @@ export class DocumentationComponent implements OnInit {
   }
 
   private initDocumentations(documentationLinkedEntities: Array<LinkedEntity>) {
-    this.loadingService.setShowSpinner(true);
+    if (documentationLinkedEntities.length > 0) {
+      this.loadingService.setShowSpinner(true);
+    }
+
     documentationLinkedEntities.forEach((location: LinkedEntity) => {
       const params: GetDocumentationParams = {
         instanceId: location.instanceId as string,
