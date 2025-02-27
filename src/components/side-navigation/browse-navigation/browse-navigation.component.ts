@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'generated/backofficeSchemas';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DataProduct } from 'src/apiAndObjects/objects/entities/dataProduct.model';
 import { DialogNewDataproductComponent } from 'src/components/dialogs/dialog-new-dataproduct/dialog-new-dataproduct.component';
@@ -19,18 +20,22 @@ import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum'
 export class BrowseNavigationComponent implements OnInit {
   public userInfo: User | null = null;
 
-  public loading$ = this.loadingService.showSpinnerObs;
+  public loading$ = false;
+
+  private readonly subscriptions: Array<Subscription> = [];
 
   constructor(
-    private router: Router,
-    private activeUserService: ActiveUserService,
-    private dialogService: DialogService,
-    private apiService: ApiService,
-    private snackbarService: SnackbarService,
-    private loadingService: LoadingService,
+    private readonly router: Router,
+    private readonly activeUserService: ActiveUserService,
+    private readonly dialogService: DialogService,
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly loadingService: LoadingService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
+    this.initSubscriptions();
     this.activeUserService.activeUserInfoObservable.subscribe((userInfo: User | null) => {
       this.userInfo = userInfo;
     });
@@ -61,6 +66,15 @@ export class BrowseNavigationComponent implements OnInit {
           ['snackbar', 'mat-toolbar', 'snackbar-error'],
         );
       });
+  }
+
+  private initSubscriptions(): void {
+    this.subscriptions.push(
+      this.loadingService.showSpinnerObs.subscribe((val: boolean) => {
+        this.loading$ = val;
+        this.cdr.detectChanges();
+      }),
+    );
   }
 
   public isAdmin(userRole: string): boolean {

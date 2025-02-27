@@ -17,7 +17,7 @@ export class LoadingService {
   public setShowSpinner(show: boolean): void {
     if (show) {
       this._loadingCount++;
-    } else {
+    } else if (this._loadingCount > 0) {
       this._loadingCount--;
     }
     this.showSpinner.next(this.isLoading());
