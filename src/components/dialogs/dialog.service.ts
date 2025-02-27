@@ -17,9 +17,10 @@ import { DialogConfirmComponent, ConfirmationDataIn } from './dialog-confirm/dia
 import { LoadingService } from 'src/services/loading.service';
 import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
 import { DialogSpatialCoverageHelpComponent } from './dialog-spatial-coverage-help/dialog-spatial-coverage-help.component';
-import { LinkedEntity, User, Operation } from 'generated/backofficeSchemas';
+import { LinkedEntity, User, Operation, Group } from 'generated/backofficeSchemas';
 import { LinkedEntity as LinkedEntityModel } from 'src/apiAndObjects/objects/entities/linkedEntity.model';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { DialogUserStatusComponent } from './dialog-user-status/dialog-user-status.component';
 
 @Injectable({
   providedIn: 'root',
@@ -69,15 +70,11 @@ export class DialogService extends BaseDialogService {
   public openConfirmationDialog(
     messageHtml = 'Confirm action',
     closable = false,
-    confirmButtonHtml = 'OK',
-    confirmButtonCssClass = 'confirm',
-    cancelButtonHtml = 'Cancel',
+    confirmButtonTheme = 'primary',
   ): Promise<boolean> {
     return this.openDialog('confirm', DialogConfirmComponent, closable, {
       messageHtml: messageHtml,
-      confirmButtonHtml: confirmButtonHtml,
-      cancelButtonHtml: cancelButtonHtml,
-      confirmButtonCssClass: confirmButtonCssClass,
+      confirmButtonTheme: confirmButtonTheme,
     } as ConfirmationDataIn).then((data: DialogData<ConfirmationDataIn>) => {
       return data?.dataOut;
     });
@@ -87,8 +84,15 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('metadataView', DialogMetadataFileViewComponent);
   }
 
-  public openChangeUserRoleDialog(userData: User): Promise<DialogData> {
-    return this.openDialog('changeUserRole', DialogUserPermissionsComponent, false, userData, {}, 'user-permissions');
+  public openChangeUserRoleDialog(userData: { user: User; group: Group | null }): Promise<DialogData> {
+    return this.openDialog(
+      'changeUserRole',
+      DialogUserPermissionsComponent,
+      false,
+      userData,
+      { width: '400px' },
+      'user-permissions',
+    );
   }
 
   public openAddNewParameterDialog(): Promise<DialogData> {
@@ -196,6 +200,17 @@ export class DialogService extends BaseDialogService {
       changeComment,
       {},
       'user-permissions',
+    );
+  }
+
+  public openUpdateStatusDialog(currentStatus: string): Promise<DialogData<string, string | undefined>> {
+    return this.openDialog(
+      'userStatusDialog',
+      DialogUserStatusComponent,
+      true,
+      currentStatus,
+      { width: '400px' },
+      'user-status',
     );
   }
 }

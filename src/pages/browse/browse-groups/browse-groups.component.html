@@ -352,7 +352,7 @@
                         mat-header-cell
                         *matHeaderCellDef
                       >
-                        Remove User
+                        Actions
                       </th>
                       <td
                         mat-cell
@@ -360,15 +360,39 @@
                         class="no-hover"
                       >
                         <button
-                          mat-flat-button
-                          color="warn"
-                          [disabled]="!isUserAdmin"
-                          [matTooltipDisabled]="isUserAdmin"
-                          matTooltip="Only admins can remove users from groups."
-                          (click)="handleRemoveUserFromGroup(dynamicCell, element.authIdentifier)"
+                          mat-icon-button
+                          [matMenuTriggerFor]="menu"
                         >
-                          Remove
+                          <mat-icon>more_vert</mat-icon>
                         </button>
+                        <mat-menu #menu="matMenu">
+                          <button
+                            mat-menu-item
+                            [disabled]="!isUserAdmin"
+                            [matTooltipDisabled]="isUserAdmin"
+                            matTooltip="Only admins can remove users from groups."
+                            (click)="handleRemoveUserFromGroup(dynamicCell, element.authIdentifier)"
+                          >
+                            <mat-icon color="warn">delete</mat-icon>
+                            <span>Remove user</span>
+                          </button>
+                          <button
+                            mat-menu-item
+                            (click)="handleUpdateUserRole(element.authIdentifier, nestedElement)"
+                          >
+                            <mat-icon>badge</mat-icon>
+                            <span>Update role</span>
+                          </button>
+                          <button
+                            mat-menu-item
+                            (click)="
+                              handleUpdateUserStatus(element.authIdentifier, nestedElement, element?.requestStatus)
+                            "
+                          >
+                            <mat-icon>timelapse</mat-icon>
+                            <span>Update status</span>
+                          </button>
+                        </mat-menu>
                       </td>
                     </ng-container>
 
