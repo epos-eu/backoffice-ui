@@ -118,7 +118,8 @@ app-dialog {
   }
 }
 
-.user-permissions {
+.user-permissions,
+.user-status {
   background: rgba(0, 0, 0, 0.32);
 
   .mat-mdc-dialog-container {

@@ -18,6 +18,7 @@ import { DialogNewDataproductComponent } from './dialog-new-dataproduct/dialog-n
 import { DialogChangeCommentComponent } from './dialog-change-comment/dialog-change-comment.component';
 import { DialogSpatialCoverageHelpComponent } from './dialog-spatial-coverage-help/dialog-spatial-coverage-help.component';
 import { DialogSelectGroupComponent } from './dialog-select-group/dialog-select-group.component';
+import { DialogUserStatusComponent } from './dialog-user-status/dialog-user-status.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DialogSelectGroupComponent } from './dialog-select-group/dialog-select-
     DialogChangeCommentComponent,
     DialogSpatialCoverageHelpComponent,
     DialogSelectGroupComponent,
+    DialogUserStatusComponent,
   ],
   imports: [CommonModule, AngularMaterialModule, MatExpansionModule, MatIconModule],
 })

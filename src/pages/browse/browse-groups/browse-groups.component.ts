@@ -12,6 +12,7 @@ import { groupOptions, statusOptions } from './static';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 
 interface CollatedGroup {
   id?: string;
@@ -181,37 +182,6 @@ export class BrowseGroupsComponent {
     this.getAllGroupsAndUsers();
   }
 
-  public rowClicked(event: GroupRequestTable): void {
-    this.dialogService
-      .openConfirmationDialog(`Are you sure you'd like to add this user to the group?`)
-      .then((confirm) => {
-        if (confirm) {
-          this.apiService.endpoints.Group.addUserToGroup
-            .call({
-              groupid: event.groupid as string,
-              role: event.role,
-              status: event.status,
-              userid: event.userid,
-            })
-            .then(() => {
-              this.snackbarService.openSnackbar('Successfully added to group.', 'Close', SnackbarType.SUCCESS, 3000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-success',
-              ]);
-            })
-            .catch((err) => {
-              this.snackbarService.openSnackbar('Error adding user to group.', 'Close', SnackbarType.ERROR, 3000, [
-                'snackbar',
-                'mat-toolbar',
-                'snackbar-error',
-              ]);
-              console.error(err);
-            });
-        }
-      });
-  }
-
   public handleFilterByStatus(event: MatSelectChange): void {
     this.filters.status = event.value;
   }
@@ -227,61 +197,115 @@ export class BrowseGroupsComponent {
   }
 
   public handleLeaveGroup(groupId: string, userId: string): void {
-    this.dialogService.openConfirmationDialog(`Are you sure you want to leave this group?`).then((confirmed) => {
-      if (confirmed) {
-        this.apiService.endpoints.Group.removeUserFromGroup
-          .call({
-            userid: userId,
-            groupid: groupId,
-          })
-          .then(() => {
-            this.snackbarService.openSnackbar(
-              'Successfully removed user from group.',
-              'Close',
-              SnackbarType.SUCCESS,
-              3000,
-              ['snackbar', 'mat-toolbar', 'snackbar-success'],
-            );
-            this.initData();
-          })
-          .catch((err) => {
-            this.snackbarService.openSnackbar('Error removing user from group.', 'Close', SnackbarType.ERROR, 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-error',
-            ]);
-            console.error(err);
-          });
-      }
-    });
+    this.dialogService
+      .openConfirmationDialog(`Are you sure you want to leave this group?`, true, 'warn')
+      .then((confirmed) => {
+        if (confirmed) {
+          this.apiService.endpoints.Group.removeUserFromGroup
+            .call({
+              userid: userId,
+              groupid: groupId,
+            })
+            .then(() => {
+              this.snackbarService.openSnackbar(
+                'Successfully removed user from group.',
+                'Close',
+                SnackbarType.SUCCESS,
+                3000,
+                ['snackbar', 'mat-toolbar', 'snackbar-success'],
+              );
+              this.initData();
+            })
+            .catch((err) => {
+              this.snackbarService.openSnackbar('Error removing user from group.', 'Close', SnackbarType.ERROR, 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]);
+              console.error(err);
+            });
+        }
+      });
   }
 
   public handleRemoveUserFromGroup(parentElement: ElementRef, userId: string): void {
-    this.dialogService.openConfirmationDialog('Are you sure you want to remove this user?').then((confirmed) => {
-      if (confirmed) {
-        this.apiService.endpoints.Group.removeUserFromGroup
-          .call({
-            groupid: parentElement.nativeElement.innerText,
-            userid: userId,
-          })
-          .then((response) => {
-            this.snackbarService.openSnackbar(
-              'Successfully removed user from group.',
-              'Close',
-              SnackbarType.SUCCESS,
-              3000,
-              ['snackbar', 'mat-toolbar', 'snackbar-success'],
-            );
-          })
-          .catch((err) => {
-            console.error(err);
-            this.snackbarService.openSnackbar('Error removing user from group.', 'Close', SnackbarType.ERROR, 3000, [
-              'snackbar',
-              'mat-toolbar',
-              'snackbar-error',
-            ]);
-          });
-      }
-    });
+    this.dialogService
+      .openConfirmationDialog('Are you sure you want to remove this user?', true, 'warn')
+      .then((confirmed) => {
+        if (confirmed) {
+          this.apiService.endpoints.Group.removeUserFromGroup
+            .call({
+              groupid: parentElement.nativeElement.innerText,
+              userid: userId,
+            })
+            .then((response) => {
+              this.snackbarService.openSnackbar(
+                'Successfully removed user from group.',
+                'Close',
+                SnackbarType.SUCCESS,
+                3000,
+                ['snackbar', 'mat-toolbar', 'snackbar-success'],
+              );
+            })
+            .catch((err) => {
+              console.error(err);
+              this.snackbarService.openSnackbar('Error removing user from group.', 'Close', SnackbarType.ERROR, 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]);
+            });
+        }
+      });
+  }
+
+  public handleUpdateUserRole(userId: string, group: Group): void {
+    this.apiService.endpoints.User.getUserById
+      .call({ instance_id: userId })
+      .then((user: User) => {
+        this.dialogService.openChangeUserRoleDialog({ user, group });
+      })
+      .catch((err) => {
+        console.error(err);
+        this.snackbarService.openSnackbar('Error updating user role.', 'Close', SnackbarType.ERROR, 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-error',
+        ]);
+      });
+  }
+
+  public handleUpdateUserStatus(userId: string, group: Group, currentStatus: string): void {
+    this.dialogService
+      .openUpdateStatusDialog(currentStatus)
+      .then((dialogData: DialogData<string, string | undefined>) => {
+        const newStatus = dialogData.dataOut;
+        if (newStatus) {
+          this.apiService.endpoints.Group.updateUserInGroup
+            .call({
+              groupid: group.id as string,
+              statusType: newStatus,
+              userid: userId,
+              role: group.users?.find((user) => user['userId'] === userId)?.['role'] as string,
+            })
+            .then(() => {
+              this.snackbarService.openSnackbar(
+                'Successfully updated user status.',
+                'close',
+                SnackbarType.SUCCESS,
+                3000,
+                ['snackbar', 'mat-toolbar', 'snackbar-success'],
+              );
+            })
+            .catch((err) => {
+              console.error(err);
+              this.snackbarService.openSnackbar('Error updating user status.', 'close', SnackbarType.ERROR, 3000, [
+                'snackbar',
+                'mat-toolbar',
+                'snackbar-error',
+              ]);
+            });
+        }
+      });
   }
 }

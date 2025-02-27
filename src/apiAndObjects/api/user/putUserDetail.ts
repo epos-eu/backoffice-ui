@@ -5,6 +5,7 @@ import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enu
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { UserRole } from 'src/utility/enums/UserRole.enum';
+import { Group } from 'generated/backofficeSchemas';
 
 export class PutUserDetail extends CacheableEndpoint<NewUserRoleDataSource, SetUserRoleParams, NewUserRoleDataSource> {
   private persistorService: PersistorService = new PersistorService();
@@ -19,16 +20,7 @@ export class PutUserDetail extends CacheableEndpoint<NewUserRoleDataSource, SetU
       const authHeader = new HttpHeaders().set('Authorization', accessToken ? 'Bearer ' + accessToken : '');
       return authHeader;
     };
-    const callResponsePromise = this.apiCaller.doCall(
-      ['user'],
-      RequestMethod.PUT,
-      undefined,
-      {
-        instanceId: params.instanceId,
-        role: params.role,
-      },
-      headers,
-    );
+    const callResponsePromise = this.apiCaller.doCall(['user'], RequestMethod.PUT, undefined, params, headers);
 
     return this.buildObjectFromResponse(NewUserRoleDataSource, callResponsePromise).then(
       (newUserRole: NewUserRoleDataSource) => newUserRole,
@@ -41,6 +33,20 @@ export class PutUserDetail extends CacheableEndpoint<NewUserRoleDataSource, SetU
 }
 
 export interface SetUserRoleParams {
-  instanceId: string;
-  role: UserRole;
+  [key: string]:
+    | string
+    | {
+        groupId: string;
+        role: string;
+      }[]
+    | boolean;
+  authIdentifier: string;
+  email: string;
+  firstName: string;
+  groups: {
+    groupId: string;
+    role: string;
+  }[];
+  isAdmin: boolean;
+  lastName: string;
 }

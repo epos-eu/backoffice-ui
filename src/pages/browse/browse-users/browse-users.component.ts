@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { User } from 'generated/backofficeSchemas';
+import { Group, User } from 'generated/backofficeSchemas';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { Entity } from 'src/utility/enums/entity.enum';
+import { UserRole } from 'src/utility/enums/UserRole.enum';
 import { TableUserDetail } from 'src/utility/objects/table/userDetail';
 
 @Component({
@@ -30,8 +31,14 @@ export class BrowseUsersComponent implements OnInit {
     this.initData();
   }
 
-  public rowClicked(row: TableUserDetail): void {
-    this.dialogService.openChangeUserRoleDialog(row).then((data: DialogData) => {
+  public rowClicked(row: TableUserDetail & Group): void {
+    const user: User = {
+      firstName: row.name,
+      lastName: row.surname,
+      email: row.email,
+      isAdmin: row.role === UserRole.ADMIN,
+    };
+    this.dialogService.openChangeUserRoleDialog({ user, group: null }).then((data: DialogData) => {
       if (data.dataOut) {
         this.initData();
       }
