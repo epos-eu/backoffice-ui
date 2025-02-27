@@ -81,8 +81,8 @@
         mat-raised-button
         color="primary"
         (click)="handleAddNewValue()"
-        [disabled]="disabled"
-        [ngClass]="disableAddNewValue ? 'hidden' : ''"
+        [disabled]="form.disabled"
+        [ngClass]="form.disabled ? 'hidden' : ''"
       >
         Add new value
       </button>

@@ -46,15 +46,15 @@ export class OptionComplexComponent {
     return false;
   }
 
-  public disableSelect(index: number): boolean {
-    const canSelectMultiple = this.form.get('multipleValues')?.value === true;
+  // public disableSelect(index: number): boolean {
+  //   const canSelectMultiple = this.form.get('multipleValues')?.value === true;
 
-    // const selectedAsDefaults = this.getControls('items').filter((item) => item.value.asDefault === true);
-    // TODO: 'selectedAsDefaults' is not defined.
-    const selectedAsDefaults = [];
-    if (this.clickedIndex === index) {
-      return false;
-    }
-    return !canSelectMultiple || selectedAsDefaults.length > 0;
-  }
+  //   // const selectedAsDefaults = this.getControls('items').filter((item) => item.value.asDefault === true);
+  //   // TODO: 'selectedAsDefaults' is not defined.
+  //   const selectedAsDefaults = [];
+  //   if (this.clickedIndex === index) {
+  //     return false;
+  //   }
+  //   return !canSelectMultiple || selectedAsDefaults.length > 0;
+  // }
 }

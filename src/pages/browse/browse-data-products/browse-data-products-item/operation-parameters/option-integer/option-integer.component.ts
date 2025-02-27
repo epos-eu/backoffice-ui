@@ -43,15 +43,15 @@ export class OptionIntegerComponent {
     return (this.form.get(field) as FormArray).controls;
   }
 
-  public disableSelect(index: number): boolean {
-    // const canSelectMultiple = this.form.get('multipleValues')?.value === true;
-    // const selectedAsDefaults = this.getControls('value').filter((item) => item.value.asDefault === true);
+  // public disableSelect(index: number): boolean {
+  //   // const canSelectMultiple = this.form.get('multipleValues')?.value === true;
+  //   // const selectedAsDefaults = this.getControls('value').filter((item) => item.value.asDefault === true);
 
-    // if (this.clickedIndex === index) {
-    return false;
-    // }
-    // return !canSelectMultiple || selectedAsDefaults.length > 0;
-  }
+  //   // if (this.clickedIndex === index) {
+  //   return false;
+  //   // }
+  //   // return !canSelectMultiple || selectedAsDefaults.length > 0;
+  // }
 
   // public handleDefaultToggleChange(event: MatSlideToggleChange, index: number): void {
   //   const clickedIndex = Number(event.source._switchElement.nativeElement.id);
