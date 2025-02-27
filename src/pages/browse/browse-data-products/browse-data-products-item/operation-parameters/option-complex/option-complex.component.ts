@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, UntypedFormGroup } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormArray, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActiveToggle } from '../toggle.interface';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-option-complex',
@@ -15,7 +14,7 @@ export class OptionComplexComponent {
 
   @Input() disableAddNewValue!: boolean;
 
-  private clickedIndex!: number;
+  private readonly clickedIndex!: number;
 
   public activeToggles: ActiveToggle[] = [];
 
@@ -24,33 +23,38 @@ export class OptionComplexComponent {
   }
 
   public handleAddNewValue(): void {
-    const value = this.form.get('value') as FormArray;
-    value.push(
-      new FormGroup({
-        value: new FormControl(''),
-        asDefault: new FormControl(false),
-      }),
-    );
+    const values = this.form.get('paramValue') as FormArray;
+    values.push(new FormControl('', Validators.required));
   }
 
-  public handleDefaultValue(event: MatSlideToggleChange, index: number): void {
-    this.activeToggles = [];
-    this.activeToggles.push({
-      id: index,
-      active: event.checked,
-    });
+  public removeItem(index: number) {
+    const value = this.form.get('paramValue') as FormArray;
+    value.removeAt(index);
+  }
+
+  public handleValueChange(index: number): void {
+    const values = this.form.get('paramValue') as FormArray;
+    this.form.get('defaultValue')?.setValue(values.at(index).value);
   }
 
   public isChecked(index: number): boolean {
-    return this.activeToggles.find((item) => item.id === index) != null;
+    const defaultValue = this.form.get('defaultValue')?.value;
+    const values = this.form.get('paramValue') as FormArray;
+    if (null != defaultValue) {
+      return defaultValue === values.at(index).value;
+    }
+    return false;
   }
 
-  public disableSelect(index: number): boolean {
-    const canSelectMultiple = this.form.get('multipleValues')?.value === true;
-    const selectedAsDefaults = this.getControls('value').filter((item) => item.value.asDefault === true);
-    if (this.clickedIndex === index) {
-      return false;
-    }
-    return !canSelectMultiple || selectedAsDefaults.length > 0;
-  }
+  // public disableSelect(index: number): boolean {
+  //   const canSelectMultiple = this.form.get('multipleValues')?.value === true;
+
+  //   // const selectedAsDefaults = this.getControls('items').filter((item) => item.value.asDefault === true);
+  //   // TODO: 'selectedAsDefaults' is not defined.
+  //   const selectedAsDefaults = [];
+  //   if (this.clickedIndex === index) {
+  //     return false;
+  //   }
+  //   return !canSelectMultiple || selectedAsDefaults.length > 0;
+  // }
 }

@@ -43,26 +43,38 @@
       >
         Allows multiple selection
       </mat-slide-toggle>
-      <ng-container formArrayName="value">
+      <ng-container formArrayName="paramValue">
         <div
-          *ngFor="let control of getControls('value'); let i = index"
-          [formGroupName]="i"
-          class="user-value"
+          *ngFor="let control of getControls('paramValue'); let i = index"
+          class="controlled-params"
         >
           <mat-form-field appearance="fill">
             <mat-label>Value</mat-label>
             <input
               matInput
               placeholder="Value"
-              formControlName="value"
+              [formControlName]="i"
             />
           </mat-form-field>
           <mat-slide-toggle
-            formControlName="asDefault"
             [id]="i.toString()"
+            [checked]="isChecked(i)"
+            (change)="handleValueChange(i)"
+            [disabled]="form.disabled"
           >
             As default value
           </mat-slide-toggle>
+          <button
+            mat-mini-fab
+            color="warn"
+            aria-label="Remove Value"
+            matTooltip="Remove Value"
+            class="smaller"
+            (click)="removeItem(i)"
+            [disabled]="form.disabled"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
       </ng-container>
       <button

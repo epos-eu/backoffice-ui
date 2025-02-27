@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Mapping } from 'generated/backofficeSchemas';
 import { BehaviorSubject } from 'rxjs';
 import { formatRangeText } from 'src/helpers/strings';
 import { EntityExecutionService } from 'src/services/calls/entity-execution.service';
@@ -53,12 +54,9 @@ export class ParametersFormService {
       property: [parameter.property],
       allowedValues: [this.checkAllowedValues(parameter)],
       multipleValues: [this.checkBool(parameter.multipleValues)],
-      value: this.formBuilder.array([
-        this.formBuilder.group({
-          value: ['', Validators.required],
-          asDefault: [false, Validators.required],
-        }),
-      ]),
+      paramValue: this.formBuilder.array(
+        parameter.paramValue.map((value: any) => new FormControl(value, Validators.required)),
+      ),
     });
   }
 
