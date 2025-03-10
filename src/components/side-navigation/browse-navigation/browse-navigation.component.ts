@@ -38,6 +38,8 @@ export class BrowseNavigationComponent implements OnInit {
     this.initSubscriptions();
     this.activeUserService.activeUserInfoObservable.subscribe((userInfo: User | null) => {
       this.userInfo = userInfo;
+
+      console.debug('userInfo', userInfo);
     });
   }
 
