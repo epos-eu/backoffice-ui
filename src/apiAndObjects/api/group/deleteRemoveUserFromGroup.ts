@@ -6,7 +6,7 @@ import { StorageKey } from 'src/utility/enums/storageKey.enum';
 import { BaseObject } from 'src/apiAndObjects/_lib_code/objects/baseObject';
 
 export class DeleteRemoveUserFromGroup extends CacheableEndpoint<unknown, RemoveUserFromGroupParams, unknown> {
-  private persistorService: PersistorService = new PersistorService();
+  private readonly persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(body: RemoveUserFromGroupParams): string {
     return JSON.stringify(body);
@@ -22,7 +22,7 @@ export class DeleteRemoveUserFromGroup extends CacheableEndpoint<unknown, Remove
     };
     const callResponsePromise = this.apiCaller.doCall(
       ['group/removeUserFromGroup'],
-      RequestMethod.DELETE,
+      RequestMethod.POST,
       undefined,
       { userid: body.userid, groupid: body.groupid },
       headers,

@@ -25,20 +25,20 @@ export class BrowseUsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dialogService: DialogService, private apiService: ApiService) {}
+  constructor(private readonly dialogService: DialogService, private readonly apiService: ApiService) {}
 
   ngOnInit(): void {
     this.initData();
   }
 
-  public rowClicked(row: TableUserDetail & Group): void {
+  public rowClicked(row: TableUserDetail & Group, statusType: string): void {
     const user: User = {
       firstName: row.name,
       lastName: row.surname,
       email: row.email,
       isAdmin: row.role === UserRole.ADMIN,
     };
-    this.dialogService.openChangeUserRoleDialog({ user, group: null }).then((data: DialogData) => {
+    this.dialogService.openChangeUserRoleDialog({ user, group: null, statusType }).then((data: DialogData) => {
       if (data.dataOut) {
         this.initData();
       }

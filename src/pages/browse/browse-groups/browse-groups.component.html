@@ -378,7 +378,9 @@
                           </button>
                           <button
                             mat-menu-item
-                            (click)="handleUpdateUserRole(element.authIdentifier, nestedElement)"
+                            (click)="
+                              handleUpdateUserRole(element.authIdentifier, nestedElement, element?.requestStatus)
+                            "
                           >
                             <mat-icon>badge</mat-icon>
                             <span>Update role</span>

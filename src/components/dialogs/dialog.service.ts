@@ -84,7 +84,11 @@ export class DialogService extends BaseDialogService {
     return this.openDialog('metadataView', DialogMetadataFileViewComponent);
   }
 
-  public openChangeUserRoleDialog(userData: { user: User; group: Group | null }): Promise<DialogData> {
+  public openChangeUserRoleDialog(userData: {
+    user: User;
+    group: Group | null;
+    statusType: string;
+  }): Promise<DialogData> {
     return this.openDialog(
       'changeUserRole',
       DialogUserPermissionsComponent,

@@ -24,7 +24,7 @@ export class DialogUserPermissionsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: DialogData<{ user: User; group: Group }>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData<{ user: User; group: Group; statusType: string }>,
     private apiService: ApiService,
     private snackbarService: SnackbarService,
   ) {}
@@ -55,40 +55,42 @@ export class DialogUserPermissionsComponent implements OnInit {
   }
 
   public setNewUserRole(currentRole: string): void {
-    const params: SetUserRoleParams = {
-      authIdentifier: this.data.dataIn.user.authIdentifier as string,
-      email: this.data.dataIn.user.email as string,
-      firstName: this.data.dataIn.user.firstName as string,
-      groups: [
-        {
-          groupId: this.data.dataIn.group.id as string,
-          role: currentRole,
-        },
-      ],
-      isAdmin: this.data.dataIn.user.isAdmin as boolean,
-      lastName: this.data.dataIn.user.lastName as string,
-    };
-    this.apiService.endpoints[Entity.USER].update
-      .call(params)
-      .then(() => {
-        this.data.dataOut = true;
-        this.snackbarService.openSnackbar(
-          `User Successfully changed to ${currentRole}`,
-          'close',
-          SnackbarType.SUCCESS,
-          3000,
-          ['snackbar', 'mat-toolbar', 'snackbar-success'],
-        );
+    // const params: SetUserRoleParams = {
+    //   authIdentifier: this.data.dataIn.user.authIdentifier as string,
+    //   email: this.data.dataIn.user.email as string,
+    //   firstName: this.data.dataIn.user.firstName as string,
+    //   groups: [
+    //     {
+    //       groupId: this.data.dataIn.group.id as string,
+    //       role: currentRole,
+    //     },
+    //   ],
+    //   isAdmin: this.data.dataIn.user.isAdmin as boolean,
+    //   lastName: this.data.dataIn.user.lastName as string,
+    // };
+
+    this.apiService.endpoints.Group.updateUserInGroup
+      .call({
+        groupid: this.data.dataIn.group.id as string,
+        statusType: this.data.dataIn.statusType,
+        userid: this.data.dataIn.user.authIdentifier as string,
+        role: currentRole,
       })
-      .catch(() => {
-        this.snackbarService.openSnackbar(`Error: failed to change user role`, 'close', SnackbarType.ERROR, 3000, [
+      .then(() => {
+        this.snackbarService.openSnackbar('Successfully updated user status.', 'close', SnackbarType.SUCCESS, 3000, [
+          'snackbar',
+          'mat-toolbar',
+          'snackbar-success',
+        ]);
+      })
+      .catch((err) => {
+        console.error(err);
+        this.snackbarService.openSnackbar('Error updating user status.', 'close', SnackbarType.ERROR, 3000, [
           'snackbar',
           'mat-toolbar',
           'snackbar-error',
         ]);
-        this.data.dataOut = false;
-      })
-      .finally(() => this.data.close());
+      });
   }
 
   public cancel(): void {

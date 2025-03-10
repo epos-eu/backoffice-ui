@@ -4,8 +4,6 @@ import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndp
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
-import { UserRole } from 'src/utility/enums/UserRole.enum';
-import { Group } from 'generated/backofficeSchemas';
 
 export class PutUserDetail extends CacheableEndpoint<NewUserRoleDataSource, SetUserRoleParams, NewUserRoleDataSource> {
   private persistorService: PersistorService = new PersistorService();
@@ -43,10 +41,10 @@ export interface SetUserRoleParams {
   authIdentifier: string;
   email: string;
   firstName: string;
-  groups: {
-    groupId: string;
-    role: string;
-  }[];
+  // groups: {
+  //   groupId: string;
+  //   role: string;
+  // }[];
   isAdmin: boolean;
   lastName: string;
 }

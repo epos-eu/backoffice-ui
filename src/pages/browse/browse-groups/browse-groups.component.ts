@@ -13,6 +13,7 @@ import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
+import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 
 interface CollatedGroup {
   id?: string;
@@ -257,11 +258,11 @@ export class BrowseGroupsComponent {
       });
   }
 
-  public handleUpdateUserRole(userId: string, group: Group): void {
+  public handleUpdateUserRole(userId: string, group: Group, statusType: string): void {
     this.apiService.endpoints.User.getUserById
       .call({ instance_id: userId })
       .then((user: User) => {
-        this.dialogService.openChangeUserRoleDialog({ user, group });
+        this.dialogService.openChangeUserRoleDialog({ user, group, statusType });
       })
       .catch((err) => {
         console.error(err);
