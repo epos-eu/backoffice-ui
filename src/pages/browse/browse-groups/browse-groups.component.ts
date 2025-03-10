@@ -14,6 +14,7 @@ import { DialogService } from 'src/components/dialogs/dialog.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
+import { table } from 'node:console';
 
 interface CollatedGroup {
   id?: string;
@@ -116,22 +117,26 @@ export class BrowseGroupsComponent {
 
   private collateByGroup(users: User[], groups: Group[]): CollatedGroup[] {
     const userMap = new Map(users.map((user) => [user.authIdentifier, user]));
-    const mapped = groups.map((group) => {
-      const final: any[] = [];
-      userMap.forEach((userItem, key) => {
-        const userMatch = group.users?.find((user) => {
-          return user['userId'] === key;
-        });
-        final.push({ ...userItem, ...userMatch });
-      });
+
+    return groups.map((group) => {
+      console.debug('group', group);
+
+      const final: User[] = (group.users || [])
+        .map((user) => {
+          const userItem = userMap.get(user['userId']);
+          return userItem ? { ...userItem, ...user } : undefined; // Change `null` to `undefined`
+        })
+        .filter((user): user is User => user !== undefined); // Type-safe filter to remove undefined values
+
+      console.debug('final', final);
+
       return {
         id: group.id,
         description: group.description,
         name: group.name,
-        users: final,
+        users: final, // Now strictly typed as User[]
       };
     });
-    return mapped;
   }
 
   private getAllGroupsAndUsers(): void {
@@ -141,6 +146,7 @@ export class BrowseGroupsComponent {
     }).subscribe((data) => {
       this.allGroupsLoading = false;
       const tableData = this.collateByGroup(data.users, data.groups);
+      console.debug('tableData', data.users, data.groups);
       this.initTables({ userGroups: undefined, allGroups: tableData });
     });
   }
