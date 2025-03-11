@@ -82,6 +82,7 @@ export class DialogUserPermissionsComponent implements OnInit {
           'mat-toolbar',
           'snackbar-success',
         ]);
+        this.data.close();
       })
       .catch((err) => {
         console.error(err);

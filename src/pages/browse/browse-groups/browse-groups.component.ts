@@ -119,16 +119,12 @@ export class BrowseGroupsComponent {
     const userMap = new Map(users.map((user) => [user.authIdentifier, user]));
 
     return groups.map((group) => {
-      console.debug('group', group);
-
       const final: User[] = (group.users || [])
         .map((user) => {
           const userItem = userMap.get(user['userId']);
           return userItem ? { ...userItem, ...user } : undefined; // Change `null` to `undefined`
         })
         .filter((user): user is User => user !== undefined); // Type-safe filter to remove undefined values
-
-      console.debug('final', final);
 
       return {
         id: group.id,
@@ -146,7 +142,6 @@ export class BrowseGroupsComponent {
     }).subscribe((data) => {
       this.allGroupsLoading = false;
       const tableData = this.collateByGroup(data.users, data.groups);
-      console.debug('tableData', data.users, data.groups);
       this.initTables({ userGroups: undefined, allGroups: tableData });
     });
   }
