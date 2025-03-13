@@ -12,6 +12,7 @@ import { SpatialTemporalEntityExecutionService } from 'src/services/calls/spatia
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { LoadingService } from 'src/services/loading.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-spatial-coverage',
@@ -27,6 +28,15 @@ export class SpatialCoverageComponent implements OnInit {
     if (value) {
       this.spatialExtent = value;
       this.initSpatialCoverages(this.spatialExtent);
+      setTimeout(() => {
+        this.snackbarService.openSnackbar(
+          `Please save any changes to each Spatial Extent.`,
+          'close',
+          SnackbarType.WARNING,
+          12000,
+          ['snackbar', 'mat-toolbar', 'snackbar-warning'],
+        );
+      }, 500);
     }
   }
 
@@ -37,6 +47,7 @@ export class SpatialCoverageComponent implements OnInit {
     private readonly apiService: ApiService,
     private readonly dialogService: DialogService,
     private readonly loadingService: LoadingService,
+    private readonly snackbarService: SnackbarService,
   ) {
     this.dataProduct = this.entityExecutionService.getActiveDataProductValue() as DataProduct;
   }

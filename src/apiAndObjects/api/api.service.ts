@@ -76,6 +76,7 @@ import { PostAddEntityToGroup } from './group/postAddEntityToGroup';
 import { GetUserByID } from './user/getUserById';
 import { PostAddUserToGroup } from './group/postAddUserToGroup';
 import { DeleteRemoveUserFromGroup } from './group/deleteRemoveUserFromGroup';
+import { GetCategorySchemeInstances } from './categoryScheme/getCategorySchemesInstances';
 
 @Injectable()
 export class ApiService extends BaseApi {
@@ -136,6 +137,7 @@ export class ApiService extends BaseApi {
     },
     CategoryScheme: {
       get: new GetCategoryScheme(ApiService.USE_LIVE_API),
+      getSchemeInstances: new GetCategorySchemeInstances(ApiService.USE_LIVE_API),
       getAll: new GetAllCategorySchemes(ApiService.USE_LIVE_API),
       create: new PostCategoryScheme(ApiService.USE_LIVE_API),
       update: new PutCategoryScheme(ApiService.USE_LIVE_API),

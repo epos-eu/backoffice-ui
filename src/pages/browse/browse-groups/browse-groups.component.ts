@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,15 +6,12 @@ import { Group, User, UserGroup } from 'generated/backofficeSchemas';
 import { concatMap, forkJoin, from, map, Observable } from 'rxjs';
 import { ApiService } from 'src/apiAndObjects/api/api.service';
 import { UserInfoDataSource } from 'src/apiAndObjects/objects/data-source/userInfoDataSource';
-import { GroupRequestTable } from 'src/shared/interfaces/group.interface';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { groupOptions, statusOptions } from './static';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 import { DialogService } from 'src/components/dialogs/dialog.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DialogData } from 'src/components/dialogs/baseDialogService.abstract';
-import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
-import { table } from 'node:console';
 
 interface CollatedGroup {
   id?: string;
@@ -35,19 +32,13 @@ interface CollatedGroup {
     ]),
   ],
 })
-export class BrowseGroupsComponent {
+export class BrowseGroupsComponent implements OnInit {
   @ViewChild('userGroupsPaginator') userGroupsPaginator!: MatPaginator;
   @ViewChild('allGroupsPaginator') allGroupsPaginator!: MatPaginator;
   @ViewChild('dynamicCell', { static: false }) dynamicCell!: ElementRef;
 
-  constructor(
-    private readonly apiService: ApiService,
-    private readonly snackbarService: SnackbarService,
-    private readonly dialogService: DialogService,
-  ) {}
-
   private currentUserId!: string;
-  private userAdminGroups: string[] = [];
+  private readonly userAdminGroups: string[] = [];
   public displayedColumns: string[] = ['id', 'name', 'description', 'role', 'status', 'actions', 'userid'];
   public allGroupsColumns: string[] = ['id', 'name', 'description'];
   public nestedColumns: string[] = ['name', 'email', 'status', 'role', 'remove'];
@@ -55,8 +46,8 @@ export class BrowseGroupsComponent {
   public allGroupsDataSource: MatTableDataSource<CollatedGroup> = new MatTableDataSource();
   public pageSizeOptions = [10, 25, 50, 100];
   public isUserAdmin = false;
-  public userGroupsLoading = true;
-  public allGroupsLoading = true;
+  public userGroupsLoading = false;
+  public allGroupsLoading = false;
   public filters = {
     status: '',
     groupName: '',
@@ -65,6 +56,17 @@ export class BrowseGroupsComponent {
   public groupOptions = groupOptions;
   public expandedElement: any;
   public columnsToDisplayWithExpand = [...this.allGroupsColumns, 'expand'];
+
+  constructor(
+    private readonly apiService: ApiService,
+    private readonly snackbarService: SnackbarService,
+    private readonly dialogService: DialogService,
+  ) {}
+
+  public ngOnInit(): void {
+    this.initData();
+    this.getAllGroupsAndUsers();
+  }
 
   private filterDataSource(data: CollatedGroup | undefined, filterValue: string): boolean {
     const filters = JSON.parse(filterValue);
@@ -136,6 +138,7 @@ export class BrowseGroupsComponent {
   }
 
   private getAllGroupsAndUsers(): void {
+    this.allGroupsLoading = true;
     forkJoin({
       users: this.apiService.endpoints.User.getAll.call(),
       groups: this.apiService.endpoints.Group.getAll.call(),
@@ -147,6 +150,7 @@ export class BrowseGroupsComponent {
   }
 
   private initData(): void {
+    this.userGroupsLoading = true;
     from(this.apiService.endpoints[Entity.USER].get.call({ available_section: true }))
       .pipe(
         // Step 1: Fetch user groups
@@ -166,20 +170,16 @@ export class BrowseGroupsComponent {
   }
 
   private initTables(data: { userGroups?: Group[]; allGroups?: CollatedGroup[] }): void {
+    const filteredGroups = data.allGroups?.filter((group) => group.id && this.userAdminGroups.includes(group.id));
     if (data.userGroups) {
       this.dataSource.data = data.userGroups;
       this.dataSource.paginator = this.userGroupsPaginator;
     }
     if (data.allGroups) {
-      this.allGroupsDataSource.data = data.allGroups;
+      this.allGroupsDataSource.data = filteredGroups ?? [];
       this.allGroupsDataSource.paginator = this.allGroupsPaginator;
       this.allGroupsDataSource.filterPredicate = this.filterDataSource;
     }
-  }
-
-  public ngOnInit(): void {
-    this.initData();
-    this.getAllGroupsAndUsers();
   }
 
   public handleFilterByStatus(event: MatSelectChange): void {
@@ -215,6 +215,8 @@ export class BrowseGroupsComponent {
                 ['snackbar', 'mat-toolbar', 'snackbar-success'],
               );
               this.initData();
+              this.userAdminGroups.splice(this.userAdminGroups.indexOf(groupId), 1);
+              this.getAllGroupsAndUsers();
             })
             .catch((err) => {
               this.snackbarService.openSnackbar('Error removing user from group.', 'Close', SnackbarType.ERROR, 3000, [
@@ -246,6 +248,7 @@ export class BrowseGroupsComponent {
                 3000,
                 ['snackbar', 'mat-toolbar', 'snackbar-success'],
               );
+              this.getAllGroupsAndUsers();
             })
             .catch((err) => {
               console.error(err);
@@ -263,7 +266,11 @@ export class BrowseGroupsComponent {
     this.apiService.endpoints.User.getUserById
       .call({ instance_id: userId })
       .then((user: User) => {
-        this.dialogService.openChangeUserRoleDialog({ user, group, statusType });
+        this.dialogService.openChangeUserRoleDialog({ user, group, statusType }).then((dialogData: DialogData) => {
+          if (dialogData.dataOut) {
+            this.getAllGroupsAndUsers();
+          }
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -296,6 +303,7 @@ export class BrowseGroupsComponent {
                 3000,
                 ['snackbar', 'mat-toolbar', 'snackbar-success'],
               );
+              this.getAllGroupsAndUsers();
             })
             .catch((err) => {
               console.error(err);

@@ -19,6 +19,7 @@ import { GetIdentifierDetailsParams } from 'src/apiAndObjects/api/identifier/get
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { LoadingService } from 'src/services/loading.service';
 import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-persistent-identifier',
@@ -56,6 +57,15 @@ export class PersistentIdentifierComponent implements OnInit {
     this.form = new FormGroup({
       identifier: this.createIdentifierArray(this.dataProduct?.identifier),
     });
+    setTimeout(() => {
+      this.snackbarService.openSnackbar(
+        `Please save changes of each Persistent Identifier.`,
+        'close',
+        SnackbarType.WARNING,
+        12000,
+        ['snackbar', 'mat-toolbar', 'snackbar-warning'],
+      );
+    }, 500);
     if (this.dataProduct?.status === Status.PUBLISHED || this.dataProduct?.status === Status.ARCHIVED) {
       this.form.disable();
       this.disabled = true;

@@ -1,12 +1,12 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Group } from 'generated/backofficeSchemas';
-import { CacheableEndpoint } from 'src/apiAndObjects/_lib_code/api/cacheableEndpoint.abstract';
+import { Endpoint } from 'src/apiAndObjects/_lib_code/api/endpoint.abstract';
 import { RequestMethod } from 'src/apiAndObjects/_lib_code/api/requestMethod.enum';
 import { GroupsDataSource } from 'src/apiAndObjects/objects/data-source/groupsDataSource';
 import { PersistorService, StorageType } from 'src/services/persistor.service';
 import { StorageKey } from 'src/utility/enums/storageKey.enum';
 
-export class GetAllGroups extends CacheableEndpoint<Array<Group>, GetAllGroupsParams, Group> {
+export class GetAllGroups extends Endpoint<Array<Group>, GetAllGroupsParams, Group> {
   private persistorService: PersistorService = new PersistorService();
 
   protected getCacheKey(params: GetAllGroupsParams): string {

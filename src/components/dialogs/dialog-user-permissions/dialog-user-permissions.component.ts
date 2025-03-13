@@ -83,6 +83,7 @@ export class DialogUserPermissionsComponent implements OnInit {
           'snackbar-success',
         ]);
         this.data.close();
+        this.data.dataOut = true;
       })
       .catch((err) => {
         console.error(err);

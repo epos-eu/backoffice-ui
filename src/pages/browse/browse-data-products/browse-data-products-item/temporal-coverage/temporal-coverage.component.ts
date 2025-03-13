@@ -15,6 +15,7 @@ import { LoadingService } from 'src/services/loading.service';
 import { Entity } from 'src/utility/enums/entity.enum';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { StateChangeService } from 'src/services/stateChange.service';
+import { SnackbarService, SnackbarType } from 'src/services/snackbar.service';
 
 @Component({
   selector: 'app-temporal-coverage',
@@ -61,6 +62,7 @@ export class TemporalCoverageComponent {
     private readonly spatialTemporalEntityExecutionService: SpatialTemporalEntityExecutionService,
     private readonly loadingService: LoadingService,
     private readonly stateChangeService: StateChangeService,
+    private readonly snackbarService: SnackbarService,
   ) {}
 
   private initTemporalCoverage(temporalExent: LinkedEntity[]) {
@@ -88,6 +90,15 @@ export class TemporalCoverageComponent {
         })
         .finally(() => this.loadingService.setShowSpinner(false));
     });
+    setTimeout(() => {
+      this.snackbarService.openSnackbar(
+        `Please save any changes to the Temporal Extent.`,
+        'close',
+        SnackbarType.WARNING,
+        12000,
+        ['snackbar', 'mat-toolbar', 'snackbar-warning'],
+      );
+    }, 500);
   }
 
   private initSubscriptions() {

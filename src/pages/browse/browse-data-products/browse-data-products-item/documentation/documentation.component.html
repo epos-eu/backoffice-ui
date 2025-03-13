@@ -74,6 +74,7 @@
   color="primary"
   (click)="handleCreate()"
   [disabled]="disabled"
+  [hidden]="getControls('documentations').length >= 1"
 >
   Add Documentation
 </button>

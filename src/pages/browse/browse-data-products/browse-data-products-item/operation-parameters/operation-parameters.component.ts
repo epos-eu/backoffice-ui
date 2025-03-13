@@ -35,12 +35,12 @@ export class OperationParametersComponent implements OnInit {
   public showAddParamButton!: boolean;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private apiService: ApiService,
-    private entityExecutionService: EntityExecutionService,
-    private dialogService: DialogService,
-    private stateChangeService: StateChangeService,
-    private formService: ParametersFormService,
+    private readonly formBuilder: FormBuilder,
+    private readonly apiService: ApiService,
+    private readonly entityExecutionService: EntityExecutionService,
+    private readonly dialogService: DialogService,
+    private readonly stateChangeService: StateChangeService,
+    private readonly formService: ParametersFormService,
   ) {
     this.stateChangeService.currentDataProductStateObs.subscribe((state: DataProduct['status'] | null) => {
       if (state == null || state === Status.PUBLISHED || state === Status.ARCHIVED || state === Status.DISCARDED) {
@@ -74,6 +74,7 @@ export class OperationParametersComponent implements OnInit {
     }
     // Update parent component with latest params to allow creation of URI template;
     this.mappingVals.next(this.paramsToUpdate);
+
     this.entityExecutionService.setActiveMappingArr(this.paramsToUpdate);
   }
 
@@ -180,10 +181,6 @@ export class OperationParametersComponent implements OnInit {
   public ngOnInit(): void {
     this.initData();
   }
-
-  // public cacheParam(updatedMapping: LinkedEntity[]) {
-  //   this.formService.cacheParam(updatedMapping);
-  // }
 
   public handleSave(): void {
     this.entityExecutionService.handleOperationSave();

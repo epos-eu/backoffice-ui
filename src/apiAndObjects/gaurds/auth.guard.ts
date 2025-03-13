@@ -15,9 +15,9 @@ export class PermissionsService {
   ) {}
 
   public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const activeUser = this.activeUserService.getActiveUser();
+    const activeUser = inject(ActiveUserService).getActiveUser();
     if (activeUser?.groups?.length === 0) {
-      this.router.navigate(['browse/groups']);
+      this.router.navigate(['groups']);
       this.snackbarService.openSnackbar('Please join or create a group.', 'close', SnackbarType.WARNING, 6000, [
         'snackbar',
         'mat-toolbar',
