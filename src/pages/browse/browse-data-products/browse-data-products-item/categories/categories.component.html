@@ -3,7 +3,7 @@
   *ngIf="form"
 >
   <mat-form-field>
-    <mat-label>{{ loading ? 'Loading...' : '' }}</mat-label>
+    <mat-label>{{ loading ? 'Loading...' : 'Category Scheme' }}</mat-label>
     <mat-select
       [(ngModel)]="selectedCategoryScheme"
       formControlName="categoryScheme"
@@ -20,7 +20,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>{{ loading ? 'Loading...' : '' }}</mat-label>
+    <mat-label>{{ loading ? 'Loading...' : 'Category' }}</mat-label>
     <mat-select
       [(ngModel)]="selectedCategories"
       formControlName="category"
