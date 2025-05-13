@@ -386,6 +386,11 @@ export type CategoryScheme = {
   versionId?: string;
 };
 
+export type Configuration = {
+  configuration?: string;
+  id?: string;
+};
+
 export type ContactPoint = {
   /**
    * Comment of the user when on commit
@@ -735,10 +740,16 @@ export type DiscoveryItem = {
   availableFormats?: AvailableFormat[];
   categories?: string[];
   /**
+   * @format date-time
+   */
+  changeDate?: string;
+  /**
    * @uniqueItems true
    */
   dataprovider?: string[];
   description?: string;
+  editorFullName?: string;
+  editorId?: string;
   /**
    * @uniqueItems true
    */
@@ -746,6 +757,7 @@ export type DiscoveryItem = {
   href?: string;
   hrefExtended?: string;
   id?: string;
+  metaId?: string;
   /**
    * @uniqueItems true
    */
@@ -841,7 +853,6 @@ export type Distribution = {
    * list of group ids which the entity belong
    */
   groups?: string[];
-  hasQualityAnnotation?: string;
   href?: string;
   hrefExtended?: string;
   id?: string;
@@ -893,6 +904,7 @@ export type Distribution = {
   operationid?: string;
   parameters?: ServiceParameter[];
   productid?: string;
+  qualityAssurance?: string;
   scienceDomain?: string[];
   serviceDescription?: string;
   serviceDocumentation?: string;
@@ -947,6 +959,12 @@ export type Distribution = {
    * @example 7346238746372
    */
   versionId?: string;
+  versioningStatus?:
+    | "ARCHIVED"
+    | "DISCARDED"
+    | "DRAFT"
+    | "SUBMITTED"
+    | "PUBLISHED";
 };
 
 export type Documentation = {
@@ -1152,6 +1170,35 @@ export type Element = {
 export type Email = {
   bodyText?: string;
   subject?: string;
+};
+
+export type Environment = {
+  accessurl?: string;
+  additionalInformation?: string;
+  created?: string;
+  description?: string;
+  environmentid?: string;
+  name?: string;
+  resources?: ItemInfo[];
+  serviceid?: string;
+  status?: "READY" | "CREATING" | "UPDATING" | "DELETING" | "NOT_READY";
+  unitid?: string;
+  updated?: string;
+  userid?: string;
+};
+
+export type EnvironmentCreated = {
+  accessURL?: string;
+  description?: string;
+  environmentid?: string;
+  name?: string;
+};
+
+export type EnvironmentDeleted = {
+  accessURL?: string;
+  description?: string;
+  environmentid?: string;
+  name?: string;
 };
 
 export type EposStyleObject = {
@@ -1432,6 +1479,22 @@ export type Identifier = {
   versionId?: string;
 };
 
+export type ItemInfo = {
+  description?: string;
+  format?: string;
+  itemid?: string;
+  name?: string;
+  resourceid?: string;
+  status?: "LOADED" | "NOT_LOADED";
+  url?: string;
+  version?: string;
+};
+
+export type JobCreated = {
+  environmentid?: string;
+  message?: string;
+};
+
 export type KeyCreated = {
   key: string;
 };
@@ -1466,6 +1529,18 @@ export type LinkedEntity = {
    * @example 12414324252352
    */
   uid?: string;
+};
+
+export type LinkedResponse = {
+  /**
+   * @uniqueItems true
+   */
+  items?: DiscoveryItem[];
+};
+
+export type ListOfServices = {
+  services?: Service[];
+  type?: string;
 };
 
 export type Location = {
@@ -1717,6 +1792,7 @@ export type Marker = {
 
 export type ModelConfiguration = {
   configuration: string;
+  id?: string;
 };
 
 export type MonitoringBean = {
@@ -2033,6 +2109,18 @@ export type OrganizationBean = {
   url?: string;
 };
 
+export type Parameter = {
+  label?: string;
+  property?: string;
+};
+
+export type ParametersResponse = {
+  /**
+   * @uniqueItems true
+   */
+  items?: Parameter[];
+};
+
 export type PeriodOfTime = {
   /**
    * Comment of the user when on commit
@@ -2134,6 +2222,14 @@ export type SearchResponse = {
   errorMessage?: string;
   filters?: NodeFilters[];
   results?: Node;
+};
+
+export type Service = {
+  description?: string;
+  href?: string;
+  id?: string;
+  name?: string;
+  provider?: string;
 };
 
 export type ServiceParameter = {
@@ -2509,4 +2605,165 @@ export type WebService = {
    * @example 7346238746372
    */
   versionId?: string;
+};
+
+export type WebserviceProcessing = {
+  availableContactPoints?: AvailableContactPoints[];
+  availableFormats?: AvailableFormat[];
+  categories?: {
+    [key: string]: string[];
+  };
+  dataProvider?: DataServiceProvider[];
+  dependecyServices?: string[];
+  description?: string;
+  distributionid?: string;
+  doi?: string[];
+  downloadURL?: string;
+  frequencyUpdate?: string;
+  hasQualityAnnotation?: string;
+  href?: string;
+  id?: string;
+  internalID?: string[];
+  keywords?: string[];
+  license?: string;
+  methodEndpoint?: {
+    [key: string]: string;
+  };
+  methodOperationId?: {
+    [key: string]: string;
+  };
+  methodServiceParameters?: {
+    [key: string]: ServiceParameter[];
+  };
+  productid?: string;
+  scienceDomain?: string[];
+  serviceDescription?: string;
+  serviceName?: string;
+  serviceProvider?: DataServiceProvider;
+  serviceSpatial?: SpatialInfo;
+  serviceTemporalCoverage?: TemporalCoverage;
+  serviceType?: string[];
+  spatial?: SpatialInfo;
+  temporalCoverage?: TemporalCoverage;
+  title?: string;
+  type?: string;
+  uid?: string;
+};
+
+export type MainHTTPError = {
+  /**
+   * @example can't connect to database
+   */
+  error?: string;
+};
+
+export type MainOK = {
+  /**
+   * @example sync started
+   */
+  message?: string;
+};
+
+export type ModelPlugin = {
+  /**
+   * arguments for the execution (if needed (like the main java class name))
+   */
+  arguments?: string;
+  /**
+   * a description of the plugin
+   */
+  description?: string;
+  /**
+   * if the plugin is enabled aka if it can be used
+   */
+  enabled?: boolean;
+  /**
+   * the path for the executable
+   */
+  executable?: string;
+  /**
+   * the id of the plugin (generated when the plugin is created)
+   */
+  id?: string;
+  /**
+   * if the plugin is currently installed
+   */
+  installed?: boolean;
+  /**
+   * the name of the plugin
+   */
+  name?: string;
+  /**
+   * the url from which to clone the repository
+   */
+  repository?: string;
+  /**
+   * the runtime (binary, java, python, ...)
+   */
+  runtime?: ModelSupportedRuntimes;
+  /**
+   * the name of the branch if version_type is branch or the tag number if it is tag
+   */
+  version?: string;
+  /**
+   * either 'branch' or 'tag'
+   */
+  version_type?: ModelVersionType;
+};
+
+export type ModelPluginRelation = {
+  /**
+   * the id of the relation (generated when the relation is created)
+   */
+  id?: string;
+  /**
+   * the file format expected by the plugin for the input
+   */
+  input_format?: string;
+  /**
+   * the file format expected as the output from the plugin execution
+   */
+  output_format?: string;
+  /**
+   * the id of the plugin (from the plugin table)
+   */
+  plugin_id?: string;
+  /**
+   * the instanceId of the distribution
+   */
+  relation_id?: string;
+};
+
+export type ModelSupportedRuntimes = "binary" | "java" | "python";
+
+export type ModelVersionType = "branch" | "tag";
+
+export type RoutesHTTPError = {
+  /**
+   * @example 400
+   */
+  code?: number;
+  /**
+   * @example status bad request
+   */
+  message?: string;
+};
+
+export type RoutesPlugin = {
+  arguments?: string;
+  description?: string;
+  enabled?: boolean;
+  executable?: string;
+  name?: string;
+  repository?: string;
+  runtime?: ModelSupportedRuntimes;
+  version?: string;
+  version_type?: ModelVersionType;
+};
+
+export type RoutesPluginRelationUpdate = {
+  input_format?: string;
+  output_format?: string;
+  plugin_id?: string;
+  relation_id?: string;
 };
