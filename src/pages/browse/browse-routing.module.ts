@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/components/layout/layout.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
-import { BrowseHomeComponent } from './browse-home/browse-home.component';
 import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
@@ -13,17 +12,11 @@ import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
-import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutComponent,
-    children: [{ path: 'home', component: BrowseHomeComponent }],
-  },
   {
     path: EntityEndpointValue.WEBSERVICE,
     component: LayoutComponent,
@@ -47,7 +40,6 @@ const routes: Routes = [
     children: [
       { path: '', component: BrowseDistributionComponent },
       { path: 'details/:metaId/:id', component: BrowseDistributionItemComponent },
-      { path: 'new', component: CreateDistributionItemComponent },
     ],
   },
   {

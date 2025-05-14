@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
-import { BrowseHomeComponent } from './browse-home/browse-home.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseRoutingModule } from './browse-routing.module';
 import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
@@ -14,7 +13,6 @@ import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
-import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
 import { SideNavigationModule } from 'src/components/side-navigation/side-navigation.module';
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
@@ -24,7 +22,6 @@ import { SkeletonLoaderComponent } from 'src/components/skeleton-loader/skeleton
 
 @NgModule({
   declarations: [
-    BrowseHomeComponent,
     BrowseWebServicesComponent,
     BrowseOrganizationComponent,
     BrowseOrganizationItemComponent,
@@ -34,7 +31,6 @@ import { SkeletonLoaderComponent } from 'src/components/skeleton-loader/skeleton
     BrowseGroupsComponent,
     BrowseDistributionComponent,
     BrowseDistributionItemComponent,
-    CreateDistributionItemComponent,
     CreateWebServiceItemComponent,
     BrowseRevisionsComponent,
   ],
