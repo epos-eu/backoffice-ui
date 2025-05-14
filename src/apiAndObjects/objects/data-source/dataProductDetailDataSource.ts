@@ -1,6 +1,6 @@
 import { Status } from 'src/utility/enums/status.enum';
 import { BaseObject } from '../../_lib_code/objects/baseObject';
-import { Group, LinkedEntity, DataProduct as DataProductType } from 'generated/backofficeSchemas';
+import { LinkedEntity, DataProduct as DataProductType } from 'generated/backofficeSchemas';
 export class DataProductDetailDataSource extends BaseObject implements DataProductType {
   public static readonly KEYS = {
     INSTANCE_ID: 'instanceId',
