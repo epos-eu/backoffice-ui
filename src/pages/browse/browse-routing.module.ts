@@ -10,14 +10,11 @@ import { BrowseWebServicesComponent } from './browse-web-services/browse-web-ser
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
 import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
-import { BrowseContactPointComponent } from './browse-contact-point/browse-contact-point.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
 import { BrowseDistributionItemComponent } from './browse-distribution/browse-distribution-item/browse-distribution-item.component';
 import { CreateDistributionItemComponent } from './browse-distribution/create-distribution-item/create-distribution-item.component';
 import { CreateWebServiceItemComponent } from './browse-web-services/create-web-service-item/create-web-service-item.component';
-import { BrowseContactPointItemComponent } from './browse-contact-point/browse-contact-point-item/browse-contact-point-item.component';
-import { CreateContactPointItemComponent } from './browse-contact-point/create-contact-point-item/create-contact-point-item.component';
 import { EntityEndpointValue } from 'src/utility/enums/entityEndpointValue.enum';
 import { BrowseRevisionsComponent } from './browse-revisions/browse-revisions.component';
 
@@ -51,15 +48,6 @@ const routes: Routes = [
       { path: '', component: BrowseDistributionComponent },
       { path: 'details/:metaId/:id', component: BrowseDistributionItemComponent },
       { path: 'new', component: CreateDistributionItemComponent },
-    ],
-  },
-  {
-    path: EntityEndpointValue.CONTACT_POINT,
-    component: LayoutComponent,
-    children: [
-      { path: '', component: BrowseContactPointComponent },
-      { path: 'details/:metaId/:id', component: BrowseContactPointItemComponent },
-      { path: 'new', component: CreateContactPointItemComponent },
     ],
   },
   {
