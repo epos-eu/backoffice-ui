@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseRoutingModule } from './browse-routing.module';
-import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
-import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { SnackbarComponent } from 'src/components/snackbar/snackbar.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
-import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { ComponentsModule } from 'src/components/components.module';
@@ -23,11 +20,8 @@ import { SkeletonLoaderComponent } from 'src/components/skeleton-loader/skeleton
 @NgModule({
   declarations: [
     BrowseWebServicesComponent,
-    BrowseOrganizationComponent,
-    BrowseOrganizationItemComponent,
     BrowseWebServicesItemComponent,
     SnackbarComponent,
-    BrowseUsersComponent,
     BrowseGroupsComponent,
     BrowseDistributionComponent,
     BrowseDistributionItemComponent,

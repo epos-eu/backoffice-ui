@@ -2,12 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from 'src/components/layout/layout.component';
 import { BrowseDataProductsComponent } from './browse-data-products/browse-data-products.component';
-import { BrowseOrganizationItemComponent } from './browse-organization/browse-organization-item/browse-organization-item.component';
-import { BrowseOrganizationComponent } from './browse-organization/browse-organization.component';
 import { BrowseWebServicesItemComponent } from './browse-web-services/browse-web-services-item/browse-web-services-item.component';
 import { BrowseWebServicesComponent } from './browse-web-services/browse-web-services.component';
 import { BrowseDataProductsItemComponent } from './browse-data-products/browse-data-products-item/browse-data-products-item.component';
-import { BrowseUsersComponent } from './browse-users/browse-users.component';
 import { BrowseGroupsComponent } from './browse-groups/browse-groups.component';
 import { BrowseDistributionComponent } from './browse-distribution/browse-distribution.component';
 import { CreateDataProductItemComponent } from './browse-data-products/create-data-product-item/create-data-product-item.component';
@@ -24,14 +21,6 @@ const routes: Routes = [
       { path: '', component: BrowseWebServicesComponent },
       { path: 'details/:metaId/:id', component: BrowseWebServicesItemComponent },
       { path: 'new', component: CreateWebServiceItemComponent },
-    ],
-  },
-  {
-    path: EntityEndpointValue.ORGANIZATION,
-    component: LayoutComponent,
-    children: [
-      { path: '', component: BrowseOrganizationComponent },
-      { path: 'details/:metaId/:id', component: BrowseOrganizationItemComponent },
     ],
   },
   {
@@ -55,11 +44,6 @@ const routes: Routes = [
     path: 'revisions',
     component: LayoutComponent,
     children: [{ path: 'compare/:id', component: BrowseRevisionsComponent }],
-  },
-  {
-    path: 'users',
-    component: LayoutComponent,
-    children: [{ path: '', component: BrowseUsersComponent }],
   },
   {
     path: 'groups',
