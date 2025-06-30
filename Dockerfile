@@ -17,7 +17,7 @@ ENV API_HOST http://gateway:5000/api
 
 COPY --from=builder /home/node/app/dist /home/node/app
 
-COPY nginx/sites-enabled.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /home/node/app
 
