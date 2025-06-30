@@ -1,0 +1,57 @@
+<ng-container *ngIf="supportedOperations; else empty">
+  <form [formGroup]="form">
+    <mat-form-field
+      appearance="fill"
+      [style.width.%]="100"
+    >
+      <mat-label>Service URI template</mat-label>
+      <input
+        matInput
+        placeholder="Service URI template"
+        formControlName="template"
+      />
+    </mat-form-field>
+    <mat-form-field
+      appearance="fill"
+      [style.width.%]="100"
+    >
+      <mat-label>Preview of the URI template with default values</mat-label>
+      <input
+        matInput
+        placeholder="Preview of the URI template with default values"
+        formControlName="preview"
+        readonly
+      />
+    </mat-form-field>
+
+    <button
+      mat-stroked-button
+      color="primary"
+      class="uri-preview"
+      (click)="handleCreateURIPreview()"
+    >
+      Create URI preview
+    </button>
+
+    <p>Parameters</p>
+    <app-operation-parameters
+      [supportedOperations]="supportedOperations"
+      [templateInput]="this.form.get('template')?.value"
+      (template)="templateSrc.next($event)"
+      (mappingVals)="mappingSrc.next($event)"
+    ></app-operation-parameters>
+
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="handleAddOperation()"
+      *ngIf="supportedOperations.length === 0"
+      [disabled]="disableFeatures"
+    >
+      Add Operation
+    </button>
+  </form>
+</ng-container>
+<ng-template #empty>
+  <p class="notice">Couldn't fetch supported operations data.</p>
+</ng-template>

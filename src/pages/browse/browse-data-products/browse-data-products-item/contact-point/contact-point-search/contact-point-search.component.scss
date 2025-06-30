@@ -1,0 +1,15 @@
+form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.contactpoint-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+mat-select {
+  margin-top: 0.5rem;
+}

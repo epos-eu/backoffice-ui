@@ -1,0 +1,133 @@
+<form
+  [formGroup]="form"
+  *ngIf="form"
+>
+  <mat-form-field
+    appearance="fill"
+    [floatLabel]="floatLabelControl.value"
+    [style.width.%]="100"
+  >
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      name="name"
+      [ngStyle]="{ 'line-height': '1.4' }"
+      formControlName="name"
+      [value]="webservice?.name"
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="fill"
+    [floatLabel]="floatLabelControl.value"
+  >
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      name="description"
+      [ngStyle]="{ 'line-height': '1.4' }"
+      formControlName="description"
+      [value]="webservice?.description"
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="service-provider">
+    <mat-label>{{ serviceProvidersLoading ? 'Loading...' : 'Service Provider' }}</mat-label>
+    <mat-select
+      [(ngModel)]="selectedServiceProvider"
+      [ngModelOptions]="{ standalone: true }"
+      [compareWith]="compareWithFn"
+      (selectionChange)="handleUpdateServicePoint()"
+      [disabled]="disabled || serviceProvidersLoading"
+    >
+      <mat-option
+        *ngFor="let provider of serviceProviders | orderBy : { property: 'legalName', direction: 1 }"
+        [value]="provider"
+      >
+        {{ provider.legalName ? provider.legalName[0] : '' }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div
+    class="grid"
+    *ngIf="webservice"
+  >
+    <mat-accordion>
+      <div class="grid-item">
+        <mat-expansion-panel #mepDocs="matExpansionPanel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Documentation</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @defer (when mepDocs.expanded) {
+          <app-documentation
+            [dataProduct]="dataProduct"
+            [webservice]="webservice"
+          ></app-documentation>
+          }
+        </mat-expansion-panel>
+      </div>
+      <div class="grid-item">
+        <mat-expansion-panel #mepSpatial="matExpansionPanel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Spatial Coverage</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @defer (when mepSpatial.expanded) {
+          <app-spatial-coverage
+            [mapId]="'webservice' + distributionIndex.toString()"
+            [spatialExtentInput]="webservice.spatialExtent"
+            [dataProductIsParent]="false"
+          ></app-spatial-coverage>
+          }
+        </mat-expansion-panel>
+      </div>
+      <div class="grid-item">
+        <mat-expansion-panel #mepTemporal="matExpansionPanel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Temporal Coverage</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @defer (when mepTemporal.expanded) {
+          <app-temporal-coverage
+            [dataProductIsParent]="false"
+            [parent]="webservice"
+          ></app-temporal-coverage>
+          }
+        </mat-expansion-panel>
+      </div>
+      <div class="grid-item">
+        <mat-expansion-panel #mepContacts="matExpansionPanel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Contact Points</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @defer (when mepContacts.expanded) {
+          <app-contact-point [contactPoint]="webservice.contactPoint"></app-contact-point>
+          }
+        </mat-expansion-panel>
+      </div>
+      <div class="grid-item">
+        <mat-expansion-panel #mepOperations="matExpansionPanel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <p class="subtitle">Supported Operations</p>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @defer (when mepOperations.expanded) {
+          <app-supported-operation
+            [supportedOperations]="webservice.supportedOperation"
+            [webservice]="webservice"
+            [disableFeatures]="disabled"
+          ></app-supported-operation>
+          }
+        </mat-expansion-panel>
+      </div>
+    </mat-accordion>
+  </div>
+</form>

@@ -1,0 +1,72 @@
+# Automatically replace the deploy paths below (/deploy/path) with the root url path
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: epos-backoffice-gui
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: epos-backoffice-gui
+  template:
+    metadata:
+      labels:
+        app: epos-backoffice-gui
+        deploy-timestamp: DEPLOY_TIMESTAMP
+    spec:
+      imagePullSecrets:
+        - name: epos-ics-c-tests-docker-registry-secret # this line is important!
+      containers:
+        - name: epos-backoffice-gui-container
+          image: epos-ci.brgm.fr:5005/epos/epos-backoffice-gui:${CI_COMMIT_REF_SLUG}
+          env:
+            - name: BASE_URL
+              value: ${BASE_URL}
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: '1'
+              memory: 200Mi
+            requests:
+              cpu: '1'
+              memory: 100Mi
+          ports:
+            - containerPort: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: epos-backoffice-gui-service
+  labels:
+    app: epos-backoffice-gui
+spec:
+  selector:
+    app: epos-backoffice-gui
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: epos-backoffice-gui-ingress
+  labels:
+    app: epos-backoffice-gui
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ics-c.epos-ip.org
+      http:
+        paths:
+          - path: /testpath/backoffice/
+            pathType: Prefix
+            backend:
+              service:
+                name: epos-backoffice-gui-service
+                port:
+                  number: 80

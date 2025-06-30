@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:js-app", "npm:unpublishSafe"],
+  "npm": {
+    "minimumReleaseAge": "3 days"
+  },
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["eslint"],
+      "groupName": "eslint"
+    },
+    {
+      "matchPackagePatterns": ["angular"],
+      "groupName": "angular"
+    },
+    {
+      "groupName": "definitelyTyped",
+      "matchPackagePrefixes": ["@types/"]
+    }
+  ],
+  "baseBranches": ["develop"]
+}

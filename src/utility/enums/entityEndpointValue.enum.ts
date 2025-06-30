@@ -1,0 +1,16 @@
+export enum EntityEndpointValue {
+  DATA_PRODUCT = 'dataproduct',
+  ORGANIZATION = 'organization',
+  USER = 'user',
+  PERSON = 'person',
+  CONTACT_POINT = 'contactpoint',
+  WEBSERVICE = 'webservice',
+  DISTRIBUTION = 'distribution',
+  OPERATION = 'operation',
+  GROUP = 'group',
+  PERIOD_OF_TIME = 'periodoftime',
+  LOCATION = 'location',
+  IDENTIFIER = 'identifier',
+  MAPPING = 'mapping',
+  DOCUMENTATION = 'documentation',
+}

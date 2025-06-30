@@ -1,0 +1,40 @@
+<div class="wrapper">
+  <h1 mat-dialog-title>Confirm</h1>
+  <div mat-dialog-content>
+    <p>Please select a Group to accociate this Data Product with.</p>
+  </div>
+
+  <mat-form-field>
+    <mat-select
+      [(value)]="selectedGroup"
+      #select
+    >
+      <mat-option
+        *ngFor="let group of groups"
+        [value]="group"
+      >
+        {{ group.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <span><strong>Description:</strong> {{ selectedGroup ? selectedGroup.description : '...' }} </span>
+
+  <div mat-dialog-actions>
+    <button
+      mat-stroked-button
+      (click)="handleCancel()"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      cdkFocusInitial
+      (click)="handleCreate()"
+      disabled="{{ null == selectedGroup }}"
+    >
+      Create
+    </button>
+  </div>
+</div>

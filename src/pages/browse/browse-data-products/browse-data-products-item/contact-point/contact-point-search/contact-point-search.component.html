@@ -1,0 +1,50 @@
+<div class="contactpoint-item">
+  <form
+    [formGroup]="form"
+    *ngIf="form && !form.disabled"
+  >
+    <mat-form-field class="contact-select">
+      <mat-label>Search contact points</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="contactPoint"
+        [matAutocomplete]="auto"
+      />
+      <mat-hint>Start typing to find a contact point</mat-hint>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="setAutocompleteValToForm($event)"
+      >
+        <mat-option
+          *ngFor="let person of personFilteredOptions | async"
+          [value]="person"
+        >
+          {{ person?.givenName }} {{ person?.familyName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option
+          *ngFor="let item of contactPointRoleOptions"
+          [value]="item.id"
+        >
+          {{ item.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+  @if (form && !form.disabled) {
+  <button
+    color="primary"
+    aria-label="Add contact point"
+    mat-stroked-button
+    (click)="handleAddContactPoint()"
+  >
+    Add Contact Point
+  </button>
+  }
+</div>

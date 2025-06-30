@@ -1,0 +1,74 @@
+<mat-nav-list>
+  <div class="bottom">
+    <div class="actions">
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.status === status.DRAFT"
+        mat-stroked-button
+        color="primary"
+        (click)="handleSave()"
+      >
+        Save Data Product
+      </button>
+      <!-- <div class="error">
+        <mat-error *ngIf="this.activeDataProduct?.distribution?.length === 0">
+          Please create and save a Distribution
+        </mat-error>
+      </div> -->
+      <button
+        *ngIf="
+          activeDataProduct &&
+          (activeDataProduct.status === status.PUBLISHED || activeDataProduct.status === status.ARCHIVED)
+        "
+        mat-raised-button
+        color="primary"
+        (click)="handleCreateDataProductFromPublishedArchivedDiscardedEntity()"
+      >
+        Create New Draft
+      </button>
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.status === status.DRAFT"
+        mat-flat-button
+        color="primary"
+        (click)="handleChangeState(status.SUBMITTED)"
+        [disabled]="this.activeDataProduct.distribution?.length === 0"
+      >
+        Submit
+      </button>
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.status === status.SUBMITTED"
+        mat-flat-button
+        color="primary"
+        (click)="handleChangeState(status.PUBLISHED)"
+      >
+        Publish
+      </button>
+
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.status === status.SUBMITTED"
+        mat-flat-button
+        color="warn"
+        (click)="handleChangeState(status.DISCARDED)"
+      >
+        Reject
+      </button>
+
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.status === status.DISCARDED"
+        mat-flat-button
+        color="primary"
+        (click)="handleCreateDataProductFromPublishedArchivedDiscardedEntity()"
+      >
+        Revert to Draft
+      </button>
+
+      <button
+        *ngIf="activeDataProduct && activeDataProduct.status === status.PUBLISHED"
+        mat-flat-button
+        color="warn"
+        (click)="handleChangeState(status.ARCHIVED)"
+      >
+        Archive
+      </button>
+    </div>
+  </div>
+</mat-nav-list>

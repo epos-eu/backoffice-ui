@@ -1,0 +1,272 @@
+{
+  "comment": "test save operation 2",
+  "dataProduct": {
+    "instanceId": "",
+    "changeTimestamp": "2022-08-04T07:04:21.155",
+    "editorId": "ingestor",
+    "state": "PUBLISHED",
+    "toBeDelete": "false",
+    "uid": "test",
+    "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+    "accrualPeriodicity": "http://purl.org/cld/freq/continuous",
+    "category": ["epos:Magnetotellurics"],
+    "contactPoint": [
+      {
+        "instanceId": "d628a3d6-5f67-4a82-b7f8-6988fa029c28",
+        "uid": "https://orcid.org/0000-0002-5600-5375/contactPoint",
+        "entityType": "ContactPoint"
+      }
+    ],
+    "description": [
+      "Magnetotellurics (MT) is an electromagnetic geophysical method for inferring the earth's subsurface electrical conductivity from measurements of natural geoelectromagnetic field variations at the Earth's surface. Magnetotelluric time series (MTS) are recordings of the components of naturally occuring electromagnetic field at the Earth's surface measued at certain location."
+    ],
+    "distribution": [
+      {
+        "instanceId": "821ffada-d961-4989-b892-dd49f3577802",
+        "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004_10_13/MT/Distribution",
+        "entityType": "Distribution"
+      },
+      {
+        "instanceId": "d4a590a1-8d16-4cdc-a538-4ae95b6c50f9",
+        "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004/MTS/Distribution",
+        "entityType": "Distribution"
+      }
+    ],
+    "hasPart": [],
+    "identifier": [
+      {
+        "type": "DDSS-ID",
+        "identifier": "WP13-DDSS-004"
+      }
+    ],
+    "isPartOf": [],
+    "issued": "2019-01-01T00:00:00",
+    "keywords": "Magnetic survey",
+    "modified": "2019-01-01T00:00:00",
+    "provenance": [],
+    "publisher": [
+      {
+        "uid": "https://www.ltu.se/org/sbn",
+        "entityType": "Organization"
+      }
+    ],
+    "spatialExtent": [
+      {
+        "location": "POLYGON((180.0 -90.0, -180.0 -90.0, -180.0 90.0, 180.0 90.0, 180.0 -90.0))"
+      }
+    ],
+    "temporalExtent": [
+      {
+        "startDate": "1971-01-01T00:00:00"
+      }
+    ],
+    "title": ["Magnetotelluric time series (MTS)"],
+    "type": "http://purl.org/dc/dcmitype/Collection",
+    "versionInfo": "1.0.0"
+  },
+  "distributions": [
+    {
+      "instanceId": "821ffada-d961-4989-b892-dd49f3577802",
+      "changeTimestamp": "2022-08-04T07:04:21.228",
+      "state": "PUBLISHED",
+      "toBeDelete": "false",
+      "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004_10_13/MT/Distribution",
+      "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+      "accessService": {
+        "instanceId": "b7a2ce01-3f04-4e92-a1ac-a542514da707",
+        "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004_10_13/MT/Webservice",
+        "entityType": "WebService"
+      },
+      "accessURL": ["https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004_10_13/MT/Operation"],
+      "description": ["Magnetotelluric sites locations"],
+      "downloadURL": [],
+      "format": "http://publications.europa.eu/resource/authority/file-type/JSON",
+      "issued": "2019-01-01T00:00:00",
+      "modified": "2019-01-01T00:00:00",
+      "title": ["Magnetotelluric sites view"],
+      "type": "http://publications.europa.eu/resource/authority/distribution-type/WEB_SERVICE"
+    },
+    {
+      "instanceId": "d4a590a1-8d16-4cdc-a538-4ae95b6c50f9",
+      "changeTimestamp": "2022-08-04T07:04:21.143",
+      "state": "PUBLISHED",
+      "toBeDelete": "false",
+      "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004/MTS/Distribution",
+      "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+      "accessService": {
+        "instanceId": "6f34bd1e-1a51-4a4c-b2d4-2e1d869c4a4f",
+        "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004/MTS/Webservice",
+        "entityType": "WebService"
+      },
+      "accessURL": ["https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004/MTS/Operation"],
+      "description": [
+        "Magnetotelluric time series (MTS) are recordings of the components of naturally occuring electromagnetic field at the Earth's surface measured at certain geographic location."
+      ],
+      "downloadURL": [],
+      "format": "http://publications.europa.eu/resource/authority/file-type/JSON",
+      "issued": "2019-01-01T00:00:00",
+      "modified": "2019-01-01T00:00:00",
+      "title": ["Magnetotelluric time series"],
+      "type": "http://publications.europa.eu/resource/authority/distribution-type/WEB_SERVICE"
+    }
+  ],
+  "webServices": [
+    {
+      "instanceId": "b7a2ce01-3f04-4e92-a1ac-a542514da707",
+      "changeTimestamp": "2022-08-04T07:04:21.247",
+      "state": "PUBLISHED",
+      "toBeDelete": "false",
+      "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004_10_13/MT/Webservice",
+      "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+      "category": ["epos:Magnetotellurics"],
+      "contactPoint": [
+        {
+          "instanceId": "d628a3d6-5f67-4a82-b7f8-6988fa029c28",
+          "uid": "https://orcid.org/0000-0002-5600-5375/contactPoint",
+          "entityType": "ContactPoint"
+        }
+      ],
+      "dateModified": "2019-01-01T00:00:00",
+      "datePublished": "2019-01-01T00:00:00",
+      "description": "Magnetotellurics (MT) is an electromagnetic geophysical method for inferring the earth's subsurface electrical conductivity from measurements of natural geoelectromagnetic field variations at the Earth's surface. Publicly available data can be downloaded directly. For other data, enduser should contact the respective data owner.",
+      "documentation": [],
+      "entryPoint": "https://mt.bgs.ac.uk/",
+      "keywords": "Magnetic survey",
+      "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+      "title": "Magnetotelluric web service",
+      "provider": {
+        "uid": "https://www.ltu.se/org/sbn",
+        "entityType": "Organization"
+      },
+      "spatialExtent": [
+        {
+          "location": "POLYGON((180.0 -90.0, -180.0 -90.0, -180.0 90.0, 180.0 90.0, 180.0 -90.0))"
+        }
+      ],
+      "supportedOperation": [
+        {
+          "instanceId": "d0e2aa25-1d5e-4377-894c-a17e5ed3cfce",
+          "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004_10_13/MT/Operation",
+          "entityType": "Operation"
+        }
+      ],
+      "temporalExtent": [
+        {
+          "startDate": "1971-01-01T00:00:00"
+        }
+      ]
+    },
+    {
+      "instanceId": "6f34bd1e-1a51-4a4c-b2d4-2e1d869c4a4f",
+      "changeTimestamp": "2022-08-04T07:04:21.189",
+      "state": "PUBLISHED",
+      "toBeDelete": "false",
+      "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004/MTS/Webservice",
+      "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+      "category": ["epos:Magnetotellurics"],
+      "contactPoint": [
+        {
+          "instanceId": "d628a3d6-5f67-4a82-b7f8-6988fa029c28",
+          "uid": "https://orcid.org/0000-0002-5600-5375/contactPoint",
+          "entityType": "ContactPoint"
+        }
+      ],
+      "dateModified": "2019-01-01T00:00:00",
+      "datePublished": "2019-01-01T00:00:00",
+      "description": "Magnetotellurics (MT) is an electromagnetic geophysical method for inferring the earth's subsurface electrical conductivity from measurements of natural geoelectromagnetic field variations at the Earth's surface. Publicly available time series can be downloaded directly. For other data, enduser should contact the respective data owner.",
+      "documentation": [],
+      "entryPoint": "https://mt.bgs.ac.uk/",
+      "keywords": "Magnetic survey",
+      "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+      "title": "Magnetotelluric web service",
+      "provider": {
+        "uid": "https://www.ltu.se/org/sbn",
+        "entityType": "Organization"
+      },
+      "spatialExtent": [
+        {
+          "location": "POLYGON((180.0 -90.0, -180.0 -90.0, -180.0 90.0, 180.0 90.0, 180.0 -90.0))"
+        }
+      ],
+      "supportedOperation": [
+        {
+          "instanceId": "1f049b44-4a22-442e-9a3e-a30e9b722d14",
+          "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004/MTS/Operation",
+          "entityType": "Operation"
+        }
+      ],
+      "temporalExtent": [
+        {
+          "startDate": "1971-01-01T00:00:00"
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "instanceId": "d0e2aa25-1d5e-4377-894c-a17e5ed3cfce",
+      "changeTimestamp": "2022-08-04T07:04:21.277",
+      "state": "PUBLISHED",
+      "toBeDelete": "false",
+      "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004_10_13/MT/Operation",
+      "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+      "method": "GET",
+      "returns": ["application/geo+json"],
+      "template": "http://mt.research.ltu.se/MT/MT_sites_coordinates.geo.json",
+      "mapping": []
+    },
+    {
+      "instanceId": "1f049b44-4a22-442e-9a3e-a30e9b722d14",
+      "changeTimestamp": "2022-08-04T07:04:21.268",
+      "state": "PUBLISHED",
+      "toBeDelete": "false",
+      "uid": "https://www.epos-eu.org/epos-dcat-ap/GeoElectroMagnetism/WP13-DDSS-004/MTS/Operation",
+      "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+      "method": "GET",
+      "returns": ["application/json"],
+      "template": "https://mt.bgs.ac.uk/{project}/{survey}/TS/{project}{survey}_{site}.ts.json",
+      "mapping": [
+        {
+          "defaultValue": "EPOSMT",
+          "label": "Project name",
+          "paramValue": ["SIMBA", "SVEKA", "TOR", "EMMA", "MASCA", "EPOSMT", "BEAR"],
+          "range": "xsd:string",
+          "required": "true",
+          "variable": "project"
+        },
+        {
+          "defaultValue": "A01",
+          "label": "Site name",
+          "range": "xsd:string",
+          "required": "true",
+          "variable": "site"
+        },
+        {
+          "defaultValue": "2019",
+          "label": "Survey name",
+          "range": "xsd:string",
+          "required": "true",
+          "variable": "survey"
+        }
+      ]
+    }
+  ],
+  "contactPoints": [
+    {
+      "instanceId": "d628a3d6-5f67-4a82-b7f8-6988fa029c28",
+      "changeTimestamp": "2022-08-04T07:04:21.113",
+      "editorId": "ingestor",
+      "state": "PUBLISHED",
+      "toBeDelete": "false",
+      "uid": "https://orcid.org/0000-0002-5600-5375/contactPoint",
+      "fileProvenance": "/metadata-cache/EPOS-DCAT-AP_WP13_DDSS-004_MTS.ttl",
+      "email": ["maxim.smirnov@ltu.se"],
+      "language": ["en"],
+      "role": "contactPoint",
+      "person": {
+        "uid": "http://orcid.org/0000-0002-5600-5375"
+      },
+      "telephone": []
+    }
+  ]
+}

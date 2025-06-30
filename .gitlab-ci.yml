@@ -1,0 +1,61 @@
+### Kube Deploy Section ###
+
+variables:
+  DEPLOY_REF: backoffice-test-env # The git-ref for the default config
+  DEPLOY_VARS: '{
+    "GUI_IMAGE": "epos-gui/deploy:$CI_COMMIT_REF_SLUG",
+    "PROJECT_NAME": "$CI_PROJECT_PATH_SLUG",
+    "CI_COMMIT_REF_SLUG": "$CI_COMMIT_REF_SLUG",
+    "ENV_STAGE": "testing"
+    }' # PROJECT_NAME, CI_COMMIT_REF_SLUG and ENV_STAGE need to be provided as a minimum
+  DOCKER_IMAGE: 'node:22.11.0'
+
+include:
+  - project: 'epos/k8s-epos-deploy'
+    ref: master
+    file: '.gitlab-kube-include.yml'
+
+stages:
+  - build
+  - image
+  - deploy
+  - renovate
+
+build:
+  stage: build
+  image: ${DOCKER_IMAGE}
+  script:
+    - corepack enable
+    - corepack prepare pnpm@10.0.0 --activate
+    - pnpm config set store-dir /root/.pnpm-store/v3
+    - export NODE_OPTIONS='--max-old-space-size=8192'
+    - pnpm install
+    - pnpm run build -c production
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 2 hours
+  cache:
+    paths:
+      - node_modules/
+
+docker-build:
+  image: docker:stable
+  stage: image
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build -f Dockerfile -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+
+renovate:
+  stage: renovate
+  image: renovate/renovate:full
+  script:
+    - corepack prepare pnpm@10.0.0 --activate
+    - pnpm install
+    - pnpm exec renovate
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
