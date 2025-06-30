@@ -1,13 +1,17 @@
-FROM node:21-alpine3.17 as builder
+FROM node:22.11.0 as builder
 
 RUN mkdir -p /home/node/app/node_modules
 WORKDIR /home/node/app
 
 COPY . ./
 
-RUN npm install -g @angular/cli
-RUN npm install
-RUN node node_modules/.bin/ng build -c production
+
+RUN corepack enable
+RUN corepack prepare pnpm@10.0.0 --activate
+RUN pnpm config set store-dir /root/.pnpm-store/v3
+RUN export NODE_OPTIONS='--max-old-space-size=8192'
+RUN pnpm install
+RUN pnpm run build -c production
 
 FROM nginx:stable
 
