@@ -23,7 +23,7 @@ COPY --from=builder /home/node/app/dist/browser/ /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-CMD sed -i 's|<base href="/" />|<base href="'$BASE_URL'"/>|g' /usr/share/nginx/html/index.html && \
+CMD sed -i 's|<base href="/">|<base href="'$BASE_URL'">|g' /usr/share/nginx/html/index.html && \
     sed -i 's|^\(\s*\)rewrite ^/(.*)$ /$1 last;|\1rewrite ^'$BASE_URL'(.*)$ /$1 last;|g' /etc/nginx/conf.d/default.conf && \
     sed -i 's|http://gateway:5000/api|'$API_HOST'|g' /etc/nginx/conf.d/default.conf && \
     nginx -g "daemon off;"
