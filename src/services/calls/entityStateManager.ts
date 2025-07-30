@@ -132,7 +132,6 @@ export class EntityStateManager {
       initial.editorId,
       initial.fileProvenance,
       initial.hasPart,
-      initial.hasQualityAnnotation,
       initial.identifier,
       initial.instanceChangedId,
       initial.instanceId,

@@ -60,7 +60,6 @@ export class AaaiService {
 
   public isAuthenticated(): boolean {
     const accessToken = this.persistorService.getValueFromStorage(StorageType.SESSION_STORAGE, StorageKey.ACCESS_TOKEN);
-    console.log(accessToken);
     return accessToken != null;
   }
 

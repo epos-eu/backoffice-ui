@@ -1,28 +1,41 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/*
+         Copyright 2021 EPOS ERIC
+
+ Licensed under the Apache License, Version 2.0 (the License); you may not
+ use this file except in compliance with the License.  You may obtain a copy
+ of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an AS IS BASIS, WITHOUT
+ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ License for the specific language governing permissions and limitations under
+ the License.
+ */
 import { AuthConfig, OAuthService, UserInfo } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '../authProvider.interface';
-import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AAAIUser } from '../aaaiUser.interface';
 import { BasicUser } from './basicUser';
-import { Injector, inject } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LogService } from 'src/services/log.service';
 
 /** OAuth provider implementation */
+@Injectable()
 export class OAuthAuthenticationProvider implements AuthenticationProvider {
-  private static readonly EPOS_CLIENT = 'eposICS';
-  private static readonly CYFRONET_ROOT = 'https://aaai.epos-eu.org';
-  private static readonly CYFRONET_ISSUER = OAuthAuthenticationProvider.CYFRONET_ROOT + '/oauth2';
+  private static readonly EPOS_CLIENT = '2d7f667e-9d6c-4c09-ad15-ceec571ae554';
+  private static readonly CYFRONET_ROOT = 'https://login.staging.envri.eu/auth/realms/envri';
+  private static readonly CYFRONET_ISSUER = OAuthAuthenticationProvider.CYFRONET_ROOT + '';
   private static readonly REVOKE_ENDPOINT = OAuthAuthenticationProvider.CYFRONET_ISSUER + '/revoke';
   private static readonly REDIRECTION_PAGE = '/last-page-redirect';
 
   private readonly router: Router;
   private readonly http: HttpClient;
-  private readonly logger: LogService;
 
-  private updateUserProfileTimeout!: NodeJS.Timeout;
+  private updateUserProfileTimeout: NodeJS.Timeout;
 
   /** Current user */
   private readonly userProfileSource = new BehaviorSubject<null | AAAIUser>(null);
@@ -30,7 +43,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
   constructor(injector: Injector, private readonly oAuthService: OAuthService) {
     this.router = injector.get(Router);
     this.http = injector.get(HttpClient);
-    this.logger = injector.get(LogService);
+    this.updateUserProfileTimeout = setTimeout(() => {}, 0); // Initialize with a dummy timeout to avoid undefined errors
     this.init();
   }
 
@@ -42,10 +55,10 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     return this.userProfileSource.getValue();
   }
 
-  // TODO: angular-oauth2-oidc suggests that "Code Flow" rather than "Implicit Flow" should be favoured.
+  // angular-oauth2-oidc suggests that "Code Flow" rather than "Implicit Flow" should be favoured.
   // SHould we adopt that? https://www.npmjs.com/package/angular-oauth2-oidc
   public login(): void {
-    this.oAuthService.initImplicitFlow();
+    this.oAuthService.initCodeFlow();
   }
 
   public logout(): void {
@@ -68,19 +81,14 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
       // URL of the SPA to redirect the user to after login
       // redirectUri: this.redirectionUri(),
       get redirectUri(): string {
-        // TODO lint: must be a better way to get the base
         // eslint-disable-next-line max-len
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, no-underscore-dangle, @typescript-eslint/dot-notation
+        /* const base = '/testpath'; */ // e.g. /testpath
         const base = String(router['location']._basePath); // e.g. /testpath
         const origin = window.location.origin; // e.g. http://localhost:4200
 
-        const logger = inject(LogService);
-        logger.info('base', base);
-        logger.info('origin', origin);
-
         // e.g. http://localhost:4200/testpath/last-page-redirect
         const redirect = origin + base + OAuthAuthenticationProvider.REDIRECTION_PAGE;
-        logger.info('Redirect ' + window.location.href + ' => ' + redirect);
         return redirect;
       },
 
@@ -92,74 +100,62 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
 
       timeoutFactor: 0.75,
 
+      responseType: 'code',
+
       // set the scope for the permissions the client should request
       // The first three are defined by OIDC. The 4th is a usecase-specific one
-      scope: ['openid', 'profile', 'single-logout'].join(' '),
+      scope: ['openid', 'profile', 'email', 'offline_access'].join(' '),
 
       disableAtHashCheck: true,
-      // showDebugInformation: true,
     };
     return authConfig;
   }
 
-  private init() {
+  public async init() {
     this.configure();
     this.oAuthService.setupAutomaticSilentRefresh();
-    this.oAuthService.tokenValidationHandler = new JwksValidationHandler();
-    const logger = inject(LogService);
-    void this.oAuthService
-      .loadDiscoveryDocumentAndTryLogin()
-      // maybe we should do this like this
-      // https://www.linkedin.com/pulse/implicit-flow-authentication-using-angular-ghanshyam-shukla
-      .catch((e) => {
-        logger.warn('Caught error - Failed to contact authentication server.', e);
-      })
-      .then(() => {
-        logger.info('Successfully contacted authentication server.');
-      });
-
+    /* this.oAuthService.tokenValidationHandler = new JwksValidationHandler(); */ // ATTENTION, TO BE VERIFIED: this is now commented out since returning an error, check how to maintain it with Code Flow!
     this.oAuthService.events.subscribe((e) => {
-      // console.debug('oauth/oidc event', e);
       // angular-oauth2-oidc EventType string values
       switch (e.type) {
-        case 'discovery_document_loaded': // page refresh when logged in
+        case 'discovery_document_loaded':
         case 'token_received': // first logged in
         case 'logout': // logout to clear user info
           this.updateUserProfile();
           break;
       }
     });
+    try {
+      await this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+      if (this.oAuthService.hasValidAccessToken()) {
+        this.updateUserProfile();
+      }
+    } catch (e) {
+      console.warn('❌ Failed to contact Authentication Server.', e);
+    }
   }
 
   private updateUserProfile(): void {
     // ensure not called too often
-    clearTimeout(this.updateUserProfileTimeout);
+    clearTimeout(this.updateUserProfileTimeout as NodeJS.Timeout);
     this.updateUserProfileTimeout = setTimeout(() => {
       const token = this.getUserToken();
       const currentProfile = this.userProfileSource.getValue();
-
       // only if the token has changed
       if (currentProfile == null || currentProfile.getToken() !== token) {
         // Try protects against a promise not being returned from "loadUserProfile" function.
         try {
           this.oAuthService
             .loadUserProfile()
-            .then((object: object): void => {
-              const userInfo = object as UserInfo;
-              this.logger.info('loadUserProfile response', userInfo);
-              this.userProfileSource.next(BasicUser.makeFromProfileResponse(token, userInfo));
-
-              // console.debug('scopes', this.oAuthService.getGrantedScopes());
-              // console.debug('scopes', this.oAuthService.getIdentityClaims());
+            .then((object) => {
+              this.userProfileSource.next(BasicUser.makeFromProfileResponse(token, object as UserInfo));
             })
             .catch((error: unknown) => {
-              console.warn('User Profile Fetch error - using default', error);
               const userId = this.getUserId();
-              const user = BasicUser.makeOrDefault(userId, userId, token);
+              const user = BasicUser.makeOrDefault(userId, userId, token, userId);
               this.userProfileSource.next(user);
             });
         } catch (error) {
-          this.logger.info('loadUserProfile - no token');
           this.userProfileSource.next(null);
         }
       }
@@ -173,21 +169,21 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + this.oAuthService.getAccessToken(),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/x-www-form-urlencoded',
       }),
     };
 
-    // console.debug('authorizationHeader', this.oAuthService.authorizationHeader());
-    return lastValueFrom(
-      this.http.post(
+    return this.http
+      .post(
         OAuthAuthenticationProvider.REVOKE_ENDPOINT,
         `token=${this.oAuthService.getAccessToken()}` +
           `&client_id=${this.oAuthService.clientId}` +
           '&token_type_hint=access_token' +
           '&logout=true',
         httpOptions,
-      ),
-    )
+      )
+      .toPromise()
       .then(() => {})
       .catch((e) => {
         console.warn('Unable to revoke Access Token', e);
@@ -196,7 +192,6 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
 
   private getUserId(): null | string {
     const claims = this.oAuthService.getIdentityClaims() as Record<string, unknown>;
-    this.logger.info('getIdentityClaims', claims);
     if (claims) {
       return String(claims['sub']);
     }

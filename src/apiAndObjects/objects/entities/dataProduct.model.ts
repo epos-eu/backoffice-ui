@@ -15,7 +15,6 @@ export class DataProduct implements DataProductType {
     public editorId?: string,
     public fileProvenance?: string,
     public hasPart?: Array<LinkedEntity>,
-    public hasQualityAnnotation?: string,
     public identifier?: Array<Identifier>,
     public instanceChangedId?: string,
     public instanceId?: string,
