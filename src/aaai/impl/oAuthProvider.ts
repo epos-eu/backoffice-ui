@@ -83,7 +83,6 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
       get redirectUri(): string {
         // eslint-disable-next-line max-len
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, no-underscore-dangle, @typescript-eslint/dot-notation
-        /* const base = '/testpath'; */ // e.g. /testpath
         const base = String(router['location']._basePath); // e.g. /testpath
         const origin = window.location.origin; // e.g. http://localhost:4200
 

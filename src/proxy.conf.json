@@ -1,6 +1,6 @@
 {
   "/api/**": {
-    "target": "https://catalogue.staging.envri.eu/testing-ms-test/api/v1",
+    "target": "https://catalogue.staging.envri.eu/api/v1",
     "pathRewrite": { "^/api": "" },
     "secure": false,
     "logLevel": "debug",
