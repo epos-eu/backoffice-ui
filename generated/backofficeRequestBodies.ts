@@ -3,6 +3,6 @@
  *
  * @version 1.0.0
  */
-import type * as Schemas from './backofficeSchemas';
+import type * as Schemas from "./backofficeSchemas";
 
 export type RoutesPluginRelationUpdate = Schemas.RoutesPluginRelationUpdate;
