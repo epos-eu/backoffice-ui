@@ -140,8 +140,11 @@ export abstract class Endpoint<RETURN_TYPE = unknown, PARAMS_TYPE = unknown, OBJ
       ...defaultParams,
       ...overrideParams,
     };
+    console.warn('defaultParams', defaultParams, 'overrideParams', overrideParams, 'mergedParams', mergedParams);
 
     this.validateParams(mergedParams, overrideParams, defaultParams);
+
+    console.warn('MERGED PARAMS', mergedParams);
 
     return mergedParams;
   }
