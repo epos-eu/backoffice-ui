@@ -115,6 +115,7 @@ export class ApiCaller {
     segments = Array.isArray(segments) ? segments : [segments];
 
     const url = `${this.baseUrl}/${segments.join('/')}`;
+    console.warn(url);
     return url;
   }
 }
