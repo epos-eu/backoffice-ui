@@ -34,7 +34,7 @@ export const ActiveGroupMember: CanActivateFn = (next: ActivatedRouteSnapshot, s
 };
 
 export const AuthenticatedUser: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean => {
-  if (state.url.startsWith('/last-page-redirect')) {
+  if (next.routeConfig?.path === '/last-page-redirect') {
     return true; // Allow access to last-page-redirect for auth callback
   }
 
