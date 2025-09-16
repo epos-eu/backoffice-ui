@@ -47,6 +47,10 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     this.init();
   }
 
+  public isAuthenticated(): boolean {
+    return this.oAuthService.hasValidAccessToken();
+  }
+
   public watchForUserChange(): Observable<null | AAAIUser> {
     return this.userProfileSource.asObservable();
   }
@@ -127,6 +131,13 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
     try {
       await this.oAuthService.loadDiscoveryDocumentAndTryLogin();
       if (this.oAuthService.hasValidAccessToken()) {
+        const url = this.router.parseUrl(this.router.url);
+        const returnUrl = url.queryParams['returnUrl'];
+        if (returnUrl) {
+          this.router.navigateByUrl(returnUrl);
+        } else {
+          this.router.navigate(['/home']);
+        }
         this.updateUserProfile();
       }
     } catch (e) {
@@ -135,6 +146,7 @@ export class OAuthAuthenticationProvider implements AuthenticationProvider {
   }
 
   private updateUserProfile(): void {
+    console.warn('Update User Profile called');
     // ensure not called too often
     clearTimeout(this.updateUserProfileTimeout as NodeJS.Timeout);
     this.updateUserProfileTimeout = setTimeout(() => {
