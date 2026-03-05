@@ -1482,6 +1482,15 @@ export type Identifier = {
   versionId?: string;
 };
 
+export type IngestionResult = {
+  ingestedEntities?: {
+    [key: string]: LinkedEntity;
+  };
+  ingestedPath?: string;
+  message?: string;
+  status?: string;
+};
+
 export type KeyCreated = {
   key: string;
 };

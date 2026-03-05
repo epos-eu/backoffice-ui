@@ -12,7 +12,7 @@ import { UserBackofficeInfo } from 'src/utility/objects/userBackofficeInfo';
 export class LoginPageComponent implements OnInit {
   constructor(private aaaiService: AaaiService, private activeUserService: ActiveUserService) {}
 
-  public imgUrl = 'assets/img/ENVRI-Hub-NEXT-logo.png';
+  public imgUrl = 'assets/img/logo-envri-hub-centred-color.png';
   public manageUrl!: string;
   public user: null | AAAIUser = null;
   public userInfo: UserBackofficeInfo | null = null;
